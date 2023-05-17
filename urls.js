@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export var path = "";
 if (typeof window !== "undefined") {
   var host = window.location.host;
@@ -86,9 +88,9 @@ var urls = {
   pos: "v2/index.php?route=checkout/cart/addToCartPos"
 };
 
-if (typeof localStorage !== "undefined") {
+if (typeof window !== "undefined") {
   if (
-    localStorage.getItem("site-local-name") === "ishtari-ghana" ||
+    Cookies.get("site-local-name") === "ishtari-ghana" ||
     host === "www.ishtari.com.gh" ||
     host === "ishtari.com.gh"
   ) {
@@ -139,7 +141,7 @@ if (typeof localStorage !== "undefined") {
     // };
   }
   if (
-    localStorage.getItem("site-local-name") === "ishtari" ||
+    Cookies.get("site-local-name") === "ishtari" ||
     host === "www.ishtari.com" ||
     host === "www.sari3.com" ||
     host === "ishtari.com"
@@ -215,7 +217,7 @@ if (typeof localStorage !== "undefined") {
   // alert(firstPath)
 
   if (
-    localStorage.getItem("site-local-name") === "flo" ||
+    Cookies.get("site-local-name") === "flo" ||
     ((host === "www.flo-lebanon.com" || host === "flo-lebanon.com") &&
       firstPath !== "bey")
   ) {
@@ -224,7 +226,7 @@ if (typeof localStorage !== "undefined") {
   }
 
   if (
-    localStorage.getItem("site-local-name") === "flo-bey" ||
+    Cookies.get("site-local-name") === "flo-bey" ||
     ((host === "www.flo-lebanon.com" || host === "flo-lebanon.com") &&
       firstPath === "bey")
   ) {
@@ -232,7 +234,7 @@ if (typeof localStorage !== "undefined") {
     path1 = "bey/api/";
   }
   if (
-    localStorage.getItem("site-local-name") === "aalbeit" ||
+    Cookies.get("site-local-name") === "aalbeit" ||
     host === "www.aalbeit.com" ||
     host === "aalbeit.com"
   ) {
@@ -240,14 +242,14 @@ if (typeof localStorage !== "undefined") {
     path1 = "api/";
   }
   if (
-    localStorage.getItem("site-local-name") === "ishtari-usd" ||
+    Cookies.get("site-local-name") === "ishtari-usd" ||
     host === "www.ishtari-usd.com"
   ) {
     host = "https://www.ishtari-usd.com/";
     path1 = "api/";
   }
   if (
-    localStorage.getItem("site-local-name") === "energy-plus" ||
+    Cookies.get("site-local-name") === "energy-plus" ||
     host === "www.energyplus-lb.com" ||
     host === "energyplus-lb.com"
   ) {
@@ -255,7 +257,7 @@ if (typeof localStorage !== "undefined") {
     path1 = "api/";
   }
 }
-function buildLink(link, payload, width) {
+function buildLink(link, payload, width, hostServer) {
   // if (
   //   (width < 500 && localStorage.getItem("site-local-name") === "ishtari") ||
   //   (width < 500 && host === "https://www.ishtari.com/")
@@ -265,7 +267,42 @@ function buildLink(link, payload, width) {
   //   return mobilehost + mobileurls[link] + extra_params;
   // } else {
   const extra_params = typeof payload == "undefined" ? "" : payload;
-  return host + path1 + urls[link] + extra_params;
+  if (typeof window !== "undefined"){
+   return host + path1 + urls[link] + extra_params; 
+  }else{
+    if(hostServer === "ishtari"){
+      host="https://www.ishtari.com/";
+      path1 = "motor/"
+      return host + path1 + urls[link] + extra_params; 
+    }else if(hostServer === "ishtari-ghana"){
+      host="https://www.ishtari.com.gh/";
+      path1 = ""
+      return host + path1 + urls[link] + extra_params; 
+    }else if(hostServer === "flo"){
+      host="https://www.flo-lebanon.com/";
+      path1 = "api/"
+      return host + path1 + urls[link] + extra_params; 
+    }else if(hostServer === "flo-bey"){
+      host="https://www.flo-lebanon.com/";
+      path1 = "bey/api/"
+      return host + path1 + urls[link] + extra_params; 
+    }else if(hostServer === "aalbeit"){
+      host="https://www.aalbeit.com/";
+      path1 = "api/"
+      return host + path1 + urls[link] + extra_params; 
+    }else if(hostServer === "ishtari-usd"){
+      host="https://www.ishtari-usd.com/";
+      path1 = "api/"
+      return host + path1 + urls[link] + extra_params; 
+    }else if(hostServer === "energy-plus"){
+      host="https://energyplus-lb.com/";
+      path1 = "api/"
+      return host + path1 + urls[link] + extra_params; 
+    }
+    host="https://www.ishtari.com/";
+    return host + path1 + urls[link] + extra_params; 
+  }
+  
   // }
 }
 export default buildLink;

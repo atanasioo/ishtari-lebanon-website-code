@@ -11,18 +11,17 @@ async function getToken() {
   let requestHeader = {
     Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw=="
   };
-  console.log("======================");
-  console.log("hiiiii");
+ 
   axios
     .post(buildLink("token"), requestBody, {
       headers: requestHeader
     })
     .then((response) => {
       Cookies.set("api-token", response.data.access_token, { expires: 15 });
-      console.log("======================");
-      console.log("generate");
+      
       excuting = false;
-      window.location.reload();
+      if (typeof window !== "undefined") window.location.reload();
+      
     });
 }
 var excuting = false;
@@ -35,39 +34,30 @@ if (typeof Cookies.get("api-token") === "undefined") {
 const _axios = axios.create({
   headers: { Authorization: "Bearer " + Cookies.get("api-token") }
 });
-console.log("======================");
-console.log("create");
+
 _axios.interceptors.request.use(
   function (config) {
     return config;
   },
   function (error) {
-    console.log("======================");
-    console.log("reject");
+ 
     return Promise.reject(error);
   }
 );
 _axios.interceptors.response.use(
   function (response) {
-    console.log("======================");
-    console.log("use");
+
     return response;
   },
   function (error) {
-    console.log("======================");
-    console.log("retry");
+
     if (
       typeof error.response !== "undefined" &&
       error?.response?.status === 401
     ) {
       window.location.reload();
-
-      // getToken();
-      //     if(!excuting){
-      // getToken();}
     }
-    console.log("======================");
-    console.log("reject");
+
     return Promise.reject(error);
   }
 );
