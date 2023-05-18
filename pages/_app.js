@@ -8,11 +8,19 @@ import cookie from "cookie";
 
 export default function App({ Component, pageProps, header_categories }) {
   return (
+<<<<<<< HEAD
     <>
       <Layout header_categories={header_categories}>
         <Component {...pageProps} />
       </Layout>
     </>
+=======
+    <div className="container px-12">
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </div>
+>>>>>>> c2fdc4c (...)
   );
 }
 
