@@ -258,6 +258,7 @@ if (typeof window !== "undefined") {
   }
 }
 function buildLink(link, payload, width, hostServer) {
+
   // if (
   //   (width < 500 && localStorage.getItem("site-local-name") === "ishtari") ||
   //   (width < 500 && host === "https://www.ishtari.com/")

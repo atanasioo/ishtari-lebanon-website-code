@@ -2,11 +2,13 @@ import React from 'react'
 import Header from './header/header'
 import header from './header/header'
 
-function Layout({children, all_categories}) {
+function Layout({children, header_categories}) {
+
+  // console.log(header_categories);
   
   return (
     <div>
-        <Header all_categories={all_categories} />
+        <Header header_categories={header_categories} />
         {children}
     </div>
   )
