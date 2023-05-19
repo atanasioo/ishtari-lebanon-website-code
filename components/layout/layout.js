@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './header/header'
-import header from './header/header'
+import Cookies from "js-cookie";
+//
+function Layout({children, header_categories, token}) {
 
-function Layout({children, header_categories}) {
-
-  // console.log(header_categories);
+  useEffect(() => {
+    const tokenn = Cookies.get("api-token");
+    console.log(tokenn);
+    if((tokenn === "undefined" || typeof tokenn ==="undefined" || tokenn === undefined) && typeof token !== "undefined"){
+      console.log("hello");
+      Cookies.set("api-token", token, { expires: 15 });
+    }
+   },[token])
   
   return (
     <div>

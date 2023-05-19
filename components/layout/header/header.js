@@ -22,7 +22,7 @@ function Header(props) {
     }
   }, []);
 
- console.log(width);
+
 
   //   const [state, setState]= useState([])
   //   useEffect(()=>{
@@ -39,9 +39,11 @@ function Header(props) {
         <Link href="/" className="header-logo">
           <Image
             src="/images/logo/logo-red.png"
-            width={150}
-            height={150}
+            width={130}
+            height={130}
             alt="ishtari-logo"
+            priority={true}
+            style={{ width: '80%', height: 'auto' }}
           />
         </Link>
         <TopSearch />

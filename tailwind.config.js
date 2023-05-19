@@ -208,6 +208,9 @@ module.exports = {
       },
       dblackOverlay:{
         DEFAULT: "rgba(0,0,0,0.5)"
+      },
+      dbeigeRed:{
+        DEFAULT: "rgb(252, 244, 244)"
       }
     },
 

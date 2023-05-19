@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 import buildLink from "@/urls";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import _axios from "@/axios";
-import { GrMenu } from "react-icons/gr";
+import { FiChevronDown } from "react-icons/fi";
 import DOMPurify from "dompurify";
 
 
@@ -12,7 +11,7 @@ function DesktopMenuCategories(props) {
   const [menuCategories2, setMenuCategories2] = useState([]);
   const [selectedMenuCategory2, setSelectedMenuCategory2] = useState();
 
-  console.log(header_categories);
+  // console.log(header_categories);
 
   useEffect(() => {
     if (header_categories) {
@@ -39,30 +38,14 @@ function DesktopMenuCategories(props) {
   //         } catch (error) {}
   //       });
   // },[])
-=======
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import _axios from "@/axios";
-import buildLink from "@/urls";
-import Link from "next/link";
->>>>>>> c2fdc4c (...)
 
-function DesktopMenuCategories() {
-  const [state, setState] = useState([]);
-  useEffect(() => {
-    _axios(buildLink("headerv2", undefined, undefined)).then((response) => {
-      setState(response.data.data);
-    });
-  }, []);
-  
   return (
-<<<<<<< HEAD
-    <div className="bg-white w-full container border-b border-dbase pb-5">
+    <div className="bg-white w-full container shadow-md shadow-dbeigeRed pb-5">
       <div>
         <div className="flex items-center text-base">
           <div className="flex items-center border-r pr-4 border-dplaceHolder hover:text-dbase cursor-pointer">
-            <GrMenu className="w-6 h-6 mr-4" />
             <div>All Categories</div>
+            <FiChevronDown className="w-5 h-5 mr-4" />
           </div>
           {menuCategories2.length > 1 &&
             menuCategories2.map((category) => (
@@ -85,17 +68,6 @@ function DesktopMenuCategories() {
           <div className="country-flag"></div>
         </div>
       </div>
-=======
-    <div className="flex">
-      {/* <Link className="px-2">All categories</Link> */}
-      {state?.map((cat) => (
-        <Link className={"px-3 text"} href={'/'+encodeURIComponent(cat.title.title) + "/c="+ cat.title.mobile_type_id}>
-          {cat.title.title}
-        </Link>
-      ))}
-
-    
->>>>>>> c2fdc4c (...)
     </div>
   );
 }

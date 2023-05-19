@@ -13,23 +13,12 @@ async function getToken() {
     Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw==",
   };
 
-<<<<<<< HEAD
-
-  axios
-    .post(buildLink("token"), requestBody, {
-      headers: requestHeader,
-    })
-    .then((response) => {
-      Cookies.set("api-token", response.data.access_token, { expires: 15 });
-
-=======
   axios.post(buildLink("token"), requestBody, {
       headers: requestHeader
     })
     .then((response) => {
       Cookies.set("api-token", response.data.access_token, { expires: 15 });
     
->>>>>>> c2fdc4c (...)
       excuting = false;
       if (typeof window !== "undefined") window.location.reload();
     });
@@ -50,27 +39,16 @@ _axios.interceptors.request.use(
     return config;
   },
   function (error) {
-<<<<<<< HEAD
-=======
-
->>>>>>> c2fdc4c (...)
     return Promise.reject(error);
   }
 );
 _axios.interceptors.response.use(
   function (response) {
-<<<<<<< HEAD
-    // console.log(response);
-    return response;
-  },
-  function (error) {
-=======
 
     return response;
   },
   function (error) {
 
->>>>>>> c2fdc4c (...)
     if (
       typeof error.response !== "undefined" &&
       error?.response?.status === 401

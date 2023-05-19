@@ -271,31 +271,31 @@ function buildLink(link, payload, width, hostServer) {
   if (typeof window !== "undefined"){
    return host + path1 + urls[link] + extra_params; 
   }else{
-    if(hostServer === "ishtari"){
+    if(hostServer === "ishtari" || hostServer === "https://www.ishtari.com/"){
       host="https://www.ishtari.com/";
       path1 = "motor/"
       return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "ishtari-ghana"){
+    }else if(hostServer === "ishtari-ghana" || hostServer === "https://www.ishtari.com.gh"){
       host="https://www.ishtari.com.gh/";
       path1 = ""
       return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "flo"){
+    }else if(hostServer === "flo" || hostServer === "https://www.flo-lebanon.com/"){
       host="https://www.flo-lebanon.com/";
       path1 = "api/"
       return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "flo-bey"){
+    }else if(hostServer === "flo-bey" || hostServer === "https://www.flo-lebanon.com/"){
       host="https://www.flo-lebanon.com/";
       path1 = "bey/api/"
       return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "aalbeit"){
+    }else if(hostServer === "aalbeit" || hostServer === "https://www.aalbeit.com/"){
       host="https://www.aalbeit.com/";
       path1 = "api/"
       return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "ishtari-usd"){
+    }else if(hostServer === "ishtari-usd" || hostServer === "https://www.ishtari-usd.com/"){
       host="https://www.ishtari-usd.com/";
       path1 = "api/"
       return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "energy-plus"){
+    }else if(hostServer === "energy-plus" || hostServer === "https://energyplus-lb.com/"){
       host="https://energyplus-lb.com/";
       path1 = "api/"
       return host + path1 + urls[link] + extra_params; 
