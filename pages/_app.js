@@ -205,7 +205,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       // Return the fetched data as props
       return {
         header_categories: data.data.data,
-        footer_categories: footer_data,
+        footer_categories: footer_data.data.data,
         token: newToken
       };
     } catch (error) {
