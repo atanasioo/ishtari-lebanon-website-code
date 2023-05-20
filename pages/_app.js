@@ -2,7 +2,7 @@ import _axios from "@/axios";
 import {
   axiosServer,
   getToken,
-  setAuthorizationHeader,
+  setAuthorizationHeader
 } from "@/axiosServer.js";
 import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
@@ -11,11 +11,12 @@ import useDeviceSize from "@/components/useDeviceSize";
 import cookie from "cookie";
 import axios from "axios";
 
-export default function App({ Component, pageProps, header_categories }) {
+export default function App({ Component, pageProps, header_categories , footer_categories }) {
   return (
     <>
-      <Layout header_categories={header_categories}>
+      <Layout header_categories={header_categories} footer_categories={footer_categories}>
         <Component {...pageProps} />
+
       </Layout>
     </>
   );
@@ -27,8 +28,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
   // console.log(token);
 
   const { req } = ctx;
-
-
   const host = req.headers.host;
 
   const cookies = req.headers.cookie;
@@ -60,8 +59,10 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
         // Perform any other necessary server-side operations
 
-        axiosServer.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+        axiosServer.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${newToken}`;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
         setAuthorizationHeader(newToken);
 
@@ -71,15 +72,20 @@ App.getInitialProps = async ({ Component, ctx }) => {
           return config;
         });
 
-
         // Fetch data using the new token
         const data = await axiosServer.get(
           buildLink("headerv2", undefined, undefined, site_host)
         );
+        // footer
+
+        const footer_data = await axiosServer.get(
+          buildLink("footerv2", undefined, undefined, site_host)
+        );
         // Return the fetched data as props
         return {
           header_categories: data.data.data,
-          token: newToken,
+          footer_categories: footer_data,
+          token: newToken
         };
       } catch (error) {
         // Handle any errors that occurred during the token request
@@ -87,7 +93,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
         console.error("Failed to get a new token:", error);
       }
     } else {
-      // Fetch data using the existing token 
+      // Fetch data using the existing token
       const parsedCookies = cookie.parse(cookies);
       const token = parsedCookies["api-token"];
 
@@ -100,6 +106,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       console.log("here");
 
       var data = [];
+      var footer_data = [];
       if (host === "localhost:3001" || host === "localhost:3000") {
         data = await axiosServer.get(
           buildLink(
@@ -110,20 +117,34 @@ App.getInitialProps = async ({ Component, ctx }) => {
           ),
           {
             headers: {
-              Authorization:
-                "Bearer " + token,
-            },
+              Authorization: "Bearer " + token
+            }
+          }
+        );
+
+        footer_data = await axiosServer.get(
+          buildLink("footerv2", undefined, undefined,   "https://www.ishtari.com/") , {
+            headers: {
+              Authorization: "Bearer " + token
+            }
           }
         );
       } else {
         data = await axiosServer.get(
           buildLink("headerv2", undefined, undefined, site_host)
         );
+
+        footer_data = await axiosServer.get(
+          buildLink("footerv2", undefined, undefined, site_host)
+        );
       }
 
-      // Return the fetched data as props   
+      // Return the fetched data as props
       return {
         header_categories: data.data.data,
+        footer_categories: footer_data.data.data,
+
+
       };
     }
   } else {
@@ -139,9 +160,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
         response = await getToken(host);
       }
 
-      // Get the new token from the response 
+      // Get the new token from the response
       const newToken = response.access_token;
-      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
       axiosServer.defaults.headers.common[
         "Authorization"
@@ -153,6 +174,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
         return config;
       });
+      
 
       // Fetch data using the new token
       var data = [];
@@ -165,16 +187,25 @@ App.getInitialProps = async ({ Component, ctx }) => {
             "https://www.ishtari.com/"
           )
         );
+
+        footer_data = await axiosServer.get(
+          buildLink("footerv2", undefined, undefined,  "https://www.ishtari.com/")
+        );
       } else {
         data = await axiosServer.get(
           buildLink("headerv2", undefined, undefined, site_host)
+        );
+
+        footer_data = await axiosServer.get(
+          buildLink("footerv2", undefined, undefined, site_host)
         );
       }
 
       // Return the fetched data as props
       return {
         header_categories: data.data.data,
-        token: newToken,
+        footer_categories: footer_data,
+        token: newToken
       };
     } catch (error) {
       // Handle any errors that occurred during the token request

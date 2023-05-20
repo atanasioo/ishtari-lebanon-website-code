@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import Header from './header/header'
 import Cookies from "js-cookie";
+import Footer from './footer/footer';
 //
-function Layout({children, header_categories, token}) {
+function Layout({children, header_categories, footer_categories , token}) {
 
   useEffect(() => {
     const tokenn = Cookies.get("api-token");
@@ -17,6 +18,7 @@ function Layout({children, header_categories, token}) {
     <div>
         <Header header_categories={header_categories} />
         {children}
+        <Footer footer_categories={footer_categories} />
     </div>
   )
 }
