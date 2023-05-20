@@ -40,7 +40,7 @@ function DesktopMenuCategories(props) {
   // },[])
 
   return (
-    <div className="bg-white w-full container shadow-md shadow-dbeigeRed pb-5">
+    <div className="pr-bold bg-white w-full container shadow-md shadow-dbeigeRed pb-5 uppercase">
       <div>
         <div className="flex items-center text-base">
           <div className="flex items-center border-r pr-4 border-dplaceHolder hover:text-dbase cursor-pointer">

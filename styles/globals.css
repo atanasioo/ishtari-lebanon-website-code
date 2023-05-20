@@ -2,54 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("fontello.css");
+
 
 @font-face {
-    font-family: "PR";
-    src: url("../assets/pr/Proxima-Nova-300.eot");
-    src: url("../assets/pr/Proxima-Nova-300.eot") format("eot"),
-      url("../assets/pr/Proxima-Nova-300.woff2") format("woff2"),
-      url("../assets/pr/Proxima-Nova-300.woff") format("woff"),
-      url("../assets/pr/Proxima-Nova-300.ttf") format("truetype");
-    font-weight: 300;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: "PR";
-    src: url("../assets/pr/Proxima-Nova-Regular.eot");
-    src: url("../assets/pr/Proxima-Nova-Regular.eot") format("eot"),
-      url("../assets/pr/Proxima-Nova-Regular.woff2") format("woff2"),
-      url("../assets/pr/Proxima-Nova-Regular.woff") format("woff"),
-      url("../assets/pr/Proxima-Nova-Regular.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "Pr";
+  src: url("../assets/pr/Proxima-Nova-Regular.eot");
+  src: url("../assets/pr/Proxima-Nova-Regular.eot") format("eot"),
+    url("../assets/pr/Proxima-Nova-Regular.woff2") format("woff2"),
+    url("../assets/pr/Proxima-Nova-Regular.woff") format("woff"),
+    url("../assets/pr/Proxima-Nova-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-size: "14px";
+}
 
-  @font-face {
-    font-family: "PR";
-    src: url("../assets/pr/Proxima-Nova-Semibold.eot");
-    src: url("../assets/pr/Proxima-Nova-Semibold.eot") format("eot"),
-      url("../assets/pr/Proxima-Nova-Semibold.woff2") format("woff2"),
-      url("../assets/pr/Proxima-Nova-Semibold.woff") format("woff"),
-      url("../assets/pr/Proxima-Nova-Semibold.ttf") format("truetype");
-    font-weight: 600;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: "PR";
-    src: url("../assets/pr/Proxima-Nova-Bold.eot");
-    src: url("../assets/pr/Proxima-Nova-Bold.eot") format("eot"),
-      url("../assets/pr/Proxima-Nova-Bold.woff2") format("woff2"),
-      url("../assets/pr/Proxima-Nova-Bold.woff") format("woff"),
-      url("../assets/pr/Proxima-Nova-Bold.ttf") format("truetype");
-    font-weight: bold;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "PR-semibold";
+  src: url("../assets/pr/Proxima-Nova-Semibold.eot");
+  src: url("../assets/pr/Proxima-Nova-Semibold.eot") format("eot"),
+    url("../assets/pr/Proxima-Nova-Semibold.woff2") format("woff2"),
+    url("../assets/pr/Proxima-Nova-Semibold.woff") format("woff"),
+    url("../assets/pr/Proxima-Nova-Semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PR-bold";
+  src: url("../assets/pr/Proxima-Nova-Bold.eot");
+  src: url("../assets/pr/Proxima-Nova-Bold.eot") format("eot"),
+    url("../assets/pr/Proxima-Nova-Bold.woff2") format("woff2"),
+    url("../assets/pr/Proxima-Nova-Bold.woff") format("woff"),
+    url("../assets/pr/Proxima-Nova-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-size: 14px;
 
-  .proxima-font {
-    font-family: PR;
-  }
+}
 
+
+.body {
+  font-family: 'Pr';  font-size: 14px; line-height: 19.6px;
+}
+
+.pr-bold {
+  font-family: 'PR-bold';  font-size: 14px; line-height: 19.6px;
+}
+
+.pr-semibold {
+  font-family: 'PR-semibold';  font-size: 14px; line-height: 19.6px;
+}
 
