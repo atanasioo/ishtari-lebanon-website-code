@@ -84,7 +84,7 @@ export default function Footer(props) {
           })}
 
           <div className="mt-2 pb-3">
-            <div className={ window.config !="undefined" && !window.config["showTopBrand"] ? "hidden" : "pb-3"}>
+            <div className={ window.config !==undefined && !window.config["showTopBrand"] ? "hidden" : "pb-3"}>
               <div
                 className="font-bold uppercase text-d15 hover:text-dblue"
                 dangerouslySetInnerHTML={{ __html: "TOP BRAND" }}
