@@ -12,7 +12,7 @@ export default function Footer(props) {
                 <div className="pb-3">
                   <Link
                     className="font-bold text-d15 uppercase hover:text-dblue"
-                    to={`${
+                    href={`${
                       // state.admin
                       //   ? path + "/category/" + cat.category_id
                       //   :
@@ -25,7 +25,7 @@ export default function Footer(props) {
                           cat.category_id
                         : "cat/c=" + cat.category_id
                     }`}
-                    // to={`/${cat.name}/c=${cat.category_id}`}
+                    // href={`/${cat.name}/c=${cat.category_id}`}
                     // dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(cat.name) }}
                   />
                 </div>
@@ -38,7 +38,7 @@ export default function Footer(props) {
                       {sub.category_id === "1697" ? (
                         <Link
                           className="text-d13 hover:text-dblue"
-                          to={`${
+                          href={`${
                             // state.admin
                             //   ? path + "/category/" + sub.category_id
                             //   :
@@ -51,7 +51,7 @@ export default function Footer(props) {
                                 sub.category_id
                               : "cat/c=" + sub.category_id
                           }`}
-                          // to={`/${sub.name}/c=${sub.category_id}`}
+                          // href={`/${sub.name}/c=${sub.category_id}`}
                         >
                           {/* <img src={}  className="w-5 h-5" alt="24-hr-deals"/> */}
                           <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(sub.name) }} />
@@ -59,7 +59,7 @@ export default function Footer(props) {
                       ) : (
                         <Link
                           className="text-d13 hover:text-dblue"
-                          to={`${
+                          href={`${
                             // state.admin
                             //   ? path + "/category/" + sub.category_id
                             //   :
@@ -72,7 +72,7 @@ export default function Footer(props) {
                                 sub.category_id
                               : "cat/c=" + sub.category_id
                           }`}
-                          // to={`/${sub.name}/c=${sub.category_id}`}
+                          // href={`/${sub.name}/c=${sub.category_id}`}
                         //   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(sub.name) }}
                         />
                       )}
@@ -84,7 +84,7 @@ export default function Footer(props) {
           })}
 
           <div className="mt-2 pb-3">
-            <div className={ window.config !==undefined && !window.config["showTopBrand"] ? "hidden" : "pb-3"}>
+            <div >
               <div
                 className="font-bold uppercase text-d15 hover:text-dblue"
                 dangerouslySetInnerHTML={{ __html: "TOP BRAND" }}
@@ -95,7 +95,7 @@ export default function Footer(props) {
                 <div key={brand.id} className="flex font-light text-d13 py-1">
                   <Link
                     className="text-d13 hover:text-dblue"
-                    to={`${
+                    href={`${
                       // state.admin
                       //   ? path + "/manufacturer/" + brand.id
                       //   :
@@ -108,8 +108,8 @@ export default function Footer(props) {
                           brand.id
                         : "cat/m=" + brand.id
                     }`}
-                    // to={`${brand.name}/c=${brand.id}`}
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(brand.name) }}
+                    // href={`${brand.name}/c=${brand.id}`}
+                    // dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(brand.name) }}
                   />
                 </div>
               );
