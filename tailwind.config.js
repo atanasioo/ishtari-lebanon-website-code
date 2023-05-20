@@ -20,6 +20,7 @@ module.exports = {
       },
       width: {
         488: "48%",
+        "284px" : "284px"
       },
     },
     screens: {

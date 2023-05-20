@@ -4,7 +4,9 @@
 
 const nextConfig = {
   reactStrictMode: true,
-  
+  images: {
+    domains: ['www.ishtari.com', 'www.ishtari.com.gh'],
+  },
 }
 
 
