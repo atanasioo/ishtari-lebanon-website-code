@@ -10,6 +10,7 @@ import buildLink from "@/urls";
 import useDeviceSize from "@/components/useDeviceSize";
 import cookie from "cookie";
 import axios from "axios";
+import "@/config";
 
 export default function App({ Component, pageProps, header_categories , footer_categories }) {
   return (

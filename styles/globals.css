@@ -5,7 +5,7 @@
 
 
  @font-face {
-    font-family: "PR";
+    font-family: "PR-lightå";
     src: url("../assets/pr/Proxima-Nova-300.eot");
     src: url("../assets/pr/Proxima-Nova-300.eot") format("eot"),
       url("../assets/pr/Proxima-Nova-300.woff2") format("woff2"),
@@ -51,7 +51,7 @@
 
 
 .body {
-  font-family: 'Pr';  font-size: 14px; line-height: 19.6px;
+  font-family: 'PR';  font-size: 14px; line-height: 19.6px;
 }
 
 .pr-bold {

@@ -5,6 +5,7 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  important:true,
   theme: {
     extend: {
       backgroundImage: {
@@ -212,6 +213,9 @@ module.exports = {
       },
       dbeigeRed:{
         DEFAULT: "rgb(252, 244, 244)"
+      },
+      dsearchGrey:{
+        DEFAULT: "#f4f4f4"
       }
     },
 
