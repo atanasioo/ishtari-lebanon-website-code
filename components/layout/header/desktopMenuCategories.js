@@ -14,23 +14,23 @@ function DesktopMenuCategories(props) {
   const [selectedMenuCategory2, setSelectedMenuCategory2] = useState();
   const [viewSubAllCategories2, setViewSubAllCategories2] = useState(false);
   const [overlay, setOverlay] = useState(true);
-  const [viewMenuCategories2, setViewMenuCategories2] = useState(false);
+  const [viewMenuCategories2, setViewMenuCategories2] = useState(true);
   const [allCategories, setAllCategories] = useState([]);
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
   const [clearHover, setClearHover] = useState(false);
 
+
   useEffect(() => {
-    console.log(window.config);
     if (header_categories) {
       setMenuCategories2(header_categories);
-      setSelectedMenuCategory2(header_categories[0]);
+      // setSelectedMenuCategory2(header_categories[0]);
     } else {
       _axios
         .get(buildLink("headerv2", undefined, window.innerWidth))
         .then((response) => {
           const data = response?.data;
           setMenuCategories2(data.data);
-          setSelectedMenuCategory2(data[0]);
+          // setSelectedMenuCategory2(data[0]);
         });
     }
     //sub menu categories
@@ -47,41 +47,57 @@ function DesktopMenuCategories(props) {
   }, []);
 
   /* ON CLICK ESC CLOSE OVERLAY */
-  if (typeof window !== "undefined") {
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        // setOverlay(false);
-        setViewMenuCategories2(false);
-        setViewSubAllCategories2(false);
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      // setOverlay(false);
+      setViewMenuCategories2(false);
+      setViewSubAllCategories2(false);
+    }
+  });
+
+  /* ON LINK CHANGE CLOSE OVERLAY */
+  useEffect(() => {
+    setOverlay(false);
+    setViewMenuCategories2(false);
+  }, [location]);
+
+  function useTimeout(callback, delay) {
+
+    const timeoutRef = React.useRef(null);
+    const savedCallback = React.useRef(callback);
+    React.useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+    React.useEffect(() => {
+      const tick = () => savedCallback.current();
+      if (typeof delay === "number") {
+        timeoutRef.current = window.setTimeout(tick, delay);
+        return () => window.clearTimeout(timeoutRef.current);
       }
-    });
+    }, [delay]);
+    return timeoutRef;
   }
 
-  // useTimeout(
-  //   () => {
-  //     if (selectedMenuCategory2) {
-  //       // setOverlay(true);
-  //       setViewMenuCategories2(true);
-  //     }
-  //   },
-  //   clearHover ? null : 300
-  // );
+  useTimeout(
+    () => {
+      if (selectedMenuCategory2) {
+        // setOverlay(true);
+        setViewMenuCategories2(true);
+      }
+    },
+    clearHover ? null : 300
+  );
 
-  // function useTimeout(callback, delay) {
-  //   const timeoutRef = React.useRef(null);
-  //   const savedCallback = React.useRef(callback);
-  //   React.useEffect(() => {
-  //     savedCallback.current = callback;
-  //   }, [callback]);
-  //   React.useEffect(() => {
-  //     const tick = () => savedCallback.current();
-  //     if (typeof delay === "number") {
-  //       timeoutRef.current = window.setTimeout(tick, delay);
-  //       return () => window.clearTimeout(timeoutRef.current);
-  //     }
-  //   }, [delay]);
-  //   return timeoutRef;
-  // }
+  function refresh(test) {
+    // alert(test);
+    // alert(window.location.pathname)
+    if (test === window.location.pathname) {
+      window.location.reload();
+    } else {
+      history.push({ pathname: test });
+    }
+  }
 
   // useEffect(() => {
   //   _axios
@@ -97,7 +113,7 @@ function DesktopMenuCategories(props) {
   return (
     <div>
       <div
-        className=" bg-white w-full container shadow-md shadow-dbeigeRed pb-4 text-d16 "
+        className=" bg-white w-full container shadow-md shadow-dbeigeRed  text-d16 "
         onClick={() => {
           setOverlay(false);
           setClearHover(true);
@@ -112,7 +128,12 @@ function DesktopMenuCategories(props) {
         }}
       >
         <div>
-          <div className="flex items-center text-base">
+          <div
+            className={` ${
+              window.config["showMenu"] ? "block" : "hidden"
+            } flex items-center text-base`}
+            style={{ minHeight: "48px" }}
+          >
             <div>
               <div
                 onMouseEnter={() => {
@@ -173,11 +194,11 @@ function DesktopMenuCategories(props) {
                 <div
                   key={category["top-category"].category_id}
                   className="border-r border-dplaceHolder px-4 hover:text-dbase cursor-pointer"
+                  
                   onMouseEnter={() => {
                     setClearHover(false);
                     setViewSubAllCategories2(false);
                     setSelectedMenuCategory2(category);
-                    setViewMenuCategories2(true);
                   }}
                   onMouseLeave={() => {
                     setClearHover(true);
@@ -202,6 +223,7 @@ function DesktopMenuCategories(props) {
         {viewMenuCategories2 && selectedMenuCategory2 && (
           <div
             className="container"
+            onMouseEnter={() => setViewMenuCategories2(true)}
             onMouseLeave={() => {
               setViewSubAllCategories2(false);
               setViewMenuCategories2(false);
@@ -236,16 +258,14 @@ function DesktopMenuCategories(props) {
                   <div className={`p-0 `} key={Math.random()}>
                     {ban?.banners?.map((banner) => (
                       <div className={` cursor-pointer `} key={Math.random()}>
-                        {window.config !== undefined && (
-                          <Image
-                            src={`${window.config["site-url"]}/image/${banner.image}`}
-                            width={600}
-                            height={600}
-                            alt={banner.image.name}
-                            title={banner.image.name}
-                            style={{ width: "100%", height: "auto" }}
-                          />
-                        )}
+                        <Image
+                          src={`${window.config["site-url"]}/image/${banner.image}`}
+                          width={600}
+                          height={400}
+                          alt={banner.image.name}
+                          title={banner.image.name}
+                          style={{ width: "100%", height: "350px" }}
+                        />
                       </div>
                     ))}
                   </div>

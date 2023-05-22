@@ -1,4 +1,4 @@
-import DesktopMenuCategories from "./desktopMenuCategories";
+// import DesktopMenuCategories from "./desktopMenuCategories";
 import { useState, useEffect } from "react";
 import _axios from "@/axios";
 import buildLink from "@/urls";
@@ -9,6 +9,8 @@ import { AiOutlineShopping, AiOutlineUser } from "react-icons/ai";
 import { FiChevronDown } from "react-icons/fi";
 import TopSearch from "./top-search";
 import useDeviceSize from "@/components/useDeviceSize";
+import dynamic from 'next/dynamic';
+
 
 
 function Header(props) {
@@ -21,6 +23,10 @@ function Header(props) {
       setLocal(true);
     }
   }, []);
+
+  const DesktopMenuCategories = dynamic(() => import('./desktopMenuCategories'), {
+    ssr: false, // Disable server-side rendering
+  });
 
 
 
