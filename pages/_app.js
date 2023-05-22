@@ -14,12 +14,12 @@ import "@/config";
 
 export default function App({ Component, pageProps, header_categories , footer_categories }) {
   return (
-    <>
+    <div className="container">
       <Layout header_categories={header_categories} footer_categories={footer_categories}>
         <Component {...pageProps} />
 
       </Layout>
-    </>
+    </div>
   );
 }
 
@@ -29,9 +29,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
   // console.log(token);
 
   const { req } = ctx;
-  const host = req.headers.host;
+  const host = req?.headers.host;
 
-  const cookies = req.headers.cookie;
+  const cookies = req?.headers.cookie;
 
   if (typeof cookies !== "undefined") {
     //localhost
@@ -150,7 +150,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
     }
   } else {
     //live
-    const host = req.headers.host;
+    const host = req?.headers.host;
 
     try {
       var response = [];

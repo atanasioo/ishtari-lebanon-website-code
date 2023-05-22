@@ -23,6 +23,12 @@ module.exports = {
         488: "48%",
         "284px" : "284px"
       },
+      lineHeight: {
+        'dsnug': '21.56px',
+        'dtight': '19.6px',
+        'loose': '1.75',
+        // Add more line heights as needed
+      },
     },
     screens: {
       xs: "320px",
@@ -54,11 +60,11 @@ module.exports = {
       d13: "13px", 
       d14: "14px",
       d15: "15px",
+      df: "15.4px", // footer parent category
       d16: "16px",
       d18: "18px",
       d20: "20.5712px",
       d22: "22px",
-
       xs: ".75rem",
       sm: ".875rem",
       md: "1rem",
