@@ -41,7 +41,7 @@ function Header(props) {
   return (
     <div>
       {local && <SiteHeaders local={local} />}
-      <div className="flex items-center justify-between my-4 h-14 container">
+      <div className="flex items-center justify-between my-4 h-14 ">
         <Link href="/" className="header-logo">
           <Image
             src="/images/logo/logo-red.png"

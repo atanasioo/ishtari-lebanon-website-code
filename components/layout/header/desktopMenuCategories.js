@@ -19,7 +19,6 @@ function DesktopMenuCategories(props) {
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
   const [clearHover, setClearHover] = useState(false);
 
-
   useEffect(() => {
     if (header_categories) {
       setMenuCategories2(header_categories);
@@ -63,7 +62,6 @@ function DesktopMenuCategories(props) {
   }, [location]);
 
   function useTimeout(callback, delay) {
-
     const timeoutRef = React.useRef(null);
     const savedCallback = React.useRef(callback);
     React.useEffect(() => {
@@ -113,7 +111,7 @@ function DesktopMenuCategories(props) {
   return (
     <div>
       <div
-        className=" bg-white w-full container shadow-md shadow-dbeigeRed  text-d16 "
+        className=" bg-white w-full shadow-md shadow-dbeigeRed  text-d16 "
         onClick={() => {
           setOverlay(false);
           setClearHover(true);
@@ -150,42 +148,42 @@ function DesktopMenuCategories(props) {
               {/* Subcategories' menu */}
 
               {viewSubAllCategories2 && (
-                <div className="relative">
-                  <div className="absolute top-4 z-20">
-                    <div className="container">
-                      <div className="flex">
-                        <div className="bg-dsearchGrey py-3 w-284px">
-                          {allCategories?.map((category) => (
-                            <div
-                              key={category.category_id}
-                              onMouseEnter={() =>
-                                setSelectedTopCategory(category)
-                              }
+              <div className="relative">
+                <div className="absolute top-4 z-20">
+                  <div>
+                    <div className="flex">
+                      <div className="bg-dsearchGrey py-3 w-284px">
+                        {allCategories?.map((category) => (
+                          <div
+                            key={category.category_id}
+                            onMouseEnter={() =>
+                              setSelectedTopCategory(category)
+                            }
+                          >
+                            <Link
+                              href={"/"} //wa2tiye
+                              className="flex items-center py-1 hover:text-dblue px-4"
                             >
-                              <Link
-                                href={"/"} //wa2tiye
-                                className="flex items-center py-1 hover:text-dblue px-4"
-                              >
-                                <Image
-                                  alt={category.name}
-                                  src={category.image}
-                                  width={40}
-                                  height={40}
-                                />
-                                <span
-                                  className="ml-3 font-light text-d13"
-                                  dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(category.name),
-                                  }}
-                                ></span>
-                              </Link>
-                            </div>
-                          ))}
-                        </div>
+                              <Image
+                                alt={category.name}
+                                src={category.image}
+                                width={40}
+                                height={40}
+                              />
+                              <span
+                                className="ml-3 font-light text-d13"
+                                dangerouslySetInnerHTML={{
+                                  __html: DOMPurify.sanitize(category.name),
+                                }}
+                              ></span>
+                            </Link>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
               )}
             </div>
 
@@ -194,7 +192,6 @@ function DesktopMenuCategories(props) {
                 <div
                   key={category["top-category"].category_id}
                   className="border-r border-dplaceHolder px-4 hover:text-dbase cursor-pointer"
-                  
                   onMouseEnter={() => {
                     setClearHover(false);
                     setViewSubAllCategories2(false);
