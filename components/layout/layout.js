@@ -7,9 +7,9 @@ function Layout({children, header_categories, footer_categories , token}) {
 
   useEffect(() => {
     const tokenn = Cookies.get("api-token");
-    console.log(tokenn);
+    // console.log(tokenn);
     if((tokenn === "undefined" || typeof tokenn ==="undefined" || tokenn === undefined) && typeof token !== "undefined"){
-      console.log("hello");
+      // console.log("hello");
       Cookies.set("api-token", token, { expires: 15 });
     }
    },[token])

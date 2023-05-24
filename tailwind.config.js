@@ -65,6 +65,7 @@ module.exports = {
       d18: "18px",
       d20: "20.5712px",
       d22: "22px",
+      d25: "25px",
       xs: ".75rem",
       sm: ".875rem",
       md: "1rem",
@@ -222,7 +223,16 @@ module.exports = {
       },
       dsearchGrey:{
         DEFAULT: "#f4f4f4"
-      }
+      },
+      dborderProduct:{
+        DEFAULT: "#F0F2F8"     //like noon
+      }, 
+      dgreyProduct:{
+        DEFAULT: "#7E859B"     //like noon
+      }, 
+      dgreyQtyProduct:{
+        DEFAULT: "#B2BBD2"     //like noon
+      }, 
     },
 
   },

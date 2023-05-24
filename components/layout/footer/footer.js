@@ -3,7 +3,7 @@ import Link from "next/link";
 import DOMPurify from "dompurify";
 export default function Footer(props) {
   const data = props.footer_categories;
-  console.log(data);
+  // console.log(data);
   return (
     <div className={`flex justify-between mt-5  `}>
       {data?.data?.map((cat) => {

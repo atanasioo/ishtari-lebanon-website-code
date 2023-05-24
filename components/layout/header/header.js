@@ -41,15 +41,16 @@ function Header(props) {
   return (
     <div>
       {local && <SiteHeaders local={local} />}
-      <div className="flex items-center justify-between my-4 h-14 ">
-        <Link href="/" className="header-logo">
+      <div className="flex items-center justify-between my-4 h-14 container">
+        <Link href="/" className="header-logo flex justify-center">
           <Image
             src="/images/logo/logo-red.png"
             width={130}
             height={130}
             alt="ishtari-logo"
             priority={true}
-            style={{ width: '80%', height: 'auto' }}
+            
+            style={{ width: '80%', height: "auto" }}
           />
         </Link>
         <TopSearch />
