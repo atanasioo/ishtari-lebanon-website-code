@@ -17,18 +17,6 @@ export default function App({
   pageProps,
   header_categories,
   footer_categories,
-<<<<<<< HEAD
-}) {
-  return (
-    <Layout
-      header_categories={header_categories}
-      footer_categories={footer_categories}
-    >
-      <div className="">
-        <Component {...pageProps} />
-      </div>
-    </Layout>
-=======
   information_data
 }) {
   return (
@@ -43,7 +31,6 @@ export default function App({
         </div>
       </Layout>
     </div>
->>>>>>> 71a0443 (ddd)
   );
 }
 
@@ -160,8 +147,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
             "https://www.ishtari.com/"
           ),
           {
-<<<<<<< HEAD
-=======
             headers: {
               Authorization: "Bearer " + token
             }
@@ -170,7 +155,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
         information_data = await axiosServer.get(
           buildLink("information", undefined, undefined, site_host),
           {
->>>>>>> 71a0443 (ddd)
             headers: {
               Authorization: "Bearer " + token,
             },
@@ -195,10 +179,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       return {
         header_categories: data.data.data,
         footer_categories: footer_data.data.data,
-<<<<<<< HEAD
-=======
         information_data: information_data.data?.data
->>>>>>> 71a0443 (ddd)
       };
     }
   } else {
@@ -272,13 +253,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
       return {
         header_categories: data.data.data,
         footer_categories: footer_data.data.data,
-<<<<<<< HEAD
-        token: newToken,
-=======
         information_data: information_data?.data.data,
 
         token: newToken
->>>>>>> 71a0443 (ddd)
       };
     } catch (error) {
       // Handle any errors that occurred during the token request
