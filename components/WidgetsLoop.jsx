@@ -2,7 +2,59 @@ import SingleProducts from "./SingleProduct";
 import Slider from "react-slick";
 import DOMPurify from "dompurify";
 import Image from "next/image";
-function WidgetsLoop({ widget, likedData }) {
+import { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
+import "swiper/modules/pagination/pagination.min.css";
+import "swiper/modules/navigation/navigation.min.css";
+import { Pagination, Navigation, Autoplay } from "swiper";
+import Link from "next/link";
+
+import dynamic from "next/dynamic";
+
+function WidgetsLoop({ widget, likedData, width }) {
+  const [showNext, setShowNext] = useState(false);
+  const [showPrev, setShowPrev] = useState(false);
+  const types = {
+    1: "product",
+    2: "category",
+    3: "manufacturer",
+    4: "seller",
+  };
+  const MyScript = dynamic(() => import("../config.js"), { ssr: false });
+
+  console.log(MyScript);
+  console.log("MyScript");
+  const swiperNavNextRef = useRef(null);
+  const swiperNavPrevRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    setShowNext(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowNext(false);
+  };
+
+  const handleMouseEnterPrev = () => {
+    setShowPrev(true);
+  };
+
+  const handleMouseLeavePrev = () => {
+    setShowPrev(false);
+  };
+  const settingM = {
+    dots: true,
+    speed: 1000,
+    slidesToShow: 1,
+    swipeToSlide: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: false,
+    lazyLoad: true,
+  };
   return (
     <div key={widget.mobile_widget_id}>
       {/* view all button */}
@@ -20,7 +72,7 @@ function WidgetsLoop({ widget, likedData }) {
             <div>
               {widget.type === "seller" ? (
                 <Link
-                  to={
+                  href={
                     widget.filters !== false && widget.filters !== ""
                       ? "/" +
                         widget.title
@@ -68,7 +120,7 @@ function WidgetsLoop({ widget, likedData }) {
                 </Link>
               ) : widget.type === "manufacturer" ? (
                 <Link
-                  to={
+                  href={
                     widget.filters !== false && widget.filters !== ""
                       ? "/" +
                         widget.title
@@ -116,7 +168,7 @@ function WidgetsLoop({ widget, likedData }) {
                 </Link>
               ) : (
                 <div
-                  to={
+                  href={
                     widget.type === "new_arrival"
                       ? "/latest"
                       : widget.filters !== false && widget.filters !== ""
@@ -175,7 +227,7 @@ function WidgetsLoop({ widget, likedData }) {
         widget.type !== "text" &&
         (widget.items.length > 1 ? (
           <div className="-mx-4 ">
-            {width > 650 ? (
+            {width === "desktop" ? (
               <Swiper
                 slidesPerView={1}
                 autoplay={true}
@@ -195,7 +247,7 @@ function WidgetsLoop({ widget, likedData }) {
                         item?.mobile_type == "6" ? (
                           <Link
                             data-index={index}
-                            to={"/latest"}
+                            href={"/latest"}
                             key={Math.random()}
                             onClick={() => {
                               if (
@@ -208,24 +260,26 @@ function WidgetsLoop({ widget, likedData }) {
                             <img
                               alt={item?.name}
                               src={
-                                `${window.config["site-url"]}/image/` +
+                                `https://www.ishtari.com/image/` +
                                 item.image
                               }
                               className="w-full"
                               height={item.banner_height}
+                              width={item.banner_height}
                               placeholdersrc={SliderPlaceholder}
                             />
                           </Link>
                         ) : (
                           <div data-index={index} key={`slider` + index}>
-                            <img
+                            <Image
                               alt={item?.name}
                               src={
-                                `${window.config["site-url"]}/image/` +
+                                `https://www.ishtari.com/image/` +
                                 item.image
                               }
                               className="w-full"
                               height={item.banner_height}
+                              width={item.banner_height}
                               placeholdersrc={SliderPlaceholder}
                             />
                           </div>
@@ -233,7 +287,7 @@ function WidgetsLoop({ widget, likedData }) {
                       ) : (
                         <Link
                           data-index={index}
-                          to={
+                          href={
                             // accountState.admin
                             //   ? `${path}/${types[item.mobile_type]}/${
                             //       item.mobile_type_id
@@ -277,7 +331,7 @@ function WidgetsLoop({ widget, likedData }) {
                                   .replaceAll("/", "-")
                                   .replace("%", "") +
                                 "/" +
-                                types[item.mobile_type].slice(0, 1) +
+                                // types[item.mobile_type].slice(0, 1) +
                                 "=" +
                                 item.mobile_type_id
                               : "cat/c=" + item.mobile_type_id
@@ -289,14 +343,14 @@ function WidgetsLoop({ widget, likedData }) {
                             }
                           }}
                         >
-                          <img
+                          <Image
                             alt={item?.name}
-                            src={
-                              `${window.config["site-url"]}/image/` + item.image
+                            width={item.banner_width ? item.banner_width : 1200}
+                            height={
+                              item.banner_height ? item.banner_height : 600
                             }
+                            src={`https://www.ishtari.com/image/` + item.image}
                             className="w-full"
-                            height={item.banner_height}
-                            placeholdersrc={SliderPlaceholder}
                           />
                         </Link>
                       )}
@@ -446,23 +500,20 @@ function WidgetsLoop({ widget, likedData }) {
                 {widget.items.map((item, index) =>
                   item.mobile_type_id === "0" ? (
                     <div data-index={index} key={`sliderM` + index}>
-                      <LazyLoadImage
+                      <Image
                         alt={item?.name}
-                        src={`${window.config["site-url"]}/image/` + item.image}
+                        src={`https://www.ishtari.com/image/` + item.image}
                         className="w-full"
-                        height={item.banner_height}
-                        placeholdersrc={SliderPlaceholder}
+                        height={item.banner_height || 100}
+                        width={item.banner_width || 100}
+                        // placeholdersrc={SliderPlaceholder}
                       />
                     </div>
                   ) : (
                     <Link
                       data-index={index}
-                      to={
-                        // accountState.admin
-                        //   ? `${path}/${types[item.mobile_type]}/${
-                        //       item.mobile_type_id
-                        //     }`
-                        //   :
+                      href={
+                    
                         item?.name?.length > 0 && item.filters != false
                           ? "/" +
                             item?.name
@@ -506,12 +557,12 @@ function WidgetsLoop({ widget, likedData }) {
                       }
                       key={Math.random()}
                     >
-                      <LazyLoadImage
+                      <Image
                         alt={item?.name}
-                        src={`${window.config["site-url"]}/image/` + item.image}
+                        src={`https://www.ishtari.com/image/` + item.image}
                         className="w-full"
-                        height={item.banner_height}
-                        PlaceholderSrc={SliderPlaceholder}
+                        height={item.banner_height || 100}
+                        width={item.banner_width || 1000}
                       />
                     </Link>
                   )
@@ -534,7 +585,7 @@ function WidgetsLoop({ widget, likedData }) {
                   key={item.banner_image_id}
                 >
                   <Link
-                    to={
+                    href={
                       item?.name?.length > 0 && item.filters != false
                         ? "/" +
                           item?.name
@@ -578,17 +629,16 @@ function WidgetsLoop({ widget, likedData }) {
                     }
                     className="w-full"
                   >
-                    <LazyLoadImage
+                    <Image
                       alt={item?.name}
-                      src={`${window.config["site-url"]}/image/` + item.image}
-                      width={item.banner_width}
-                      height={item.banner_height}
+                      src={`https://www.ishtari.com/image/` + item.image}
+                      width={item.banner_width || 100}
+                      height={item.banner_height || 100}
                       title={item?.name
                         ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                         ?.replace("%", "")
                         ?.replace(/\s+/g, "-")
                         ?.replaceAll("/", "-")}
-                      placeholdersrc={ProductPlaceholder}
                       className={`${true && "w-full"}`}
                     />
                   </Link>
@@ -601,15 +651,15 @@ function WidgetsLoop({ widget, likedData }) {
                   <div>
                     <Image
                       alt={item?.name}
-                      src={`${window.config["site-url"]}/image/` + item.image}
-                      width={item.banner_width}
-                      height={item.banner_height}
+                      src={`https://www.ishtari.com/image/` + item.image}
+                      width={item.banner_width ||  200}
+                      height={item.banner_height || 200}
                       title={item?.name
                         .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                         .replace("%", "")
                         .replace(/\s+/g, "-")
                         .replaceAll("/", "-")}
-                      placeholdersrc={ProductPlaceholder}
+                    
                       className={"w-full"}
                     />
                   </div>

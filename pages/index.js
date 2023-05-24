@@ -12,7 +12,7 @@ export default function Home(widgets) {
   return (
     <div>
       {data.map((widget, index) => (
-        <WidgetsLoop widget={widget} />
+        <WidgetsLoop widget={widget} width={widgets.screentype} />
       ))}
     </div>
   );
@@ -64,7 +64,8 @@ export async function getServerSideProps(context) {
   //redirect to 404
 
   return {
-    props: { data }
+    props: { data , screentype: screenWidth }
+  
   };
 }
 
