@@ -6,6 +6,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Timer from "./Timer";
+import { useRouter } from "next/router";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import useDeviceSize from "@/components/useDeviceSize";
 
 function ProductPage(props) {
   const [countDownPointer, setCountDonwPointer] = useState();
@@ -16,15 +19,27 @@ function ProductPage(props) {
   const [quantity, setQuantity] = useState(1);
   const [countDown, setCountDown] = useState();
   const [hasBannerEvent, setHasBannerEvent] = useState();
+  const [bundles, setProductBundle] = useState();
   const { data } = props; //instead of productData
+  const [width, height] = useDeviceSize();
+  const router = useRouter();
+  const product_id = router.query.slug[0].includes("p=")
+    ? router.query.slug[0].split("=")[1]
+    : router.query.slug[0];
 
   console.log(data);
+  console.log(product_id);
 
-  useEffect(() =>{
-    if(data.special_end !== null && data.special_end !==0){
+  useEffect(() => {
+    if (data.special_end !== null && data.special_end !== 0) {
       setHasBannerEvent(data?.bannerevent);
     }
-  },[])
+    setProductBundle(
+      data?.product_bundles?.length > 0
+        ? data?.product_bundles[0]
+        : null
+    );
+  }, []);
 
   return (
     <div style={{ backgroundColor: "#f8f8f9" }}>
@@ -301,7 +316,95 @@ function ProductPage(props) {
                     />
                   </div>
                 )}
-                <div className="product-bundle"></div>
+                {/* PDS */}
+                {data?.pds && data.pds.length > 0 && (
+                  <div className="my-2 md:my-4">
+                    <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">
+                      In the same series
+                    </p>
+                    <div className=" overflow-x-auto">
+                      <div className="flex flex-wrap">
+                        {data.pds.map((product) => (
+                          <Link
+                            key={product.product_id}
+                            href={`/product/` + product.product_id}
+                            className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md ${
+                              product.product_id === product_id
+                                ? " border-dblue"
+                                : "border-dgrey"
+                            }`}
+                          >
+                            <Image
+                              src={product.product_main_image}
+                              alt={product.product_name}
+                              className="w-full"
+                              width={80}
+                              height={80}
+                            />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {bundles && (
+                  <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8">
+                    <h6 className="font-black text-sm mb-2 ml-2">
+                      Frequently Bought Together
+                    </h6>
+                    <div className="bg-white">
+                      <Swiper >
+                        {bundles &&
+                          bundles?.products?.map((product, i) => (
+                            <SwiperSlide
+                              key={product.product_id}
+                              className="w-12/12 flex flex-row items-center"
+                            >
+                              <div className={`${width < 650 && "w-10/12"}`}>
+                                {/* <SingleProductNew
+                                  item={product}
+                                  i={i}
+                                  len={bundles.products?.length}
+                                /> */}
+                                hii
+                              </div>
+                              {i !== bundles?.products?.length - 1 && (
+                                <span className="text-3xl font-bold mt-2">
+                                  +
+                                </span>
+                              )}
+                            </SwiperSlide>
+                          ))}
+                      </Swiper>
+                    </div>
+
+                    {bundles && (
+                      <button
+                        className="w-full h-12 text-center text-sm flex items-center justify-center font-semibold my-2 rounded bg-white text-dbluedark py-4 border-2 border-dbluedark"
+                        onClick={() => {
+                          addBundle(bundles);
+                        }}
+                      >
+                        {countDownPointer === true &&
+                        hasAddToCartError === false ? (
+                          <div className="top-5 lds-ellipsis">
+                            <div className="bg-dbluedark" />
+                            <div className="bg-dbluedark" />
+                            <div className="bg-dbluedark" />
+                            <div className="bg-dbluedark" />
+                          </div>
+                        ) : (
+                          !addingToCart && (
+                            <span className="">
+                              Buy This Bundle For{" "}
+                              {bundles?.total_amount_after_discount}{" "}
+                            </span>
+                          )
+                        )}
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <div className="pl-3 border-l border-dborderProduct"></div>

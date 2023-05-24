@@ -90,7 +90,7 @@ export async function getServerSideProps(context) {
     let link =
       buildLink("product", undefined, undefined, site_host) +
       product_id +
-      "&source_id=1";
+      "&source_id=1&part_one";
     const response = await axiosServer.get(link, {
       headers: {
         Authorization: "Bearer " + token,
