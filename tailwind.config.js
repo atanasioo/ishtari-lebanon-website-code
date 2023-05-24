@@ -233,6 +233,9 @@ module.exports = {
       dgreyQtyProduct:{
         DEFAULT: "#B2BBD2"     //like noon
       }, 
+      dprimarybg:{
+        DEFAULT: "#F8F8F9"
+      }
     },
 
   },

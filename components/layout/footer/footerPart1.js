@@ -8,10 +8,10 @@ export default function FooterPart1() {
    
 
       <div
-        className=" flex bg-white  bg-opacity-5  px-5"
+        className=" flex pt-4 px-5"
         style={{ border: "0px solid #ccc" }}
       >
-        <div className="w-4/12 mb- ">
+        <div className="w-4/12  ">
           <h1 className="font-semibold text-sm  md:text-xl">
             We’re Always Here To Help
           </h1>

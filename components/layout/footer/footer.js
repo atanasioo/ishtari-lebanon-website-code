@@ -19,13 +19,10 @@ export default function Footer(props) {
 
   return (
     <div>
-      <div className="border-t-8 mb-4 border-dinputBorder"></div>
-
       <FooterPart1 />
-      <div className="border-t-8 mb-4 border-dinputBorder"></div>
+      <div className="border-t-8 mb-4 border-dprimarybg"></div>
 
       <FooterPartCenter data={data}  />
-      <div className="border-t-8 mb-4 border-dinputBorder" ></div>
 
       <FooterPart2 info={info}/>
     </div>

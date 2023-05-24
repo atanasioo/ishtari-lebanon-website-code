@@ -26,7 +26,7 @@ export default function App({
         footer_categories={footer_categories}
         information_data={information_data}
       >
-        <div className="container">
+        <div className="container bg-dprimarybg">
           <Component {...pageProps} />
         </div>
       </Layout>

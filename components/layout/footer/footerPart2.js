@@ -15,7 +15,7 @@ console.log(props)
     <div className="mt-4 ">
           <div className="flex items-center py-10 mx-20 justify-around">
             <div className=" text-center">
-              <div className="text-md font-bold mb-3">SHOP ON THE GO</div>
+              <div className="text-d14 pr-semibold mb-2">SHOP ON THE GO</div>
               <div className="flex space-x-3 ">
                 <a href={window.config["appleStore"]}>
                   <p className="appleStore rounded px-10"></p>
@@ -26,7 +26,7 @@ console.log(props)
               </div>
             </div>
             <div className="flex-row ">
-              <div className="text-md text-center mb-3 font-bold ">
+              <div className="text-d14 pr-semibold mb-2 text-center ">
                 CONNECT WITH US
               </div>
               <div className="text-center flex space-x-2">
