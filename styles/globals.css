@@ -62,3 +62,41 @@
   font-family: 'PR-semibold';  font-size: 14px; line-height: 19.6px;
 }
 
+.googlePlay {
+  background-image: url(https://www.ishtari.com/img/sprite.25850177.png);
+  background-position-x: 0px;
+  background-position-y: -86px;
+  background-size: 186px;
+  background-repeat-x: no-repeat;
+  background-repeat-y: no-repeat;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  text-indent: 100%;
+  white-space: nowrap;
+  display: inline-block;
+  width: 130px;
+  padding: 0 20px;
+  height: 37px;
+}
+
+.appleStore {
+  display: inline-block;
+  width: 120px;
+  height: 40px;
+  background-image: url(https://www.ishtari.com/img/sprite.25850177.png);
+  background-position-x: 0px;
+  background-position-y: 0px;
+  background-size: 170px;
+  background-repeat-x: no-repeat;
+  background-repeat-y: no-repeat;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+

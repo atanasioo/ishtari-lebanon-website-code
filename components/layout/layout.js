@@ -3,7 +3,8 @@ import Header from './header/header'
 import Cookies from "js-cookie";
 import Footer from './footer/footer';
 //
-function Layout({children, header_categories, footer_categories , token}) {
+function Layout({children, header_categories, footer_categories , information_data, token}) {
+  console.log(information_data.informations)
 
   useEffect(() => {
     const tokenn = Cookies.get("api-token");
@@ -18,7 +19,7 @@ function Layout({children, header_categories, footer_categories , token}) {
     <div>
         <Header header_categories={header_categories} />
         {children}
-        <Footer footer_categories={footer_categories} />
+        <Footer footer_categories={footer_categories}  information_data={information_data} />
     </div>
   )
 }

@@ -17,6 +17,7 @@ export default function App({
   pageProps,
   header_categories,
   footer_categories,
+<<<<<<< HEAD
 }) {
   return (
     <Layout
@@ -27,6 +28,22 @@ export default function App({
         <Component {...pageProps} />
       </div>
     </Layout>
+=======
+  information_data
+}) {
+  return (
+    <div>
+      <Layout
+        header_categories={header_categories}
+        footer_categories={footer_categories}
+        information_data={information_data}
+      >
+        <div className="container">
+          <Component {...pageProps} />
+        </div>
+      </Layout>
+    </div>
+>>>>>>> 71a0443 (ddd)
   );
 }
 
@@ -39,7 +56,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
   const host = req?.headers.host;
 
   const cookies = req?.headers.cookie;
-
   if (typeof cookies !== "undefined") {
     //localhost
     const parsedCookies = cookie.parse(cookies);
@@ -89,11 +105,16 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const footer_data = await axiosServer.get(
           buildLink("footerv2", undefined, undefined, site_host)
         );
+
+        const information_data = await axiosServer.get(
+          buildLink("information", undefined, undefined, site_host)
+        );
         // Return the fetched data as props
         return {
-          header_categories: data.data.data,
-          footer_categories: footer_data.data.data,
-          token: newToken,
+          header_categories: data.data?.data,
+          footer_categories: footer_data.data?.data,
+          information_data: information_data.data?.data,
+          token: newToken
         };
       } catch (error) {
         // Handle any errors that occurred during the token request
@@ -111,8 +132,11 @@ App.getInitialProps = async ({ Component, ctx }) => {
         site_host = host;
       }
 
+
       var data = [];
       var footer_data = [];
+      var information_data = [];
+
       if (host === "localhost:3001" || host === "localhost:3000") {
         data = await axiosServer.get(
           buildLink(
@@ -136,6 +160,17 @@ App.getInitialProps = async ({ Component, ctx }) => {
             "https://www.ishtari.com/"
           ),
           {
+<<<<<<< HEAD
+=======
+            headers: {
+              Authorization: "Bearer " + token
+            }
+          }
+        );
+        information_data = await axiosServer.get(
+          buildLink("information", undefined, undefined, site_host),
+          {
+>>>>>>> 71a0443 (ddd)
             headers: {
               Authorization: "Bearer " + token,
             },
@@ -149,12 +184,21 @@ App.getInitialProps = async ({ Component, ctx }) => {
         footer_data = await axiosServer.get(
           buildLink("footerv2", undefined, undefined, site_host)
         );
+
+        information_data = await axiosServer.get(
+          buildLink("information", undefined, undefined, site_host)
+        );
+     
       }
 
       // Return the fetched data as props
       return {
         header_categories: data.data.data,
         footer_categories: footer_data.data.data,
+<<<<<<< HEAD
+=======
+        information_data: information_data.data?.data
+>>>>>>> 71a0443 (ddd)
       };
     }
   } else {
@@ -205,6 +249,11 @@ App.getInitialProps = async ({ Component, ctx }) => {
             "https://www.ishtari.com/"
           )
         );
+        information_data = await axiosServer.get(
+          buildLink("information", undefined, undefined, site_host)
+        );
+
+     
       } else {
         data = await axiosServer.get(
           buildLink("headerv2", undefined, undefined, site_host)
@@ -213,13 +262,23 @@ App.getInitialProps = async ({ Component, ctx }) => {
         footer_data = await axiosServer.get(
           buildLink("footerv2", undefined, undefined, site_host)
         );
+
+        information_data = await axiosServer.get(
+          buildLink("information", undefined, undefined, site_host)
+        );
       }
 
       // Return the fetched data as props
       return {
         header_categories: data.data.data,
         footer_categories: footer_data.data.data,
+<<<<<<< HEAD
         token: newToken,
+=======
+        information_data: information_data?.data.data,
+
+        token: newToken
+>>>>>>> 71a0443 (ddd)
       };
     } catch (error) {
       // Handle any errors that occurred during the token request
