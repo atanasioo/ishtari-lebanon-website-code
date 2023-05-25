@@ -6,28 +6,26 @@ import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
-import "swiper/modules/pagination/pagination.min.css";
-import "swiper/modules/navigation/navigation.min.css";
+
 import { Pagination, Navigation, Autoplay } from "swiper";
+// import ImageClient from "./imageClient";
 import Link from "next/link";
 
 import dynamic from "next/dynamic";
 
 function WidgetsLoop({ widget, likedData, width }) {
+  const ImageClient = dynamic(() => import("./imageClient.js"), { ssr: false });
+
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);
+  const swiperNavNextRef = useRef(null);
+  const swiperNavPrevRef = useRef(null);
   const types = {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller",
+    4: "seller"
   };
-  const MyScript = dynamic(() => import("../config.js"), { ssr: false });
-
-  console.log(MyScript);
-  console.log("MyScript");
-  const swiperNavNextRef = useRef(null);
-  const swiperNavPrevRef = useRef(null);
 
   const handleMouseEnter = () => {
     setShowNext(true);
@@ -53,12 +51,36 @@ function WidgetsLoop({ widget, likedData, width }) {
     autoplay: true,
     autoplaySpeed: 4000,
     arrows: false,
+    lazyLoad: true
+  };
+  const productMobile = {
+    dots: false,
+    speed: 1000,
+    slidesToShow:
+      widget?.type === "banner"
+        ? widget?.display === "carousel"
+          ? 2.5
+          : widget.column_number - 0.5
+        : 2.5,
+    swipeToSlide: false,
+    slidesToScroll: 1,
+    infinite: false,
+    arrows: false,
     lazyLoad: true,
   };
+  const productSetting = {
+    speed: 200,
+    slidesToShow: widget?.items?.length < 7 ? widget?.items?.length : 7,
+    slidesToScroll: 7,
+    infinite: true,
+    // prevArrow: <CustomPrevArrows direction={"l"} />,
+    // nextArrow: <CustomNextArrows direction={"r"} />,
+  };
+
   return (
-    <div key={widget.mobile_widget_id}>
+    <div key={widget?.mobile_widget_id}>
       {/* view all button */}
-      {widget.display === "carousel" && widget.view_title !== "0" && (
+      {widget?.display === "carousel" && widget?.view_title !== "0" && (
         <div className="flex items-center justify-between  mb-3">
           {widget.view_title !== "0" && (
             <h1
@@ -223,10 +245,10 @@ function WidgetsLoop({ widget, likedData, width }) {
       )}
 
       {/* Slider  */}
-      {widget.display === "slider" &&
+      {widget?.display === "slider" &&
         widget.type !== "text" &&
         (widget.items.length > 1 ? (
-          <div className="-mx-4 ">
+          <div className="-mx-4 py-2">
             {width === "desktop" ? (
               <Swiper
                 slidesPerView={1}
@@ -257,30 +279,26 @@ function WidgetsLoop({ widget, likedData, width }) {
                               }
                             }}
                           >
-                            <img
+                            <ImageClient
                               alt={item?.name}
-                              src={
-                                `https://www.ishtari.com/image/` +
-                                item.image
-                              }
+                              src={item.image}
                               className="w-full"
-                              height={item.banner_height}
-                              width={item.banner_height}
-                              placeholdersrc={SliderPlaceholder}
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+
+                              // placeholdersrc={SliderPlaceholder}
                             />
                           </Link>
                         ) : (
                           <div data-index={index} key={`slider` + index}>
-                            <Image
+                            <ImageClient
                               alt={item?.name}
-                              src={
-                                `https://www.ishtari.com/image/` +
-                                item.image
-                              }
+                              src={item.image}
                               className="w-full"
-                              height={item.banner_height}
-                              width={item.banner_height}
-                              placeholdersrc={SliderPlaceholder}
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+
+                              // placeholdersrc={SliderPlaceholder}
                             />
                           </div>
                         )
@@ -343,14 +361,13 @@ function WidgetsLoop({ widget, likedData, width }) {
                             }
                           }}
                         >
-                          <Image
+                          <ImageClient
+                            src={item.image}
                             alt={item?.name}
-                            width={item.banner_width ? item.banner_width : 1200}
-                            height={
-                              item.banner_height ? item.banner_height : 600
-                            }
-                            src={`https://www.ishtari.com/image/` + item.image}
+                            width={widget.banner_width}
+                            height={widget.banner_height}
                             className="w-full"
+                            // className="w-full"
                           />
                         </Link>
                       )}
@@ -370,7 +387,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     className={`heEmBF ${
-                      showPrev && widget.banner_height > 400
+                      showPrev
                         ? "activeTransform"
                         : `${
                             showPrev && widget.banner_height < 400
@@ -434,7 +451,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     className={`sc-fxvKuh izCJif ${
-                      showNext && widget.banner_height > 400
+                      showNext
                         ? "activeTransform"
                         : `${
                             showNext && widget.banner_height < 400
@@ -500,12 +517,12 @@ function WidgetsLoop({ widget, likedData, width }) {
                 {widget.items.map((item, index) =>
                   item.mobile_type_id === "0" ? (
                     <div data-index={index} key={`sliderM` + index}>
-                      <Image
+                      <ImageClient
                         alt={item?.name}
-                        src={`https://www.ishtari.com/image/` + item.image}
+                        src={ item.image}
                         className="w-full"
-                        height={item.banner_height || 100}
-                        width={item.banner_width || 100}
+                        height={widget.banner_height }
+                        width={widget.banner_width }
                         // placeholdersrc={SliderPlaceholder}
                       />
                     </div>
@@ -513,7 +530,6 @@ function WidgetsLoop({ widget, likedData, width }) {
                     <Link
                       data-index={index}
                       href={
-                    
                         item?.name?.length > 0 && item.filters != false
                           ? "/" +
                             item?.name
@@ -557,12 +573,12 @@ function WidgetsLoop({ widget, likedData, width }) {
                       }
                       key={Math.random()}
                     >
-                      <Image
+                      <ImageClient
                         alt={item?.name}
-                        src={`https://www.ishtari.com/image/` + item.image}
+                        src={item.image}
                         className="w-full"
-                        height={item.banner_height || 100}
-                        width={item.banner_width || 1000}
+                        height={widget.banner_height}
+                        width={widget.banner_width}
                       />
                     </Link>
                   )
@@ -629,11 +645,11 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                     className="w-full"
                   >
-                    <Image
+                    <ImageClient
                       alt={item?.name}
-                      src={`https://www.ishtari.com/image/` + item.image}
-                      width={item.banner_width || 100}
-                      height={item.banner_height || 100}
+                      src={item.image}
+                      width={widget.banner_width }
+                      height={widget.banner_height }
                       title={item?.name
                         ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                         ?.replace("%", "")
@@ -649,11 +665,11 @@ function WidgetsLoop({ widget, likedData, width }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    <Image
+                    <ImageClient
                       alt={item?.name}
-                      src={`https://www.ishtari.com/image/` + item.image}
-                      width={item.banner_width ||  200}
-                      height={item.banner_height || 200}
+                      src={ item.image}
+                      width={widget.banner_width }
+                      height={widget.banner_height }
                       title={item?.name
                         .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                         .replace("%", "")
@@ -668,6 +684,653 @@ function WidgetsLoop({ widget, likedData, width }) {
             })}
           </div>
         ))}
+
+      {/* Grid */}
+      {widget?.display === "grid" && widget.column_number < 7 && (
+        <div className="flex -mx-4 flex-wrap justify-between">
+          {widget.items.map((item) => {
+            const bool = widget.items.length > 0;
+
+            return item.mobile_type_id !== "0" ? (
+              <div
+                className={`${
+                  !bool && "w-full"
+                } cursor-pointer flex justify-center hover:opacity-80 w-1/${
+                  widget.column_number
+                } md:w-1/${widget.column_number}`}
+                key={item.banner_image_id}
+                style={{ padding: "1px" }}
+              >
+                <Link
+                  href={
+                    item?.name?.length > 0 && item?.filters != false
+                      ? "/" +
+                        item?.name
+                          ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace("%", "")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-") +
+                        "/" +
+                        types[item.mobile_type]?.slice(0, 1) +
+                        "=" +
+                        item.mobile_type_id +
+                        "?has_filter=true" +
+                        (item?.filters?.filter_categories
+                          ? "&filter_categories=" +
+                            item?.filters?.filter_categories.map((fc) => fc.id)
+                          : "") +
+                        (item?.filters?.filter_manufacturers
+                          ? "&filter_manufacturers=" +
+                            item?.filters?.filter_manufacturers.map(
+                              (fm) => fm.id
+                            )
+                          : "") +
+                        (item?.filters?.filter_sellers
+                          ? "&filter_sellers=" +
+                            item?.filters?.filter_sellers.map((fs) => fs.id)
+                          : "")
+                      : item?.name?.length > 0
+                      ? "/" +
+                        item?.name
+                          ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace("%", "")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-") +
+                        "/" +
+                        types[item.mobile_type]?.slice(0, 1) +
+                        "=" +
+                        item.mobile_type_id
+                      : "cat/c=" + item.mobile_type_id
+                  }
+                  onClick={() => {
+                    if (types[item.mobile_type]?.slice(0, 1) === "p") {
+                      setProductHolder(item);
+                    }
+                  }}
+                >
+                  <ImageClient
+                      alt={item?.name}
+                      src={  item.image}
+                      width={widget?.banner_width || 1000}
+                      height={widget?.banner_height || 100}
+             
+
+                      title={item?.name
+                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        .replace("%", "")
+                        .replace(/\s+/g, "-")
+                        .replaceAll("/", "-")}
+                      className={`${!bool && "w-full"}`}
+                    />
+                </Link>
+              </div>
+            ) : // ) : item.mobile_type === "6" ? (
+            //   <div
+            //     className={` w-full hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+            //     key={item.banner_image_id}
+            //   >
+            //     <Link href={"/latest"}>
+            //       <LazyLoadImageClient
+            //         alt={item?.name}
+            //         src={`${window.config["site-url"]}/image/` + item.image}
+            //         width={item.banner_width}
+            //         height={item.banner_height}
+            //         title={item?.name}
+            //         placeholdersrc={ProductPlaceholder}
+            //         className={"w-full"}
+            //       />
+            //     </Link>
+            //   </div>
+             item.mobile_type === "6" ? (
+              <div
+                className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                key={item.banner_image_id}
+              >
+                <Link href={"/latest"}>
+                  <ImageClient
+                    alt={item?.name}
+                    src={item.image}
+                    width={widget.banner_width}
+                    height={widget.banner_height}
+                    title={item?.name}
+                    className={"w-full"}
+                  />
+                </Link>
+              </div>
+            ) : (
+              <div
+                className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                key={item.banner_image_id}
+              >
+                 <ImageClient
+                    alt={item?.name}
+                    src={item.image}
+                    width={widget.banner_width}
+                    height={widget.banner_height}
+                    title={item?.name
+                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      .replace("%", "")
+                      .replace(/\s+/g, "-")
+                      .replaceAll("/", "-")}
+                    className={`${ "w-full"}`}
+                  />
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {widget?.display === "grid" &&
+        widget.type !== "text" &&
+        widget.column_number > 6 && (
+          <div className="flex -mx-4 flex-row justify-between">
+            {widget.items.map((item) => {
+              const bool = widget.items.length > 1;
+
+              return item.mobile_type_id !== "0" ? (
+                <div
+                  className={`${
+                    !bool && "w-full"
+                  } cursor-pointer flex justify-center hover:opacity-80 w-1/${
+                    4
+                  } md:w-1/${widget.column_number}`}
+                  key={item.banner_image_id}
+                  style={{ padding: "1px" }}
+                >
+                  {widget.column_number}
+                  <Link
+                    href={
+                      item?.name?.length > 0 && item?.filters != false
+                        ? "/" +
+                          item?.name
+                            ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace("%", "")
+                            .replace(/\s+/g, "-")
+                            .replaceAll("/", "-") +
+                          "/" +
+                          types[item.mobile_type]?.slice(0, 1) +
+                          "=" +
+                          item.mobile_type_id +
+                          "?has_filter=true" +
+                          (item?.filters?.filter_categories
+                            ? "&filter_categories=" +
+                              item?.filters?.filter_categories.map(
+                                (fc) => fc.id
+                              )
+                            : "") +
+                          (item?.filters?.filter_manufacturers
+                            ? "&filter_manufacturers=" +
+                              item?.filters?.filter_manufacturers.map(
+                                (fm) => fm.id
+                              )
+                            : "") +
+                          (item?.filters?.filter_sellers
+                            ? "&filter_sellers=" +
+                              item?.filters?.filter_sellers.map((fs) => fs.id)
+                            : "")
+                        : item?.name?.length > 0
+                        ? "/" +
+                          item?.name
+                            ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace("%", "")
+                            .replace(/\s+/g, "-")
+                            .replaceAll("/", "-") +
+                          "/" +
+                          types[item.mobile_type]?.slice(0, 1) +
+                          "=" +
+                          item.mobile_type_id
+                        : "cat/c=" + item.mobile_type_id
+                    }
+                    onClick={() => {
+                      if (types[item.mobile_type]?.slice(0, 1) === "p") {
+                        setProductHolder(item);
+                      }
+                    }}
+                  >
+                    <ImageClient
+                      alt={item?.name}
+                      src={`https://www.ishtari.com/image/` + item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name
+                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        .replace("%", "")
+                        .replace(/\s+/g, "-")
+                        .replaceAll("/", "-")}
+                      className={`${ "w-full"}`}
+                    />
+                  </Link>
+                </div>
+              ) : item.mobile_type === "6" ? (
+                <div
+                  className={` w-full hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                  key={item.banner_image_id}
+                >
+                  <Link href={"/latest"}>
+                    <ImageClient
+                      alt={item?.name}
+                      src={`https://www.ishtari.com/image/` + item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name}
+                      className={"w-full"}
+                    />
+                  </Link>
+                </div>
+              ) : (
+                <div
+                  className={`  hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                  key={item.banner_image_id}
+                >
+                  <div>
+                    <ImageClient
+                      alt={item?.name}
+                      src={`https://www.ishtari.com/image/` + item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name
+                        ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        ?.replace(/\s+/g, "-")
+                        ?.replaceAll("/", "-")}
+                      className={"w-full"}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+
+
+{widget?.display === "carousel" && widget.type !== "text" && (
+        <div>
+          {widget?.items?.length < 7 && width > 650 ? (
+            <div className="flex">
+              {width > 650 ? (
+                <Slider
+                  {...productSetting}
+                  beforeChange={handleBeforeChange}
+                  afterChange={handleAfterChange}
+                >
+                  {widget.items?.map((item) => {
+                    if (item.product_id) {
+                      return (
+                        <div className="pr-2" key={item.product_id}>
+                          <SingleProducts
+                            likedData={likedData}
+                            item={item}
+                            click={handleOnItemClick}
+                            dragging={dragging}
+                          ></SingleProducts>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                          key={item.banner_image_id}
+                        >
+                          <Link
+                            onClickCapture={handleOnItemClick}
+                            to={`${
+                           
+                              item?.name?.length > 0 && item?.filters != false
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-") +
+                                  "/" +
+                                  types[item.mobile_type].slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id +
+                                  "?has_filter=true" +
+                                  (item?.filters?.filter_categories
+                                    ? "&filter_categories=" +
+                                      item?.filters?.filter_categories.map(
+                                        (fc) => fc.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_manufacturers
+                                    ? "&filter_manufacturers=" +
+                                      item?.filters?.filter_manufacturers.map(
+                                        (fm) => fm.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_sellers
+                                    ? "&filter_sellers=" +
+                                      item?.filters?.filter_sellers.map(
+                                        (fs) => fs.id
+                                      )
+                                    : "")
+                                : item?.name?.length > 0
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace("%", "")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-") +
+                                  "/" +
+                                  types[item.mobile_type]?.slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id
+                                : "cat/c=" + item.mobile_type_id
+                            }`}
+                          >
+                            <LazyLoadImage
+                              alt={item?.name}
+                              src={item.image }
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              title={item?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                ?.replaceAll("/", "-")}
+                              placeholdersrc={ProductPlaceholder}
+                            />
+                          </Link>
+                        </div>
+                      );
+                    }
+                  })}
+                </Slider>
+              ) : (
+                <Slider {...productMobile}>
+                  {widget.items?.map((item) => {
+                    if (item.product_id) {
+                      return (
+                        <div className="pr-2" key={item.product_id}>
+                          <SingleProducts
+                            likedData={likedData}
+                            item={item}
+                          ></SingleProducts>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className={`pr-2`} key={item.banner_image_id}>
+                          <Link
+                            to={
+                              // accountState.admin
+                              //   ? `${path}/${types[item.mobile_type]}/${
+                              //       item.mobile_type_id
+                              //     }`
+                              //   :
+                              item?.name?.length > 0 && item.filters != false
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-")
+                                    ?.replace("%", "") +
+                                  "/" +
+                                  types[item.mobile_type].slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id +
+                                  "?has_filter=true" +
+                                  (item?.filters?.filter_categories
+                                    ? "&filter_categories=" +
+                                      item?.filters?.filter_categories.map(
+                                        (fc) => fc.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_manufacturers
+                                    ? "&filter_manufacturers=" +
+                                      item?.filters?.filter_manufacturers.map(
+                                        (fm) => fm.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_sellers
+                                    ? "&filter_sellers=" +
+                                      item?.filters?.filter_sellers.map(
+                                        (fs) => fs.id
+                                      )
+                                    : "")
+                                : item?.name?.length > 0
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-")
+                                    ?.replace("%", "") +
+                                  "/" +
+                                  types[item.mobile_type].slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id
+                                : "cat/c=" + item.mobile_type_id
+                            }
+                          >
+                            <ImageClient
+                              alt={item?.name}
+                              src={
+                          
+                                item.image
+                              }
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              title={item?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                ?.replaceAll("/", "-")}
+                              placeholdersrc={ProductPlaceholder}
+                            />
+                          </Link>
+                        </div>
+                      );
+                    }
+                  })}
+                </Slider>
+              )}
+            </div>
+          ) : (
+            <div className="">
+              <div className="flex overflow-x-auto space-x-2">
+                {widget?.display === "carousel" &&
+                  widget.type !== "text" &&
+                  width < 650 &&
+                  widget?.items[0]?.product_id &&
+                  widget.items?.map((item) => {
+                
+                      return (
+                        <div className="" key={item.product_id}>
+                          {/* <SingleProducts
+                           
+                           scroll={true}
+                            item={item}
+                          ></SingleProducts> */}
+                        </div>
+                      );
+                  
+                  })}
+              </div>
+              {width > 650 ? (
+                <Slider
+                  {...productSetting}
+                  beforeChange={handleBeforeChange}
+                  afterChange={handleAfterChange}
+                >
+                  {widget.items?.map((item) => {
+                    if (item.product_id) {
+                      return (
+                        <div className="p-1" key={item.product_id}>
+                          {/* <SingleProducts
+                            likedData={likedData}
+                            item={item}
+                            click={handleOnItemClick}
+                            dragging={dragging}
+                          ></SingleProducts> */}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                          key={item.banner_image_id}
+                        >
+                          <Link
+                            onClickCapture={handleOnItemClick}
+                            to={
+                              item?.name?.length > 0 && item.filters != false
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-")
+                                    ?.replace("%", "") +
+                                  "/" +
+                                  types[item.mobile_type].slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id +
+                                  "?has_filter=true" +
+                                  (item?.filters?.filter_categories
+                                    ? "&filter_categories=" +
+                                      item?.filters?.filter_categories.map(
+                                        (fc) => fc.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_manufacturers
+                                    ? "&filter_manufacturers=" +
+                                      item?.filters?.filter_manufacturers.map(
+                                        (fm) => fm.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_sellers
+                                    ? "&filter_sellers=" +
+                                      item?.filters?.filter_sellers.map(
+                                        (fs) => fs.id
+                                      )
+                                    : "")
+                                : item?.name?.length > 0
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-")
+                                    ?.replace("%", "") +
+                                  "/" +
+                                  types[item.mobile_type].slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id
+                                : "cat/c=" + item.mobile_type_id
+                            }
+                          >
+                            <ImageClient
+                              alt={item?.name}
+                              src={
+                              
+                                item.image
+                              }
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              title={item?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                ?.replaceAll("/", "-")}
+                              // placeholdersrc={ProductPlaceholder}
+                            />
+                          </Link>
+                        </div>
+                      );
+                    }
+                  })}
+                </Slider>
+              ) 
+              : (
+                //hereee
+                <div>
+                  <Slider {...productMobile}>
+                    {widget.items?.map((item) => {
+                      if (item.product_id) {
+                        return (
+                          <div className="pr-2" key={item.product_id}>
+                            {/* <SingleProducts
+                              likedData={likedData}
+                              item={item}
+                            ></SingleProducts> */}
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div className={`pr-2`} key={item.banner_image_id}>
+                            <Link
+                              to={
+                                // accountState.admin
+                                //   ? `${path}/${types[item.mobile_type]}/${
+                                //       item.mobile_type_id
+                                //     }`
+                                //   :
+                                item?.name?.length > 0 && item.filters != false
+                                  ? "/" +
+                                    item?.name
+                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                      ?.replace(/\s+/g, "-")
+                                      ?.replaceAll("/", "-")
+                                      ?.replace("%", "") +
+                                    "/" +
+                                    types[item.mobile_type].slice(0, 1) +
+                                    "=" +
+                                    item.mobile_type_id +
+                                    "?has_filter=true" +
+                                    (item?.filters?.filter_categories
+                                      ? "&filter_categories=" +
+                                        item?.filters?.filter_categories.map(
+                                          (fc) => fc.id
+                                        )
+                                      : "") +
+                                    (item?.filters?.filter_manufacturers
+                                      ? "&filter_manufacturers=" +
+                                        item?.filters?.filter_manufacturers.map(
+                                          (fm) => fm.id
+                                        )
+                                      : "") +
+                                    (item?.filters?.filter_sellers
+                                      ? "&filter_sellers=" +
+                                        item?.filters?.filter_sellers.map(
+                                          (fs) => fs.id
+                                        )
+                                      : "")
+                                  : item?.name?.length > 0
+                                  ? "/" +
+                                    item?.name
+                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                      ?.replace(/\s+/g, "-")
+                                      ?.replaceAll("/", "-")
+                                      ?.replace("%", "") +
+                                    "/" +
+                                    types[item.mobile_type].slice(0, 1) +
+                                    "=" +
+                                    item.mobile_type_id
+                                  : "cat/c=" + item.mobile_type_id
+                              }
+                            >
+                              <ImageClient
+                                alt={item?.name}
+                                src={
+               
+                                  item.image
+                                }
+                                width={widget.banner_width}
+                                height={widget.banner_height}
+                                title={item?.name
+                                  ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                  ?.replace(/\s+/g, "-")
+                                  ?.replaceAll("/", "-")}
+                                placeholdersrc={ProductPlaceholder}
+                              />
+                            </Link>
+                          </div>
+                        );
+                      }
+                    })}
+                  </Slider>
+                </div>
+             )
+              }
+            </div>
+          )}{" "}
+        </div>
+      )}
     </div>
   );
 }
