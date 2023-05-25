@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import Footer from './footer/footer';
 //
 function Layout({children, header_categories, footer_categories , information_data, token}) {
-  console.log(information_data.informations)
+  // console.log(information_data.informations)
 
   useEffect(() => {
     const tokenn = Cookies.get("api-token");
