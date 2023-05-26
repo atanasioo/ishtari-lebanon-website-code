@@ -8,7 +8,6 @@ import DOMPurify from "dompurify";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
-import Timer from "./Timer";
 import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useDeviceSize from "@/components/useDeviceSize";
@@ -17,6 +16,7 @@ import buildLink from "@/urls";
 import ProductPart2 from "./ProductPart2";
 import dynamic from "next/dynamic";
 import NotifyMe from "./NotifyMe";
+import { sanitizeHTML } from "../DompurifyUtils";
 
 function ProductPage(props) {
   const [countDownPointer, setCountDonwPointer] = useState();
@@ -44,11 +44,14 @@ function ProductPage(props) {
   const [colorSelected, setColorSelected] = useState();
   const [reviews, setReviews] = useState();
 
+  const Timer = dynamic(() => import("./Timer"), {
+    ssr: false, // Disable server-side rendering
+  });
+
   const router = useRouter();
   const product_id = router.query.slug[0].includes("p=")
     ? router.query.slug[0].split("=")[1]
     : router.query.slug[0];
-
 
   useEffect(() => {
     if (data.special_end !== null && data.special_end !== 0) {
@@ -164,11 +167,12 @@ function ProductPage(props) {
                     Home
                   </Link>
                   <BsChevronRight className="hidden sm:block icon icon-angle-right text-d11 md:text-xs text-dgrey1" />
+
                   <Link
                     href={`/category/${data?.breadcrumbs?.category[0]?.category_id}`}
                     className="hidden md:block text-dblack font-light truncate text-d11 md:text-sm mx-2"
                     dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(
+                      __html: sanitizeHTML(
                         data?.breadcrumbs?.category[0]?.name
                       ),
                     }}
@@ -200,7 +204,7 @@ function ProductPage(props) {
                 <h1
                   className="text-dblack font-semibold text-d22 mb-3"
                   dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(data.name),
+                    __html: sanitizeHTML(data.name),
                   }}
                 ></h1>
                 <div className="mb-3 product-info">
@@ -459,22 +463,21 @@ function ProductPage(props) {
                 {/* Options */}
                 <div className="my-1 md:my-4">
                   <div className="flex justify-between">
-                    {data?.options &&
-                      data.options?.length > 0 && (
-                        <div className="flex justify-between items-center">
-                          <h3
-                            className="text-sm"
-                            style={{ color: "rgb(126, 133, 155)" }}
-                          >
-                            {`${data["options"]["0"]["name"]} ${
-                              viewColor ? ":" : ""
-                            }`}
-                          </h3>
-                          <span className="flex ml-1 font-semibold text-sm w-28">
-                            {viewColor}
-                          </span>
-                        </div>
-                      )}
+                    {data?.options && data.options?.length > 0 && (
+                      <div className="flex justify-between items-center">
+                        <h3
+                          className="text-sm"
+                          style={{ color: "rgb(126, 133, 155)" }}
+                        >
+                          {`${data["options"]["0"]["name"]} ${
+                            viewColor ? ":" : ""
+                          }`}
+                        </h3>
+                        <span className="flex ml-1 font-semibold text-sm w-28">
+                          {viewColor}
+                        </span>
+                      </div>
+                    )}
                     {data?.datasheet && (
                       <div
                         className={` text-right cursor-pointer text-sm ${
@@ -506,129 +509,116 @@ function ProductPage(props) {
                   </div>{" "}
                   {data?.options && data.options?.length > 0 && (
                     <div className="flex flex-wrap ">
-                      {data["options"]["0"]["option_value"].map(
-                        (option) => (
-                          <div className="mr-3">
-                            {/* <p className="text-xs text-center">
+                      {data["options"]["0"]["option_value"].map((option) => (
+                        <div className="mr-3">
+                          {/* <p className="text-xs text-center">
                                 {option["name"]}
                               </p> */}
-                            <div
-                              key={option.image}
-                              className={`p-1 border mr-2 my-2 cursor-pointer hover:shadow w-10 md:w-12 md:h-12 rounded relative ${
-                                option.product_option_value_id ===
-                                activeOption.product_option_value_id
-                                  ? "border-dblue"
-                                  : " border-dgrey"
-                              }`}
-                              onClick={() => {
-                                setOption(option);
-                                setColorSelected(option["name"]);
-                              }}
-                              onMouseOver={() => {
-                                setViewColor(option["name"]);
-                              }}
-                              onMouseLeave={() => {
-                                setViewColor(colorSelected);
-                              }}
-                            >
-                              {option.quantity === "0" && (
-                                <div className=" bg-dgrey bg-opacity-50 w-full h-full absolute top-0 left-0 flex items-center justify-center cursor-not-allowed">
-                                  <div className=" text-dblack text-4xl font-bold">
-                                    X
-                                  </div>
+                          <div
+                            key={option.image}
+                            className={`p-1 border mr-2 my-2 cursor-pointer hover:shadow w-10 md:w-12 md:h-12 rounded relative ${
+                              option.product_option_value_id ===
+                              activeOption.product_option_value_id
+                                ? "border-dblue"
+                                : " border-dgrey"
+                            }`}
+                            onClick={() => {
+                              setOption(option);
+                              setColorSelected(option["name"]);
+                            }}
+                            onMouseOver={() => {
+                              setViewColor(option["name"]);
+                            }}
+                            onMouseLeave={() => {
+                              setViewColor(colorSelected);
+                            }}
+                          >
+                            {option.quantity === "0" && (
+                              <div className=" bg-dgrey bg-opacity-50 w-full h-full absolute top-0 left-0 flex items-center justify-center cursor-not-allowed">
+                                <div className=" text-dblack text-4xl font-bold">
+                                  X
                                 </div>
-                              )}
-                              <Image
-                                src={option["image"]}
-                                key={option.image}
-                                alt={"Option"}
-                                width={80}
-                                height={80}
-                              />
-                            </div>
-                            {/* {accountstate.admin && (
+                              </div>
+                            )}
+                            <Image
+                              src={option["image"]}
+                              key={option.image}
+                              alt={"Option"}
+                              width={80}
+                              height={80}
+                            />
+                          </div>
+                          {/* {accountstate.admin && (
                               <div className="w-full text-center font-bold">
                                 {option?.quantity}
                               </div>
                             )} */}
-                          </div>
-                        )
-                      )}
+                        </div>
+                      ))}
                     </div>
                   )}
-                  {data?.options &&
-                    data.options?.length > 0 &&
-                    sizeGuide && (
-                      <div
-                        className="fixed w-screen h-full min-h-screen top-0 left-0  bg-opacity-30 bg-dblack z-30"
-                        onClick={() => setSizeGuide(false)}
-                      ></div>
-                    )}
+                  {data?.options && data.options?.length > 0 && sizeGuide && (
+                    <div
+                      className="fixed w-screen h-full min-h-screen top-0 left-0  bg-opacity-30 bg-dblack z-30"
+                      onClick={() => setSizeGuide(false)}
+                    ></div>
+                  )}
                   <div>
-                    {data?.options &&
-                      data.options?.length > 0 && (
+                    {data?.options && data.options?.length > 0 && (
+                      <div
+                        className=""
+                        // onClick={() => setShowNewSizeGuide(false)}
+                      >
                         <div
-                          className=""
-                          // onClick={() => setShowNewSizeGuide(false)}
-                        >
-                          <div
-                            className={` top-0  bg-white right-0 lg:w-1/3 w-10/12 min-h-screen transform  fixed h-full z-40 
+                          className={` top-0  bg-white right-0 lg:w-1/3 w-10/12 min-h-screen transform  fixed h-full z-40 
                                ease-in-out duration-300 ${
-                                sizeGuide
+                                 sizeGuide
                                    ? "translate-x-0 "
                                    : "translate-x-full"
                                }`}
-                          >
-                            <div>
-                              <div
-                                className={`border-b-4 border-dborderColor ${
-                                  width < 650 ? "mx-4" : "mx-6"
-                                }  `}
-                              >
-                                <p className="mt-2 font-light text-dgrey1 text-d16">
-                                  Size Guide
-                                </p>
-                              </div>
-                              <div
-                                className={`flex flex-wrap justify-center items-center pr-1  `}
-                              >
-                                <div>
-                                  <Image
-                                    src={
-                                      data["options"]["0"]["size_guide"]
-                                    }
-                                    className={`${
-                                      width < 650 ? "pb-24" : "pb-1 "
-                                    }`}
-                                    alt="express"
-                                    width={80}
-                                    height={80}
-                                  />
-                                </div>
+                        >
+                          <div>
+                            <div
+                              className={`border-b-4 border-dborderColor ${
+                                width < 650 ? "mx-4" : "mx-6"
+                              }  `}
+                            >
+                              <p className="mt-2 font-light text-dgrey1 text-d16">
+                                Size Guide
+                              </p>
+                            </div>
+                            <div
+                              className={`flex flex-wrap justify-center items-center pr-1  `}
+                            >
+                              <div>
+                                <Image
+                                  src={data["options"]["0"]["size_guide"]}
+                                  className={`${
+                                    width < 650 ? "pb-24" : "pb-1 "
+                                  }`}
+                                  alt="express"
+                                  width={80}
+                                  height={80}
+                                />
                               </div>
                             </div>
                           </div>
                         </div>
-                      )}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* TIMER */}
-                {data?.special_end !== 0 &&
+                {/* {data?.special_end !== 0 &&
                   typeof data?.special_end !== typeof null &&
                   data?.special_end !== "0" &&
-                  window.config !== "undefined" && (
+                   (
                     <Timer
-                      date={
-                        (window.config["site-url"] ===
-                          "https://www.ishtari.com.gh" ||
-                          Cookies.get("site-local-name") === "ishtari-ghana") &&
-                        data?.special_end === "2023-01-10"
-                          ? "2022-12-19"
-                          : data?.special_end
-                      }
+                     
+                      data={data}
                     />
-                  )}
+                  )} */}
                 {/*banner */}
                 {hasBannerEvent && hasBannerEvent.thumb && (
                   <div className="mt-5">
@@ -728,23 +718,22 @@ function ProductPage(props) {
                     )}
                   </div>
                 )}
-                {width > 650 && (
-                  <div className="my-4">
-                    <a
-                      className="flex justify-start"
-                      // href={`https://api.whatsapp.com/send?phone=${
-                      //   window.config["countryCode"] + accountstate.wtspNumber
-                      // }&text=Hi%20there%20i%27m%20interested%20in%20${
-                      //   window.config["site-url"]
-                      // }/product/${product_id}`}
-                    >
-                      <div className=" flex justify-start items-center rounded-md bg-dgreen py-2 px-4 text-white">
-                        <BsWhatsapp className="w-5 h-5" />
-                        <p className="text-lg ml-4">Whatsapp Support</p>
-                      </div>
-                    </a>
-                  </div>
-                )}
+
+                <div className="my-4 hidden mobile:block">
+                  <a
+                    className="flex justify-start"
+                    // href={`https://api.whatsapp.com/send?phone=${
+                    //   window.config["countryCode"] + accountstate.wtspNumber
+                    // }&text=Hi%20there%20i%27m%20interested%20in%20${
+                    //   window.config["site-url"]
+                    // }/product/${product_id}`}
+                  >
+                    <div className=" flex justify-start items-center rounded-md bg-dgreen py-2 px-4 text-white">
+                      <BsWhatsapp className="w-5 h-5" />
+                      <p className="text-lg ml-4">Whatsapp Support</p>
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
             <div className="pl-3 border-l border-dborderProduct w-1/4">
@@ -882,23 +871,23 @@ function ProductPage(props) {
           </div>
 
           {/* Product Description */}
-          {width < 650 && (
-            <div className="my-4 container">
-              <a
-                className=""
-                // href={`https://api.whatsapp.com/send?phone=${
-                //   window.config["countryCode"] + accountstate.wtspNumber
-                // }&text=Hi%20there%20i%27m%20interested%20in%20${
-                //   window.config["site-url"]
-                // }/product/${product_id}`}
-              >
-                <div className=" flex justify-around items-center bg-dgreen w-8/12 py-2 px-4 text-white rounded-md">
-                  <BsWhatsapp className="w-5 h-5" />
-                  <p className="text-md ml-4">Whatsapp Support</p>
-                </div>
-              </a>
-            </div>
-          )}
+
+          <div className="my-4 container block mobile:hidden">
+            <a
+              className=""
+              // href={`https://api.whatsapp.com/send?phone=${
+              //   window.config["countryCode"] + accountstate.wtspNumber
+              // }&text=Hi%20there%20i%27m%20interested%20in%20${
+              //   window.config["site-url"]
+              // }/product/${product_id}`}
+            >
+              <div className=" flex justify-around items-center bg-dgreen w-8/12 py-2 px-4 text-white rounded-md">
+                <BsWhatsapp className="w-5 h-5" />
+                <p className="text-md ml-4">Whatsapp Support</p>
+              </div>
+            </a>
+          </div>
+
           <div
             ref={lastElementRef}
             className="border-t-8 border-dinputBorder bg-dinputBorder"
@@ -920,7 +909,7 @@ function ProductPage(props) {
               <div
                 id="desc"
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(data.description),
+                  __html: sanitizeHTML(data.description),
                 }}
               />{" "}
             </div>

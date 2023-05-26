@@ -12,6 +12,7 @@ function ProductPart2(props) {
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
   const hiddenFileInput = useRef(null);
+  const textRef = useRef();
   const [required, setRequired] = useState();
   console.log(productData2);
 
@@ -34,6 +35,21 @@ function ProductPart2(props) {
     }
     return false;
   };
+
+//   const requestBody= JSON.stringify({
+//     "charge_msisdn": "233549455903",
+//     "charge_amount": 84,
+//     "country_code": "GHA",
+//     "currency_code": "GHS",
+//     "merchant_transaction_id": 53872,
+//     "service_code": "ISHTARI_GHANA_LIMITE",
+//     "payment_mode_code": "STK_PUSH",
+//     "payment_option_code": "MTNGHS"
+//   });
+
+//   const contentLength = Buffer.byteLength(requestBody, 'utf8');
+// console.log(contentLength);
+  
 
   return (
     <div className="w-full bg-white">
@@ -272,6 +288,36 @@ function ProductPart2(props) {
                             {required}
                           </span>
                         )}
+                        <div className="flex pt-2">
+                          <input
+                            type="text"
+                            className={
+                              width > 650
+                                ? "rounded w-full px-2 border-2 border-dinputBorder"
+                                : "rounded w-full px-2 border-2 border-dinputBorder"
+                            }
+                            ref={textRef}
+                            placeholder="Write a comment…"
+                          />
+                          <button
+                            className="rounded bg-dblue mx-2 pl-2 pr-4 py-3 text-white"
+                            onClick={(e) => addReview(e)}
+                          >
+                            <svg
+                              className="h-6 w-6  transform rotate-45	"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              {" "}
+                              <line x1="22" y1="2" x2="11" y2="13" />{" "}
+                              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>{" "}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

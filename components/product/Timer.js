@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
-function Timer({ date }) {
+
+function Timer({ data }) {
+  const date =
+    (window.config["site-url"] === "https://www.ishtari.com.gh" ||
+      Cookies.get("site-local-name") === "ishtari-ghana") &&
+    data?.special_end === "2023-01-10"
+      ? "2022-12-19"
+      : data?.special_end;
   const calculateTimeLeft = () => {
     const day = date?.slice(8, 10);
     const month = date?.slice(5, 7);
@@ -35,7 +43,10 @@ function Timer({ date }) {
     }
 
     timerComponents.push(
-      <div className="items-center space-y-2 text-center justify-center" key={Math.random()}>
+      <div
+        className="items-center space-y-2 text-center justify-center"
+        key={Math.random()}
+      >
         {interval === "DAYS" ? (
           <div className="text-4xl w-14 font-impact bg-dbluedark  px-4 rounded-full text-white">
             {timeLeft[interval]}

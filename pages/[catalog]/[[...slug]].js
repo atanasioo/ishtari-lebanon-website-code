@@ -45,7 +45,7 @@ function SlugPage(props) {
           content="Shop the 1.25L 800W Electric Household Drip Coffee Maker with Glass Carafe, Filter Cone & Coffee Spoon SF-3565. Enjoy delicious coffee brewed at home with this convenient coffee maker. Available in dimensions (L20 x W17 x H29)cm."
         ></meta>
       </Head>
-      {isProduct ? (
+      {props.isProduct ? (
         <>
           <ProductPage data={props.data} />
         </>
@@ -61,6 +61,7 @@ export async function getServerSideProps(context) {
   const { catalog, slug } = context.params;
   const { req } = context;
   let data = null;
+  let isProduct = false;
 
   const host = req.headers.host;
   const cookies = req.headers.cookie;
@@ -103,6 +104,7 @@ export async function getServerSideProps(context) {
     }
 
     data = response.data.data;
+    isProduct = true;
   } else if (catalog === "category" || slug[0].includes("c=")) {
     let category_id = "";
     if (slug[0].includes("c=")) {
@@ -135,7 +137,10 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { data },
+    props: {
+      data,
+      isProduct,
+    },
   };
 }
 

@@ -34,7 +34,9 @@ module.exports = {
       xs: "320px",
       // => @media (min-width: 320px) { ... }
       sm: "640px",
-      // => @media (min-width: 640px) { ... }
+      // => @media (min-width: 640px) { ... },
+      mobile: "650px",
+       // => @media (min-width: 650px) { ... },
 
       md: "768px",
       // => @media (min-width: 768px) { ... }
