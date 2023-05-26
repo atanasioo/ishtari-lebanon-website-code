@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import StarRatings from "react-star-ratings";
 import Image from "next/image";
 import useDeviceSize from "@/components/useDeviceSize";
-import { BsPlusLg } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsPlusLg } from "react-icons/bs";
 import SingleProduct from "./SingleProduct";
 import { sanitizeHTML } from "../DompurifyUtils";
 import Slider from "react-slick";
@@ -16,6 +16,8 @@ function ProductPart2(props) {
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
   const [isDetails, setIsDetails] = useState(false);
+  const [showGroup, setShowGroup] = useState(false);
+  const [showModel, setShowModel] = useState(false);
   const hiddenFileInput = useRef(null);
   const textRef = useRef();
   const [required, setRequired] = useState();
@@ -84,6 +86,7 @@ function ProductPart2(props) {
   //   const contentLength = Buffer.byteLength(requestBody, 'utf8');
   // console.log(contentLength);
 
+
   const productSetting = {
     speed: 200,
     slidesToShow: 7,
@@ -119,9 +122,9 @@ function ProductPart2(props) {
       <div
         style={{ ...style, padding: "2px 5px" }}
         onClick={onClick}
-        className="mySwiper"
+        className="mySwiper "
       >
-        <div className="swiper-button-prev"></div>
+        <div className="swiper-button-prev flex justify-center items-center cursor-pointer"><BsChevronLeft className="text-dblack"/></div>
       </div>
     );
   }
@@ -131,9 +134,9 @@ function ProductPart2(props) {
       <div
         style={{ ...style, padding: "2px 5px" }}
         onClick={onClick}
-        className="mySwiper"
+        className="mySwiper "
       >
-        <div className="swiper-button-next"></div>
+        <div className="swiper-button-next flex justify-center items-center cursor-pointer"><BsChevronRight className="text-dblack"/></div>
       </div>
     );
   }
@@ -721,32 +724,216 @@ function ProductPart2(props) {
           </div>
         )}
 
-
       {productData2?.smallest_cat_products &&
         productData2?.smallest_cat_products?.length > 0 && (
-          <div className=" w-full px-6 bg-white pt-1">
+          <div className=" w-full px-6 my-2 bg-white pt-1">
             <div className="container pb-2 md:pb-8">
               <p className="pr-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
                 {productData2.product_categories[0]?.name}
               </p>
-              {width < 650 ? (
-                <Slider {...productMobile}>
-                  {productData2.smallest_cat_products.map((item) => (
-                    <SingleProduct item={item}></SingleProduct>
-                  ))}
-                </Slider>
-              ) : (
-                <div>
-                  <Slider {...moreSettings}>
-                    {productData2?.smallest_cat_products?.map((item) => (
+              <div className="block">
+                {width < 650 ? (
+                  <Slider {...productMobile}>
+                    {productData2.smallest_cat_products.map((item) => (
                       <SingleProduct item={item}></SingleProduct>
                     ))}
                   </Slider>
-                </div>
+                ) : (
+                  <div className="same-category-slider">
+                    <Slider {...moreSettings} className="relative ">
+                      {productData2?.smallest_cat_products?.map((item) => (
+                        <SingleProduct item={item}></SingleProduct>
+                      ))}
+                    </Slider>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+      {/* {!loading &&
+        accountstate?.loged && */}
+      {productData2?.product_recentlyViewed &&
+        productData2?.product_recentlyViewed?.length > 0 && (
+          <div className="w-full px-6 bg-white  ">
+            <div className="container pb-2 md:pb-8">
+              <h2 className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
+                Recently Viewed
+              </h2>
+              {width < 650 ? (
+                <Slider {...productMobile}>
+                  {productData2?.product_recentlyViewed?.map((item) => {
+                    return (
+                      <div className="pr-2" key={item.product_id}>
+                        <SingleProduct item={item} />
+                      </div>
+                    );
+                  })}
+                </Slider>
+              ) : (
+                <Slider {...productSetting}>
+                  {productData2?.product_recentlyViewed?.map((item) => {
+                    return (
+                      <div className="pr-2" key={item.product_id}>
+                        <SingleProduct item={item} />
+                      </div>
+                    );
+                  })}
+                </Slider>
               )}
             </div>
           </div>
         )}
+
+      {/* wishlist group */}
+
+      {showGroup && (
+        <div className="w-full px-4">
+          <div
+            id="overlay"
+            className="fixed  z-40 w-screen h-screen inset-0 bg-dblack bg-opacity-60"
+          ></div>
+
+          <div
+            id="dialog"
+            className={` fixed z-50 top-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg  ${
+              window.innerWidth > 650
+                ? "left-1/3 top-1/3 w-2/8"
+                : "top-1 w-11/12 "
+            }`}
+          >
+            <button
+              id="close"
+              className=" ml-3 top-0 -mt-10 w-10 h-10 hover:bg-indigo-700 bg-dgreyRate cursor-pointer float-right rounded-full  font-semibold text-dbluegray"
+              onClick={() => setShowGroup(false)}
+            >
+              X
+            </button>
+            <div className="flex w-full">
+              <span className="text-l font-semibold w-1/2">Select Group</span>
+              <button
+                className=" font-semibold text-dblue text-right ml-4"
+                onClick={() => deleteItemFromAllGroup()}
+              >
+                Remove from all
+              </button>
+            </div>
+            <div className="flex flex-col py-2 border-t border-dinputBorder overflow-y-auto h-80">
+              {GroupWishlist.map((p, i) => (
+                <div
+                  className="flex  mb-4 pb-2 border border-dinputBorder"
+                  onClick={() => {
+                    updateState(p.wishlist_group_id);
+                  }}
+                >
+                  <label class="text-sm ml-3 font-medium text-gray-900 w-10/12 mt-1">
+                    {p.name}
+                  </label>
+                  <input
+                    name="wish"
+                    id="checkbox-1"
+                    aria-describedby="checkbox-1"
+                    type="checkbox"
+                    value={p.wishlist_group_id}
+                    className="h-4 w-4 float-right mt-2 border-dgrey"
+                    onClick={() => setValue(p.wishlist_group_id)}
+                    checked={
+                      checked?.indexOf(p.wishlist_group_id.toString()) > -1 &&
+                      "checked"
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div
+              className="flex  mb-4  bg-dgreyRate px-2 py-2"
+              onClick={() => {
+                setShowGroup(false);
+                setShowModel(true);
+              }}
+            >
+              <label class="flex text-sm  font-medium text-gray-900 w-10/12 ">
+                <div className="text-sm rounded-full bg-white w-5 h-5 mr-1 text-center text-dgreyBlack">
+                  +
+                </div>
+                Create New wishlist
+              </label>
+            </div>
+            <div class=" justify-end border-t-2 border-dinputBorder p-2">
+              <button
+                id="close"
+                class="px-5 py-2 w-full bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
+                onClick={addToWishList}
+              >
+                Done
+              </button>
+
+              <div
+                onClick={() => history.push("/account/wishlist")}
+                className="text-dblue text-center w-full pt-3"
+              >
+                Go to Wishlist{" "}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showModel && (
+        <div className="container">
+          <div
+            id="overlay"
+            className="fixed  z-40 w-screen h-screen inset-0 bg-dblack bg-opacity-60"
+          ></div>
+
+          <div
+            id="dialog"
+            className={` fixed z-50 top-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg ${
+              window.innerWidth > 650
+                ? "left-1/3 top-1/3 w-1/3"
+                : "top-1 w-10/12 "
+            }`}
+          >
+            <button
+              id="close"
+              className=" ml-3 top-0 -mt-10 w-10 h-10 hover:bg-indigo-700 bg-dgreyRate cursor-pointer float-right rounded-full  font-semibold text-dbgrey hover:opacity-90"
+              onClick={() => setShowModel(false)}
+            >
+              X
+            </button>
+            <span className="text-l font-semibold">New Group</span>
+
+            <div className="py-1 border-t border-dinputBorder">
+              <div className="text-dbase w-full">
+                {result?.errors && result?.errors[0]?.errorMsg}
+              </div>
+              <div className="mt-5">
+                <div className="input mb-6 required">
+                  <label htmlFor=""> Name </label>{" "}
+                  <input onChange={(event) => setName(event.target.value)} />
+                </div>
+              </div>
+              <div className="input mb-6 ">
+                <label htmlFor=""> Description </label>
+                <input
+                  onChange={(event) => setDescription(event.target.value)}
+                />
+              </div>
+            </div>
+            <div class="flex justify-end">
+              <button
+                id="close"
+                class="w-full px-5 py-1 bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
+                onClick={() => addGroup()}
+              >
+                save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

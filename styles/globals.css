@@ -408,10 +408,13 @@ mySwiper .swiper-button-next {
   transform: translate(-50%, -50%);
 }
 
- .slick-track{
+.slick-track{
   display: flex;
   width: 100%;
  
+}
+.same-category-slider .slick-slider{
+  display: flex;
 }
 .slick-list{
   overflow-x: hidden;
@@ -444,15 +447,17 @@ mySwiper .swiper-button-next {
   border-radius: 100% !important;
   box-shadow: rgb(0 0 0 / 50%) 0px 0px 3px -1px !important;
   border: 1px solid rgb(204, 204, 204) !important;
-  /* background: rgb(255, 255, 255) !important; */
-  background-color: blue;
+  background: rgb(255, 255, 255) !important;
   z-index: 1;
   margin-left: -20px !important;
 }
 
 .mySwiper .swiper-button-prev::after,
 .mySwiper .swiper-button-next::after {
+  content: none;
   font-size: 14px !important;
   color: rgb(0, 0, 0) !important;
   text-align: center !important;
 }
+
+

@@ -6,7 +6,7 @@ function SingleProduct(props) {
   const { item } = props;
   return (
     <Link href="/">
-      <div className="flex flex-col h-full bg-white text-dblack p-3.5 relative">
+      <div className="flex flex-col h-full bg-white text-dblack p-2.5 relative">
         <div className="flex flex-col h-full">
           <div className="product-image relative -mt-1.5 -mx-1.5">
             <div></div>
