@@ -8,8 +8,8 @@ import amex from "/public/images/amex.svg";
 import Image from "next/image";
 import Link from "next/link";
 export default function FooterPart2(props) {
-  // const info = props
-  console.log(props);
+// const info = props
+// console.log(props)
   return (
     <div className="text-dblack  ">
       <div className="mt-4 ">

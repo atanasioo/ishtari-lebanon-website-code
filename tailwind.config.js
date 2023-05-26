@@ -27,6 +27,7 @@ module.exports = {
         'dsnug': '21.56px',
         'dtight': '19.6px',
         'loose': '1.75',
+        'lcf': "22.2133px"
         // Add more line heights as needed
       },
     },
@@ -63,6 +64,7 @@ module.exports = {
       d14: "14px",
       d15: "15px",
       df: "15.4px", // footer parent category
+      dcf : "15.8666px" , // filter title 
       d16: "16px",
       d18: "18px",
       d20: "20.5712px",

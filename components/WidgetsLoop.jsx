@@ -66,13 +66,13 @@ function WidgetsLoop({ widget, likedData, width }) {
     slidesToScroll: 1,
     infinite: false,
     arrows: false,
-    lazyLoad: true,
+    lazyLoad: true
   };
   const productSetting = {
     speed: 200,
     slidesToShow: widget?.items?.length < 7 ? widget?.items?.length : 7,
     slidesToScroll: 7,
-    infinite: true,
+    infinite: true
     // prevArrow: <CustomPrevArrows direction={"l"} />,
     // nextArrow: <CustomNextArrows direction={"r"} />,
   };
@@ -519,10 +519,10 @@ function WidgetsLoop({ widget, likedData, width }) {
                     <div data-index={index} key={`sliderM` + index}>
                       <ImageClient
                         alt={item?.name}
-                        src={ item.image}
+                        src={item.image}
                         className="w-full"
-                        height={widget.banner_height }
-                        width={widget.banner_width }
+                        height={widget.banner_height}
+                        width={widget.banner_width}
                         // placeholdersrc={SliderPlaceholder}
                       />
                     </div>
@@ -648,8 +648,8 @@ function WidgetsLoop({ widget, likedData, width }) {
                     <ImageClient
                       alt={item?.name}
                       src={item.image}
-                      width={widget.banner_width }
-                      height={widget.banner_height }
+                      width={widget.banner_width}
+                      height={widget.banner_height}
                       title={item?.name
                         ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                         ?.replace("%", "")
@@ -667,15 +667,14 @@ function WidgetsLoop({ widget, likedData, width }) {
                   <div>
                     <ImageClient
                       alt={item?.name}
-                      src={ item.image}
-                      width={widget.banner_width }
-                      height={widget.banner_height }
+                      src={item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
                       title={item?.name
                         .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                         .replace("%", "")
                         .replace(/\s+/g, "-")
                         .replaceAll("/", "-")}
-                    
                       className={"w-full"}
                     />
                   </div>
@@ -749,23 +748,20 @@ function WidgetsLoop({ widget, likedData, width }) {
                   }}
                 >
                   <ImageClient
-                      alt={item?.name}
-                      src={  item.image}
-                      width={widget?.banner_width || 1000}
-                      height={widget?.banner_height || 100}
-             
-
-                      title={item?.name
-                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                        .replace("%", "")
-                        .replace(/\s+/g, "-")
-                        .replaceAll("/", "-")}
-                      className={`${!bool && "w-full"}`}
-                    />
+                    alt={item?.name}
+                    src={item.image}
+                    width={widget?.banner_width || 1000}
+                    height={widget?.banner_height || 100}
+                    title={item?.name
+                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      .replace("%", "")
+                      .replace(/\s+/g, "-")
+                      .replaceAll("/", "-")}
+                    className={`${!bool && "w-full"}`}
+                  />
                 </Link>
               </div>
-            ) : 
-             item.mobile_type === "6" ? (
+            ) : item.mobile_type === "6" ? (
               <div
                 className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                 key={item.banner_image_id}
@@ -786,18 +782,18 @@ function WidgetsLoop({ widget, likedData, width }) {
                 className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                 key={item.banner_image_id}
               >
-                 <ImageClient
-                    alt={item?.name}
-                    src={item.image}
-                    width={widget.banner_width}
-                    height={widget.banner_height}
-                    title={item?.name
-                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                      .replace("%", "")
-                      .replace(/\s+/g, "-")
-                      .replaceAll("/", "-")}
-                    className={`${ "w-full"}`}
-                  />
+                <ImageClient
+                  alt={item?.name}
+                  src={item.image}
+                  width={widget.banner_width}
+                  height={widget.banner_height}
+                  title={item?.name
+                    .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                    .replace("%", "")
+                    .replace(/\s+/g, "-")
+                    .replaceAll("/", "-")}
+                  className={`${"w-full"}`}
+                />
               </div>
             );
           })}
@@ -815,9 +811,9 @@ function WidgetsLoop({ widget, likedData, width }) {
                 <div
                   className={`${
                     !bool && "w-full"
-                  } cursor-pointer flex justify-center hover:opacity-80 w-1/${
-                    4
-                  } md:w-1/${widget.column_number}`}
+                  } cursor-pointer flex justify-center hover:opacity-80 w-1/${4} md:w-1/${
+                    widget.column_number
+                  }`}
                   key={item.banner_image_id}
                   style={{ padding: "1px" }}
                 >
@@ -881,7 +877,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                         .replace("%", "")
                         .replace(/\s+/g, "-")
                         .replaceAll("/", "-")}
-                      className={`${ "w-full"}`}
+                      className={`${"w-full"}`}
                     />
                   </Link>
                 </div>
@@ -925,14 +921,12 @@ function WidgetsLoop({ widget, likedData, width }) {
           </div>
         )}
 
-
-
-{widget?.display === "carousel" && widget.type !== "text" && (
+      {widget?.display === "carousel" && widget.type !== "text" && (
         <div>
-          {widget?.items?.length < 7 && width > 650 ? (
+          {widget?.items?.length < 7 ? (
             <div className="flex">
               {/* {width > 650 ? ( */}
-                <div className=" hidden mobile:block">
+              <div className=" hidden mobile:block">
                 <Slider
                   {...productSetting}
                   beforeChange={handleBeforeChange}
@@ -959,7 +953,6 @@ function WidgetsLoop({ widget, likedData, width }) {
                           <Link
                             onClickCapture={handleOnItemClick}
                             to={`${
-                           
                               item?.name?.length > 0 && item?.filters != false
                                 ? "/" +
                                   item?.name
@@ -1005,7 +998,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                           >
                             <LazyLoadImage
                               alt={item?.name}
-                              src={item.image }
+                              src={item.image}
                               width={widget.banner_width}
                               height={widget.banner_height}
                               title={item?.name
@@ -1020,10 +1013,9 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                   })}
                 </Slider>
-                </div>
+              </div>
               {/* ) : ( */}
-              <div className=" hidden mobile:block">
-
+              <div className=" block mobile:hidden">
                 <Slider {...productMobile}>
                   {widget.items?.map((item) => {
                     if (item.product_id) {
@@ -1091,10 +1083,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                           >
                             <ImageClient
                               alt={item?.name}
-                              src={
-                          
-                                item.image
-                              }
+                              src={item.image}
                               width={widget.banner_width}
                               height={widget.banner_height}
                               title={item?.name
@@ -1109,7 +1098,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                   })}
                 </Slider>
-                </div>
+              </div>
               {/* )} */}
             </div>
           ) : (
@@ -1120,17 +1109,15 @@ function WidgetsLoop({ widget, likedData, width }) {
                   width < 650 &&
                   widget?.items[0]?.product_id &&
                   widget.items?.map((item) => {
-                
-                      return (
-                        <div className="" key={item.product_id}>
-                          {/* <SingleProducts
+                    return (
+                      <div className="" key={item.product_id}>
+                        {/* <SingleProducts
                            
                            scroll={true}
                             item={item}
                           ></SingleProducts> */}
-                        </div>
-                      );
-                  
+                      </div>
+                    );
                   })}
               </div>
               {width > 650 ? (
@@ -1206,10 +1193,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                           >
                             <ImageClient
                               alt={item?.name}
-                              src={
-                              
-                                item.image
-                              }
+                              src={item.image}
                               width={widget.banner_width}
                               height={widget.banner_height}
                               title={item?.name
@@ -1224,8 +1208,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                   })}
                 </Slider>
-              ) 
-              : (
+              ) : (
                 //hereee
                 <div>
                   <Slider {...productMobile}>
@@ -1295,10 +1278,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                             >
                               <ImageClient
                                 alt={item?.name}
-                                src={
-               
-                                  item.image
-                                }
+                                src={item.image}
                                 width={widget.banner_width}
                                 height={widget.banner_height}
                                 title={item?.name
@@ -1314,8 +1294,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     })}
                   </Slider>
                 </div>
-             )
-              }
+              )}
             </div>
           )}{" "}
         </div>

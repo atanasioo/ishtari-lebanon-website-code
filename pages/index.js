@@ -63,31 +63,9 @@ export default function Home(widgets) {
       });
     }
 
-    // setPage(response.data.data.meta.page + 1);
-
-    // if (newData.length === 0) {
-    //   // No more data available
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // alert(response?.data?.success)
-    //       if (response?.data?.success) {
-    //         const newData = response?.data?.data?.widgets;
-    //         console.log(newData);
-    //         // setData((prevData) => [...prevData, ...newData]);
-
-    //         setData((prevWidgets) => {
-    //           return [
-    //             ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
-    //           ];
-    //         });
 
     setIsLoading(false);
-    //   }
-    // }
-
-    // setData((prevData) => [...prevData, ...newData]);}
-  }, [page]);
+    }, [page]);
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver((entries) => {
@@ -139,8 +117,8 @@ export async function getServerSideProps(context) {
   const { req } = context;
   let data = null;
   const userAgent = context.req.headers["user-agent"];
-  console.log({ userAgent });
-  console.log("userAgent");
+  // console.log({ userAgent });
+  // console.log("userAgent");
   const screenWidth = parseScreenWidth(userAgent);
   // console.log("width=" + screenWidth);
   const host = req.headers.host;
@@ -161,7 +139,7 @@ export async function getServerSideProps(context) {
     limit: 10,
     page: 1
   };
-  console.log(obj);
+  // console.log(obj);
   //fetch product data
   let link = buildLink("home", undefined, undefined) + "&source_id=1";
   const response = await axiosServer.post(link, obj, {

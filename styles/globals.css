@@ -5,13 +5,13 @@
 
 
  @font-face {
-    font-family: "PR-lightå";
+    font-family: "PR-light";
     src: url("../assets/pr/Proxima-Nova-300.eot");
     src: url("../assets/pr/Proxima-Nova-300.eot") format("eot"),
       url("../assets/pr/Proxima-Nova-300.woff2") format("woff2"),
       url("../assets/pr/Proxima-Nova-300.woff") format("woff"),
       url("../assets/pr/Proxima-Nova-300.ttf") format("truetype");
-    font-weight: 300;
+    font-weight: 300 !important;
     font-style: normal;
   }
   
@@ -51,17 +51,28 @@
 
 
 .body {
-  font-family: 'PR';  font-size: 14px; line-height: 19.6px;
+  font-family: 'PR'; 
+   /* font-size: 14px; line-height: 19.6px; */
 }
 
 .pr-bold {
-  font-family: 'PR-bold';  font-size: 14px; line-height: 19.6px;
+  font-family: 'PR-bold';  
+  /* font-size: 14px; line-height: 19.6px; */
 }
 
 .pr-semibold {
-  font-family: 'PR-semibold';  font-size: 14px; line-height: 19.6px;
+  font-family: 'PR-semibold';
+    /* font-size: 14px; line-height: 19.6px; */
 }
 
+.pr-light{
+  font-family: 'PR-light';  
+  /* font-size: 14px; line-height: 19.6px; */
+}
+.font-light{
+  font-family: 'PR-light' !important;   
+
+}
 .googlePlay {
   background-image: url(https://www.ishtari.com/img/sprite.25850177.png);
   background-position-x: 0px;

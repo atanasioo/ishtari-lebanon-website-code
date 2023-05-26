@@ -12,7 +12,7 @@ function SlugPage(props) {
   const [isCatalog, setIsCatalog] = useState(false);
   const [isProduct, setIsProduct] = useState(false);
   const slug = router.query; // Access the slug array from the URL
-
+  console.log(props);
   // Determine whether it's a category or product page based on the slug structure
   useEffect(() => {
     if (slug.catalog === "product") {
@@ -39,18 +39,18 @@ function SlugPage(props) {
   return (
     <div>
       <Head>
-        <title>{props.data.name}</title>
+        <title>{props.data?.name || props.data?.heading_title}</title>
         <meta
           name="description"
           content="Shop the 1.25L 800W Electric Household Drip Coffee Maker with Glass Carafe, Filter Cone & Coffee Spoon SF-3565. Enjoy delicious coffee brewed at home with this convenient coffee maker. Available in dimensions (L20 x W17 x H29)cm."
         ></meta>
       </Head>
-      {props.isProduct ? (
+      {props.type == "product" ? (
         <>
           <ProductPage data={props.data} />
         </>
       ) : (
-        <CatalogPage />
+        <CatalogPage type={props.type} data={props.data} />
       )}
     </div>
   );
@@ -61,7 +61,7 @@ export async function getServerSideProps(context) {
   const { catalog, slug } = context.params;
   const { req } = context;
   let data = null;
-  let isProduct = false;
+  let type = "";
 
   const host = req.headers.host;
   const cookies = req.headers.cookie;
@@ -77,9 +77,11 @@ export async function getServerSideProps(context) {
     site_host = host_cookie;
   }
 
+  console.log("catalog" + catalog);
+
   if (catalog === "product" || slug[0].includes("p=")) {
     // get product id
-    let product_id = "";
+    let product_id = "product";
     if (slug[0].includes("p=")) {
       product_id = slug[0].split("=")[1];
     } else {
@@ -94,53 +96,81 @@ export async function getServerSideProps(context) {
       "&source_id=1&part_one";
     const response = await axiosServer.get(link, {
       headers: {
-        Authorization: "Bearer " + token,
-      },
+        Authorization: "Bearer " + token
+      }
     });
     if (!response.data.success) {
       return {
-        notFound: true,
+        notFound: true
       };
     }
 
     data = response.data.data;
-    isProduct = true;
-  } else if (catalog === "category" || slug[0].includes("c=")) {
-    let category_id = "";
-    if (slug[0].includes("c=")) {
-      category_id = slug[0].split("=")[1];
-      console.log(category_id);
-    } else {
-      category_id = slug[0];
+  } else if (
+    catalog === "category" ||
+    catalog === "manufacturer" ||
+    catalog === "seller" ||
+    slug[0].includes("c=") ||
+    slug[0].includes("m=") ||
+    slug[0].includes("s=")
+  ) {
+    let id = "";
+    if (catalog === "category" || slug[0].includes("c=")) {
+      type = "category";
+
+      if (slug[0].includes("c=")) {
+        id = slug[0].split("=")[1];
+        // console.log(category_id);
+      } else {
+        id = slug[0];
+      }
+    } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
+      type = "manufacturer";
+      let manufacturer_id = "";
+      if (slug[0].includes("m=")) {
+        id = slug[0].split("=")[1];
+        // console.log(manufacturer_id);
+      } else {
+        id = slug[0];
+      }
+    } else if (catalog === "seller" || slug[0].includes("s=")) {
+      type = "seller";
+
+      if (slug[0].includes("s=")) {
+        id = slug[0].split("=")[1];
+      } else {
+        id = slug[0];
+      }
     }
-  } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
-    let manufacturer_id = "";
-    if (slug[0].includes("m=")) {
-      manufacturer_id = slug[0].split("=")[1];
-      console.log(manufacturer_id);
-    } else {
-      manufacturer_id = slug[0];
+
+    let link =
+      buildLink(type, undefined, undefined, site_host) + id + "&source_id=1";
+    const response = await axiosServer.get(link, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+    if (!response.data.success) {
+      return {
+        notFound: true
+      };
     }
-  } else if (catalog === "seller" || slug[0].includes("s=")) {
-    let seller_id = "";
-    if (slug[0].includes("s=")) {
-      seller_id = slug[0].split("=")[1];
-      console.log(seller_id);
-    } else {
-      seller_id = slug[0];
-    }
+
+    data = response.data.data;
+
+    console.log("data = response.data.data;");
   } else {
     //redirect to 404
     return {
-      notFound: true,
+      notFound: true
     };
   }
 
   return {
     props: {
       data,
-      isProduct,
-    },
+      type
+    }
   };
 }
 
