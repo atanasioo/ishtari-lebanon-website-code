@@ -1,4 +1,4 @@
-import SingleProducts from "./SingleProduct";
+import SingleProduct from "./product/SingleProduct.js";
 import Slider from "react-slick";
 import DOMPurify from "dompurify";
 import Image from "next/image";
@@ -1022,6 +1022,8 @@ function WidgetsLoop({ widget, likedData, width }) {
                 </Slider>
                 </div>
               {/* ) : ( */}
+              <div className=" hidden mobile:block">
+
                 <Slider {...productMobile}>
                   {widget.items?.map((item) => {
                     if (item.product_id) {
@@ -1107,6 +1109,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                   })}
                 </Slider>
+                </div>
               {/* )} */}
             </div>
           ) : (
