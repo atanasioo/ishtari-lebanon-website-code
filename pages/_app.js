@@ -20,7 +20,7 @@ export default function App({
   information_data
 }) {
   return (
-    <div>
+    <div className="container ">
       <Layout
         header_categories={header_categories}
         footer_categories={footer_categories}

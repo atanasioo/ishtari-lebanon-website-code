@@ -12,7 +12,6 @@ export default function Home(widgets) {
   // const data = widgets.data.widgets;
 
   const [hasMore, setIsHasMore] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const sentinelRef = useRef(null);
@@ -20,60 +19,27 @@ export default function Home(widgets) {
 
   const lastElementRef = useCallback(
     (node) => {
-      console.log("sjjdjdj");
 
       // if (loading) return;
       if (observer.current) observer.current.disconnect();
-      console.log("omar");
+   ;
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting ) {
-          console.log("sjjdjdj");
           setPage((prevPage) => prevPage + 1);
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore]
+    [isLoading, hasMore]
   );
-  //   const loadMoreData = async () => {
-  //   if (isLoading) return;
-
-  //   // Simulate an API call to fetch more data
-  //   // const response = await fetch(`/api/data?page=${page + 1}`);
-  //   // var obj = {
-  //   //   view: window.innerWidh > 650 ? "web_mobile" : "web_desktop",
-  //   //   limit: 10,
-  //   //   page: page + 1
-  //   // };
-  //   // let link = buildLink("home", undefined, undefined) + "&source_id=1";
-  //   // const response = await axiosServer.post(link, obj, {
-  //   //   headers: {
-  //   //     Authorization: "Bearer " + Cookies.get("api-token")
-  //   //   }
-  //   // });
-  //   // const newData = await response.data.data.widgets;
-
-  //   // setPage(response.data.data.meta.page + 1);
-
-  //   // if (newData.length === 0) {
-  //   //   // No more data available
-  //   //   setIsLoading(false);
-  //   //   return;
-  //   // }
-
-  //   // setData((prevData) => [...prevData, ...newData]);
-  //   setPage((prevPage) => prevPage + 1);
-  //   // alert(page)
-  //   setIsLoading(false);
-  // };
-
+  
   const [data, setData] = useState(widgets.data.widgets);
 
   useEffect(() => {
     console.log(page);
 
     if (page > 1) {
-      setIsLoading(true);
+       setIsLoading(true);
       var obj = {
         view: window.innerWidh > 650 ? "web_mobile" : "web_desktop",
         limit: 10,
@@ -140,7 +106,7 @@ export default function Home(widgets) {
   // }, []);
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {data.map((widget, index) => {
         if (data.length === index + 1) {
           return (
