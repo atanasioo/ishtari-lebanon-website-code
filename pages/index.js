@@ -7,11 +7,11 @@ import WidgetsLoop from "@/components/WidgetsLoop";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
-
+import PointsLoader from "@/components/PointsLoader";
 export default function Home(widgets) {
   // const data = widgets.data.widgets;
 
-  const [hasMore, setIsHasMore] = useState(false);
+  const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const sentinelRef = useRef(null);
@@ -19,12 +19,10 @@ export default function Home(widgets) {
 
   const lastElementRef = useCallback(
     (node) => {
-
       // if (loading) return;
       if (observer.current) observer.current.disconnect();
-   ;
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting ) {
+        if (entries[0].isIntersecting && hasMore) {
           setPage((prevPage) => prevPage + 1);
         }
       });
@@ -32,56 +30,59 @@ export default function Home(widgets) {
     },
     [isLoading, hasMore]
   );
-  
+
   const [data, setData] = useState(widgets.data.widgets);
 
   useEffect(() => {
     console.log(page);
 
     if (page > 1) {
-       setIsLoading(true);
+      setIsLoading(true);
       var obj = {
         view: window.innerWidh > 650 ? "web_mobile" : "web_desktop",
         limit: 10,
         page: page
       };
       let link = buildLink("home", undefined, undefined) + "&source_id=1";
-       axiosServer.post(link, obj).then((response)=>{
+      axiosServer.post(link, obj).then((response) => {
         if (response?.data?.success) {
           const newData = response?.data?.data?.widgets;
           console.log(newData);
           // setData((prevData) => [...prevData, ...newData]);
-  
+
           setData((prevWidgets) => {
             return [
               ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
             ];
           });
+
+          if (page >= response?.data?.data?.meta?.total_pages)
+            setIsHasMore(false);
+          else setIsHasMore(true);
         }
-       });
+      });
+    }
 
-      }
+    // setPage(response.data.data.meta.page + 1);
 
-      // setPage(response.data.data.meta.page + 1);
+    // if (newData.length === 0) {
+    //   // No more data available
+    //   setIsLoading(false);
+    //   return;
+    // }
+    // alert(response?.data?.success)
+    //       if (response?.data?.success) {
+    //         const newData = response?.data?.data?.widgets;
+    //         console.log(newData);
+    //         // setData((prevData) => [...prevData, ...newData]);
 
-      // if (newData.length === 0) {
-      //   // No more data available
-      //   setIsLoading(false);
-      //   return;
-      // }
-// alert(response?.data?.success)
-//       if (response?.data?.success) {
-//         const newData = response?.data?.data?.widgets;
-//         console.log(newData);
-//         // setData((prevData) => [...prevData, ...newData]);
+    //         setData((prevWidgets) => {
+    //           return [
+    //             ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
+    //           ];
+    //         });
 
-//         setData((prevWidgets) => {
-//           return [
-//             ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
-//           ];
-//         });
-
-        setIsLoading(false);
+    setIsLoading(false);
     //   }
     // }
 
@@ -128,7 +129,7 @@ export default function Home(widgets) {
         }
       })}
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <PointsLoader />}
     </div>
   );
 }

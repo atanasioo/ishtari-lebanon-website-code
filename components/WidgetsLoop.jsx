@@ -764,23 +764,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     />
                 </Link>
               </div>
-            ) : // ) : item.mobile_type === "6" ? (
-            //   <div
-            //     className={` w-full hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
-            //     key={item.banner_image_id}
-            //   >
-            //     <Link href={"/latest"}>
-            //       <LazyLoadImageClient
-            //         alt={item?.name}
-            //         src={`${window.config["site-url"]}/image/` + item.image}
-            //         width={item.banner_width}
-            //         height={item.banner_height}
-            //         title={item?.name}
-            //         placeholdersrc={ProductPlaceholder}
-            //         className={"w-full"}
-            //       />
-            //     </Link>
-            //   </div>
+            ) : 
              item.mobile_type === "6" ? (
               <div
                 className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
@@ -947,7 +931,8 @@ function WidgetsLoop({ widget, likedData, width }) {
         <div>
           {widget?.items?.length < 7 && width > 650 ? (
             <div className="flex">
-              {width > 650 ? (
+              {/* {width > 650 ? ( */}
+                <div className=" hidden mobile:block">
                 <Slider
                   {...productSetting}
                   beforeChange={handleBeforeChange}
@@ -1035,7 +1020,8 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                   })}
                 </Slider>
-              ) : (
+                </div>
+              {/* ) : ( */}
                 <Slider {...productMobile}>
                   {widget.items?.map((item) => {
                     if (item.product_id) {
@@ -1121,7 +1107,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                   })}
                 </Slider>
-              )}
+              {/* )} */}
             </div>
           ) : (
             <div className="">
