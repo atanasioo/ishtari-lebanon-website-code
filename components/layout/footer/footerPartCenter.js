@@ -11,7 +11,7 @@ export default function FooterPartCenter(props) {
 
   return (
 
-    <div>
+    <div className="container">
     <div className={`flex justify-between px-5`}>
       {data?.data?.map((cat) => {
         return (

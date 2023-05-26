@@ -730,7 +730,7 @@ function ProductPage(props) {
                   >
                     <div className=" flex justify-start items-center rounded-md bg-dgreen py-2 px-4 text-white">
                       <BsWhatsapp className="w-5 h-5" />
-                      <p className="text-lg ml-4">Whatsapp Support</p>
+                      <p className="text-md ml-4">Whatsapp Support</p>
                     </div>
                   </a>
                 </div>
@@ -918,6 +918,8 @@ function ProductPage(props) {
             titleRef={titleRef}
             loader={loader}
             productData2={productData2}
+            data={data}
+            reviews = {reviews}
           />
         </div>
       </div>

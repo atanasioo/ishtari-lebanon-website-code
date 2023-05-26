@@ -4,7 +4,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa";
 export default function FooterPart1() {
   return (
-    <div>
+    <div className="container">
    
 
       <div

@@ -17,17 +17,19 @@ export default function App({
   pageProps,
   header_categories,
   footer_categories,
-  information_data
+  information_data,
 }) {
   return (
-    <div className="container ">
+    <div className="">
       <Layout
         header_categories={header_categories}
         footer_categories={footer_categories}
         information_data={information_data}
       >
-        <div className="container bg-dprimarybg">
-          <Component {...pageProps} />
+        <div className="bg-dprimarybg">
+          <div className="container ">
+            <Component {...pageProps} />
+          </div>
         </div>
       </Layout>
     </div>
@@ -101,7 +103,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           header_categories: data.data?.data,
           footer_categories: footer_data.data?.data,
           information_data: information_data.data?.data,
-          token: newToken
+          token: newToken,
         };
       } catch (error) {
         // Handle any errors that occurred during the token request
@@ -118,7 +120,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
       if (typeof site_host === "undefined") {
         site_host = host;
       }
-
 
       var data = [];
       var footer_data = [];
@@ -148,8 +149,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
           ),
           {
             headers: {
-              Authorization: "Bearer " + token
-            }
+              Authorization: "Bearer " + token,
+            },
           }
         );
         information_data = await axiosServer.get(
@@ -172,14 +173,13 @@ App.getInitialProps = async ({ Component, ctx }) => {
         information_data = await axiosServer.get(
           buildLink("information", undefined, undefined, site_host)
         );
-     
       }
 
       // Return the fetched data as props
       return {
         header_categories: data.data.data,
         footer_categories: footer_data.data.data,
-        information_data: information_data.data?.data
+        information_data: information_data.data?.data,
       };
     }
   } else {
@@ -233,8 +233,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
         information_data = await axiosServer.get(
           buildLink("information", undefined, undefined, site_host)
         );
-
-     
       } else {
         data = await axiosServer.get(
           buildLink("headerv2", undefined, undefined, site_host)
@@ -255,7 +253,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
         footer_categories: footer_data.data.data,
         information_data: information_data?.data.data,
 
-        token: newToken
+        token: newToken,
       };
     } catch (error) {
       // Handle any errors that occurred during the token request

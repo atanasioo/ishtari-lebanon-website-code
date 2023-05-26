@@ -111,7 +111,7 @@ function DesktopMenuCategories(props) {
   return (
     <div>
       <div
-        className="hidden lg:block bg-white w-full shadow-md shadow-dbeigeRed  text-d16 "
+        className="hidden lg:block bg-white container w-full shadow-md shadow-dbeigeRed  text-d16 "
         onClick={() => {
           setOverlay(false);
           setClearHover(true);

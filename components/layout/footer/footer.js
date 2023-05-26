@@ -18,7 +18,7 @@ export default function Footer(props) {
   });
 
   return (
-    <div>
+    <div >
       <FooterPart1 />
       <div className="border-t-8 mb-4 border-dprimarybg"></div>
 
