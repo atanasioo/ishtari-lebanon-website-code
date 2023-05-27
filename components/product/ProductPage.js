@@ -16,7 +16,7 @@ import buildLink from "@/urls";
 import ProductPart2 from "./ProductPart2";
 import dynamic from "next/dynamic";
 import NotifyMe from "./NotifyMe";
-import { sanitizeHTML } from "../DompurifyUtils";
+import { sanitizeHTML } from "../Utils";
 
 function ProductPage(props) {
   const [countDownPointer, setCountDonwPointer] = useState();
@@ -559,7 +559,7 @@ function ProductPage(props) {
                   )}
                   {data?.options && data.options?.length > 0 && sizeGuide && (
                     <div
-                      className="fixed w-screen h-full min-h-screen top-0 left-0  bg-opacity-30 bg-dblack z-30"
+                      className="fixed w-full h-full min-h-screen top-0 left-0  bg-opacity-30 bg-dblack z-30"
                       onClick={() => setSizeGuide(false)}
                     ></div>
                   )}
@@ -736,12 +736,12 @@ function ProductPage(props) {
                 </div>
               </div>
             </div>
-            <div className="pl-3 border-l border-dborderProduct w-1/4">
+            <div className="pl-3 hidden md:block border-l border-dborderProduct w-1/4">
               {/* EXTRA */}
               {/* admin div */}
               {data?.no_refundable === true && (
                 <>
-                  <div className="hidden md:flex-row w-1/2 md:w-full md:flex md:items-center text-dblack py-6 border-b border-dinputBorder">
+                  <div className=" md:flex-row w-1/2 md:w-full md:flex md:items-center text-dblack py-6 border-b border-dinputBorder">
                     <svg
                       width="30"
                       height="30"

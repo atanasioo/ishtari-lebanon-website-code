@@ -7,6 +7,7 @@ import DOMPurify from "dompurify";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import { slugify } from "@/components/Utils";
 
 function DesktopMenuCategories(props) {
   const { header_categories } = props;
@@ -18,6 +19,15 @@ function DesktopMenuCategories(props) {
   const [allCategories, setAllCategories] = useState([]);
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
   const [clearHover, setClearHover] = useState(false);
+
+  const router = useRouter();
+
+  const types = {
+    1: "product",
+    2: "category",
+    3: "manufacturer",
+    4: "seller",
+  };
 
   useEffect(() => {
     if (header_categories) {
@@ -161,7 +171,9 @@ function DesktopMenuCategories(props) {
                               }
                             >
                               <Link
-                                href={"/"} //wa2tiye
+                                href={`/${slugify(category.name)}/c=${
+                                  category.category_id
+                                }`}
                                 className="flex items-center py-1 hover:text-dblue px-4"
                               >
                                 <Image
@@ -193,8 +205,7 @@ function DesktopMenuCategories(props) {
                             ></h2>
                             <Link
                               className="text-dblue text-sm"
-                              href={"/"}
-                              // to={`${path}/category/${selectedTopCategory.category_id}`}
+                              href={`/category/${selectedTopCategory.category_id}`}
                             >
                               <span>View All </span>
                               <i className="icon icon-angle-right"></i>
@@ -205,8 +216,7 @@ function DesktopMenuCategories(props) {
                               (sub_category) => (
                                 <Link
                                   key={Math.random()}
-                                  href="/"
-                                  // to={`${path}/category/${sub_category.category_id}`}
+                                  href={`/category/${sub_category.category_id}`}
                                   className=" flex items-center py-1 hover:bg-dsearchGrey"
                                 >
                                   <Image
@@ -246,11 +256,14 @@ function DesktopMenuCategories(props) {
                     setClearHover(true);
                   }}
                 >
-                  <div
+                  <Link
+                    href={`/${slugify(category["title"].title)}/c=${
+                      category["title"].mobile_type_id
+                    }`}
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(category["title"].title),
                     }}
-                  ></div>
+                  ></Link>
                 </div>
               ))}
             <div className="px-4 hover:text-dbase cursor-pointer">
@@ -275,7 +288,9 @@ function DesktopMenuCategories(props) {
             <div className="flex py-6 px-10">
               <div className="pl-4 w-2/12">
                 <Link
-                  href={"/"}
+                  href={`/${slugify(
+                    selectedMenuCategory2["top-category"].name
+                  )}/c=${selectedMenuCategory2["top-category"].category_id}`}
                   className="font-semibold mb-4"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(
@@ -290,7 +305,9 @@ function DesktopMenuCategories(props) {
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(category.name),
                     }}
-                    href={"/"}
+                    href={`/${slugify(category.name)}/c=${
+                      category.category_id
+                    }`}
                   ></Link>
                 ))}
               </div>
@@ -299,7 +316,17 @@ function DesktopMenuCategories(props) {
                 {selectedMenuCategory2["partitions"]?.map((ban) => (
                   <div className={`p-0 `} key={Math.random()}>
                     {ban?.banners?.map((banner) => (
-                      <div className={` cursor-pointer `} key={Math.random()}>
+                      <div
+                        className={` cursor-pointer `}
+                        key={Math.random()}
+                        onClick={() =>
+                          router.push(
+                            `${slugify(banner.name)}/${types[
+                              banner.mobile_type
+                            ].slice(0, 1)}=${banner.mobile_type_id}`
+                          )
+                        }
+                      >
                         <Image
                           src={`${window.config["site-url"]}/image/${banner.image}`}
                           width={600}

@@ -5,7 +5,7 @@ import Image from "next/image";
 import useDeviceSize from "@/components/useDeviceSize";
 import { BsChevronLeft, BsChevronRight, BsPlusLg } from "react-icons/bs";
 import SingleProduct from "./SingleProduct";
-import { sanitizeHTML } from "../DompurifyUtils";
+import { sanitizeHTML } from "../Utils";
 import Slider from "react-slick";
 import Link from "next/link";
 import "slick-carousel/slick/slick.css";
