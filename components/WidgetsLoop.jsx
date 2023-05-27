@@ -936,12 +936,12 @@ function WidgetsLoop({ widget, likedData, width }) {
                     if (item.product_id) {
                       return (
                         <div className="pr-2" key={item.product_id}>
-                          <SingleProducts
+                          <SingleProduct
                             likedData={likedData}
                             item={item}
                             click={handleOnItemClick}
                             dragging={dragging}
-                          ></SingleProducts>
+                          ></SingleProduct>
                         </div>
                       );
                     } else {
@@ -1021,10 +1021,9 @@ function WidgetsLoop({ widget, likedData, width }) {
                     if (item.product_id) {
                       return (
                         <div className="pr-2" key={item.product_id}>
-                          <SingleProducts
-                            likedData={likedData}
+                          <SingleProduct
                             item={item}
-                          ></SingleProducts>
+                          ></SingleProduct>
                         </div>
                       );
                     } else {
@@ -1111,31 +1110,31 @@ function WidgetsLoop({ widget, likedData, width }) {
                   widget.items?.map((item) => {
                     return (
                       <div className="" key={item.product_id}>
-                        {/* <SingleProducts
+                        {/* <SingleProduct
                            
                            scroll={true}
                             item={item}
-                          ></SingleProducts> */}
+                          ></SingleProduct> */}
                       </div>
                     );
                   })}
               </div>
-              {width > 650 ? (
+                  <div className=" hidden mobile:block">
                 <Slider
                   {...productSetting}
-                  beforeChange={handleBeforeChange}
-                  afterChange={handleAfterChange}
+                  // beforeChange={handleBeforeChange}
+                  // afterChange={handleAfterChange}
                 >
                   {widget.items?.map((item) => {
                     if (item.product_id) {
                       return (
                         <div className="p-1" key={item.product_id}>
-                          {/* <SingleProducts
-                            likedData={likedData}
+                          <SingleProduct
+                            // likedData={likedData}
                             item={item}
-                            click={handleOnItemClick}
-                            dragging={dragging}
-                          ></SingleProducts> */}
+                            // click={handleOnItemClick}
+                            // dragging={dragging}
+                          ></SingleProduct>
                         </div>
                       );
                     } else {
@@ -1145,7 +1144,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                           key={item.banner_image_id}
                         >
                           <Link
-                            onClickCapture={handleOnItemClick}
+                            // onClickCapture={handleOnItemClick}
                             to={
                               item?.name?.length > 0 && item.filters != false
                                 ? "/" +
@@ -1208,18 +1207,19 @@ function WidgetsLoop({ widget, likedData, width }) {
                     }
                   })}
                 </Slider>
-              ) : (
-                //hereee
-                <div>
+                </div>
+      
+            
+                <div className=" bloack mobile:hidden">
                   <Slider {...productMobile}>
                     {widget.items?.map((item) => {
                       if (item.product_id) {
                         return (
                           <div className="pr-2" key={item.product_id}>
-                            {/* <SingleProducts
+                            <SingleProduct
                               likedData={likedData}
                               item={item}
-                            ></SingleProducts> */}
+                            ></SingleProduct>
                           </div>
                         );
                       } else {
@@ -1294,7 +1294,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     })}
                   </Slider>
                 </div>
-              )}
+              
             </div>
           )}{" "}
         </div>
