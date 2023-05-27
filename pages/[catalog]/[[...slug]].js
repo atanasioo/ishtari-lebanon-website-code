@@ -45,7 +45,7 @@ function SlugPage(props) {
           content="Shop the 1.25L 800W Electric Household Drip Coffee Maker with Glass Carafe, Filter Cone & Coffee Spoon SF-3565. Enjoy delicious coffee brewed at home with this convenient coffee maker. Available in dimensions (L20 x W17 x H29)cm."
         ></meta>
       </Head>
-      {props.type == "product" ? (
+      {props.type === "product" ? (
         <>
           <ProductPage data={props.data} />
         </>
@@ -81,7 +81,7 @@ export async function getServerSideProps(context) {
 
   if (catalog === "product" || slug[0].includes("p=")) {
     // get product id
-    let product_id = "product";
+    let product_id = "";
     if (slug[0].includes("p=")) {
       product_id = slug[0].split("=")[1];
     } else {
@@ -106,6 +106,7 @@ export async function getServerSideProps(context) {
     }
 
     data = response.data.data;
+    type= "product";
   } else if (
     catalog === "category" ||
     catalog === "manufacturer" ||

@@ -13,7 +13,7 @@ export default function FooterPart2(props) {
   return (
     <div className="text-dblack  ">
       <div className="mt-4 ">
-        <div className="flex items-center py-10 mx-20 justify-around">
+        <div className="flex flex-col md:flex-row items-center py-10 mx-20 justify-around">
           <div className=" text-center">
             <div className="text-d14 pr-semibold mb-2">SHOP ON THE GO</div>
             <div className="flex space-x-3 ">
@@ -25,7 +25,7 @@ export default function FooterPart2(props) {
               </a>
             </div>
           </div>
-          <div className="flex-row ">
+          <div className="flex-row mt-2 mobile:mt-0 ">
             <div className="text-d14 pr-semibold mb-2 text-center ">
               CONNECT WITH US
             </div>
@@ -97,7 +97,7 @@ export default function FooterPart2(props) {
         </div>
 
         <div
-          className={`flex items-center justify-between py-7  bg-dsearchGrey  w-full px-7 pb-16`}
+          className={`flex flex-col md:flex-row items-center justify-between py-7  bg-dsearchGrey  w-full px-7 md:pb-16`}
         >
           <div
             className="text-center font-extralight text-sm "
@@ -107,7 +107,7 @@ export default function FooterPart2(props) {
             {new Date().getFullYear()} {window.config["short-name"]}. All Rights
             Reserved
           </div>
-          <div className="flex ">
+          <div className="flex my-4 mobile:my-0 ">
             {window.config["showVisaCard"] && (
               <div className={` flex  `}>
                 <ul className="flex px-6 flex-wrap justify-center items-center">
@@ -132,7 +132,7 @@ export default function FooterPart2(props) {
             )}
           </div>
 
-          <div className="flex text-center text space-x-4 text-d12 font-thin opacity-70">
+          <div className="flex flex-wrap text-center justify-center mobile:justify-start text space-x-4 text-d12 font-thin opacity-70">
             {props?.info?.map((i) => {
               return (
                 i.status === "1" && (

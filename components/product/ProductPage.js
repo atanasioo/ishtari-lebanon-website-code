@@ -818,7 +818,7 @@ function ProductPage(props) {
                           <div
                             dangerouslySetInnerHTML={{
                               __html: unescapeHTML(
-                                DOMPurify.sanitize(returnPolicy?.description)
+                                sanitizeHTML(returnPolicy?.description)
                               ),
                             }}
                           ></div>

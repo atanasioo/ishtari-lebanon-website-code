@@ -64,11 +64,11 @@ function Header(props) {
               {width > 650 && <div className="flex ml-2"> Lebanon</div>}
               <FiChevronDown className="w-5 " />
           </div>
-          <div className=" flex justify-center items-center border-r mr-5 border-dplaceHolder pr-5 cursor-pointer">
-            <p>Sign In</p> <AiOutlineUser className="ml-1 w-5 h-5" />
+          <div className=" flex justify-center items-center lg:border-r mr-5 lg:border-dplaceHolder pr-5 cursor-pointer">
+            <p className="hidden lg:block">Sign In</p> <AiOutlineUser className="ml-1 w-5 h-5" />
           </div>
           <div className="flex justify-center items-center mr-5 cursor-pointer">
-            <p>Cart</p>
+            <p className="hidden lg:block">Cart</p>
             <AiOutlineShopping className="ml-1 w-5 h-5" />
           </div>
         </div>
