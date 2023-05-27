@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 function CatalogPage(props) {
   const [filters, setFilters] = useState(props.data?.filters);
   const [data, setData] = useState(props.data);
@@ -32,47 +33,51 @@ function CatalogPage(props) {
   console.log("Param4:", filter_options);
   console.log("Param5:", last);
 
-    const [isLoading, setIsLoading] = useState(false);
-  
-    useEffect(() => {
-      const handleStart = () => {
-        setIsLoading(true);
-      };
-  
-      const handleComplete = () => {
-        setIsLoading(false);
-      };
-  
-      router.events.on('routeChangeStart', handleStart);
-      router.events.on('routeChangeComplete', handleComplete);
-      router.events.on('routeChangeError', handleComplete);
-  
-      return () => {
-        router.events.off('routeChangeStart', handleStart);
-        router.events.off('routeChangeComplete', handleComplete);
-        router.events.off('routeChangeError', handleComplete);
-      };
-    }, []);
-  
+  const [isLoading, setIsLoading] = useState(false);
 
-  
   useEffect(() => {
-    parseUrl()
-  },[router])
+    const handleStart = () => {
+      setIsLoading(true);
+    };
+
+    const handleComplete = () => {
+      setIsLoading(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    // router.events.on("routeChangeComplete", handleComplete);
+    // router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      // router.events.off("routeChangeComplete", handleComplete);
+      // router.events.off("routeChangeError", handleComplete);
+    };
+  }, []);
+
+  useEffect(() => {
+    router.asPath.indexOf("has_filter") > -1 &&
+      axiosServer.get(parseUrl()).then((response) => {
+        const data = response.data.data;
+        setData(data);
+        setFilters(response.data.data?.filters);
+        setIsLoading(false);
+      });
+  }, [router]);
 
   function parseUrl(queries = false) {
     let url_type =
-     router.asPath.indexOf("has_filter") < 0 ? "default" : "filter";
-    setData({});
-
+      router.asPath.indexOf("has_filter") < 0 ? "default" : "filter";
+    // setData({});
+    // console.log(router);
     if (url_type === "default") {
-      const q_s = ''
-      q_s.page  = page ? page : page;
+      const q_s = "";
+      q_s.page = page ? page : page;
       q_s.limit = limit ? limit : limit.value;
-      q_s.sort  = sort ? sort : "p2co.sort_order";
+      q_s.sort = sort ? sort : "p2co.sort_order";
       q_s.order = order ? order : "ASC";
       q_s.source_id = 1;
-    
+
       // // Preapare url
       let final_queries = "&" + stringify(q_s);
       return !queries
@@ -82,20 +87,19 @@ function CatalogPage(props) {
             `${state.admin ? "&adm_quantity=true" : ""}`
         : final_queries + `${state.admin ? "&adm_quantity=true" : ""}`;
     } else {
-      const q_s = '';
-      let type = props.type
-      const type_id = slug[0].slice(2)
+      const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
+      let type = props.type;
+      const type_id = slug[0].slice(2);
       return (
         buildLink("filter", undefined, window.innerWidth) +
-        "&" +
-        type +
-        "=" +
+        "&path=" +
         type_id +
-        "&" +
-        queryString.stringify(q_s).replaceAll("%2C", ",") +
-        "&limit=" +
-        limit.value +
-        `${state.admin ? "&adm_quantity=true" : ""}`
+        "" +
+        q_s.replace("?", "&")
+        // "&limit=" +
+        // limit.value
+        // +
+        // `${state.admin ? "&adm_quantity=true" : ""}`
       );
     }
   }
@@ -113,7 +117,7 @@ function CatalogPage(props) {
       }
     } else if (
       filter_options != undefined &&
-      (name === "Shoes Size" ||
+      (name ===   "Shoes Size" ||
         name === "Size by Age" ||
         name === "jeans Size" ||
         name === "Socks")
@@ -126,7 +130,7 @@ function CatalogPage(props) {
     } else if (
       type === "filter_categories" ||
       type === "filter_manufacturers" ||
-      type === "filter_sellers"
+      type === "filter_sellers"  ||  type === "adv_filters" 
     ) {
       if (filter_categories != undefined && type === "filter_categories") {
         if (filter_categories.indexOf(filter["id"]) > -1)
@@ -146,6 +150,11 @@ function CatalogPage(props) {
           return <input type="checkbox" className="" checked />;
       }
 
+      if (adv_filters != undefined && type === "adv_filters") {
+        if (adv_filters.indexOf(filter["id"]) > -1)
+          return <input type="checkbox" className="" checked />;
+      }
+
       return <input type="checkbox" className="" />;
     } else {
       if (filter_options != undefined && type === "filter_options") {
@@ -159,8 +168,8 @@ function CatalogPage(props) {
   function parseFilter(filter_type, id) {
     var url = "";
     var type = "";
-    // console.log(filter_type);
-    // console.log(id);
+    console.log(filter_type);
+    console.log(id);
 
     if (filter_type === "filter_manufacturers") {
       type = "filter_manufacturers";
@@ -199,6 +208,7 @@ function CatalogPage(props) {
           console.log("Not exist but has filter sellers ");
         }
       } else {
+        type = "filter_sellers";
         url += "&" + type + "=" + id;
       }
     } else {
@@ -236,13 +246,10 @@ function CatalogPage(props) {
       if (filter_options != undefined) {
         if (filter_options?.indexOf(id) > -1) {
           console.log("exist");
-      const value =     filter_options?.split(",").filter((value) => value != id)
-       if(value.length > 0 )
-          url +=
-            "&" +
-            type +
-            "=" +
-          value;
+          const value = filter_options
+            ?.split(",")
+            .filter((value) => value != id);
+          if (value.length > 0) url += "&" + type + "=" + value;
         } else {
           url += "&" + type + "=" + filter_options + "," + id;
           console.log("Not exist but has filter  ");
@@ -262,13 +269,8 @@ function CatalogPage(props) {
       if (adv_filters != undefined) {
         if (adv_filters?.indexOf(id) > -1) {
           console.log("exist");
-      const value =     adv_filters?.split(",").filter((value) => value != id)
-       if(value.length > 0 )
-          url +=
-            "&" +
-            type +
-            "=" +
-          value;
+          const value = adv_filters?.split(",").filter((value) => value != id);
+          if (value.length > 0) url += "&" + type + "=" + value;
         } else {
           url += "&" + type + "=" + adv_filters + "," + id;
           console.log("Not exist but has filter  ");
@@ -282,25 +284,27 @@ function CatalogPage(props) {
         url += "&" + type + "=" + adv_filters;
       }
     }
-    if(filter_type != "adv_filters"){
-    url += "&last=" + filter_type.slice(7, 8);
-    }else{
-      url += "&last=f" ;
+    if (filter_type != "adv_filters") {
+      url += "&last=" + filter_type.slice(7, 8);
+    } else {
+      url += "&last=f";
     }
 
-    if(filter_categories?.length || filter_sellers?.length > 0 || filter_manufacturers?.length > 0 || filter_options?.length > 0 || adv_filters?.length > 0){
-      router.push("/"+catalog + '/' + slug[0] + "?has_filter=true"  + url);
-    }else{
-      router.push("/"+catalog + '/' + slug[0]);
+    if (
+      url.length > 0
+    ) {
+      router.push("/" + catalog + "/" + slug[0] + "?has_filter=true" + url);
+    } else {
+      router.push("/" + catalog + "/" + slug[0]);
     }
-   
-
   }
 
   return (
     <div className="">
-       {isLoading &&  (
-        <div className="absolute z-50 w-full h-full text-center  opacity-50 bg-dTransparentWhite">Loading...</div>
+      {isLoading && (
+        <div className="absolute z-50 w-full h-full text-center  opacity-50 bg-dTransparentWhite">
+          Loading...
+        </div>
       )}
       <div className="w-full px-5">
         <div className=" hidden xl:flex lg:flex pt-2 pb-2  items-center text-xs  text-dgrey1">
@@ -488,7 +492,7 @@ function CatalogPage(props) {
         </div>
         <div className="w-4/5 ">
           <div className="grid grid-cols-5 space-x-2 space-y-2">
-            {data.products.map((item) => (
+            {data?.products?.map((item) => (
               <SingleProduct item={item}></SingleProduct>
             ))}
           </div>
