@@ -419,21 +419,6 @@ mySwiper .swiper-button-next {
   transform: translate(-50%, -50%);
 }
 
-.slick-track{
-  display: flex;
-  width: 100%;
- 
-}
-.same-category-slider .slick-slider{
-  display: flex;
-}
-.slick-list{
-  overflow-x: hidden;
-}
-
-.product-carousel .slick-slide{
-  min-width: 210px;
-}
 
 .mySwiper .swiper-button-next {
   position: absolute !important;
@@ -447,6 +432,7 @@ mySwiper .swiper-button-next {
   background: rgb(255, 255, 255) !important;
   z-index: 1;
   margin-right: -20px;
+  right: 0;
 }
 
 .mySwiper .swiper-button-prev {
@@ -469,6 +455,12 @@ mySwiper .swiper-button-next {
   font-size: 14px !important;
   color: rgb(0, 0, 0) !important;
   text-align: center !important;
+}
+
+/* to disable center mode */
+.slick-track{
+  margin-left: unset !important;
+  margin-right: unset !important;
 }
 
 

@@ -8,6 +8,9 @@ import SingleProduct from "./SingleProduct";
 import { sanitizeHTML } from "../DompurifyUtils";
 import Slider from "react-slick";
 import Link from "next/link";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 function ProductPart2(props) {
   const { titleRef, loader, productData2, data, reviews } = props; //data is for product part one data
@@ -56,6 +59,16 @@ function ProductPart2(props) {
     s: "#DC143C",
   };
 
+  const dummySetting = {
+    speed: 200,
+    slidesToShow: 7,
+    slidesToScroll: 7,
+    infinite: false,
+    vertical: false, // Set vertical to false
+    prevArrow: <div>prev</div>,
+    nextArrow: <div>next</div>,
+  };
+
   function changeRating(newRating, name) {
     console.log(newRating);
     setStarRating(newRating);
@@ -85,7 +98,6 @@ function ProductPart2(props) {
 
   //   const contentLength = Buffer.byteLength(requestBody, 'utf8');
   // console.log(contentLength);
-
 
   const productSetting = {
     speed: 200,
@@ -124,7 +136,9 @@ function ProductPart2(props) {
         onClick={onClick}
         className="mySwiper "
       >
-        <div className="swiper-button-prev flex justify-center items-center cursor-pointer"><BsChevronLeft className="text-dblack"/></div>
+        <div className="swiper-button-prev flex justify-center items-center cursor-pointer">
+          <BsChevronLeft className="text-dblack" />
+        </div>
       </div>
     );
   }
@@ -136,7 +150,9 @@ function ProductPart2(props) {
         onClick={onClick}
         className="mySwiper "
       >
-        <div className="swiper-button-next flex justify-center items-center cursor-pointer"><BsChevronRight className="text-dblack"/></div>
+        <div className="swiper-button-next flex justify-center items-center cursor-pointer">
+          <BsChevronRight className="text-dblack" />
+        </div>
       </div>
     );
   }
@@ -934,6 +950,7 @@ function ProductPart2(props) {
           </div>
         </div>
       )}
+
     </div>
   );
 }

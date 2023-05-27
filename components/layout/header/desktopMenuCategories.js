@@ -148,42 +148,87 @@ function DesktopMenuCategories(props) {
               {/* Subcategories' menu */}
 
               {viewSubAllCategories2 && (
-              <div className="relative">
-                <div className="absolute top-4 z-20">
-                  <div>
-                    <div className="flex">
-                      <div className="bg-dsearchGrey py-3 w-284px">
-                        {allCategories?.map((category) => (
-                          <div
-                            key={category.category_id}
-                            onMouseEnter={() =>
-                              setSelectedTopCategory(category)
-                            }
-                          >
-                            <Link
-                              href={"/"} //wa2tiye
-                              className="flex items-center py-1 hover:text-dblue px-4"
+                <div className="relative">
+                  <div className="absolute top-3 z-20">
+                    <div>
+                      <div className="flex">
+                        <div className="bg-dsearchGrey py-3 w-284px">
+                          {allCategories?.map((category) => (
+                            <div
+                              key={category.category_id}
+                              onMouseEnter={() =>
+                                setSelectedTopCategory(category)
+                              }
                             >
-                              <Image
-                                alt={category.name}
-                                src={category.image}
-                                width={40}
-                                height={40}
-                              />
-                              <span
-                                className="ml-3 font-light text-d13"
-                                dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(category.name),
-                                }}
-                              ></span>
+                              <Link
+                                href={"/"} //wa2tiye
+                                className="flex items-center py-1 hover:text-dblue px-4"
+                              >
+                                <Image
+                                  alt={category.name}
+                                  src={category.image}
+                                  width={40}
+                                  height={40}
+                                />
+                                <span
+                                  className="ml-3 font-light text-d13"
+                                  dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(category.name),
+                                  }}
+                                ></span>
+                              </Link>
+                            </div>
+                          ))}
+                        </div>
+                        <div
+                          className="bg-white px-4"
+                          style={{ width: "500px" }}
+                        >
+                          <div className="flex item-center justify-between py-5 border-b border-dinputBorder mb-2">
+                            <h2
+                              className=" font-semibold"
+                              dangerouslySetInnerHTML={{
+                                __html: selectedTopCategory.name,
+                              }}
+                            ></h2>
+                            <Link
+                              className="text-dblue text-sm"
+                              href={"/"}
+                              // to={`${path}/category/${selectedTopCategory.category_id}`}
+                            >
+                              <span>View All </span>
+                              <i className="icon icon-angle-right"></i>
                             </Link>
                           </div>
-                        ))}
+                          {selectedTopCategory?.categories &&
+                            selectedTopCategory["categories"]?.map(
+                              (sub_category) => (
+                                <Link
+                                  key={Math.random()}
+                                  href="/"
+                                  // to={`${path}/category/${sub_category.category_id}`}
+                                  className=" flex items-center py-1 hover:bg-dsearchGrey"
+                                >
+                                  <Image
+                                    alt={sub_category.name}
+                                    src={sub_category.image}
+                                    width={35}
+                                    height={35}
+                                  />
+                                  <span
+                                    className="ml-3 font-light text-xs"
+                                    dangerouslySetInnerHTML={{
+                                      __html: sub_category.name,
+                                    }}
+                                  ></span>
+                                </Link>
+                              )
+                            )}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
               )}
             </div>
 
