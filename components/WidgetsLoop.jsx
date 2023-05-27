@@ -1285,7 +1285,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                   ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                   ?.replace(/\s+/g, "-")
                                   ?.replaceAll("/", "-")}
-                                placeholdersrc={ProductPlaceholder}
+                                // placeholdersrc={ProductPlaceholder}
                               />
                             </Link>
                           </div>

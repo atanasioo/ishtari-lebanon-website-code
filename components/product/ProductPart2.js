@@ -59,15 +59,6 @@ function ProductPart2(props) {
     s: "#DC143C",
   };
 
-  const dummySetting = {
-    speed: 200,
-    slidesToShow: 7,
-    slidesToScroll: 7,
-    infinite: false,
-    vertical: false, // Set vertical to false
-    prevArrow: <div>prev</div>,
-    nextArrow: <div>next</div>,
-  };
 
   function changeRating(newRating, name) {
     console.log(newRating);
@@ -159,7 +150,7 @@ function ProductPart2(props) {
 
   return (
     <div className="">
-      <div className=" mobile:overflow-hidden">
+      <div className="overflow-x-hidden">
         <div className="w-full bg-white pb-2">
           <div
             className=" border-t-8 border-dinputBorder space-x-10  "
@@ -188,7 +179,7 @@ function ProductPart2(props) {
                   // }
                   >
                     <div className="grid gap-4 lg:grid-cols-3 pt-4">
-                      <div className="flex p-1 border-r-2 border-dgreyRate">
+                      <div className="flex p-1 md:border-r-2 md:border-dgreyRate">
                         <div className="flex ">
                           <div className="text-center">
                             <div className="text-center font-bold text-d14">
@@ -210,7 +201,7 @@ function ProductPart2(props) {
                                 }
                               />
                             </div>
-                            <div className="pl-3">
+                            <div className="pl-3 text-sm md:text-d16">
                               Based on{" "}
                               {productData2?.product_reviews?.totals
                                 ? productData2?.product_reviews?.totals
@@ -219,13 +210,13 @@ function ProductPart2(props) {
                             </div>
                           </div>
                         </div>
-                        {/* {!stateAccount.loged && (
+                        {/* {!stateAccount.loged && ( */}
                       <div className="grid place-items-center ">
                         <div></div>
                         <div className="text-center ml-12">
                           {" "}
                           <button
-                            className="flex rounded bg-dblue text-white px-3 py-1 hover:opacity-50	"
+                            className="flex rounded bg-dblue text-white text-sm md:text-d16 text px-3 py-1 hover:opacity-50	"
                             onClick={() => {
                               dispatchAccount({
                                 type: "setShowOver",
@@ -246,7 +237,7 @@ function ProductPart2(props) {
                         </div>
                         <div></div>
                       </div>
-                    )} */}
+                    {/* )} */}
                       </div>
                       <div className="p-1 py-2">
                         <div className="flex">
@@ -292,15 +283,15 @@ function ProductPart2(props) {
                       </div>
                     </div>
 
-                    <div className="px-6">
+                    <div className="mobile:px-6">
                       <div className="ml-1">
                         {/* only if logged */}
-                        <div className="mt-4 flex justify-start items-center flex-row space-x-2.5">
+                        <div className="mt-4 flex justify-start w-full mobile:w-unset items-center flex-row space-x-2.5">
                           <div
                             className={
                               width > 650
                                 ? "flex flex-col w-1/2 font-bold pt-1 "
-                                : "flex flex-col w-14/24 font-bold pt-1 "
+                                : "flex flex-col w-full font-bold pt-1 "
                             }
                           >
                             <div className="flex items-center">
@@ -491,8 +482,9 @@ function ProductPart2(props) {
                                   .toUpperCase()}{" "}
                               </div>
                               <div className="flex flex-col justify-start ">
-                                <div className="flex">
-                                  <p className="text-base font-bold pr-3 w-48">
+                                <div className="flex items-center">
+                                  <p className="text-base font-bold pr-3 w-40 md:w-48">
+
                                     {r?.name}
                                   </p>
                                   {r.check_purchase && (

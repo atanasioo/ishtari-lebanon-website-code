@@ -403,7 +403,7 @@ function ProductPage(props) {
                   </div>
                   <div>
                     {data.quantity === "0" && (
-                      <div>
+                      <div className="flex mobile:block justify-center">
                         {width > 650 ? (
                           <div
                             onClick={() => checkIfLogged()}
@@ -420,7 +420,7 @@ function ProductPage(props) {
                         ) : (
                           <div
                             // onClick={() => checkIfLogged()}
-                            className="fixed z-10 bottom-1 bg-dblue ml-3  text-white rounded-full  cursor-pointer  px-3  md:px-3  w-3/4 "
+                            className="fixed z-10 bottom-1 bg-dblue text-white rounded-full py-1  cursor-pointer  px-3  md:px-3  w-3/4 "
                           >
                             <div className="my-1 flex justify-around items-center">
                               <p className="text-sm md:text-md font-semibold">
