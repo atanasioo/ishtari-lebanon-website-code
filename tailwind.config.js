@@ -28,7 +28,9 @@ module.exports = {
         'dsnug': '21.56px',
         'dtight': '19.6px',
         'loose': '1.75',
-        'lcf': "22.2133px"
+        'lcf': "22.2133px",
+        'spn': "17.36px",
+        "pn": "31.36px"
         // Add more line heights as needed
       },
     },

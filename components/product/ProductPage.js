@@ -202,7 +202,7 @@ function ProductPage(props) {
                   )}
                 </Link>
                 <h1
-                  className="text-dblack font-semibold text-d22 mb-3"
+                  className="text-dblack font-semibold text-d22 mb-3 leading-pn"
                   dangerouslySetInnerHTML={{
                     __html: sanitizeHTML(data.name),
                   }}

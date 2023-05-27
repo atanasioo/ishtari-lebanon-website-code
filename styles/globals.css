@@ -463,4 +463,8 @@ mySwiper .swiper-button-next {
   margin-right: unset !important;
 }
 
+.slick-slide{
+  min-width: "180px";
+}
+
 

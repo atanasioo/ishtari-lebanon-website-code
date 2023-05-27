@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { slugify } from "@/components/Utils";
+import {HeaderOverlay} from "@/components/Overlay"
 
 function DesktopMenuCategories(props) {
   const { header_categories } = props;
@@ -90,7 +91,7 @@ function DesktopMenuCategories(props) {
   useTimeout(
     () => {
       if (selectedMenuCategory2) {
-        // setOverlay(true);
+        setOverlay(true);
         setViewMenuCategories2(true);
       }
     },
@@ -154,6 +155,18 @@ function DesktopMenuCategories(props) {
                 <div>All Categories</div>
                 <FiChevronDown className="w-5 h-5 mr-4" />
               </div>
+
+              {/* Overlay */}
+              {overlay && (
+                <div
+                  onMouseEnter={() => {
+                    setClearHover(true);
+                    setOverlay(false);
+                    setViewSubAllCategories2(false);
+                    setViewMenuCategories2(false);
+                  }}
+                ><HeaderOverlay /></div>
+              )}
 
               {/* Subcategories' menu */}
 
@@ -278,7 +291,7 @@ function DesktopMenuCategories(props) {
         {viewMenuCategories2 && selectedMenuCategory2 && (
           <div
             className="container"
-            onMouseEnter={() => setViewMenuCategories2(true)}
+            onMouseEnter={() => {setViewMenuCategories2(true); setOverlay(true)}}
             onMouseLeave={() => {
               setViewSubAllCategories2(false);
               setViewMenuCategories2(false);

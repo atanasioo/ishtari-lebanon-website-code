@@ -414,9 +414,9 @@ function ProductPart2(props) {
                                   viewBox="0 0 24 24"
                                   fill="none"
                                   stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
                                 >
                                   {" "}
                                   <line x1="22" y1="2" x2="11" y2="13" />{" "}
@@ -498,8 +498,8 @@ function ProductPart2(props) {
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          fill-rule="evenodd"
-                                          clip-rule="evenodd"
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
                                           d="M5.07262 9.64218L2.67767 7.24723L3.52189 6.403L5.07262 7.94775L9.0183 4.00206L9.86252 4.85227L5.07262 9.64218ZM6.2701 0.661133C2.96506 0.661133 0.282715 3.34348 0.282715 6.64851C0.282715 9.95355 2.96506 12.6359 6.2701 12.6359C9.57513 12.6359 12.2575 9.95355 12.2575 6.64851C12.2575 3.34348 9.57513 0.661133 6.2701 0.661133Z"
                                           fill="#3866DF"
                                         ></path>

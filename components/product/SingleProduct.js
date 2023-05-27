@@ -20,7 +20,7 @@ function SingleProduct(props) {
             </div>
           </div>
           <div className="product-info pt-3 flex flex-col">
-            <div className="product-name text-d14 pr-semibold h-9 mb-2 overflow-hidden">
+            <div className="product-name text-d14 font-semibold leading-spn h-9 mb-2 overflow-hidden">
               <span>{item.name}</span>
             </div>
             <div className="">
@@ -50,7 +50,7 @@ function SingleProduct(props) {
             </div>
             <div className="flex pt-2">
               <div
-                className="mt-3.5 flex justify-between items-center"
+                className="mt-3.5 flex justify-between items-center w-full"
                 style={{ minHeight: "16px" }}
               >
                 <div className="express">
@@ -69,7 +69,7 @@ function SingleProduct(props) {
                   )}
                 </div>
                 {item?.nb_of_reviews > 0 && (
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 ml-3">
                     <div
                       className="flex rounded-full px-1 place-content-end h-4 w-9 align-bottom"
                       style={{
@@ -93,7 +93,7 @@ function SingleProduct(props) {
                       </div>
                       <HiStar
                         className="pt-1 text-white text-bold text-d12"
-                        emptyColor="#FFFFFF"
+                        // emptyColor="#FFFFFF"
                       />{" "}
                     </div>
 

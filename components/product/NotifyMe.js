@@ -62,7 +62,7 @@ function NotifyMe({ setShowNotify, showNotify, pname, pid }) {
                 <input
                   placeholder="+961 3 123456"
                   type="tel"
-                  required="true"
+                  required={true}
                   autoComplete="phone"
                   minLength="6"
                   onChange={(e) => setPhone(e.target.value)}
