@@ -12,6 +12,7 @@ function SingleProduct(props) {
             <div></div>
             <div className="relative w-full">
               <Image
+                alt={item.name}
                 src={item.thumb}
                 width={200}
                 height={300}
@@ -50,10 +51,10 @@ function SingleProduct(props) {
             </div>
             <div className="flex pt-2">
               <div
-                className="mt-3.5 flex justify-between items-center w-full"
+                className=" flex flex-row justify-between w-full"
                 style={{ minHeight: "16px" }}
               >
-                <div className="express">
+                <div className="express w-6/12">
                   {props.item.market === "0" ? (
                     <img
                       src={"/images/express.png"}
@@ -64,14 +65,14 @@ function SingleProduct(props) {
                     <img
                       src={"/images/market.svg"}
                       className="h-6 py-1 "
-                      alt=""
+                      alt={111}
                     />
                   )}
                 </div>
                 {item?.nb_of_reviews > 0 && (
-                  <div className="flex items-center gap-1 ml-3">
+                  <div className="flex  gap-1">
                     <div
-                      className="flex rounded-full px-1 place-content-end h-4 w-9 align-bottom"
+                      className="flex rounded-full  place-content-end h-4 w-8 align-bottom"
                       style={{
                         backgroundColor:
                           item?.rating >= 4.5

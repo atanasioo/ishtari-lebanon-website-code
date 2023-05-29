@@ -359,7 +359,7 @@ function ProductPart2(props) {
                                             width: "80px",
                                           }}
                                           className="h-14 w-14 sm:h-20 sm:w-20"
-                                          alt=""
+                                          alt={URL.createObjectURL(img)}
                                         />
                                         <button
                                           className="absolute z-10 bottom-0 w-full align-middle"
@@ -537,7 +537,7 @@ function ProductPart2(props) {
                                 <div className="mr-2">
                                   <img
                                     src={img}
-                                    alt=""
+                                    alt={img}
                                     className="w-14 h-14 sm:w-20 sm:h-20"
                                   />
                                 </div>

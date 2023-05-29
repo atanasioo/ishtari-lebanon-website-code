@@ -6,8 +6,11 @@ import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 import { Pagination, Navigation, Autoplay } from "swiper";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 // import ImageClient from "./imageClient";
 import Link from "next/link";
 
@@ -24,7 +27,7 @@ function WidgetsLoop({ widget, likedData, width }) {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller",
+    4: "seller"
   };
 
   const handleMouseEnter = () => {
@@ -51,7 +54,7 @@ function WidgetsLoop({ widget, likedData, width }) {
     autoplay: true,
     autoplaySpeed: 4000,
     arrows: false,
-    lazyLoad: true,
+    lazyLoad: true
   };
   const productMobile = {
     dots: false,
@@ -66,25 +69,37 @@ function WidgetsLoop({ widget, likedData, width }) {
     slidesToScroll: 1,
     infinite: false,
     arrows: false,
-    lazyLoad: true,
+    lazyLoad: true
   };
+  // const productSetting = {
+  //   speed: 200,
+  //   slidesToShow:  widget?.items?.length < 7 ? widget?.items?.length : 7,
+  //   slidesToScroll: 7,
+  //   infinite: true,
+  //   prevArrow: <CustomPrevArrows direction={"l"} />,
+  //   nextArrow: <CustomNextArrows direction={"r"} />,
+  // };
   const productSetting = {
     speed: 200,
-    slidesToShow: widget?.items?.length < 7 ? widget?.items?.length : 7,
+    slidesToShow: 7,
     slidesToScroll: 7,
-    infinite: true,
+    infinite: false,
+    vertical: false,
     prevArrow: <CustomPrevArrows direction={"l"} />,
     nextArrow: <CustomNextArrows direction={"r"} />,
   };
+
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
       <div
         style={{ ...style, padding: "2px 5px" }}
         onClick={onClick}
-        className="mySwiper"
+        className="mySwiper "
       >
-        <div className="swiper-button-prev"></div>
+        <div className="swiper-button-prev flex justify-center items-center cursor-pointer">
+          <BsChevronLeft className="text-dblack" />
+        </div>
       </div>
     );
   }
@@ -94,12 +109,15 @@ function WidgetsLoop({ widget, likedData, width }) {
       <div
         style={{ ...style, padding: "2px 5px" }}
         onClick={onClick}
-        className="mySwiper"
+        className="mySwiper "
       >
-        <div className="swiper-button-next"></div>
+        <div className="swiper-button-next flex justify-center items-center cursor-pointer">
+          <BsChevronRight className="text-dblack" />
+        </div>
       </div>
     );
   }
+
 
   return (
     <div key={widget?.mobile_widget_id}>
@@ -110,7 +128,7 @@ function WidgetsLoop({ widget, likedData, width }) {
             <h1
               className="pr-semibold p-2 text-d16"
               dangerouslySetInnerHTML={{
-                __html: widget.title,
+                __html: widget.title
               }}
             />
           )}
@@ -281,7 +299,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                 pagination={{ clickable: true }}
                 navigation={{
                   nextEl: swiperNavNextRef.current,
-                  prevEl: swiperNavPrevRef.current,
+                  prevEl: swiperNavPrevRef.current
                 }}
                 modules={[Pagination, Navigation, Autoplay]}
                 className="sliderSwiper"
@@ -950,7 +968,7 @@ function WidgetsLoop({ widget, likedData, width }) {
           {widget?.items?.length < 7 ? (
             <div className="flex">
               {/* {width > 650 ? ( */}
-              <div className=" hidden mobile:block">
+              <div classNsame=" hidden mobile:block">
                 <Slider
                   {...productSetting}
                   beforeChange={handleBeforeChange}
@@ -976,7 +994,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                         >
                           <Link
                             onClickCapture={handleOnItemClick}
-                            to={`${
+                            href={`${
                               item?.name?.length > 0 && item?.filters != false
                                 ? "/" +
                                   item?.name
@@ -1045,14 +1063,16 @@ function WidgetsLoop({ widget, likedData, width }) {
                     if (item.product_id) {
                       return (
                         <div className="pr-2" key={item.product_id}>
-                          <SingleProduct item={item}></SingleProduct>
+                          <SingleProduct
+                            item={item}
+                          ></SingleProduct>
                         </div>
                       );
                     } else {
                       return (
                         <div className={`pr-2`} key={item.banner_image_id}>
                           <Link
-                            to={
+                            href={
                               // accountState.admin
                               //   ? `${path}/${types[item.mobile_type]}/${
                               //       item.mobile_type_id
@@ -1127,7 +1147,7 @@ function WidgetsLoop({ widget, likedData, width }) {
               <div className="flex overflow-x-auto space-x-2">
                 {widget?.display === "carousel" &&
                   widget.type !== "text" &&
-                  width < 650 &&
+              
                   widget?.items[0]?.product_id &&
                   widget.items?.map((item) => {
                     return (
@@ -1141,7 +1161,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     );
                   })}
               </div>
-              <div className=" hidden mobile:block">
+                  <div className=" hidden mobile:block">
                 <Slider
                   {...productSetting}
                   // beforeChange={handleBeforeChange}
@@ -1150,12 +1170,10 @@ function WidgetsLoop({ widget, likedData, width }) {
                   {widget.items?.map((item) => {
                     if (item.product_id) {
                       return (
-                        <div className="p-1" key={item.product_id}>
+                        <div className="pr-2" key={item.product_id}>
                           <SingleProduct
-                            // likedData={likedData}
+                  
                             item={item}
-                            // click={handleOnItemClick}
-                            // dragging={dragging}
                           ></SingleProduct>
                         </div>
                       );
@@ -1167,7 +1185,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                         >
                           <Link
                             // onClickCapture={handleOnItemClick}
-                            to={
+                            href={
                               item?.name?.length > 0 && item.filters != false
                                 ? "/" +
                                   item?.name
@@ -1228,93 +1246,97 @@ function WidgetsLoop({ widget, likedData, width }) {
                       );
                     }
                   })}
-                </Slider>
-              </div>
 
-              <div className=" bloack mobile:hidden">
-                <Slider {...productMobile}>
-                  {widget.items?.map((item) => {
-                    if (item.product_id) {
-                      return (
-                        <div className="pr-2" key={item.product_id}>
-                          <SingleProduct
-                            likedData={likedData}
-                            item={item}
-                          ></SingleProduct>
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div className={`pr-2`} key={item.banner_image_id}>
-                          <Link
-                            to={
-                              // accountState.admin
-                              //   ? `${path}/${types[item.mobile_type]}/${
-                              //       item.mobile_type_id
-                              //     }`
-                              //   :
-                              item?.name?.length > 0 && item.filters != false
-                                ? "/" +
-                                  item?.name
-                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                    ?.replace(/\s+/g, "-")
-                                    ?.replaceAll("/", "-")
-                                    ?.replace("%", "") +
-                                  "/" +
-                                  types[item.mobile_type].slice(0, 1) +
-                                  "=" +
-                                  item.mobile_type_id +
-                                  "?has_filter=true" +
-                                  (item?.filters?.filter_categories
-                                    ? "&filter_categories=" +
-                                      item?.filters?.filter_categories.map(
-                                        (fc) => fc.id
-                                      )
-                                    : "") +
-                                  (item?.filters?.filter_manufacturers
-                                    ? "&filter_manufacturers=" +
-                                      item?.filters?.filter_manufacturers.map(
-                                        (fm) => fm.id
-                                      )
-                                    : "") +
-                                  (item?.filters?.filter_sellers
-                                    ? "&filter_sellers=" +
-                                      item?.filters?.filter_sellers.map(
-                                        (fs) => fs.id
-                                      )
-                                    : "")
-                                : item?.name?.length > 0
-                                ? "/" +
-                                  item?.name
-                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                    ?.replace(/\s+/g, "-")
-                                    ?.replaceAll("/", "-")
-                                    ?.replace("%", "") +
-                                  "/" +
-                                  types[item.mobile_type].slice(0, 1) +
-                                  "=" +
-                                  item.mobile_type_id
-                                : "cat/c=" + item.mobile_type_id
-                            }
-                          >
-                            <ImageClient
-                              alt={item?.name}
-                              src={item.image}
-                              width={widget.banner_width}
-                              height={widget.banner_height}
-                              title={item?.name
-                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                ?.replace(/\s+/g, "-")
-                                ?.replaceAll("/", "-")}
-                              // placeholdersrc={ProductPlaceholder}
-                            />
-                          </Link>
-                        </div>
-                      );
-                    }
-                  })}
+                  {/* <div>omar</div> */}
                 </Slider>
-              </div>
+                </div>
+      
+            
+                <div className=" bloack mobile:hidden">
+                  <Slider {...productMobile}>
+                    {widget.items?.map((item) => {
+                      if (item.product_id) {
+                        return (
+                          <div className="pr-2" key={item.product_id}>
+                            <SingleProduct
+                              likedData={likedData}
+                              item={item}
+                            ></SingleProduct>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div className={`pr-2`} key={item.banner_image_id}>
+                            <Link
+                              href={
+                                // accountState.admin
+                                //   ? `${path}/${types[item.mobile_type]}/${
+                                //       item.mobile_type_id
+                                //     }`
+                                //   :
+                                item?.name?.length > 0 && item.filters != false
+                                  ? "/" +
+                                    item?.name
+                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                      ?.replace(/\s+/g, "-")
+                                      ?.replaceAll("/", "-")
+                                      ?.replace("%", "") +
+                                    "/" +
+                                    types[item.mobile_type].slice(0, 1) +
+                                    "=" +
+                                    item.mobile_type_id +
+                                    "?has_filter=true" +
+                                    (item?.filters?.filter_categories
+                                      ? "&filter_categories=" +
+                                        item?.filters?.filter_categories.map(
+                                          (fc) => fc.id
+                                        )
+                                      : "") +
+                                    (item?.filters?.filter_manufacturers
+                                      ? "&filter_manufacturers=" +
+                                        item?.filters?.filter_manufacturers.map(
+                                          (fm) => fm.id
+                                        )
+                                      : "") +
+                                    (item?.filters?.filter_sellers
+                                      ? "&filter_sellers=" +
+                                        item?.filters?.filter_sellers.map(
+                                          (fs) => fs.id
+                                        )
+                                      : "")
+                                  : item?.name?.length > 0
+                                  ? "/" +
+                                    item?.name
+                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                      ?.replace(/\s+/g, "-")
+                                      ?.replaceAll("/", "-")
+                                      ?.replace("%", "") +
+                                    "/" +
+                                    types[item.mobile_type].slice(0, 1) +
+                                    "=" +
+                                    item.mobile_type_id
+                                  : "cat/c=" + item.mobile_type_id
+                              }
+                            >
+                              <ImageClient
+                                alt={item?.name}
+                                src={item.image}
+                                width={widget.banner_width}
+                                height={widget.banner_height}
+                                title={item?.name
+                                  ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                  ?.replace(/\s+/g, "-")
+                                  ?.replaceAll("/", "-")}
+                                placeholdersrc={ProductPlaceholder}
+                              />
+                            </Link>
+                          </div>
+                        );
+                      }
+                    })}
+                  </Slider>
+                </div>
+              
             </div>
           )}{" "}
         </div>
