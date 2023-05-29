@@ -10,10 +10,10 @@ import { HiMenu } from "react-icons/hi";
 import TopSearch from "./top-search";
 import useDeviceSize from "@/components/useDeviceSize";
 import dynamic from "next/dynamic";
-import MobileMenu from "./MobileMenu";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import Cookies from "js-cookie";
-
+import { axiosServer } from "@/axiosServer";
+import DesktopMenuCategories from "./DesktopMenuCategories";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -30,12 +30,37 @@ function Header(props) {
     }
   }, []);
 
-  const DesktopMenuCategories = dynamic(
-    () => import("./desktopMenuCategories"),
-    {
-      ssr: false, // Disable server-side rendering
+  useEffect(() => {
+    if (width < 650) {
+      axiosServer
+        .get(buildLink("all_categories", undefined, window.innerWidth))
+        .then((response) => {
+          setCategories(response.data.data);
+        });
     }
-  );
+  }, []);
+
+  // const DesktopMenuCategories = dynamic(
+  //   () => import("./DesktopMenuCategories"),
+  //   {
+  //     ssr: false, // Disable server-side rendering
+  //   }
+  // );
+  const MobileMenu = dynamic(() => import("./MobileMenu"), {
+    ssr: false, // Disable server-side rendering
+  });
+
+  function closeMobileMenu() {
+    setViewMenu(false);
+  }
+  function closeLevel2() {
+    setViewLevel2(false);
+  }
+
+  function handleActiveCategory(category) {
+    setActiveCategory(category);
+    setViewLevel2(true);
+  }
 
   //   const [state, setState]= useState([])
   //   useEffect(()=>{
@@ -49,12 +74,15 @@ function Header(props) {
     <div>
       {local && <SiteHeaders local={local} />}
 
-      {/* <MobileMenu
+      <MobileMenu
         viewMenu={viewMenu}
         viewLevel2={viewLevel2}
         activeCategory={activeCategory}
         categories={categories}
-      /> */}
+        closeMobileMenu={closeMobileMenu}
+        handleActiveCategory={handleActiveCategory}
+        closeLevel2={closeLevel2}
+      />
 
       <div className="flex items-center justify-between my-4 h-14 container">
         <div className="flex items-center">
@@ -83,12 +111,13 @@ function Header(props) {
                 <Image
                   className="hidden mobile:block"
                   src="/images/logo/logo-red.png"
-                  width={width > 768 ? 130 : 100}
-                  height={width > 768 ? 130 : 100}
+                  width={130}
+                  height={130}
                   alt="ishtari-logo"
                   priority={true}
                   style={{ width: "80%", height: "auto" }}
                 />
+
                 <ImageFilter
                   className="h-5 w-24 mr-5 mobile:hidden"
                   image={"/images/logo/logo-white.png"}
@@ -112,18 +141,18 @@ function Header(props) {
             {width > 650 && <div className="flex ml-2"> Lebanon</div>}
             <FiChevronDown className="hidden md:block w-5 " />
           </div>
-          <div className=" flex justify-center items-center lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 cursor-pointer">
+          <div className=" hidden lg:flex justify-center items-center lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 cursor-pointer">
             <p className="hidden lg:block">Sign In</p>{" "}
             <AiOutlineUser className="ml-1 w-5 h-5" />
           </div>
           <div className="flex justify-center items-center md:mr-5  cursor-pointer">
             <p className="hidden lg:block">Cart</p>
-            <AiOutlineShopping className="ml-1 w-5 h-6" />
+            <AiOutlineShopping className="ml-1 w-5.5 h-5.5 lg:w-5 lg:h-6" />
           </div>
         </div>
       </div>
 
-      <DesktopMenuCategories header_categories={header_categories} />
+        <DesktopMenuCategories header_categories={header_categories} />
     </div>
   );
 }

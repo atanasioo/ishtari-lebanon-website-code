@@ -3,19 +3,20 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import _axios from "@/axios";
 import { FiChevronDown } from "react-icons/fi";
-import DOMPurify from "dompurify";
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 import { slugify } from "@/components/Utils";
-import {HeaderOverlay} from "@/components/Overlay"
+import { HeaderOverlay } from "@/components/Overlay";
+import DesktopMenuClientPopups from "./DesktopMenuClientPopups";
+import dynamic from "next/dynamic";
+import { sanitizeHTML } from "@/components/Utils";
 
 function DesktopMenuCategories(props) {
   const { header_categories } = props;
   const [menuCategories2, setMenuCategories2] = useState([]);
   const [selectedMenuCategory2, setSelectedMenuCategory2] = useState();
   const [viewSubAllCategories2, setViewSubAllCategories2] = useState(false);
-  const [overlay, setOverlay] = useState(true);
+  const [overlay, setOverlay] = useState(false);
   const [viewMenuCategories2, setViewMenuCategories2] = useState(true);
   const [allCategories, setAllCategories] = useState([]);
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
@@ -30,11 +31,34 @@ function DesktopMenuCategories(props) {
     4: "seller",
   };
 
+  const DesktopMenuClientPopups = dynamic(
+    () => import("./DesktopMenuClientPopups"),
+    {
+      ssr: false, // Disable server-side rendering
+    }
+  );
+
+  function handleState(state, value){
+    if(state==="selectedTopCategory"){
+      setSelectedTopCategory(value);
+    }else if(state==="viewMenuCategories2"){
+      setViewMenuCategories2(value)
+    }else if(state ==="viewSubAllCategories2"){
+      setViewSubAllCategories2(value);
+    }else if(state==="overlay"){
+      console.log("here overlay");
+      setOverlay(value)
+    }
+  }
+
+
+
   useEffect(() => {
     if (header_categories) {
       setMenuCategories2(header_categories);
       // setSelectedMenuCategory2(header_categories[0]);
     } else {
+      console.log("hheheheh");
       _axios
         .get(buildLink("headerv2", undefined, window.innerWidth))
         .then((response) => {
@@ -58,19 +82,21 @@ function DesktopMenuCategories(props) {
 
   /* ON CLICK ESC CLOSE OVERLAY */
 
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      // setOverlay(false);
-      setViewMenuCategories2(false);
-      setViewSubAllCategories2(false);
-    }
-  });
+  // if (typeof window !== "undefined" && window !== undefined) {
+  //   window.addEventListener("keydown", (e) => {
+  //     if (e.key === "Escape") {
+  //       // setOverlay(false);
+  //       setViewMenuCategories2(false);
+  //       setViewSubAllCategories2(false);
+  //     }
+  //   });
+  // }
 
   /* ON LINK CHANGE CLOSE OVERLAY */
   useEffect(() => {
     setOverlay(false);
     setViewMenuCategories2(false);
-  }, [location]);
+  }, [router]);
 
   function useTimeout(callback, delay) {
     const timeoutRef = React.useRef(null);
@@ -138,9 +164,7 @@ function DesktopMenuCategories(props) {
       >
         <div>
           <div
-            className={` ${
-              window.config["showMenu"] ? "block" : "hidden"
-            } flex items-center text-base`}
+            className={` hidden  lg:flex items-center text-base`}
             style={{ minHeight: "48px" }}
           >
             <div>
@@ -165,98 +189,14 @@ function DesktopMenuCategories(props) {
                     setViewSubAllCategories2(false);
                     setViewMenuCategories2(false);
                   }}
-                ><HeaderOverlay /></div>
-              )}
-
-              {/* Subcategories' menu */}
-
-              {viewSubAllCategories2 && (
-                <div className="relative">
-                  <div className="absolute top-3 z-20">
-                    <div>
-                      <div className="flex">
-                        <div className="bg-dsearchGrey py-3 w-284px">
-                          {allCategories?.map((category) => (
-                            <div
-                              key={category.category_id}
-                              onMouseEnter={() =>
-                                setSelectedTopCategory(category)
-                              }
-                            >
-                              <Link
-                                href={`/${slugify(category.name)}/c=${
-                                  category.category_id
-                                }`}
-                                className="flex items-center py-1 hover:text-dblue px-4"
-                              >
-                                <Image
-                                  alt={category.name}
-                                  src={category.image}
-                                  width={40}
-                                  height={40}
-                                />
-                                <span
-                                  className="ml-3 font-light text-d13"
-                                  dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(category.name),
-                                  }}
-                                ></span>
-                              </Link>
-                            </div>
-                          ))}
-                        </div>
-                        <div
-                          className="bg-white px-4"
-                          style={{ width: "500px" }}
-                        >
-                          <div className="flex item-center justify-between py-5 border-b border-dinputBorder mb-2">
-                            <h2
-                              className=" font-semibold"
-                              dangerouslySetInnerHTML={{
-                                __html: selectedTopCategory.name,
-                              }}
-                            ></h2>
-                            <Link
-                              className="text-dblue text-sm"
-                              href={`/category/${selectedTopCategory.category_id}`}
-                            >
-                              <span>View All </span>
-                              <i className="icon icon-angle-right"></i>
-                            </Link>
-                          </div>
-                          {selectedTopCategory?.categories &&
-                            selectedTopCategory["categories"]?.map(
-                              (sub_category) => (
-                                <Link
-                                  key={Math.random()}
-                                  href={`/category/${sub_category.category_id}`}
-                                  className=" flex items-center py-1 hover:bg-dsearchGrey"
-                                >
-                                  <Image
-                                    alt={sub_category.name}
-                                    src={sub_category.image}
-                                    width={35}
-                                    height={35}
-                                  />
-                                  <span
-                                    className="ml-3 font-light text-xs"
-                                    dangerouslySetInnerHTML={{
-                                      __html: sub_category.name,
-                                    }}
-                                  ></span>
-                                </Link>
-                              )
-                            )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                >
+                  <HeaderOverlay />
                 </div>
               )}
             </div>
 
-            {menuCategories2.length > 1 &&
-              menuCategories2.map((category) => (
+            {header_categories.length > 1 &&
+              header_categories.map((category) => (
                 <div
                   key={category["top-category"].category_id}
                   className="border-r border-dplaceHolder px-4 hover:text-dbase cursor-pointer"
@@ -274,7 +214,7 @@ function DesktopMenuCategories(props) {
                       category["title"].mobile_type_id
                     }`}
                     dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(category["title"].title),
+                      __html: sanitizeHTML(category["title"].title),
                     }}
                   ></Link>
                 </div>
@@ -285,79 +225,18 @@ function DesktopMenuCategories(props) {
           </div>
         </div>
       </div>
-      {/* Menu category */}
 
-      <div className="absolute bg-dsearchGrey w-screen z-20">
-        {viewMenuCategories2 && selectedMenuCategory2 && (
-          <div
-            className="container"
-            onMouseEnter={() => {setViewMenuCategories2(true); setOverlay(true)}}
-            onMouseLeave={() => {
-              setViewSubAllCategories2(false);
-              setViewMenuCategories2(false);
-            }}
-            style={{ borderTop: "1px solid rgb(226, 229, 241)" }}
-          >
-            <div className="flex py-6 px-10">
-              <div className="pl-4 w-2/12">
-                <Link
-                  href={`/${slugify(
-                    selectedMenuCategory2["top-category"].name
-                  )}/c=${selectedMenuCategory2["top-category"].category_id}`}
-                  className="font-semibold mb-4"
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(
-                      selectedMenuCategory2["top-category"].name?.toUpperCase()
-                    ),
-                  }}
-                ></Link>
-                {selectedMenuCategory2["sub-categories"]?.map((category) => (
-                  <Link
-                    key={category.category_id}
-                    className="block text-sm py-2 hover:text-dblue "
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(category.name),
-                    }}
-                    href={`/${slugify(category.name)}/c=${
-                      category.category_id
-                    }`}
-                  ></Link>
-                ))}
-              </div>
-              {/* brands */}
-              <div className={`flex space-x-1 w-10/12 ml-10`}>
-                {selectedMenuCategory2["partitions"]?.map((ban) => (
-                  <div className={`p-0 `} key={Math.random()}>
-                    {ban?.banners?.map((banner) => (
-                      <div
-                        className={` cursor-pointer `}
-                        key={Math.random()}
-                        onClick={() =>
-                          router.push(
-                            `${slugify(banner.name)}/${types[
-                              banner.mobile_type
-                            ].slice(0, 1)}=${banner.mobile_type_id}`
-                          )
-                        }
-                      >
-                        <Image
-                          src={`${window.config["site-url"]}/image/${banner.image}`}
-                          width={600}
-                          height={400}
-                          alt={banner.image.name}
-                          title={banner.image.name}
-                          style={{ width: "100%", height: "350px" }}
-                          priority="true"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      <DesktopMenuClientPopups
+        viewSubAllCategories2={viewSubAllCategories2}
+        selectedMenuCategory2={selectedMenuCategory2}
+        allCategories={allCategories}
+        // setSelectedTopCategory={setSelectedTopCategory}
+        // setViewMenuCategories2={setViewMenuCategories2}
+        handleState={handleState}
+        selectedTopCategory={selectedTopCategory}
+        viewMenuCategories2={viewMenuCategories2}
+        overlay={overlay}
+      />
     </div>
   );
 }

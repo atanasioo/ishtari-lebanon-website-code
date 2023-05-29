@@ -24,7 +24,7 @@ function ProductPart2(props) {
   const hiddenFileInput = useRef(null);
   const textRef = useRef();
   const [required, setRequired] = useState();
-  console.log(productData2);
+  // console.log(productData2);
 
   const PointsLoader = dynamic(() => import("../PointsLoader"), {
     ssr: false, // Disable server-side rendering

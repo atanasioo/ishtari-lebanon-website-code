@@ -44,6 +44,7 @@ function ProductPage(props) {
   const [colorSelected, setColorSelected] = useState();
   const [reviews, setReviews] = useState();
 
+
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
   });
@@ -153,7 +154,7 @@ function ProductPage(props) {
   }
 
   return (
-    <div style={{ backgroundColor: "#f8f8f9" }}>
+    <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
         <div className="flex flex-col px-2 mx-auto">
           <div className="breadcrumbs py-3 hidden md:block">

@@ -1,11 +1,30 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HiStar } from "react-icons/hi";
+import { useRouter } from "next/router";
 
 function SingleProduct(props) {
   const { item } = props;
+  const router = useRouter();
   return (
-    <Link href="/">
+    <div
+      onClick={() =>
+        router.push(
+          `${item.name
+            .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+            .replaceAll("%", parseInt(""))
+            .replaceAll(/\s+/g, "-")
+            .replaceAll("..", "")
+            .replaceAll("/", "-")
+            .replaceAll("---", "-")
+            .replaceAll("--", "-")
+            .replaceAll("100%", "")
+            .replaceAll("#", "")
+            .replaceAll("/", "")}/p=${props.item.product_id}`
+        )
+      }
+      className="cursor-pointer"
+    >
       <div className="flex flex-col h-full bg-white text-dblack p-2.5 relative">
         <div className="flex flex-col h-full">
           <div className="product-image relative -mt-1.5 -mx-1.5">
@@ -16,6 +35,7 @@ function SingleProduct(props) {
                 src={item.thumb}
                 width={200}
                 height={300}
+                priority={true}
                 className="max-w-full max-h-full"
               />
             </div>
@@ -77,11 +97,9 @@ function SingleProduct(props) {
                         backgroundColor:
                           item?.rating >= 4.5
                             ? "rgb(0,158,0)"
-                            : item?.rating < 4.5 &&
-                              item?.rating >= 4
+                            : item?.rating < 4.5 && item?.rating >= 4
                             ? "rgb(110, 159, 0)"
-                            : item?.rating < 4 &&
-                              item?.rating >= 3.5
+                            : item?.rating < 4 && item?.rating >= 3.5
                             ? "rgb(243, 153, 22)"
                             : "rgb(246,90,31)",
                       }}
@@ -114,7 +132,7 @@ function SingleProduct(props) {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
