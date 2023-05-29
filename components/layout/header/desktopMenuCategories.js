@@ -46,7 +46,6 @@ function DesktopMenuCategories(props) {
     }else if(state ==="viewSubAllCategories2"){
       setViewSubAllCategories2(value);
     }else if(state==="overlay"){
-      console.log("here overlay");
       setOverlay(value)
     }
   }
@@ -58,7 +57,6 @@ function DesktopMenuCategories(props) {
       setMenuCategories2(header_categories);
       // setSelectedMenuCategory2(header_categories[0]);
     } else {
-      console.log("hheheheh");
       _axios
         .get(buildLink("headerv2", undefined, window.innerWidth))
         .then((response) => {
