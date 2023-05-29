@@ -59,8 +59,17 @@ function SlugPage(props) {
 
 export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
-  const { catalog, slug } = context.params;
+  // const { catalog,  slug  , resolvedUrl } = context.params;
+  const { catalog, slug, has_filter } = context.query;
+
   const { req } = context;
+  // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
+
+  // const { NEXT_INIT_QUERY  = context.has_filter;
+  console.log("********%start%%*******");
+  console.log(has_filter);
+  console.log("********%end%*******");
+
   let data = null;
   let type = "";
 
@@ -109,7 +118,7 @@ export async function getServerSideProps(context) {
     }
 
     data = response.data.data;
-    type= "product";
+    type = "product";
   } else if (
     catalog === "category" ||
     catalog === "manufacturer" ||
@@ -147,22 +156,24 @@ export async function getServerSideProps(context) {
       }
     }
 
-    let link =
-      buildLink(type, undefined, undefined, site_host) + id + "&source_id=1";
-    const response = await axiosServer.get(link, {
-      headers: {
-        Authorization: "Bearer " + token
+    if (!has_filter) {
+    // } else {
+      let link =
+        buildLink(type, undefined, undefined, site_host) + id + "&source_id=1";
+      const response = await axiosServer.get(link, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
+      if (!response.data.success) {
+        return {
+          notFound: true
+        };
       }
-    });
-    if (!response.data.success) {
-      return {
-        notFound: true
-      };
+
+      data = response.data.data;
+    
     }
-
-    data = response.data.data;
-
-    console.log("data = response.data.data;");
   } else {
     //redirect to 404
     return {

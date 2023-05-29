@@ -71,29 +71,20 @@ function WidgetsLoop({ widget, likedData, width }) {
     arrows: false,
     lazyLoad: true
   };
-  // const productSetting = {
-  //   speed: 200,
-  //   slidesToShow:  widget?.items?.length < 7 ? widget?.items?.length : 7,
-  //   slidesToScroll: 7,
-  //   infinite: true,
-  //   prevArrow: <CustomPrevArrows direction={"l"} />,
-  //   nextArrow: <CustomNextArrows direction={"r"} />,
-  // };
   const productSetting = {
     speed: 200,
-    slidesToShow: 7,
+    slidesToShow: widget?.items?.length < 7 ? widget?.items?.length : 7,
     slidesToScroll: 7,
-    infinite: false,
-    vertical: false,
+    infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
     nextArrow: <CustomNextArrows direction={"r"} />,
   };
-
+  
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
       <div
-        style={{ ...style, padding: "2px 5px" }}
+        style={{ ...style, padding: "2px 5px" , marginLeft: "15px"}}
         onClick={onClick}
         className="mySwiper "
       >
@@ -107,7 +98,7 @@ function WidgetsLoop({ widget, likedData, width }) {
   function CustomNextArrows({ direction, onClick, style, className }) {
     return (
       <div
-        style={{ ...style, padding: "2px 5px" }}
+        style={{ ...style, padding: "2px 15px", marginRight: " 15px" }}
         onClick={onClick}
         className="mySwiper "
       >
@@ -968,7 +959,7 @@ function WidgetsLoop({ widget, likedData, width }) {
           {widget?.items?.length < 7 ? (
             <div className="flex">
               {/* {width > 650 ? ( */}
-              <div classNsame=" hidden mobile:block">
+              <div classNsame=" hidden mobile:block px-6">
                 <Slider
                   {...productSetting}
                   beforeChange={handleBeforeChange}
@@ -981,8 +972,8 @@ function WidgetsLoop({ widget, likedData, width }) {
                           <SingleProduct
                             likedData={likedData}
                             item={item}
-                            click={handleOnItemClick}
-                            dragging={dragging}
+                            // click={handleOnItemClick}
+                            // dragging={dragging}
                           ></SingleProduct>
                         </div>
                       );
@@ -1047,7 +1038,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholdersrc={ProductPlaceholder}
+                              // placeholdersrc={ProductPlaceholder}
                             />
                           </Link>
                         </div>
@@ -1161,7 +1152,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     );
                   })}
               </div>
-                  <div className=" hidden mobile:block">
+                  <div className=" bg-white hidden mobile:block mobile: ">
                 <Slider
                   {...productSetting}
                   // beforeChange={handleBeforeChange}
@@ -1170,7 +1161,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                   {widget.items?.map((item) => {
                     if (item.product_id) {
                       return (
-                        <div className="pr-2" key={item.product_id}>
+                        <div className="pr-3" key={item.product_id}>
                           <SingleProduct
                   
                             item={item}

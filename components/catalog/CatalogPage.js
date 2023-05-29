@@ -5,6 +5,7 @@ import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
+import {loader} from "/public/images/loader.gif"
 function CatalogPage(props) {
   const [filters, setFilters] = useState(props.data?.filters);
   const [data, setData] = useState(props.data);
@@ -59,6 +60,7 @@ function CatalogPage(props) {
 
     router.asPath.indexOf("has_filter") < 0   &&  setIsLoading(false);
     router.asPath.indexOf("has_filter") > -1  &&
+    setData(data);
       axiosServer.get(parseUrl()).then((response) => {
         const data = response.data.data;
         setData(data);
@@ -162,7 +164,7 @@ function CatalogPage(props) {
       return <input type="checkbox" className="" />;
     } else {
       if (filter_options != undefined && type === "filter_options") {
-        if (filtefilter_optionsr_sellers.indexOf(filter["id"]) > -1)
+        if (filter_options.indexOf(filter["id"]) > -1)
           return <input type="checkbox" className="" checked />;
       }
       return <input type="checkbox" className="" />;
@@ -323,13 +325,13 @@ function CatalogPage(props) {
   }
   return (
     <div className="">
-      {isLoading && (
-        <div className="absolute z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite">
-          Loading...
+      {/* {isLoading && (
+        <div className="absolute z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+         <img src={"/images/loader.gif"} alt="loader-gif"  heigh="110" width="110"/>
         </div>
-      )}
+      )} */}
       <div className="w-full px-5">
-        <div className=" hidden xl:flex lg:flex pt-2 pb-2  items-center text-xs  text-dgrey1">
+        <div className=" hidden xl:flex lg:flex pt-2 pb-2  items-center text-xs  text-dgrey1 ">
           <div className="flex items-center">
             <Link
               href="/"
@@ -511,9 +513,9 @@ function CatalogPage(props) {
             ))}
         </div>
         <div className="w-4/5 ">
-          <div className="grid grid-cols-5">
+          <div className="grid grid-cols-5 min-h-screen">
             {data?.products?.map((item) => (
-              <div className="p-1.5">
+              <div className="p-1">
               <SingleProduct item={item}></SingleProduct>
               </div>
             ))}

@@ -71,10 +71,10 @@ function SingleProduct(props) {
             </div>
             <div className="flex pt-2">
               <div
-                className=" flex flex-row justify-between w-full"
+                className="mt-3 flex flex-row justify-between w-full"
                 style={{ minHeight: "16px" }}
               >
-                <div className="express w-6/12">
+                <div className="express w-6/12 -mt-1">
                   {props.item.market === "0" ? (
                     <img
                       src={"/images/express.png"}
@@ -90,9 +90,9 @@ function SingleProduct(props) {
                   )}
                 </div>
                 {item?.nb_of_reviews > 0 && (
-                  <div className="flex  gap-1">
+                  <div className=" flex ">
                     <div
-                      className="flex rounded-full  place-content-end h-4 w-8 align-bottom"
+                      className="flex rounded-full  place-content-end h-4  align-bottom pl-1"
                       style={{
                         backgroundColor:
                           item?.rating >= 4.5
@@ -105,8 +105,8 @@ function SingleProduct(props) {
                       }}
                     >
                       <div
-                        className="text-d11 font-bold text-white "
-                        style={{ paddingTop: "1px" }}
+                        className="text-d11 font-bold text-white"
+                        style={{ paddingTop: "0.5px" }}
                       >
                         {item?.rating || "0.0"}
                       </div>
@@ -116,7 +116,7 @@ function SingleProduct(props) {
                       />{" "}
                     </div>
 
-                    <div className="font-light text-d11 ">
+                    <div className="font-light text-d11 pl-0.5">
                       ({" "}
                       {props?.item?.reviews?.length < 1 &&
                       props?.item?.reviews?.length === ""
