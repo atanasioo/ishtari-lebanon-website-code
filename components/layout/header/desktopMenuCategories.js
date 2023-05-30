@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 import { sanitizeHTML } from "@/components/Utils";
 
 function DesktopMenuCategories(props) {
-  const { header_categories } = props;
+  const { header_categories, local } = props;
   const [menuCategories2, setMenuCategories2] = useState([]);
   const [selectedMenuCategory2, setSelectedMenuCategory2] = useState();
   const [viewSubAllCategories2, setViewSubAllCategories2] = useState(false);
@@ -188,7 +188,7 @@ function DesktopMenuCategories(props) {
                     setViewMenuCategories2(false);
                   }}
                 >
-                  <HeaderOverlay />
+                  <HeaderOverlay local={local} />
                 </div>
               )}
             </div>

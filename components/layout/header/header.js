@@ -152,7 +152,7 @@ function Header(props) {
         </div>
       </div>
 
-        <DesktopMenuCategories header_categories={header_categories} />
+        <DesktopMenuCategories header_categories={header_categories} local={local}/>
     </div>
   );
 }

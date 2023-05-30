@@ -1,8 +1,9 @@
 import React from "react";
 
-function HeaderOverlay() {
+function HeaderOverlay(props) {
+  const {local} = props;
   return (
-    <div className="absolute z-10 w-full h-screen left-0 bg-dblackOverlay" style={{top: "137px"}}></div>
+    <div className="absolute z-10 w-full h-screen left-0 bg-dblackOverlay" style={{top: !local ? "137px" : "200px"}}></div>
   );
 }
 
