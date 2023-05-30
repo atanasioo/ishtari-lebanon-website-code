@@ -193,7 +193,7 @@ function DesktopMenuCategories(props) {
               )}
             </div>
 
-            {header_categories.length > 1 &&
+            {header_categories && header_categories?.length > 1 &&
               header_categories.map((category) => (
                 <div
                   key={category["top-category"].category_id}

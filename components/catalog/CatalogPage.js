@@ -5,11 +5,10 @@ import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
-import {loader} from "/public/images/loader.gif"
+import { loader } from "/public/images/loader.gif";
 function CatalogPage(props) {
-  const [filters, setFilters] = useState(props.data?.filters);
-  const [data, setData] = useState(props.data);
-
+  const [filters, setFilters] = useState(props.data?.filters );
+  const [data, setData] = useState(props.data  || state);
   const router = useRouter();
   const {
     catalog,
@@ -34,7 +33,7 @@ function CatalogPage(props) {
   console.log("Param4:", filter_options);
   console.log("Param5:", last);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleStart = () => {
@@ -57,18 +56,15 @@ function CatalogPage(props) {
   }, []);
 
   useEffect(() => {
-
-    router.asPath.indexOf("has_filter") < 0   &&  setIsLoading(false);
-    router.asPath.indexOf("has_filter") > -1  &&
-    setData(data);
-      axiosServer.get(parseUrl()).then((response) => {
-        const data = response.data.data;
-        setData(data);
-        setFilters(response.data.data?.filters);
-        setIsLoading(false);
-
-      });
-
+    router.asPath.indexOf("has_filter") < 0 && setIsLoading(false);
+    if (router.asPath.indexOf("has_filter") > -1 && !data.products) {
+    axiosServer.get(parseUrl()).then((response) => {
+      const data = response.data.data;
+      setData(data);
+      setFilters(response.data.data?.filters);
+      setIsLoading(false);
+    });
+    }
   }, [router]);
 
   function parseUrl(queries = false) {
@@ -76,26 +72,31 @@ function CatalogPage(props) {
       router.asPath.indexOf("has_filter") < 0 ? "default" : "filter";
     // setData({});
     // console.log(router);
+    const type_id = slug[0].slice(2);
+
     if (url_type === "default") {
       const q_s = "";
-      q_s.page = page ? page : page;
-      q_s.limit = limit ? limit : limit.value;
-      q_s.sort = sort ? sort : "p2co.sort_order";
-      q_s.order = order ? order : "ASC";
-      q_s.source_id = 1;
+      // q_s.page = page ? page : page;
+      // q_s.limit = limit ? limit : limit.value;
+      // q_s.sort = sort ? sort : "p2co.sort_order";
+      // q_s.order = order ? order : "ASC";
+      // q_s.source_id = 1;
 
       // // Preapare url
-      let final_queries = "&" + stringify(q_s);
-      return !queries
-        ? buildLink(props.type, undefined, window.innerWidth) +
-            catalog_id +
-            final_queries +
-            `${state.admin ? "&adm_quantity=true" : ""}`
-        : final_queries + `${state.admin ? "&adm_quantity=true" : ""}`;
+      let final_queries = "&"; // + stringify(q_s);
+      return (
+        buildLink(props.type, undefined, window.innerWidth) +
+        type_id +
+        final_queries
+      );
+      //+
+      // `${state.admin ? "&adm_quantity=true" : ""}`
+      //   : final_queries + `${state.admin ? "&adm_quantity=true" : ""
+      // }`
+      // ;
     } else {
       const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
       let type = props.type;
-      const type_id = slug[0].slice(2);
       return (
         buildLink("filter", undefined, window.innerWidth) +
         "&path=" +
@@ -123,7 +124,7 @@ function CatalogPage(props) {
       }
     } else if (
       filter_options != undefined &&
-      (name ===   "Shoes Size" ||
+      (name === "Shoes Size" ||
         name === "Size by Age" ||
         name === "jeans Size" ||
         name === "Socks")
@@ -136,7 +137,8 @@ function CatalogPage(props) {
     } else if (
       type === "filter_categories" ||
       type === "filter_manufacturers" ||
-      type === "filter_sellers"  ||  type === "adv_filters" 
+      type === "filter_sellers" ||
+      type === "adv_filters"
     ) {
       if (filter_categories != undefined && type === "filter_categories") {
         if (filter_categories.indexOf(filter["id"]) > -1)
@@ -297,9 +299,7 @@ function CatalogPage(props) {
       url += "&last=f";
     }
 
-    if (
-      url.length > 0
-    ) {
+    if (url.length > 0) {
       router.push("/" + catalog + "/" + slug[0] + "?has_filter=true" + url);
     } else {
       router.push("/" + catalog + "/" + slug[0]);
@@ -310,26 +310,31 @@ function CatalogPage(props) {
     const h_sender = e;
     const sender_parent = h_sender.parentNode;
     const next_filters = sender_parent.nextElementSibling;
-    console.log( sender_parent)
+    console.log(sender_parent);
     const next_filters_display = next_filters.style.display;
     if (next_filters_display === "block") {
       next_filters.style.display = "none";
-      h_sender.textContent ="See all"
+      h_sender.textContent = "See all";
       // sender_parent.class ="text-d13 text-dblue"
     } else {
       next_filters.style.display = "block";
-      h_sender.textContent ="See Less"
+      h_sender.textContent = "See Less";
 
       // sender_parent.nextElementSibling.textContent ="See All"
     }
   }
   return (
     <div className="">
-      {/* {isLoading && (
+      {isLoading && (
         <div className="absolute z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
-         <img src={"/images/loader.gif"} alt="loader-gif"  heigh="110" width="110"/>
+          <img
+            src={"/images/loader.gif"}
+            alt="loader-gif"
+            heigh="110"
+            width="110"
+          />
         </div>
-      )} */}
+      )}
       <div className="w-full px-5">
         <div className=" hidden xl:flex lg:flex pt-2 pb-2  items-center text-xs  text-dgrey1 ">
           <div className="flex items-center">
@@ -354,9 +359,11 @@ function CatalogPage(props) {
           {filters &&
             Object.keys(filters).map((key) => (
               <div>
-                <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
-                  {filters[key].name}
-                </div>
+                {filters[key].items.length > 0 && (
+                  <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
+                    {filters[key].name}
+                  </div>
+                )}
                 <div style={{ display: "block" }}>
                   {key ? (
                     <div>
@@ -367,7 +374,10 @@ function CatalogPage(props) {
                             <div
                               className="my-2 flex items-center cursor-pointer hover:text-dblue"
                               key={filter.name}
-                              // onClick={() => parseFilter(filters[key].id, filter)}
+                              onClick={() =>
+                                parseFilter(filters[key].id, filter.id)
+
+                              }
                             >
                               <span className="flex w-10/12">
                                 <span
@@ -444,37 +454,37 @@ function CatalogPage(props) {
                               {filters[key].name === "Light Color" ||
                               filters[key].name === "Color" ? (
                                 <div
-                                className="my-2 flex items-center cursor-pointer hover:text-dblue"
-                                key={filter.name}
-                                // onClick={() => parseFilter(filters[key].id, filter)}
-                              >
-                                <span className="flex w-10/12">
-                                  <span
-                                    className={`flex w-7 h-7 ${checkFilter(
-                                      filters[key].id,
-                                      filters[key].name,
-                                      filter
-                                    )}`}
-                                  >
-                                    <img
-                                      src={filter.image}
-                                      style={{
-                                        padding: `1px`
-                                      }}
-                                      className={`w-12/12 rounded-full border border-dgreyRate`}
-                                      alt="Not Found"
-                                    />
+                                  className="my-2 flex items-center cursor-pointer hover:text-dblue"
+                                  key={filter.name}
+                                  // onClick={() => parseFilter(filters[key].id, filter)}
+                                >
+                                  <span className="flex w-10/12">
+                                    <span
+                                      className={`flex w-7 h-7 ${checkFilter(
+                                        filters[key].id,
+                                        filters[key].name,
+                                        filter
+                                      )}`}
+                                    >
+                                      <img
+                                        src={filter.image}
+                                        style={{
+                                          padding: `1px`
+                                        }}
+                                        className={`w-12/12 rounded-full border border-dgreyRate`}
+                                        alt="Not Found"
+                                      />
+                                    </span>
+                                    <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                      {" "}
+                                      {filter.name}
+                                    </p>
                                   </span>
-                                  <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
-                                    {" "}
-                                    {filter.name}
-                                  </p>
-                                </span>
-                                <span className="flex w-1/12"></span>
-                                <span className="text-d14 text-right font-light opacity-70">
-                                  ({filter.count})
-                                </span>
-                              </div>
+                                  <span className="flex w-1/12"></span>
+                                  <span className="text-d14 text-right font-light opacity-70">
+                                    ({filter.count})
+                                  </span>
+                                </div>
                               ) : (
                                 <div>
                                   <p
@@ -492,12 +502,12 @@ function CatalogPage(props) {
                                       )}
                                     </i>
                                     <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
-                                  {filter.name}
-                                </span>
+                                      {filter.name}
+                                    </span>
 
-                                <span className="text-d14 text-right font-light opacity-70">
-                                  ({filter.count})
-                                </span>
+                                    <span className="text-d14 text-right font-light opacity-70">
+                                      ({filter.count})
+                                    </span>
                                   </p>
                                 </div>
                               )}
@@ -516,7 +526,7 @@ function CatalogPage(props) {
           <div className="grid grid-cols-5 min-h-screen">
             {data?.products?.map((item) => (
               <div className="p-1">
-              <SingleProduct item={item}></SingleProduct>
+                <SingleProduct item={item}></SingleProduct>
               </div>
             ))}
           </div>

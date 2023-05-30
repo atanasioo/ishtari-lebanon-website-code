@@ -21,6 +21,7 @@ function SlugPage(props) {
       slug.catalog === "product" ||
       slug.catalog === "manufacturer"
     ) {
+
       setIsCatalog(true);
     } else if (slug.slug[0].includes("p=")) {
       setIsProduct(true);
@@ -29,7 +30,8 @@ function SlugPage(props) {
       slug.slug[0].includes("s=") ||
       slug.slug[0].includes("m=")
     ) {
-      setIsCatalog(true);
+      router.push({ pathname: '/category/'+  slug.slug[0], state : props.data})
+      // setIsCatalog(true);
     } else {
       return <div>Not found..</div>;
     }
@@ -66,9 +68,7 @@ export async function getServerSideProps(context) {
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
 
   // const { NEXT_INIT_QUERY  = context.has_filter;
-  console.log("********%start%%*******");
-  console.log(has_filter);
-  console.log("********%end%*******");
+
 
   let data = null;
   let type = "";
@@ -89,7 +89,6 @@ export async function getServerSideProps(context) {
     site_host = host_cookie;
   }
 
-  console.log("catalog" + catalog);
 
   if (catalog === "product" || slug[0].includes("p=")) {
     // get product id
@@ -159,7 +158,7 @@ export async function getServerSideProps(context) {
     if (!has_filter) {
     // } else {
       let link =
-        buildLink(type, undefined, undefined, site_host) + id + "&source_id=1";
+        buildLink(type, undefined, undefined, site_host) + id + "&source_id=1&limit=50";
       const response = await axiosServer.get(link, {
         headers: {
           Authorization: "Bearer " + token
@@ -172,6 +171,9 @@ export async function getServerSideProps(context) {
       }
 
       data = response.data.data;
+      console.log("********%start%%*******");
+      console.log(data);
+      console.log("********%end%*******");
     
     }
   } else {
