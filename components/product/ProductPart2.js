@@ -13,7 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 function ProductPart2(props) {
-  const { titleRef, loader, productData2, data, reviews } = props; //data is for product part one data
+  const { titleRef, loader, productData2, data, reviews, host } = props; //data is for product part one data
   const [width, height] = useDeviceSize();
   const [starRating, setStarRating] = useState(0);
   const [ReviewImages, setReviewImages] = useState([]);
@@ -25,6 +25,7 @@ function ProductPart2(props) {
   const textRef = useRef();
   const [required, setRequired] = useState();
   // console.log(productData2);
+
 
   const PointsLoader = dynamic(() => import("../PointsLoader"), {
     ssr: false, // Disable server-side rendering
@@ -643,7 +644,7 @@ function ProductPart2(props) {
                   {productData2.product_related.map((item, index) => {
                     return (
                       <div className="pr-2" key={item.product_id}>
-                        <SingleProduct item={item} />
+                        <SingleProduct item={item} host={host} />
                       </div>
                     );
                   })}
@@ -652,7 +653,7 @@ function ProductPart2(props) {
                 <Slider {...productSetting} className="product-carousel">
                   {productData2.product_related.map((item) => (
                     <div className="pr-2" key={item.product_id}>
-                      <SingleProduct item={item} />
+                      <SingleProduct item={item} host={host} />
                     </div>
                   ))}
                 </Slider>
@@ -743,14 +744,14 @@ function ProductPart2(props) {
                 {width < 650 ? (
                   <Slider {...productMobile}>
                     {productData2.smallest_cat_products.map((item) => (
-                      <SingleProduct item={item}></SingleProduct>
+                      <SingleProduct item={item} host={host}></SingleProduct>
                     ))}
                   </Slider>
                 ) : (
                   <div className="same-category-slider">
                     <Slider {...moreSettings} className="relative ">
                       {productData2?.smallest_cat_products?.map((item) => (
-                        <SingleProduct item={item}></SingleProduct>
+                        <SingleProduct item={item} host={host}></SingleProduct>
                       ))}
                     </Slider>
                   </div>
@@ -774,7 +775,7 @@ function ProductPart2(props) {
                   {productData2?.product_recentlyViewed?.map((item) => {
                     return (
                       <div className="pr-2" key={item.product_id}>
-                        <SingleProduct item={item} />
+                        <SingleProduct item={item} host={host} />
                       </div>
                     );
                   })}
@@ -784,7 +785,7 @@ function ProductPart2(props) {
                   {productData2?.product_recentlyViewed?.map((item) => {
                     return (
                       <div className="pr-2" key={item.product_id}>
-                        <SingleProduct item={item} />
+                        <SingleProduct item={item} host={host} />
                       </div>
                     );
                   })}

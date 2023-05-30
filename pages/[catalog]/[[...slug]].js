@@ -12,7 +12,6 @@ function SlugPage(props) {
   const [isCatalog, setIsCatalog] = useState(false);
   const [isProduct, setIsProduct] = useState(false);
   const slug = router.query; // Access the slug array from the URL
-  console.log(props);
   // Determine whether it's a category or product page based on the slug structure
   useEffect(() => {
     if (slug.catalog === "product") {
@@ -36,6 +35,8 @@ function SlugPage(props) {
     }
   }, [slug]);
 
+ 
+
   return (
     <div>
       <Head>
@@ -47,7 +48,7 @@ function SlugPage(props) {
       </Head>
       {props.type === "product" ? (
         <>
-          <ProductPage data={props.data} />
+          <ProductPage data={props.data} host={props.host} />
         </>
       ) : (
         <CatalogPage type={props.type} data={props.data} />
@@ -64,6 +65,8 @@ export async function getServerSideProps(context) {
   let type = "";
 
   const host = req.headers.host;
+
+  console.log("host isss" +host);
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
 
@@ -167,10 +170,13 @@ export async function getServerSideProps(context) {
     };
   }
 
+  
+
   return {
     props: {
       data,
-      type
+      type,
+      host
     }
   };
 }

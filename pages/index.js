@@ -31,7 +31,7 @@ export default function Home(widgets) {
     [isLoading, hasMore]
   );
 
-  const [data, setData] = useState(widgets.data.widgets);
+  const [data, setData] = useState(widgets?.data?.widgets);
 
   useEffect(() => {
     console.log(page);
@@ -41,7 +41,7 @@ export default function Home(widgets) {
       var obj = {
         view: window.innerWidh > 650 ? "web_mobile" : "web_desktop",
         limit: 10,
-        page: page
+        page: page,
       };
       let link = buildLink("home", undefined, undefined) + "&source_id=1";
       axiosServer.post(link, obj).then((response) => {
@@ -52,7 +52,7 @@ export default function Home(widgets) {
 
           setData((prevWidgets) => {
             return [
-              ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
+              ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
             ];
           });
 
@@ -63,9 +63,8 @@ export default function Home(widgets) {
       });
     }
 
-
     setIsLoading(false);
-    }, [page]);
+  }, [page]);
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver((entries) => {
@@ -86,7 +85,7 @@ export default function Home(widgets) {
 
   return (
     <div className="overflow-x-hidden">
-      {data.map((widget, index) => {
+      {data?.map((widget, index) => {
         if (data.length === index + 1) {
           return (
             <div
@@ -123,43 +122,49 @@ export async function getServerSideProps(context) {
   // console.log("width=" + screenWidth);
   const host = req.headers.host;
   const cookies = req.headers.cookie;
-  const parsedCookies = cookie.parse(cookies);
+  if (typeof cookies !== "undefined") {
+    const parsedCookies = cookie.parse(cookies);
 
-  const host_cookie = parsedCookies["site-local-name"];
-  const token = parsedCookies["api-token"];
+    const host_cookie = parsedCookies["site-local-name"];
+    const token = parsedCookies["api-token"];
 
-  let site_host = "";
-  if (host_cookie === undefined || typeof host_cookie === "undefined") {
-    site_host = host;
-  } else {
-    site_host = host_cookie;
-  }
-  var obj = {
-    view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
-    limit: 10,
-    page: 1
-  };
-  // console.log(obj);
-  //fetch product data
-  let link = buildLink("home", undefined, undefined) + "&source_id=1";
-  const response = await axiosServer.post(link, obj, {
-    headers: {
-      Authorization: "Bearer " + token
+    let site_host = "";
+    if (host_cookie === undefined || typeof host_cookie === "undefined") {
+      site_host = host;
+    } else {
+      site_host = host_cookie;
     }
-  });
-  if (!response.data.success) {
-    return {
-      notFound: true
+    var obj = {
+      view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
+      limit: 10,
+      page: 1,
     };
+    // console.log(obj);
+    //fetch product data
+    let link = buildLink("home", undefined, undefined) + "&source_id=1";
+    const response = await axiosServer.post(link, obj, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    if (!response.data.success) {
+      return {
+        notFound: true,
+      };
+    }
+
+    data = response.data.data;
+
+    //redirect to 404
+
+    return {
+      props: { data, screentype: screenWidth },
+    };
+  }else{
+    return {
+      props: {}
+    }
   }
-
-  data = response.data.data;
-
-  //redirect to 404
-
-  return {
-    props: { data, screentype: screenWidth }
-  };
 }
 
 function parseScreenWidth(userAgent) {

@@ -4,13 +4,13 @@ import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
 
 function SingleProduct(props) {
-  const { item } = props;
+  const { item, host } = props;
   const router = useRouter();
   return (
     <div
       onClick={() =>
         router.push(
-          `${item.name
+          `${host}/${item.name
             .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
             .replaceAll("%", parseInt(""))
             .replaceAll(/\s+/g, "-")

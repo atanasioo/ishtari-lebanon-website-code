@@ -31,7 +31,7 @@ function ProductPage(props) {
   const [nonrefundable, setNonrefundable] = useState(false);
   const [returnPolicy, setReturnPolicy] = useState([]);
   const [bundles, setProductBundle] = useState();
-  const { data } = props; //instead of productData
+  const { data, host } = props; //instead of productData
   const [width, height] = useDeviceSize();
   const [scroll, setScroll] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -921,6 +921,7 @@ function ProductPage(props) {
             productData2={productData2}
             data={data}
             reviews = {reviews}
+            host={host}
           />
         </div>
       </div>
