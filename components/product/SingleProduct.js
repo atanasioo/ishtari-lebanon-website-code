@@ -6,11 +6,12 @@ import { useRouter } from "next/router";
 function SingleProduct(props) {
   const { item, host } = props;
   const router = useRouter();
+  const path= "";
   return (
     <div
       onClick={() =>
         router.push(
-          `${host}/${item.name
+          `${path}/${item.name
             .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
             .replaceAll("%", parseInt(""))
             .replaceAll(/\s+/g, "-")
