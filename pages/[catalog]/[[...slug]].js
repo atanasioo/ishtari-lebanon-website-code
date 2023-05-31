@@ -21,7 +21,6 @@ function SlugPage(props) {
       slug.catalog === "product" ||
       slug.catalog === "manufacturer"
     ) {
-
       setIsCatalog(true);
     } else if (slug.slug[0].includes("p=")) {
       setIsProduct(true);
@@ -30,14 +29,11 @@ function SlugPage(props) {
       slug.slug[0].includes("s=") ||
       slug.slug[0].includes("m=")
     ) {
-      router.push({ pathname: '/category/'+  slug.slug[0], state : props.data})
-      // setIsCatalog(true);
+      setIsCatalog(true);
     } else {
       return <div>Not found..</div>;
     }
   }, [slug]);
-
- 
 
   return (
     <div>
@@ -53,7 +49,7 @@ function SlugPage(props) {
           <ProductPage data={props.data} host={props.host} />
         </>
       ) : (
-        <CatalogPage type={props.type} data={props.data} />
+        <CatalogPage type={props.type} data={props.data} isloading={props.isLoading} page={props?.page} />
       )}
     </div>
   );
@@ -62,20 +58,33 @@ function SlugPage(props) {
 export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
   // const { catalog,  slug  , resolvedUrl } = context.params;
-  const { catalog, slug, has_filter } = context.query;
+  const {
+    catalog,
+    slug,
+    has_filter,
+    filter_categories,
+    filter_manufacturers,
+    filter_sellers,
+    filter_options,
+    adv_filters,
+    page
+  } = context.query;
 
   const { req } = context;
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
 
   // const { NEXT_INIT_QUERY  = context.has_filter;
 
-
   let data = null;
   let type = "";
+  var p = ''
 
+if(page  !== undefined){
+    p = page
+}
   const host = req.headers.host;
 
-  console.log("host isss" +host);
+  console.log("host isss" + host);
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
 
@@ -88,7 +97,6 @@ export async function getServerSideProps(context) {
   } else {
     site_host = host_cookie;
   }
-
 
   if (catalog === "product" || slug[0].includes("p=")) {
     // get product id
@@ -156,9 +164,11 @@ export async function getServerSideProps(context) {
     }
 
     if (!has_filter) {
-    // } else {
+      // } else {
       let link =
-        buildLink(type, undefined, undefined, site_host) + id + "&source_id=1&limit=50";
+        buildLink(type, undefined, undefined, site_host) +
+        id +
+        "&source_id=1&limit=50";
       const response = await axiosServer.get(link, {
         headers: {
           Authorization: "Bearer " + token
@@ -174,7 +184,46 @@ export async function getServerSideProps(context) {
       console.log("********%start%%*******");
       console.log(data);
       console.log("********%end%*******");
-    
+    } else {
+      var filter = "";
+
+      if (filter_categories !== undefined) {
+        filter += "&filter_categories=" + filter_categories;
+      }
+      if (filter_manufacturers !== undefined) {
+        filter += "&filter_manufacturers=" + filter_manufacturers;
+      }
+
+      if (filter_sellers !== undefined) {
+        filter += "&filter_sellers=" + filter_sellers;
+      }
+
+      if (filter_options != undefined) {
+        filter += "&filter_options=" + filter_options;
+      }
+
+      if (adv_filters != undefined) {
+        filter += "&adv_filters=" + adv_filters;
+      }
+      if (page != undefined) {
+        filter += "&page=" + page;
+      }
+
+      // const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
+
+      const link =
+        buildLink("filter", undefined, undefined) +
+        "&path=" +
+        slug[0].split("=")[1] +
+        filter ;
+
+      const response = await axiosServer.get(link, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
+
+      data = response.data.data;
     }
   } else {
     //redirect to 404
@@ -183,13 +232,13 @@ export async function getServerSideProps(context) {
     };
   }
 
-  
-
   return {
     props: {
       data,
       type,
-      host
+      host,
+      isLoading : "false",
+      p 
     }
   };
 }

@@ -1,14 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
-import buildLink from "@/urls";
-import { axiosServer } from "@/axiosServer";
+import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/swiper.min.css';
+// import 'swiper/css/pagination.min.css';
+// import 'swiper/css/navigation.min.css';
+
+import { Navigation } from "swiper";
 import { loader } from "/public/images/loader.gif";
+import ReactPaginate from "react-paginate";
+import { IoIosArrowDown } from "react-icons/io";
 function CatalogPage(props) {
-  const [filters, setFilters] = useState(props.data?.filters );
-  const [data, setData] = useState(props.data  || state);
+  // const [filters, setFilters] = useState(props.data?.filters );
+  const { data } = props; //instead of productData
+  // const {filters} = data; //instead of productData
+  const filters = data?.filters;
+  var isLoading = useRef(false);
+  // const [data, setData] = useState(props.data);
   const router = useRouter();
   const {
     catalog,
@@ -26,90 +35,97 @@ function CatalogPage(props) {
     limit
   } = router.query;
 
+  const [topFilter, setTopFilter] = useState({
+    show: false,
+    name: "",
+    offset: 0
+  });
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+
+      if (topFilter.show) {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setTopFilter({
+              show: false,
+              name: topFilter.name,
+              offset: topFilter.offset
+            });
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }
+    }, [ref, topFilter]);
+  }
+
+  const checkMainFilter = (filter) => {
+    let temp = "catalog-top-filter-not-selected";
+    filter.items.map((item) => {
+      if(filter.id != undefined && filter.id.includes(item.id)) {
+        return (temp = "catalog-top-filter-selected");
+      }
+    });
+    return temp;
+  };
+
+  const handleTopFilter = (name) => {
+    const off = document.getElementById(`${name}`).offsetLeft;
+
+    if (700 > 650) {
+      if (topFilter.name === name && topFilter.show === true) {
+        setTopFilter({
+          show: false,
+          name: name,
+          offset: topFilter.offset
+        });
+      } else if (topFilter.name !== name && topFilter.show === true) {
+        setTopFilter({
+          show: true,
+          name: name,
+          offset: off > 531 ? 531 : off
+        });
+      } else {
+        setTopFilter({
+          show: true,
+          name: name,
+          offset: off > 531 ? 531 : off
+        });
+      }
+    } else {
+      setTopFilter({
+        show: true,
+        name: name,
+        offset: off > 531 ? 531 : off
+      });
+    }
+  };
+
+  const handlePageClick = (event) => {
+    console.log("event");
+    console.log(event.selected);
+    const new_page = parseInt(event.selected) + 1;
+    parseFilter("page", new_page);
+  };
   // Access the query parameter values
   console.log("Param1:", filter_categories);
   console.log("Param2:", filter_manufacturers);
   console.log("Param3:", filter_sellers);
   console.log("Param4:", filter_options);
-  console.log("Param5:", last);
+  console.log("Param5:", page);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const handleStart = () => {
-      setIsLoading(true);
-    };
-
-    const handleComplete = () => {
-      setIsLoading(false);
-    };
-
-    router.events.on("routeChangeStart", handleStart);
-    // router.events.on("routeChangeComplete", handleComplete);
-    // router.events.on("routeChangeError", handleComplete);
-
-    return () => {
-      router.events.off("routeChangeStart", handleStart);
-      // router.events.off("routeChangeComplete", handleComplete);
-      // router.events.off("routeChangeError", handleComplete);
-    };
-  }, []);
-
-  useEffect(() => {
-    router.asPath.indexOf("has_filter") < 0 && setIsLoading(false);
-    if (router.asPath.indexOf("has_filter") > -1 && !data.products) {
-    axiosServer.get(parseUrl()).then((response) => {
-      const data = response.data.data;
-      setData(data);
-      setFilters(response.data.data?.filters);
-      setIsLoading(false);
-    });
-    }
-  }, [router]);
-
-  function parseUrl(queries = false) {
-    let url_type =
-      router.asPath.indexOf("has_filter") < 0 ? "default" : "filter";
-    // setData({});
-    // console.log(router);
-    const type_id = slug[0].slice(2);
-
-    if (url_type === "default") {
-      const q_s = "";
-      // q_s.page = page ? page : page;
-      // q_s.limit = limit ? limit : limit.value;
-      // q_s.sort = sort ? sort : "p2co.sort_order";
-      // q_s.order = order ? order : "ASC";
-      // q_s.source_id = 1;
-
-      // // Preapare url
-      let final_queries = "&"; // + stringify(q_s);
-      return (
-        buildLink(props.type, undefined, window.innerWidth) +
-        type_id +
-        final_queries
-      );
-      //+
-      // `${state.admin ? "&adm_quantity=true" : ""}`
-      //   : final_queries + `${state.admin ? "&adm_quantity=true" : ""
-      // }`
-      // ;
-    } else {
-      const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
-      let type = props.type;
-      return (
-        buildLink("filter", undefined, window.innerWidth) +
-        "&path=" +
-        type_id +
-        "" +
-        q_s.replace("?", "&")
-        // "&limit=" +
-        // limit.value
-        // +
-        // `${state.admin ? "&adm_quantity=true" : ""}`
-      );
-    }
-  }
   function checkFilter(type, name, filter) {
     // console.log(router.asPath);
     // console.log(type);
@@ -293,10 +309,21 @@ function CatalogPage(props) {
       }
     }
 
-    if (filter_type != "adv_filters") {
-      url += "&last=" + filter_type.slice(7, 8);
+    if (filter_type === "page") {
+      if (last != undefined) {
+        url += "&last=" + last;
+      }
+
+      type = "page";
+      if (id != undefined) {
+        url += "&" + type + "=" + id;
+      }
     } else {
-      url += "&last=f";
+      if (filter_type != "adv_filters") {
+        url += "&last=" + filter_type.slice(7, 8);
+      } else {
+        url += "&last=f";
+      }
     }
 
     if (url.length > 0) {
@@ -325,7 +352,7 @@ function CatalogPage(props) {
   }
   return (
     <div className="">
-      {isLoading && (
+      {data.isLoading && isLoading && (
         <div className="absolute z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
           <img
             src={"/images/loader.gif"}
@@ -376,7 +403,6 @@ function CatalogPage(props) {
                               key={filter.name}
                               onClick={() =>
                                 parseFilter(filters[key].id, filter.id)
-
                               }
                             >
                               <span className="flex w-10/12">
@@ -523,12 +549,709 @@ function CatalogPage(props) {
             ))}
         </div>
         <div className="w-4/5 ">
+          {filters &&
+            (filters[0]?.items?.length > 0 ||
+              filters[1]?.items?.length > 0) && (
+              <div className="  w-full block relative z-20">
+                <div className="relative flex items-center mb-3 mt-4">
+                  <div
+                    className={`catalog-top-filter hidden mobile:block  ${
+                      topFilter.show ? "catalog-top-filter-open " : ""
+                    }`}
+                    style={{ left: topFilter.offset }}
+                    ref={wrapperRef}
+                  >
+                    <div className="catalog-top-filter-container px-1 pb-2">
+                      {data.filters.findIndex(
+                        (x) => x.name === topFilter.name
+                      ) !== -1 && (
+                        <div className="pb-4 px-3">
+                          <div className="flex place-content-between  place-items-center px-4">
+                            {" "}
+                            <div className=" w-full py-4">
+                              {data.filters[
+                                data.filters.findIndex(
+                                  (x) => x.name === topFilter.name
+                                )
+                              ].name
+                                .charAt(0)
+                                .toUpperCase() +
+                                data.filters[
+                                  data.filters.findIndex(
+                                    (x) => x.name === topFilter.name
+                                  )
+                                ].name.slice(1)}
+                            </div>
+                            <button
+                              className="sizeClear"
+                              onClick={() =>
+                                clearFilter(
+                                  data.filters[
+                                    data.filters.findIndex(
+                                      (x) => x.name === topFilter.name
+                                    )
+                                  ]
+                                )
+                              }
+                            >
+                              Clear
+                            </button>
+                          </div>
+                          {filters && (
+                            <div className="grid grid-cols-3">
+                              {filters[
+                                data.filters.findIndex(
+                                  (x) => x.name === topFilter.name
+                                )
+                              ]?.items?.map((filter) => (
+                                <div
+                                  className="w-auto px-3 py-1"
+                                  key={Math.random()}
+                                >
+                                  {filters[
+                                    data.filters.findIndex(
+                                      (x) => x.name === topFilter.name
+                                    )
+                                  ].name === "Light Color" ||
+                                  filters[
+                                    data.filters.findIndex(
+                                      (x) => x.name === topFilter.name
+                                    )
+                                  ].name === "Color" ? (
+                                    <p
+                                      className=" flex items-center justify-between cursor-pointer hover:text-dblue"
+                                      key={filter.name}
+                                      onClick={() =>
+                                        parseFilter(
+                                          filters[
+                                            data.filters.findIndex(
+                                              (x) => x.name === topFilter.name
+                                            )
+                                          ].id,
+                                          filter
+                                        )
+                                      }
+                                    >
+                                      <span className="flex">
+                                        <img
+                                          src={filter.image}
+                                          style={{
+                                            padding: `2px`
+                                          }}
+                                          className={`w-7 h-7 rounded-full ${checkFilter(
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].id,
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].name,
+                                            filter
+                                          )}`}
+                                          alt=""
+                                        />
+
+                                        <p className="py-2 mx-2 text-d13 w-8/12 font-light">
+                                          {" "}
+                                          {filter.name}
+                                        </p>
+                                      </span>
+                                      <span className="text-d13 text-right font-light ">
+                                        ({filter.count})
+                                      </span>
+                                    </p>
+                                  ) : filters[
+                                      data.filters.findIndex(
+                                        (x) => x.name === topFilter.name
+                                      )
+                                    ].name === "jeans Size" ||
+                                    filters[
+                                      data.filters.findIndex(
+                                        (x) => x.name === topFilter.name
+                                      )
+                                    ].name === "Shoes Size" ? (
+                                    <div
+                                      className={` ${
+                                        width >= 1400 ? "w-48" : "w-28"
+                                      } `}
+                                    >
+                                      <p
+                                        className={`flex justify-between items-center cursor-pointer hover:text-dblue ${checkFilter(
+                                          filters[
+                                            data.filters.findIndex(
+                                              (x) => x.name === topFilter.name
+                                            )
+                                          ].id,
+                                          data.filters[
+                                            data.filters.findIndex(
+                                              (x) => x.name === topFilter.name
+                                            )
+                                          ].name,
+                                          filter
+                                        )}`}
+                                        key={filter.name}
+                                        onClick={() =>
+                                          parseFilter(
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].id,
+                                            filter
+                                          )
+                                        }
+                                      >
+                                        <span className="text-d13 font-light">
+                                          {filter.name}
+                                        </span>
+
+                                        <span className="float-right text-d13 font-light">
+                                          ({filter.count})
+                                        </span>
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    filters[
+                                      data.filters.findIndex(
+                                        (x) => x.name === topFilter.name
+                                      )
+                                    ].name !== "Socks" &&
+                                    filters[
+                                      data.filters.findIndex(
+                                        (x) => x.name === topFilter.name
+                                      )
+                                    ].name !== "Size by Age" && (
+                                      <div>
+                                        <p
+                                          className=" flex justify-between items-center cursor-pointer hover:text-dblue"
+                                          key={filter.name}
+                                          onClick={() =>
+                                            parseFilter(
+                                              filters[
+                                                data.filters.findIndex(
+                                                  (x) =>
+                                                    x.name === topFilter.name
+                                                )
+                                              ].id,
+                                              filter
+                                            )
+                                          }
+                                        >
+                                          <div className="mr-1">
+                                            {" "}
+                                            <i
+                                              className={`icon mr-1 text-base  ${checkFilter(
+                                                filters[
+                                                  data.filters.findIndex(
+                                                    (x) =>
+                                                      x.name === topFilter.name
+                                                  )
+                                                ].id,
+                                                filter.name,
+                                                filter
+                                              )}`}
+                                            ></i>
+                                            <span className="text-d13 font-light">
+                                              {filter.name}
+                                            </span>
+                                          </div>
+                                          <span className="float-right text-d13 font-light">
+                                            ({filter.count})
+                                          </span>
+                                        </p>
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div
+                    className={`mobile-catalog-filter block mobile:hidden ${
+                      topFilter.show && "mobile-catalog-filter-open"
+                    }`}
+                  >
+                    <div
+                      className={`${
+                        topFilter.show && "opacity-100"
+                      }  mobile-catalog-blur`}
+                      onClick={() =>
+                        setTopFilter({
+                          show: false,
+                          name: topFilter.name,
+                          offset: 0
+                        })
+                      }
+                    ></div>
+                    <div
+                      className={` ${
+                        topFilter.show && "bottom-0"
+                      } mobile-catalog-container`}
+                    >
+                      <div
+                        className="w-full h-5 mobile-catalog-container-before"
+                        onTouchEnd={() =>
+                          setTopFilter({
+                            show: false,
+                            name: topFilter.name,
+                            offset: 0
+                          })
+                        }
+                      ></div>
+                      <div
+                        className={`relative px-6 py-8`}
+                        style={{ maxHeight: "700px" }}
+                      >
+                        <div className="flex place-content-between place-items-center pb-2 ">
+                          <h3 className="font-bold text-lg">
+                            {data.filters[
+                              data.filters.findIndex(
+                                (x) => x.name === topFilter.name
+                              )
+                            ]?.name
+                              .charAt(0)
+                              .toUpperCase() +
+                              data.filters[
+                                data.filters.findIndex(
+                                  (x) => x.name === topFilter.name
+                                )
+                              ]?.name.slice(1)}
+                          </h3>
+                          <button
+                            className="text-dblue cursor-pointer text-sm bg-transparent"
+                            onClick={() =>
+                              clearFilter(
+                                data.filters[
+                                  data.filters.findIndex(
+                                    (x) => x.name === topFilter.name
+                                  )
+                                ]
+                              )
+                            }
+                          >
+                            Clear
+                          </button>
+                        </div>
+                        <div
+                          className="overflow-y-auto pt-4 pb-4 -mr-6 pr-6 catalog-mobile-scroll"
+                          style={{ height: "65vh" }}
+                        >
+                          {filters && (
+                            <div className="grid grid-cols-1">
+                              {filters[
+                                data.filters.findIndex(
+                                  (x) => x.name === topFilter.name
+                                )
+                              ]?.items?.map((filter) => (
+                                <div
+                                  className="w-full px-3 py-1"
+                                  key={Math.random()}
+                                >
+                                  {filters[
+                                    data.filters.findIndex(
+                                      (x) => x.name === topFilter.name
+                                    )
+                                  ].name === "Light Color" ||
+                                  filters[
+                                    data.filters.findIndex(
+                                      (x) => x.name === topFilter.name
+                                    )
+                                  ].name === "Color" ? (
+                                    <p
+                                      className=" flex items-center justify-between cursor-pointer hover:text-dblue"
+                                      key={filter.name}
+                                      onClick={() =>
+                                        parseFilter(
+                                          filters[
+                                            data.filters.findIndex(
+                                              (x) => x.name === topFilter.name
+                                            )
+                                          ].id,
+                                          filter
+                                        )
+                                      }
+                                    >
+                                      <span className="flex">
+                                        <img
+                                          src={filter.image}
+                                          style={{
+                                            padding: `2px`
+                                          }}
+                                          className={`w-7 h-7 rounded-full ${checkFilter(
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].id,
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].name,
+                                            filter
+                                          )}`}
+                                          alt=""
+                                        />
+
+                                        <p className="py-2 mx-2 text-d13 w-8/12 font-light">
+                                          {" "}
+                                          {filter.name}
+                                        </p>
+                                      </span>
+                                      <span className="text-d13  text-right font-light ">
+                                        ({filter.count})
+                                      </span>
+                                    </p>
+                                  ) : (
+                                    <div>
+                                      <p
+                                        className="my-1 float items-center cursor-pointer hover:text-dblue"
+                                        key={filter.name}
+                                        onClick={() =>
+                                          parseFilter(
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].id,
+                                            filter
+                                          )
+                                        }
+                                      >
+                                        <i
+                                          className={`icon mr-1 text-base  ${checkFilter(
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].id,
+                                            filter.name,
+                                            filter
+                                          )}`}
+                                        ></i>
+                                        <span className="text-d13 font-light">
+                                          {filter.name}
+                                        </span>
+
+                                        <span className="float-right text-d13 font-light">
+                                          ({filter.count})
+                                        </span>
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    className={` ${
+                      700 > 650
+                        ? "button-wrapper overflow-hidden"
+                        : "overflow-x-auto py-1"
+                    } items-center w-full whitespace-nowrap`}
+                    id={`button-wrapper`}
+                  >
+                    <Swiper
+                      slidesPerView={"auto"}
+                      freeMode={true}
+                      draggable={false}
+                      pagination={false}
+                      navigation={700 > 650 ? true : false}
+                      modules={[Navigation]}
+                      className="myFilterSwiper"
+                    >
+                      {data.filters.map((filter) => {
+                        return (
+                          filter.items.length > 0 &&
+                          filter.name !== "Socks" &&
+                          filter.name !== "Size by Age" && (
+                            <SwiperSlide
+                              key={Math.random()}
+                              id={filter.name}
+                              onClick={() => handleTopFilter(filter.name)}
+                            >
+                              <button className="p-1 " id={filter.name}>
+                                <div
+                                  className={`text-sm px-3 flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl  ${checkMainFilter(
+                                    filter
+                                  )}`}
+                                  style={{
+                                    paddingTop: "6px",
+                                    paddingBottom: "6px"
+                                  }}
+                                >
+                                  <span className="w-max">
+                                    {filter.name.charAt(0).toUpperCase() +
+                                      filter.name.slice(1)}
+                                  </span>
+                                  <span className="ml-2">
+                                    <IoIosArrowDown />
+                                  </span>
+                                </div>
+                              </button>
+                            </SwiperSlide>
+                          )
+                        );
+                      })}
+                      {data.filters.map((filter) => {
+                        return (
+                          filter.items.length > 0 &&
+                          filter.items.map((item) => {
+                            if(filter.id != undefined && filter.id.replace('"', "").includes(item.id)) {
+                              // console.log(userFilters);
+                              return (
+                                <SwiperSlide>
+                                  <button
+                                    className="p-1 "
+                                    onClick={() => parseFilter(filter.id, item)}
+                                  >
+                                    <div
+                                      className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
+                                      style={{
+                                        paddingTop: "6px",
+                                        paddingBottom: "6px"
+                                      }}
+                                    >
+                                      <span className="w-max">{item.name}</span>
+                                      <span className="ml-2">
+                                        <AiOutlineClose />
+                                      </span>
+                                    </div>
+                                  </button>
+                                </SwiperSlide>
+                              );
+                            }
+                          })
+                        );
+                      })}
+                      {data.filters.map((filter) => {
+                        return (
+                          filter.items.length > 0 &&
+                          filter.items.slice(0, 3).map((item) => {
+                            if(filter.id != undefined && !filter.id.includes(item.id)) {
+
+                              if (filter.name === "Sellers") {
+                                const temp = Math.max(
+                                  ...filter.items.map((o) => {
+                                    if(filter.id != undefined && !filter.id.includes(o.id)) {
+
+
+                                      return Number(o.count);
+                                    }
+                                  })
+                                );
+
+                                if (temp && Number(item.count) === temp) {
+                                  return (
+                                    <SwiperSlide>
+                                      <button
+                                        className="p-1 "
+                                        onClick={() =>
+                                          parseFilter(filter.id, item)
+                                        }
+                                      >
+                                        <div
+                                          className={`text-sm px-3 overflow-hidden flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
+                                          style={{
+                                            paddingTop: "6px",
+                                            paddingBottom: "6px"
+                                          }}
+                                        >
+                                          <span className="w-max">
+                                            <span className="font-bold mr-1">
+                                              Seller:
+                                            </span>
+                                            {item.name}
+                                          </span>
+                                        </div>
+                                      </button>
+                                    </SwiperSlide>
+                                  );
+                                }
+                              } else if (filter.name === "Brands") {
+                                const temp = Math.max(
+                                  ...filter.items.map((o) => {
+                                    if(filter.id != undefined && !filter.id.includes(o.id)) {
+
+                                      return Number(o.count);
+                                    }
+                                  })
+                                );
+                                if (temp && Number(item.count) === temp) {
+                                  return (
+                                    <SwiperSlide>
+                                      <button
+                                        className="p-1"
+                                        onClick={() =>
+                                          parseFilter(filter.id, item)
+                                        }
+                                      >
+                                        <div
+                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
+                                          style={{
+                                            paddingTop: "6px",
+                                            paddingBottom: "6px"
+                                          }}
+                                        >
+                                          <span className="w-max">
+                                            <span className="font-bold mr-1">
+                                              Brand:
+                                            </span>
+                                            {item.name}
+                                          </span>
+                                        </div>
+                                      </button>
+                                    </SwiperSlide>
+                                  );
+                                }
+                              } else if (filter.name === "Color") {
+                                const temp = Math.max(
+                                  ...filter.items.map((o) => {
+                                    if(filter.id != undefined && !filter.id.includes(o.id)) {
+
+                                      return Number(o.count);
+                                    }
+                                  })
+                                );
+                                if (temp && Number(item.count) === temp) {
+                                  return (
+                                    <SwiperSlide>
+                                      <button
+                                        className="p-1"
+                                        onClick={() =>
+                                          parseFilter(filter.id, item)
+                                        }
+                                      >
+                                        <div
+                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
+                                          style={{
+                                            paddingTop: "6px",
+                                            paddingBottom: "6px"
+                                          }}
+                                        >
+                                          <span className="w-max">
+                                            <span className="font-bold mr-1">
+                                              Color:
+                                            </span>
+                                            {item.name}
+                                          </span>
+                                        </div>
+                                      </button>
+                                    </SwiperSlide>
+                                  );
+                                }
+                              } else if (filter.name === "Shoes size") {
+                                const temp = Math.max(
+                                  ...filter.items.map((o) => {
+                                    if (  filter.id !=undefined && 
+                                      filter.id.replaceAll('"',"").includes(o.id)
+                                    ) {
+                                      return Number(o.count);
+                                    }
+                                  })
+                                );
+                                if (
+                                  temp &&
+                                  Number(item.count) === temp &&
+                                  filter.items.length < 3
+                                ) {
+                                  return (
+                                    <SwiperSlide>
+                                      <button
+                                        className="p-1"
+                                        onClick={() =>
+                                          parseFilter(filter.id, item)
+                                        }
+                                      >
+                                        <div
+                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
+                                          style={{
+                                            paddingTop: "6px",
+                                            paddingBottom: "6px"
+                                          }}
+                                        >
+                                          <span className="w-max">
+                                            <span className="font-bold mr-1">
+                                              Shoes Size:
+                                            </span>
+                                            {item.name}
+                                          </span>
+                                        </div>
+                                      </button>
+                                    </SwiperSlide>
+                                  );
+                                } else {
+                                  return (
+                                    <SwiperSlide>
+                                      <button
+                                        className="p-1"
+                                        onClick={() =>
+                                          parseFilter(filter.id, item)
+                                        }
+                                      >
+                                        <div
+                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
+                                          style={{
+                                            paddingTop: "6px",
+                                            paddingBottom: "6px"
+                                          }}
+                                        >
+                                          <span className="w-max">
+                                            <span className="font-bold mr-1">
+                                              Shoes Size:
+                                            </span>
+                                            {item.name}
+                                          </span>
+                                        </div>
+                                      </button>
+                                    </SwiperSlide>
+                                  );
+                                }
+                              }
+                            }
+                          })
+                        );
+                      })}
+                    </Swiper>
+                  </div>
+                </div>
+              </div>
+            )}
+
           <div className="grid grid-cols-5 min-h-screen">
             {data?.products?.map((item) => (
               <div className="p-1">
                 <SingleProduct item={item}></SingleProduct>
               </div>
             ))}
+          </div>
+          <div>
+            <ReactPaginate
+              className={"category-pagination"}
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={2}
+              marginPagesDisplayed={2}
+              pageCount={data?.total_pages}
+              previousLabel="<"
+              activeClassName={"active-pagination-category"}
+              renderOnZeroPageCount={null}
+              forcePage={data?.page > 0 ? Number(data?.page) - 1 : 0}
+            />
           </div>
         </div>
       </div>

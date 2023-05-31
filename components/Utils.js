@@ -9,6 +9,7 @@ function sanitizeHTML(html) {
 }
 
 function slugify(str) {
+  str  = str.replaceAll('&amp', "")
   str = str.replace(/^\s+|\s+$/g, ""); // Trim leading/trailing white spaces
   str = str.toLowerCase(); // Convert to lowercase
   str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove diacritic marks

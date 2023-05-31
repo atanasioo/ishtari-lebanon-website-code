@@ -2,7 +2,7 @@ import _axios from "@/axios";
 import {
   axiosServer,
   getToken,
-  setAuthorizationHeader,
+  setAuthorizationHeader
 } from "@/axiosServer.js";
 import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
@@ -11,16 +11,63 @@ import useDeviceSize from "@/components/useDeviceSize";
 import cookie from "cookie";
 // import axios from "axios";
 import "@/config";
+import { useRef, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { loader } from "/public/images/loader.gif";
 
 export default function App({
   Component,
   pageProps,
   header_categories,
   footer_categories,
-  information_data,
+  information_data
 }) {
+  const router = useRouter();
+  const topRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = () => {
+      setLoading(true);
+    };
+
+    const handleComplete = () => {
+      setLoading(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, []);
+  useEffect(() => {
+    const handleRouteChange = () => {
+      topRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, []);
   return (
-    <div className="">
+    <div className="" ref={topRef}>
+      {loading && (
+        <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+          <img
+            src={"/images/loader.gif"}
+            alt="loader-gif"
+            heigh="110"
+            width="110"
+          />
+        </div>
+      )}
       <Layout
         header_categories={header_categories}
         footer_categories={footer_categories}
@@ -103,7 +150,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           header_categories: data.data?.data,
           footer_categories: footer_data.data?.data,
           information_data: information_data.data?.data,
-          token: newToken,
+          token: newToken
         };
       } catch (error) {
         // Handle any errors that occurred during the token request
@@ -135,8 +182,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
           ),
           {
             headers: {
-              Authorization: "Bearer " + token,
-            },
+              Authorization: "Bearer " + token
+            }
           }
         );
 
@@ -149,16 +196,16 @@ App.getInitialProps = async ({ Component, ctx }) => {
           ),
           {
             headers: {
-              Authorization: "Bearer " + token,
-            },
+              Authorization: "Bearer " + token
+            }
           }
         );
         information_data = await axiosServer.get(
           buildLink("information", undefined, undefined, site_host),
           {
             headers: {
-              Authorization: "Bearer " + token,
-            },
+              Authorization: "Bearer " + token
+            }
           }
         );
       } else {
@@ -179,7 +226,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       return {
         header_categories: data.data.data,
         footer_categories: footer_data.data.data,
-        information_data: information_data.data?.data,
+        information_data: information_data.data?.data
       };
     }
   } else {
@@ -253,7 +300,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
         footer_categories: footer_data.data.data,
         information_data: information_data?.data.data,
 
-        token: newToken,
+        token: newToken
       };
     } catch (error) {
       // Handle any errors that occurred during the token request
