@@ -552,7 +552,7 @@ function CatalogPage(props) {
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
-              <div className="  w-full block relative z-20">
+              <div className="  w-full block relative z-10">
                 <div className="relative flex items-center mb-3 mt-4">
                   <div
                     className={`catalog-top-filter hidden mobile:block  ${
@@ -619,7 +619,7 @@ function CatalogPage(props) {
                                     )
                                   ].name === "Color" ? (
                                     <p
-                                      className=" flex items-center justify-between cursor-pointer hover:text-dblue"
+                                      className=" flex items-center justify-between  cursor-pointer hover:text-dblue"
                                       key={filter.name}
                                       onClick={() =>
                                         parseFilter(
@@ -675,7 +675,7 @@ function CatalogPage(props) {
                                     ].name === "Shoes Size" ? (
                                     <div
                                       className={` ${
-                                        width >= 1400 ? "w-48" : "w-28"
+                                        1500 >= 1400 ? "w-48" : "w-28"
                                       } `}
                                     >
                                       <p
