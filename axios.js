@@ -3,25 +3,25 @@ import Cookies from "js-cookie";
 import buildLink from "./urls";
 async function getToken() {
 
-  excuting = true;
-  let requestBody = {
-    client_id: "shopping_oauth_client",
-    client_secret: "shopping_oauth_secret",
-    source_id: 1,
-  };
-  let requestHeader = {
-    Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw==",
-  };
+  // excuting = true;
+  // let requestBody = {
+  //   client_id: "shopping_oauth_client",
+  //   client_secret: "shopping_oauth_secret",
+  //   source_id: 1,
+  // };
+  // let requestHeader = {
+  //   Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw==",
+  // };
 
-  axios.post(buildLink("token"), requestBody, {
-      headers: requestHeader
-    })
-    .then((response) => {
-      Cookies.set("api-token", response.data.access_token, { expires: 15 });
+  // axios.post(buildLink("token"), requestBody, {
+  //     headers: requestHeader
+  //   })
+  //   .then((response) => {
+  //     Cookies.set("api-token", response.data.access_token, { expires: 15 });
     
-      excuting = false;
-      if (typeof window !== "undefined") window.location.reload();
-    });
+  //     excuting = false;
+  //     if (typeof window !== "undefined") window.location.reload();
+  //   });
 }
 var excuting = false;
 if (typeof Cookies.get("api-token") === "undefined") {

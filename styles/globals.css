@@ -52,6 +52,8 @@
 
 .body {
   font-family: 'PR'; 
+  background: #fff !important;
+  color: #000 !important;
    /* font-size: 14px; line-height: 19.6px; */
 }
 

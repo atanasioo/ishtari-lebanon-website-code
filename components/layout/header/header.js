@@ -33,7 +33,7 @@ function Header(props) {
   useEffect(() => {
     if (width < 650) {
       axiosServer
-        .get(buildLink("all_categories", undefined, window.innerWidth))
+        .get(buildLink("all_categories", undefined, window.innerWidth, "https://www.ishtari.com/"))
         .then((response) => {
           setCategories(response.data.data);
         });

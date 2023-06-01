@@ -10,6 +10,7 @@ import { HeaderOverlay } from "@/components/Overlay";
 import DesktopMenuClientPopups from "./DesktopMenuClientPopups";
 import dynamic from "next/dynamic";
 import { sanitizeHTML } from "@/components/Utils";
+import { axiosServer } from "@/axiosServer";
 
 function DesktopMenuCategories(props) {
   const { header_categories, local } = props;
@@ -57,8 +58,8 @@ function DesktopMenuCategories(props) {
       setMenuCategories2(header_categories);
       // setSelectedMenuCategory2(header_categories[0]);
     } else {
-      _axios
-        .get(buildLink("headerv2", undefined, window.innerWidth))
+      axiosServer
+        .get(buildLink("headerv2", undefined, window.innerWidth, "https://www.ishtari.com/"))
         .then((response) => {
           const data = response?.data;
           setMenuCategories2(data.data);
@@ -66,8 +67,8 @@ function DesktopMenuCategories(props) {
         });
     }
     //sub menu categories
-    _axios
-      .get(buildLink("all_categories", undefined, window.innerWidth))
+    axiosServer
+      .get(buildLink("all_categories", undefined, window.innerWidth, "https://www.ishtari.com/"))
       .then((response) => {
         try {
           const data = response.data.data;
@@ -193,7 +194,7 @@ function DesktopMenuCategories(props) {
               )}
             </div>
 
-            {header_categories && header_categories?.length > 1 &&
+            {header_categories?.length > 1 &&
               header_categories.map((category) => (
                 <div
                   key={category["top-category"].category_id}

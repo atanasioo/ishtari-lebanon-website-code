@@ -34,7 +34,6 @@ export default function Home(widgets) {
   const [data, setData] = useState(widgets?.data?.widgets);
 
   useEffect(() => {
-    console.log(page);
 
     if (page > 1) {
       setIsLoading(true);
@@ -47,7 +46,6 @@ export default function Home(widgets) {
       axiosServer.post(link, obj).then((response) => {
         if (response?.data?.success) {
           const newData = response?.data?.data?.widgets;
-          console.log(newData);
           // setData((prevData) => [...prevData, ...newData]);
 
           setData((prevWidgets) => {

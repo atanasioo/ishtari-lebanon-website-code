@@ -1,4 +1,3 @@
-import _axios from "@/axios";
 import {
   axiosServer,
   getToken,
@@ -9,11 +8,11 @@ import "@/styles/globals.css";
 import buildLink from "@/urls";
 import useDeviceSize from "@/components/useDeviceSize";
 import cookie from "cookie";
-// import axios from "axios";
 import "@/config";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { loader } from "/public/images/loader.gif";
+import { useCookie } from "next-cookie";
 
 export default function App({
   Component,
@@ -84,14 +83,13 @@ export default function App({
 }
 
 App.getInitialProps = async ({ Component, ctx }) => {
-  // Get the token from the cookie
-  // const token = getTokenFromCookie();
-  // console.log(token);
-
   const { req } = ctx;
   const host = req?.headers.host;
 
+  const cook = useCookie(ctx);
+
   const cookies = req?.headers.cookie;
+  console.log(cookie);
   if (typeof cookies !== "undefined") {
     //localhost
     const parsedCookies = cookie.parse(cookies);
@@ -112,7 +110,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
     ) {
       try {
         // Request a new token from the server
-        const response = await getToken(site_host);
+        //const response = await getToken(site_host);
+        const response = await getToken("https://www.ishtari.com/");
 
         // Get the new token from the response
         const newToken = response.access_token;
@@ -122,7 +121,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
         axiosServer.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${newToken}`;
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+        // axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
         setAuthorizationHeader(newToken);
 
@@ -172,7 +171,14 @@ App.getInitialProps = async ({ Component, ctx }) => {
       var footer_data = [];
       var information_data = [];
 
-      if (host === "localhost:3001" || host === "localhost:3000") {
+      if (
+        host === "localhost:3001" ||
+        host === "localhost:3000" ||
+        host === "https://cloudgoup.com/" ||
+        host === "https://www.cloudgoup.com/" ||
+        host === "http://cloudgoup.com" ||
+        host === "www.cloudgoup.com"
+      ) {
         data = await axiosServer.get(
           buildLink(
             "headerv2",
@@ -186,6 +192,10 @@ App.getInitialProps = async ({ Component, ctx }) => {
             }
           }
         );
+
+        console.log("header response is");
+        console.log(data.data.data);
+        console.log("token is :" + token);
 
         footer_data = await axiosServer.get(
           buildLink(
@@ -201,13 +211,24 @@ App.getInitialProps = async ({ Component, ctx }) => {
           }
         );
         information_data = await axiosServer.get(
-          buildLink("information", undefined, undefined, site_host),
+          buildLink(
+            "information",
+            undefined,
+            undefined,
+            "https://www.ishtari.com/"
+          ),
           {
             headers: {
               Authorization: "Bearer " + token
             }
           }
         );
+
+        return {
+          header_categories: data.data.data,
+          footer_categories: footer_data.data.data,
+          information_data: information_data.data?.data,
+        };
       } else {
         data = await axiosServer.get(
           buildLink("headerv2", undefined, undefined, site_host)
@@ -236,15 +257,28 @@ App.getInitialProps = async ({ Component, ctx }) => {
     try {
       var response = [];
       // Request a new token from the server
-      if (host === "localhost:3001" || host === "localhost:3000") {
+      if (
+        host === "localhost:3001" ||
+        host === "localhost:3000" ||
+        host === "https://cloudgoup.com/" ||
+        host === "https://www.cloudgoup.com/" ||
+        host === "http://cloudgoup.com" ||
+        host === "www.cloudgoup.com"
+      ) {
         response = await getToken("https://www.ishtari.com/");
+        console.log("hihiiii");
       } else {
-        response = await getToken(host);
+        response = await getToken("https://www.ishtari.com/");
       }
+
+      console.log("token response is ");
+      console.log(response);
 
       // Get the new token from the response
       const newToken = response.access_token;
-      axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+      axiosServer.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${newToken}`;
 
       axiosServer.defaults.headers.common[
         "Authorization"
@@ -259,7 +293,12 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
       // Fetch data using the new token
       var data = [];
-      if (host === "localhost:3001" || host === "localhost:3000") {
+      if (
+        host === "localhost:3001" ||
+        host === "localhost:3000" ||
+        host === "http://cloudgoup.com" ||
+        host === "www.cloudgoup.com"
+      ) {
         data = await axiosServer.get(
           buildLink(
             "headerv2",
@@ -278,7 +317,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           )
         );
         information_data = await axiosServer.get(
-          buildLink("information", undefined, undefined, site_host)
+          buildLink("information", undefined, undefined, "https://www.ishtari.com/")
         );
       } else {
         data = await axiosServer.get(
@@ -294,6 +333,30 @@ App.getInitialProps = async ({ Component, ctx }) => {
         );
       }
 
+      const maxAgeInDays = 15;
+      const maxAgeInSeconds = maxAgeInDays * 24 * 60 * 60; // Convert days to seconds
+
+      let options = {
+        path: "/",
+        maxAge: maxAgeInSeconds,
+        expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
+      };
+
+      cook.set("api-token", newToken, options);
+
+      // // Set the token in a cookie
+      // // If there are no existing cookies, create a new one
+      // const newCookie = serialize("api-token", newToken, {
+      //   path: "/",
+      //   httpOnly: true,
+      //   maxAge: maxAgeInSeconds,
+      //   expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
+      // });
+
+      // console.log(req.headers.cookie);
+      // Set the cookie in the response header
+      // req.headers.cookie = newCookie;
+
       // Return the fetched data as props
       return {
         header_categories: data.data.data,
@@ -304,7 +367,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
       };
     } catch (error) {
       // Handle any errors that occurred during the token request
-      // For example, redirect to an error page or display an error message
+
+      console.error("host isss:" + site_host);
       console.error("Failed to get a new token:", error);
     }
   }

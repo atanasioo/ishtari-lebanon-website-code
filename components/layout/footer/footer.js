@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 export default function Footer(props) {
   const data = props.footer_categories;
   const info = props?.information_data?.informations;
-  console.log(info)
 
   const FooterPart1 = dynamic(() => import("./footerPart1"), {
     ssr: false // Disable server-side rendering

@@ -268,10 +268,10 @@ function buildLink(link, payload, width, hostServer) {
   //   return mobilehost + mobileurls[link] + extra_params;
   // } else {
   const extra_params = typeof payload == "undefined" ? "" : payload;
-  if (typeof window !== "undefined"){
-   return host + path1 + urls[link] + extra_params; 
-  }else{
-    if(hostServer === "ishtari" || hostServer === "https://www.ishtari.com/"){
+  // if (typeof window !== "undefined" &&  hostServer !== "https://cloudgoup.com/" && hostServer !== "https://www.cloudgoup.com/" && hostServer !== "http://cloudgoup.com" && hostServer !== "www.cloudgoup.com" && hostServer !== "www.ishtari.com"){
+  //  return host + path1 + urls[link] + extra_params; 
+  // }else{
+    if(hostServer === "ishtari" || hostServer === "https://www.ishtari.com/" || hostServer === "http://cloudgoup.com" || hostServer === "https://cloudgoup.com/" || hostServer === "www.cloudgoup.com"){
       host="https://www.ishtari.com/";
       path1 = "motor/"
       return host + path1 + urls[link] + extra_params; 
@@ -302,7 +302,7 @@ function buildLink(link, payload, width, hostServer) {
     }
     host="https://www.ishtari.com/";
     return host + path1 + urls[link] + extra_params; 
-  }
+  //}
   
   // }
 }
