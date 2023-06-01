@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import 'swiper/swiper.min.css';
+import "swiper/swiper.min.css";
 // import 'swiper/css/pagination.min.css';
 // import 'swiper/css/navigation.min.css';
 
@@ -11,6 +11,7 @@ import { Navigation } from "swiper";
 import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import { IoIosArrowDown } from "react-icons/io";
+import { sanitizeHTML } from "../Utils";
 function CatalogPage(props) {
   // const [filters, setFilters] = useState(props.data?.filters );
   const { data } = props; //instead of productData
@@ -18,6 +19,7 @@ function CatalogPage(props) {
   const filters = data?.filters;
   var isLoading = useRef(false);
   // const [data, setData] = useState(props.data);
+  const [showSort, setShowSort] = useState(false);
   const router = useRouter();
   const {
     catalog,
@@ -35,15 +37,51 @@ function CatalogPage(props) {
     limit
   } = router.query;
 
+  const sortRef = useRef(null);
+  const [sortValue, setSort] = useState({
+    value: "p2co.sort_order-ASC",
+    text: "Default"
+  });
   const [topFilter, setTopFilter] = useState({
     show: false,
     name: "",
     offset: 0
   });
 
+  const [showLimit, setShowLimit] = useState(false);
+
+  const [limitValue, setLimit] = useState({
+    value: "50",
+    text: "50"
+  });
+
+  const limitRef = useRef(null);
+  useOutsideLimit(limitRef);
+
+  function useOutsideLimit(limitRef) {
+    useEffect(() => {
+      const checkIfClickedOutside = (e) => {
+        // If the menu is open and the clicked target is not within the menu,
+        if (
+          showLimit &&
+          limitRef.current &&
+          !limitRef.current.contains(e.target)
+        ) {
+          if (showLimit) setShowLimit(false);
+        }
+      };
+
+      document.addEventListener("mousedown", checkIfClickedOutside);
+
+      return () => {
+        // Cleanup the event listener
+
+        document.removeEventListener("mousedown", checkIfClickedOutside);
+      };
+    }, [showLimit]);
+  }
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
-
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -72,13 +110,53 @@ function CatalogPage(props) {
   }
 
   const checkMainFilter = (filter) => {
-    let temp = "catalog-top-filter-not-selected";
-    filter.items.map((item) => {
-      if(filter.id != undefined && filter.id.includes(item.id)) {
-        return (temp = "catalog-top-filter-selected");
+    // let temp = "catalog-top-filter-not-selected";
+    // filter.items.map((item) => {
+    //   if (filter.id != undefined && filter_id==="filter_options")
+
+    //   if( filter.includes(item.id)) {
+    console.log(filter.id);
+    let filter_id = "";
+    if (filter.id != undefined && filter.id === "filter_options") {
+      filter_id = filter_options;
+    }
+    if (filter.id != undefined && filter.id === "filter_manufacturers") {
+      filter_id = filter_manufacturers;
+    }
+    if (filter.id != undefined && filter.id === "filter_sellers") {
+      filter_id = filter_sellers;
+    }
+    if (filter.id != undefined && filter.id === "filter_categories") {
+      filter_id = filter_categories;
+    }
+
+    if (filter.id != undefined && filter.id === "adv_filters") {
+      filter_id = adv_filters;
+    }
+    var count = 0;
+    filter.items?.map((item) => {
+      // console.log("###################### ")
+      // console.log("Param1:", filter_categories);
+      // console.log("Param2:", filter_manufacturers);
+      // console.log("Param3:", filter_sellers);
+      // console.log("Param4:", filter_options);
+      // console.log("Param5:", page);
+      // console.log(item.id)
+      // console.log(filter_id)
+      // console.log(filter.id)
+      // console.log(filter_manufacturers )
+      // console.log("###################### ")
+      if ([filter_id]?.includes(item.id)) {
+        count++;
       }
     });
-    return temp;
+    //   }
+    // });
+    if (count > 0) {
+      return "catalog-top-filter-selected bg-white";
+    } else {
+      return "";
+    }
   };
 
   const handleTopFilter = (name) => {
@@ -408,7 +486,7 @@ function CatalogPage(props) {
                               <span className="flex w-10/12">
                                 <span
                                   className={`flex w-7 h-7 ${checkFilter(
-                                    filters[key].id,
+                                    filters[key]?.id,
                                     filters[key].name,
                                     filter
                                   )}`}
@@ -422,7 +500,7 @@ function CatalogPage(props) {
                                     alt="Not Found"
                                   />
                                 </span>
-                                <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
                                   {" "}
                                   {filter.name}
                                 </p>
@@ -548,11 +626,131 @@ function CatalogPage(props) {
               </div>
             ))}
         </div>
-        <div className="w-4/5 ">
+        <div className="w-4/5 leading-dtight">
+          <div className=" flex pb-4">
+ 
+            {/* Results found */}
+            <div className="flex mx-1 w-5/12 pt-1">
+              <span className=" mr-2 font-light">
+                {data.product_total} Results {data.heading_title && "for"}
+              </span>
+              {data.heading_title && '"'}
+              <h1
+                className="font-semibold capitalize text-d16"
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(data.heading_title)
+                }}
+              />
+              {data.heading_title && '"'}
+            </div>
+            {/* Settings */}
+            {/* Desktop setting */}
+            <div className="hidden xl:flex lg:flex">
+              {/* Sorts */}
+              {data?.products?.length > 0 && (
+                <div className=" px-8 flex items-center">
+                  <span className=" text-xs font-semibold text-dgrey1 pb-1 ">
+                    SORT BY
+                  </span>
+                  <div className="relative pb-1">
+                    <button
+                      className="bg-white px-8 py-1 ml-4 border text-sm font-semibold cursor-pointer rounded  flex items-start"
+                      onClick={() => setShowSort(!showSort)}
+                    >
+                      <span>
+                        {
+                          <span
+                          className=" uppercase"
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(sortValue?.text)
+                            }}
+                          ></span>
+                        }
+                      </span>
+                      <i
+                        className={`block icon icon-angle-down ml-2 transition-all ${
+                          showSort && "transform  rotate-180"
+                        }`}
+                      ></i>
+                    </button>
+                    {showSort && (
+                      <div
+                        className="bg-white py-4 w-44 shadow-2xl absolute z-40 right-0 top-9"
+                        ref={sortRef}
+                      >
+                        {data?.sorts?.map((sort) => (
+                          <span
+                            onClick={() => {
+                              sortSetter(sort);
+                            }}
+                            className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
+                            key={sort.value}
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(sort.text)
+                            }}
+                          ></span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="hidden xl:flex lg:flex">
+              {/* Sorts */}
+              {data?.products?.length > 0 && (
+                <div className=" px-8 flex items-center">
+                  <span className=" text-xs font-semibold text-dgrey1 pb-1 ">
+                    DISPLAY
+                  </span>
+                  <div className="relative p-1">
+                                <button
+                                  className="bg-white px-8 py-1 ml-4 border text-sm font-semibold cursor-pointer rounded flex items-start "
+                                  onClick={() => setShowLimit(!showLimit)}
+                                >
+                                  <span>
+                                    {
+                                      <span
+                                        dangerouslySetInnerHTML={{
+                                          __html: sanitizeHTML(limitValue.text)
+                                        }}
+                                      > PER PAGE</span>
+                                    }
+                                  </span>
+                                  <i
+                                    className={`block icon icon-angle-down ml-2 transition-all ${
+                                      showLimit && "transform  rotate-180"
+                                    }`}
+                                  ></i>
+                                </button>
+                                {showLimit && (
+                                  <div
+                                    className="bg-white py-4 w-44 shadow-2xl absolute z-40 right-0 top-9"
+                                    ref={limitRef}
+                                  >
+                                    {data?.limits?.map((limit) => (
+                                      <span
+                                        onClick={() => limitSetter(limit)}
+                                        className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
+                                        key={limit.value}
+                                        dangerouslySetInnerHTML={{
+                                          __html: sanitizeHTML(limit.text)
+                                        }}
+                                      ></span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                </div>
+              )}
+            </div>
+          </div>
+
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
-              <div className="  w-full block relative z-10">
+              <div className="  w-full block relative z-10 ">
                 <div className="relative flex items-center mb-3 mt-4">
                   <div
                     className={`catalog-top-filter hidden mobile:block  ${
@@ -561,12 +759,12 @@ function CatalogPage(props) {
                     style={{ left: topFilter.offset }}
                     ref={wrapperRef}
                   >
-                    <div className="catalog-top-filter-container px-1 pb-2">
+                    <div className="px-1 ">
                       {data.filters.findIndex(
                         (x) => x.name === topFilter.name
                       ) !== -1 && (
                         <div className="pb-4 px-3">
-                          <div className="flex place-content-between  place-items-center px-4">
+                          <div className="flex place-content-between place-items-center px-4 w-52">
                             {" "}
                             <div className=" w-full py-4">
                               {data.filters[
@@ -593,105 +791,32 @@ function CatalogPage(props) {
                                   ]
                                 )
                               }
-                            >
-                              Clear
-                            </button>
+                            ></button>
                           </div>
-                          {filters && (
-                            <div className="grid grid-cols-3">
-                              {filters[
-                                data.filters.findIndex(
-                                  (x) => x.name === topFilter.name
-                                )
-                              ]?.items?.map((filter) => (
-                                <div
-                                  className="w-auto px-3 py-1"
-                                  key={Math.random()}
-                                >
-                                  {filters[
-                                    data.filters.findIndex(
-                                      (x) => x.name === topFilter.name
-                                    )
-                                  ].name === "Light Color" ||
-                                  filters[
-                                    data.filters.findIndex(
-                                      (x) => x.name === topFilter.name
-                                    )
-                                  ].name === "Color" ? (
-                                    <p
-                                      className=" flex items-center justify-between  cursor-pointer hover:text-dblue"
-                                      key={filter.name}
-                                      onClick={() =>
-                                        parseFilter(
-                                          filters[
-                                            data.filters.findIndex(
-                                              (x) => x.name === topFilter.name
-                                            )
-                                          ].id,
-                                          filter
-                                        )
-                                      }
-                                    >
-                                      <span className="flex">
-                                        <img
-                                          src={filter.image}
-                                          style={{
-                                            padding: `2px`
-                                          }}
-                                          className={`w-7 h-7 rounded-full ${checkFilter(
-                                            filters[
-                                              data.filters.findIndex(
-                                                (x) => x.name === topFilter.name
-                                              )
-                                            ].id,
-                                            filters[
-                                              data.filters.findIndex(
-                                                (x) => x.name === topFilter.name
-                                              )
-                                            ].name,
-                                            filter
-                                          )}`}
-                                          alt=""
-                                        />
-
-                                        <p className="py-2 mx-2 text-d13 w-8/12 font-light">
-                                          {" "}
-                                          {filter.name}
-                                        </p>
-                                      </span>
-                                      <span className="text-d13 text-right font-light ">
-                                        ({filter.count})
-                                      </span>
-                                    </p>
-                                  ) : filters[
+                          <div className="h-auto pb-4">
+                            {filters && (
+                              <div className="">
+                                {filters[
+                                  data.filters.findIndex(
+                                    (x) => x.name === topFilter.name
+                                  )
+                                ]?.items?.map((filter, key) => (
+                                  <div
+                                    className="w-auto px-3 py-1"
+                                    key={Math.random()}
+                                  >
+                                    {filters[
                                       data.filters.findIndex(
                                         (x) => x.name === topFilter.name
                                       )
-                                    ].name === "jeans Size" ||
+                                    ].name === "Light Color" ||
                                     filters[
                                       data.filters.findIndex(
                                         (x) => x.name === topFilter.name
                                       )
-                                    ].name === "Shoes Size" ? (
-                                    <div
-                                      className={` ${
-                                        1500 >= 1400 ? "w-48" : "w-28"
-                                      } `}
-                                    >
+                                    ].name === "Color" ? (
                                       <p
-                                        className={`flex justify-between items-center cursor-pointer hover:text-dblue ${checkFilter(
-                                          filters[
-                                            data.filters.findIndex(
-                                              (x) => x.name === topFilter.name
-                                            )
-                                          ].id,
-                                          data.filters[
-                                            data.filters.findIndex(
-                                              (x) => x.name === topFilter.name
-                                            )
-                                          ].name,
-                                          filter
-                                        )}`}
+                                        className=" flex items-center justify-between  cursor-pointer hover:text-dblue"
                                         key={filter.name}
                                         onClick={() =>
                                           parseFilter(
@@ -700,75 +825,135 @@ function CatalogPage(props) {
                                                 (x) => x.name === topFilter.name
                                               )
                                             ].id,
-                                            filter
+                                            filter.id
                                           )
                                         }
                                       >
+                                        <span className="flex">
+                                          <img
+                                            src={filter.image}
+                                            style={{
+                                              padding: `2px`
+                                            }}
+                                            className={`w-7 h-7 rounded-full mr-1 ${checkFilter(
+                                              filters[key]?.id,
+                                              filter.name,
+                                              filter
+                                            )}`}
+                                            alt={filters[key]?.id}
+                                          />
+
+                                          <p className="pt-1 mx-2 text-d13 w-8/12 font-light">
+                                            {" "}
+                                            {filter.name}
+                                          </p>
+                                        </span>
+                                        <span className="text-d13 text-right font-light ">
+                                          ({filter.count})
+                                        </span>
+                                      </p>
+                                    ) : filters[
+                                        data.filters.findIndex(
+                                          (x) => x.name === topFilter.name
+                                        )
+                                      ].name === "jeans Size" ||
+                                      filters[
+                                        data.filters.findIndex(
+                                          (x) => x.name === topFilter.name
+                                        )
+                                      ].name === "Shoes Size" ? (
+                                      <div
+                                        className={` ${
+                                          1500 >= 1400 ? "w-48" : "w-28"
+                                        } `}
+                                        onClick={() =>
+                                          parseFilter(
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].id,
+                                            filter.id
+                                          )
+                                        }
+                                      >
+                                        {checkFilter(
+                                          filters[
+                                            data.filters.findIndex(
+                                              (x) => x.name === topFilter.name
+                                            )
+                                          ]?.id,
+                                          filter.name,
+                                          filter
+                                        )}
                                         <span className="text-d13 font-light">
                                           {filter.name}
                                         </span>
+                                        {data.filters.findIndex(
+                                          (x) => x.name === topFilter.name
+                                        )}
 
                                         <span className="float-right text-d13 font-light">
                                           ({filter.count})
                                         </span>
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    filters[
-                                      data.filters.findIndex(
-                                        (x) => x.name === topFilter.name
-                                      )
-                                    ].name !== "Socks" &&
-                                    filters[
-                                      data.filters.findIndex(
-                                        (x) => x.name === topFilter.name
-                                      )
-                                    ].name !== "Size by Age" && (
-                                      <div>
-                                        <p
-                                          className=" flex justify-between items-center cursor-pointer hover:text-dblue"
-                                          key={filter.name}
-                                          onClick={() =>
-                                            parseFilter(
-                                              filters[
-                                                data.filters.findIndex(
-                                                  (x) =>
-                                                    x.name === topFilter.name
-                                                )
-                                              ].id,
-                                              filter
-                                            )
-                                          }
-                                        >
-                                          <div className="mr-1">
-                                            {" "}
-                                            <i
-                                              className={`icon mr-1 text-base  ${checkFilter(
+                                      </div>
+                                    ) : (
+                                      filters[
+                                        data.filters.findIndex(
+                                          (x) => x.name === topFilter.name
+                                        )
+                                      ].name !== "Socks" &&
+                                      filters[
+                                        data.filters.findIndex(
+                                          (x) => x.name === topFilter.name
+                                        )
+                                      ].name !== "Size by Age" && (
+                                        <div>
+                                          <p
+                                            className=" flex justify-between items-center cursor-pointer hover:text-dblue"
+                                            key={filter.name}
+                                            onClick={() =>
+                                              parseFilter(
                                                 filters[
                                                   data.filters.findIndex(
                                                     (x) =>
                                                       x.name === topFilter.name
                                                   )
                                                 ].id,
-                                                filter.name,
-                                                filter
-                                              )}`}
-                                            ></i>
-                                            <span className="text-d13 font-light">
-                                              {filter.name}
+                                                filter.id
+                                              )
+                                            }
+                                          >
+                                            <div className="">
+                                              <i>
+                                                {checkFilter(
+                                                  filters[
+                                                    data.filters.findIndex(
+                                                      (x) =>
+                                                        x.name ===
+                                                        topFilter.name
+                                                    )
+                                                  ]?.id,
+                                                  filter.name,
+                                                  filter
+                                                )}
+                                              </i>
+                                              <span className="text-d13 font-light ml-1">
+                                                {filter.name}
+                                              </span>
+                                            </div>
+                                            <span className="float-right text-d13 font-light">
+                                              ({filter.count})
                                             </span>
-                                          </div>
-                                          <span className="float-right text-d13 font-light">
-                                            ({filter.count})
-                                          </span>
-                                        </p>
-                                      </div>
-                                    )
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          )}
+                                          </p>
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -841,7 +1026,7 @@ function CatalogPage(props) {
                           </button>
                         </div>
                         <div
-                          className="overflow-y-auto pt-4 pb-4 -mr-6 pr-6 catalog-mobile-scroll"
+                          className="overflow-y-auto pt-4 pb-4 -mr-6 pr-6  catalog-mobile-scroll"
                           style={{ height: "65vh" }}
                         >
                           {filters && (
@@ -850,7 +1035,7 @@ function CatalogPage(props) {
                                 data.filters.findIndex(
                                   (x) => x.name === topFilter.name
                                 )
-                              ]?.items?.map((filter) => (
+                              ]?.items?.map((filter, key) => (
                                 <div
                                   className="w-full px-3 py-1"
                                   key={Math.random()}
@@ -869,14 +1054,7 @@ function CatalogPage(props) {
                                       className=" flex items-center justify-between cursor-pointer hover:text-dblue"
                                       key={filter.name}
                                       onClick={() =>
-                                        parseFilter(
-                                          filters[
-                                            data.filters.findIndex(
-                                              (x) => x.name === topFilter.name
-                                            )
-                                          ].id,
-                                          filter
-                                        )
+                                        parseFilter(filters[key].id, filter.id)
                                       }
                                     >
                                       <span className="flex">
@@ -885,25 +1063,20 @@ function CatalogPage(props) {
                                           style={{
                                             padding: `2px`
                                           }}
-                                          className={`w-7 h-7 rounded-full ${checkFilter(
-                                            filters[
-                                              data.filters.findIndex(
-                                                (x) => x.name === topFilter.name
-                                              )
-                                            ].id,
-                                            filters[
-                                              data.filters.findIndex(
-                                                (x) => x.name === topFilter.name
-                                              )
-                                            ].name,
+                                          className={`w-7 h-7 rounded-full  pt-5 ${checkFilter(
+                                            filters[key]?.id,
+                                            filter.name,
                                             filter
                                           )}`}
                                           alt=""
                                         />
 
-                                        <p className="py-2 mx-2 text-d13 w-8/12 font-light">
+                                        <p className="p-2 mx-2 text-d13 w-8/12 font-light">
                                           {" "}
-                                          {filter.name}
+                                          {filter.name} -{" "}
+                                          {data.filters.findIndex(
+                                            (x) => x.name === topFilter.name
+                                          )}
                                         </p>
                                       </span>
                                       <span className="text-d13  text-right font-light ">
@@ -917,12 +1090,8 @@ function CatalogPage(props) {
                                         key={filter.name}
                                         onClick={() =>
                                           parseFilter(
-                                            filters[
-                                              data.filters.findIndex(
-                                                (x) => x.name === topFilter.name
-                                              )
-                                            ].id,
-                                            filter
+                                            filters[key].id,
+                                            filter.id
                                           )
                                         }
                                       >
@@ -939,6 +1108,9 @@ function CatalogPage(props) {
                                         ></i>
                                         <span className="text-d13 font-light">
                                           {filter.name}
+                                          {data.filters.findIndex(
+                                            (x) => x.name === topFilter.name
+                                          )}
                                         </span>
 
                                         <span className="float-right text-d13 font-light">
@@ -985,20 +1157,20 @@ function CatalogPage(props) {
                             >
                               <button className="p-1 " id={filter.name}>
                                 <div
-                                  className={`text-sm px-3 flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl  ${checkMainFilter(
+                                  className={`text-d14 px-3 py-1 flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl ${checkMainFilter(
                                     filter
                                   )}`}
-                                  style={{
-                                    paddingTop: "6px",
-                                    paddingBottom: "6px"
-                                  }}
+                                  // style={{
+                                  //   paddingTop: "5px",
+                                  //   paddingBottom: "5px"
+                                  // }}
                                 >
                                   <span className="w-max">
                                     {filter.name.charAt(0).toUpperCase() +
                                       filter.name.slice(1)}
                                   </span>
                                   <span className="ml-2">
-                                    <IoIosArrowDown />
+                                    <IoIosArrowDown className="text-d18" />
                                   </span>
                                 </div>
                               </button>
@@ -1010,7 +1182,10 @@ function CatalogPage(props) {
                         return (
                           filter.items.length > 0 &&
                           filter.items.map((item) => {
-                            if(filter.id != undefined && filter.id.replace('"', "").includes(item.id)) {
+                            if (
+                              filter.id != undefined &&
+                              filter.id.replace('"', "").includes(item.id)
+                            ) {
                               // console.log(userFilters);
                               return (
                                 <SwiperSlide>
@@ -1019,15 +1194,15 @@ function CatalogPage(props) {
                                     onClick={() => parseFilter(filter.id, item)}
                                   >
                                     <div
-                                      className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
-                                      style={{
-                                        paddingTop: "6px",
-                                        paddingBottom: "6px"
-                                      }}
+                                      className={`text-d14 bg-dgreyRate px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
+                                      // style={{
+                                      //   paddingTop: "6px",
+                                      //   paddingBottom: "6px"
+                                      // }}
                                     >
                                       <span className="w-max">{item.name}</span>
                                       <span className="ml-2">
-                                        <AiOutlineClose />
+                                        <AiOutlineClose className="text-d18" />
                                       </span>
                                     </div>
                                   </button>
@@ -1041,14 +1216,17 @@ function CatalogPage(props) {
                         return (
                           filter.items.length > 0 &&
                           filter.items.slice(0, 3).map((item) => {
-                            if(filter.id != undefined && !filter.id.includes(item.id)) {
-
+                            if (
+                              filter.id != undefined &&
+                              !filter.id.includes(item.id)
+                            ) {
                               if (filter.name === "Sellers") {
                                 const temp = Math.max(
                                   ...filter.items.map((o) => {
-                                    if(filter.id != undefined && !filter.id.includes(o.id)) {
-
-
+                                    if (
+                                      filter.id != undefined &&
+                                      !filter.id.includes(o.id)
+                                    ) {
                                       return Number(o.count);
                                     }
                                   })
@@ -1060,15 +1238,15 @@ function CatalogPage(props) {
                                       <button
                                         className="p-1 "
                                         onClick={() =>
-                                          parseFilter(filter.id, item)
+                                          parseFilter(filter.id, item.id)
                                         }
                                       >
                                         <div
-                                          className={`text-sm px-3 overflow-hidden flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                          style={{
-                                            paddingTop: "6px",
-                                            paddingBottom: "6px"
-                                          }}
+                                          className={`text-d14 px-3 py-1 overflow-hidden flex-nowrap flex justify-between items-center bg-dgreyRate rounded-2xl `}
+                                          // style={{
+                                          //   paddingTop: "6px",
+                                          //   paddingBottom: "6px"
+                                          // }}
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1084,8 +1262,10 @@ function CatalogPage(props) {
                               } else if (filter.name === "Brands") {
                                 const temp = Math.max(
                                   ...filter.items.map((o) => {
-                                    if(filter.id != undefined && !filter.id.includes(o.id)) {
-
+                                    if (
+                                      filter.id != undefined &&
+                                      !filter.id.includes(o.id)
+                                    ) {
                                       return Number(o.count);
                                     }
                                   })
@@ -1100,11 +1280,11 @@ function CatalogPage(props) {
                                         }
                                       >
                                         <div
-                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                          style={{
-                                            paddingTop: "6px",
-                                            paddingBottom: "6px"
-                                          }}
+                                          className={`text-d14 px-3 py-1  flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
+                                          // style={{
+                                          //   paddingTop: "6px",
+                                          //   paddingBottom: "6px"
+                                          // }}
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1120,8 +1300,10 @@ function CatalogPage(props) {
                               } else if (filter.name === "Color") {
                                 const temp = Math.max(
                                   ...filter.items.map((o) => {
-                                    if(filter.id != undefined && !filter.id.includes(o.id)) {
-
+                                    if (
+                                      filter.id != undefined &&
+                                      !filter.id.includes(o.id)
+                                    ) {
                                       return Number(o.count);
                                     }
                                   })
@@ -1136,11 +1318,11 @@ function CatalogPage(props) {
                                         }
                                       >
                                         <div
-                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                          style={{
-                                            paddingTop: "6px",
-                                            paddingBottom: "6px"
-                                          }}
+                                          className={`text-d14 py-1 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
+                                          // style={{
+                                          //   paddingTop: "6px",
+                                          //   paddingBottom: "6px"
+                                          // }}
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1156,8 +1338,11 @@ function CatalogPage(props) {
                               } else if (filter.name === "Shoes size") {
                                 const temp = Math.max(
                                   ...filter.items.map((o) => {
-                                    if (  filter.id !=undefined && 
-                                      filter.id.replaceAll('"',"").includes(o.id)
+                                    if (
+                                      filter.id != undefined &&
+                                      filter.id
+                                        .replaceAll('"', "")
+                                        .includes(o.id)
                                     ) {
                                       return Number(o.count);
                                     }
@@ -1177,11 +1362,11 @@ function CatalogPage(props) {
                                         }
                                       >
                                         <div
-                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                          style={{
-                                            paddingTop: "6px",
-                                            paddingBottom: "6px"
-                                          }}
+                                          className={`text-d14 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
+                                          // style={{
+                                          //   paddingTop: "6px",
+                                          //   paddingBottom: "6px"
+                                          // }}
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1203,11 +1388,11 @@ function CatalogPage(props) {
                                         }
                                       >
                                         <div
-                                          className={`text-sm px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                          style={{
-                                            paddingTop: "6px",
-                                            paddingBottom: "6px"
-                                          }}
+                                          className={`text-d14 bg-dgreyRate px-3 py-1 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
+                                          // style={{
+                                          //   paddingTop: "6px",
+                                          //   paddingBottom: "6px"
+                                          // }}
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1238,7 +1423,7 @@ function CatalogPage(props) {
               </div>
             ))}
           </div>
-          <div>
+          <div className="h-12">
             <ReactPaginate
               className={"category-pagination"}
               breakLabel="..."
