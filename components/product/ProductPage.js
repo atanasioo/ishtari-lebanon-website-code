@@ -17,6 +17,7 @@ import ProductPart2 from "./ProductPart2";
 import dynamic from "next/dynamic";
 import NotifyMe from "./NotifyMe";
 import { sanitizeHTML } from "../Utils";
+import ProductZoom from "./ProductZoom";
 
 function ProductPage(props) {
   const [countDownPointer, setCountDonwPointer] = useState();
@@ -184,8 +185,11 @@ function ProductPage(props) {
           </div>
           <div className="product-div flex items-stretch bg-white w-full">
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
-              <div className="product-zoom w-full md:w-7/12 h-full">
-                <Image width={380} height={518} src={data.popup} />
+              <div className="product-zoom w-full md:w-7/12">
+                {/* <Image width={380} height={518} src={data.popup} /> */}
+                <ProductZoom 
+                images={data.images}
+                productData={data} />
               </div>
               <div className="product-info w-full md:w-5/12">
                 {/* BRAND NAME */}

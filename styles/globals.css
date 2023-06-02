@@ -726,5 +726,120 @@ mySwiper .swiper-button-next {
   font-size: 18px;
 }
 
+.selector_div .slick-arrow .arrow {
+  width: 50%;
+  height: 10px;
+} 
+
+.selector_div .slick-arrow .slick-prev {
+  width: 100%;
+  height: 20px;
+  top: 0;
+  z-index: 1;
+  -webkit-box-pack: center;
+  position: absolute !important;
+  cursor: pointer;
+  left: unset !important;
+}
+.selector_div .slick-prev{
+  left: unset !important;
+  transform: translate(0, -28%) !important;
+}
+.selector_div .slick-next{
+  transform: rotate(180deg) !important;
+  top: unset !important;
+}
+.selector_div .slick-arrow .slick-next{
+  width: 100%;
+  height: 20px;
+  bottom: 0;
+  z-index: 1;
+  -webkit-box-pack: center;
+  position: absolute !important;
+  cursor: pointer;
+  translate: unset !important;
+
+} 
+.selector_div .slick-arrow.slick-button-disabled {
+  display: none;
+}
+.selector_div .slick-slider{
+  position: relative;
+}
+.selector_div .slick-arrow.slick-hidden {
+  display: none;
+}
+
+.selector_div .slick-list{
+  height: 439px !important;
+  
+}
+@media (max-width: 768px){
+.selector_div  .slick-list{
+  height: unset !important;   
+  
+}
+.selector_div .slick-slide{}
+}
+  .selector_div {
+    min-height: 550px;
+    min-width: 50px; 
+ }
+
+ @media (max-width: 768px){
+  .selector_div {
+    min-height: unset !important;
+    min-width: unset !important;        
+ }
+ }
+
+
+ .selector_div .slick-slider .slick-track{
+  height: unset !important;
+}
+.selector_div .slick-disabled {
+  display: none !important;
+}
+
+.selectors img[src]:hover {
+  transform: scale(0.9);
+}
+
+.selectors img[src],
+.selectors img[srcset] {
+  border: 1px solid #7e859b1f;
+  padding: 0 !important;
+  border-radius: 5px;
+  transition: all 150ms ease-in;
+}
+
+@media (max-width: 600px) {
+  .selectors a {
+      margin-right: 10px;
+      width: 75px;
+      max-width: 75px
+  }
+  .selectors {
+      max-width: 100%;
+      overflow: scroll;
+      padding: 0 10px;
+  }
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 464px;
+  height: 600px;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid transparent;
+  /*set the size of the lens:*/
+  width: 140px;
+  height: 140px;
+}
+
 
 

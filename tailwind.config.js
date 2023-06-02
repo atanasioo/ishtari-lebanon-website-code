@@ -247,7 +247,10 @@ module.exports = {
       }, 
       dprimarybg:{
         DEFAULT: "#F8F8F9"
-      }
+      },
+      dgreyZoom:{
+        DEFAULT: "#EBECF0"
+      },
     },
 
   },
