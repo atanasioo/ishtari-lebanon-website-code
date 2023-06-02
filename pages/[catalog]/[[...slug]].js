@@ -78,7 +78,10 @@ export async function getServerSideProps(context) {
     filter_sellers,
     filter_options,
     adv_filters,
-    page,
+    sort,
+    limit,
+    order,
+    page
   } = context.query;
 
   const { req } = context;
@@ -120,11 +123,24 @@ export async function getServerSideProps(context) {
       }
       // console.log(context);
 
-      //fetch product data
+    if (!has_filter) {
+      // } else {
+
+      var filter = "";
+      if (page != undefined) {
+        filter += "&page=" + page;
+      }
+      if (sort != undefined) {
+        filter += "&sort=" + sort + "&order=" +order;
+      }
+
+      if (page != undefined) {
+        filter += "&page=" + page;
+      }
       let link =
-        buildLink("product", undefined, undefined, site_host) +
-        product_id +
-        "&source_id=1&part_one";
+        buildLink(type, undefined, undefined, site_host) +
+        id +
+        "&source_id=1" + filter;
       const response = await axiosServer.get(link, {
         headers: {
           Authorization: "Bearer " + token,
@@ -209,6 +225,11 @@ export async function getServerSideProps(context) {
         if (filter_sellers !== undefined) {
           filter += "&filter_sellers=" + filter_sellers;
         }
+       link =
+        buildLink("filter", undefined, undefined) +
+        "&path=" +
+        slug[0].split("=")[1] +
+        filter;
 
         if (filter_options != undefined) {
           filter += "&filter_options=" + filter_options;
