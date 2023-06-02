@@ -12,6 +12,9 @@ import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import { IoIosArrowDown } from "react-icons/io";
 import { sanitizeHTML } from "../Utils";
+import { FaList } from "react-icons/fa";
+import { BsGrid } from "react-icons/bs";
+
 function CatalogPage(props) {
   // const [filters, setFilters] = useState(props.data?.filters );
   const { data } = props; //instead of productData
@@ -20,6 +23,8 @@ function CatalogPage(props) {
   var isLoading = useRef(false);
   // const [data, setData] = useState(props.data);
   const [showSort, setShowSort] = useState(false);
+  const [productDisplay, setProductDisplay] = useState("grid");
+
   const router = useRouter();
   const {
     catalog,
@@ -36,6 +41,8 @@ function CatalogPage(props) {
     order,
     limit
   } = router.query;
+  console.log(router);
+  console.log("limit" + limit);
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
@@ -80,6 +87,32 @@ function CatalogPage(props) {
       };
     }, [showLimit]);
   }
+
+  useOutsideSort(sortRef);
+
+  function useOutsideSort(sortRef) {
+    useEffect(() => {
+      const checkIfClickedOutside = (e) => {
+        // If the menu is open and the clicked target is not within the menu,
+        if (
+          showSort &&
+          sortRef.current &&
+          !sortRef.current.contains(e.target)
+        ) {
+          if (showSort) setShowSort(false);
+        }
+      };
+
+      document.addEventListener("mousedown", checkIfClickedOutside);
+
+      return () => {
+        // Cleanup the event listener
+
+        document.removeEventListener("mousedown", checkIfClickedOutside);
+      };
+    }, [showSort]);
+  }
+
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
@@ -107,6 +140,61 @@ function CatalogPage(props) {
         };
       }
     }, [ref, topFilter]);
+  }
+
+  function sortSetter(sortData) {
+    // console.log(sort);
+    // console.log(router.asPath);
+
+    setSort(sortData);
+    setShowSort(false);
+    let val = sortData["value"];
+    let _order = "";
+    let _sort = "";
+    const i_o = val.indexOf("-");
+    _sort = val.substring(0, i_o);
+    _order = val.substring(i_o + 1);
+    // const data = { sort: _sort, order: order };
+    let now = "&sort=" + _sort + "&order=" + _order;
+    if (has_filter) {
+      if (sort == undefined) {
+        router.push(router.asPath + now);
+      } else {
+        const old = "&sort=" + sort + "&order=" + order;
+        router.push(router.asPath.replace(old, now));
+      }
+    } else {
+
+
+      
+    }
+  }
+
+  function limitSetter(limitData) {
+    // alert(limit);
+    // alert(limitData.value);
+    setShowLimit(false);
+    alert(now);
+    var now = "&limit=" + limitData.value;
+
+    if (has_filter) {
+      if (limit == undefined) {
+        router.push(router.asPath + now);
+      } else {
+        const old = "&limit=" + limit;
+        alert(old);
+        router.push(router.asPath.replace(old, now));
+      }
+    } else {
+      now = "?limit=" + limitData.value;
+      if (limit == undefined) {
+        router.push(router.asPath + now);
+      } else {
+        const old = "?limit=" + limit;
+        alert(old);
+        router.push(router.asPath.replace(old, now));
+      }
+    }
   }
 
   const checkMainFilter = (filter) => {
@@ -627,10 +715,9 @@ function CatalogPage(props) {
             ))}
         </div>
         <div className="w-4/5 leading-dtight">
-          <div className=" flex pb-4">
- 
+          <div className="flex justify-between">
             {/* Results found */}
-            <div className="flex mx-1 w-5/12 pt-1">
+            <div className="flex mx-1 w-4/12 pt-1">
               <span className=" mr-2 font-light">
                 {data.product_total} Results {data.heading_title && "for"}
               </span>
@@ -645,7 +732,8 @@ function CatalogPage(props) {
             </div>
             {/* Settings */}
             {/* Desktop setting */}
-            <div className="hidden xl:flex lg:flex">
+
+            <div className="flex justify-end ">
               {/* Sorts */}
               {data?.products?.length > 0 && (
                 <div className=" px-8 flex items-center">
@@ -654,24 +742,24 @@ function CatalogPage(props) {
                   </span>
                   <div className="relative pb-1">
                     <button
-                      className="bg-white px-8 py-1 ml-4 border text-sm font-semibold cursor-pointer rounded  flex items-start"
+                      className="bg-white px-3 py-1 ml-4 border text-sm font-semibold cursor-pointer rounded  flex items-start space-x-2"
                       onClick={() => setShowSort(!showSort)}
+                      ref={sortRef}
                     >
-                      <span>
-                        {
-                          <span
-                          className=" uppercase"
-                            dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(sortValue?.text)
-                            }}
-                          ></span>
-                        }
-                      </span>
-                      <i
+                      <span
+                        className=" uppercase text-d12 leading-tight font-bold mt-0.5"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHTML(sortValue?.text)
+                        }}
+                      />
+                      <span
                         className={`block icon icon-angle-down ml-2 transition-all ${
                           showSort && "transform  rotate-180"
                         }`}
-                      ></i>
+                      >
+                        {" "}
+                        <IoIosArrowDown className=" text-d18" />
+                      </span>
                     </button>
                     {showSort && (
                       <div
@@ -695,9 +783,7 @@ function CatalogPage(props) {
                   </div>
                 </div>
               )}
-            </div>
 
-            <div className="hidden xl:flex lg:flex">
               {/* Sorts */}
               {data?.products?.length > 0 && (
                 <div className=" px-8 flex items-center">
@@ -705,48 +791,72 @@ function CatalogPage(props) {
                     DISPLAY
                   </span>
                   <div className="relative p-1">
-                                <button
-                                  className="bg-white px-8 py-1 ml-4 border text-sm font-semibold cursor-pointer rounded flex items-start "
-                                  onClick={() => setShowLimit(!showLimit)}
-                                >
-                                  <span>
-                                    {
-                                      <span
-                                        dangerouslySetInnerHTML={{
-                                          __html: sanitizeHTML(limitValue.text)
-                                        }}
-                                      > PER PAGE</span>
-                                    }
-                                  </span>
-                                  <i
-                                    className={`block icon icon-angle-down ml-2 transition-all ${
-                                      showLimit && "transform  rotate-180"
-                                    }`}
-                                  ></i>
-                                </button>
-                                {showLimit && (
-                                  <div
-                                    className="bg-white py-4 w-44 shadow-2xl absolute z-40 right-0 top-9"
-                                    ref={limitRef}
-                                  >
-                                    {data?.limits?.map((limit) => (
-                                      <span
-                                        onClick={() => limitSetter(limit)}
-                                        className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
-                                        key={limit.value}
-                                        dangerouslySetInnerHTML={{
-                                          __html: sanitizeHTML(limit.text)
-                                        }}
-                                      ></span>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
+                    <button
+                      className="bg-white px-3 py-1 ml-4 border text-d14 font-semibold cursor-pointer rounded flex items-start space-x-2"
+                      onClick={() => setShowLimit(!showLimit)}
+                    >
+                      <span
+                        className=" uppercase text-d12 leading-tight font-bold mt-0.5"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHTML(limitValue.text + " PER PAGE")
+                        }}
+                      />
+                      {/* {!showLimit ? (
+                        <IoIosArrowDown className="ml-2 text-d18" />
+                      ) : (
+                        <IoIosArrowUp className="ml-2 text-d18" />
+                      )} */}
+
+                      <span
+                        className={`block icon icon-angle-down ml-2 transition-all ${
+                          showLimit && "transform  rotate-180"
+                        }`}
+                      >
+                        {" "}
+                        <IoIosArrowDown className=" text-d18" />
+                      </span>
+                    </button>
+                    {showLimit && (
+                      <div
+                        className="bg-white py-4 w-44 shadow-2xl absolute z-40 right-0 top-9"
+                        ref={limitRef}
+                      >
+                        {data?.limits?.map((limit) => (
+                          <span
+                            onClick={() => limitSetter(limit)}
+                            className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
+                            key={limit.value}
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(limit.text)
+                            }}
+                          ></span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {data?.products?.length > 0 && (
+                <div className="flex  items-center">
+                  <span className=" text-d14 font-semibold text-dgrey1">
+                    {productDisplay === "grid" ? "Grid" : "List"}
+                  </span>
+                  <button
+                    className={`bg-white ml-4 text-lg border rounded block icon  transition-all p-1.5`}
+                    onClick={() =>
+                      setProductDisplay(
+                        productDisplay === "grid" ? "list" : "grid"
+                      )
+                    }
+                    // style={{ width: "30px", height: "30px" }}
+                  >
+                    {productDisplay === "grid" ? <FaList /> : <BsGrid />}
+                  </button>
                 </div>
               )}
             </div>
           </div>
-
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
@@ -1416,7 +1526,14 @@ function CatalogPage(props) {
               </div>
             )}
 
-          <div className="grid grid-cols-5 min-h-screen">
+          <div
+            className={`grid transition-all pt-2 ${
+              productDisplay === "grid"
+                ? "grid-cols-2 xl:grid-cols-5 lg:grid-cols-5 gap-2 "
+                : "grid-cols-1"
+            }`}
+          >
+            {" "}
             {data?.products?.map((item) => (
               <div className="p-1">
                 <SingleProduct item={item}></SingleProduct>
