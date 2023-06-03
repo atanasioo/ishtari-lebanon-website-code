@@ -44,7 +44,10 @@ function ProductPage(props) {
   const [sizeGuide, setSizeGuide] = useState();
   const [colorSelected, setColorSelected] = useState();
   const [reviews, setReviews] = useState();
-
+  const [activeImageOption, setImageActiveOption] = useState({});
+  const [images, setImages] = useState(data.images);
+  const [activeImage, setActiveImage] = useState({});
+  
 
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
@@ -62,7 +65,20 @@ function ProductPage(props) {
     setProductBundle(
       data?.product_bundles?.length > 0 ? data?.product_bundles[0] : null
     );
+
+    const includesImage = data?.images.some(image => {
+      return image.popup === data.popup && image.thumb === data.thumb;
+    });
+    console.log(includesImage);
+    if(!includesImage){
+      data?.images.unshift({
+        popup: data.popup,
+        thumb: data.thumb
+      });
+    }
+
   }, []);
+
 
   function unescapeHTML(str) {
     if (!str) {
@@ -154,6 +170,43 @@ function ProductPage(props) {
     });
   }
 
+  function setOption(option) {
+    const option_id = option["product_option_value_id"];
+
+    var count = 0;
+    var i = 0;
+
+    while (i < images?.length) {
+      if (images[i]?.product_option_value_id > 0) {
+        count++;
+      }
+
+      i++;
+    }
+
+    if (
+      images[1]?.product_option_value_id > 0 ||
+      data?.options[0].option_value.length === count
+    ) {
+      for (const key in images) {
+        if (Object.hasOwnProperty.call(images, key)) {
+          const element = images[key];
+
+          if (element["product_option_value_id"] === option_id) {
+            setActiveOption(option);
+            setImageActiveOption(option);
+            setActiveImage({
+              popup: element["popup"],
+              thumb: element["thumb"]
+            });
+          }
+        }
+      }
+    }
+    setActiveOption(option);
+
+  }
+
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
@@ -188,6 +241,7 @@ function ProductPage(props) {
               <div className="product-zoom w-full md:w-7/12">
                 {/* <Image width={380} height={518} src={data.popup} /> */}
                 <ProductZoom 
+                activeOption={activeImageOption.product_option_value_id}
                 images={data.images}
                 productData={data} />
               </div>
@@ -515,7 +569,7 @@ function ProductPage(props) {
                   {data?.options && data.options?.length > 0 && (
                     <div className="flex flex-wrap ">
                       {data["options"]["0"]["option_value"].map((option) => (
-                        <div className="mr-3">
+                        <div className="mr-3" key={option.image}>
                           {/* <p className="text-xs text-center">
                                 {option["name"]}
                               </p> */}

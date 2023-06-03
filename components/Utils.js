@@ -9,14 +9,17 @@ function sanitizeHTML(html) {
 }
 
 function slugify(str) {
-  str  = str.replaceAll('&amp', "")
+  str  = str.replaceAll('&amp;', "-")
   str = str.replace(/^\s+|\s+$/g, ""); // Trim leading/trailing white spaces
   str = str.toLowerCase(); // Convert to lowercase
   str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove diacritic marks
   str = str
-    .replace(/[^a-z0-9\-]/g, "-") // Replace non-alphanumeric characters with hyphens
-    .replace(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
-    .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+    .replaceAll(/[^a-z0-9\-]/g, "-") // Replace non-alphanumeric characters with hyphens
+    .replaceAll(/-+/g, "-") // Replace multiple consecutive hyphens with a single hyphen
+    .replaceAll(/^-|-$/g, "") // Remove leading/trailing hyphens
+    .replaceAll(/\s+/g, '-')
+    .replaceAll("%20", '-')
+    .replaceAll("&", '-')
 
   return str;
 }

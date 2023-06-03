@@ -37,7 +37,7 @@ function MobileMenu(props) {
             ) : (
               <img
                 src={"/images/logo/logo-red.png"}
-                // alt={window.config["short-name"]}
+                alt={"logo"}
                 className="h-8"
               />
             )}

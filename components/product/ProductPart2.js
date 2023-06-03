@@ -24,6 +24,7 @@ function ProductPart2(props) {
   const hiddenFileInput = useRef(null);
   const textRef = useRef();
   const [required, setRequired] = useState();
+  const path= "";
   // console.log(productData2);
 
 
@@ -676,7 +677,7 @@ function ProductPart2(props) {
                     <Link
                       key={category.category_id}
                       // href={`${path}/category/${category.category_id}`}
-                      href={`/`}
+                      href={`${path}/category/${category.category_id}`}
                       className="cursor-pointer hover:opacity-80 min-w-max mr-4"
                     >
                       <Image
@@ -708,7 +709,7 @@ function ProductPart2(props) {
                         //   .replaceAll("/", "-")
                         //   .replaceAll("#", parseInt("#"))
                         //   .replace(/'/g, "")}/c=${category.category_id}`}
-                        href={"/"}
+                        href={`${path}/${sanitizeHTML(category.name)}/c=${category.category_id}`}
                         className="cursor-pointer hover:opacity-80  mr-4"
                       >
                         <Image

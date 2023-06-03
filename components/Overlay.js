@@ -9,7 +9,7 @@ function HeaderOverlay(props) {
 
 function FullOverlay() {
   return (
-    <div className="fixed z-10 w-full h-screen left-0 bg-dblackOverlay "></div>
+    <div className="fixed z-10 w-full h-screen left-0 bottom-0 top-0 bg-dblackOverlay "></div>
   );
 }
 

@@ -4,20 +4,28 @@ import Slider from "react-slick";
 import useDeviceSize from "../useDeviceSize";
 import ProductZoomModal from "./ProductZoomModal";
 import SmallArrows from "./SmallArrows";
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share";
+import ShareSocial from "./ShareSocial";
 
 function ProductZoom(props) {
-  const { productData } = props;
+  const { productData, activeOption } = props;
   const [activeImage, setActiveImage] = useState("");
   const [images, setImages] = useState(props.images);
   const [hoverZoom, setHoverZoom] = useState(false);
   const [lensClass, setLensClass] = useState("hidden");
   const [showModal, setShowModal] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [showShare, setShowShare] = useState(false);
   const selectorSlider = useRef(null);
   const imageSlider = useRef(null);
   const [width, height] = useDeviceSize();
 
-  console.log(showModal);
+  console.log(activeOption);
 
   const setting = {
     dots: false,
@@ -55,11 +63,9 @@ function ProductZoom(props) {
     nextArrow: <></>, // or null
   };
 
-
-
   function closeModal() {
     setShowModal(false);
-    props.hideFixedCartMenu(false);
+    // props.hideFixedCartMenu(false);
     const htmlElement = document.querySelector("html");
     htmlElement.classList.remove("popup-open");
     const bodyElement = document.querySelector("body");
@@ -71,9 +77,11 @@ function ProductZoom(props) {
 
     setActiveImage(images[0]);
 
-    props?.images?.map((i) => {
-      if (i.product_option_value_id === props.activeOption) {
+    props?.images?.map((i, index) => {
+      if (i.product_option_value_id === activeOption) {
         setActiveImage(i);
+        imageSlider.current.slickGoTo(index);
+        setActiveSlide(index);
       }
     });
 
@@ -186,14 +194,39 @@ function ProductZoom(props) {
     }
   }
 
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+
+      if (showShare) {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setTimeout(() => setShowShare(false), 200);
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }
+    }, [ref, showShare]);
+  }
+
   return (
     <div>
       {showModal && (
         <ProductZoomModal
           selectedImage={activeImage}
           images={images}
-          productData={props.productData}
-          // currentSlideIndex={currentSlide}
+          productData={productData}
+          currentSlideIndex={activeSlide}
           closeModal={closeModal}
           hideFixedCartMenu={props.hideFixedCartMenu}
         />
@@ -250,36 +283,46 @@ function ProductZoom(props) {
             </div>
           </div>
           <div className="w-full md:w-10/12 relative flex items-center ">
-            <div
-              className="w-full md:w-11/12 hover:cursor-zoom-in "
+            <div className="w-full md:w-11/12 hover:cursor-zoom-in relative">
+              <div
                 onClick={() => {
                   //htmlOverflow();
                   setShowModal(true);
                   //props.hideFixedCartMenu(true);
                 }}
-              onMouseEnter={() => {
-                setHoverZoom(true);
-                setLensClass("");
-              }}
-              onMouseLeave={() => {
-                setHoverZoom(false);
-                setLensClass("hidden");
-              }}
-            >
-              <Slider {...singleSetting}>
-                {images?.map((i, index) => (
-                  <Image
-                    key={i["thumb"]}
-                    id={`myimage${index}`}
-                    src={i["popup"]}
-                    alt="product image"
-                    width={500}
-                    height={500}
-                    className="rounded-lg myimage-product-zoom"
-                  />
-                ))}
-              </Slider>
+                onMouseEnter={() => {
+                  setHoverZoom(true);
+                  setLensClass("");
+                }}
+                onMouseLeave={() => {
+                  setHoverZoom(false);
+                  setLensClass("hidden");
+                }}
+              >
+                <Slider {...singleSetting}>
+                  {images?.map((i, index) => (
+                    <Image
+                      key={i["thumb"]}
+                      id={`myimage${index}`}
+                      src={i["popup"]}
+                      alt="product image"
+                      width={500}
+                      height={500}
+                      className="rounded-lg myimage-product-zoom"
+                    />
+                  ))}
+                </Slider>
+              </div>
+              <div onClick={() => setShowShare(true)}>
+                <ShareSocial
+                  image={productData.popup}
+                  share={showShare}
+                  wrapperRef={wrapperRef}
+                  name={productData.name}
+                />
+              </div>
             </div>
+
             <div>
               <div
                 id="myresult"

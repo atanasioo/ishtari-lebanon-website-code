@@ -102,7 +102,7 @@ function DesktopMenuClientPopups(props) {
 
       {/* Menu category */}
 
-      <div className="absolute bg-dsearchGrey w-screen z-20">
+      <div className="absolute bg-dsearchGrey w-screen z-40">
         {viewMenuCategories2 && selectedMenuCategory2 && (
           <div
             className="container"

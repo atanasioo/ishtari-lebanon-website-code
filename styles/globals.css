@@ -841,5 +841,53 @@ mySwiper .swiper-button-next {
   height: 140px;
 }
 
+.product-big-img .slick-slide>div>div {
+  display: flex !important;
+  justify-content: center !important;
+} 
 
+@media (max-width: 840px){
+  #popup_modal::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 130%;
+    height: 100%;
+    overflow-y: hidden;
+    margin-left: -30px;
+    margin-top: -15px;
+
+    background-size: cover;
+    filter: blur(30px);
+    z-index: -1;
+    
+    }
+}
+@media (max-width: 840px){
+
+  .thumbss-center-slider .slick-track {
+    place-items: center;
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    width: 100% !important;
+  }
+}
+
+.shareList {
+  animation-name: showup;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showup {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 

@@ -1178,7 +1178,7 @@ function CatalogPage(props) {
                                             filter.name,
                                             filter
                                           )}`}
-                                          alt=""
+                                          alt={filter.name}
                                         />
 
                                         <p className="p-2 mx-2 text-d13 w-8/12 font-light">
