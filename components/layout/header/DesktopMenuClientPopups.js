@@ -22,7 +22,7 @@ function DesktopMenuClientPopups(props) {
 
       {viewSubAllCategories2 && (
         <div className="relative" onMouseEnter={()=>{handleState("viewSubAllCategories2", true); handleState("overlay", true);}}>
-          <div className="absolute top-0 z-20">
+          <div className="absolute top-0 z-40">
             <div>
               <div className="flex">
                 <div className="bg-dsearchGrey py-3 w-284px">
