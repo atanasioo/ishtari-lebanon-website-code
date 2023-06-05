@@ -74,6 +74,7 @@ module.exports = {
       df: "15.4px", // footer parent category
       dcf : "15.8666px" , // filter title 
       d16: "16px",
+      d17: "16px",
       d18: "18px",
       d20: "20.5712px",
       d22: "22px",

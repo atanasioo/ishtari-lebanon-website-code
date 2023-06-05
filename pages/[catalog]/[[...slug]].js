@@ -38,7 +38,13 @@ function SlugPage(props) {
   return (
     <div>
       <Head>
-        <title >{(props.type==="product" ? props.data?.name : props.data?.heading_title)?.replaceAll("&amp;", '&')} | ishtari</title>
+        <title>
+          {(props.type === "product"
+            ? props.data?.name
+            : props.data?.heading_title
+          )?.replaceAll("&amp;", "&")}{" "}
+          | ishtari
+        </title>
         <meta
           name="description"
           content="Shop the 1.25L 800W Electric Household Drip Coffee Maker with Glass Carafe, Filter Cone & Coffee Spoon SF-3565. Enjoy delicious coffee brewed at home with this convenient coffee maker. Available in dimensions (L20 x W17 x H29)cm."
@@ -49,7 +55,12 @@ function SlugPage(props) {
           <ProductPage data={props.data} host={props.host} />
         </>
       ) : (
-        <CatalogPage type={props.type} data={props.data} isloading={props.isLoading} page={props?.page} />
+        <CatalogPage
+          type={props.type}
+          data={props.data}
+          isloading={props.isLoading}
+          page={props?.page}
+        />
       )}
     </div>
   );
@@ -67,7 +78,7 @@ export async function getServerSideProps(context) {
     filter_sellers,
     filter_options,
     adv_filters,
-    page
+    page,
   } = context.query;
 
   const { req } = context;
@@ -77,11 +88,11 @@ export async function getServerSideProps(context) {
 
   let data = null;
   let type = "";
-  var p = ''
+  var p = "";
 
-if(page  !== undefined){
-    p = page
-}
+  if (page !== undefined) {
+    p = page;
+  }
   const host = req.headers.host;
 
   console.log("host isss" + host);
@@ -98,149 +109,155 @@ if(page  !== undefined){
     site_host = host_cookie;
   }
 
-  if (catalog === "product" || slug[0].includes("p=")) {
-    // get product id
-    let product_id = "";
-    if (slug[0].includes("p=")) {
-      product_id = slug[0].split("=")[1];
-    } else {
-      product_id = slug[0];
-    }
-    // console.log(context);
-
-    //fetch product data
-    let link =
-      buildLink("product", undefined, undefined, site_host) +
-      product_id +
-      "&source_id=1&part_one";
-    const response = await axiosServer.get(link, {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    });
-    if (!response.data.success) {
-      return {
-        notFound: true
-      };
-    }
-
-    data = response.data.data;
-    type = "product";
-  } else if (
-    catalog === "category" ||
-    catalog === "manufacturer" ||
-    catalog === "seller" ||
-    slug[0].includes("c=") ||
-    slug[0].includes("m=") ||
-    slug[0].includes("s=")
-  ) {
-    let id = "";
-    if (catalog === "category" || slug[0].includes("c=")) {
-      type = "category";
-
-      if (slug[0].includes("c=")) {
-        id = slug[0].split("=")[1];
-        // console.log(category_id);
+  if (typeof slug !== "undefined") {
+    if (catalog === "product" || slug[0].includes("p=")) {
+      // get product id
+      let product_id = "";
+      if (slug[0].includes("p=")) {
+        product_id = slug[0].split("=")[1];
       } else {
-        id = slug[0];
+        product_id = slug[0];
       }
-    } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
-      type = "manufacturer";
-      let manufacturer_id = "";
-      if (slug[0].includes("m=")) {
-        id = slug[0].split("=")[1];
-        // console.log(manufacturer_id);
-      } else {
-        id = slug[0];
-      }
-    } else if (catalog === "seller" || slug[0].includes("s=")) {
-      type = "seller";
+      // console.log(context);
 
-      if (slug[0].includes("s=")) {
-        id = slug[0].split("=")[1];
-      } else {
-        id = slug[0];
-      }
-    }
-
-    if (!has_filter) {
-      // } else {
+      //fetch product data
       let link =
-        buildLink(type, undefined, undefined, site_host) +
-        id +
-        "&source_id=1&limit=50";
+        buildLink("product", undefined, undefined, site_host) +
+        product_id +
+        "&source_id=1&part_one";
       const response = await axiosServer.get(link, {
         headers: {
-          Authorization: "Bearer " + token
-        }
+          Authorization: "Bearer " + token,
+        },
       });
       if (!response.data.success) {
         return {
-          notFound: true
+          notFound: true,
         };
       }
 
       data = response.data.data;
-      console.log("********%start%%*******");
-      console.log(data);
-      console.log("********%end%*******");
-    } else {
-      var filter = "";
+      type = "product";
+    } else if (
+      catalog === "category" ||
+      catalog === "manufacturer" ||
+      catalog === "seller" ||
+      slug[0].includes("c=") ||
+      slug[0].includes("m=") ||
+      slug[0].includes("s=")
+    ) {
+      let id = "";
+      if (catalog === "category" || slug[0].includes("c=")) {
+        type = "category";
 
-      if (filter_categories !== undefined) {
-        filter += "&filter_categories=" + filter_categories;
-      }
-      if (filter_manufacturers !== undefined) {
-        filter += "&filter_manufacturers=" + filter_manufacturers;
-      }
-
-      if (filter_sellers !== undefined) {
-        filter += "&filter_sellers=" + filter_sellers;
-      }
-
-      if (filter_options != undefined) {
-        filter += "&filter_options=" + filter_options;
-      }
-
-      if (adv_filters != undefined) {
-        filter += "&adv_filters=" + adv_filters;
-      }
-      if (page != undefined) {
-        filter += "&page=" + page;
-      }
-
-      // const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
-
-      const link =
-        buildLink("filter", undefined, undefined) +
-        "&path=" +
-        slug[0].split("=")[1] +
-        filter ;
-
-      const response = await axiosServer.get(link, {
-        headers: {
-          Authorization: "Bearer " + token
+        if (slug[0].includes("c=")) {
+          id = slug[0].split("=")[1];
+          // console.log(category_id);
+        } else {
+          id = slug[0];
         }
-      });
+      } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
+        type = "manufacturer";
+        let manufacturer_id = "";
+        if (slug[0].includes("m=")) {
+          id = slug[0].split("=")[1];
+          // console.log(manufacturer_id);
+        } else {
+          id = slug[0];
+        }
+      } else if (catalog === "seller" || slug[0].includes("s=")) {
+        type = "seller";
 
-      data = response.data.data;
+        if (slug[0].includes("s=")) {
+          id = slug[0].split("=")[1];
+        } else {
+          id = slug[0];
+        }
+      }
+
+      if (!has_filter) {
+        // } else {
+        let link =
+          buildLink(type, undefined, undefined, site_host) +
+          id +
+          "&source_id=1&limit=50";
+        const response = await axiosServer.get(link, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (!response.data.success) {
+          return {
+            notFound: true,
+          };
+        }
+
+        data = response.data.data;
+        console.log("********%start%%*******");
+        console.log(data);
+        console.log("********%end%*******");
+      } else {
+        var filter = "";
+
+        if (filter_categories !== undefined) {
+          filter += "&filter_categories=" + filter_categories;
+        }
+        if (filter_manufacturers !== undefined) {
+          filter += "&filter_manufacturers=" + filter_manufacturers;
+        }
+
+        if (filter_sellers !== undefined) {
+          filter += "&filter_sellers=" + filter_sellers;
+        }
+
+        if (filter_options != undefined) {
+          filter += "&filter_options=" + filter_options;
+        }
+
+        if (adv_filters != undefined) {
+          filter += "&adv_filters=" + adv_filters;
+        }
+        if (page != undefined) {
+          filter += "&page=" + page;
+        }
+
+        // const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
+
+        const link =
+          buildLink("filter", undefined, undefined) +
+          "&path=" +
+          slug[0].split("=")[1] +
+          filter;
+
+        const response = await axiosServer.get(link, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+
+        data = response.data.data;
+      }
+    } else {
+      //redirect to 404
+      return {
+        notFound: true,
+      };
     }
-  } else {
-    //redirect to 404
+
     return {
-      notFound: true
+      props: {
+        data,
+        type,
+        host,
+        isLoading: "false",
+        p,
+      },
     };
-  }
-
-  return {
-    props: {
-      data,
-      type,
-      host,
-      isLoading : "false",
-      p 
+  }else{
+    return{
+      notFound:true
     }
-  };
+  }
 }
 
 export default SlugPage;

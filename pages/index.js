@@ -81,6 +81,10 @@ export default function Home(widgets) {
   //   };
   // }, []);
 
+  // useEffect(() =>{
+  //   console.log(window.config);
+  // },[])
+
   return (
     <div className="overflow-x-hidden">
       {data?.map((widget, index) => {

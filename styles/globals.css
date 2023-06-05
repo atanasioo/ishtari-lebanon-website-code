@@ -891,3 +891,41 @@ mySwiper .swiper-button-next {
   }
 }
 
+.input {
+  @apply relative bg-opacity-30 h-14 w-full font-light text-sm border-b border-dgrey;
+}
+
+.input input,
+select {
+  @apply bg-transparent border-b border-dinputBorder absolute bottom-0 left-0 w-full block text-dblack ;
+}
+
+.input label {
+  @apply absolute bottom-6 left-0 text-dlabelColor;
+}
+
+.input input:focus,
+.input select:focus {
+  outline: none;
+  @apply outline-none border-dblue;
+}
+
+.errorInput {
+  @apply relative bg-opacity-30 h-14 w-full font-light text-sm;
+}
+
+.errorInput input,
+select {
+  @apply bg-transparent border-b border-dbase absolute bottom-0 left-0 w-full block text-dblack ;
+}
+
+.errorInput label {
+  @apply absolute bottom-6 left-0 text-dbase;
+}
+
+.errorInput input:focus,
+.errorInput select:focus {
+  outline: none;
+  @apply outline-none border-dblue;
+}
+

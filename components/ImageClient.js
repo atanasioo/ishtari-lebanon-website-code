@@ -1,10 +1,23 @@
-import Image from 'next/image'
-import React from 'react'
+import Image from "next/image";
+import React from "react";
+import "../config"
 
 
 export default function ImageClient(props) {
-    // console.group(props)
   return (
-    <Image alt={props.alt} src={ `${ window !=undefined && window.config["site-url"]}/image/` + props.src}  width={props.width} height={props?.height} />
-  )
+    // typeof window !== "undefined" && (
+    //   <div></div>
+    // )
+      <Image
+        alt={props.alt}
+        src={
+          `${
+            window.config["site-url"] !== undefined && window.config["site-url"]
+          }/image/` + props.src
+        }
+        width={props.width}
+        height={props?.height}
+      />
+    
+  );
 }

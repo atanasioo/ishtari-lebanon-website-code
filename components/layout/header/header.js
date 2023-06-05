@@ -14,6 +14,7 @@ import ImageFilter from "react-image-filter/lib/ImageFilter";
 import Cookies from "js-cookie";
 import { axiosServer } from "@/axiosServer";
 import DesktopMenuCategories from "./DesktopMenuCategories";
+import Account from "@/components/Account";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -141,10 +142,12 @@ function Header(props) {
             {width > 650 && <div className="flex ml-2"> Lebanon</div>}
             <FiChevronDown className="hidden md:block w-5 " />
           </div>
-          <div className=" hidden lg:flex justify-center items-center lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 cursor-pointer">
+          {/* <div className=" hidden lg:flex justify-center items-center lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 cursor-pointer">
             <p className="hidden lg:block">Sign In</p>{" "}
             <AiOutlineUser className="ml-1 w-5 h-5" />
-          </div>
+            <Account />
+          </div> */}
+          <Account />
           <div className="flex justify-center items-center md:mr-5  cursor-pointer">
             <p className="hidden lg:block">Cart</p>
             <AiOutlineShopping className="ml-1 w-5.5 h-5.5 lg:w-5 lg:h-6" />

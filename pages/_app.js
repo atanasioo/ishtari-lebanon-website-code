@@ -1,25 +1,25 @@
 import {
   axiosServer,
   getToken,
-  setAuthorizationHeader
+  setAuthorizationHeader,
 } from "@/axiosServer.js";
 import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
 import buildLink from "@/urls";
-import useDeviceSize from "@/components/useDeviceSize";
 import cookie from "cookie";
 import "@/config";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { loader } from "/public/images/loader.gif";
 import { useCookie } from "next-cookie";
+import { SessionProvider } from "next-auth/react";
+import { AccountProvider } from "@/contexts/AccountContext";
 
 export default function App({
   Component,
   pageProps,
   header_categories,
   footer_categories,
-  information_data
+  information_data,
 }) {
   const router = useRouter();
   const topRef = useRef(null);
@@ -56,29 +56,33 @@ export default function App({
     };
   }, []);
   return (
-    <div className="" ref={topRef}>
-      {loading && (
-        <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
-          <img
-            src={"/images/loader.gif"}
-            alt="loader-gif"
-            heigh="110"
-            width="110"
-          />
+    <SessionProvider>
+      <AccountProvider>
+        <div className="" ref={topRef}>
+          {loading && (
+            <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+              <img
+                src={"/images/loader.gif"}
+                alt="loader-gif"
+                heigh="110"
+                width="110"
+              />
+            </div>
+          )}
+          <Layout
+            header_categories={header_categories}
+            footer_categories={footer_categories}
+            information_data={information_data}
+          >
+            <div className="bg-dprimarybg">
+              <div className="container ">
+                <Component {...pageProps} />
+              </div>
+            </div>
+          </Layout>
         </div>
-      )}
-      <Layout
-        header_categories={header_categories}
-        footer_categories={footer_categories}
-        information_data={information_data}
-      >
-        <div className="bg-dprimarybg">
-          <div className="container ">
-            <Component {...pageProps} />
-          </div>
-        </div>
-      </Layout>
-    </div>
+      </AccountProvider>
+    </SessionProvider>
   );
 }
 
@@ -149,7 +153,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           header_categories: data.data?.data,
           footer_categories: footer_data.data?.data,
           information_data: information_data.data?.data,
-          token: newToken
+          token: newToken,
         };
       } catch (error) {
         // Handle any errors that occurred during the token request
@@ -188,14 +192,14 @@ App.getInitialProps = async ({ Component, ctx }) => {
           ),
           {
             headers: {
-              Authorization: "Bearer " + token
-            }
+              Authorization: "Bearer " + token,
+            },
           }
         );
 
-        console.log("header response is");
-        console.log(data.data.data);
-        console.log("token is :" + token);
+        // console.log("header response is");
+        // console.log(data.data.data);
+        // console.log("token is :" + token);
 
         footer_data = await axiosServer.get(
           buildLink(
@@ -206,8 +210,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
           ),
           {
             headers: {
-              Authorization: "Bearer " + token
-            }
+              Authorization: "Bearer " + token,
+            },
           }
         );
         information_data = await axiosServer.get(
@@ -219,8 +223,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
           ),
           {
             headers: {
-              Authorization: "Bearer " + token
-            }
+              Authorization: "Bearer " + token,
+            },
           }
         );
 
@@ -247,7 +251,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       return {
         header_categories: data.data.data,
         footer_categories: footer_data.data.data,
-        information_data: information_data.data?.data
+        information_data: information_data.data?.data,
       };
     }
   } else {
@@ -266,13 +270,13 @@ App.getInitialProps = async ({ Component, ctx }) => {
         host === "www.cloudgoup.com"
       ) {
         response = await getToken("https://www.ishtari.com/");
-        console.log("hihiiii");
+        // console.log("hihiiii");
       } else {
         response = await getToken("https://www.ishtari.com/");
       }
 
-      console.log("token response is ");
-      console.log(response);
+      // console.log("token response is ");
+      // console.log(response);
 
       // Get the new token from the response
       const newToken = response.access_token;
@@ -317,7 +321,12 @@ App.getInitialProps = async ({ Component, ctx }) => {
           )
         );
         information_data = await axiosServer.get(
-          buildLink("information", undefined, undefined, "https://www.ishtari.com/")
+          buildLink(
+            "information",
+            undefined,
+            undefined,
+            "https://www.ishtari.com/"
+          )
         );
       } else {
         data = await axiosServer.get(
@@ -363,7 +372,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
         footer_categories: footer_data.data.data,
         information_data: information_data?.data.data,
 
-        token: newToken
+        token: newToken,
       };
     } catch (error) {
       // Handle any errors that occurred during the token request
