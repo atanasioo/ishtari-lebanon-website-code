@@ -17,14 +17,21 @@ import { ImLocation } from "react-icons/im";
 function Account() {
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [signupError, setSignupError] = useState("");
   const [err, setErr] = useState(false);
   const [showLoginError, setShowLoginError] = useState(false);
+  const [showSignupError, setShowSignupError] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
   const { data: session, status } = useSession();
   const loginEmail = useRef("");
   const loginPassword = useRef("");
+  const signupEmail = useRef("");
+  const signupPassword = useRef("");
+  const signupFirst = useRef("");
+  const signupLast = useRef("");
   const path = "";
 
   // console.log(state);
@@ -99,6 +106,42 @@ function Account() {
       });
   }
 
+  // Signup
+  async function signup(e) {
+    e.preventDefault();
+    setSignupLoading(true);
+    // const email = signupEmail.current.value;
+    // const password = signupPassword.current.value;
+    // const confirm = signupPassword.current.value;
+    // const firstname = signupFirst.current.value;
+    // const lastname = signupLast.current.value;
+    // const obj = JSON.stringify({
+    //   email,
+    //   password,
+    //   firstname,
+    //   lastname,
+    //   confirm,
+    // });
+
+    const response = await signIn("signup", {
+      email: signupEmail.current.value,
+      password: signupPassword.current.value,
+      confirm: signupPassword.current.value,
+      firstname: signupFirst.current.value,
+      lastname: signupLast.current.value,
+      redirect: false,
+    });
+
+    if (response.status === 200) {
+      checkLogin();
+    } else {
+      setShowSignupError(true);
+      setSignupError(data?.errors[0]?.errorMsg);
+    }
+    setSignupLoading(false);
+    console.log(response);
+  }
+
   // console.log(state);
 
   async function logOut(e) {
@@ -107,7 +150,7 @@ function Account() {
     dispatch({ type: "setLoading", payload: true });
     setShowUserMenu(false);
     //remove next-auth session from cookie, and clear the jwt(session) obj.
-    await signOut({ redirect: false }); 
+    await signOut({ redirect: false });
     //Logout from Api
     const response = await axiosServer.post(
       buildLink("logout", undefined, undefined, hostname)
@@ -223,7 +266,16 @@ function Account() {
               <p className="text-2xl font-semibold">Sign in to your account</p>
               <div className="flex justify-center text-sm font-extralight my-4">
                 <span>Don't have an account?</span>
-                <span className="text-dblue ml-2 cursor-pointer">Sign Up</span>
+                <span
+                  onClick={() => {
+                    dispatch({ type: "setShowOver", payload: true });
+                    dispatch({ type: "setShowLogin", payload: false });
+                    dispatch({ type: "setShowSignup", payload: true });
+                  }}
+                  className="text-dblue ml-2 cursor-pointer"
+                >
+                  Sign Up
+                </span>
               </div>
               <form onSubmit={(e) => login(e)}>
                 <div className="my-4">
@@ -276,6 +328,98 @@ function Account() {
                 </p>
               )}
             /> */}
+              </form>
+            </div>
+          )}
+          {state.showSignup && (
+            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
+              <span
+                onClick={() => {
+                  dispatch({ type: "setShowOver", payload: false });
+                  dispatch({ type: "setShowLogin", payload: false });
+                  dispatch({ type: "setShowSignup", payload: false });
+                }}
+                className=" z-10 absolute top-0 right-0 w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-dgrey"
+              >
+                <IoMdClose className="text-2xl" />
+              </span>
+              {showSignupError && (
+                <span
+                  onClick={() => setShowSignupError(false)}
+                  className="cursor-pointer z-10 absolute top-0 right-0 bg-dblack w-full text-white py-2"
+                >
+                  {signupError}
+                </span>
+              )}
+              <p
+                className={`text-2xl font-semibold ${
+                  showLoginError ? "mt-12" : "mt-6"
+                }`}
+              >
+                Create an account
+              </p>
+              <div className="flex justify-center text-sm font-extralight my-4">
+                <span>Already have an account?</span>
+                <span
+                  className="text-dblue ml-2 cursor-pointer"
+                  onClick={() => {
+                    dispatch({ type: "setShowLogin", payload: true });
+                    dispatch({ type: "setShowSignup", payload: false });
+                  }}
+                >
+                  Sign In
+                </span>
+              </div>
+              <form onSubmit={(e) => signup(e)}>
+                <div className="my-4">
+                  <div className="input">
+                    <label>Email</label>
+                    <input
+                      ref={signupEmail}
+                      type="email"
+                      required={true}
+                      autoComplete="email"
+                    />
+                  </div>
+                  <div className="input my-4">
+                    <label>Password</label>
+                    <input
+                      ref={signupPassword}
+                      type="password"
+                      required={true}
+                      autoComplete="password"
+                      minLength="6"
+                    />
+                  </div>
+                  <div className="input my-4">
+                    <label>First name</label>
+                    <input
+                      ref={signupFirst}
+                      type="text"
+                      required={true}
+                      autoComplete="firstname"
+                      minLength="2"
+                    />
+                  </div>
+                  <div className="input my-4">
+                    <label>Last name</label>
+                    <input
+                      ref={signupLast}
+                      type="text"
+                      required={true}
+                      autoComplete="lastname"
+                      minLength="2"
+                    />
+                  </div>
+                </div>
+
+                <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
+                  {signupLoading ? (
+                    <span>LOADING</span>
+                  ) : (
+                    <span>CREATE AN ACCOUNT</span>
+                  )}
+                </button>
               </form>
             </div>
           )}

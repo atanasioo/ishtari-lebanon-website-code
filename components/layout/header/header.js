@@ -27,7 +27,7 @@ function Header(props) {
 
   useEffect(() => {
     if (window.location.host === "localhost:3000") {
-      // setLocal(true);
+      setLocal(true);
     }
   }, []);
 

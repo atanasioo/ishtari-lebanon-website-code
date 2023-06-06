@@ -38,7 +38,9 @@ export default NextAuth({
               email: response.data.data.email,
               firstname: response.data.data.firstname,
               lastname: response.data.data.lastname,
-              telephone: response.data.data.telephone ? response.data.data.telephone : null ,
+              telephone: response.data.data.telephone
+                ? response.data.data.telephone
+                : null,
             };
           } else {
             return null;
@@ -51,12 +53,20 @@ export default NextAuth({
     CredentialsProvider({
       id: "signup",
       async authorize(credentials, req) {
+        const cookies = req.headers.cookie;
+        const parsedCookies = cookie.parse(cookies);
+        const token = parsedCookies["api-token"];
         try {
           //const hostname = req.headers.host;
           const hostname = "https://www.ishtari.com/";
           return await axiosServer.post(
             buildLink("register", undefined, undefined, hostname),
-            credentials
+            credentials,
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
           );
         } catch (error) {
           throw new Error(error.message);
@@ -66,11 +76,11 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if(user){
-        token.customer_id= user.customer_id;
-        token.firstname= user.firstname;
-        token.lastname= user.lastname;
-        token.telephone= user.telephone;
+      if (user) {
+        token.customer_id = user.customer_id;
+        token.firstname = user.firstname;
+        token.lastname = user.lastname;
+        token.telephone = user.telephone;
       }
       return token;
     },
