@@ -20,7 +20,7 @@ import { sanitizeHTML } from "../Utils";
 import ProductZoom from "./ProductZoom";
 import { CartContext } from "../../contexts/CartContext";
 import { AccountContext } from "../../contexts/AccountContext";
-import ReactPixel from "react-facebook-pixel";
+
 
 function ProductPage(props) {
   //Server props
@@ -100,44 +100,50 @@ function ProductPage(props) {
     // ---> Facebook PIXEL <---
     if (!accountState.admin) {
       const advancedMatching = {
-        em: data?.data?.social_data?.email,
-        fn: data?.data?.social_data?.firstname,
-        ln: data?.data?.social_data?.lastname,
-        external_id: data?.data?.social_data?.external_id,
-        country: data?.data?.social_data?.country_code,
+        em: data?.social_data?.email,
+        fn: data?.social_data?.firstname,
+        ln: data?.social_data?.lastname,
+        external_id: data?.social_data?.external_id,
+        country: data?.social_data?.country_code,
         fbp: Cookies.get("_fbp"),
       };
-      ReactPixel.init(pixelID, advancedMatching, {
-        debug: true,
-        autoConfig: false,
-      });
-      ReactPixel.pageView();
-      ReactPixel.fbq("track", "PageView");
+      if (typeof window !== "undefined") {
+        // Dynamic import of react-facebook-pixel
+        import("react-facebook-pixel").then((ReactPixel) => {
+          ReactPixel.default.init(pixelID, advancedMatching, {
+            debug: true,
+            autoConfig: false,
+          });
+          ReactPixel.default.pageView();
+          ReactPixel.default.fbq("track", "PageView");
 
-      window.fbq(
-        "track",
-        "ViewContent",
-        {
-          content_type: "product",
-          content_ids: [product_id],
-          content_name: data?.data?.social_data?.name,
-          value: data?.data?.social_data?.value,
-          currency: data?.data?.social_data?.currency,
-        },
-        { eventID: data?.data?.social_data?.event_id }
-      );
+          window.fbq(
+            "track",
+            "ViewContent",
+            {
+              content_type: "product",
+              content_ids: [product_id],
+              content_name: data?.social_data?.name,
+              value: data?.social_data?.value,
+              currency: data?.social_data?.currency,
+            },
+            { eventID: data?.social_data?.event_id }
+          );
+        });
+
+        var dataSocial = data.social_data;
+        dataSocial["fbp"] = Cookies.get("_fbp");
+        dataSocial["fbc"] = Cookies.get("_fbc");
+        dataSocial["ttp"] = Cookies.get("_ttp");
+        dataSocial["link"] = window.location.href;
+
+        axiosServer
+          .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+          .then((response) => {
+            const data = response.data;
+          });
+      }
     }
-    var dataSocial = data.social_data;
-    dataSocial["fbp"] = Cookies.get("_fbp");
-    dataSocial["fbc"] = Cookies.get("_fbc");
-    dataSocial["ttp"] = Cookies.get("_ttp");
-    dataSocial["link"] = window.location.href;
-
-    axiosServer
-      .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
-      .then((response) => {
-        const data = response.data;
-      });
   }, []);
 
   function unescapeHTML(str) {
@@ -372,20 +378,20 @@ function ProductPage(props) {
           if (data) {
             const data = response?.data?.data?.social_data;
 
-            ReactPixel.fbq(
-              "track",
-              "AddToCart",
-              {
-                content_type: "product",
-                content_ids: data?.content_ids,
-                content_name: data?.name,
-                value: data?.value,
-                content_category: data?.breadcrumbs?.category[0]?.name,
-                currency: data?.currency,
-                fbp: Cookies.get("_fbp"),
-              },
-              { eventID: data?.event_id }
-            );
+            // ReactPixel.fbq(
+            //   "track",
+            //   "AddToCart",
+            //   {
+            //     content_type: "product",
+            //     content_ids: data?.content_ids,
+            //     content_name: data?.name,
+            //     value: data?.value,
+            //     content_category: data?.breadcrumbs?.category[0]?.name,
+            //     currency: data?.currency,
+            //     fbp: Cookies.get("_fbp"),
+            //   },
+            //   { eventID: data?.event_id }
+            // );
           }
           // }
 
