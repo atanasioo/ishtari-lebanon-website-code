@@ -27,7 +27,8 @@ module.exports = {
       },
       height:{
         5.5: "22px",
-        "unset": "unset"
+        "unset": "unset",
+        "90%": "90%",
       },
       lineHeight: {
         'dsnug': '21.56px',
@@ -251,6 +252,9 @@ module.exports = {
       },
       dgreyZoom:{
         DEFAULT: "#EBECF0"
+      },
+      darrowZoom:{
+        DEFAULT: "#b4b4b4"
       },
     },
 

@@ -21,11 +21,12 @@ function ProductZoom(props) {
   const [showModal, setShowModal] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [showShare, setShowShare] = useState(false);
+  const [hovered, setHovered] = useState(props.hovered)
   const selectorSlider = useRef(null);
   const imageSlider = useRef(null);
   const [width, height] = useDeviceSize();
 
-  console.log(activeOption);
+  console.log(hovered);
 
   const setting = {
     dots: false,
@@ -44,7 +45,7 @@ function ProductZoom(props) {
     dots: false,
     infinite: false,
     speed: 100,
-    slidesToShow: 4,
+    slidesToShow: 3.5,
     slidesToScroll: 1,
     swipeToSlide: true,
     autoplay: false,
@@ -80,7 +81,7 @@ function ProductZoom(props) {
     props?.images?.map((i, index) => {
       if (i.product_option_value_id === activeOption) {
         setActiveImage(i);
-        imageSlider.current.slickGoTo(index);
+        imageSlider?.current?.slickGoTo(index);
         setActiveSlide(index);
       }
     });
@@ -296,6 +297,7 @@ function ProductZoom(props) {
                 }}
                 onMouseLeave={() => {
                   setHoverZoom(false);
+                  setHovered(true);
                   setLensClass("hidden");
                 }}
               >
@@ -313,7 +315,10 @@ function ProductZoom(props) {
                   ))}
                 </Slider>
               </div>
-              <div onClick={() => setShowShare(true)}>
+              <div
+                className={`${showModal ? "hidden" : ""}`}
+                onClick={() => setShowShare(true)}
+              >
                 <ShareSocial
                   image={productData.popup}
                   share={showShare}
@@ -328,7 +333,7 @@ function ProductZoom(props) {
                 id="myresult"
                 style={{ transition: "opacity 0.3s ease" }}
                 className={`img-zoom-result absolute rounded-lg  top-0 ml-4  z-10  ${
-                  hoverZoom && width > 650 ? "" : " hidden"
+                  hoverZoom && hovered && width > 650 ? "" : " hidden"
                 }`}
               ></div>
             </div>

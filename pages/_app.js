@@ -75,7 +75,7 @@ export default function App({
             information_data={information_data}
           >
             <div className="bg-dprimarybg">
-              <div className="container ">
+              <div className="md:container ">
                 <Component {...pageProps} />
               </div>
             </div>

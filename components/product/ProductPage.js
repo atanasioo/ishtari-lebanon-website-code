@@ -32,7 +32,7 @@ function ProductPage(props) {
   const [nonrefundable, setNonrefundable] = useState(false);
   const [returnPolicy, setReturnPolicy] = useState([]);
   const [bundles, setProductBundle] = useState();
-  const { data, host } = props; //instead of productData
+  const { data, host, hovered } = props; //instead of productData
   const [width, height] = useDeviceSize();
   const [scroll, setScroll] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -243,6 +243,7 @@ function ProductPage(props) {
                 <ProductZoom 
                 activeOption={activeImageOption.product_option_value_id}
                 images={data.images}
+                hovered={hovered}
                 productData={data} />
               </div>
               <div className="product-info w-full md:w-5/12">

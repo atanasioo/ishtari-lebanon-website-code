@@ -52,7 +52,7 @@ function SlugPage(props) {
       </Head>
       {props.type === "product" ? (
         <>
-          <ProductPage data={props.data} host={props.host} />
+          <ProductPage data={props.data} host={props.host} hovered={props.hovered} />
         </>
       ) : (
         <CatalogPage
@@ -249,6 +249,7 @@ export async function getServerSideProps(context) {
         data,
         type,
         host,
+        hovered: false,
         isLoading: "false",
         p,
       },

@@ -794,7 +794,7 @@ mySwiper .swiper-button-next {
  }
 
 
- .selector_div .slick-slider .slick-track{
+.selector_div .slick-slider .slick-track{
   height: unset !important;
 }
 .selector_div .slick-disabled {
@@ -928,4 +928,26 @@ select {
   outline: none;
   @apply outline-none border-dblue;
 }
+
+@media (max-width: 840px){
+
+  .thumbss-slider .slick-prev{
+    left: -22px !important;
+    z-index: 10;
+  }
+  .thumbss-slider .slick-next{
+    right: -4px !important;
+    z-index: 10;
+  }
+  .thumbss-slider .slick-disabled {
+    display: none !important;
+  }
+  .thumbss-slider .slick-next:before {
+    content: "";
+  }
+  .thumbss-slider .slick-prev::before {
+    content: "";
+  }
+}
+
 

@@ -5,6 +5,8 @@ import PrismaZoom from "react-prismazoom";
 import Image from "next/image";
 import useDeviceSize from "../useDeviceSize";
 import { sanitizeHTML } from "../Utils";
+import { FullOverlay } from "../Overlay";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 function ProductZoomModal(props) {
   const { closeModal, images, currentSlideIndex, productData, selectedImage } = props;
@@ -12,6 +14,7 @@ function ProductZoomModal(props) {
   const [activeImage, setActiveImage] = useState("");
   const [currentSlide, setCurrentSlide] = useState(currentSlideIndex);
   const [width, height] = useDeviceSize();
+  const [overlay, setOverlay]= useState(false);
 
   const slider1 = useRef(null);
   const slider2 = useRef(null);
@@ -41,24 +44,39 @@ function ProductZoomModal(props) {
     autoplay: false,
     currentSlide: currentSlide,
     ref: slider3,
+    prevArrow: <></>, // or null
+    nextArrow: <></>, // or null
   };
 
   const mobileSetting = {
     dots: false,
     infinite: false,
     speed: 100,
-    slidesToShow: 7,
+    slidesToShow: 6,
     slidesToScroll: 2,
     swipeToSlide: true,
     autoplay: false,
     currentSlide: currentSlide,
     ref: slider2,
-    prevArrow: <></>, // or null
-    nextArrow: <></>, // or null
+    prevArrow: <div><BsChevronLeft className="w-8 h-8 text-darrowZoom"/></div>, // or null
+    nextArrow: <div><BsChevronRight className="w-8 h-8 text-darrowZoom"/></div>, // or null
   };
 
   useEffect(()=>{
     setActiveImage(selectedImage);
+    if (width < 840) {
+      const popup = document.getElementById("popup_modal");
+      const backgroundImageUrl = selectedImage["popup"];
+      const overlayColor = "rgba(0, 0, 0, 0.6)";
+      // Create a new style element
+      const style = document.createElement("style");
+      style.type = "text/css";
+      // Add a CSS rule for the #popup_modal::before pseudo-element
+      const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
+      style.appendChild(document.createTextNode(css));
+      // Add the style element to the head of the document
+      document.head.appendChild(style);
+    }
   },[selectedImage])
 
   const handleFirstSliderChange = (index) => {
@@ -67,11 +85,14 @@ function ProductZoomModal(props) {
     setActiveImage(images[index]);
     const popup = document.getElementById("popup_modal");
     const backgroundImageUrl = activeImage["popup"];
+
+    const overlayColor = "rgba(0, 0, 0, 0.6)";
+
     // Create a new style element
     const style = document.createElement("style");
     style.type = "text/css";
     // Add a CSS rule for the #popup_modal::before pseudo-element
-    const css = `#popup_modal::before { background-image: url(${backgroundImageUrl}); }`;
+    const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
     style.appendChild(document.createTextNode(css));
     // Add the style element to the head of the document
     document.head.appendChild(style);
@@ -94,20 +115,20 @@ function ProductZoomModal(props) {
   }
 
   return (
-    <div className="fixed bg-white md:bg-dblackOverlay top-0 lef-0 right-0 bottom-0 w-full h-full z-40 overflow-hidden">
-      <div className="relative z-50 h-screen mx-auto text-center box-border">
-        <div className="absolute w-full lg:w-full m-auto h-screen lg:h-screen  z-50 bg-white top-0 left-0 right-0 bottom-0 ">
+    <div className="fixed bg-white md:bg-dblackOverlay top-0 lef-0 right-0 bottom-0 w-full h-full z-30 overflow-hidden">
+      <div className="relative z-40 h-screen mx-auto text-center box-border">
+        <div className="absolute w-full lg:w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 ">
           <div className="h-full" id="popup_modal">
             <CgClose
               className="absolute right-1 m-3 w-7 z-10  h-7 md:w-9 md:h-9 cursor-pointer  text-dblack"
               onClick={() => closeModal()}
             />
-            <div className="flex flex-col justify-center h-900 h-full">
-              <div className=" flex flex-col h-full  justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
-                <div className="product-big-img lg:ml-4 lg:mr-3 w-full lg:w-5/12 flex flex-col h-5/6 justify-center items-center ">
+            <div className="flex flex-col justify-center h-full md:h-unset ">
+              <div className=" flex flex-col h-full md:my-8  justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
+                <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-5/12 flex flex-col h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
-                    className="w-full   hidden lg:block"
+                    className="w-11/12   hidden lg:block"
                   >
                     {images?.map((i) => (
                       <PrismaZoom
@@ -122,7 +143,8 @@ function ProductZoomModal(props) {
                           width={800}
                           height={800}
                           alt=""
-                          className={`rounded-lg w-full  myimage-product-zoom  ${
+                          className={`rounded-lg w-
+                            myimage-product-zoom  ${
                             cursor ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
                         />
@@ -154,8 +176,7 @@ function ProductZoomModal(props) {
                   </Slider>
                 </div>
                 <div
-                  className="product-info md:ml-10 lg:w-7/12 mb-8
-                 md:pt-20"
+                  className="product-info md:ml-10 lg:w-7/12 "
                 >
                   <div className="flex flex-col  text-left place-content-center">
                     <div
@@ -191,17 +212,17 @@ function ProductZoomModal(props) {
 
                     <Slider
                       {...mobileSetting}
-                      className={` lg:hidden thumbss-slider  ${
+                      className={` lg:hidden thumbss-slider mx-5 mb-7 ${
                         images.length < 7 ? "thumbss-center-slider" : ""
                       }`}
                     >
                       {images?.map((i) => (
                         <div
                           key={i["thumb"]}
-                          className={` flex justify-center  mt-2 mr-4 w-10 md:w-20  cursor-pointer ${
+                          className={` flex justify-center border-b-4  pb-1 mt-2 mr-4 w-11 md:w-20  cursor-pointer ${
                             activeImage["popup"] === i["popup"]
-                              ? "border-2 border-dblue"
-                              : ""
+                              ? "border-darrowZoom"
+                              : "border-transparent"
                           } outline-none`}
                         >
                           <img
@@ -220,6 +241,7 @@ function ProductZoomModal(props) {
           </div>
         </div>
       </div>
+      {/* <div className="fixed z-50 w-full h-screen left-0 bottom-0 top-0 bg-dblackOverlay"></div> */}
     </div>
   );
 }
