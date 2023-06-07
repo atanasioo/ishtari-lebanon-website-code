@@ -6,13 +6,13 @@ import { FaBus } from "react-icons/fa";
 import { AiOutlineShop } from "react-icons/ai";
 import DOMPurify from "dompurify";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useDeviceSize from "@/components/useDeviceSize";
 import { axiosServer } from "@/axiosServer";
-import buildLink from "@/urls";
+import buildLink, { path, pixelID } from "@/urls";
 import ProductPart2 from "./ProductPart2";
 import dynamic from "next/dynamic";
 import NotifyMe from "./NotifyMe";
@@ -20,8 +20,15 @@ import { sanitizeHTML } from "../Utils";
 import ProductZoom from "./ProductZoom";
 import { CartContext } from "../../contexts/CartContext";
 import { AccountContext } from "../../contexts/AccountContext";
+import ReactPixel from "react-facebook-pixel";
 
 function ProductPage(props) {
+  //Server props
+  const { data, host, hovered } = props; //instead of productData
+  //contexts
+  const [accountState] = useContext(AccountContext);
+  const [state, dispatch] = useContext(CartContext);
+  //states
   const [countDownPointer, setCountDownPointer] = useState();
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
   const [AddToCartError, setAddToCartError] = useState("");
@@ -34,8 +41,6 @@ function ProductPage(props) {
   const [nonrefundable, setNonrefundable] = useState(false);
   const [returnPolicy, setReturnPolicy] = useState([]);
   const [bundles, setProductBundle] = useState();
-  const { data, host, hovered } = props; //instead of productData
-  const [width, height] = useDeviceSize();
   const [scroll, setScroll] = useState(false);
   const [loader, setLoader] = useState(true);
   const [showReview, setShowReview] = useState(false);
@@ -43,6 +48,7 @@ function ProductPage(props) {
   const [showNotify, setShowNotify] = useState(false);
   const [viewColor, setViewColor] = useState();
   const [activeOption, setActiveOption] = useState({});
+  const [optionParent, setOptionParent] = useState("");
   const [sizeGuide, setSizeGuide] = useState();
   const [colorSelected, setColorSelected] = useState();
   const [reviews, setReviews] = useState();
@@ -51,6 +57,7 @@ function ProductPage(props) {
   const [hasOption, setHasOption] = useState(false);
   const [activeImage, setActiveImage] = useState({});
 
+  const [width, height] = useDeviceSize();
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
   });
@@ -68,16 +75,69 @@ function ProductPage(props) {
       data?.product_bundles?.length > 0 ? data?.product_bundles[0] : null
     );
 
+    setReviews(data?.product_reviews?.reviews);
+
+    //banner_event
+    if (data?.special_end !== null && data?.special_end !== 0) {
+      setHasBannerEvent(data?.bannerevent);
+    }
+
+    setHasOption(data?.options?.length > 0);
+
+    data.options.length > 0 &&
+      setOptionParent(data.options[0]["product_option_id"]);
+
     const includesImage = data?.images.some((image) => {
       return image.popup === data.popup && image.thumb === data.thumb;
     });
-    console.log(includesImage);
     if (!includesImage) {
       data?.images.unshift({
         popup: data.popup,
         thumb: data.thumb,
       });
     }
+
+    // ---> Facebook PIXEL <---
+    if (!accountState.admin) {
+      const advancedMatching = {
+        em: data?.data?.social_data?.email,
+        fn: data?.data?.social_data?.firstname,
+        ln: data?.data?.social_data?.lastname,
+        external_id: data?.data?.social_data?.external_id,
+        country: data?.data?.social_data?.country_code,
+        fbp: Cookies.get("_fbp"),
+      };
+      ReactPixel.init(pixelID, advancedMatching, {
+        debug: true,
+        autoConfig: false,
+      });
+      ReactPixel.pageView();
+      ReactPixel.fbq("track", "PageView");
+
+      window.fbq(
+        "track",
+        "ViewContent",
+        {
+          content_type: "product",
+          content_ids: [product_id],
+          content_name: data?.data?.social_data?.name,
+          value: data?.data?.social_data?.value,
+          currency: data?.data?.social_data?.currency,
+        },
+        { eventID: data?.data?.social_data?.event_id }
+      );
+    }
+    var dataSocial = data.social_data;
+    dataSocial["fbp"] = Cookies.get("_fbp");
+    dataSocial["fbc"] = Cookies.get("_fbc");
+    dataSocial["ttp"] = Cookies.get("_ttp");
+    dataSocial["link"] = window.location.href;
+
+    axiosServer
+      .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+      .then((response) => {
+        const data = response.data;
+      });
   }, []);
 
   function unescapeHTML(str) {
@@ -207,7 +267,7 @@ function ProductPage(props) {
   }
 
   function gtag_report_conversion(obj) {
-    if (!accoutState.admin) {
+    if (!accountState.admin) {
       var price = 10;
       if (data.special_net_value) {
         price = data.special_net_value;
@@ -320,7 +380,7 @@ function ProductPage(props) {
                 content_ids: data?.content_ids,
                 content_name: data?.name,
                 value: data?.value,
-                content_category: productData?.breadcrumbs?.category[0]?.name,
+                content_category: data?.breadcrumbs?.category[0]?.name,
                 currency: data?.currency,
                 fbp: Cookies.get("_fbp"),
               },
