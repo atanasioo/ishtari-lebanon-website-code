@@ -18,9 +18,11 @@ import dynamic from "next/dynamic";
 import NotifyMe from "./NotifyMe";
 import { sanitizeHTML } from "../Utils";
 import ProductZoom from "./ProductZoom";
+import { CartContext } from "../../contexts/CartContext";
+import { AccountContext } from "../../contexts/AccountContext";
 
 function ProductPage(props) {
-  const [countDownPointer, setCountDonwPointer] = useState();
+  const [countDownPointer, setCountDownPointer] = useState();
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
   const [AddToCartError, setAddToCartError] = useState("");
   const [addingToCart, setAddingToCart] = useState(false);
@@ -46,8 +48,8 @@ function ProductPage(props) {
   const [reviews, setReviews] = useState();
   const [activeImageOption, setImageActiveOption] = useState({});
   const [images, setImages] = useState(data.images);
+  const [hasOption, setHasOption] = useState(false);
   const [activeImage, setActiveImage] = useState({});
-  
 
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
@@ -66,19 +68,17 @@ function ProductPage(props) {
       data?.product_bundles?.length > 0 ? data?.product_bundles[0] : null
     );
 
-    const includesImage = data?.images.some(image => {
+    const includesImage = data?.images.some((image) => {
       return image.popup === data.popup && image.thumb === data.thumb;
     });
     console.log(includesImage);
-    if(!includesImage){
+    if (!includesImage) {
       data?.images.unshift({
         popup: data.popup,
-        thumb: data.thumb
+        thumb: data.thumb,
       });
     }
-
   }, []);
-
 
   function unescapeHTML(str) {
     if (!str) {
@@ -197,14 +197,159 @@ function ProductPage(props) {
             setImageActiveOption(option);
             setActiveImage({
               popup: element["popup"],
-              thumb: element["thumb"]
+              thumb: element["thumb"],
             });
           }
         }
       }
     }
     setActiveOption(option);
+  }
 
+  function gtag_report_conversion(obj) {
+    if (!accoutState.admin) {
+      var price = 10;
+      if (data.special_net_value) {
+        price = data.special_net_value;
+      } else {
+        price = data.price_net_value;
+      }
+      if (window.location.host === "www.ishtari.com") {
+        var callback = addToCart(obj);
+        gtag("event", "conversion", {
+          send_to: "AW-991347483/FGk5CJ3V3owYEJuG29gD",
+          value: price,
+          currency: "USD",
+          event_callback: callback,
+        });
+        return false;
+      } else if (window.location.host === "www.ishtari.com.gh") {
+        const callback = addToCart(obj);
+        gtag("event", "conversion", {
+          send_to: "AW-10993907106/6Y9jCLfUipEYEKLrpvoo",
+          value: price,
+          currency: "USD",
+          event_callback: callback,
+        });
+        return false;
+      } else {
+        addToCart(obj);
+      }
+    } else {
+      addToCart(obj);
+    }
+  }
+
+  function addToCart(bundle) {
+    setCountDownPointer(true);
+
+    setHasAddToCartError(false);
+    setAddingToCart(true);
+    let obj = {
+      product_id,
+      quantity,
+    };
+    if (hasOption) {
+      let o = {};
+      const op = optionParent.toString();
+      o[op] = activeOption["product_option_value_id"];
+      obj["option"] = o;
+    }
+    let error = "";
+    axiosServer
+      .post(
+        buildLink("cart", undefined, window.innerWidth) + "&source_id=1",
+        bundle === undefined ? obj : bundle
+      )
+      .then((response) => {
+        const data = response.data;
+        if (data.success !== true) {
+          // There is an error
+          setHasAddToCartError(true);
+          if (!hasOption) {
+            error = data?.errors[0]?.errorMsg;
+          } else {
+            error = data?.errors[0]?.errorMsg;
+          }
+          // alert(error)
+          setAddToCartError(error);
+          setAddingToCart(false);
+        } else {
+          setCountDown(true);
+          setCountDownPointer(true);
+          setTimeout(() => {
+            setCountDownPointer(false);
+          }, 1000);
+          setTimeout(() => {
+            setCountDown(false);
+          }, 3000);
+          dispatch({
+            type: "loading",
+            payload: true,
+          });
+          axiosServer
+            .get(buildLink("cart", undefined, window.innerWidth))
+            .then((response_data) => {
+              dispatch({
+                type: "setProducts",
+                payload: response_data.data?.data?.products,
+              });
+
+              dispatch({
+                type: "setProductsCount",
+                payload: response_data?.data?.data?.total_product_count,
+              });
+              dispatch({
+                type: "setTotals",
+                payload: response_data.data?.data?.totals,
+              });
+              dispatch({
+                type: "loading",
+                payload: false,
+              });
+            });
+
+          if (data) {
+            const data = response?.data?.data?.social_data;
+
+            ReactPixel.fbq(
+              "track",
+              "AddToCart",
+              {
+                content_type: "product",
+                content_ids: data?.content_ids,
+                content_name: data?.name,
+                value: data?.value,
+                content_category: productData?.breadcrumbs?.category[0]?.name,
+                currency: data?.currency,
+                fbp: Cookies.get("_fbp"),
+              },
+              { eventID: data?.event_id }
+            );
+          }
+          // }
+
+          var dataSocial = response?.data?.data?.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+
+          axiosServer
+            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
+          setSuccessAdded(true);
+
+          setTimeout(() => {
+            // setCountDown(false)
+            setAddingToCart(false);
+          }, 3000);
+        }
+      });
   }
 
   return (
@@ -240,11 +385,12 @@ function ProductPage(props) {
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
               <div className="product-zoom w-full md:w-7/12">
                 {/* <Image width={380} height={518} src={data.popup} /> */}
-                <ProductZoom 
-                activeOption={activeImageOption.product_option_value_id}
-                images={data.images}
-                hovered={hovered}
-                productData={data} />
+                <ProductZoom
+                  activeOption={activeImageOption.product_option_value_id}
+                  images={data.images}
+                  hovered={hovered}
+                  productData={data}
+                />
               </div>
               <div className="product-info w-full md:w-5/12">
                 {/* BRAND NAME */}
@@ -425,6 +571,11 @@ function ProductPage(props) {
                           ? "bg-dbase mr-1"
                           : "bg-dblue mx-1 hover:bg-dbluedark"
                       } flex items-center justify-center rounded-md text-white `}
+                      onClick={() => {
+                        data["quantity"] === "0"
+                          ? console.log("")
+                          : gtag_report_conversion();
+                      }}
                     >
                       <span>
                         {data["quantity"] === "0" ? (
@@ -979,7 +1130,7 @@ function ProductPage(props) {
             loader={loader}
             productData2={productData2}
             data={data}
-            reviews = {reviews}
+            reviews={reviews}
             host={host}
           />
         </div>
