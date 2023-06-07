@@ -3,18 +3,28 @@ import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper.min.css";
+// import "swiper/swiper.min.css";
 // import 'swiper/css/pagination.min.css';
 // import 'swiper/css/navigation.min.css';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import { Navigation } from "swiper";
 import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
-import { IoIosArrowDown } from "react-icons/io";
+import {
+  IoIosArrowDown,
+  IoIosCheckbox,
+  IoIosCheckboxOutline,
+  IoMdCheckbox
+} from "react-icons/io";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
 import { BsGrid } from "react-icons/bs";
-
+import useDeviceSize from "../useDeviceSize";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { AiOutlineClose } from "react-icons/ai";
 function CatalogPage(props) {
   // const [filters, setFilters] = useState(props.data?.filters );
   const { data } = props; //instead of productData
@@ -23,7 +33,11 @@ function CatalogPage(props) {
   var isLoading = useRef(false);
   // const [data, setData] = useState(props.data);
   const [showSort, setShowSort] = useState(false);
+  const [showMobileSort, setShowMobileSort] = useState(false);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
+
   const [productDisplay, setProductDisplay] = useState("grid");
+  const { width, height } = useDeviceSize();
 
   const router = useRouter();
   const {
@@ -41,8 +55,6 @@ function CatalogPage(props) {
     order,
     limit
   } = router.query;
-  console.log(router);
-  console.log("limit" + limit);
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
@@ -143,9 +155,6 @@ function CatalogPage(props) {
   }
 
   function sortSetter(sortData) {
-    // console.log(sort);
-    // console.log(router.asPath);
-
     setSort(sortData);
     setShowSort(false);
     let val = sortData["value"];
@@ -156,44 +165,32 @@ function CatalogPage(props) {
     _order = val.substring(i_o + 1);
     // const data = { sort: _sort, order: order };
     let now = "&sort=" + _sort + "&order=" + _order;
-    if (has_filter) {
-      if (sort == undefined) {
-        router.push(router.asPath + now);
-      } else {
-        const old = "&sort=" + sort + "&order=" + order;
-        router.push(router.asPath.replace(old, now));
+
+    if (sort == undefined) {
+      if (!has_filter && page === undefined && limit === undefined) {
+        now = "?" + now;
       }
+      router.push(router.asPath + now);
     } else {
-
-
-      
+      const old = "&sort=" + sort + "&order=" + order;
+      router.push(router.asPath.replace(old, now));
     }
   }
 
   function limitSetter(limitData) {
-    // alert(limit);
-    // alert(limitData.value);
     setShowLimit(false);
     alert(now);
     var now = "&limit=" + limitData.value;
 
-    if (has_filter) {
-      if (limit == undefined) {
-        router.push(router.asPath + now);
-      } else {
-        const old = "&limit=" + limit;
-        alert(old);
-        router.push(router.asPath.replace(old, now));
+    if (limit == undefined) {
+      if (!has_filter && page === undefined && sort === undefined) {
+        now = "?" + now;
       }
+      router.push(router.asPath + now);
     } else {
-      now = "?limit=" + limitData.value;
-      if (limit == undefined) {
-        router.push(router.asPath + now);
-      } else {
-        const old = "?limit=" + limit;
-        alert(old);
-        router.push(router.asPath.replace(old, now));
-      }
+      const old = "&limit=" + limit;
+      alert(old);
+      router.push(router.asPath.replace(old, now));
     }
   }
 
@@ -203,7 +200,7 @@ function CatalogPage(props) {
     //   if (filter.id != undefined && filter_id==="filter_options")
 
     //   if( filter.includes(item.id)) {
-    console.log(filter.id);
+
     let filter_id = "";
     if (filter.id != undefined && filter.id === "filter_options") {
       filter_id = filter_options;
@@ -280,17 +277,21 @@ function CatalogPage(props) {
   };
 
   const handlePageClick = (event) => {
-    console.log("event");
-    console.log(event.selected);
     const new_page = parseInt(event.selected) + 1;
-    parseFilter("page", new_page);
+
+    var now = "&page" + new_page;
+    if (page != undefined) {
+      if (!has_filter && sort == undefined && limit == undefined) {
+        now = "?" + now;
+      } else {
+        now = now;
+      }
+      router;
+    } else {
+      let old = "&page" + page;
+      router.push(router.asPath + now);
+    }
   };
-  // Access the query parameter values
-  console.log("Param1:", filter_categories);
-  console.log("Param2:", filter_manufacturers);
-  console.log("Param3:", filter_sellers);
-  console.log("Param4:", filter_options);
-  console.log("Param5:", page);
 
   function checkFilter(type, name, filter) {
     // console.log(router.asPath);
@@ -358,21 +359,17 @@ function CatalogPage(props) {
   function parseFilter(filter_type, id) {
     var url = "";
     var type = "";
-    console.log(filter_type);
-    console.log(id);
 
     if (filter_type === "filter_manufacturers") {
       type = "filter_manufacturers";
       if (filter_manufacturers != undefined) {
         if (filter_manufacturers?.indexOf(id) > -1) {
-          // console.log("exist");
           const value = filter_manufacturers
             ?.split(",")
             .filter((value) => value != id);
           if (value.length > 0) url += "&" + type + "=" + value;
         } else {
           url += "&" + type + "=" + filter_manufacturers + "," + id;
-          console.log("Not exist but has filter maufacturers ");
         }
       } else {
         url += "&" + type + "=" + id;
@@ -388,14 +385,12 @@ function CatalogPage(props) {
       type = "filter_sellers";
       if (filter_sellers != undefined) {
         if (filter_sellers?.indexOf(id) > -1) {
-          console.log("exist");
           const value = filter_sellers
             ?.split(",")
             .filter((value) => value != id);
           if (value.length > 0) url += "&" + type + "=" + value;
         } else {
           url += "&" + type + "=" + filter_sellers + "," + id;
-          console.log("Not exist but has filter sellers ");
         }
       } else {
         type = "filter_sellers";
@@ -412,14 +407,12 @@ function CatalogPage(props) {
       type = "filter_categories";
       if (filter_categories != undefined) {
         if (filter_categories?.indexOf(id) > -1) {
-          console.log("exist");
           const value = filter_categories
             ?.split(",")
             .filter((value) => value != id);
           if (value.length > 0) url += "&" + type + "=" + value;
         } else {
           url += "&" + type + "=" + filter_categories + "," + id;
-          console.log("Not exist but has filter  ");
         }
       } else {
         url += "&" + type + "=" + id;
@@ -435,14 +428,12 @@ function CatalogPage(props) {
       type = "filter_options";
       if (filter_options != undefined) {
         if (filter_options?.indexOf(id) > -1) {
-          console.log("exist");
           const value = filter_options
             ?.split(",")
             .filter((value) => value != id);
           if (value.length > 0) url += "&" + type + "=" + value;
         } else {
           url += "&" + type + "=" + filter_options + "," + id;
-          console.log("Not exist but has filter  ");
         }
       } else {
         url += "&" + type + "=" + id;
@@ -458,12 +449,10 @@ function CatalogPage(props) {
       type = "adv_filters";
       if (adv_filters != undefined) {
         if (adv_filters?.indexOf(id) > -1) {
-          console.log("exist");
           const value = adv_filters?.split(",").filter((value) => value != id);
           if (value.length > 0) url += "&" + type + "=" + value;
         } else {
           url += "&" + type + "=" + adv_filters + "," + id;
-          console.log("Not exist but has filter  ");
         }
       } else {
         url += "&" + type + "=" + id;
@@ -474,16 +463,10 @@ function CatalogPage(props) {
         url += "&" + type + "=" + adv_filters;
       }
     }
-
+    if (last === undefined) {
+      url += "&last=" + last;
+    }
     if (filter_type === "page") {
-      if (last != undefined) {
-        url += "&last=" + last;
-      }
-
-      type = "page";
-      if (id != undefined) {
-        url += "&" + type + "=" + id;
-      }
     } else {
       if (filter_type != "adv_filters") {
         url += "&last=" + filter_type.slice(7, 8);
@@ -503,7 +486,7 @@ function CatalogPage(props) {
     const h_sender = e;
     const sender_parent = h_sender.parentNode;
     const next_filters = sender_parent.nextElementSibling;
-    console.log(sender_parent);
+
     const next_filters_display = next_filters.style.display;
     if (next_filters_display === "block") {
       next_filters.style.display = "none";
@@ -547,11 +530,12 @@ function CatalogPage(props) {
           ))}
         </div>
       </div>
+
       <div className="flex">
-        <div className="w-1/5 px-5 ">
+        <div className="w-full mobile:w-1/5 mobile:px-5 ">
           {filters &&
             Object.keys(filters).map((key) => (
-              <div>
+              <div className="hidden mobile:block">
                 {filters[key].items.length > 0 && (
                   <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
                     {filters[key].name}
@@ -714,10 +698,10 @@ function CatalogPage(props) {
               </div>
             ))}
         </div>
-        <div className="w-4/5 leading-dtight">
+        <div className=" w-full mobile:w-4/5 leading-dtight">
           <div className="flex justify-between">
             {/* Results found */}
-            <div className="flex mx-1 w-4/12 pt-1">
+            <div className="flex mx-1 mobile:w-4/12 pt-2 mobile:pt-1 ">
               <span className=" mr-2 font-light">
                 {data.product_total} Results {data.heading_title && "for"}
               </span>
@@ -733,7 +717,7 @@ function CatalogPage(props) {
             {/* Settings */}
             {/* Desktop setting */}
 
-            <div className="flex justify-end ">
+            <div className="mobile:flex justify-end  hidden">
               {/* Sorts */}
               {data?.products?.length > 0 && (
                 <div className=" px-8 flex items-center">
@@ -857,6 +841,63 @@ function CatalogPage(props) {
               )}
             </div>
           </div>
+
+          <div className="flex  mobile:hidden">
+            <div className="w-screen bg-white -mx-4 mt-3">
+              <div className="grid grid-cols-2 divide-x divide-dinputBorder bg-white py-2 rounded">
+                <button
+                  onClick={() => setShowMobileFilter(true)}
+                  // onClick={() => setShowSort(!showSort)}
+                >
+                  <span>Filter</span>
+                  <i className="icon icon-filter ml-1"></i>
+                </button>
+                {data?.products?.length > 0 && (
+                  <button onClick={() => setShowMobileSort(!showSort)}>
+                    <span>Sort By</span>
+                    <i className="icon icon-sort ml-1"></i>
+                  </button>
+                )}
+              </div>
+              {showMobileSort && (
+                <div
+                  onClick={() => setShowMobileSort(false)}
+                  className="bg-dblack bg-opacity-20 z-50 w-screen h-screen fixed top-0 left-0 flex justify-end"
+                >
+                  <div className="bg-white w-3/5 p-2">
+                    {data?.sorts?.map((s) => (
+                      <button
+                        className="flex items-center justify-between  w-full"
+                        onClick={() => sortSetter(s)}
+                      >
+                        <span
+                          className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
+                          key={s.value}
+                          dangerouslySetInnerHTML={{
+                            __html: s.text
+                          }}
+                        ></span>
+
+                        {sort + "-" + order === s.value ? (
+                          <input
+                            type="checkbox"
+                            className="font-light text-xl p-1"
+                            checked
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            className="font-light text-xl p-1"
+                          />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
@@ -1251,7 +1292,7 @@ function CatalogPage(props) {
                       freeMode={true}
                       draggable={false}
                       pagination={false}
-                      navigation={700 > 650 ? true : false}
+                      navigation={width > 650 ? true : false}
                       modules={[Navigation]}
                       className="myFilterSwiper"
                     >
@@ -1349,7 +1390,19 @@ function CatalogPage(props) {
                                         className="p-1 "
                                         onClick={() =>
                                           parseFilter(filter.id, item.id)
+
                                         }
+
+                                        // onClick={() =>
+                                        //   parseFilter(
+                                        //     filters[
+                                        //       data.filters.findIndex(
+                                        //         (x) => x.name === topFilter.name
+                                        //       )
+                                        //     ].id,
+                                        //     item.id
+                                        //   )
+                                        // }
                                       >
                                         <div
                                           className={`text-d14 px-3 py-1 overflow-hidden flex-nowrap flex justify-between items-center bg-dgreyRate rounded-2xl `}
@@ -1386,15 +1439,12 @@ function CatalogPage(props) {
                                       <button
                                         className="p-1"
                                         onClick={() =>
-                                          parseFilter(filter.id, item)
+                                          parseFilter(filter.id, item.id)
                                         }
                                       >
                                         <div
                                           className={`text-d14 px-3 py-1  flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                          // style={{
-                                          //   paddingTop: "6px",
-                                          //   paddingBottom: "6px"
-                                          // }}
+                                       
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1424,15 +1474,12 @@ function CatalogPage(props) {
                                       <button
                                         className="p-1"
                                         onClick={() =>
-                                          parseFilter(filter.id, item)
+                                          parseFilter(filter.id, item.id)
                                         }
                                       >
                                         <div
                                           className={`text-d14 py-1 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                          // style={{
-                                          //   paddingTop: "6px",
-                                          //   paddingBottom: "6px"
-                                          // }}
+                                       
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1468,7 +1515,7 @@ function CatalogPage(props) {
                                       <button
                                         className="p-1"
                                         onClick={() =>
-                                          parseFilter(filter.id, item)
+                                          parseFilter(filter.id, item.id)
                                         }
                                       >
                                         <div
@@ -1494,15 +1541,12 @@ function CatalogPage(props) {
                                       <button
                                         className="p-1"
                                         onClick={() =>
-                                          parseFilter(filter.id, item)
+                                          parseFilter(filter.id, item.id)
                                         }
                                       >
                                         <div
                                           className={`text-d14 bg-dgreyRate px-3 py-1 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                          // style={{
-                                          //   paddingTop: "6px",
-                                          //   paddingBottom: "6px"
-                                          // }}
+                                        
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1527,7 +1571,7 @@ function CatalogPage(props) {
             )}
 
           <div
-            className={`grid transition-all pt-2 ${
+            className={`grid transition-all mobile:pt-2 ${
               productDisplay === "grid"
                 ? "grid-cols-2 xl:grid-cols-5 lg:grid-cols-5 gap-2 "
                 : "grid-cols-1"
@@ -1546,8 +1590,8 @@ function CatalogPage(props) {
               breakLabel="..."
               nextLabel=">"
               onPageChange={handlePageClick}
-              pageRangeDisplayed={2}
-              marginPagesDisplayed={2}
+              pageRangeDisplayed={width < 650 ? 1 : 2}
+              marginPagesDisplayed={width < 650 ? 1 : 2}
               pageCount={data?.total_pages}
               previousLabel="<"
               activeClassName={"active-pagination-category"}
@@ -1557,6 +1601,178 @@ function CatalogPage(props) {
           </div>
         </div>
       </div>
+
+      {filters && showMobileFilter && (
+        <div className="bg-white fixed w-full z-30 top-0 pl-2 pr-7 h-screen py-3">
+          <div className='flex justify-between'>
+           
+          <div className="text-d22">Filters</div> <div className="text-d25 py-2" onClick={()=>setShowMobileFilter(false)}><AiOutlineClose /></div>
+            </div>
+          {Object.keys(filters).map((key) => (
+            <div className="py-2">
+              {filters[key].items.length > 0 && (
+                <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
+                  {filters[key].name}
+                </div>
+              )}
+              <div style={{ display: "block" }}>
+                {key ? (
+                  <div>
+                    {filters[key].items.slice(0, 5).map((filter) => (
+                      <div key={Math.random()}>
+                        {filters[key].name === "Light Color" ||
+                        filters[key].name === "Color" ? (
+                          <div
+                            className="my-2 flex items-center cursor-pointer hover:text-dblue"
+                            key={filter.name}
+                            onClick={() =>
+                              parseFilter(filters[key].id, filter.id)
+                            }
+                          >
+                            <span className="flex w-10/12">
+                              <span
+                                className={`flex w-7 h-7 ${checkFilter(
+                                  filters[key]?.id,
+                                  filters[key].name,
+                                  filter
+                                )}`}
+                              >
+                                <img
+                                  src={filter.image}
+                                  style={{
+                                    padding: `1px`
+                                  }}
+                                  className={`w-12/12 rounded-full border border-dgreyRate`}
+                                  alt="Not Found"
+                                />
+                              </span>
+                              <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                {" "}
+                                {filter.name}
+                              </p>
+                            </span>
+                            <span className="flex w-2/12"></span>
+                            <span className="text-d14 text-right font-light opacity-70 ">
+                              ({filter.count})
+                            </span>
+                          </div>
+                        ) : (
+                          <div>
+                            <p
+                              className="my-2 flex  items-center cursor-pointer hover:text-dblue "
+                              key={filter.name}
+                              onClick={() =>
+                                parseFilter(filters[key].id, filter.id)
+                              }
+                            >
+                              <i>
+                                {checkFilter(
+                                  filters[key].id,
+                                  filter.name,
+                                  filter
+                                )}
+                              </i>
+                              <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                {filter.name}
+                              </span>
+
+                              <span className="text-d14 text-right font-light opacity-70">
+                                ({filter.count})
+                              </span>
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    <div>
+                      <label
+                        className={
+                          filters[key].items.length > 5
+                            ? `text-dblue text-xs cursor-pointer`
+                            : "hidden"
+                        }
+                        onClick={(e) => toggleFilters(e.target)}
+                      >
+                        See All
+                      </label>
+                    </div>
+                    <div style={{ display: "none" }}>
+                      {filters[key].items
+                        .slice(5, filters[key].items.length)
+                        .map((filter) => (
+                          <div key={Math.random()}>
+                            {filters[key].name === "Light Color" ||
+                            filters[key].name === "Color" ? (
+                              <div
+                                className="my-2 flex items-center cursor-pointer hover:text-dblue"
+                                key={filter.name}
+                                // onClick={() => parseFilter(filters[key].id, filter)}
+                              >
+                                <span className="flex w-10/12">
+                                  <span
+                                    className={`flex w-7 h-7 ${checkFilter(
+                                      filters[key].id,
+                                      filters[key].name,
+                                      filter
+                                    )}`}
+                                  >
+                                    <img
+                                      src={filter.image}
+                                      style={{
+                                        padding: `1px`
+                                      }}
+                                      className={`w-12/12 rounded-full border border-dgreyRate`}
+                                      alt="Not Found"
+                                    />
+                                  </span>
+                                  <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                    {" "}
+                                    {filter.name}
+                                  </p>
+                                </span>
+                                <span className="flex w-1/12"></span>
+                                <span className="text-d14 text-right font-light opacity-70">
+                                  ({filter.count})
+                                </span>
+                              </div>
+                            ) : (
+                              <div>
+                                <p
+                                  className="my-2 flex float items-center cursor-pointer hover:text-dblue "
+                                  key={filter.name}
+                                  onClick={() =>
+                                    parseFilter(filters[key].id, filter)
+                                  }
+                                >
+                                  <i>
+                                    {checkFilter(
+                                      filters[key].id,
+                                      filter.name,
+                                      filter
+                                    )}
+                                  </i>
+                                  <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                    {filter.name}
+                                  </span>
+
+                                  <span className="text-d14 text-right font-light opacity-70">
+                                    ({filter.count})
+                                  </span>
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

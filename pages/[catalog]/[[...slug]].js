@@ -127,15 +127,19 @@ export async function getServerSideProps(context) {
       // } else {
 
       var filter = "";
+   
+ 
+
       if (page != undefined) {
         filter += "&page=" + page;
       }
       if (sort != undefined) {
         filter += "&sort=" + sort + "&order=" +order;
       }
-
-      if (page != undefined) {
-        filter += "&page=" + page;
+      if (limit != undefined) {
+        filter += "&limit=" + limit;
+      }else{
+        filter += "&limit=50";
       }
       let link =
         buildLink(type, undefined, undefined, site_host) +
