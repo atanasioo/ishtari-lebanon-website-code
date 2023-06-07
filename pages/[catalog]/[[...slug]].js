@@ -6,7 +6,6 @@ import cookie from "cookie";
 import buildLink from "@/urls";
 import ProductPage from "@/components/product/ProductPage";
 import CatalogPage from "@/components/catalog/CatalogPage";
-
 function SlugPage(props) {
   const router = useRouter();
   const [isCatalog, setIsCatalog] = useState(false);
@@ -34,7 +33,6 @@ function SlugPage(props) {
       return <div>Not found..</div>;
     }
   }, [slug]);
-
   return (
     <div>
       <Head>
@@ -65,7 +63,6 @@ function SlugPage(props) {
     </div>
   );
 }
-
 export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
   // const { catalog,  slug  , resolvedUrl } = context.params;
@@ -78,40 +75,29 @@ export async function getServerSideProps(context) {
     filter_sellers,
     filter_options,
     adv_filters,
-    sort,
-    limit,
-    order,
-    page
+    page,
   } = context.query;
-
   const { req } = context;
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
-
   // const { NEXT_INIT_QUERY  = context.has_filter;
-
   let data = null;
   let type = "";
   var p = "";
-
   if (page !== undefined) {
     p = page;
   }
   const host = req.headers.host;
-
   console.log("host isss" + host);
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
-
   const host_cookie = parsedCookies["site-local-name"];
   const token = parsedCookies["api-token"];
-
   let site_host = "";
   if (host_cookie === undefined || typeof host_cookie === "undefined") {
     site_host = host;
   } else {
     site_host = host_cookie;
   }
-
   if (typeof slug !== "undefined") {
     if (catalog === "product" || slug[0].includes("p=")) {
       // get product id
@@ -122,29 +108,11 @@ export async function getServerSideProps(context) {
         product_id = slug[0];
       }
       // console.log(context);
-
-    if (!has_filter) {
-      // } else {
-
-      var filter = "";
-   
- 
-
-      if (page != undefined) {
-        filter += "&page=" + page;
-      }
-      if (sort != undefined) {
-        filter += "&sort=" + sort + "&order=" +order;
-      }
-      if (limit != undefined) {
-        filter += "&limit=" + limit;
-      }else{
-        filter += "&limit=50";
-      }
+      //fetch product data
       let link =
-        buildLink(type, undefined, undefined, site_host) +
-        id +
-        "&source_id=1" + filter;
+        buildLink("product", undefined, undefined, site_host) +
+        product_id +
+        "&source_id=1&part_one";
       const response = await axiosServer.get(link, {
         headers: {
           Authorization: "Bearer " + token,
@@ -155,7 +123,6 @@ export async function getServerSideProps(context) {
           notFound: true,
         };
       }
-
       data = response.data.data;
       type = "product";
     } else if (
@@ -169,7 +136,6 @@ export async function getServerSideProps(context) {
       let id = "";
       if (catalog === "category" || slug[0].includes("c=")) {
         type = "category";
-
         if (slug[0].includes("c=")) {
           id = slug[0].split("=")[1];
           // console.log(category_id);
@@ -187,14 +153,12 @@ export async function getServerSideProps(context) {
         }
       } else if (catalog === "seller" || slug[0].includes("s=")) {
         type = "seller";
-
         if (slug[0].includes("s=")) {
           id = slug[0].split("=")[1];
         } else {
           id = slug[0];
         }
       }
-
       if (!has_filter) {
         // } else {
         let link =
@@ -211,55 +175,41 @@ export async function getServerSideProps(context) {
             notFound: true,
           };
         }
-
         data = response.data.data;
         console.log("********%start%%*******");
         console.log(data);
         console.log("********%end%*******");
       } else {
         var filter = "";
-
         if (filter_categories !== undefined) {
           filter += "&filter_categories=" + filter_categories;
         }
         if (filter_manufacturers !== undefined) {
           filter += "&filter_manufacturers=" + filter_manufacturers;
         }
-
         if (filter_sellers !== undefined) {
           filter += "&filter_sellers=" + filter_sellers;
         }
-       link =
-        buildLink("filter", undefined, undefined) +
-        "&path=" +
-        slug[0].split("=")[1] +
-        filter;
-
         if (filter_options != undefined) {
           filter += "&filter_options=" + filter_options;
         }
-
         if (adv_filters != undefined) {
           filter += "&adv_filters=" + adv_filters;
         }
         if (page != undefined) {
           filter += "&page=" + page;
         }
-
         // const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
-
         const link =
           buildLink("filter", undefined, undefined) +
           "&path=" +
           slug[0].split("=")[1] +
           filter;
-
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,
           },
         });
-
         data = response.data.data;
       }
     } else {
@@ -268,7 +218,6 @@ export async function getServerSideProps(context) {
         notFound: true,
       };
     }
-
     return {
       props: {
         data,
@@ -285,5 +234,21 @@ export async function getServerSideProps(context) {
     }
   }
 }
-
 export default SlugPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
