@@ -46,13 +46,13 @@ function ShareSocial(props) {
       <div className="share-desktop hidden mobile:block">
         {" "}
         <div
-          className={`absolute w-9 h-9 z-30 cursor-pointer rounded-full flex justify-center items-center top-0 right-0 border border-dgreyZoom`}
+          className={`absolute bg-white  w-9 h-9 z-30 cursor-pointer rounded-full flex justify-center items-center top-2 right-2 border border-dgreyZoom`}
         >
           <MdIosShare className="w-6 h-6 block mb-1 " />
         </div>{" "}
         {share && (
           <div
-            className="shareList z-10 w-40 visible top-8 right-0 inline-block absolute p-2 "
+            className="shareList z-10 w-40 visible top-10 right-0 inline-block absolute p-2 "
             ref={wrapperRef}
           >
             <div

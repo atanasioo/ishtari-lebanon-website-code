@@ -21,6 +21,7 @@ import ProductZoom from "./ProductZoom";
 import { CartContext } from "../../contexts/CartContext";
 import { AccountContext } from "../../contexts/AccountContext";
 import CartSideModal from "./CartSideModal";
+import StarRatings from "react-star-ratings";
 
 function ProductPage(props) {
   //Server props
@@ -61,6 +62,8 @@ function ProductPage(props) {
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
   });
+
+  // console.log(data);
 
   const router = useRouter();
   const product_id = router.query.slug[0].includes("p=")
@@ -145,7 +148,6 @@ function ProductPage(props) {
       }
     }
   }, []);
-  
 
   function unescapeHTML(str) {
     if (!str) {
@@ -237,6 +239,7 @@ function ProductPage(props) {
     });
   }
 
+  console.log(reviews);
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
@@ -420,15 +423,19 @@ function ProductPage(props) {
       });
   }
 
-  function toggleSucccessAdded(bool){
+  function toggleSucccessAdded(bool) {
     setSuccessAdded(bool);
   }
 
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
-
-    <CartSideModal successAdded={successAdded} data ={data} toggleSucccessAdded={toggleSucccessAdded} hasBannerEvent={hasBannerEvent} />
+        <CartSideModal
+          successAdded={successAdded}
+          data={data}
+          toggleSucccessAdded={toggleSucccessAdded}
+          hasBannerEvent={hasBannerEvent}
+        />
 
         <div className="flex flex-col px-2 mx-auto">
           <div className="breadcrumbs py-3 hidden md:block">
@@ -495,7 +502,31 @@ function ProductPage(props) {
                         Model Number: {data.sku}
                       </div>
                       <div className="divider h-4 w-0.5 bg-dplaceHolder mr-1.5"></div>
-                      <div className="product-rating"></div>
+                      <div className="product-rating">
+                      {data?.rating > 0 && (
+                        <div className="flex" onClick={handleClick}>
+                         
+                          <div
+                            className="flex justify-center rounded-full px-1 space-x-0.5 h-5 ml-3 mt-0.5   cursor-pointer"
+                            style={{ backgroundColor: "rgb(130, 174, 4" }}
+                          >
+                            <div className="text-d14 font-bold text-white">
+                              {data?.rating || "0.0"}
+                            </div>
+                            <StarRatings
+                              containerClassName=" text-white text-bold"
+                              starEmptyColor="#FFFFFF"
+                              numberOfStars={1}
+                              starDimension="13px"
+                              isReadOnly="true"
+                            />{" "}
+                          </div>
+                          <p className=" flex text-dgrey1 text-d15 mb-1 md:mb-3 font-light  ml-2 underline_effect cursor-pointer">
+                            5 Rating
+                          </p>
+                        </div>
+                      )}{" "}
+                      </div>
                     </div>
                     <div className="product-price">
                       <div
@@ -782,7 +813,7 @@ function ProductPage(props) {
                     {data?.options &&
                       data.options?.length > 0 &&
                       data["options"]["0"]["size_guide"] && (
-                        <h2
+                        <p
                           className="w-1/2 text-right "
                           onClick={() => setSizeGuide(true)}
                         >
@@ -790,7 +821,7 @@ function ProductPage(props) {
                           <u className="underline_effect cursor-pointer text-sm">
                             Size Guide
                           </u>
-                        </h2>
+                        </p>
                       )}
                   </div>{" "}
                   {data?.options && data.options?.length > 0 && (
@@ -877,15 +908,17 @@ function ProductPage(props) {
                               className={`flex flex-wrap justify-center items-center pr-1  `}
                             >
                               <div>
-                                <Image
-                                  src={data["options"]["0"]["size_guide"]}
-                                  className={`${
-                                    width < 650 ? "pb-24" : "pb-1 "
-                                  }`}
-                                  alt="express"
-                                  width={80}
-                                  height={80}
-                                />
+                                {sizeGuide && (
+                                  <Image
+                                    src={data["options"]["0"]["size_guide"]}
+                                    className={`${
+                                      width < 650 ? "pb-24" : "pb-1 "
+                                    }`}
+                                    alt="express"
+                                    width={1000}
+                                    height={1000}
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>
@@ -1200,15 +1233,15 @@ function ProductPage(props) {
               />{" "}
             </div>
           </div>
-          <ProductPart2
-            titleRef={titleRef}
-            loader={loader}
-            productData2={productData2}
-            data={data}
-            reviews={reviews}
-            host={host}
-            product_id={product_id}
-          />
+            <ProductPart2
+              titleRef={titleRef}
+              loader={loader}
+              productData2={productData2}
+              data={data}
+              reviews={reviews}
+              host={host}
+              product_id={product_id}
+            />
         </div>
       </div>
     </div>

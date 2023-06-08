@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import StarRatings from "react-star-ratings";
 import Image from "next/image";
@@ -14,10 +14,13 @@ import { AccountContext } from "@/contexts/AccountContext";
 import { axiosServer } from "@/axiosServer";
 import buildLink from "@/urls";
 import { FaTrash } from "react-icons/fa";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
+import ReactPaginate from "react-paginate";
 
 function ProductPart2(props) {
-  const { titleRef, loader, productData2, data, reviews, host, product_id } =
-    props; //data is for product part one data
+  const { titleRef, loader, productData2, data, host, product_id } =
+props; //data is for product part one data
   const [width, height] = useDeviceSize();
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
@@ -28,12 +31,18 @@ function ProductPart2(props) {
   const [exceededSizeLimit, setExceedSizeLimit] = useState(false);
   const [exceededSizeLimitErr, setExceedSizeLimitErr] = useState(false);
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
+  const [reviews, setReviews] = useState(props.reviews);
+  const [pageValue, setPageValue] = useState(1);
   const [totalSize, setTotalSize] = useState(0);
   const hiddenFileInput = useRef(null);
+  const commentRef = useRef();
   const textRef = useRef();
   const [required, setRequired] = useState();
   const path = "";
-  // console.log(productData2);
+
+  useEffect(() => {
+    setReviews(props.reviews)
+  },[props.reviews])
 
   const PointsLoader = dynamic(() => import("../PointsLoader"), {
     ssr: false, // Disable server-side rendering
@@ -69,7 +78,7 @@ function ProductPart2(props) {
   };
 
   function changeRating(newRating, name) {
-    console.log(newRating);
+    // console.log(newRating);
     setRatingCustomer(newRating);
   }
 
@@ -83,6 +92,38 @@ function ProductPart2(props) {
     }
     return false;
   };
+
+  function pageSetter(page) {
+    const new_page = parseInt(page["selected"]) + 1;
+    setPageValue(new_page);
+    getReview(new_page);
+  }
+
+  function getReview(page) {
+    // console.log(commentRef);
+    commentRef.current.scrollIntoView({ behavior: "smooth" });
+
+    var obj = { product_id: product_id };
+    axiosServer
+      .get(
+        buildLink("reviews") +
+          "&product_id=" +
+          product_id +
+          "&page=" +
+          page +
+          "&limit=5",
+        obj
+      )
+      .then((response) => {
+        const data = response.data;
+        if (data.success === true) {
+          // setReview(response?.data?.data.rev_avg);
+          setReviews(response?.data?.data?.reviews);
+        } else {
+          setReviews("");
+        }
+      });
+  }
 
   //   const requestBody= JSON.stringify({
   //     "charge_msisdn": "233549455903",
@@ -174,7 +215,7 @@ function ProductPart2(props) {
         axiosServer
           .post(buildLink("reviews", undefined, window.innerWidth), formData)
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             window.location.reload();
           });
       } else {
@@ -216,12 +257,12 @@ function ProductPart2(props) {
     let cumulativeSize = totalSize;
     // Iterate through the newly selected files
     files.forEach((file) => {
-      console.log(file);
+      // console.log(file);
       //max allowed size 2 mb for the sum of images
       cumulativeSize += file.size;
     
     });
-     console.log(cumulativeSize);
+    //  console.log(cumulativeSize);
     if(cumulativeSize <= 2 * 1024 * 1024){
       return true
     }else{
@@ -533,7 +574,7 @@ function ProductPart2(props) {
                       {data?.product_reviews?.totals > 0 && (
                         <div
                           className="font-bold text-xl border-b border-dinputBorder px-4 pt-8 pb-2"
-                          ref={commentRef}
+                          
                         >
                           {data?.product_reviews?.totals} Customer Reviews
                         </div>
@@ -550,7 +591,7 @@ function ProductPart2(props) {
                     );
                   })} */}
 
-                      <div className="mt-2">
+                      <div className="mt-2" ref={commentRef}>
                         {reviews?.map((r) => (
                           <div className="border-b-2 border-dinputBorder pb-2">
                             <div className="mt-4 flex justify-start items-center flex-row space-x-2.5 ">
@@ -638,7 +679,7 @@ function ProductPart2(props) {
                             </div>
                           </div>
                         ))}
-                        {/* {productData2?.product_reviews?.total_pages > 1 && (
+                        {productData2?.product_reviews?.total_pages > 1 && (
                       <ReactPaginate
                         pageCount={Math.ceil(
                           productData2?.product_reviews?.total_pages
@@ -655,7 +696,7 @@ function ProductPart2(props) {
                             }`}
                           >
                             <IoIosArrowBack />{" "}
-                            <span className="text-d13 ml-1">Previous Page</span>{" "}
+                            <span className="text-d13 ml-1 text-dblack">Previous Page</span>{" "}
                           </div>
                         }
                         activeClassName={"active-pagination-product"}
@@ -672,14 +713,14 @@ function ProductPart2(props) {
                             }`}
                           >
                             {" "}
-                            <span className="text-d13 mr-1">
+                            <span className="text-d13 mr-1 text-dblack">
                               Next Page
                             </span>{" "}
                             <IoIosArrowForward className="" />{" "}
                           </div>
                         }
                       />
-                    )} */}
+                    )}
                       </div>
                     </div>
                   </div>
@@ -858,9 +899,9 @@ function ProductPart2(props) {
         productData2?.product_recentlyViewed?.length > 0 && (
           <div className="w-full px-6 bg-white  ">
             <div className="container pb-2 md:pb-8">
-              <h2 className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
+              <p className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
                 Recently Viewed
-              </h2>
+              </p>
               {width < 650 ? (
                 <Slider {...productMobile}>
                   {productData2?.product_recentlyViewed?.map((item) => {

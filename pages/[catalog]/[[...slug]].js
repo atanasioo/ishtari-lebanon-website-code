@@ -112,12 +112,13 @@ export async function getServerSideProps(context) {
       let link =
         buildLink("product", undefined, undefined, site_host) +
         product_id +
-        "&source_id=1&part_one";
+        "&source_id=1&part_one&employer=true";  //dont' forget to remove employer=true
       const response = await axiosServer.get(link, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
+      console.log(response.data);
       if (!response.data.success) {
         return {
           notFound: true,

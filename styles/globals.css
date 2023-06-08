@@ -1021,5 +1021,38 @@ select {
   }
 }
 
+.product-pagination {
+  @apply flex justify-center w-full my-4 p-4;
+}
+
+.product-pagination li {
+  margin: 0px 5px;
+  
+
+}
+
+.product-pagination li a {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(226, 229, 241);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-weight: 200;
+  color: rgb(126, 133, 155);
+  text-align: center;
+  font-size: 1.3333rem;
+  text-decoration: none;
+  font-weight: 600;
+
+}
+
+.product-pagination li a:hover,
+.active-pagination-product a {
+  border-radius: 3px;
+  /* color: rgb(56 102 223) !important; */
+  background-color: white;
+  /* box-shadow: rgb(56 102 223) 0px 0px 1px 1px; */
+}
 
 
