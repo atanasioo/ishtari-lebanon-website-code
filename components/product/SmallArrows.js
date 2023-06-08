@@ -6,10 +6,10 @@ export default function SmallArrows({ direction, onClick, style, className }) {
         background: "linear-gradient(white 30%, rgba(255, 255, 255, 0) 100%)",
       }}
       onClick={onClick}
-      className={`${className}  z-10 hidden sm:flex items-center ${
+      className={`${className} absolute z-10 hidden sm:flex items-center ${
         direction === "u"
-          ? "top-0 justify-start"
-          : "-bottom-3 rotate-180 justify-end"
+          ? "top-0 justify-center left-0"
+          : "-bottom-3 rotate-180 left-0 justify-center"
       }  w-full h-5 text-center  cursor-pointer  `}
     >
       <svg

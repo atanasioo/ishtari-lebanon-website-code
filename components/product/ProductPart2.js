@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import StarRatings from "react-star-ratings";
 import Image from "next/image";
@@ -10,23 +10,30 @@ import Slider from "react-slick";
 import Link from "next/link";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { AccountContext } from "@/contexts/AccountContext";
+import { axiosServer } from "@/axiosServer";
+import buildLink from "@/urls";
+import { FaTrash } from "react-icons/fa";
 
 function ProductPart2(props) {
-  const { titleRef, loader, productData2, data, reviews, host } = props; //data is for product part one data
+  const { titleRef, loader, productData2, data, reviews, host, product_id } =
+    props; //data is for product part one data
   const [width, height] = useDeviceSize();
-  const [starRating, setStarRating] = useState(0);
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
+  const [ratingCustomer, setRatingCustomer] = useState(0);
   const [isDetails, setIsDetails] = useState(false);
   const [showGroup, setShowGroup] = useState(false);
   const [showModel, setShowModel] = useState(false);
+  const [exceededSizeLimit, setExceedSizeLimit] = useState(false);
+  const [exceededSizeLimitErr, setExceedSizeLimitErr] = useState(false);
+  const [stateAccount, dispatchAccount] = useContext(AccountContext);
+  const [totalSize, setTotalSize] = useState(0);
   const hiddenFileInput = useRef(null);
   const textRef = useRef();
   const [required, setRequired] = useState();
-  const path= "";
+  const path = "";
   // console.log(productData2);
-
 
   const PointsLoader = dynamic(() => import("../PointsLoader"), {
     ssr: false, // Disable server-side rendering
@@ -61,10 +68,9 @@ function ProductPart2(props) {
     s: "#DC143C",
   };
 
-
   function changeRating(newRating, name) {
     console.log(newRating);
-    setStarRating(newRating);
+    setRatingCustomer(newRating);
   }
 
   const handleImageUpload = (event) => {
@@ -150,6 +156,79 @@ function ProductPart2(props) {
     );
   }
 
+  function addReview() {
+    setExceedSizeLimitErr(false)
+    if (validateImagesSize()) {
+      if (ratingCustomer > 0) {
+        var formData = new FormData(); // Currently empty
+
+        formData.append("product_id", product_id);
+        formData.append("rating", ratingCustomer);
+        formData.append("comment", textRef.current.value);
+        formData.append("source_id", 1);
+
+        ReviewImages.slice(0, 5).map((image) => {
+          formData.append("images[]", image);
+        });
+
+        axiosServer
+          .post(buildLink("reviews", undefined, window.innerWidth), formData)
+          .then((response) => {
+            console.log(response);
+            window.location.reload();
+          });
+      } else {
+        setRequired("Please provide a rating");
+      }
+    }else{
+      setExceedSizeLimitErr(true)
+      setTimeout(() => {
+        setExceedSizeLimitErr(false)
+      }, 4000);
+    }
+  }
+
+  if (ReviewImages?.length > 5) {
+    setReviewImages(ReviewImages.slice(0, 5));
+  }
+
+  async function onFileChange(event) {
+
+    if (event.target.files.length === 5) {
+      setReviewImages([...event.target.files]);
+      setExceededMaxNb(false);
+    } else if (event.target.files.length > 5) {
+      for (let i = 0; i < 5; i++) {
+        ReviewImages.push(event.target.files[i]);
+      }
+      setExceededMaxNb(true);
+      setTimeout(() => {
+        setExceededMaxNb(false);
+      }, 3500);
+    } else {
+      setExceededMaxNb(false);
+      setReviewImages([...ReviewImages, ...event.target.files]);
+    }
+  }
+
+  function validateImagesSize(){
+    const files = ReviewImages
+    let cumulativeSize = totalSize;
+    // Iterate through the newly selected files
+    files.forEach((file) => {
+      console.log(file);
+      //max allowed size 2 mb for the sum of images
+      cumulativeSize += file.size;
+    
+    });
+     console.log(cumulativeSize);
+    if(cumulativeSize <= 2 * 1024 * 1024){
+      return true
+    }else{
+      return false
+    }
+  }
+
   return (
     <div className="">
       <div className="overflow-x-hidden">
@@ -213,33 +292,33 @@ function ProductPart2(props) {
                           </div>
                         </div>
                         {/* {!stateAccount.loged && ( */}
-                      <div className="grid place-items-center ">
-                        <div></div>
-                        <div className="text-center ml-12">
-                          {" "}
-                          <button
-                            className="flex rounded bg-dblue text-white text-sm md:text-d16 text px-3 py-1 hover:opacity-50	"
-                            onClick={() => {
-                              dispatchAccount({
-                                type: "setShowOver",
-                                payload: true,
-                              });
-                              dispatchAccount({
-                                type: "setShowLogin",
-                                payload: true,
-                              });
-                              dispatchAccount({
-                                type: "setShowSignup",
-                                payload: false,
-                              });
-                            }}
-                          >
-                            Write a review
-                          </button>
+                        <div className="grid place-items-center ">
+                          <div></div>
+                          <div className="text-center ml-12">
+                            {" "}
+                            <button
+                              className="flex rounded bg-dblue text-white text-sm md:text-d16 text px-3 py-1 hover:opacity-50	"
+                              onClick={() => {
+                                dispatchAccount({
+                                  type: "setShowOver",
+                                  payload: true,
+                                });
+                                dispatchAccount({
+                                  type: "setShowLogin",
+                                  payload: true,
+                                });
+                                dispatchAccount({
+                                  type: "setShowSignup",
+                                  payload: false,
+                                });
+                              }}
+                            >
+                              Write a review
+                            </button>
+                          </div>
+                          <div></div>
                         </div>
-                        <div></div>
-                      </div>
-                    {/* )} */}
+                        {/* )} */}
                       </div>
                       <div className="p-1 py-2">
                         <div className="flex">
@@ -288,146 +367,156 @@ function ProductPart2(props) {
                     <div className="mobile:px-6">
                       <div className="ml-1">
                         {/* only if logged */}
-                        <div className="mt-4 flex justify-start w-full mobile:w-unset items-center flex-row space-x-2.5">
-                          <div
-                            className={
-                              width > 650
-                                ? "flex flex-col w-1/2 font-bold pt-1 "
-                                : "flex flex-col w-full font-bold pt-1 "
-                            }
-                          >
-                            <div className="flex items-center">
-                              <div className="flex rounded-full w-14 h-14  bg-Orangeflo  text-white  text-d22 items-center justify-center disable">
-                                F
-                              </div>
-                              <div className="flex flex-col ml-3">
-                                <div className=""> Fatima</div>
-                                <div className="flex">
-                                  <StarRatings
-                                    starDimension="18px"
-                                    starEmptyColor="#e3e3e3"
-                                    starRatedColor="#f5a523"
-                                    starHoverColor="#f5a523"
-                                    starSpacing="1px"
-                                    isSelectable="true"
-                                    rating={starRating}
-                                    changeRating={changeRating}
-                                  />
+                        {stateAccount.loged && (
+                          <div className="mt-4 flex justify-start w-full mobile:w-unset items-center flex-row space-x-2.5">
+                            <div
+                              className={
+                                width > 650
+                                  ? "flex flex-col w-1/2 font-bold pt-1 "
+                                  : "flex flex-col w-full font-bold pt-1 "
+                              }
+                            >
+                              <div className="flex items-center">
+                                <div className="flex rounded-full w-14 h-14  bg-Orangeflo  text-white  text-d22 items-center justify-center disable">
+                                  F
                                 </div>
-                              </div>
-                            </div>
-
-                            <div>
-                              <div className="flex my-3 ml-1.5">
-                                <div
-                                  className={`xs:border-2 xs:border-dslate xs:border-dashed relative h-14 w-14  sm:h-20 sm:w-20  ${
-                                    (handleFileLimit() && "opacity-50",
-                                    !handleFileLimit() && "cursor-pointer")
-                                  }`}
-                                  onClick={() => handleImageUpload()}
-                                >
-                                  <div className="add_images_upload">
-                                    <BsPlusLg
-                                      className={`w-4 h-4 text-dblue  ${
-                                        handleFileLimit() && "opacity-50"
-                                      }`}
-                                    />
-                                    <input
-                                      type="file"
-                                      id="fileUpload"
-                                      multiple
-                                      onChange={(e) => onFileChange(e)}
-                                      onClick={(event) => {
-                                        event.target.value = null;
-                                      }}
-                                      disabled={handleFileLimit()}
-                                      className="hidden"
-                                      ref={hiddenFileInput}
-                                      accept="image/png, image/jpeg, image/jpg"
+                                <div className="flex flex-col ml-3">
+                                  <div className=""> Fatima</div>
+                                  <div className="flex">
+                                    <StarRatings
+                                      starDimension="18px"
+                                      starEmptyColor="#e3e3e3"
+                                      starRatedColor="#f5a523"
+                                      starHoverColor="#f5a523"
+                                      starSpacing="1px"
+                                      isSelectable="true"
+                                      rating={ratingCustomer}
+                                      changeRating={changeRating}
                                     />
                                   </div>
                                 </div>
-                                <div className="flex flex-wrap gap-1 justify-center">
-                                  {ReviewImages?.slice(0, 5).map(
-                                    (img, index) => (
-                                      <div
-                                        className="relative ml-2"
-                                        key={Math.random()}
-                                      >
-                                        <img
-                                          src={URL.createObjectURL(img)}
-                                          style={{
-                                            height: "80px",
-                                            width: "80px",
-                                          }}
-                                          className="h-14 w-14 sm:h-20 sm:w-20"
-                                          alt={URL.createObjectURL(img)}
-                                        />
-                                        <button
-                                          className="absolute z-10 bottom-0 w-full align-middle"
-                                          style={{
-                                            backgroundColor: "#00000066",
-                                          }}
-                                          onClick={() =>
-                                            setImagess(
-                                              ReviewImages.filter(
-                                                (e) => e !== img
-                                              )
-                                            )
-                                          }
-                                        >
-                                          <FaTrash className="w-4 h-4 my-1 mr-auto ml-auto text-white " />
-                                        </button>
-                                      </div>
-                                    )
-                                  )}
-                                </div>
                               </div>
 
-                              {exceededMaxnb && (
-                                <div className="text-dbase">
-                                  Number of selected images exceeds maxNumber
-                                  "5"
+                              <div>
+                                <div className="flex my-3 ml-1.5">
+                                  <div
+                                    className={`xs:border-2 xs:border-dslate xs:border-dashed relative h-14 w-14  sm:h-20 sm:w-20  ${
+                                      (handleFileLimit() && "opacity-50",
+                                      !handleFileLimit() && "cursor-pointer")
+                                    }`}
+                                    onClick={() => handleImageUpload()}
+                                  >
+                                    <div className="add_images_upload">
+                                      <BsPlusLg
+                                        className={`w-4 h-4 text-dblue  ${
+                                          handleFileLimit() && "opacity-50"
+                                        }`}
+                                      />
+                                      <input
+                                        type="file"
+                                        id="fileUpload"
+                                        multiple
+                                        onChange={(e) => onFileChange(e)}
+                                        onClick={(event) => {
+                                          event.target.value = null;
+                                        }}
+                                        disabled={handleFileLimit()}
+                                        className="hidden"
+                                        ref={hiddenFileInput}
+                                        accept="image/png, image/jpeg, image/jpg"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-wrap gap-1 justify-center">
+                                    {ReviewImages?.slice(0, 5).map(
+                                      (img, index) => (
+                                        <div
+                                          className="relative ml-2"
+                                          key={Math.random()}
+                                        >
+                                          <Image
+                                            src={URL.createObjectURL(img)}
+                                            width={80}
+                                            height={80}
+                                            style={{
+                                              height: "80px",
+                                              width: "80px",
+                                            }}
+                                            className="h-14 w-14 sm:h-20 sm:w-20"
+                                            alt={URL.createObjectURL(img)}
+                                          />
+                                          <button
+                                            className="absolute z-10 bottom-0 w-full align-middle"
+                                            style={{
+                                              backgroundColor: "#00000066",
+                                            }}
+                                            onClick={() =>
+                                              setReviewImages(
+                                                ReviewImages.filter(
+                                                  (e) => e !== img
+                                                )
+                                              )
+                                            }
+                                          >
+                                            <FaTrash className="w-4 h-4 my-1 mr-auto ml-auto text-white " />
+                                          </button>
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
                                 </div>
+
+                                {exceededMaxnb && (
+                                  <div className="text-dbase">
+                                    Number of selected images exceeds maxNumber
+                                    "5"
+                                  </div>
+                                )}
+                                {exceededSizeLimitErr && (
+                                  <div className="text-dbase">
+                                    The total size of selected images exceeds
+                                    the limit of 2MB
+                                  </div>
+                                )}
+                              </div>
+                              {required && (
+                                <span className="text-dbase text-d13 pt-1">
+                                  {required}
+                                </span>
                               )}
-                            </div>
-                            {required && (
-                              <span className="text-dbase text-d13 pt-1">
-                                {required}
-                              </span>
-                            )}
-                            <div className="flex pt-2">
-                              <input
-                                type="text"
-                                className={
-                                  width > 650
-                                    ? "rounded w-full px-2 border-2 border-dinputBorder"
-                                    : "rounded w-full px-2 border-2 border-dinputBorder"
-                                }
-                                ref={textRef}
-                                placeholder="Write a comment…"
-                              />
-                              <button
-                                className="rounded bg-dblue mx-2 pl-2 pr-4 py-3 text-white"
-                                onClick={(e) => addReview(e)}
-                              >
-                                <svg
-                                  className="h-6 w-6  transform rotate-45	"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
+                              <div className="flex pt-2">
+                                <input
+                                  type="text"
+                                  className={
+                                    width > 650
+                                      ? "rounded w-full px-2 border-2 border-dinputBorder"
+                                      : "rounded w-full px-2 border-2 border-dinputBorder"
+                                  }
+                                  ref={textRef}
+                                  placeholder="Write a comment…"
+                                />
+                                <button
+                                  className="rounded bg-dblue mx-2 pl-2 pr-4 py-3 text-white"
+                                  onClick={(e) => addReview(e)}
                                 >
-                                  {" "}
-                                  <line x1="22" y1="2" x2="11" y2="13" />{" "}
-                                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                                </svg>{" "}
-                              </button>
+                                  <svg
+                                    className="h-6 w-6  transform rotate-45	"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  >
+                                    {" "}
+                                    <line x1="22" y1="2" x2="11" y2="13" />{" "}
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                  </svg>{" "}
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </div>
 
                       {!productData2?.product_reviews?.reviews &&
@@ -486,7 +575,6 @@ function ProductPart2(props) {
                               <div className="flex flex-col justify-start ">
                                 <div className="flex items-center">
                                   <p className="text-base font-bold pr-3 w-40 md:w-48">
-
                                     {r?.name}
                                   </p>
                                   {r.check_purchase && (
@@ -709,7 +797,9 @@ function ProductPart2(props) {
                         //   .replaceAll("/", "-")
                         //   .replaceAll("#", parseInt("#"))
                         //   .replace(/'/g, "")}/c=${category.category_id}`}
-                        href={`${path}/${sanitizeHTML(category.name)}/c=${category.category_id}`}
+                        href={`${path}/${sanitizeHTML(category.name)}/c=${
+                          category.category_id
+                        }`}
                         className="cursor-pointer hover:opacity-80  mr-4"
                       >
                         <Image
@@ -944,7 +1034,6 @@ function ProductPart2(props) {
           </div>
         </div>
       )}
-
     </div>
   );
 }

@@ -20,7 +20,7 @@ import { sanitizeHTML } from "../Utils";
 import ProductZoom from "./ProductZoom";
 import { CartContext } from "../../contexts/CartContext";
 import { AccountContext } from "../../contexts/AccountContext";
-
+import CartSideModal from "./CartSideModal";
 
 function ProductPage(props) {
   //Server props
@@ -145,6 +145,7 @@ function ProductPage(props) {
       }
     }
   }, []);
+  
 
   function unescapeHTML(str) {
     if (!str) {
@@ -223,7 +224,7 @@ function ProductPage(props) {
     // console.log("entered");
     var link =
       buildLink("product", undefined, window.innerWidth) +
-      `${product_id}&source_id=1&part_tow=true`;
+      `${product_id}&source_id=1&part_two=true`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
       console.log(data);
@@ -235,6 +236,7 @@ function ProductPage(props) {
       }
     });
   }
+
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
@@ -418,9 +420,16 @@ function ProductPage(props) {
       });
   }
 
+  function toggleSucccessAdded(bool){
+    setSuccessAdded(bool);
+  }
+
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
+
+    <CartSideModal successAdded={successAdded} data ={data} toggleSucccessAdded={toggleSucccessAdded} hasBannerEvent={hasBannerEvent} />
+
         <div className="flex flex-col px-2 mx-auto">
           <div className="breadcrumbs py-3 hidden md:block">
             <div className="flex items-center">
@@ -1198,6 +1207,7 @@ function ProductPage(props) {
             data={data}
             reviews={reviews}
             host={host}
+            product_id={product_id}
           />
         </div>
       </div>

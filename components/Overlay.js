@@ -7,9 +7,10 @@ function HeaderOverlay(props) {
   );
 }
 
-function FullOverlay() {
+function FullOverlay(props) {
+  const [z, setZ] = props.z ? props.z : 10;
   return (
-    <div className="fixed z-10 w-full h-screen left-0 bottom-0 top-0 bg-dblackOverlay "></div>
+    <div className={`fixed z-${z} w-full h-screen left-0 bottom-0 top-0 bg-dblackOverlay `}></div>
   );
 }
 
