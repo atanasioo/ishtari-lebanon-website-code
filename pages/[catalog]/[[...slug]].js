@@ -160,12 +160,18 @@ export async function getServerSideProps(context) {
           id = slug[0];
         }
       }
+      var filter =""
       if (!has_filter) {
+
+
+        if (page != undefined) {
+          filter += "&page=" + page;
+        }
         // } else {
         let link =
           buildLink(type, undefined, undefined, site_host) +
           id +
-          "&source_id=1&limit=50";
+          "&source_id=1&limit=50" + filter;
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,

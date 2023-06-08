@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { placeholdersrc } from "/public/images/placeholder_slideshow.png";
+import { ProductPlaceholder } from "/public/images/product_placeholder_square.png";
 
 import { Pagination, Navigation, Autoplay } from "swiper";
 import "slick-carousel/slick/slick.css";
@@ -318,8 +320,8 @@ function WidgetsLoop({ widget, likedData, width }) {
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
-
-                              // placeholdersrc={SliderPlaceholder}
+                              placeholder ={placeholdersrc} 
+                            
                             />
                           </Link>
                         ) : (
@@ -330,8 +332,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
-
-                              // placeholdersrc={SliderPlaceholder}
+                              placeholder={SliderPlaceholder}
                             />
                           </div>
                         )
@@ -382,7 +383,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                   .replaceAll("/", "-")
                                   .replace("%", "") +
                                 "/" +
-                                // types[item.mobile_type].slice(0, 1) +
+                                types[item.mobile_type].slice(0, 1) +
                                 "=" +
                                 item.mobile_type_id
                               : "cat/c=" + item.mobile_type_id
@@ -400,7 +401,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                             width={widget.banner_width}
                             height={widget.banner_height}
                             className="w-full"
-                            // className="w-full"
+                            placeholder={placeholdersrc}
                           />
                         </Link>
                       )}
@@ -556,7 +557,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-                        // placeholdersrc={SliderPlaceholder}
+                        placeholder={SliderPlaceholder}
                       />
                     </div>
                   ) : (
@@ -612,6 +613,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
+                        placeholder={placeholdersrc}
                       />
                     </Link>
                   )
@@ -902,7 +904,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                   >
                     <ImageClient
                       alt={item?.name}
-                      src={`https://www.ishtari.com/image/` + item.image}
+                      src={ item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -922,7 +924,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                   <Link href={"/latest"}>
                     <ImageClient
                       alt={item?.name}
-                      src={`https://www.ishtari.com/image/` + item.image}
+                      src={ item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
@@ -938,7 +940,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                   <div>
                     <ImageClient
                       alt={item?.name}
-                      src={`https://www.ishtari.com/image/` + item.image}
+                      src={ item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1038,7 +1040,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              // placeholdersrc={ProductPlaceholder}
+                              placeholder={ProductPlaceholder}
                             />
                           </Link>
                         </div>
@@ -1122,7 +1124,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholdersrc={ProductPlaceholder}
+                              placeholder={ProductPlaceholder}
                             />
                           </Link>
                         </div>
@@ -1230,7 +1232,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              // placeholdersrc={ProductPlaceholder}
+                              placeholder={ProductPlaceholder}
                             />
                           </Link>
                         </div>
@@ -1318,7 +1320,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                   ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                   ?.replace(/\s+/g, "-")
                                   ?.replaceAll("/", "-")}
-                                // placeholdersrc={ProductPlaceholder}
+                                placeholder={ProductPlaceholder}
                               />
                             </Link>
                           </div>

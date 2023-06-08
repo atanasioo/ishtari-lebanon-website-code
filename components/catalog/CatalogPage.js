@@ -3,16 +3,18 @@ import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import "swiper/swiper.min.css";
+import "swiper/swiper.min.css";
 // import 'swiper/css/pagination.min.css';
 // import 'swiper/css/navigation.min.css';
+import Slider from "react-slick";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
+import Image from "next/image";
 import { Navigation } from "swiper";
 import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
+import WidgetsLoop from "../WidgetsLoop";
 import {
   IoIosArrowDown,
   IoIosCheckbox,
@@ -39,6 +41,45 @@ function CatalogPage(props) {
   const [productDisplay, setProductDisplay] = useState("grid");
   const { width, height } = useDeviceSize();
 
+  const productSetting = {
+    speed: 200,
+    slidesToShow: 8,
+    slidesToScroll: 3,
+    infinite: false
+    // prevArrow: <CustomPrevArrows direction={"l"} />,
+    // nextArrow: <CustomNextArrows direction={"r"} />
+  };
+
+  const productMSetting = {
+    speed: 200,
+    slidesToShow: 3.5,
+    slidesToScroll: 3,
+    infinite: false
+  };
+
+  function CustomPrevArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 5px" }}
+        onClick={onClick}
+        className="mySwiper"
+      >
+        <div className="swiper-button-prev"></div>
+      </div>
+    );
+  }
+  function CustomNextArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 5px" }}
+        onClick={onClick}
+        className="mySwiper"
+      >
+        <div className="swiper-button-next"></div>
+      </div>
+    );
+  }
+
   const router = useRouter();
   const {
     catalog,
@@ -55,6 +96,7 @@ function CatalogPage(props) {
     order,
     limit
   } = router.query;
+  console.log(page)
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
@@ -279,17 +321,17 @@ function CatalogPage(props) {
   const handlePageClick = (event) => {
     const new_page = parseInt(event.selected) + 1;
 
-    var now = "&page" + new_page;
-    if (page != undefined) {
+    var now = "&page=" + new_page;
+    if (page == undefined) {
       if (!has_filter && sort == undefined && limit == undefined) {
         now = "?" + now;
       } else {
         now = now;
       }
-      router;
-    } else {
-      let old = "&page" + page;
       router.push(router.asPath + now);
+    } else {
+      let old = "&page=" + page;
+      router.push(router.asPath.replace(old,  now));
     }
   };
 
@@ -898,6 +940,121 @@ function CatalogPage(props) {
             </div>
           </div>
 
+          {data?.categories?.length > 0 &&
+            data?.sub_category_status === "1" && (
+              <div>
+                {/* Desktop Categories */}
+                <div className=" hidden lg:block w-full mt-3 mb-2 bg-white justify-cente mx-1">
+                  <Slider {...productSetting}>
+                    {data?.categories.map((category, idx) => {
+                      return (
+                        <Link
+                          href={`/${
+                            category.name
+                              .replace(/\s+&amp;\s+|\s+&gt;/g, "-")
+                              .replace(/\s+/g, "-")
+                              .replace("/", "-") +
+                            "/c=" +
+                            category.id
+                          }`}
+                          className="inline-flex w-24 xl:w-28 lg:w-28 text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
+                        >
+                          <Image
+                            alt={category.name}
+                            src={category.thumb}
+                            className="h-20"
+                            width={"100"}
+                            height={"100"}
+                            placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
+                          />
+                          <h2
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(category.name)
+                            }}
+                            className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
+                          ></h2>
+                        </Link>
+                      );
+                    })}
+                  </Slider>
+                </div>
+                {/* Mobile Categories */}
+                <div className="block xl:hidden lg:hidden w-screen  -mx-4 mb-2">
+                  {/* <div className="overflow-x-scroll flex px-2 "> */}
+                  <Slider {...productMSetting}>
+                    {data.categories.map((category) => (
+                      <Link
+                        href={
+                          // state.admin
+                          //   ? `${path}/category/${category.id}`
+                          //   :
+                          `/${
+                            category.name
+                              .replace(/\s+&amp;\s+|\s+&gt;/g, "-")
+                              .replace(/\s+/g, "-")
+                              .replace("/", "-") +
+                            "/c=" +
+                            category.id
+                          }`
+                        }
+                        className="inline-flex text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
+                      >
+                        <Image
+                          alt={category.name}
+                          src={category.thumb}
+                          width={110}
+                          height={110}
+                          placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
+                          className="h-20 w-20"
+                        />
+
+                        <h2
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeHTML(category.name)
+                          }}
+                          className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
+                        ></h2>
+                      </Link>
+                    ))}
+                    {/* </div> */}
+                  </Slider>
+                </div>
+              </div>
+            )}
+
+
+
+          {
+             ( page === undefined || page < 2) &&
+            (data?.category_widget_status === "1" ||
+              data?.desktop_widget_status === "1") &&
+            data?.desktop_widgets?.map((widget) => (
+              <div className="px-3">
+                {" "}
+                <WidgetsLoop widget={widget} />{" "}
+              </div>
+            ))}
+
+          {
+          //  page === undefined ||
+          //   page < 2 &&
+            (data?.category_widget_status === "1" ||
+              data?.mobile_widget_status === "1") &&
+            data?.mobile_widgets?.map((widget) => (
+              <div className="px-3">
+                {" "}
+                <WidgetsLoop widget={widget} />
+              </div>
+            ))}
+          {width < 650 &&
+            page < 2 &&
+            (data?.category_widget_status === "1" ||
+              data?.mobile_widget_status === "1") &&
+            data?.widgets?.map((widget) => (
+              <div className="px-3">
+                <WidgetsLoop widget={widget} />{" "}
+              </div>
+            ))}
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
@@ -1292,7 +1449,7 @@ function CatalogPage(props) {
                       freeMode={true}
                       draggable={false}
                       pagination={false}
-                      navigation={width > 650 ? true : false}
+                      navigation={true}
                       modules={[Navigation]}
                       className="myFilterSwiper"
                     >
@@ -1390,7 +1547,6 @@ function CatalogPage(props) {
                                         className="p-1 "
                                         onClick={() =>
                                           parseFilter(filter.id, item.id)
-
                                         }
 
                                         // onClick={() =>
@@ -1444,7 +1600,6 @@ function CatalogPage(props) {
                                       >
                                         <div
                                           className={`text-d14 px-3 py-1  flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                       
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1479,7 +1634,6 @@ function CatalogPage(props) {
                                       >
                                         <div
                                           className={`text-d14 py-1 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                       
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1546,7 +1700,6 @@ function CatalogPage(props) {
                                       >
                                         <div
                                           className={`text-d14 bg-dgreyRate px-3 py-1 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                        
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -1604,10 +1757,15 @@ function CatalogPage(props) {
 
       {filters && showMobileFilter && (
         <div className="bg-white fixed w-full z-30 top-0 pl-2 pr-7 h-screen py-3">
-          <div className='flex justify-between'>
-           
-          <div className="text-d22">Filters</div> <div className="text-d25 py-2" onClick={()=>setShowMobileFilter(false)}><AiOutlineClose /></div>
+          <div className="flex justify-between">
+            <div className="text-d22">Filters</div>{" "}
+            <div
+              className="text-d25 py-2"
+              onClick={() => setShowMobileFilter(false)}
+            >
+              <AiOutlineClose />
             </div>
+          </div>
           {Object.keys(filters).map((key) => (
             <div className="py-2">
               {filters[key].items.length > 0 && (

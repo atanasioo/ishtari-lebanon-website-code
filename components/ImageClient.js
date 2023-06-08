@@ -5,10 +5,8 @@ import "../config"
 
 export default function ImageClient(props) {
   return (
-    // typeof window !== "undefined" && (
-    //   <div></div>
-    // )
-      <Image
+    typeof window !== "undefined" && (
+<Image
         alt={props.alt}
         src={
           `${
@@ -17,7 +15,9 @@ export default function ImageClient(props) {
         }
         width={props.width}
         height={props?.height}
-      />
+        placeholder={props.placeholder}
+      />    )
+      
     
   );
 }
