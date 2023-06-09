@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { signIn, signOut } from "next-auth/react";
 import { IoMdClose } from "react-icons/io";
 import { axiosServer } from "@/axiosServer";
-import { AccountContext } from "../contexts/AccountContext";
+import { AccountContext } from "../../contexts/AccountContext";
 import buildLink from "@/urls";
 import { AiOutlineUser } from "react-icons/ai";
 import { useSession } from "next-auth/react";

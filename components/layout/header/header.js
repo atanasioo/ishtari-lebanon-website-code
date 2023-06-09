@@ -14,7 +14,7 @@ import ImageFilter from "react-image-filter/lib/ImageFilter";
 import Cookies from "js-cookie";
 import { axiosServer } from "@/axiosServer";
 import DesktopMenuCategories from "./DesktopMenuCategories";
-import Account from "@/components/Account";
+import Account from "@/components/account/Account";
 import { useSession } from "next-auth/react";
 import TopWishlist from "./TopWishlist";
 

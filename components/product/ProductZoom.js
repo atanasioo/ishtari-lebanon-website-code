@@ -332,7 +332,7 @@ function ProductZoom(props) {
               <div
                 id="myresult"
                 style={{ transition: "opacity 0.3s ease" }}
-                className={`img-zoom-result absolute rounded-lg  top-0 ml-4  z-10  ${
+                className={`img-zoom-result absolute   top-3 ml-4  z-10  ${
                   hoverZoom && hovered && width > 650 ? "" : " hidden"
                 }`}
               ></div>

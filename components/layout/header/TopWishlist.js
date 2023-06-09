@@ -1,4 +1,5 @@
 import { axiosServer } from "@/axiosServer";
+import Loader from "@/components/Loader";
 import { AccountContext } from "@/contexts/AccountContext";
 import { WishlistContext } from "@/contexts/WishlistContext";
 import buildLink from "@/urls";
@@ -52,7 +53,7 @@ function TopWishlist() {
       className={`${
         window.config["showCart"] ? "block" : "hidden"
       } text-dblack lg:border-r lg:border-dplaceHolder font-semibold text-base flex items-center h-8 px-5 cursor-pointer hover:opacity-80 relative`}
-      href={`${path}/cart`}
+      href={`${path}/account/wishlist`}
     >
       <span className="hidden xl:block lg:block">Wishlist</span>
       <FiHeart
@@ -68,8 +69,7 @@ function TopWishlist() {
       >
         <span>
           {state.loading ? (
-            // <Loader styles={"h-4 w-4 text-white"} />
-            <div></div>
+            <Loader styles={"h-4 w-4 text-white"} />
           ) : (
             <span>{state.productsCount}</span>
           )}
