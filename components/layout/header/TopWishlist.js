@@ -11,12 +11,12 @@ function TopWishlist() {
   const [state, dispatch] = useContext(WishlistContext);
   const [accountState] = useContext(AccountContext);
 
-  const path= "";
+  const path = "";
 
   useEffect(() => {
     dispatch({
       type: "loading",
-      payload: true,
+      payload: true
     });
 
     axiosServer
@@ -25,24 +25,24 @@ function TopWishlist() {
         if (response.data.success) {
           dispatch({
             type: "setProductsCount",
-            payload: response.data.data.total,
+            payload: response.data.data.total
           });
           dispatch({
             type: "setProductIds",
-            payload: response.data.data.products,
+            payload: response.data.data.products
           });
           dispatch({
             type: "loading",
-            payload: false,
+            payload: false
           });
         } else {
           dispatch({
             type: "setProductsCount",
-            payload: response.data.data?.total,
+            payload: response.data.data?.total
           });
           dispatch({
             type: "loading",
-            payload: false,
+            payload: false
           });
         }
       });
@@ -63,9 +63,7 @@ function TopWishlist() {
       />
 
       <span
-        className={`w-5 h-5  bg-dbase text-white flex  items-center justify-center rounded-full text-xs absolute right-0.5 sm:right-2 -top-0.5 sm:-top-1  ${
-          window.innerWidth < 650 ? "-mr-0.5" : "mr-1"
-        }`}
+        className={`w-5 h-5  bg-dbase flex text-white items-center justify-center rounded-full text-xs absolute right-0 sm:right-2 -top-1 border border-white  -mr-0.5 mobile:mr-1`}
       >
         <span>
           {state.loading ? (

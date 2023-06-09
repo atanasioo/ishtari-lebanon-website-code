@@ -7,6 +7,7 @@ import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
 import buildLink from "@/urls";
 import cookie from "cookie";
+
 import "@/config";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -94,18 +95,34 @@ export default function App({
 
 App.getInitialProps = async ({ Component, ctx }) => {
   const { req } = ctx;
-  const host = req?.headers.host;
-
   const cook = useCookie(ctx);
 
-  const cookies = req?.headers.cookie;
-  console.log(cookie);
+  const cookies = req?.headers.cookie  || '';
+// console.log(cookies)
+// if(cookie != undefined){
+
+
+// const cookieHeader = req.headers.cookie || '';
+const parsedCookiesss = cookie.parse(cookies, '; ', '=');
+
+const apiToken = parsedCookiesss['api-token'];
+  const parsedCookies = cookie?.parse(cookies);
+  const token = parsedCookies["api-token"];
+
+// }
+  console.log("whyyyyyyyyyyy")
+  console.log(token)
+  console.log("hiiiiiiiiiiiiii")
+  const host = req?.headers.host;
+
+
+  // console.log(cookie);
   if (typeof cookies !== "undefined") {
     //localhost
-    const parsedCookies = cookie.parse(cookies);
 
-    const token = parsedCookies["api-token"];
-
+    // const token = parsedCookies["api-token"];
+    // console.log("tokennnn")
+    // console.log(token)
     var site_host = parsedCookies["site-local-name"];
 
     if (typeof site_host === "undefined") {

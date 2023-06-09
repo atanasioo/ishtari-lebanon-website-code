@@ -13,11 +13,12 @@ import dynamic from "next/dynamic";
 import { BsTrashFill } from "react-icons/bs";
 import { axiosServer } from "@/axiosServer";
 
-function Cart() {
+function Cart(props) {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
   const [select, setSelect] = useState(true);
 
+  const data = {props}
   const [error, setError] = useState(false);
 
   const [selectProduct, setSelectProduct] = useState([]);
@@ -28,8 +29,7 @@ function Cart() {
   const [state, dispatch] = useContext(CartContext);
   const [accountState] = useContext(AccountContext);
   const [sel, setSel] = useState([]);
-
-  const router = useRouter();
+ const router = useRouter()
   const PointsLoader = dynamic(() => import("../components/PointsLoader"), {
     ssr: false // Disable server-side rendering
   });
@@ -38,7 +38,6 @@ function Cart() {
       axiosServer
         .get(buildLink("cart", undefined, undefined) + "&source_id=1")
         .then((response) => {
-          // console.log("response"+response.data.success)
 
           if (response.data.success) {
             dispatch({
@@ -72,7 +71,7 @@ function Cart() {
       top: 0,
       behavior: "smooth"
     });
-  }, []);
+  }, [router]);
 
 
   function updateQuantity(key, quantity, i, type) {
@@ -910,4 +909,51 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
   );
 }
 
+
+
+
 export default Cart;
+
+
+// export async function getServerSideProps(context) {
+//     const { req } = context;
+
+//     const host = req.headers.host;
+  
+//     console.log("host isss" + host);
+//     const cookies = req.headers.cookie;
+//     const parsedCookies = querystring.parse(cookies);
+  
+//     const host_cookie = parsedCookies["site-local-name"];
+//     const token = parsedCookies["api-token"];
+// return;
+//     var data = {};
+//     let site_host = "";
+//     if (host_cookie === undefined || typeof host_cookie === "undefined") {
+//       site_host = host;
+//     } else {
+//       site_host = host_cookie;
+//     }
+//     // let link =
+//     //   buildLink("cart", undefined, undefined, site_host) +
+//     //   "&source_id=1" ;
+//     // const response = await axiosServer.get(link, {
+//     //   headers: {
+//     //     Authorization: "Bearer " + token
+//     //   }
+//     // });
+//     // if (!response.data.success) {
+//       return {
+//         notFound: true
+//       };
+//     // }
+  
+//     data = response.data.data;
+  
+//     return {
+//       props: {
+//         data
+//       }
+//     };
+//   }
+  
