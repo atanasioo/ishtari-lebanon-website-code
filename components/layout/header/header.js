@@ -17,6 +17,7 @@ import DesktopMenuCategories from "./DesktopMenuCategories";
 import Account from "@/components/account/Account";
 import { useSession } from "next-auth/react";
 import TopWishlist from "./TopWishlist";
+import TopCart from "./TopCart";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -154,10 +155,7 @@ function Header(props) {
           </div> */}
           <Account />
           {session?.user?.isLoggedIn && <TopWishlist />}
-          <div className="flex justify-center items-center md:mr-5  cursor-pointer">
-            <p className="hidden lg:block pl-3 ml-3">Cart</p>
-            <AiOutlineShopping className="ml-1 w-5.5 h-5.5 lg:w-5 lg:h-6" />
-          </div>
+         <TopCart />
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { CartContext } from "../contexts/CartContext";
-// import { WishlistContext } from "../contexts/WishlistContext";
+import { WishlistContext } from "@/contexts/WishlistContext";
 import { useContext, useEffect, useState, useRef } from "react";
 import buildLink from "../urls";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { BsTrashFill } from "react-icons/bs";
 import { axiosServer } from "@/axiosServer";
+
 function Cart() {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
@@ -34,9 +35,8 @@ function Cart() {
   });
   useEffect(() => {
     function getCart() {
-      Cookies.set("change", false);
       axiosServer
-        .get(buildLink("cart", undefined, window.innerWidth) + "&source_id=1")
+        .get(buildLink("cart", undefined, undefined) + "&source_id=1")
         .then((response) => {
           // console.log("response"+response.data.success)
 
@@ -65,11 +65,7 @@ function Cart() {
     getCart();
   }, []);
 
-  const seoData = {
-    title: "Shopping Cart",
-    description:
-      "Review and finalize your order with our convenient and secure shopping cart. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."
-  };
+
 
   useEffect(() => {
     window.scrollTo({
@@ -77,6 +73,8 @@ function Cart() {
       behavior: "smooth"
     });
   }, []);
+
+
   function updateQuantity(key, quantity, i, type) {
     if (type === "d") {
       if (document.getElementById("p-quantity" + i)) {
@@ -186,7 +184,7 @@ function Cart() {
     }
   }
 
-  //   const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
+const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
   const [products, setProducts] = useState([]);
   const [success, setSuccess] = useState(false);
   const [selectAll1, setSelectAll1] = useState(false);
@@ -195,33 +193,7 @@ function Cart() {
     "Product added to cart successfully"
   );
 
-  //   useEffect(() => {
-  //     // setLoading(true);
-  //     axiosServer
-  //       .get(buildLink("wishlist", undefined, window.innerWidth))
-  //       .then((response) => {
-  //         if (response.status) {
-  //           const data = response.data.data.products;
-  //           setProducts(data);
-  //           // setLoading(false);
-  //           dispatchWishlist({
-  //             type: "setProductsCount",
-  //             payload: response.data.data.total
-  //           });
-  //           dispatchWishlist({
-  //             type: "setProducts",
-  //             payload: response.data.data.products
-  //           });
-  //         } else {
-  //           dispatchWishlist({ type: "setLoading", payload: false });
-  //           if (!state.loading && !state.loged) {
-  //             history.push({
-  //               pathname: "/"
-  //             });
-  //           }
-  //         }
-  //       });
-  //   }, []);
+
 
   // Remove
   function remove(product_id) {
@@ -375,8 +347,8 @@ function Cart() {
         {/* Seo */}
 
         <Head>
-          <title>{seoData?.title} | ishtari</title>
-          <meta name="description" content={seoData.description}></meta>
+          <title> Shopping Cart | ishtari</title>
+          <meta name="description" content="Review and finalize your order with our convenient and secure shopping cart. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."></meta>
         </Head>
         {loading ? (
           <PointsLoader />
@@ -392,7 +364,7 @@ function Cart() {
                   style={{ color: "rgb(126, 133, 155)" }}
                 >
                   {" "}
-                  ({state.productsCount})
+                  ({state.productsCount} {state?.productsCount > 1 ? "items" : "item"})
                 </h1>
               </div>
               <div className="block xl:flex lg:flex">
@@ -774,6 +746,23 @@ function Cart() {
                   )}
                 </div>
               </div>
+              <div className="flex justify-between  py-5">
+              <div className="flex items-center">
+                <h1 className=" font-bold" style={{ fontSize: "23px" }}>
+                  Wishlist
+                </h1>{" "}
+                <h1
+                  className=" font-light pl-1 font-d14 "
+                  style={{ color: "rgb(126, 133, 155)" }}
+                >
+                  {" "}
+                  ({stateWishlist?.productsCount} {stateWishlist?.productsCount > 1 ? " items" : "item"})
+                </h1>
+              </div>
+              <div className="flex items-center text-d14  ">
+                <Link href="/wishlist" className="text-dblue font-bold"> View All  <span className="ml-1">{" >"}</span>  </Link>
+              </div>
+            </div>
             </div>
             <div className="hidden xl:inline-block py-6 lg:inline-block  w-full pl-0 xl:w-2/6 lg:w-2/6 xl:pl-6 lg:pl-6">
               <div className="border border-dgrey1 border-opacity-20 px-6 py-4 rounded ">
@@ -781,7 +770,7 @@ function Cart() {
                   Order Summary
                 </h1>
                 <div className="flex justify-between items-center text-dgrey1 font-light mt-1">
-                  <p>Subtotal ({state.products.length} items)</p>
+                  <p>Subtotal ({state.products.length} {state.products.length > 1 ? "items" : "item"})</p>
                 </div>
 
                 <h2 className="mt-4 mb-2 font-semibold text-lg">
