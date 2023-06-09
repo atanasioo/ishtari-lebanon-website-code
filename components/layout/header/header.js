@@ -15,6 +15,8 @@ import Cookies from "js-cookie";
 import { axiosServer } from "@/axiosServer";
 import DesktopMenuCategories from "./DesktopMenuCategories";
 import Account from "@/components/Account";
+import { useSession } from "next-auth/react";
+import TopWishlist from "./TopWishlist";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -24,6 +26,9 @@ function Header(props) {
   const [viewLevel2, setViewLevel2] = useState(false);
   const [activeCategory, setActiveCategory] = useState({});
   const [categories, setCategories] = useState([]);
+  const { data: session, status } = useSession();
+
+ console.log(session);
 
   useEffect(() => {
     if (window.location.host === "localhost:3000") {
@@ -148,8 +153,9 @@ function Header(props) {
             <Account />
           </div> */}
           <Account />
+          {session?.user?.isLoggedIn && <TopWishlist />}
           <div className="flex justify-center items-center md:mr-5  cursor-pointer">
-            <p className="hidden lg:block">Cart</p>
+            <p className="hidden lg:block pl-3 ml-3">Cart</p>
             <AiOutlineShopping className="ml-1 w-5.5 h-5.5 lg:w-5 lg:h-6" />
           </div>
         </div>

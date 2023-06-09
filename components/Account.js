@@ -217,7 +217,7 @@ function Account() {
   }, [dispatch]);
 
   return (
-    <div className="relative md:mr-5">
+    <div className="relative">
       {state.showOver && (
         <div className="fixed w-screen min-h-screen bg-dblack top-0 left-0 z-50 bg-opacity-50 flex flex-col items-center justify-center">
           {state.showLogin && (

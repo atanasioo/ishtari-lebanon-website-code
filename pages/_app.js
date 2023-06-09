@@ -14,6 +14,7 @@ import { useCookie } from "next-cookie";
 import { SessionProvider } from "next-auth/react";
 import { AccountProvider } from "@/contexts/AccountContext";
 import { CartProvider } from "@/contexts/CartContext";
+import { WishlistProvider } from "@/contexts/WishlistContext";
 
 export default function App({
   Component,
@@ -60,29 +61,31 @@ export default function App({
     <SessionProvider>
       <AccountProvider>
         <CartProvider>
-          <div className="" ref={topRef}>
-            {loading && (
-              <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
-                <img
-                  src={"/images/loader.gif"}
-                  alt="loader-gif"
-                  heigh="110"
-                  width="110"
-                />
-              </div>
-            )}
-            <Layout
-              header_categories={header_categories}
-              footer_categories={footer_categories}
-              information_data={information_data}
-            >
-              <div className="bg-dprimarybg">
-                <div className="md:container ">
-                  <Component {...pageProps} />
+          <WishlistProvider>
+            <div className="" ref={topRef}>
+              {loading && (
+                <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+                  <img
+                    src={"/images/loader.gif"}
+                    alt="loader-gif"
+                    heigh="110"
+                    width="110"
+                  />
                 </div>
-              </div>
-            </Layout>
-          </div>
+              )}
+              <Layout
+                header_categories={header_categories}
+                footer_categories={footer_categories}
+                information_data={information_data}
+              >
+                <div className="bg-dprimarybg">
+                  <div className="md:container ">
+                    <Component {...pageProps} />
+                  </div>
+                </div>
+              </Layout>
+            </div>
+          </WishlistProvider>
         </CartProvider>
       </AccountProvider>
     </SessionProvider>

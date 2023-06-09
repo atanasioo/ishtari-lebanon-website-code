@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BsChevronRight, BsWhatsapp } from "react-icons/bs";
+import { BsChevronRight, BsFillHeartFill, BsWhatsapp } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaBus } from "react-icons/fa";
@@ -22,6 +22,7 @@ import { CartContext } from "../../contexts/CartContext";
 import { AccountContext } from "../../contexts/AccountContext";
 import CartSideModal from "./CartSideModal";
 import StarRatings from "react-star-ratings";
+import { WishlistContext } from "../../contexts/WishlistContext";
 
 function ProductPage(props) {
   //Server props
@@ -29,6 +30,7 @@ function ProductPage(props) {
   //contexts
   const [accountState] = useContext(AccountContext);
   const [state, dispatch] = useContext(CartContext);
+  const [stateW, dispatchW] = useContext(WishlistContext);
   //states
   const [countDownPointer, setCountDownPointer] = useState();
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
@@ -57,13 +59,17 @@ function ProductPage(props) {
   const [images, setImages] = useState(data.images);
   const [hasOption, setHasOption] = useState(false);
   const [activeImage, setActiveImage] = useState({});
+  const [isWishlist, setIsWishlist] = useState(false);
+  const [GroupWishlist, setGroupsWishlist] = useState([]);
+  const [showGroup, setShowGroup] = useState(false);
+  const [checked, setChecked] = useState(["0"]);
+  const [showModel, setShowModel] = useState(false);
+  const [value, setValue] = useState(0);
 
   const [width, height] = useDeviceSize();
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
   });
-
-  // console.log(data);
 
   const router = useRouter();
   const product_id = router.query.slug[0].includes("p=")
@@ -427,6 +433,137 @@ function ProductPage(props) {
     setSuccessAdded(bool);
   }
 
+  function addGroup() {
+    setResult("");
+
+    // alert(1)
+    var obj = {};
+
+    obj = {
+      name: nameValue,
+      description: descriptionValue,
+    };
+    axiosServer
+      .post(buildLink("wishlistAdd", undefined, undefined), obj)
+      .then((response) => {
+        if (response.data.success) {
+          setShowModel(false);
+        }
+        setResult(response.data);
+      });
+
+    setName("");
+    setDescription("");
+  }
+
+  useEffect(() => {
+    if (showGroup === true) {
+      axiosServer
+        .get(buildLink("wishlist_group", undefined, undefined))
+        .then((response) => {
+          setGroupsWishlist(response.data.data);
+        });
+    }
+  }, [showGroup]);
+
+  useEffect(() => {
+    // setChecked(data?.data?.groups_wishlist);
+    handleWishlist(0);
+    return () => {
+      setImages([]);
+      setActiveImage({});
+      setHasOption(false);
+    };
+  }, [product_id]);
+
+  function handleWishlist(counter) {
+    if (counter < 1) {
+      if (stateW?.pIds?.indexOf(product_id) > -1) {
+        setIsWishlist(true);
+        counter++;
+      } else {
+        setIsWishlist(false);
+      }
+    } else {
+    }
+  }
+
+  function addToWishList() {
+    console.log(checked);
+    const obj = {
+      id: checked,
+      product_id: product_id,
+    };
+    axiosServer
+      .post(buildLink("addToWishlist_5", undefined, window.innerWidth), obj)
+      .then(() => {
+        axiosServer
+          .get(buildLink("wishlistCount", undefined, window.innerWidth))
+          .then((response) => {
+            console.log(response.data.data.products.map((p) => p.product_id));
+
+            if (response.data.success) {
+              dispatchW({
+                type: "setProductsCount",
+                payload: response.data.data.total,
+              });
+              dispatchW({
+                type: "setProductIds",
+                payload: response.data.data.products,
+              });
+            }
+          });
+
+        setShowGroup(false);
+      });
+  }
+  useEffect(() => {
+    handleWishlist(0);
+  }, [stateW]);
+
+  function deleteItemFromAllGroup() {
+    axiosServer
+      .post(
+        buildLink("removeAll", undefined, undefined) +
+          "&product_id=" +
+          product_id
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setIsWishlist(false);
+
+          axiosServer
+            .get(buildLink("wishlistCount", undefined, window.innerWidth))
+            .then((response) => {
+              if (response.data.success) {
+                dispatchW({
+                  type: "setProductsCount",
+                  payload: response.data.data.total,
+                });
+                dispatchW({
+                  type: "setProductIds",
+                  payload: response.data.data.products,
+                });
+              }
+            });
+        }
+        setShowGroup(false);
+      });
+  }
+
+  function updateState(id) {
+    var checkboxes = document.getElementsByName("wish");
+    var checkboxesChecked = [];
+    // loop over them all
+    for (var i = 0; i < checkboxes.length; i++) {
+      // And stick the checked ones onto an array...
+      if (checkboxes[i].checked) {
+        checkboxesChecked.push(checkboxes[i].value);
+      }
+      setChecked(checkboxesChecked);
+    }
+  }
+
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
@@ -465,7 +602,7 @@ function ProductPage(props) {
           </div>
           <div className="product-div flex items-stretch bg-white w-full">
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
-              <div className="product-zoom w-full md:w-7/12">
+              <div className="product-zoom w-full md:w-6/12">
                 {/* <Image width={380} height={518} src={data.popup} /> */}
                 <ProductZoom
                   activeOption={activeImageOption.product_option_value_id}
@@ -474,7 +611,7 @@ function ProductPage(props) {
                   productData={data}
                 />
               </div>
-              <div className="product-info w-full md:w-5/12">
+              <div className="product-info w-full md:w-6/12">
                 {/* BRAND NAME */}
                 <Link href={"/"} className="text-dgrey1 hover:text-dblue">
                   {data?.manufacturer_image ? (
@@ -503,29 +640,28 @@ function ProductPage(props) {
                       </div>
                       <div className="divider h-4 w-0.5 bg-dplaceHolder mr-1.5"></div>
                       <div className="product-rating">
-                      {data?.rating > 0 && (
-                        <div className="flex" onClick={handleClick}>
-                         
-                          <div
-                            className="flex justify-center rounded-full px-1 space-x-0.5 h-5 ml-3 mt-0.5   cursor-pointer"
-                            style={{ backgroundColor: "rgb(130, 174, 4" }}
-                          >
-                            <div className="text-d14 font-bold text-white">
-                              {data?.rating || "0.0"}
+                        {data?.rating > 0 && (
+                          <div className="flex" onClick={handleClick}>
+                            <div
+                              className="flex justify-center rounded-full px-1 space-x-0.5 h-5 ml-3 mt-0.5   cursor-pointer"
+                              style={{ backgroundColor: "rgb(130, 174, 4" }}
+                            >
+                              <div className="text-d14 font-bold text-white">
+                                {data?.rating || "0.0"}
+                              </div>
+                              <StarRatings
+                                containerClassName=" text-white text-bold"
+                                starEmptyColor="#FFFFFF"
+                                numberOfStars={1}
+                                starDimension="13px"
+                                isReadOnly="true"
+                              />{" "}
                             </div>
-                            <StarRatings
-                              containerClassName=" text-white text-bold"
-                              starEmptyColor="#FFFFFF"
-                              numberOfStars={1}
-                              starDimension="13px"
-                              isReadOnly="true"
-                            />{" "}
+                            <p className=" flex text-dgrey1 text-d15 mb-1 md:mb-3 font-light  ml-2 underline_effect cursor-pointer">
+                              5 Rating
+                            </p>
                           </div>
-                          <p className=" flex text-dgrey1 text-d15 mb-1 md:mb-3 font-light  ml-2 underline_effect cursor-pointer">
-                            5 Rating
-                          </p>
-                        </div>
-                      )}{" "}
+                        )}{" "}
                       </div>
                     </div>
                     <div className="product-price">
@@ -717,6 +853,33 @@ function ProductPage(props) {
                         )}
                       </span>{" "}
                     </button>
+
+                    {accountState.loged && (
+                      <button
+                        style={{
+                          border: "1px solid rgba(0, 0, 0, 0.1)",
+                          boxShadow:
+                            "rgba(0, 0, 0, 0.1) 0px 0px 15px 1px inset",
+                          transition: "all 0.3s ease-in-out 0s",
+                        }}
+                        className={`h-12 w-12 flex items-center justify-center bg-dgrey rounded-full ml-3`}
+                        onClick={() => {
+                          stateW.pIds.filter((i) => i === product_id).length > 1
+                            ? setShowGroup(true)
+                            : stateW.pIds.indexOf(product_id) > -1
+                            ? deleteItemFromAllGroup()
+                            : setShowGroup(true);
+                        }}
+                      >
+                        <BsFillHeartFill
+                          className={
+                            isWishlist
+                              ? " text-dbase text-xl"
+                              : " text-dgrey1 text-xl"
+                          }
+                        />
+                      </button>
+                    )}
                   </div>
                   <div>
                     {data.quantity === "0" && (
@@ -1233,17 +1396,162 @@ function ProductPage(props) {
               />{" "}
             </div>
           </div>
-            <ProductPart2
-              titleRef={titleRef}
-              loader={loader}
-              productData2={productData2}
-              data={data}
-              reviews={reviews}
-              host={host}
-              product_id={product_id}
-            />
+          <ProductPart2
+            titleRef={titleRef}
+            loader={loader}
+            productData2={productData2}
+            data={data}
+            reviews={reviews}
+            host={host}
+            product_id={product_id}
+          />
         </div>
       </div>
+
+      {/* wishlist group */}
+
+      {showGroup && (
+        <div className="w-full relative px-4">
+          <div
+            id="overlay"
+            className="fixed  z-40 w-screen h-screen inset-0 bg-dblack bg-opacity-60"
+          ></div>
+
+          <div
+            id="dialog"
+            className={` fixed z-50 top-0 left-0 right-0 bottom-0 m-auto w-full h-3/4  md:w-1/2 lg:w-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg `}
+          >
+            <button
+              id="close"
+              className=" ml-3 top-0 -mt-10 w-10 h-10 hover:bg-indigo-700 bg-dgreyRate cursor-pointer float-right rounded-full  font-semibold text-dbluegray"
+              onClick={() => setShowGroup(false)}
+            >
+              X
+            </button>
+            <div className="flex w-full">
+              <span className="text-l font-semibold w-1/2">Select Group</span>
+              <button
+                className=" font-semibold text-dblue text-right ml-4"
+                onClick={() => deleteItemFromAllGroup()}
+              >
+                Remove from all
+              </button>
+            </div>
+            <div className="flex flex-col py-2 border-t border-dinputBorder overflow-y-auto h-80">
+              {GroupWishlist.map((p, i) => (
+                <div
+                  className="flex  mb-4 pb-2 border border-dinputBorder"
+                  onClick={() => {
+                    updateState(p.wishlist_group_id);
+                  }}
+                >
+                  <label class="text-sm ml-3 font-medium text-gray-900 w-10/12 mt-1">
+                    {p.name}
+                  </label>
+                  <input
+                    name="wish"
+                    id="checkbox-1"
+                    aria-describedby="checkbox-1"
+                    type="checkbox"
+                    value={p.wishlist_group_id}
+                    className="h-4 w-4 float-right mt-2 border-dgrey"
+                    onClick={() => setValue(p.wishlist_group_id)}
+                    checked={
+                      checked?.indexOf(p.wishlist_group_id.toString()) > -1 &&
+                      "checked"
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div
+              className="flex  mb-4  bg-dgreyRate px-2 py-2"
+              onClick={() => {
+                setShowGroup(false);
+                setShowModel(true);
+              }}
+            >
+              <label class="flex text-sm  font-medium text-gray-900 w-10/12 ">
+                <div className="text-sm rounded-full bg-white w-5 h-5 mr-1 text-center text-dgreyBlack">
+                  +
+                </div>
+                Create New wishlist
+              </label>
+            </div>
+            <div class=" justify-end border-t-2 border-dinputBorder p-2">
+              <button
+                id="close"
+                class="px-5 py-2 w-full bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
+                onClick={addToWishList}
+              >
+                Done
+              </button>
+
+              <div
+                onClick={() => history.push("/account/wishlist")}
+                className="text-dblue text-center w-full pt-3"
+              >
+                Go to Wishlist{" "}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showModel && (
+        <div className="container">
+          <div
+            id="overlay"
+            className="fixed  z-40 w-screen h-screen inset-0 bg-dblack bg-opacity-60"
+          ></div>
+
+          <div
+            id="dialog"
+            className={` fixed z-50 top-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg ${
+              window.innerWidth > 650
+                ? "left-1/3 top-1/3 w-1/3"
+                : "top-1 w-10/12 "
+            }`}
+          >
+            <button
+              id="close"
+              className=" ml-3 top-0 -mt-10 w-10 h-10 hover:bg-indigo-700 bg-dgreyRate cursor-pointer float-right rounded-full  font-semibold text-dbgrey hover:opacity-90"
+              onClick={() => setShowModel(false)}
+            >
+              X
+            </button>
+            <span className="text-l font-semibold">New Group</span>
+
+            <div className="py-1 border-t border-dinputBorder">
+              <div className="text-dbase w-full">
+                {result?.errors && result?.errors[0]?.errorMsg}
+              </div>
+              <div className="mt-5">
+                <div className="input mb-6 required">
+                  <label htmlFor=""> Name </label>{" "}
+                  <input onChange={(event) => setName(event.target.value)} />
+                </div>
+              </div>
+              <div className="input mb-6 ">
+                <label htmlFor=""> Description </label>
+                <input
+                  onChange={(event) => setDescription(event.target.value)}
+                />
+              </div>
+            </div>
+            <div class="flex justify-end">
+              <button
+                id="close"
+                class="w-full px-5 py-1 bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
+                onClick={() => addGroup()}
+              >
+                save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
