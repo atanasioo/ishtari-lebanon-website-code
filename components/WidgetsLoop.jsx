@@ -2,7 +2,7 @@ import SingleProduct from "./product/SingleProduct.js";
 import Slider from "react-slick";
 import DOMPurify from "dompurify";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
@@ -25,6 +25,8 @@ function WidgetsLoop({ widget, likedData, width }) {
   const [showPrev, setShowPrev] = useState(false);
   const swiperNavNextRef = useRef(null);
   const swiperNavPrevRef = useRef(null);
+  const [dragging, setDragging] = useState(false);
+
   const types = {
     1: "product",
     2: "category",
@@ -47,6 +49,15 @@ function WidgetsLoop({ widget, likedData, width }) {
   const handleMouseLeavePrev = () => {
     setShowPrev(false);
   };
+
+  const handleBeforeChange = useCallback(() => {
+    setDragging(true);
+  }, [setDragging]);
+
+  const handleAfterChange = useCallback(() => {
+    setDragging(false);
+  }, [setDragging]);
+
   const settingM = {
     dots: true,
     speed: 1000,
@@ -961,7 +972,7 @@ function WidgetsLoop({ widget, likedData, width }) {
           {widget?.items?.length < 7 ? (
             <div className="flex">
               {/* {width > 650 ? ( */}
-              <div classNsame=" hidden mobile:block px-6">
+              <div classNsame="hidden mobile:block px-6">
                 <Slider
                   {...productSetting}
                   beforeChange={handleBeforeChange}
@@ -1053,15 +1064,16 @@ function WidgetsLoop({ widget, likedData, width }) {
               <div className=" block mobile:hidden">
                 <Slider {...productMobile}>
                   {widget.items?.map((item) => {
-                    if (item.product_id) {
-                      return (
-                        <div className="pr-2" key={item.product_id}>
-                          <SingleProduct
-                            item={item}
-                          ></SingleProduct>
-                        </div>
-                      );
-                    } else {
+                    if (!item.product_id) {
+                    //   return (
+                      
+                    //     // <div className="pr-2" key={item.product_id}>
+                    //     //   <SingleProduct
+                    //     //     item={item}
+                    //     //   ></SingleProduct>
+                    //     // </div>
+                    //   );
+                    // } else {
                       return (
                         <div className={`pr-2`} key={item.banner_image_id}>
                           <Link
@@ -1137,19 +1149,18 @@ function WidgetsLoop({ widget, likedData, width }) {
             </div>
           ) : (
             <div className="">
-              <div className="flex overflow-x-auto space-x-2">
+              <div className="flex overflow-x-auto space-x-2  mobile:hidden">
                 {widget?.display === "carousel" &&
                   widget.type !== "text" &&
               
                   widget?.items[0]?.product_id &&
                   widget.items?.map((item) => {
                     return (
-                      <div className="" key={item.product_id}>
-                        {/* <SingleProduct
-                           
+                      <div className="" key={item.product_id} >
+                        <SingleProduct 
                            scroll={true}
                             item={item}
-                          ></SingleProduct> */}
+                          ></SingleProduct>
                       </div>
                     );
                   })}
@@ -1245,16 +1256,16 @@ function WidgetsLoop({ widget, likedData, width }) {
                 </div>
       
             
-                <div className=" bloack mobile:hidden">
+                <div className=" block mobile:hidden">
                   <Slider {...productMobile}>
                     {widget.items?.map((item) => {
                       if (item.product_id) {
                         return (
                           <div className="pr-2" key={item.product_id}>
-                            <SingleProduct
+                            {/* <SingleProduct
                               likedData={likedData}
                               item={item}
-                            ></SingleProduct>
+                            ></SingleProduct> */}
                           </div>
                         );
                       } else {

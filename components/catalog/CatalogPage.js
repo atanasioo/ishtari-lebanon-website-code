@@ -96,7 +96,7 @@ function CatalogPage(props) {
     order,
     limit
   } = router.query;
-  console.log(page)
+  console.log(page);
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
@@ -331,7 +331,7 @@ function CatalogPage(props) {
       router.push(router.asPath + now);
     } else {
       let old = "&page=" + page;
-      router.push(router.asPath.replace(old,  now));
+      router.push(router.asPath.replace(old, now));
     }
   };
 
@@ -1021,11 +1021,8 @@ function CatalogPage(props) {
                 </div>
               </div>
             )}
-
-
-
-          {
-             ( page === undefined || page < 2) &&
+  <div className="hidden mobile:block">
+          {(page === undefined || page < 2) &&
             (data?.category_widget_status === "1" ||
               data?.desktop_widget_status === "1") &&
             data?.desktop_widgets?.map((widget) => (
@@ -1034,27 +1031,30 @@ function CatalogPage(props) {
                 <WidgetsLoop widget={widget} />{" "}
               </div>
             ))}
-
-          {
-          //  page === undefined ||
-          //   page < 2 &&
-            (data?.category_widget_status === "1" ||
-              data?.mobile_widget_status === "1") &&
-            data?.mobile_widgets?.map((widget) => (
-              <div className="px-3">
-                {" "}
-                <WidgetsLoop widget={widget} />
-              </div>
-            ))}
-          {width < 650 &&
-            page < 2 &&
-            (data?.category_widget_status === "1" ||
-              data?.mobile_widget_status === "1") &&
-            data?.widgets?.map((widget) => (
-              <div className="px-3">
-                <WidgetsLoop widget={widget} />{" "}
-              </div>
-            ))}
+            </div>
+          <div className="mobile:hidden">
+            {
+              //  page === undefined ||
+              //   page < 2 &&
+              (page === undefined || page < 2) &&
+              (data?.category_widget_status === "1" ||
+                data?.mobile_widget_status === "1") &&
+                data?.mobile_widgets?.map((widget) => (
+                  <div className="px-3">
+                    {" "}
+                    <WidgetsLoop widget={widget} />
+                  </div>
+                ))
+            }
+            { (page === undefined || page < 2) &&
+              (data?.category_widget_status === "1" ||
+                data?.mobile_widget_status === "1") &&
+              data?.widgets?.map((widget) => (
+                <div className="px-3">
+                  <WidgetsLoop widget={widget} />{" "}
+                </div>
+              ))}
+          </div>
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (

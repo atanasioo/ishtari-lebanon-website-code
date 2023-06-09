@@ -1,14 +1,16 @@
+import Cookies from "js-cookie";
+
 function PointsLoader() {
     var mystyle = {};
     if (
-      localStorage.getItem("site-local-name") === "flo" ||
+      Cookies.get("site-local-name") === "flo" ||
       window.config["host"] === "www.flo-lebanon.com"
     ) {
       mystyle = {
         backgroundColor: "#FF681F"
       };
     } else if (
-      localStorage.getItem("site-local-name") === "aalbeit" ||
+      Cookies.get("site-local-name") === "aalbeit" ||
       window.config["host"] === "www.aalbeit.com"
     ) {
       mystyle = {

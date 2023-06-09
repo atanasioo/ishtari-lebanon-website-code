@@ -219,7 +219,7 @@ function DesktopMenuCategories(props) {
                 </div>
               ))}
             <div className="px-4 hover:text-dbase cursor-pointer">
-              <div>New Arrivals</div>
+               <Link href={`/latest`} >New Arrivals</Link>
             </div>
           </div>
         </div>
