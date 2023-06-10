@@ -3,6 +3,7 @@ import {
   getToken,
   setAuthorizationHeader,
 } from "@/axiosServer.js";
+import { getHost, getMainData } from "@/functions";
 import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
 import buildLink from "@/urls";
@@ -97,18 +98,12 @@ App.getInitialProps = async ({ Component, ctx }) => {
   const { req } = ctx;
   const cook = useCookie(ctx);
 
-  const cookies = req?.headers.cookie  || '';
-// console.log(cookies)
-// if(cookie != undefined){
+  const cookies = req?.headers.cookie || "";
 
+  const parsedCookiesss = cookie.parse(cookies, "; ", "=");
 
-// const cookieHeader = req.headers.cookie || '';
-const parsedCookiesss = cookie.parse(cookies, '; ', '=');
-
-  const apiToken = parsedCookiesss['api-token'];
   const parsedCookies = cookie?.parse(cookies);
   const token = parsedCookiesss["api-token"];
-
 
   const maxAgeInDays = 15;
   const maxAgeInSeconds = maxAgeInDays * 24 * 60 * 60; // Convert days to seconds
@@ -119,26 +114,18 @@ const parsedCookiesss = cookie.parse(cookies, '; ', '=');
     expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
   };
 
-// }
-  console.log("whyyyyyyyyyyy")
-  console.log(token)
-  console.log("hiiiiiiiiiiiiii")
+  let host_url = "";
+
   const host = req?.headers.host;
 
-
-  // console.log(cookie);
-  if (typeof cookies !== "undefined"  &&  cookies !=='' ) {
-    //localhost
-
-    // const token = parsedCookies["api-token"];
-    // console.log("tokennnn")
-    // console.log(token)
+  if (typeof cookies !== "undefined" && cookies !== "") {
     var site_host = parsedCookies["site-local-name"];
 
     if (typeof site_host === "undefined") {
-      site_host = h
-      ost;
+      site_host = host;
     }
+
+    host_url = await getHost(site_host);
 
     // Check if the token is invalid, undefined, or expired
     if (
@@ -148,56 +135,26 @@ const parsedCookiesss = cookie.parse(cookies, '; ', '=');
     ) {
       try {
         // Request a new token from the server
-        //const response = await getToken(site_host);
-        const response = await getToken("https://www.ishtari.com/");
-        console.log("response")
-        console.log(response)
 
+        const response = await getToken(host_url);
 
-        console.log("response end")
-        // Get the new token from the response
         const newToken = response.access_token;
-        cook.set("api-token", newToken);
-
-        // Perform any other necessary server-side operations
-
-        axiosServer.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${newToken}`;
-        // axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+        cook.set("api-token", newToken, options);
 
         setAuthorizationHeader(newToken);
 
-        axiosServer.interceptors.request.use((config) => {
-          config.headers.Authorization = `Bearer ${newToken}`;
+        // Fetch header, footer, footer_information data using the new token
+        const resp = await getMainData(newToken, host_url);
 
-          return config;
-        });
-
-        // Fetch data using the new token
-        const data = await axiosServer.get(
-          buildLink("headerv2", undefined, undefined, site_host)
-        );
-        // footer
-
-        const footer_data = await axiosServer.get(
-          buildLink("footerv2", undefined, undefined, site_host)
-        );
-
-        const information_data = await axiosServer.get(
-          buildLink("information", undefined, undefined, site_host)
-        );
         // Return the fetched data as props
         return {
-          header_categories: data.data?.data,
-          footer_categories: footer_data.data?.data,
-          information_data: information_data.data?.data,
+          header_categories: resp.data.data?.data,
+          footer_categories: resp.footer_data.data?.data,
+          information_data: resp.information_data.data?.data,
           token: newToken,
         };
       } catch (error) {
-        // Handle any errors that occurred during the token request
-        // For example, redirect to an error page or display an error message
-        console.error("Failed to get a new token:", error);
+        console.error("Failed to get a new token, or to fetch data:", error);
       }
     } else {
       // Fetch data using the existing token
@@ -210,207 +167,43 @@ const parsedCookiesss = cookie.parse(cookies, '; ', '=');
         site_host = host;
       }
 
-      var data = [];
-      var footer_data = [];
-      var information_data = [];
+      host_url = await getHost(site_host);
 
-      if (
-        host === "localhost:3001" ||
-        host === "localhost:3000" ||
-        host === "https://cloudgoup.com/" ||
-        host === "https://www.cloudgoup.com/" ||
-        host === "http://cloudgoup.com" ||
-        host === "www.cloudgoup.com"
-      ) {
-        data = await axiosServer.get(
-          buildLink(
-            "headerv2",
-            undefined,
-            undefined,
-            "https://www.ishtari.com/"
-          ),
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-
-        // console.log("header response is");
-        // console.log(data.data.data);
-        // console.log("token is :" + token);
-
-        footer_data = await axiosServer.get(
-          buildLink(
-            "footerv2",
-            undefined,
-            undefined,
-            "https://www.ishtari.com/"
-          ),
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-        information_data = await axiosServer.get(
-          buildLink(
-            "information",
-            undefined,
-            undefined,
-            "https://www.ishtari.com/"
-          ),
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-
-        return {
-          header_categories: data.data.data,
-          footer_categories: footer_data.data.data,
-          information_data: information_data.data?.data,
-        };
-      } else {
-        data = await axiosServer.get(
-          buildLink("headerv2", undefined, undefined, site_host)
-        );
-
-        footer_data = await axiosServer.get(
-          buildLink("footerv2", undefined, undefined, site_host)
-        );
-
-        information_data = await axiosServer.get(
-          buildLink("information", undefined, undefined, site_host)
-        );
-      }
+      // Fetch header, footer, footer_information data using the existing token
+      const resp = await getMainData(token, host_url);
 
       // Return the fetched data as props
       return {
-        header_categories: data.data.data,
-        footer_categories: footer_data.data.data,
-        information_data: information_data.data?.data,
+        header_categories: resp.data.data.data,
+        footer_categories: resp.footer_data.data.data,
+        information_data: resp.information_data.data?.data,
       };
     }
   } else {
     //live
-    const host = req?.headers.host;
+
+    host_url = await getHost(host);
 
     try {
-      var response = [];
       // Request a new token from the server
-      if (
-        host === "localhost:3001" ||
-        host === "localhost:3000" ||
-        host === "https://cloudgoup.com/" ||
-        host === "https://www.cloudgoup.com/" ||
-        host === "http://cloudgoup.com" ||
-        host === "www.cloudgoup.com"
-      ) {
-        response = await getToken("https://www.ishtari.com/");
-        // console.log("hihiiii");
-      } else {
-        response = await getToken("https://www.ishtari.com/");
-      }
 
-      // console.log("token response is ");
-      // console.log(response);
+      const response = await getToken(host_url);
 
-      // Get the new token from the response
       const newToken = response.access_token;
-      axiosServer.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${newToken}`;
-
-      axiosServer.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${newToken}`;
-
-      setAuthorizationHeader(newToken);
-      axiosServer.interceptors.request.use((config) => {
-        config.headers.Authorization = `Bearer ${newToken}`;
-
-        return config;
-      });
-
-      // Fetch data using the new token
-      var data = [];
-      if (
-        host === "localhost:3001" ||
-        host === "localhost:3000" ||
-        host === "http://cloudgoup.com" ||
-        host === "www.cloudgoup.com"
-      ) {
-        data = await axiosServer.get(
-          buildLink(
-            "headerv2",
-            undefined,
-            undefined,
-            "https://www.ishtari.com/"
-          )
-        );
-
-        footer_data = await axiosServer.get(
-          buildLink(
-            "footerv2",
-            undefined,
-            undefined,
-            "https://www.ishtari.com/"
-          )
-        );
-        information_data = await axiosServer.get(
-          buildLink(
-            "information",
-            undefined,
-            undefined,
-            "https://www.ishtari.com/"
-          )
-        );
-      } else {
-        data = await axiosServer.get(
-          buildLink("headerv2", undefined, undefined, site_host)
-        );
-
-        footer_data = await axiosServer.get(
-          buildLink("footerv2", undefined, undefined, site_host)
-        );
-
-        information_data = await axiosServer.get(
-          buildLink("information", undefined, undefined, site_host)
-        );
-      }
-
-      const maxAgeInDays = 15;
-      const maxAgeInSeconds = maxAgeInDays * 24 * 60 * 60; // Convert days to seconds
-
-      let options = {
-        path: "/",
-        maxAge: maxAgeInSeconds,
-        expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
-      };
 
       // cook.set("api-token", newToken, options);
 
-      // // Set the token in a cookie
-      // // If there are no existing cookies, create a new one
-      // const newCookie = serialize("api-token", newToken, {
-      //   path: "/",
-      //   httpOnly: true,
-      //   maxAge: maxAgeInSeconds,
-      //   expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
-      // });
+      setAuthorizationHeader(newToken);
 
-      // console.log(req.headers.cookie);
-      // Set the cookie in the response header
-      // req.headers.cookie = newCookie;
+      // Fetch header, footer, footer_information data using the new token
+
+      const resp = await getMainData(token, host_url);
 
       // Return the fetched data as props
       return {
-        header_categories: data.data.data,
-        footer_categories: footer_data.data.data,
-        information_data: information_data?.data.data,
-
+        header_categories: resp.data.data.data,
+        footer_categories: resp.footer_data.data.data,
+        information_data: resp.information_data?.data.data,
         token: newToken,
       };
     } catch (error) {
