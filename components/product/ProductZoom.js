@@ -26,7 +26,6 @@ function ProductZoom(props) {
   const imageSlider = useRef(null);
   const [width, height] = useDeviceSize();
 
-  console.log(hovered);
 
   const setting = {
     dots: false,

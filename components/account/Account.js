@@ -139,7 +139,6 @@ function Account() {
       setSignupError(data?.errors[0]?.errorMsg);
     }
     setSignupLoading(false);
-    console.log(response);
   }
 
   // console.log(state);

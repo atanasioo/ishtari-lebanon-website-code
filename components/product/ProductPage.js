@@ -235,7 +235,7 @@ function ProductPage(props) {
       `${product_id}&source_id=1&part_two=true`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
-      console.log(data);
+  
       if (data?.success) {
         setReviews(data?.data?.product_reviews?.reviews);
 
@@ -245,7 +245,7 @@ function ProductPage(props) {
     });
   }
 
-  console.log(reviews);
+
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
@@ -489,7 +489,6 @@ function ProductPage(props) {
   }
 
   function addToWishList() {
-    console.log(checked);
     const obj = {
       id: checked,
       product_id: product_id,
@@ -500,7 +499,6 @@ function ProductPage(props) {
         axiosServer
           .get(buildLink("wishlistCount", undefined, window.innerWidth))
           .then((response) => {
-            console.log(response.data.data.products.map((p) => p.product_id));
 
             if (response.data.success) {
               dispatchW({

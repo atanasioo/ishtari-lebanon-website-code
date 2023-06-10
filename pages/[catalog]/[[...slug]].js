@@ -118,7 +118,7 @@ export async function getServerSideProps(context) {
           Authorization: "Bearer " + token,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       if (!response.data.success) {
         return {
           notFound: true,
@@ -184,7 +184,7 @@ export async function getServerSideProps(context) {
         }
         data = response.data.data;
         console.log("********%start%%*******");
-        console.log(data);
+        // console.log(data);
         console.log("********%end%*******");
       } else {
         var filter = "";

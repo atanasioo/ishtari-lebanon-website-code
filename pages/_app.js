@@ -136,7 +136,8 @@ const parsedCookiesss = cookie.parse(cookies, '; ', '=');
     var site_host = parsedCookies["site-local-name"];
 
     if (typeof site_host === "undefined") {
-      site_host = host;
+      site_host = h
+      ost;
     }
 
     // Check if the token is invalid, undefined, or expired
