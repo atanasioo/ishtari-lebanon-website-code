@@ -105,9 +105,19 @@ App.getInitialProps = async ({ Component, ctx }) => {
 // const cookieHeader = req.headers.cookie || '';
 const parsedCookiesss = cookie.parse(cookies, '; ', '=');
 
-const apiToken = parsedCookiesss['api-token'];
+  const apiToken = parsedCookiesss['api-token'];
   const parsedCookies = cookie?.parse(cookies);
-  const token = parsedCookies["api-token"];
+  const token = parsedCookiesss["api-token"];
+
+
+  const maxAgeInDays = 15;
+  const maxAgeInSeconds = maxAgeInDays * 24 * 60 * 60; // Convert days to seconds
+
+  let options = {
+    path: "/",
+    maxAge: maxAgeInSeconds,
+    expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
+  };
 
 // }
   console.log("whyyyyyyyyyyy")
@@ -117,7 +127,7 @@ const apiToken = parsedCookiesss['api-token'];
 
 
   // console.log(cookie);
-  if (typeof cookies !== "undefined") {
+  if (typeof cookies !== "undefined"  &&  cookies !=='' ) {
     //localhost
 
     // const token = parsedCookies["api-token"];
@@ -139,9 +149,14 @@ const apiToken = parsedCookiesss['api-token'];
         // Request a new token from the server
         //const response = await getToken(site_host);
         const response = await getToken("https://www.ishtari.com/");
+        console.log("response")
+        console.log(response)
 
+
+        console.log("response end")
         // Get the new token from the response
         const newToken = response.access_token;
+        cook.set("api-token", newToken);
 
         // Perform any other necessary server-side operations
 
@@ -374,7 +389,7 @@ const apiToken = parsedCookiesss['api-token'];
         expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
       };
 
-      cook.set("api-token", newToken, options);
+      // cook.set("api-token", newToken, options);
 
       // // Set the token in a cookie
       // // If there are no existing cookies, create a new one

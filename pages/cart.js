@@ -124,7 +124,7 @@ function Cart(props) {
               payload: false
             });
             if (quantity === 0) {
-              window.location.reload();
+            //   window.location.reload();
             }
           });
         setOpacity(false);
@@ -242,7 +242,7 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
           });
           // console.log(data);
         }
-        window.location.reload();
+        // window.location.reload();
         dispatch({
           type: "loading",
           payload: true
@@ -305,7 +305,7 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
       axiosServer
         .delete(buildLink("cart", undefined, window.innerWidth), { data: obj })
         .then(() => {
-          window.location.reload();
+        //   window.location.reload();
         });
     } else {
       setError(true);
@@ -759,7 +759,7 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
                 </h1>
               </div>
               <div className="flex items-center text-d14  ">
-                <Link href="/wishlist" className="text-dblue font-bold"> View All  <span className="ml-1">{" >"}</span>  </Link>
+                <Link href="/account/wishlist" className="text-dblue font-bold"> View All  <span className="ml-1">{" >"}</span>  </Link>
               </div>
             </div>
             </div>
