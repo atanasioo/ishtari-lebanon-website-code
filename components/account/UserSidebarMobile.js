@@ -1,7 +1,9 @@
 import { path } from "../../urls";
-import {BsFillCartCheckFill} from 'react-icons/bs'
+import {BsFillCartCheckFill, BsFillHeartFill} from 'react-icons/bs'
 import {MdAvTimer} from 'react-icons/md'
 import Link from "next/link";
+import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
+import { ImLocation } from "react-icons/im";
 function UserSidebarMobile(props) {
   return (
     <div className="flex md:block justify-between overflow-x-auto">
@@ -13,7 +15,7 @@ function UserSidebarMobile(props) {
       >
         <div className="flex flex-col justify-center items-center">
           <div className="text-center">
-            <i className="icon icon-dollar text-center  text-lg md:text-2xl w-8 "></i>
+            <FaMoneyBillWave className="text-d16 my-1 " />
           </div>
           <span className="text-center text-d11">Orders</span>
         </div>
@@ -53,7 +55,7 @@ function UserSidebarMobile(props) {
       >
         <div className="flex flex-col justify-center items-center">
           <div className="text-center">
-            <i className="icon icon-location text-center text-lg md:text-2xl block w-8"></i>
+            <ImLocation className="icon icon-location text-center text-lg md:text-2xl block w-8" />
           </div>
           <span className="text-center text-d11">Addresses</span>
         </div>
@@ -66,7 +68,7 @@ function UserSidebarMobile(props) {
       >
         <div className="flex flex-col justify-center items-center">
           <div className="text-center">
-            <i className="icon icon-heart text-md md:text-xl text-center w-8"></i>
+            <BsFillHeartFill className="icon icon-heart text-md md:text-xl text-center w-8" />
           </div>
           <span className="text-center text-d11">WishList</span>
         </div>
@@ -79,7 +81,7 @@ function UserSidebarMobile(props) {
       >
         <div className="flex flex-col justify-center items-center">
           <div className="text-center">
-            <i className="icon icon-user-solid text-md md:text-xl w-8 block text-center "></i>
+            <FaUserAlt className="icon icon-user-solid text-md md:text-xl w-8 block text-center " />
           </div>
           <span className="text-center text-d11">Profile</span>
         </div>

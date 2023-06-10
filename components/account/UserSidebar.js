@@ -22,7 +22,7 @@ function UserSidebar(props) {
 
   return true ? (
     <aside
-      className="box-content overflow-x-hidden overflow-y-auto block w-full h-full bg-white"
+      className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
       style={{
         flex: "0 0 auto",
       }}

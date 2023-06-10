@@ -19,6 +19,7 @@ function wishlist() {
   const [success, setSuccess] = useState(false);
   const [successGroup, setSuccessGroup] = useState(false);
   const [showModel, setShowModel] = useState(false);
+  const [isEdit, setIsEdit]= useState(false);
   const [groups, setGroups] = useState();
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(false);
@@ -66,6 +67,8 @@ function wishlist() {
 
     // create group
     function addGroup(action) {
+      setLoading(true);
+      console.log("enterd");
         setResult("");
         var obj = {};
         if (action === true) {
@@ -73,7 +76,7 @@ function wishlist() {
             name: nameValue,
             description: descriptionValue
           };
-          _axios
+          axiosServer
             .post(buildLink("wishlistAdd", undefined, undefined), obj)
             .then((response) => {
               if (response.data.success) {
@@ -88,7 +91,7 @@ function wishlist() {
             name: nameValue,
             description: descriptionValue
           };
-          _axios
+          axiosServer
             .post(buildLink("wishlistUpdate", undefined, undefined), obj)
             .then((response) => {
               setResult(response.data);
@@ -108,13 +111,14 @@ function wishlist() {
               }
             });
         }
-    
+        setLoading(false);
         setvalue("");
         setName("");
         setDescription("");
       }
 
   function deleteGroup(id) {
+    setLoading(true)
     axiosServer
       .post(buildLink("wishlistDelete", undefined, undefined) + id)
       .then((response) => {
@@ -123,9 +127,20 @@ function wishlist() {
           setResult(response.data);
         }
       });
+      setId(0);
+      setPage(1);
+      setLoading(false)
   }
 
-  console.log(groups);
+  function editGroup(id, na, des) {
+    setResult({});
+
+    setShowModel(true);
+    setvalue(id);
+    setDescription(des);
+    setName(na);
+  }
+
 
   return (
     <div className="container text-dblack">
@@ -231,31 +246,33 @@ function wishlist() {
                           onClick={(e) => deleteGroup(ps?.wishlist_group_id)}
                         >
                           {window.innerWidth > 650 && "Delete"}
-                          <BsTrash className="" />
+                          <BsTrash />
                         </button>
 
                         <button
                           className=" ml-6 px-8 py-1.5 pr-semibold text-sm flex items-center gap-2 justify-center border border-dgreyZoom rounded-2xl "
                           onClick={(e) =>
-                            editGroup(
+                            {editGroup(
                               ps?.wishlist_group_id,
                               ps?.name,
                               ps?.description
-                            )
+                            );
+                            setIsEdit(true);
+                          }
                           }
                         >
                           {window.innerWidth > 650 && "Edit"}{" "}
-                          <AiOutlineEdit className="" />
+                          <AiOutlineEdit />
                         </button>
                       </div>
 
-                      <div className="float-right mobile:hidden">
+                      <div className="float-right flex  mobile:hidden">
                         <span
                           className="bg-white text-dgrey1  ml-6 text-xl rounded-full px-2 py-1"
                           onClick={(e) => deleteGroup(ps?.wishlist_group_id)}
                         >
                           {window.innerWidth > 650 && "Delete Group "}
-                          <i className="icon icon-trash "></i>
+                          <BsTrash />
                         </span>
 
                         <span
@@ -269,7 +286,7 @@ function wishlist() {
                           }
                         >
                           {window.innerWidth > 650 && "Edit Group "}{" "}
-                          <i className="icon icon-edit "></i>
+                          <AiOutlineEdit className="w-6 h-6" />
                         </span>
                       </div>
                     </div>
@@ -365,11 +382,14 @@ function wishlist() {
             <button
               id="close"
               className=" ml-3 top-0 -mt-10 w-10 h-10 hover:bg-indigo-700 bg-dgreyRate cursor-pointer float-right rounded-full  font-semibold text-dbgrey hover:opacity-90"
-              onClick={() => setShowModel(false)}
+              onClick={() => {
+                setShowModel(false);
+                setIsEdit(false);
+              }}
             >
               X
             </button>
-            <span className="text-l font-semibold">New Group</span>
+            <span className="text-l font-semibold">{isEdit ? "Edit Group" : "New Group"}</span>
 
             <div className="py-1 border-t border-dinputBorder">
               <div className="text-dbase w-full">
@@ -392,10 +412,10 @@ function wishlist() {
                 />
               </div>
             </div>
-            <div class="flex justify-end">
+            <div className="flex justify-end">
               <button
                 id="close"
-                class="w-full px-5 py-1 bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
+                className="w-full px-5 py-1 bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
                 onClick={() => addGroup(value ? false : true)}
               >
                 save
