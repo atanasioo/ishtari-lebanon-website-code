@@ -80,6 +80,7 @@ module.exports = {
       d20: "20.5712px",
       d22: "22px",
       d25: "25px",
+      d28: "28px",
       xs: ".75rem",
       sm: ".875rem",
       md: "1rem",
@@ -255,6 +256,12 @@ module.exports = {
       },
       darrowZoom:{
         DEFAULT: "#b4b4b4"
+      },
+      dblueHover:{
+        DEFAULT: "#3E72F7"
+      },
+      dgreyAddress:{
+        DEFAULT: "#9BA0AA"
       },
     },
 

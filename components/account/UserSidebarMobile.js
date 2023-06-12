@@ -48,7 +48,7 @@ function UserSidebarMobile(props) {
         </div>
       </Link>
       <Link
-        href={`${path}/account/addresses`}
+        href={`${path}/account/address`}
         className={`py-2 flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer ${
           props.active === "addresses" && "bg-white text-dbase"
         }`}

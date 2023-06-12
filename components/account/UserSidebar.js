@@ -122,7 +122,7 @@ function UserSidebar(props) {
           }}
         >
           <Link
-            href={`${path}/account/addresses`}
+            href={`${path}/account/address`}
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
