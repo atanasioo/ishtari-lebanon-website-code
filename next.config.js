@@ -3,7 +3,7 @@
 
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     domains: ['www.ishtari.com', 'www.ishtari.com.gh'],
   },

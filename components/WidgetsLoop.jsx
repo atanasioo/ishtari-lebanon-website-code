@@ -90,14 +90,13 @@ function WidgetsLoop({ widget, likedData, width }) {
     slidesToScroll: 7,
     infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />
   };
-  
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
       <div
-        style={{ ...style, padding: "2px 5px" , marginLeft: "15px"}}
+        style={{ ...style, padding: "2px 5px", marginLeft: "15px" }}
         onClick={onClick}
         className="mySwiper "
       >
@@ -121,7 +120,6 @@ function WidgetsLoop({ widget, likedData, width }) {
       </div>
     );
   }
-
 
   return (
     <div key={widget?.mobile_widget_id}>
@@ -331,8 +329,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
-                              placeholder ={placeholdersrc} 
-                            
+                              placeholder={placeholdersrc}
                             />
                           </Link>
                         ) : (
@@ -863,7 +860,6 @@ function WidgetsLoop({ widget, likedData, width }) {
                   key={item.banner_image_id}
                   style={{ padding: "1px" }}
                 >
-                  {widget.column_number}
                   <Link
                     href={
                       item?.name?.length > 0 && item?.filters != false
@@ -915,7 +911,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                   >
                     <ImageClient
                       alt={item?.name}
-                      src={ item.image}
+                      src={item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -935,7 +931,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                   <Link href={"/latest"}>
                     <ImageClient
                       alt={item?.name}
-                      src={ item.image}
+                      src={item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
@@ -951,7 +947,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                   <div>
                     <ImageClient
                       alt={item?.name}
-                      src={ item.image}
+                      src={item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1065,15 +1061,15 @@ function WidgetsLoop({ widget, likedData, width }) {
                 <Slider {...productMobile}>
                   {widget.items?.map((item) => {
                     if (!item.product_id) {
-                    //   return (
-                      
-                    //     // <div className="pr-2" key={item.product_id}>
-                    //     //   <SingleProduct
-                    //     //     item={item}
-                    //     //   ></SingleProduct>
-                    //     // </div>
-                    //   );
-                    // } else {
+                      //   return (
+
+                      //     // <div className="pr-2" key={item.product_id}>
+                      //     //   <SingleProduct
+                      //     //     item={item}
+                      //     //   ></SingleProduct>
+                      //     // </div>
+                      //   );
+                      // } else {
                       return (
                         <div className={`pr-2`} key={item.banner_image_id}>
                           <Link
@@ -1152,20 +1148,19 @@ function WidgetsLoop({ widget, likedData, width }) {
               <div className="flex overflow-x-auto space-x-2  mobile:hidden">
                 {widget?.display === "carousel" &&
                   widget.type !== "text" &&
-              
                   widget?.items[0]?.product_id &&
                   widget.items?.map((item) => {
                     return (
-                      <div className="" key={item.product_id} >
-                        <SingleProduct 
-                           scroll={true}
-                            item={item}
-                          ></SingleProduct>
+                      <div className="" key={item.product_id}>
+                        <SingleProduct
+                          scroll={true}
+                          item={item}
+                        ></SingleProduct>
                       </div>
                     );
                   })}
               </div>
-                  <div className=" bg-white hidden mobile:block mobile: ">
+              <div className=" bg-white hidden mobile:block mobile: ">
                 <Slider
                   {...productSetting}
                   // beforeChange={handleBeforeChange}
@@ -1175,10 +1170,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                     if (item.product_id) {
                       return (
                         <div className="pr-3" key={item.product_id}>
-                          <SingleProduct
-                  
-                            item={item}
-                          ></SingleProduct>
+                          <SingleProduct item={item}></SingleProduct>
                         </div>
                       );
                     } else {
@@ -1253,94 +1245,92 @@ function WidgetsLoop({ widget, likedData, width }) {
 
                   {/* <div>omar</div> */}
                 </Slider>
-                </div>
-      
-            
-                <div className=" block mobile:hidden">
-                  <Slider {...productMobile}>
-                    {widget.items?.map((item) => {
-                      if (item.product_id) {
-                        return (
-                          <div className="pr-2" key={item.product_id}>
-                            {/* <SingleProduct
+              </div>
+
+              <div className=" block mobile:hidden">
+                <Slider {...productMobile}>
+                  {widget.items?.map((item) => {
+                    if (item.product_id) {
+                      return (
+                        <div className="pr-2" key={item.product_id}>
+                          {/* <SingleProduct
                               likedData={likedData}
                               item={item}
                             ></SingleProduct> */}
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div className={`pr-2`} key={item.banner_image_id}>
-                            <Link
-                              href={
-                                // accountState.admin
-                                //   ? `${path}/${types[item.mobile_type]}/${
-                                //       item.mobile_type_id
-                                //     }`
-                                //   :
-                                item?.name?.length > 0 && item.filters != false
-                                  ? "/" +
-                                    item?.name
-                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                      ?.replace(/\s+/g, "-")
-                                      ?.replaceAll("/", "-")
-                                      ?.replace("%", "") +
-                                    "/" +
-                                    types[item.mobile_type].slice(0, 1) +
-                                    "=" +
-                                    item.mobile_type_id +
-                                    "?has_filter=true" +
-                                    (item?.filters?.filter_categories
-                                      ? "&filter_categories=" +
-                                        item?.filters?.filter_categories.map(
-                                          (fc) => fc.id
-                                        )
-                                      : "") +
-                                    (item?.filters?.filter_manufacturers
-                                      ? "&filter_manufacturers=" +
-                                        item?.filters?.filter_manufacturers.map(
-                                          (fm) => fm.id
-                                        )
-                                      : "") +
-                                    (item?.filters?.filter_sellers
-                                      ? "&filter_sellers=" +
-                                        item?.filters?.filter_sellers.map(
-                                          (fs) => fs.id
-                                        )
-                                      : "")
-                                  : item?.name?.length > 0
-                                  ? "/" +
-                                    item?.name
-                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                      ?.replace(/\s+/g, "-")
-                                      ?.replaceAll("/", "-")
-                                      ?.replace("%", "") +
-                                    "/" +
-                                    types[item.mobile_type].slice(0, 1) +
-                                    "=" +
-                                    item.mobile_type_id
-                                  : "cat/c=" + item.mobile_type_id
-                              }
-                            >
-                              <ImageClient
-                                alt={item?.name}
-                                src={item.image}
-                                width={widget.banner_width}
-                                height={widget.banner_height}
-                                title={item?.name
-                                  ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                  ?.replace(/\s+/g, "-")
-                                  ?.replaceAll("/", "-")}
-                                placeholder={ProductPlaceholder}
-                              />
-                            </Link>
-                          </div>
-                        );
-                      }
-                    })}
-                  </Slider>
-                </div>
-              
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className={`pr-2`} key={item.banner_image_id}>
+                          <Link
+                            href={
+                              // accountState.admin
+                              //   ? `${path}/${types[item.mobile_type]}/${
+                              //       item.mobile_type_id
+                              //     }`
+                              //   :
+                              item?.name?.length > 0 && item.filters != false
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-")
+                                    ?.replace("%", "") +
+                                  "/" +
+                                  types[item.mobile_type].slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id +
+                                  "?has_filter=true" +
+                                  (item?.filters?.filter_categories
+                                    ? "&filter_categories=" +
+                                      item?.filters?.filter_categories.map(
+                                        (fc) => fc.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_manufacturers
+                                    ? "&filter_manufacturers=" +
+                                      item?.filters?.filter_manufacturers.map(
+                                        (fm) => fm.id
+                                      )
+                                    : "") +
+                                  (item?.filters?.filter_sellers
+                                    ? "&filter_sellers=" +
+                                      item?.filters?.filter_sellers.map(
+                                        (fs) => fs.id
+                                      )
+                                    : "")
+                                : item?.name?.length > 0
+                                ? "/" +
+                                  item?.name
+                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    ?.replace(/\s+/g, "-")
+                                    ?.replaceAll("/", "-")
+                                    ?.replace("%", "") +
+                                  "/" +
+                                  types[item.mobile_type].slice(0, 1) +
+                                  "=" +
+                                  item.mobile_type_id
+                                : "cat/c=" + item.mobile_type_id
+                            }
+                          >
+                            <ImageClient
+                              alt={item?.name}
+                              src={item.image}
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              title={item?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                ?.replaceAll("/", "-")}
+                              placeholder={ProductPlaceholder}
+                            />
+                          </Link>
+                        </div>
+                      );
+                    }
+                  })}
+                </Slider>
+              </div>
             </div>
           )}{" "}
         </div>

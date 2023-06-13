@@ -36,7 +36,8 @@ module.exports = {
         'loose': '1.75',
         'lcf': "22.2133px",
         'spn': "17.36px",
-        "pn": "31.36px"
+        "pn": "31.36px",
+        "26": "26.7736px"
         // Add more line heights as needed
       },
     },
@@ -86,6 +87,7 @@ module.exports = {
       md: "1rem",
       lg: "1.125rem",
       xl: "1.25rem",
+      xll : "1.366rem",
       xxl: "2rem",
       "2xl": "1.5rem",
       "3xl": "1.875rem",

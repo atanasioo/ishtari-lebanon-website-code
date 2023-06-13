@@ -832,76 +832,8 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
                 </Link>
               </div>
             )}
-            {/* wishlist here */}
-
-            {success && (
-              <div
-                className="text-white bg-dgreen py-3 px-4 rounded my-4 cursor-pointer"
-                onClick={() => setSuccess(false)}
-              >
-                {successMessage}
-              </div>
-            )}
-            {stateAccount?.loged && products?.length !== 0 && (
-              <div className="sm:px-20">
-                <h1 className="py-6  text-dblack text-2xl font-semibold">
-                  Wishlist ({products?.length})
-                </h1>
-                <div className="relative">
-                  {products.length > 0 &&
-                    products.map((product) => (
-                      <div
-                        className={`flex mb-2 px-4 py-2 rounded bg-white`}
-                        key={product.product_id}
-                      >
-                        <Link
-                          className="block w-24"
-                          href={`/product/${product.product_id}`}
-                        >
-                          <img
-                            src={product.thumb}
-                            className="w-24 block rounded"
-                            alt={product.name}
-                          />
-                        </Link>
-                        <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow ">
-                          <p className="text-d13 text-dgrey1">{product.sku}</p>
-                          <p
-                            className=" text-sm font-semibold"
-                            dangerouslySetInnerHTML={{
-                              __html: DOMPurify.sanitize(product.name)
-                            }}
-                          ></p>
-                          <div>
-                            <span className="mr-4 line-through text-sm">
-                              {product.price}
-                            </span>
-                            <span className="font-semibold">
-                              {product.special}
-                            </span>
-                          </div>
-                          <div className="flex ">
-                            <button
-                              onClick={() => addToCart(product.product_id)}
-                              className="cursor-pointer text-dgrey1 text-sm"
-                            >
-                              <span>Move To Cart</span>
-                              <i className="icon icon-basket ml-1"></i>
-                            </button>
-                            <button
-                              onClick={() => remove(product.product_id)}
-                              className="cursor-pointer text-dgrey1 text-sm ml-4"
-                            >
-                              <span>Remove</span>
-                              <i className="icon icon-trash ml-1"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            )}
+          
+           
           </div>
         )}
       </div>
@@ -915,45 +847,8 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
 export default Cart;
 
 
-// export async function getServerSideProps(context) {
-//     const { req } = context;
+export async function getServerSideProps(context) {
+  
 
-//     const host = req.headers.host;
-  
-//     console.log("host isss" + host);
-//     const cookies = req.headers.cookie;
-//     const parsedCookies = querystring.parse(cookies);
-  
-//     const host_cookie = parsedCookies["site-local-name"];
-//     const token = parsedCookies["api-token"];
-// return;
-//     var data = {};
-//     let site_host = "";
-//     if (host_cookie === undefined || typeof host_cookie === "undefined") {
-//       site_host = host;
-//     } else {
-//       site_host = host_cookie;
-//     }
-//     // let link =
-//     //   buildLink("cart", undefined, undefined, site_host) +
-//     //   "&source_id=1" ;
-//     // const response = await axiosServer.get(link, {
-//     //   headers: {
-//     //     Authorization: "Bearer " + token
-//     //   }
-//     // });
-//     // if (!response.data.success) {
-//       return {
-//         notFound: true
-//       };
-//     // }
-  
-//     data = response.data.data;
-  
-//     return {
-//       props: {
-//         data
-//       }
-//     };
-//   }
+  }
   

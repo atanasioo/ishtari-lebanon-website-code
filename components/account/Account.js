@@ -428,7 +428,7 @@ function Account() {
         {/* {state.loading && (
           <div
             className="text-white border-r border-dmenusep  flex items-center pl-3 pr-6 cursor-pointer hover:opacity-80 relative"
-            to="/cart"
+     
           >
             <i className=" icon icon-user ml-2 text-xl"></i>
             <span className=" w-6 h-6 bg-dblue flex  items-center justify-center rounded-full text-xs absolute right-1  -top-1 border border-white">
