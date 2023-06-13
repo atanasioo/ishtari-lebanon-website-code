@@ -29,7 +29,7 @@ function Header(props) {
   const [categories, setCategories] = useState([]);
   const { data: session, status } = useSession();
 
- console.log(session);
+//  console.log(session);
 
   useEffect(() => {
     if (window.location.host === "localhost:3000") {
@@ -148,11 +148,6 @@ function Header(props) {
             {width > 650 && <div className="flex ml-2"> Lebanon</div>}
             <FiChevronDown className="hidden md:block w-5 " />
           </div>
-          {/* <div className=" hidden lg:flex justify-center items-center lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 cursor-pointer">
-            <p className="hidden lg:block">Sign In</p>{" "}
-            <AiOutlineUser className="ml-1 w-5 h-5" />
-            <Account />
-          </div> */}
           <Account />
           {session?.user?.isLoggedIn && <TopWishlist />}
          <TopCart />

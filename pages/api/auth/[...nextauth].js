@@ -5,7 +5,7 @@ import cookie from "cookie";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signOut } from "next-auth/react";
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       id: "login",
@@ -33,6 +33,7 @@ export default NextAuth({
           if (response.data.success) {
             return {
               customer_id: response.data.data.customer_id,
+              name: "user",
               // username: response.data.data.username,
               // seller_logged: response.data.data.seller_logged,
               email: response.data.data.email,
@@ -101,4 +102,6 @@ export default NextAuth({
       return "/";
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

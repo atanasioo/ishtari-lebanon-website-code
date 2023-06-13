@@ -425,17 +425,17 @@ function Account() {
         </div>
       )}
       <div className="hidden xl:block lg:block ">
-        {state.loading && (
+        {/* {state.loading && (
           <div
             className="text-white border-r border-dmenusep  flex items-center pl-3 pr-6 cursor-pointer hover:opacity-80 relative"
             to="/cart"
           >
             <i className=" icon icon-user ml-2 text-xl"></i>
             <span className=" w-6 h-6 bg-dblue flex  items-center justify-center rounded-full text-xs absolute right-1  -top-1 border border-white">
-              <span>{/* <Loader styles={"h-5 w-5 text-white"} /> */}</span>
+              <span><Loader styles={"h-5 w-5 text-white"} /></span>
             </span>
           </div>
-        )}
+        )} */}
         {/* If not logged */}
         {!state.loged && !state.loading && (
           <div
@@ -510,7 +510,7 @@ function Account() {
                   <span className="ml-4">Recently Viewed</span>
                 </Link>
                 <Link
-                  href={`${path}/account/addresses`}
+                  href={`${path}/account/address`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
                 >

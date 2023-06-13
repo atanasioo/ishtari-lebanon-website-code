@@ -94,6 +94,9 @@ module.exports = {
       "6xl": "4rem",
       "7xl": "5rem"
     },
+    outlineWidth:{
+      0.5: "0.5px"
+    },
     colors: {
       white: {
         DEFAULT: "rgb(255 255 255)"
@@ -262,6 +265,9 @@ module.exports = {
       },
       dgreyAddress:{
         DEFAULT: "#9BA0AA"
+      },
+      dborderAddress:{
+        DEFAULT: "#DADCE3"
       },
     },
 
