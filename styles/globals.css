@@ -1176,3 +1176,7 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.cart-header {
+  @apply border-b border-dgreyZoom shadow-sm py-3 px-4 bg-opacity-10 flex items-center;
+}
