@@ -74,16 +74,7 @@ function AddAddressPage(props) {
 
   const [state, dispatch] = useContext(AccountContext);
 
-<<<<<<< HEAD
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 9000,
-    maximumAge: 0,
-  };
-
-=======
   // console.log(isEdit);
->>>>>>> e085ceb (no message)
 
   useEffect(() => {
     // if (parsedQueryString["from-checkout"]) {
