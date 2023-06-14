@@ -737,9 +737,7 @@ function WidgetsLoop({ widget, likedData, width }) {
               <div
                 className={`${
                   !bool && "w-full"
-                } cursor-pointer flex justify-center hover:opacity-80 w-1/${
-                  widget.column_number
-                } md:w-1/${widget.column_number}`}
+                } cursor-pointer flex justify-center hover:opacity-80 w-1/${widget.column_number} `}
                 key={item.banner_image_id}
                 style={{ padding: "1px" }}
               >
@@ -789,12 +787,13 @@ function WidgetsLoop({ widget, likedData, width }) {
                       setProductHolder(item);
                     }
                   }}
-                >
+
+                > 
                   <ImageClient
                     alt={item?.name}
                     src={item.image}
-                    width={widget?.banner_width || 1000}
-                    height={widget?.banner_height || 100}
+                    width={widget?.banner_width }
+                    height={widget?.banner_height }
                     title={item?.name
                       .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                       .replace("%", "")
@@ -854,7 +853,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                 <div
                   className={`${
                     !bool && "w-full"
-                  } cursor-pointer flex justify-center hover:opacity-80 w-1/${4} md:w-1/${
+                  } cursor-pointer flex justify-center hover:opacity-80 w-1/${widget.column_number} md:w-1/${
                     widget.column_number
                   }`}
                   key={item.banner_image_id}

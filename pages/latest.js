@@ -32,7 +32,7 @@ export default function latest(props) {
       router.push(router.asPath.replace(old, now));
     }
   };
-  console.log(data);
+
   return (
     <div>
       <div className="flex justify-between w-full p-3">
@@ -123,7 +123,7 @@ export async function getServerSideProps(context) {
   const { page, limit } = context.query;
   const host = req.headers.host;
 
-  console.log("host isss" + host);
+  // console.log("host isss" + host);
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
 

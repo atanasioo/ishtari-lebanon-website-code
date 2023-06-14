@@ -12,15 +12,17 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { BsTrashFill } from "react-icons/bs";
 import { axiosServer } from "@/axiosServer";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 
 function Cart(props) {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
   const [select, setSelect] = useState(true);
 
-  const data = {props}
+  const {data} = props ;
+  // console.log(data)
   const [error, setError] = useState(false);
-
   const [selectProduct, setSelectProduct] = useState([]);
 
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
@@ -29,7 +31,7 @@ function Cart(props) {
   const [state, dispatch] = useContext(CartContext);
   const [accountState] = useContext(AccountContext);
   const [sel, setSel] = useState([]);
- const router = useRouter()
+  const router = useRouter();
   const PointsLoader = dynamic(() => import("../components/PointsLoader"), {
     ssr: false // Disable server-side rendering
   });
@@ -38,7 +40,6 @@ function Cart(props) {
       axiosServer
         .get(buildLink("cart", undefined, undefined) + "&source_id=1")
         .then((response) => {
-
           if (response.data.success) {
             dispatch({
               type: "setProducts",
@@ -64,15 +65,12 @@ function Cart(props) {
     getCart();
   }, []);
 
-
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
   }, [router]);
-
 
   function updateQuantity(key, quantity, i, type) {
     if (type === "d") {
@@ -124,7 +122,7 @@ function Cart(props) {
               payload: false
             });
             if (quantity === 0) {
-            //   window.location.reload();
+              //   window.location.reload();
             }
           });
         setOpacity(false);
@@ -183,7 +181,7 @@ function Cart(props) {
     }
   }
 
-const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
+  const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
   const [products, setProducts] = useState([]);
   const [success, setSuccess] = useState(false);
   const [selectAll1, setSelectAll1] = useState(false);
@@ -191,8 +189,6 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
   const [successMessage, setSuccessMessage] = useState(
     "Product added to cart successfully"
   );
-
-
 
   // Remove
   function remove(product_id) {
@@ -231,7 +227,7 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
       product_id,
       quantity: 1
     };
-    console.log(obj);
+    // console.log(obj);
     axiosServer
       .post(buildLink("cart", undefined, window.innerWidth), obj)
       .then((response) => {
@@ -287,7 +283,7 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
     } else {
       var elem = document.getElementsByName("chk");
       for (var j = 0; i < elem.length; j++) {
-        if (elem[j].type === "checkbox") console.log("omar" + j);
+        if (elem[j].type === "checkbox") 
         elem[j].click();
         ele[j].checked = false;
 
@@ -305,7 +301,7 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
       axiosServer
         .delete(buildLink("cart", undefined, window.innerWidth), { data: obj })
         .then(() => {
-        //   window.location.reload();
+          //   window.location.reload();
         });
     } else {
       setError(true);
@@ -332,7 +328,8 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
       value: state.products.social_data?.value,
       from: "checkout"
     };
-    axiosServer.post(buildLink("pixel", undefined, window.innerWidth), obj)
+    axiosServer
+      .post(buildLink("pixel", undefined, window.innerWidth), obj)
       .then((response) => {
         const data = response.data;
         if (data.success === true) {
@@ -347,7 +344,10 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
 
         <Head>
           <title> Shopping Cart | ishtari</title>
-          <meta name="description" content="Review and finalize your order with our convenient and secure shopping cart. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."></meta>
+          <meta
+            name="description"
+            content="Review and finalize your order with our convenient and secure shopping cart. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."
+          ></meta>
         </Head>
         {loading ? (
           <PointsLoader />
@@ -363,7 +363,8 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
                   style={{ color: "rgb(126, 133, 155)" }}
                 >
                   {" "}
-                  ({state.productsCount} {state?.productsCount > 1 ? "items" : "item"})
+                  ({state.productsCount}{" "}
+                  {state?.productsCount > 1 ? "items" : "item"})
                 </h1>
               </div>
               <div className="block xl:flex lg:flex">
@@ -663,105 +664,34 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
                       </Link>
                     </div>
                   )}
-
-                  {/* wishlist here */}
-
-                  {success && (
-                    <div
-                      className="text-white bg-dgreen py-3 px-4 rounded my-4 cursor-pointer"
-                      onClick={() => setSuccess(false)}
-                    >
-                      {successMessage}
-                    </div>
-                  )}
-                  {stateAccount.loged && products?.length !== 0 && (
-                    <div>
-                      <h1 className="py-6  text-dblack text-2xl font-semibold">
-                        Wishlist ({products?.length})
-                      </h1>
-                      <div className="relative">
-                        {products.length > 0 &&
-                          products.map((product) => (
-                            <div
-                              className={`flex mb-2 px-4 py-2 rounded bg-white`}
-                              key={product.product_id}
-                            >
-                              <Link
-                                className="block w-24"
-                                href={`/product/${product.product_id}`}
-                              >
-                                <img
-                                  src={product.thumb}
-                                  className="w-24 block rounded"
-                                  alt={product.name}
-                                />
-                              </Link>
-                              <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow ">
-                                <p className="text-d13 text-dgrey1">
-                                  {product.sku}
-                                </p>
-                                <p
-                                  className=" text-sm font-semibold"
-                                  dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(product.name)
-                                  }}
-                                ></p>
-                                <div>
-                                  {product.special !== false && (
-                                    <span className="mr-4 line-through text-sm">
-                                      {product.price}
-                                    </span>
-                                  )}
-                                  <span className="font-semibold">
-                                    {product.special === 0 ||
-                                    product.special === false
-                                      ? product.price
-                                      : product.special}
-                                  </span>
-                                </div>
-                                <div className="flex ">
-                                  <button
-                                    onClick={() =>
-                                      addToCart(product.product_id)
-                                    }
-                                    className="cursor-pointer text-dgrey1 text-sm"
-                                  >
-                                    <span>Move To Cart</span>
-                                    <i className="icon icon-basket ml-1"></i>
-                                  </button>
-                                  <button
-                                    onClick={() => remove(product.product_id)}
-                                    className="cursor-pointer text-dgrey1 text-sm ml-4"
-                                  >
-                                    <span>Remove</span>
-                                    <i className="icon icon-trash ml-1"></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
-              <div className="flex justify-between  py-5">
-              <div className="flex items-center">
-                <h1 className=" font-bold" style={{ fontSize: "23px" }}>
-                  Wishlist
-                </h1>{" "}
-                <h1
-                  className=" font-light pl-1 font-d14 "
-                  style={{ color: "rgb(126, 133, 155)" }}
-                >
-                  {" "}
-                  ({stateWishlist?.productsCount} {stateWishlist?.productsCount > 1 ? " items" : "item"})
-                </h1>
-              </div>
-              <div className="flex items-center text-d14  ">
-                <Link href="/account/wishlist" className="text-dblue font-bold"> View All  <span className="ml-1">{" >"}</span>  </Link>
-              </div>
-            </div>
+              {data === true  && (
+                <div className="flex justify-between  py-5">
+                  <div className="flex items-center">
+                    <h1 className=" font-bold" style={{ fontSize: "23px" }}>
+                      Wishlist
+                    </h1>{" "}
+                    <h1
+                      className=" font-light pl-1 font-d14 "
+                      style={{ color: "rgb(126, 133, 155)" }}
+                    >
+                      {" "}
+                      ({stateWishlist?.productsCount}{" "}
+                      {stateWishlist?.productsCount > 1 ? " items" : "item"})
+                    </h1>
+                  </div>
+                  <div className="flex items-center text-d14  ">
+                    <Link
+                      href="/account/wishlist"
+                      className="text-dblue font-bold"
+                    >
+                      {" "}
+                      View All <span className="ml-1">{" >"}</span>{" "}
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="hidden xl:inline-block py-6 lg:inline-block  w-full pl-0 xl:w-2/6 lg:w-2/6 xl:pl-6 lg:pl-6">
               <div className="border border-dgrey1 border-opacity-20 px-6 py-4 rounded ">
@@ -769,7 +699,10 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
                   Order Summary
                 </h1>
                 <div className="flex justify-between items-center text-dgrey1 font-light mt-1">
-                  <p>Subtotal ({state.products.length} {state.products.length > 1 ? "items" : "item"})</p>
+                  <p>
+                    Subtotal ({state.products.length}{" "}
+                    {state.products.length > 1 ? "items" : "item"})
+                  </p>
                 </div>
 
                 <h2 className="mt-4 mb-2 font-semibold text-lg">
@@ -777,8 +710,14 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
                 </h2>
                 <div>
                   {state?.totals?.map((total) => (
-                    <div className={` flex items-center justify-between mb-1 text-dblack `}>
-                      <span>{total.title}  {total.code === "subTotal"  &&  "("+ state.products.length  + "items)"}</span>
+                    <div
+                      className={` flex items-center justify-between mb-1 text-dblack `}
+                    >
+                      <span>
+                        {total.title}{" "}
+                        {total.code === "subTotal" &&
+                          "(" + state.products.length + "items)"}
+                      </span>
                       <span>{total.text}</span>
                     </div>
                   ))}
@@ -832,8 +771,6 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
                 </Link>
               </div>
             )}
-          
-           
           </div>
         )}
       </div>
@@ -841,14 +778,16 @@ const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
   );
 }
 
-
-
-
 export default Cart;
 
-
 export async function getServerSideProps(context) {
-  
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-  }
-  
+var data = false
+if(session){
+   data = true 
+}
+  return {
+    props:{  data : data }
+  };
+}

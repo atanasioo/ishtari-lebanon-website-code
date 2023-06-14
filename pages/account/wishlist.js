@@ -68,7 +68,7 @@ function wishlist() {
     // create group
     function addGroup(action) {
       setLoading(true);
-      console.log("enterd");
+      // console.log("enterd");
         setResult("");
         var obj = {};
         if (action === true) {

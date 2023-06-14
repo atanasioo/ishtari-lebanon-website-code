@@ -74,12 +74,16 @@ function AddAddressPage(props) {
 
   const [state, dispatch] = useContext(AccountContext);
 
+<<<<<<< HEAD
   const options = {
     enableHighAccuracy: true,
     timeout: 9000,
     maximumAge: 0,
   };
 
+=======
+  // console.log(isEdit);
+>>>>>>> e085ceb (no message)
 
   useEffect(() => {
     // if (parsedQueryString["from-checkout"]) {
@@ -183,7 +187,7 @@ function AddAddressPage(props) {
   }, []);
 
   const phoneHanlder = (childData, isValid) => {
-    console.log(isValid);
+    // console.log(isValid);
     if (isValid === true) {
       setTelephone(childData);
       setErr("");
@@ -202,7 +206,7 @@ function AddAddressPage(props) {
 
   // Add Address
   function addAddress(e) {
-    console.log("entered");
+    // console.log("entered");
     setLoading(true);
     e.preventDefault();
     setLoading(false);
@@ -263,11 +267,11 @@ function AddAddressPage(props) {
         });
     } else {
       setAddeddOnce(true);
-      console.log("hehehhe");
+      // console.log("hehehhe");
       axiosServer
         .post(buildLink("address", undefined, window.innerWidth), obj)
         .then((response) => {
-          console.log(response);
+            // console.log(response);
           if (response.data.success) {
             setErrors([]);
             setMessage(

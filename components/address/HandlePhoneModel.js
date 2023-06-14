@@ -45,7 +45,7 @@ function HandlePhoneModel(props) {
         number.slice(0, 1) === "4") &&
       number.length === 7
     ) {
-      console.log("hehh");
+      // console.log("hehh");
       setValid(true);
     }
     if (number.length > 7 && number.length < 8) {

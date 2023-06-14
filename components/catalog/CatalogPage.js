@@ -1021,24 +1021,24 @@ function CatalogPage(props) {
                 </div>
               </div>
             )}
-  <div className="hidden mobile:block">
-          {(page === undefined || page < 2) &&
-            (data?.category_widget_status === "1" ||
-              data?.desktop_widget_status === "1") &&
-            data?.desktop_widgets?.map((widget) => (
-              <div className="px-3">
-                {" "}
-                <WidgetsLoop widget={widget} />{" "}
-              </div>
-            ))}
-            </div>
+          <div className="hidden mobile:block">
+            {(page === undefined || page < 2) &&
+              (data?.category_widget_status === "1" ||
+                data?.desktop_widget_status === "1") &&
+              data?.desktop_widgets?.map((widget) => (
+                <div className="px-3">
+                  {" "}
+                  <WidgetsLoop widget={widget} />{" "}
+                </div>
+              ))}
+          </div>
           <div className="mobile:hidden">
             {
               //  page === undefined ||
               //   page < 2 &&
               (page === undefined || page < 2) &&
-              (data?.category_widget_status === "1" ||
-                data?.mobile_widget_status === "1") &&
+                (data?.category_widget_status === "1" ||
+                  data?.mobile_widget_status === "1") &&
                 data?.mobile_widgets?.map((widget) => (
                   <div className="px-3">
                     {" "}
@@ -1046,7 +1046,7 @@ function CatalogPage(props) {
                   </div>
                 ))
             }
-            { (page === undefined || page < 2) &&
+            {(page === undefined || page < 2) &&
               (data?.category_widget_status === "1" ||
                 data?.mobile_widget_status === "1") &&
               data?.widgets?.map((widget) => (

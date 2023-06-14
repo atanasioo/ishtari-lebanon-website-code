@@ -24,6 +24,7 @@ export default function Home(widgets) {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPage((prevPage) => prevPage + 1);
+          setIsLoading(true);
         }
       });
       if (node) observer.current.observe(node);
@@ -34,13 +35,12 @@ export default function Home(widgets) {
   const [data, setData] = useState(widgets?.data?.widgets);
 
   useEffect(() => {
-
     if (page > 1) {
       setIsLoading(true);
       var obj = {
         view: window.innerWidh > 650 ? "web_mobile" : "web_desktop",
         limit: 10,
-        page: page,
+        page: page
       };
       let link = buildLink("home", undefined, undefined) + "&source_id=1";
       axiosServer.post(link, obj).then((response) => {
@@ -50,10 +50,10 @@ export default function Home(widgets) {
 
           setData((prevWidgets) => {
             return [
-              ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
+              ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
             ];
           });
-
+          setIsLoading(false);
           if (page >= response?.data?.data?.meta?.total_pages)
             setIsHasMore(false);
           else setIsHasMore(true);
@@ -139,19 +139,19 @@ export async function getServerSideProps(context) {
     var obj = {
       view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
       limit: 10,
-      page: 1,
+      page: 1
     };
     // console.log(obj);
     //fetch product data
     let link = buildLink("home", undefined, undefined) + "&source_id=1";
     const response = await axiosServer.post(link, obj, {
       headers: {
-        Authorization: "Bearer " + token,
-      },
+        Authorization: "Bearer " + token
+      }
     });
     if (!response.data.success) {
       return {
-        notFound: true,
+        notFound: true
       };
     }
 
@@ -160,12 +160,12 @@ export async function getServerSideProps(context) {
     //redirect to 404
 
     return {
-      props: { data, screentype: screenWidth },
+      props: { data, screentype: screenWidth }
     };
-  }else{
+  } else {
     return {
       props: {}
-    }
+    };
   }
 }
 

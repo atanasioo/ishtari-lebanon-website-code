@@ -30,6 +30,6 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   }).listen(process.env.PORT, (err) => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:' + 3002);
+    // console.log('> Ready on http://localhost:' + 3002);
   });
 });

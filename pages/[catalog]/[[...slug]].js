@@ -87,7 +87,7 @@ export async function getServerSideProps(context) {
     p = page;
   }
   const host = req.headers.host;
-  console.log("host isss" + host);
+
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
   const host_cookie = parsedCookies["site-local-name"];
@@ -183,9 +183,7 @@ export async function getServerSideProps(context) {
           };
         }
         data = response.data.data;
-        console.log("********%start%%*******");
-        // console.log(data);
-        console.log("********%end%*******");
+   
       } else {
         var filter = "";
         if (filter_categories !== undefined) {
