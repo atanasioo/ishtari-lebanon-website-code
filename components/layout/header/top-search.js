@@ -97,7 +97,14 @@ const types = {
 
   return (
     <>
+       {overlay && (
+        <div
+          className="absolute z-50  bg-dblackk opacity-50 min-h-screen min-w-full min-w-screen left-0 top-32 mt-1 hidden mobile:block "
+          style={{ height: "1400px" }}
+        ></div>
+      )}
       <div className="relative flex justify-center lg:flex-grow">
+   
         <input
           type={"text"}
           placeholder={"What are you looking for?"}
@@ -123,8 +130,8 @@ const types = {
           {results.length > 0 && viewResults && (
           <div
             onMouseLeave={() => {
-              // setViewResults(false);
-              // setOverlay(false);
+              setViewResults(false);
+              setOverlay(false);
             }}
             onClick={() => setOverlay(false)}
             className="hidden xl:block lg:block absolute top-10 w-11/12  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
