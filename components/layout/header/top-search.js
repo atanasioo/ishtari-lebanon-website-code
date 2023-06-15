@@ -74,7 +74,7 @@ const types = {
       );
       try {
         setResults(!res?.data?.message && res?.data?.data);
-        setMessage(res?.data?.message);
+        // setMessage(res?.data?.message);
         setLoading(false);
         setViewResults(true);
         setOverlay(true);
