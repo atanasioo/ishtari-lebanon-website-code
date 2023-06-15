@@ -124,6 +124,7 @@ export async function getServerSideProps(context) {
           notFound: true,
         };
       }
+
       data = response.data.data;
       type = "product";
     } else if (

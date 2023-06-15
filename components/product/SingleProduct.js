@@ -2,28 +2,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
+import { AiOutlinePlus } from "react-icons/ai";
 
 function SingleProduct(props) {
-  const { item, host } = props;
+  const { item, host, addToCart } = props;
   const router = useRouter();
-  const path= "";
+  const path = "";
   return (
-    <div
-      onClick={() =>
-        router.push(
-          `${path}/${item.name
-            .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-            .replaceAll("%", parseInt(""))
-            .replaceAll(/\s+/g, "-")
-            .replaceAll("..", "")
-            .replaceAll("/", "-")
-            .replaceAll("---", "-")
-            .replaceAll("--", "-")
-            .replaceAll("100%", "")
-            .replaceAll("#", "")
-            .replaceAll("/", "")}/p=${props.item.product_id}`
-        )
-      }
+    <Link
+    href={`${path}/${item.name
+      .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+      .replaceAll("%", parseInt(""))
+      .replaceAll(/\s+/g, "-")
+      .replaceAll("..", "")
+      .replaceAll("/", "-")
+      .replaceAll("---", "-")
+      .replaceAll("--", "-")
+      .replaceAll("100%", "")
+      .replaceAll("#", "")
+      .replaceAll("/", "")}/p=${props.item.product_id}`}
+      // onClick={() =>
+      //   router.push(
+      //     `${path}/${item.name
+      //       .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+      //       .replaceAll("%", parseInt(""))
+      //       .replaceAll(/\s+/g, "-")
+      //       .replaceAll("..", "")
+      //       .replaceAll("/", "-")
+      //       .replaceAll("---", "-")
+      //       .replaceAll("--", "-")
+      //       .replaceAll("100%", "")
+      //       .replaceAll("#", "")
+      //       .replaceAll("/", "")}/p=${props.item.product_id}`
+      //   )
+      // }
       className="cursor-pointer"
     >
       <div className="flex flex-col h-full bg-white text-dblack p-2.5 relative">
@@ -129,11 +141,20 @@ function SingleProduct(props) {
                 )}
               </div>
             </div>
-            <div className="relative flex mt-2.5 text-d12"></div>
+            {addToCart && (
+              <div className="flex flex-col justify-between gap-3">
+                <div className="min-w-full bg-dgreyZoom mt-3" style={{height: "1px"}}></div>
+                <div className="w-full flex justify-center items-center text-dblue h-6 ">
+                  Add To Cart
+                  <AiOutlinePlus className="ml-5" />
+                </div>
+              </div>
+            )}
+            <div className={`relative flex mt-2.5 text-d12 ${addToCart ? "hidden" : ""}`}></div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

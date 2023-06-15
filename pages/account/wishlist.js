@@ -12,6 +12,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
 import Loader from "@/components/Loader";
+import ReactPaginate from "react-paginate";
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
   const [width, height] = useDeviceSize();

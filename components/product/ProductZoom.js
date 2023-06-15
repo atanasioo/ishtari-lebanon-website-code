@@ -14,7 +14,7 @@ import ShareSocial from "./ShareSocial";
 
 function ProductZoom(props) {
   const { productData, activeOption } = props;
-  const [activeImage, setActiveImage] = useState("");
+  const [activeImage, setActiveImage] = useState([]);
   const [images, setImages] = useState(props.images);
   const [hoverZoom, setHoverZoom] = useState(false);
   const [lensClass, setLensClass] = useState("hidden");
@@ -25,6 +25,7 @@ function ProductZoom(props) {
   const selectorSlider = useRef(null);
   const imageSlider = useRef(null);
   const [width, height] = useDeviceSize();
+
 
 
   const setting = {
@@ -75,7 +76,7 @@ function ProductZoom(props) {
   useEffect(() => {
     setImages(props.images);
 
-    setActiveImage(images[0]);
+    console.log(props);
 
     props?.images?.map((i, index) => {
       if (i.product_option_value_id === activeOption) {
@@ -85,11 +86,17 @@ function ProductZoom(props) {
       }
     });
 
-    return () => {
-      setActiveImage({});
-      setImages([]);
-    };
+    // return () => {
+    //   setActiveImage({});
+    //   setImages([]);
+    // };
   }, [props.activeOption, props.images]);
+
+  useEffect(() => {
+    setActiveImage(images[0]);
+  }, [images])
+
+  console.log(activeImage);
 
   useEffect(() => {
     if (hoverZoom) {
@@ -251,7 +258,7 @@ function ProductZoom(props) {
                       height={120}
                       onClick={() => changeImage(i)}
                       className={`cursor-pointer border-2 ${
-                        activeImage["popup"] === i["popup"]
+                        activeImage && activeImage["popup"] === i["popup"]
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
@@ -272,7 +279,7 @@ function ProductZoom(props) {
                       height={120}
                       onClick={() => changeImage(i)}
                       className={`cursor-pointer border-2 ${
-                        activeImage["popup"] === i["popup"]
+                        activeImage && activeImage["popup"] === i["popup"]
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
