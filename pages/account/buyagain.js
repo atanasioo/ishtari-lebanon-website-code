@@ -23,10 +23,11 @@ function buyagain() {
 
   function pageSetter(page) {
     setPage(page["selected"] + 1);
-    history.push({
-      pathname: "/account/buyagain",
-      search: `&page=${page["selected"] + 1}&limit=${limit}`,
-    });
+    // history.push({
+    //   pathname: "/account/buyagain",
+    //   search: `&page=${page["selected"] + 1}&limit=${limit}`,
+    // });
+    router.push(`/account/buyagain&page=${page["selected"] + 1}&limit=${limit}`)
   }
 
   function limitSetter(lim) {
@@ -207,8 +208,8 @@ function buyagain() {
                   nextLabel={">"}
                   activeClassName={"active-pagination"}
                   forcePage={
-                    parsedQueryString.page
-                      ? parseInt(parsedQueryString.page) - 1
+                    page
+                      ? parseInt(page) - 1
                       : 0
                   }
                 ></ReactPaginate>
@@ -223,8 +224,8 @@ function buyagain() {
                   nextLabel={">"}
                   activeClassName={"active-pagination"}
                   forcePage={
-                    parsedQueryString.page
-                      ? parseInt(parsedQueryString.page) - 1
+                    page
+                      ? parseInt(page) - 1
                       : 0
                   }
                 ></ReactPaginate>

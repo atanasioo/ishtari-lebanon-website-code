@@ -613,7 +613,7 @@ function ProductPage(props) {
                   productData={data}
                 />
               </div>
-              <div className="product-info w-full md:w-6/12">
+              <div className="product-info w-full md:w-6/12 px-4">
                 {/* BRAND NAME */}
                 <Link href={"/"} className="text-dgrey1 hover:text-dblue">
                   {data?.manufacturer_image ? (
@@ -1315,7 +1315,7 @@ function ProductPage(props) {
               {data?.seller_id > 0 && data.seller !== "" && (
                 <Link
                   href={`/${slugify(data.seller)}/s=${data.seller_id}`}
-                  className="hidden md:flex items-center  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
+                  className="hidden md:flex items-center border-b border-dinputBorder  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
                 >
                   {data.seller_image.length > 0 ? (
                     <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">

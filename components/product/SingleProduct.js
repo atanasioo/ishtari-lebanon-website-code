@@ -142,9 +142,9 @@ function SingleProduct(props) {
               </div>
             </div>
             {addToCart && (
-              <div className="flex flex-col justify-between gap-3">
-                <div className="min-w-full bg-dgreyZoom mt-3" style={{height: "1px"}}></div>
-                <div className="w-full flex justify-center items-center text-dblue h-6 ">
+              <div className="flex flex-col justify-between gap-3 mt-3">
+                {/* <div className="min-w-full bg-dgreyZoom mt-3" style={{height: "1px"}}></div> */}
+                <div className="w-full flex justify-center items-center text-dblue h-6 border border-dblue py-4 rounded-full">
                   Add To Cart
                   <AiOutlinePlus className="ml-5" />
                 </div>

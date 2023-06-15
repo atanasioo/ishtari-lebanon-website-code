@@ -46,7 +46,7 @@ function ShareSocial(props) {
       <div className="share-desktop hidden mobile:block">
         {" "}
         <div
-          className={`absolute bg-white  w-9 h-9 z-30 cursor-pointer rounded-full flex justify-center items-center top-2 right-2 border border-dgreyZoom`}
+          className={`absolute bg-white  w-9 h-9 z-10 cursor-pointer rounded-full flex justify-center items-center top-2 right-2 border border-dgreyZoom`}
         >
           <MdIosShare className="w-6 h-6 block mb-1 " />
         </div>{" "}
