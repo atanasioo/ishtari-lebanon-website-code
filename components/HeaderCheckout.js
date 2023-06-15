@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Cookies from "js-cookie";
+
 import { axiosServer } from "@/axiosServer";
 import buildLink from "../urls";
 

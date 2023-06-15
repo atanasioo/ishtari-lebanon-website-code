@@ -80,7 +80,7 @@ export default function App({
                 footer_categories={footer_categories}
                 information_data={information_data}
               >
-                <div className="bg-dprimarybg">
+                <div className="bg-dprimarybg min-h-screen">
                   <div className="md:container ">
                     <Component {...pageProps} />
                   </div>

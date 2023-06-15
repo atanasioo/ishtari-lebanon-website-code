@@ -31,7 +31,7 @@ function unescapeHTML(str) {
       return htmlEntities[entityCode];
       /*eslint no-cond-assign: 0*/
     } else if ((match = entityCode.match(/^#x([\da-fA-F]+)$/))) {
-contexts/WishlistContext.js      return String.fromCharCode(parseInt(match[1], 16));
+    return String.fromCharCode(parseInt(match[1], 16));
       /*eslint no-cond-assign: 0*/
     } else if ((match = entityCode.match(/^#(\d+)$/))) {
       return String.fromCharCode(~~match[1]);

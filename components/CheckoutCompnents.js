@@ -175,9 +175,9 @@ function CheckoutCompnents() {
     if (
       (window != undefined &&
         window.config["site-url"] === "https://www.ishtari.com") ||
-      localStorage.getItem("site-local-name") === "ishtari"
+      Cookies.get("site-local-name") === "ishtari"
     ) {
-      localStorage.setItem("currency", "");
+      Cookies.set("currency", "");
     }
   }, [window.location.href]);
 
@@ -203,7 +203,7 @@ function CheckoutCompnents() {
             .get(buildLink("login", undefined, undefined))
             .then((response) => {
               setCustomerId(response.data.customer_id);
-              localStorage.setItem("cid", response.data.customer_id);
+              Cookies.set("cid", response.data.customer_id);
             });
           axiosServer
             .get(buildLink("address", undefined, undefined))
@@ -982,7 +982,7 @@ function CheckoutCompnents() {
       .then((response) => {
         const data = response.data;
         if (data.success === true) {
-          localStorage.setItem("currency", currency);
+          Cookies.set("currency", currency);
           manual(manualCart, data, activePaymentMethod, false);
         }
       });

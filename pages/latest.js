@@ -12,27 +12,50 @@ export default function latest(props) {
   const { data } = props;
   const [showLimit, setShowLimit] = useState(false);
 //   const [pageNow, setpageNow] = useState(0);
-//   const [limitNow, setLimitNow] = useState(48);
+  const [limitSetter, setLimitSetter] = useState(48);
 
   const [width, height] = useDeviceSize();
+
+
+  //page
   const handlePageClick = (event) => {
     const new_page = parseInt(event.selected) + 1;
-    alert(page)
+    // alert(page)
 
-    var now = "&page" + new_page;
-    if(limit == undefined){
+    var now = "&page=" + new_page;
+    if(page == undefined && limit===undefined){
         now = "?" + now
     }
     if (page === undefined) {
       router.push(router.asPath + now);
     } else {
-      let old = "&page" + page;
-      alert(old)
-      alert(now)
+      let old = "&page=" + page;
+      // alert(old)
+      // alert(now)
       router.push(router.asPath.replace(old, now));
     }
   };
 
+
+    //page
+    const handleLimitClick = (value) => {
+      const new_limit = parseInt(value) ;
+      // alert(new_limit)
+  
+      var now = "&limit=" + new_limit;
+      if(page == undefined && limit===undefined){
+          now = "?" + now
+      }
+      if (limit === undefined) {
+        router.push(router.asPath + now);
+      } else {
+        let old = "&limit=" + limit;
+        // alert(old)
+        // alert(now)
+        router.push(router.asPath.replace(old, now));
+        setShowLimit(false);
+      }
+    };
   return (
     <div>
       <div className="flex justify-between w-full p-3">
@@ -46,7 +69,7 @@ export default function latest(props) {
                 className="bg-white px-2 md:px-8 py-1 ml-4 border text-sm font-semibold cursor-pointer rounded flex items-start"
                 onClick={() => setShowLimit(!showLimit)}
               >
-                <span className="text-d13">{limit} PER PAGE</span>
+                <span className="text-d13">{limitSetter} PER PAGE</span>
 
                 <i
                   className={`block icon icon-angle-down ml-2 transition-all ${
@@ -57,27 +80,27 @@ export default function latest(props) {
               {showLimit && (
                 <div className="bg-white py-4 w-44 shadow-2xl absolute z-10 right-0 top-9">
                   <span
-                    onClick={() => {
-                      limitSetter(48);
-                      setShowLimit(false);
+                    onClick={() => {  handleLimitClick(48);
+                      setLimitSetter(48);
+                      // setShowLimit(false);
                     }}
                     className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                   >
                     48 PER PAGE
                   </span>
                   <span
-                    onClick={() => {
-                      limitSetter(96);
-                      setShowLimit(false);
+                    onClick={() => {  handleLimitClick(96);
+                      setLimitSetter(96);
+                      // setShowLimit(false);
                     }}
                     className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                   >
                     96 PER PAGE
                   </span>
                   <span
-                    onClick={() => {
-                      limitSetter(144);
-                      setShowLimit(false);
+                    onClick={() => {  handleLimitClick(96);
+                      setLimitSetter(144);
+                      // setShowLimit(false);
                     }}
                     className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                   >
@@ -126,7 +149,8 @@ export async function getServerSideProps(context) {
   // console.log("host isss" + host);
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
-
+// console.log(page)
+// console.log("page")
   const host_cookie = parsedCookies["site-local-name"];
   const token = parsedCookies["api-token"];
   var data = {};
@@ -138,9 +162,7 @@ export async function getServerSideProps(context) {
   }
   let link =
     buildLink("latest", undefined, undefined, site_host) +
-    "&source_id=1" +
-    `${page != undefined && "&page=" + page}` +
-    `${limit != undefined && "&limit=" + limit}`;
+    "&source_id=1" + `${limit != undefined && "&limit=" + limit}` + `${page != undefined && "&page=3" + 3}`  ;
   const response = await axiosServer.get(link, {
     headers: {
       Authorization: "Bearer " + token

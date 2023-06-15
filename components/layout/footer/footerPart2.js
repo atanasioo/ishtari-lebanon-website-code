@@ -7,9 +7,10 @@ import cash from "/public/images/cash.svg";
 import amex from "/public/images/amex.svg";
 import Image from "next/image";
 import Link from "next/link";
+import Cookies from "js-cookie";
 export default function FooterPart2(props) {
-// const info = props
-// console.log(props)
+  // const info = props
+  // console.log(props)
   return (
     <div className="text-dblack  ">
       <div className="mt-4 ">
@@ -29,69 +30,70 @@ export default function FooterPart2(props) {
             <div className="text-d14 pr-semibold mb-2 text-center ">
               CONNECT WITH US
             </div>
-            <div className="text-center flex space-x-2">
-              <a href={window.config["facebook"]}>
-                <i
-                  className={`flex facebook-desktop rounded-full p-2 ${
-                    localStorage.getItem("site-local-name") === "flo" ||
-                    window.location.host === "www.flo-lebanon.com"
-                      ? "bg-Orangeflo"
-                      : localStorage.getItem("site-local-name") === "aalbeit" ||
-                        window.location.host === "www.aalbeit.com"
-                      ? "bg-greenaalbeit"
-                      : "bg-dbase"
-                  }`}
-                >
-                  <FaFacebookF className="text-white w-6 h-6" />
-                </i>
-              </a>
-              <a href={window.config["twitter"]}>
-                {" "}
-                <i
-                  className={`flex facebook-desktop rounded-full p-2 ${
-                    localStorage.getItem("site-local-name") === "flo" ||
-                    window.location.host === "www.flo-lebanon.com"
-                      ? "bg-Orangeflo"
-                      : localStorage.getItem("site-local-name") === "aalbeit" ||
-                        window.location.host === "www.aalbeit.com"
-                      ? "bg-greenaalbeit"
-                      : "bg-dbase"
-                  }`}
-                >
-                  <AiOutlineTwitter className="text-white w-6 h-6" />
-                </i>
-              </a>
-              <a href={window.config["instagram"]}>
-                <i
-                  className={`flex facebook-desktop rounded-full p-2  ${
-                    localStorage.getItem("site-local-name") === "flo" ||
-                    window.location.host === "www.flo-lebanon.com"
-                      ? "bg-Orangeflo"
-                      : localStorage.getItem("site-local-name") === "aalbeit" ||
-                        window.location.host === "www.aalbeit.com"
-                      ? "bg-greenaalbeit"
-                      : "bg-dbase"
-                  }`}
-                >
-                  <FaInstagram className="text-white w-6 h-6" />
-                </i>
-              </a>
-              <a href={window.config["linkedin"]}>
-                {" "}
-                <i
-                  className={`flex facebook-desktop rounded-full p-2  ${
-                    localStorage.getItem("site-local-name") === "flo" ||
-                    window.location.host === "www.flo-lebanon.com"
-                      ? "bg-Orangeflo"
-                      : localStorage.getItem("site-local-name") === "aalbeit" ||
-                        window.location.host === "www.aalbeit.com"
-                      ? "bg-greenaalbeit"
-                      : "bg-dbase"
-                  }`}
-                >
-                  <FaLinkedinIn className="text-white w-6 h-6 " />
-                </i>
-              </a>
+            <div className="text-center flex justify-between">
+              <div className="facebook-border">
+                <a href={window.config["facebook"]}>
+                  <FaFacebookF
+                    className={`flex facebook-desktop rounded-full p-2 text-white w-7 h-7 mobile:w-10 mobile:h-10 ${
+                      Cookies.get("site-local-name") === "flo" ||
+                      window.location.host === "www.flo-lebanon.com"
+                        ? "bg-Orangeflo"
+                        : Cookies.get("site-local-name") === "aalbeit" ||
+                          window.location.host === "www.aalbeit.com"
+                        ? "bg-greenaalbeit"
+                        : "bg-dbase"
+                    }`}
+                  />
+                </a>
+              </div>
+
+              <div className="facebook-border border-dinputBorder">
+                <a href={window.config["twitter"]} >
+                  <AiOutlineTwitter
+                    className={`flex facebook-desktop rounded-full p-2 text-white w-7 h-7 mobile:w-10 mobile:h-10 ${
+                      Cookies.get("site-local-name") === "flo" ||
+                      window.location.host === "www.flo-lebanon.com"
+                        ? "bg-Orangeflo"
+                        : Cookies.get("site-local-name") === "aalbeit" ||
+                          window.location.host === "www.aalbeit.com"
+                        ? "bg-greenaalbeit"
+                        : "bg-dbase"
+                    }`}
+                  />
+                </a>
+              </div>
+
+              <div className="facebook-border">
+                <a href={window.config["instagram"]}>
+                  <FaInstagram
+                    className={`flex facebook-desktop rounded-full p-2 text-white w-7 h-7 mobile:w-10 mobile:h-10 ${
+                      Cookies.get("site-local-name") === "flo" ||
+                      window.location.host === "www.flo-lebanon.com"
+                        ? "bg-Orangeflo"
+                        : Cookies.get("site-local-name") === "aalbeit" ||
+                          window.location.host === "www.aalbeit.com"
+                        ? "bg-greenaalbeit"
+                        : "bg-dbase"
+                    }`}
+                  />
+                </a>
+              </div>
+
+              <div className="facebook-border">
+                <a href={window.config["linkedin"]}>
+                  <FaLinkedinIn
+                    className={`flex facebook-desktop rounded-full p-2 text-white w-7 h-7 mobile:w-10 mobile:h-10 ${
+                      Cookies.get("site-local-name") === "flo" ||
+                      window.location.host === "www.flo-lebanon.com"
+                        ? "bg-Orangeflo"
+                        : Cookies.get("site-local-name") === "aalbeit" ||
+                          window.location.host === "www.aalbeit.com"
+                        ? "bg-greenaalbeit"
+                        : "bg-dbase"
+                    }`}
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
