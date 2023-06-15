@@ -16,7 +16,7 @@ import buildLink, { path, pixelID } from "@/urls";
 import ProductPart2 from "./ProductPart2";
 import dynamic from "next/dynamic";
 import NotifyMe from "./NotifyMe";
-import { sanitizeHTML } from "../Utils";
+import { sanitizeHTML, slugify } from "../Utils";
 import ProductZoom from "./ProductZoom";
 import { CartContext } from "../../contexts/CartContext";
 import { AccountContext } from "../../contexts/AccountContext";
@@ -70,6 +70,9 @@ function ProductPage(props) {
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
   });
+  const SellerImage = dynamic(() => import("./SellerImage"), {
+    ssr: false, // Disable server-side rendering
+  });
 
   const router = useRouter();
   const product_id = router.query.slug[0].includes("p=")
@@ -99,6 +102,7 @@ function ProductPage(props) {
     const includesImage = data?.images.some((image) => {
       return image.popup === data.popup && image.thumb === data.thumb;
     });
+
     if (!includesImage) {
       data?.images.unshift({
         popup: data.popup,
@@ -153,7 +157,7 @@ function ProductPage(props) {
           });
       }
     }
-  }, []);
+  }, [router]);
 
   function unescapeHTML(str) {
     if (!str) {
@@ -205,6 +209,8 @@ function ProductPage(props) {
 
   const observer = useRef();
 
+  console.log(data);
+
   const lastElementRef = useCallback(
     (node) => {
       if (!loader) {
@@ -235,7 +241,7 @@ function ProductPage(props) {
       `${product_id}&source_id=1&part_two=true`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
-  
+
       if (data?.success) {
         setReviews(data?.data?.product_reviews?.reviews);
 
@@ -244,8 +250,6 @@ function ProductPage(props) {
       }
     });
   }
-
-
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
@@ -499,7 +503,6 @@ function ProductPage(props) {
         axiosServer
           .get(buildLink("wishlistCount", undefined, window.innerWidth))
           .then((response) => {
-
             if (response.data.success) {
               dispatchW({
                 type: "setProductsCount",
@@ -562,6 +565,7 @@ function ProductPage(props) {
     }
   }
 
+
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
@@ -598,7 +602,7 @@ function ProductPage(props) {
               )}
             </div>
           </div>
-          <div className="product-div flex items-stretch bg-white w-full">
+          <div className="product-div flex items-stretch bg-white w-full md:px-2">
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
               <div className="product-zoom w-full md:w-6/12">
                 {/* <Image width={380} height={518} src={data.popup} /> */}
@@ -1310,10 +1314,17 @@ function ProductPage(props) {
               )}
               {data?.seller_id > 0 && data.seller !== "" && (
                 <Link
-                  href={"/"}
+                  href={`/${slugify(data.seller)}/s=${data.seller_id}`}
                   className="hidden md:flex items-center  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
                 >
-                  <AiOutlineShop className=" text-dbase text-3xl mr-4" />
+                  {data.seller_image.length > 0 ? (
+                    <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">
+                      <SellerImage src={data.seller_image} />
+                    </div>
+                  ) : (
+                    <AiOutlineShop className=" text-dbase text-3xl mr-4" />
+                  )}
+
                   <span className="text-dblack text-sm">Sold by</span>
 
                   <h1 className="text-dblue underline font-semibold ml-2 text-sm">

@@ -13,6 +13,7 @@ import { BsTrash } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
 import Loader from "@/components/Loader";
 import ReactPaginate from "react-paginate";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
   const [width, height] = useDeviceSize();
@@ -140,6 +141,13 @@ function wishlist() {
     setvalue(id);
     setDescription(des);
     setName(na);
+  }
+
+  function pageSetter(page) {
+
+    setPage(page["selected"] + 1);
+    ref.current.scrollIntoView({ behavior: "smooth" });
+
   }
 
 
@@ -358,6 +366,7 @@ function wishlist() {
                     nextLinkClassName={"arrowLink"}
                     nextLabel={<IoIosArrowForward />}
                     activeClassName={"active-pagination-category"}
+                    forcePage={page - 1}
                   ></ReactPaginate>
                 )}
               </div>

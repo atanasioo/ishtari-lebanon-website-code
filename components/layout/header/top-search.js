@@ -14,7 +14,7 @@ import {brandImage}  from "/public/images/brand-svgrepo-com.svg";
 
 function TopSearch() {
   const wrapperRef = useRef(null);
-const [query, setQuery] = useState("2");
+const [query, setQuery] = useState("");
 const [overlay, setOverlay] = useState(false);
 const [results, setResults] = useState([]);
 const [viewResults, setViewResults] = useState(false);
