@@ -8,7 +8,7 @@ function recentlyViewed() {
   return (
     <div className="container text-dblack">
         <div>
-            <div className="flex-row md:flex"></div>
+            <div className="flex-row md:flex">
             <div className="w-full mb-3 md:w-1/5">
             {width > 650 ? (
               <UserSidebar active={"addresses"} />
