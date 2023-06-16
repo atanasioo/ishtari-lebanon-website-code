@@ -14,14 +14,17 @@ import { HiLockClosed } from "react-icons/hi";
 import Loader from "@/components/Loader";
 import ReactPaginate from "react-paginate";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { WishlistContext } from "@/contexts/WishlistContext";
+import { useRouter } from "next/router";
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
+  const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
   const [width, height] = useDeviceSize();
 
   const [success, setSuccess] = useState(false);
   const [successGroup, setSuccessGroup] = useState(false);
   const [showModel, setShowModel] = useState(false);
-  const [isEdit, setIsEdit]= useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [groups, setGroups] = useState();
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(false);
@@ -31,8 +34,12 @@ function wishlist() {
   const [id, setId] = useState(0); // groups -id
   const [nameValue, setName] = useState();
   const [descriptionValue, setDescription] = useState();
+  const [successMessage, setSuccessMessage] = useState(
+    "Product added to cart successfully"
+  );
   const [value, setvalue] = useState();
   const ref = useRef();
+  const router = useRouter();
 
   useEffect(() => {
     axiosServer
@@ -67,60 +74,59 @@ function wishlist() {
       });
   }, [successGroup, id, page]);
 
-    // create group
-    function addGroup(action) {
-      setLoading(true);
-      // console.log("enterd");
-        setResult("");
-        var obj = {};
-        if (action === true) {
-          obj = {
-            name: nameValue,
-            description: descriptionValue
-          };
-          axiosServer
-            .post(buildLink("wishlistAdd", undefined, undefined), obj)
-            .then((response) => {
-              if (response.data.success) {
-                setShowModel(false);
-                setSuccessGroup(true);
-              }
-              setResult(response.data);
-            });
-        } else {
-          obj = {
-            group_id: value,
-            name: nameValue,
-            description: descriptionValue
-          };
-          axiosServer
-            .post(buildLink("wishlistUpdate", undefined, undefined), obj)
-            .then((response) => {
-              setResult(response.data);
-              if (response.data.success) {
-                setShowModel(false);
-                setSuccessGroup(true);
-    
-              } else {
-                setDescription(descriptionValue);
-                setvalue(value);
-                setName(nameValue);
-              }
-              setResult(response.data);
-    
-              if (response.data.message === "Already updated!") {
-                setShowModel(false);
-              }
-            });
-        }
-        setLoading(false);
-        setvalue("");
-        setName("");
-        setDescription("");
-      }
+  // create group
+  function addGroup(action) {
+    setLoading(true);
+    // console.log("enterd");
+    setResult("");
+    var obj = {};
+    if (action === true) {
+      obj = {
+        name: nameValue,
+        description: descriptionValue,
+      };
+      axiosServer
+        .post(buildLink("wishlistAdd", undefined, undefined), obj)
+        .then((response) => {
+          if (response.data.success) {
+            setShowModel(false);
+            setSuccessGroup(true);
+          }
+          setResult(response.data);
+        });
+    } else {
+      obj = {
+        group_id: value,
+        name: nameValue,
+        description: descriptionValue,
+      };
+      axiosServer
+        .post(buildLink("wishlistUpdate", undefined, undefined), obj)
+        .then((response) => {
+          setResult(response.data);
+          if (response.data.success) {
+            setShowModel(false);
+            setSuccessGroup(true);
+          } else {
+            setDescription(descriptionValue);
+            setvalue(value);
+            setName(nameValue);
+          }
+          setResult(response.data);
+
+          if (response.data.message === "Already updated!") {
+            setShowModel(false);
+          }
+        });
+    }
+    setLoading(false);
+    setvalue("");
+    setName("");
+    setDescription("");
+  }
 
   function deleteGroup(id) {
-    setLoading(true)
+    setLoading(true);
     axiosServer
       .post(buildLink("wishlistDelete", undefined, undefined) + id)
       .then((response) => {
@@ -129,9 +135,9 @@ function wishlist() {
           setResult(response.data);
         }
       });
-      setId(0);
-      setPage(1);
-      setLoading(false)
+    setId(0);
+    setPage(1);
+    setLoading(false);
   }
 
   function editGroup(id, na, des) {
@@ -144,12 +150,81 @@ function wishlist() {
   }
 
   function pageSetter(page) {
-
     setPage(page["selected"] + 1);
     ref.current.scrollIntoView({ behavior: "smooth" });
-
   }
 
+  // Add to cart
+  function addToCart(product_id) {
+    dispatch({
+      type: "loading",
+      payload: true,
+    });
+    let obj = {
+      product_id,
+      quantity: 1,
+    };
+    axiosServer
+      .post(buildLink("cart", undefined, window.innerWidth), obj)
+      .then((response) => {
+        const data = response.data;
+        if (!data.success) {
+          router.push("/product/" + product_id);
+        }
+        dispatch({
+          type: "loading",
+          payload: true,
+        });
+        axiosServer
+          .get(buildLink("cart", undefined, window.innerWidth))
+          .then((response) => {
+            dispatch({
+              type: "setProducts",
+              payload: response.data.data.products,
+            });
+            dispatch({
+              type: "setProductsCount",
+              payload: response.data.total_product_count,
+            });
+            dispatch({
+              type: "setTotals",
+              payload: response.data.data.totals,
+            });
+            dispatch({
+              type: "loading",
+              payload: false,
+            });
+            setSuccess(true);
+            setSuccessMessage("Product added to cart successfully");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          });
+      });
+  }
+
+  // Remove
+  function remove(product_id) {
+    axiosServer
+      .delete(
+        buildLink("wishlist", undefined, window.innerWidth) +
+          "/&id=" +
+          product_id
+      )
+      .then(() => {
+        axiosServer
+          .get(buildLink("wishlist", undefined, window.innerWidth))
+          .then((response) => {
+            const data = response.data.data.products;
+            setProducts(data);
+            dispatchWishlist({
+              type: "setProductsCount",
+              payload: response.data.data.total,
+            });
+          });
+        window.location.reload();
+      });
+  }
 
   return (
     <div className="container text-dblack">
@@ -234,7 +309,7 @@ function wishlist() {
               <div className="w-full ">
                 {groups?.map((ps) => (
                   <div
-                    className={`"cart w-full" my-3 container ${
+                    className={`"cart w-full" my-3  ${
                       id != ps?.wishlist_group_id && "hidden"
                     }`}
                   >
@@ -260,18 +335,16 @@ function wishlist() {
 
                         <button
                           className=" ml-6 px-8 py-1.5 pr-semibold text-sm flex items-center gap-2 justify-center border border-dgreyZoom rounded-2xl "
-                          onClick={(e) =>
-                            {editGroup(
+                          onClick={(e) => {
+                            editGroup(
                               ps?.wishlist_group_id,
                               ps?.name,
                               ps?.description
                             );
                             setIsEdit(true);
-                          }
-                          }
+                          }}
                         >
-                          {window.innerWidth > 650 && "Edit"}{" "}
-                          <AiOutlineEdit />
+                          {window.innerWidth > 650 && "Edit"} <AiOutlineEdit />
                         </button>
                       </div>
 
@@ -399,7 +472,9 @@ function wishlist() {
             >
               X
             </button>
-            <span className="text-l font-semibold">{isEdit ? "Edit Group" : "New Group"}</span>
+            <span className="text-l font-semibold">
+              {isEdit ? "Edit Group" : "New Group"}
+            </span>
 
             <div className="py-1 border-t border-dinputBorder">
               <div className="text-dbase w-full">

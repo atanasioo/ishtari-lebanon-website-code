@@ -74,12 +74,7 @@ function Orders() {
                         <div className="my-2 text-right justify-end">
                           <Link
                             className="flex"
-                            href={{
-                              pathname: `${path}/account/order-reviews`,
-                              state: {
-                                id: data.order_id,
-                              },
-                            }}
+                            href={`${path}/account/order-reviews/${data.order_id}`}
                             key={data.order_id}
                           >
                             <svg

@@ -44,7 +44,7 @@ export const authOptions = {
                 : null,
             };
           } else {
-            return null;
+            throw new Error(response.data.errors["0"]?.errorMsg);
           }
         } catch (error) {
           throw new Error(error.message);

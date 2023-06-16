@@ -1498,8 +1498,8 @@ function ProductPage(props) {
               </button>
 
               <div
-                onClick={() => history.push("/account/wishlist")}
-                className="text-dblue text-center w-full pt-3"
+                onClick={() => router.push("/account/wishlist")}
+                className="text-dblue text-center w-full pt-3 cursor-pointer"
               >
                 Go to Wishlist{" "}
               </div>

@@ -55,7 +55,7 @@ function Account() {
       // window.location.reload();
     } else {
       setShowLoginError(true);
-      setLoginError(data?.errors["0"]?.errorMsg);
+      setLoginError(response.error);
     }
 
     // console.log(response);

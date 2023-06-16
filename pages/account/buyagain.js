@@ -23,10 +23,6 @@ function buyagain() {
 
   function pageSetter(page) {
     setPage(page["selected"] + 1);
-    // history.push({
-    //   pathname: "/account/buyagain",
-    //   search: `&page=${page["selected"] + 1}&limit=${limit}`,
-    // });
     router.push(`/account/buyagain&page=${page["selected"] + 1}&limit=${limit}`)
   }
 
