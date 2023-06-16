@@ -8,7 +8,7 @@ import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
 import buildLink from "@/urls";
 import cookie from "cookie";
-
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import "@/config";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -61,9 +61,11 @@ export default function App({
   }, []);
   return (
     <SessionProvider>
+    
       <AccountProvider>
         <CartProvider>
           <WishlistProvider>
+            <CurrencyProvider>
             <div className="" ref={topRef}>
               {loading && (
                 <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
@@ -87,6 +89,7 @@ export default function App({
                 </div>
               </Layout>
             </div>
+            </CurrencyProvider>
           </WishlistProvider>
         </CartProvider>
       </AccountProvider>
@@ -175,8 +178,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       // Return the fetched data as props
       return {
         header_categories: resp.data.data.data,
-        footer_categories: resp.footer_data.data.data,
-        information_data: resp.information_data.data?.data,
+    
       };
     }
   } else {

@@ -56,8 +56,6 @@ const getHost = async (host) => {
 
 const getMainData = async (token, host) => {
   var data = [];
-  var footer_data = [];
-  var information_data = [];
   let response = {};
 
   data = await axiosServer.get(
@@ -68,27 +66,10 @@ const getMainData = async (token, host) => {
       },
     }
   );
-  footer_data = await axiosServer.get(
-    buildLink("footerv2", undefined, undefined, host),
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
-  information_data = await axiosServer.get(
-    buildLink("information", undefined, undefined, host),
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+
 
   return (response = {
-    data: data,
-    footer_data: footer_data,
-    information_data: information_data,
+    data: data
   });
 };
 

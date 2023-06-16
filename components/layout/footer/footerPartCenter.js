@@ -19,7 +19,7 @@ export default function FooterPartCenter(props) {
     <div className="container">
       {/* desktop */}
       <div className={` justify-between px-5 hidden mobile:flex`}>
-        {data?.data?.map((cat) => {
+        {data?.data?.data?.map((cat) => {
           return (
             <div key={cat?.category_id} className="pb-3">
               <div className="pb-3">
@@ -101,7 +101,7 @@ export default function FooterPartCenter(props) {
               dangerouslySetInnerHTML={{ __html: "TOP BRAND" }}
             />
           </div>
-          {data?.brand?.map((brand) => {
+          {data?.data?.brand?.map((brand) => {
             return (
               <div key={brand.id}>
                 <Link
@@ -132,7 +132,7 @@ export default function FooterPartCenter(props) {
       </div>
       {/* mobile */}
       <div className="mt-2 mobile:hidden">
-        {data?.data?.map((cat) => {
+        {data?.data?.data?.map((cat) => {
           return (
             <div
               key={cat.category_id}

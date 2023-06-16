@@ -1,28 +1,49 @@
 import React, {useState, useEffect} from "react";
 import dynamic from "next/dynamic";
-import {Cookies} from "js-cookie";
+import Cookies from "js-cookie";
  import buildLink from "@/urls";
  import { axiosServer } from "@/axiosServer";
 export default function Footer(props) {
   const [result, setResult] = useState();
-  const info = props?.information_data?.informations;
+  const [info, setInfo] = useState();
+
+  // const info = props?.information_data?.informations;
 
   
   useEffect(()=>{
-    console.log("omar")
-    const  resp =  axiosServer.get(
+
+   axiosServer.get(
       buildLink("footerv2", undefined, undefined),
       {
         headers: {
           Authorization: "Bearer " + Cookies.get("api-token")
         }
       }
-    );
+    ).then((response) => {;
     console.log("resp")
-    console.log(resp)
-    setData(resp.data)
+    console.log(response.data)
+    setResult(response.data)
+    })
 
-  },)
+  }, [])
+
+    
+  useEffect(()=>{
+
+    axiosServer.get(
+       buildLink("information", undefined, undefined),
+       {
+         headers: {
+           Authorization: "Bearer " + Cookies.get("api-token")
+         }
+       }
+     ).then((response) => {;
+
+     setInfo(response.data?.data?.informations)
+     })
+ 
+   }, [])
+ 
 
 
 
@@ -46,7 +67,7 @@ export default function Footer(props) {
 
       <FooterPartCenter data={result} />
 
-      <FooterPart2 info={result} />
+      <FooterPart2 info={info} />
     </div>
   );
 }

@@ -21,6 +21,7 @@ function CheckoutCompnents() {
   const [state, dispatchAccount] = useContext(AccountContext);
   const [cartState, dispatch] = useContext(CartContext);
   const curr = useContext(CurrencyContext);
+  console.log(curr)
   const { width } = useDeviceSize();
   // Is Phone Number Valid ?
   const [isValid, setIsValid] = useState(true);
@@ -1032,8 +1033,8 @@ function CheckoutCompnents() {
           ) : (
             <div className="-mx-2 border-b border-dgrey1 border-opacity-20">
               <HeaderCheckout
-                currency={manualResponse.default_currency}
-                subtotal={manualResponse.sub_total}
+                currency={manualResponse?.default_currency}
+                subtotal={manualResponse?.sub_total}
               />
             </div>
           )}

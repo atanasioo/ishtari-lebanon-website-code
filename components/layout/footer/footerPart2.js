@@ -10,7 +10,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 export default function FooterPart2(props) {
   // const info = props
-  // console.log(props)
+  console.log(props)
   return (
     <div className="text-dblack  ">
       <div className="mt-4 ">

@@ -75,7 +75,7 @@ export default function HeaderNew(props) {
               href
               className={`cursor-pointer ${
                 props.subtotal > 50 || props.subtotal < 15
-                  ? "flex px-4 py-1  text-sm  z-50 hover:bg-dgrey hover:font-light cursor-not-allowed pointer-events-none focus:cursor-not-allowed"
+                  ? "flex px-4 py-1  text-sm  z-50 hover:bg-dgrey hover:font-light cursor-not-allowed pointer-events-auto focus:cursor-not-allowed"
                   : `flex px-4 py-1 text-sm z-50  hover:font-light`
               } `}
               role="menuitem"
@@ -95,7 +95,7 @@ export default function HeaderNew(props) {
               href
               className={` cursor-pointer ${
                 props.subtotal > 50 || props.subtotal < 15
-                  ? "flex px-4 py-1 text-sm  z-50 hover:bg-dgrey hover:font-light cursor-not-allowed pointer-events-none focus:cursor-not-allowed"
+                  ? "flex px-4 py-1 text-sm  z-50 hover:bg-dgrey hover:font-light cursor-not-allowed pointer-events-auto focus:cursor-not-allowed"
                   : `flex px-4 py-1 text-sm z-50  hover:font-light`
               } `}
               role="menuitem"
