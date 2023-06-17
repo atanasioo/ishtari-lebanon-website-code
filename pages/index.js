@@ -157,9 +157,7 @@ export async function getServerSideProps(context) {
     }
 
     data = response.data.data;
-console.log("*********************************************************")
-    //redirect to 404
-console.log(data)
+
     return {
       props: { data, screentype: screenWidth }
     };

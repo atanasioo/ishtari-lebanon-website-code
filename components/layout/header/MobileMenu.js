@@ -6,7 +6,8 @@ import { ImExit } from "react-icons/im";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { FaHome, FaUser, FaShoppingCart } from "react-icons/fa";
 import { useRouter } from "next/router";
-
+import LogofloOrange from "/public/images/logo-flo-orange.png";
+import logoflo from "/public/images/logo-flo.png";
 function MobileMenu(props) {
   const { viewMenu, viewLevel2, activeCategory, categories, closeMobileMenu, handleActiveCategory, closeLevel2 } = props;
   const router = useRouter();

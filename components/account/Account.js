@@ -81,7 +81,7 @@ function Account() {
         buildLink(
           "login",
           undefined,
-          window.innerWidth,
+          window.innerWidth
 
         )
       )

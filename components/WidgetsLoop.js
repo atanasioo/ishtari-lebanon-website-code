@@ -19,7 +19,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 
 function WidgetsLoop({ widget, likedData, width }) {
-  const ImageClient = dynamic(() => import("./imageClient.js"), { ssr: false });
+  const ImageClient = dynamic(() => import("./ImageClient.js"), { ssr: false });
 
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);

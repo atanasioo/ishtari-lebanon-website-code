@@ -11,11 +11,10 @@ export default function latest(props) {
   const { limit, page } = router.query;
   const { data } = props;
   const [showLimit, setShowLimit] = useState(false);
-//   const [pageNow, setpageNow] = useState(0);
+  //   const [pageNow, setpageNow] = useState(0);
   const [limitSetter, setLimitSetter] = useState(48);
 
   const [width, height] = useDeviceSize();
-
 
   //page
   const handlePageClick = (event) => {
@@ -23,8 +22,8 @@ export default function latest(props) {
     // alert(page)
 
     var now = "&page=" + new_page;
-    if(page == undefined && limit===undefined){
-        now = "?" + now
+    if (page == undefined && limit === undefined) {
+      now = "?" + now;
     }
     if (page === undefined) {
       router.push(router.asPath + now);
@@ -36,26 +35,25 @@ export default function latest(props) {
     }
   };
 
+  //page
+  const handleLimitClick = (value) => {
+    const new_limit = parseInt(value);
+    // alert(new_limit)
 
-    //page
-    const handleLimitClick = (value) => {
-      const new_limit = parseInt(value) ;
-      // alert(new_limit)
-  
-      var now = "&limit=" + new_limit;
-      if(page == undefined && limit===undefined){
-          now = "?" + now
-      }
-      if (limit === undefined) {
-        router.push(router.asPath + now);
-      } else {
-        let old = "&limit=" + limit;
-        // alert(old)
-        // alert(now)
-        router.push(router.asPath.replace(old, now));
-        setShowLimit(false);
-      }
-    };
+    var now = "&limit=" + new_limit;
+    if (page == undefined && limit === undefined) {
+      now = "?" + now;
+    }
+    if (limit === undefined) {
+      router.push(router.asPath + now);
+    } else {
+      let old = "&limit=" + limit;
+      // alert(old)
+      // alert(now)
+      router.push(router.asPath.replace(old, now));
+      setShowLimit(false);
+    }
+  };
   return (
     <div>
       <div className="flex justify-between w-full p-3">
@@ -80,7 +78,8 @@ export default function latest(props) {
               {showLimit && (
                 <div className="bg-white py-4 w-44 shadow-2xl absolute z-10 right-0 top-9">
                   <span
-                    onClick={() => {  handleLimitClick(48);
+                    onClick={() => {
+                      handleLimitClick(48);
                       setLimitSetter(48);
                       // setShowLimit(false);
                     }}
@@ -89,7 +88,8 @@ export default function latest(props) {
                     48 PER PAGE
                   </span>
                   <span
-                    onClick={() => {  handleLimitClick(96);
+                    onClick={() => {
+                      handleLimitClick(96);
                       setLimitSetter(96);
                       // setShowLimit(false);
                     }}
@@ -98,7 +98,8 @@ export default function latest(props) {
                     96 PER PAGE
                   </span>
                   <span
-                    onClick={() => {  handleLimitClick(96);
+                    onClick={() => {
+                      handleLimitClick(96);
                       setLimitSetter(144);
                       // setShowLimit(false);
                     }}
@@ -149,8 +150,8 @@ export async function getServerSideProps(context) {
   // console.log("host isss" + host);
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
-// console.log(page)
-// console.log("page")
+  // console.log(page)
+  // console.log("page")
   const host_cookie = parsedCookies["site-local-name"];
   const token = parsedCookies["api-token"];
   var data = {};
@@ -162,7 +163,9 @@ export async function getServerSideProps(context) {
   }
   let link =
     buildLink("latest", undefined, undefined, site_host) +
-    "&source_id=1" + `${limit != undefined && "&limit=" + limit}` + `${page != undefined && "&page=3" + 3}`  ;
+    "&source_id=1" +
+    `${limit != undefined && "&limit=" + limit}` +
+    `${page != undefined && "&page=3" + 3}`;
   const response = await axiosServer.get(link, {
     headers: {
       Authorization: "Bearer " + token

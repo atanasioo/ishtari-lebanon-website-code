@@ -5,7 +5,7 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ['www.ishtari.com', 'www.ishtari.com.gh'],
+    domains: ['www.ishtari.com', 'www.ishtari.com.gh', 'www.flo-lebanon.com', "www.energyplus-lb.com"],
   },
 }
 

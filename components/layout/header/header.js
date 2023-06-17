@@ -18,6 +18,7 @@ import Account from "@/components/account/Account";
 import { useSession } from "next-auth/react";
 import TopWishlist from "./TopWishlist";
 import TopCart from "./TopCart";
+import LogofloOrange from "/public/images/logo-flo-orange.png";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -107,7 +108,7 @@ useEffect(()=>{
             {Cookies.get("site-local-name") === "flo" ||
             Cookies.get("site-local-name") === "flo-bey" ? (
               <Image
-                src="/images/logo/logo-red.png"
+                src={LogofloOrange}
                 width={width > 768 ? 130 : 100}
                 height={width > 768 ? 130 : 100}
                 alt="ishtari-logo"
@@ -155,7 +156,7 @@ useEffect(()=>{
         </div>
       </div>
 
-        <DesktopMenuCategories header_categories={state} local={local}/>
+        {/* <DesktopMenuCategories header_categories={state} local={local}/> */}
     </div>
   );
 }
