@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "@/components/Utils";
 import { sanitizeHTML } from "@/components/Utils";
+import { useRouter } from "next/router";
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -15,6 +16,15 @@ function DesktopMenuClientPopups(props) {
     overlay
   } = props;
 
+  const types = {
+    1: "product",
+    2: "category",
+    3: "manufacturer",
+    4: "seller",
+  };
+
+  const router = useRouter();
+  const path= "";
 
   return (
     <div>
@@ -115,6 +125,7 @@ function DesktopMenuClientPopups(props) {
             onMouseLeave={() => {
               // setViewSubAllCategories2(false);
               handleState("viewSubAllCategories2", false)
+              handleState("overlay", false);
               // setViewMenuCategories2(false);
               handleState("viewMenuCategories2", false)
             }}
@@ -156,7 +167,7 @@ function DesktopMenuClientPopups(props) {
                         key={Math.random()}
                         onClick={() =>
                           router.push(
-                            `${slugify(banner.name)}/${types[
+                            `${path}/${slugify(banner.name)}/${types[
                               banner.mobile_type
                             ].slice(0, 1)}=${banner.mobile_type_id}`
                           )

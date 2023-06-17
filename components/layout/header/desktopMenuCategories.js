@@ -25,12 +25,6 @@ function DesktopMenuCategories(props) {
 
   const router = useRouter();
 
-  const types = {
-    1: "product",
-    2: "category",
-    3: "manufacturer",
-    4: "seller",
-  };
 
   const DesktopMenuClientPopups = dynamic(
     () => import("./DesktopMenuClientPopups"),
@@ -38,6 +32,8 @@ function DesktopMenuCategories(props) {
       ssr: false, // Disable server-side rendering
     }
   );
+
+  console.log(overlay);
 
   function handleState(state, value){
     if(state==="selectedTopCategory"){
