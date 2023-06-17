@@ -10,18 +10,25 @@ export const authOptions = {
     CredentialsProvider({
       id: "login",
       async authorize(credentials, req) {
+        let site_host="";
         const cookies = req.headers.cookie;
         const parsedCookies = cookie.parse(cookies);
 
         const host_cookie = parsedCookies["site-local-name"];
         const token = parsedCookies["api-token"];
         // const hostname = "https://www.ishtari.com/";
+        const hostname = req.headers.host;
 
         try {
-          //const hostname = req.headers.host;
+          if(typeof host_cookie !== "undefined"){
+            site_host = host_cookie;
+          }else{
+            site_host= hostname;
+          }
+          
 
           const response = await axiosServer.post(
-            buildLink("login", undefined, undefined),
+            buildLink("login", undefined, undefined, site_host),
             credentials,
             {
               headers: {
