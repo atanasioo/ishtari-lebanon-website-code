@@ -1,26 +1,31 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import buildLink from "./urls";
-
 const cookies = new Cookies();
 
 const getToken = async (site_host) => {
+
   let requestBody = {
     client_id: "shopping_oauth_client",
     client_secret: "shopping_oauth_secret",
-    source_id: 1,
+    source_id: 1
   };
   let requestHeader = {
-    Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw==",
+    Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw=="
   };
 
+  console.log( "*********************");
+  console.log(site_host);
+  console.log( "*********************");
   const response = await axios.post(
     buildLink("token", undefined, undefined, site_host),
     requestBody,
     {
-      headers: requestHeader,
+      headers: requestHeader
     }
+
   );
+
 
   //   Cookies.set("api-token", response.data.access_token, { expires: 15 });
 
@@ -31,7 +36,7 @@ const getToken = async (site_host) => {
 
 // Create an Axios instance with custom configuration
 const axiosServer = axios.create({
-  headers: { Authorization: "Bearer " + cookies.get("api-token") },
+  headers: { Authorization: "Bearer " + cookies.get("api-token") }
 });
 
 // Function to set the token in the axios instance headers
@@ -68,5 +73,5 @@ export {
   setTokenInCookie,
   getTokenFromCookie,
   getToken,
-  setAuthorizationHeader,
+  setAuthorizationHeader
 };

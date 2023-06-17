@@ -20,6 +20,7 @@ const [results, setResults] = useState([]);
 const [viewResults, setViewResults] = useState(false);
 const [showSearch, setShowSearch] = useState(false);
 const [loading, setLoading] = useState(false);
+useOutsideAlerter(wrapperRef);
 const router  = useRouter()
 useEffect(() => {
   setResults([]);
@@ -35,7 +36,28 @@ const types = {
 };
 
 
+function useOutsideAlerter(ref) {
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
 
+    if (overlay) {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setTimeout(() => setOverlay(false), 200);
+          setTimeout(() => setViewResults(false), 200);
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [ref, overlay]);
+}
   function navigateSearch(e) {
     if (e.keyCode === 13) {
       const query = e.target.value;

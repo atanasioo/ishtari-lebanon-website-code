@@ -30,6 +30,13 @@ function Header(props) {
   const { data: session, status } = useSession();
 
 //  console.log(session);
+const [state, setState]= useState([])
+useEffect(()=>{
+  axiosServer.get(buildLink('headerv2', undefined, undefined)).then((response)=>{
+      console.log(response.data)
+      setState(response.data.data)
+  })
+},[])
 
   useEffect(() => {
     if (window.location.host === "localhost:3000") {
@@ -40,7 +47,7 @@ function Header(props) {
   useEffect(() => {
     if (width < 650) {
       axiosServer
-        .get(buildLink("all_categories", undefined, window.innerWidth, "https://www.ishtari.com/"))
+        .get(buildLink("all_categories", undefined, undefined))
         .then((response) => {
           setCategories(response.data.data);
         });
@@ -69,13 +76,7 @@ function Header(props) {
     setViewLevel2(true);
   }
 
-  //   const [state, setState]= useState([])
-  //   useEffect(()=>{
-  //     _axios(buildLink('headerv2', undefined, undefined)).then((response)=>{
-  //         console.log(response.data)
-  //         setState(response.data.data)
-  //     })
-  // },[])
+ 
 
   return (
     <div>
@@ -154,7 +155,7 @@ function Header(props) {
         </div>
       </div>
 
-        <DesktopMenuCategories header_categories={header_categories} local={local}/>
+        <DesktopMenuCategories header_categories={state} local={local}/>
     </div>
   );
 }

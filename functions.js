@@ -2,7 +2,10 @@ import { axiosServer } from "@/axiosServer.js";
 
 import buildLink from "@/urls";
 
-const getHost = async (host) => {
+const getHost = async (host) => { 
+  console.log(host)
+  console.log("host=")
+
   let url = "";
   if (
     host === "ishtari" ||
@@ -51,6 +54,9 @@ const getHost = async (host) => {
   ) {
     url = "https://energyplus-lb.com/";
   }
+
+
+  console.log(url)
   return url;
 };
 
@@ -58,19 +64,8 @@ const getMainData = async (token, host) => {
   var data = [];
   let response = {};
 
-  data = await axiosServer.get(
-    buildLink("headerv2", undefined, undefined, host),
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
-
-
-  return (response = {
-    data: data
-  });
+ 
+  
 };
 
 export { getHost, getMainData };

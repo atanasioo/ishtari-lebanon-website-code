@@ -259,6 +259,9 @@ if (typeof window !== "undefined") {
 }
 function buildLink(link, payload, width, hostServer) {
 
+
+
+  const type =  Cookies.get('site-local-name')
   // if (
   //   (width < 500 && localStorage.getItem("site-local-name") === "ishtari") ||
   //   (width < 500 && host === "https://www.ishtari.com/")
@@ -271,11 +274,13 @@ function buildLink(link, payload, width, hostServer) {
   // if (typeof window !== "undefined" &&  hostServer !== "https://cloudgoup.com/" && hostServer !== "https://www.cloudgoup.com/" && hostServer !== "http://cloudgoup.com" && hostServer !== "www.cloudgoup.com" && hostServer !== "www.ishtari.com"){
   //  return host + path1 + urls[link] + extra_params; 
   // }else{
+
     if(hostServer === "ishtari" || hostServer === "https://www.ishtari.com/" || hostServer === "http://cloudgoup.com" || hostServer === "https://cloudgoup.com/" || hostServer === "www.cloudgoup.com"){
       host="https://www.ishtari.com/";
       path1 = "motor/"
       return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "ishtari-ghana" || hostServer === "https://www.ishtari.com.gh"){
+    }else if(hostServer === "ishtari-ghana" || hostServer === "https://www.ishtari.com.gh/"  || type=== "ishtari-ghana"){
+     
       host="https://www.ishtari.com.gh/";
       path1 = ""
       return host + path1 + urls[link] + extra_params; 

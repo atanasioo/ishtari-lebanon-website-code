@@ -129,6 +129,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
     }
 
     host_url = await getHost(site_host);
+    
 
     // Check if the token is invalid, undefined, or expired
     if (
@@ -142,8 +143,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const response = await getToken(host_url);
 
         const newToken = response.access_token;
+        if(newToken!= undefined){
         cook.set("api-token", newToken, options);
-
+        }
         setAuthorizationHeader(newToken);
 
         // Fetch header, footer, footer_information data using the new token
@@ -176,10 +178,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       const resp = await getMainData(token, host_url);
 
       // Return the fetched data as props
-      return {
-        header_categories: resp.data.data.data,
-    
-      };
+     
     }
   } else {
     //live

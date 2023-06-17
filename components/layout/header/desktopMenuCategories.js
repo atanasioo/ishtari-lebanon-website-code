@@ -59,7 +59,8 @@ function DesktopMenuCategories(props) {
       // setSelectedMenuCategory2(header_categories[0]);
     } else {
       axiosServer
-        .get(buildLink("headerv2", undefined, window.innerWidth, "https://www.ishtari.com/"))
+        .get(buildLink("headerv2", undefined, undefined) 
+        )
         .then((response) => {
           const data = response?.data;
           setMenuCategories2(data.data);
@@ -68,7 +69,7 @@ function DesktopMenuCategories(props) {
     }
     //sub menu categories
     axiosServer
-      .get(buildLink("all_categories", undefined, window.innerWidth, "https://www.ishtari.com/"))
+      .get(buildLink("all_categories", undefined, undefined))
       .then((response) => {
         try {
           const data = response.data.data;

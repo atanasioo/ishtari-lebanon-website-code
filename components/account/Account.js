@@ -82,7 +82,7 @@ function Account() {
           "login",
           undefined,
           window.innerWidth,
-          "https://www.ishtari.com/"
+
         )
       )
       .then((response) => {
@@ -187,8 +187,7 @@ function Account() {
         buildLink(
           "login",
           undefined,
-          window.innerWidth,
-          "https://www.ishtari.com/"
+          undefined
         )
       )
       .then((response) => {

@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { placeholdersrc } from "/public/images/placeholder_slideshow.png";
+import { SliderPlaceholder } from "/public/images/placeholder_slideshow.png";
 import { ProductPlaceholder } from "/public/images/product_placeholder_square.png";
 
 import { Pagination, Navigation, Autoplay } from "swiper";
@@ -329,7 +329,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
-                              placeholder={placeholdersrc}
+                              placeholder={SliderPlaceholder}
                             />
                           </Link>
                         ) : (
@@ -409,7 +409,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                             width={widget.banner_width}
                             height={widget.banner_height}
                             className="w-full"
-                            placeholder={placeholdersrc}
+                            placeholder={SliderPlaceholder}
                           />
                         </Link>
                       )}
@@ -621,7 +621,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-                        placeholder={placeholdersrc}
+                        placeholder={SliderPlaceholder}
                       />
                     </Link>
                   )

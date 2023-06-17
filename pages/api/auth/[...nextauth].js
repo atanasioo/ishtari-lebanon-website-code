@@ -15,13 +15,13 @@ export const authOptions = {
 
         const host_cookie = parsedCookies["site-local-name"];
         const token = parsedCookies["api-token"];
-        const hostname = "https://www.ishtari.com/";
+        // const hostname = "https://www.ishtari.com/";
 
         try {
           //const hostname = req.headers.host;
 
           const response = await axiosServer.post(
-            buildLink("login", undefined, undefined, hostname),
+            buildLink("login", undefined, undefined),
             credentials,
             {
               headers: {
