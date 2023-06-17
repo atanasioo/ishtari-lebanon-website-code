@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import Cookies from "js-cookie";
 import { axiosServer } from "@/axiosServer";
-import DesktopMenuCategories from "./DesktopMenuCategories";
+import DesktopMenuCategories from "./desktopMenuCategories";
 import Account from "@/components/account/Account";
 import { useSession } from "next-auth/react";
 import TopWishlist from "./TopWishlist";
@@ -156,7 +156,7 @@ useEffect(()=>{
         </div>
       </div>
 
-        {/* <DesktopMenuCategories header_categories={state} local={local}/> */}
+        <DesktopMenuCategories header_categories={state} local={local}/>
     </div>
   );
 }
