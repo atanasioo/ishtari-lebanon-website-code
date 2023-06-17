@@ -262,6 +262,9 @@ function buildLink(link, payload, width, hostServer) {
 
 
   const type =  Cookies.get('site-local-name')
+  console.log(type)
+  console.log("type-yessssssss")
+  console.log(type)
   // if (
   //   (width < 500 && localStorage.getItem("site-local-name") === "ishtari") ||
   //   (width < 500 && host === "https://www.ishtari.com/")
@@ -280,7 +283,7 @@ function buildLink(link, payload, width, hostServer) {
       path1 = "motor/"
       return host + path1 + urls[link] + extra_params; 
     }else if(hostServer === "ishtari-ghana" || hostServer === "https://www.ishtari.com.gh/"  || type=== "ishtari-ghana"){
-     
+     console.log("yessssssssssss")
       host="https://www.ishtari.com.gh/";
       path1 = ""
       return host + path1 + urls[link] + extra_params; 
@@ -304,8 +307,10 @@ function buildLink(link, payload, width, hostServer) {
       host="https://energyplus-lb.com/";
       path1 = "api/"
       return host + path1 + urls[link] + extra_params; 
+     }else{
+      // host="https://www.ishtari.com.gh/";
+
     }
-    host="https://www.ishtari.com/";
     return host + path1 + urls[link] + extra_params; 
   //}
   

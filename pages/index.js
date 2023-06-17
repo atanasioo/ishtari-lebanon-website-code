@@ -141,9 +141,10 @@ export async function getServerSideProps(context) {
       limit: 10,
       page: 1
     };
-    // console.log(obj);
+   console.log(obj);
     //fetch product data
-    let link = buildLink("home", undefined, undefined) + "&source_id=1";
+    let link = buildLink("home", undefined, undefined, site_host) + "&source_id=1";
+    console.log(link)
     const response = await axiosServer.post(link, obj, {
       headers: {
         Authorization: "Bearer " + token
@@ -156,9 +157,9 @@ export async function getServerSideProps(context) {
     }
 
     data = response.data.data;
-
+console.log("*********************************************************")
     //redirect to 404
-
+console.log(data)
     return {
       props: { data, screentype: screenWidth }
     };

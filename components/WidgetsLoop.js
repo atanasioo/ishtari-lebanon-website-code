@@ -992,7 +992,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                           key={item.banner_image_id}
                         >
                           <Link
-                            onClickCapture={handleOnItemClick}
+                            // onClick={handleOnItemClick}
                             href={`${
                               item?.name?.length > 0 && item?.filters != false
                                 ? "/" +
@@ -1037,7 +1037,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                                 : "cat/c=" + item.mobile_type_id
                             }`}
                           >
-                            <LazyLoadImage
+                            <ImageClient
                               alt={item?.name}
                               src={item.image}
                               width={widget.banner_width}
