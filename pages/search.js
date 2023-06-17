@@ -15,6 +15,7 @@ function search(props) {
   const [baseURL, setBaseURL] = useState("?keyword=" + router.query.keyword);
   const [successClear, setSuccessClear] = useState(false);
   const encodedKeyword = encodeURIComponent(router.query.keyword);
+  const queryParameters = ["brand", "seller", "category"];
   const [width] = useDeviceSize();
 
   // );
@@ -23,14 +24,23 @@ function search(props) {
   });
 
   function handleFilter(type, name) {
-    const Name = encodeURIComponent(name);
+    const query = { ...router.query };
 
-    if (router.query.hasOwnProperty(Name) > 0) {
-      router.push(`/search${baseURL.replace("&" + type + "=" + Name, "")}`);
+    if (query[type] === name) {
+      // Remove the filter from the query if it already exists
+      delete query[type];
     } else {
-      router.push(`/search${baseURL + "&" + type + "=" + Name}`);
-      setBaseURL(router.query.keyword);
+      // Add or update the filter in the query
+      query[type] = name;
     }
+
+    const queryString = Object.keys(query)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`
+      )
+      .join("&");
+
+    router.push(`/search?${queryString}`);
   }
 
   console.log(router.query);
@@ -40,8 +50,13 @@ function search(props) {
     const Fil = encodeURIComponent(filter);
     console.log(Fil);
     console.log(router.query);
-    console.log(router.query.hasOwnProperty(Fil));
-    if (router.query.hasOwnProperty(Fil) < 0) {
+
+    const hasFilterQuery = queryParameters.some(
+      (param) => encodeURIComponent(router.query[param]) === Fil
+    );
+    console.log(hasFilterQuery);
+
+    if (hasFilterQuery) {
       return <input type="checkbox" className="" checked />;
     } else {
       return <input type="checkbox" className="" />;
@@ -58,6 +73,35 @@ function search(props) {
           setSuccessClear(true);
         }
       });
+  }
+
+  // Toggle Visibility
+  function toggleVisibility(e) {
+    const h_sender = e;
+    const sender_parent = h_sender.parentNode;
+    const next_filters = sender_parent.nextElementSibling;
+    const icon = sender_parent.lastChild;
+    const next_filters_display = next_filters.style.display;
+    if (next_filters_display === "block") {
+      next_filters.style.display = "none";
+      icon.style.transform = "rotate(-90deg)";
+    } else {
+      next_filters.style.display = "block";
+      icon.style.transform = "rotate(0deg)";
+    }
+  }
+
+  // Toggle filters
+  function toggleFilters(e) {
+    const h_sender = e;
+    const sender_parent = h_sender.parentNode;
+    const next_filters = sender_parent.nextElementSibling;
+    const next_filters_display = next_filters.style.display;
+    if (next_filters_display === "block") {
+      next_filters.style.display = "none";
+    } else {
+      next_filters.style.display = "block";
+    }
   }
 
   //  Pagination
@@ -160,9 +204,7 @@ function search(props) {
               previousLabel={"<"}
               nextLabel={">"}
               activeClassName={"active-pagination"}
-              forcePage={
-                router.query.page ? parseInt(router.query.page) : 0
-              }
+              forcePage={router.query.page ? parseInt(router.query.page) : 0}
             ></ReactPaginate>
           )}
         </div>
@@ -223,14 +265,36 @@ export async function getServerSideProps(context) {
 
   data = response.data;
 
-  console.log(data);
+  if (data?.data?.redirect === "1") {
 
-  return {
-    props: {
-      data,
-      filters: data.data.facets,
-    },
-  };
+    return {
+      redirect: {
+        permanent: false,
+        destination:
+          `/` +
+          encodedKeyword.replaceAll("%20", "-") +
+          "/" +
+          data.data.type.slice(0, 1) +
+          "=" +
+          data.data.type_id,
+      },
+      props: {},
+    };
+  }
+
+  if (data?.data?.nbHits === 0 || data?.success === false) {
+    return {
+      notFound: true,
+    };
+  } else {
+    return {
+      props: {
+        data,
+        filters: data.data.facets,
+      },
+    };
+  }
+
 }
 
 export default search;
