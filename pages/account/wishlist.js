@@ -295,7 +295,7 @@ function wishlist() {
                         setId(gs?.wishlist_group_id);
                         setPage(1);
                       }}
-                      className={`mx-3 cursor-pointer  hover:border-b hover:border-dblue  inline-block whitespace-nowrap flex ${
+                      className={`mx-3 cursor-pointer    whitespace-nowrap flex ${
                         id == gs?.wishlist_group_id &&
                         "text-dblue border-b-2 border-dblue "
                       }`}
