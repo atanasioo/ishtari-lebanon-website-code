@@ -137,7 +137,7 @@ function Account() {
       checkLogin();
     } else {
       setShowSignupError(true);
-      setSignupError(data?.errors[0]?.errorMsg);
+      setSignupError(response.error);
     }
     setSignupLoading(false);
   }

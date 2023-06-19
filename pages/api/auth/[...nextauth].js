@@ -32,8 +32,8 @@ export const authOptions = {
             credentials,
             {
               headers: {
-                Authorization: "Bearer " + token
-              }
+                Authorization: "Bearer " + token,
+              },
             }
           );
 
@@ -48,7 +48,7 @@ export const authOptions = {
               lastname: response.data.data.lastname,
               telephone: response.data.data.telephone
                 ? response.data.data.telephone
-                : null
+                : null,
             };
           } else {
             throw new Error(response.data.errors["0"]?.errorMsg);
@@ -56,36 +56,48 @@ export const authOptions = {
         } catch (error) {
           throw new Error(error.message);
         }
-      }
+      },
     }),
     CredentialsProvider({
       id: "signup",
       async authorize(credentials, req) {
         const cookies = req.headers.cookie;
         const parsedCookies = cookie.parse(cookies);
+        const host_cookie = parsedCookies["site-local-name"];
         const token = parsedCookies["api-token"];
+        let site_host = "";
         try {
           //const hostname = req.headers.host;
           const hostname = req.headers.host;
-          return await axiosServer.post(
-            buildLink("register", undefined, undefined, hostname),
+          if (typeof host_cookie !== "undefined") {
+            site_host = host_cookie;
+          } else {
+            site_host = hostname;
+          }
+          const response = await axiosServer.post(
+            buildLink("register", undefined, undefined, site_host),
             credentials,
             {
               headers: {
-                Authorization: "Bearer " + token
-              }
+                Authorization: "Bearer " + token,
+              },
             }
           );
+          if (response.data.success) {
+            return response;
+          } else {
+            throw new Error(response.data?.errors[0]?.errorMsg);
+          }
         } catch (error) {
           throw new Error(error.message);
         }
-      }
+      },
     }),
     FacebookProvider({
-      clientId: "130719880936639" , 
+      clientId: "130719880936639",
       //getFacebookClientIdByHost,
       // clientSecret: process.env.FACEBOOK_SECRET
-    })
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -112,8 +124,8 @@ export const authOptions = {
     },
     async signOut({ callbackUrl, req, res }) {
       return "/";
-    }
-  }
+    },
+  },
 };
 
 export default (req, res) => NextAuth(req, res, authOptions);

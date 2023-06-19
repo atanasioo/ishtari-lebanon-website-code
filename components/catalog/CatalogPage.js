@@ -19,7 +19,7 @@ import {
   IoIosArrowDown,
   IoIosCheckbox,
   IoIosCheckboxOutline,
-  IoMdCheckbox
+  IoMdCheckbox,
 } from "react-icons/io";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
@@ -45,7 +45,7 @@ function CatalogPage(props) {
     speed: 200,
     slidesToShow: 8,
     slidesToScroll: 3,
-    infinite: false
+    infinite: false,
     // prevArrow: <CustomPrevArrows direction={"l"} />,
     // nextArrow: <CustomNextArrows direction={"r"} />
   };
@@ -54,7 +54,7 @@ function CatalogPage(props) {
     speed: 200,
     slidesToShow: 3.5,
     slidesToScroll: 3,
-    infinite: false
+    infinite: false,
   };
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
@@ -94,26 +94,26 @@ function CatalogPage(props) {
     page,
     sort,
     order,
-    limit
+    limit,
   } = router.query;
   console.log(page);
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
     value: "p2co.sort_order-ASC",
-    text: "Default"
+    text: "Default",
   });
   const [topFilter, setTopFilter] = useState({
     show: false,
     name: "",
-    offset: 0
+    offset: 0,
   });
 
   const [showLimit, setShowLimit] = useState(false);
 
   const [limitValue, setLimit] = useState({
     value: "50",
-    text: "50"
+    text: "50",
   });
 
   const limitRef = useRef(null);
@@ -167,6 +167,8 @@ function CatalogPage(props) {
     }, [showSort]);
   }
 
+  console.log(productDisplay);
+
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
@@ -182,7 +184,7 @@ function CatalogPage(props) {
             setTopFilter({
               show: false,
               name: topFilter.name,
-              offset: topFilter.offset
+              offset: topFilter.offset,
             });
           }
         }
@@ -294,26 +296,26 @@ function CatalogPage(props) {
         setTopFilter({
           show: false,
           name: name,
-          offset: topFilter.offset
+          offset: topFilter.offset,
         });
       } else if (topFilter.name !== name && topFilter.show === true) {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off
+          offset: off > 531 ? 531 : off,
         });
       } else {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off
+          offset: off > 531 ? 531 : off,
         });
       }
     } else {
       setTopFilter({
         show: true,
         name: name,
-        offset: off > 531 ? 531 : off
+        offset: off > 531 ? 531 : off,
       });
     }
   };
@@ -560,7 +562,7 @@ function CatalogPage(props) {
               href="/"
               className="hidden md:block text-dblack font-light truncate text-d12 md:text-tiny mr-2 hover:text-dblue"
               dangerouslySetInnerHTML={{
-                __html: "Home"
+                __html: "Home",
               }}
             />{" "}
             <span className="text-d11 mt-1">{" >"}</span>
@@ -608,7 +610,7 @@ function CatalogPage(props) {
                                   <img
                                     src={filter.image}
                                     style={{
-                                      padding: `1px`
+                                      padding: `1px`,
                                     }}
                                     className={`w-12/12 rounded-full border border-dgreyRate`}
                                     alt="Not Found"
@@ -687,7 +689,7 @@ function CatalogPage(props) {
                                       <img
                                         src={filter.image}
                                         style={{
-                                          padding: `1px`
+                                          padding: `1px`,
                                         }}
                                         className={`w-12/12 rounded-full border border-dgreyRate`}
                                         alt="Not Found"
@@ -751,7 +753,7 @@ function CatalogPage(props) {
               <h1
                 className="font-semibold capitalize text-d16"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.heading_title)
+                  __html: sanitizeHTML(data.heading_title),
                 }}
               />
               {data.heading_title && '"'}
@@ -775,7 +777,7 @@ function CatalogPage(props) {
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(sortValue?.text)
+                          __html: sanitizeHTML(sortValue?.text),
                         }}
                       />
                       <span
@@ -800,7 +802,7 @@ function CatalogPage(props) {
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={sort.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(sort.text)
+                              __html: sanitizeHTML(sort.text),
                             }}
                           ></span>
                         ))}
@@ -824,7 +826,7 @@ function CatalogPage(props) {
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(limitValue.text + " PER PAGE")
+                          __html: sanitizeHTML(limitValue.text + " PER PAGE"),
                         }}
                       />
                       {/* {!showLimit ? (
@@ -853,7 +855,7 @@ function CatalogPage(props) {
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={limit.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(limit.text)
+                              __html: sanitizeHTML(limit.text),
                             }}
                           ></span>
                         ))}
@@ -916,7 +918,7 @@ function CatalogPage(props) {
                           className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                           key={s.value}
                           dangerouslySetInnerHTML={{
-                            __html: s.text
+                            __html: s.text,
                           }}
                         ></span>
 
@@ -969,7 +971,7 @@ function CatalogPage(props) {
                           />
                           <h2
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(category.name)
+                              __html: sanitizeHTML(category.name),
                             }}
                             className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                           ></h2>
@@ -1010,7 +1012,7 @@ function CatalogPage(props) {
 
                         <h2
                           dangerouslySetInnerHTML={{
-                            __html: sanitizeHTML(category.name)
+                            __html: sanitizeHTML(category.name),
                           }}
                           className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                         ></h2>
@@ -1141,7 +1143,7 @@ function CatalogPage(props) {
                                           <img
                                             src={filter.image}
                                             style={{
-                                              padding: `2px`
+                                              padding: `2px`,
                                             }}
                                             className={`w-7 h-7 rounded-full mr-1 ${checkFilter(
                                               filters[key]?.id,
@@ -1280,7 +1282,7 @@ function CatalogPage(props) {
                         setTopFilter({
                           show: false,
                           name: topFilter.name,
-                          offset: 0
+                          offset: 0,
                         })
                       }
                     ></div>
@@ -1295,7 +1297,7 @@ function CatalogPage(props) {
                           setTopFilter({
                             show: false,
                             name: topFilter.name,
-                            offset: 0
+                            offset: 0,
                           })
                         }
                       ></div>
@@ -1369,7 +1371,7 @@ function CatalogPage(props) {
                                         <img
                                           src={filter.image}
                                           style={{
-                                            padding: `2px`
+                                            padding: `2px`,
                                           }}
                                           className={`w-7 h-7 rounded-full  pt-5 ${checkFilter(
                                             filters[key]?.id,
@@ -1733,7 +1735,10 @@ function CatalogPage(props) {
             {" "}
             {data?.products?.map((item) => (
               <div className="p-1">
-                <SingleProduct item={item}></SingleProduct>
+                <SingleProduct
+                  item={item}
+                  isList={productDisplay === "grid" ? false : true}
+                ></SingleProduct>
               </div>
             ))}
           </div>
@@ -1798,7 +1803,7 @@ function CatalogPage(props) {
                                 <img
                                   src={filter.image}
                                   style={{
-                                    padding: `1px`
+                                    padding: `1px`,
                                   }}
                                   className={`w-12/12 rounded-full border border-dgreyRate`}
                                   alt="Not Found"
@@ -1877,7 +1882,7 @@ function CatalogPage(props) {
                                     <img
                                       src={filter.image}
                                       style={{
-                                        padding: `1px`
+                                        padding: `1px`,
                                       }}
                                       className={`w-12/12 rounded-full border border-dgreyRate`}
                                       alt="Not Found"

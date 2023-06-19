@@ -3,24 +3,26 @@ import Link from "next/link";
 import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { AiOutlinePlus } from "react-icons/ai";
+import { sanitizeHTML } from "../Utils";
 
 function SingleProduct(props) {
   const { item, host, addToCart } = props;
   const router = useRouter();
   const path = "";
+  console.log(props.isList);
   return (
     <Link
-    href={`${path}/${item.name
-      .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-      .replaceAll("%", parseInt(""))
-      .replaceAll(/\s+/g, "-")
-      .replaceAll("..", "")
-      .replaceAll("/", "-")
-      .replaceAll("---", "-")
-      .replaceAll("--", "-")
-      .replaceAll("100%", "")
-      .replaceAll("#", "")
-      .replaceAll("/", "")}/p=${props.item.product_id}`}
+      href={`${path}/${item.name
+        .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+        .replaceAll("%", parseInt(""))
+        .replaceAll(/\s+/g, "-")
+        .replaceAll("..", "")
+        .replaceAll("/", "-")
+        .replaceAll("---", "-")
+        .replaceAll("--", "-")
+        .replaceAll("100%", "")
+        .replaceAll("#", "")
+        .replaceAll("/", "")}/p=${props.item.product_id}`}
       // onClick={() =>
       //   router.push(
       //     `${path}/${item.name
@@ -36,11 +38,24 @@ function SingleProduct(props) {
       //       .replaceAll("/", "")}/p=${props.item.product_id}`
       //   )
       // }
-      className="cursor-pointer"
+      className={` cursor-pointer ${props.isList && "mb-3"}`}
     >
-      <div className="flex flex-col h-full bg-white text-dblack p-2.5 relative">
-        <div className="flex flex-col h-full">
-          <div className="product-image relative -mt-1.5 -mx-1.5">
+      <div
+        className={`flex flex-col h-full bg-white text-dblack p-2.5 relative ${
+          props.isList ? "p-4 relative" : "pb-2"
+        }`}
+        style={{ height: props.isList && "260px" }}
+      >
+        <div
+          className={`flex ${
+            props.isList ? "flex-row gap-4" : "flex-col"
+          } h-full `}
+        >
+          <div
+            className={`product-image relative ${
+              !props.isList && "-mt-1.5 -mx-1.5"
+            } `}
+          >
             <div></div>
             <div className="relative w-full">
               <Image
@@ -53,35 +68,94 @@ function SingleProduct(props) {
               />
             </div>
           </div>
-          <div className="product-info pt-3 flex flex-col">
-            <div className="product-name text-d14 font-semibold leading-spn h-9 mb-2 overflow-hidden">
-              <span>{item.name}</span>
-            </div>
-            <div className="">
-              <div>
-                <strong className="pr-bold text-d18">
-                  {item.special !== "0" &&
-                  item.special !== "" &&
-                  item.special !== false
-                    ? item.special
-                    : item.price}
-                </strong>
+          <div className="product-info pt-3 flex flex-col w-full">
+            <div
+              className={`${props.item.quantity === "0" && "opacity-40"} ${
+                props.isList && "flex justify-between"
+              }`}
+            >
+              <div className="product-name text-d14 font-semibold leading-spn h-9 mb-2 overflow-hidden">
+                <div className="h-12 overflow-hidden">
+                  <span
+                    className={`text-dblack ${
+                      props.isList ? " pr-semibold" : "text-d13 "
+                    }  mb-1 h-10 pr-semibold`}
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeHTML(props.item.manufacturer_name),
+                    }}
+                  />
+                  {props.isList && <br />}
+
+                  {item?.name?.split(" ")[0] === item.manufacturer_name &&
+                  item.manufacturer_name !== undefined ? (
+                    <span
+                      className={`text-dblack ${
+                        props.isList
+                          ? "text-base leading-6"
+                          : "ml-1 text-d13 md:text-thin font-light"
+                      }   mb-1 h-10 `}
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHTML(
+                          item?.name?.split(item.manufacturer_name)[1]
+                        ),
+                      }}
+                    />
+                  ) : (
+                    <span
+                      className={`text-dblack ${
+                        props.isList
+                          ? "text-base leading-6"
+                          : "ml-1 text-d13 md:text-thin font-light"
+                      }   mb-1 h-10 `}
+                      dangerouslySetInnerHTML={{
+                        __html: props.isList ? item.full_name : item.name,
+                      }}
+                    />
+                  )}
+                </div>
+                {/* <span>{item.name}</span> */}
               </div>
-              <div
-                className={`mt-0.5 text-d12 flex items-center ${
-                  !item.special && "invisible"
-                } ${props.isList && "m-px"}`}
-              >
+              <div className="">
+                <div>
+                  <strong className="pr-bold text-d18">
+                    {item.special !== "0" &&
+                    item.special !== "" &&
+                    item.special !== false
+                      ? item.special
+                      : item.price}
+                  </strong>
+                </div>
                 <div
-                  className={`oldPrice text-d13 line-through text-dgreyProduct mr-1.5 font-normal`}
+                  className={`mt-0.5 text-d12 flex items-center ${
+                    !item.special && "invisible"
+                  } ${props.isList && "m-px"}`}
                 >
-                  {item.price}
-                </div>
-                <div className="discount text-dgreen pr-bold ">
-                  {item.saving + "% OFF"}
+                  <div
+                    className={`oldPrice text-d13 line-through text-dgreyProduct mr-1.5 font-normal`}
+                  >
+                    {item.price}
+                  </div>
+                  <div className="discount text-dgreen pr-bold whitespace-nowrap">
+                    {item.saving + "% OFF"}
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* PRODUCT DESCRIPTION LIST */}
+            {props.isList && props.item.description && (
+              <div className="mt-2 overflow-ellipsis overflow-hidden w-full h-28 text-d12 text-dlabelColor">
+                {" "}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      sanitizeHTML(props.item.description.slice(0, 500)) +
+                      "...",
+                  }}
+                ></div>
+              </div>
+            )}
+
             <div className="flex pt-2">
               <div
                 className="mt-3 flex flex-row justify-between w-full"
@@ -150,7 +224,11 @@ function SingleProduct(props) {
                 </div>
               </div>
             )}
-            <div className={`relative flex mt-2.5 text-d12 ${addToCart ? "hidden" : ""}`}></div>
+            <div
+              className={`relative flex mt-2.5 text-d12 ${
+                addToCart ? "hidden" : ""
+              }`}
+            ></div>
           </div>
         </div>
       </div>
