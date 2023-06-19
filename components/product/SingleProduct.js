@@ -4,12 +4,48 @@ import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { AiOutlinePlus } from "react-icons/ai";
 import { sanitizeHTML } from "../Utils";
+import dynamic from "next/dynamic";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useRef } from "react";
+import useDeviceSize from "../useDeviceSize";
+// import "swiper/modules/pagination/pagination.min.css";
+// import "swiper/modules/navigation/navigation.min.css";
+import { Navigation } from "swiper";
+import { Pagination, Autoplay } from "swiper";
+import ImageFilter from "react-image-filter/lib/ImageFilter";
 
 function SingleProduct(props) {
   const { item, host, addToCart } = props;
   const router = useRouter();
   const path = "";
-  console.log(props.isList);
+  const swiperRef = useRef(null);
+  const onInit = (Swiper) => {
+    swiperRef.current = Swiper;
+  };
+  const [ width ] = useDeviceSize();
+
+
+  const NewImage = dynamic(() => import("./NewImage"), {
+    ssr: false, // Disable server-side rendering
+  });
+
+
+  const handleMouseEnter = () => {
+    if (swiperRef.current !== null) {
+      swiperRef?.current?.autoplay?.start();
+      swiperRef.current.params.autoplay.delay = 1000;
+    }
+  };
+
+
+  const handleMouseLeave = () => {
+    if (swiperRef.current !== null) {
+      swiperRef.current.autoplay.stop();
+      swiperRef.current.slideTo(1);
+    }
+  };
+
+
   return (
     <Link
       href={`${path}/${item.name
@@ -40,6 +76,7 @@ function SingleProduct(props) {
       // }
       className={` cursor-pointer ${props.isList && "mb-3"}`}
     >
+      {props.item.new && <NewImage />}
       <div
         className={`flex flex-col h-full bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
@@ -56,16 +93,118 @@ function SingleProduct(props) {
               !props.isList && "-mt-1.5 -mx-1.5"
             } `}
           >
-            <div></div>
-            <div className="relative w-full">
-              <Image
-                alt={item.name}
-                src={item.thumb}
-                width={200}
-                height={300}
-                priority={true}
-                className="max-w-full max-h-full"
-              />
+            <div
+              className={` relative ${
+                props.isList &&
+                "flex-shrink-0 flex-grow-0 w-40 -my-4 -ml-4 mr-4"
+              }`}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {props.item.quantity === "0" && (
+                <div
+                  className={
+                    width > 650
+                      ? "absolute z-20 text-dbase w-full text-center  bottom-0"
+                      : "absolute z-20 text-dbase  w-full text-center  bottom-0 "
+                  }
+                >
+                  Out Of Stock
+                </div>
+              )}
+              {props.item.quantity === "0" ? (
+                <ImageFilter
+                  image={props.item.thumb}
+                  filter={"duotone"} // see docs beneath
+                  colorOne={[96, 96, 96]}
+                  colorTwo={[255, 255, 255]}
+                />
+              ) : !props?.isSlider ||
+                item?.images?.length === 0 ||
+                !item?.images ? (
+                <Image
+                  alt={item.name}
+                  src={item.thumb}
+                  width={200}
+                  height={300}
+                  priority={true}
+                  className="max-w-full max-h-full"
+                />
+                
+              ) : (
+                <Swiper
+                  pagination={{
+                    el: ".my-custom-pagination-div",
+                    clickable: true,
+                    renderBullet: (index, className) => {
+                      return '<span class="' + className + '">' + "</span>";
+                    },
+                  }}
+                  loop={true}
+                  preventClicks={false}
+                  allowTouchMove={width > 650 ? false : true}
+                  modules={[Pagination, Autoplay]}
+                  autoplay={false}
+                  onInit={onInit}
+                  className="single-product-swiper"
+                >
+                  <SwiperSlide>
+                    {" "}
+                    <Image
+                      alt={item.name}
+                      src={item.thumb}
+                      width={200}
+                      height={300}
+                      priority={true}
+                      className="max-w-full max-h-full"
+                    />
+                  </SwiperSlide>
+                  {props?.item?.images?.slice(0, 2).map((image) => {
+                    return (
+                      <SwiperSlide key={image.mobile_image}>
+                        {" "}
+                        <Image
+                          alt={item.name}
+                          src={item.thumb}
+                          width={200}
+                          height={300}
+                          priority={true}
+                          className="max-w-full max-h-full"
+                        />
+                      </SwiperSlide>
+                    );
+                  })}
+                  <div
+                    className={`my-custom-pagination-div absolute left-0 z-50 right-0 ${
+                      props?.item?.option_color_count &&
+                      props?.item?.option_color_count > 1
+                        ? "bottom-9"
+                        : "bottom-3"
+                    }`}
+                  ></div>
+
+                  {props?.item?.option_color_count &&
+                  props?.item?.option_color_count > 1 ? (
+                    <div className="flex items-center flex-col ">
+                      <div
+                        className="text-d12 absolute bottom-0 z-50 font-semibold mb-2 px-3 overflow-hidden whitespace-nowrap overflow-ellipsis w-auto"
+                        style={{
+                          borderRadius: "30px",
+                          background: "rgb(239, 243, 253)",
+                          border: "1px solid rgba(255, 255, 255, 0.7)",
+                          maxWidth: width > 650 ? "45%" : "50%",
+                          paddingTop: "2px",
+                          paddingBottom: "2px",
+                        }}
+                      >
+                        {props?.item?.option_color_count} Colours
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </Swiper>
+              )}
             </div>
           </div>
           <div className="product-info pt-3 flex flex-col w-full">

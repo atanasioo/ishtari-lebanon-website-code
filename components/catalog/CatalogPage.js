@@ -1737,6 +1737,7 @@ function CatalogPage(props) {
               <div className="p-1">
                 <SingleProduct
                   item={item}
+                  isSlider={true}
                   isList={productDisplay === "grid" ? false : true}
                 ></SingleProduct>
               </div>

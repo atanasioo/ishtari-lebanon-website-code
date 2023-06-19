@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import _axios from "@/axios";
 import buildLink from "@/urls";
 import SiteHeaders from "./site-headers";
@@ -19,31 +19,32 @@ import { useSession } from "next-auth/react";
 import TopWishlist from "./TopWishlist";
 import TopCart from "./TopCart";
 import LogofloOrange from "/public/images/logo-flo-orange.png";
+import { AccountContext } from "@/contexts/AccountContext";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
-  const { header_categories } = props;
   const [width, height] = useDeviceSize();
   const [viewMenu, setViewMenu] = useState(false);
   const [viewLevel2, setViewLevel2] = useState(false);
   const [activeCategory, setActiveCategory] = useState({});
   const [categories, setCategories] = useState([]);
   const { data: session, status } = useSession();
+  const [stateAcc, dispatch] = useContext(AccountContext);
+  const [sellerId, setSellerId] = useState("0");
 
-//  console.log(session);
-const [state, setState]= useState([])
-useEffect(()=>{
-  axiosServer.get(buildLink('headerv2', undefined, undefined)).then((response)=>{
-      console.log(response.data)
-      setState(response.data.data)
-  })
-},[])
 
+
+  //  console.log(session);
+  const [state, setState] = useState([]);
   useEffect(() => {
-    if (window.location.host === "localhost:3000") {
-      setLocal(true);
-    }
+    axiosServer
+      .get(buildLink("headerv2", undefined, undefined))
+      .then((response) => {
+        console.log(response.data);
+        setState(response.data.data);
+      });
   }, []);
+
 
   useEffect(() => {
     if (width < 650) {
@@ -55,6 +56,36 @@ useEffect(()=>{
     }
   }, []);
 
+  useEffect(() => {
+    if (window.location.host === "localhost:3000") {
+      setLocal(true);
+    }
+    if (localStorage.getItem("site-local-name") === "flo") {
+    }
+    function checkCookies() {
+      const adminToken = Cookies.get("ATDetails");
+      if (typeof adminToken != "undefined") {s
+        setToken(adminToken);
+      }
+
+    }
+    checkCookies();
+    const numbers = window.config["numbers"];
+    if (numbers?.length > 0) {
+      const number = numbers[Math.floor(Math.random() * numbers?.length)];
+      if (Cookies.get("wtspNumber") === undefined) {
+        Cookies.set("wtspNumber", number, { expires: 1 });
+        dispatch({ type: "setNumber", payload: number });
+      } else {
+        const oldNumber = Cookies.get("wtspNumber");
+        dispatch({ type: "setNumber", payload: oldNumber });
+      }
+      if (Cookies.get("seller_id") !== "0") {
+        setSellerId(Cookies.get("seller_id"));
+      }
+    }
+  }, []);
+
   // const DesktopMenuCategories = dynamic(
   //   () => import("./DesktopMenuCategories"),
   //   {
@@ -62,6 +93,9 @@ useEffect(()=>{
   //   }
   // );
   const MobileMenu = dynamic(() => import("./MobileMenu"), {
+    ssr: false, // Disable server-side rendering
+  });
+  const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
     ssr: false, // Disable server-side rendering
   });
 
@@ -77,8 +111,6 @@ useEffect(()=>{
     setViewLevel2(true);
   }
 
- 
-
   return (
     <div>
       {local && <SiteHeaders local={local} />}
@@ -92,6 +124,8 @@ useEffect(()=>{
         handleActiveCategory={handleActiveCategory}
         closeLevel2={closeLevel2}
       />
+
+      <AdminTopHeader />
 
       <div className="flex items-center justify-between my-4 h-14 container">
         <div className="flex items-center">
@@ -152,11 +186,11 @@ useEffect(()=>{
           </div>
           <Account />
           {session?.user?.isLoggedIn && <TopWishlist />}
-         <TopCart />
+          <TopCart />
         </div>
       </div>
 
-        <DesktopMenuCategories header_categories={state} local={local}/>
+      <DesktopMenuCategories header_categories={state} local={local} />
     </div>
   );
 }

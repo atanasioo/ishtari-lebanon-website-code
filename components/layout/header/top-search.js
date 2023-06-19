@@ -11,6 +11,7 @@ import { sanitizeHTML } from "@/components/Utils";
 
 import {sellerImage}  from "/public/images/shop-svgrepo-com.svg";
 import {brandImage}  from "/public/images/brand-svgrepo-com.svg";
+import { AccountContext } from "@/contexts/AccountContext";
 
 function TopSearch() {
   const wrapperRef = useRef(null);
@@ -20,6 +21,7 @@ const [results, setResults] = useState([]);
 const [viewResults, setViewResults] = useState(false);
 const [showSearch, setShowSearch] = useState(false);
 const [loading, setLoading] = useState(false);
+const [stateAcc, dispatch] = useContext(AccountContext);
 useOutsideAlerter(wrapperRef);
 const router  = useRouter()
 useEffect(() => {
@@ -121,7 +123,7 @@ function useOutsideAlerter(ref) {
     <>
        {overlay && (
         <div
-          className="absolute z-50  bg-dblackk opacity-50 min-h-screen min-w-full min-w-screen left-0 top-32 mt-1 hidden mobile:block "
+          className={`absolute z-50  bg-dblackk opacity-50 min-h-screen min-w-full min-w-screen left-0 ${stateAcc.admin ? "top-245px" : "top-32"}  mt-1 hidden mobile:block `}
           style={{ height: "1400px" }}
         ></div>
       )}

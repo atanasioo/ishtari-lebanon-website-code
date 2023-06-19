@@ -184,7 +184,7 @@ function wishlist() {
             });
             dispatch({
               type: "setProductsCount",
-              payload: response.data.total_product_count,
+              payload: response.data.data.total_product_count,
             });
             dispatch({
               type: "setTotals",
@@ -196,9 +196,7 @@ function wishlist() {
             });
             setSuccess(true);
             setSuccessMessage("Product added to cart successfully");
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
+         
           });
       });
   }

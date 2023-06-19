@@ -99,6 +99,7 @@ module.exports = {
     outlineWidth:{
       0.5: "0.5px"
     },
+  
     colors: {
       white: {
         DEFAULT: "rgb(255 255 255)"
@@ -290,6 +291,9 @@ module.exports = {
           padding: "0 0.75rem",
           margin: "auto",
           overfloe: "hidden"
+        },
+        ".top-245px":{
+          top: "245px",
         }
       });
     },

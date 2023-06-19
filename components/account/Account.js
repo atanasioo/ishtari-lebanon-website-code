@@ -35,9 +35,6 @@ function Account() {
   const signupLast = useRef("");
   const path = "";
 
-  // console.log(state);
-  // console.log(session);
-
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
@@ -112,18 +109,7 @@ function Account() {
   async function signup(e) {
     e.preventDefault();
     setSignupLoading(true);
-    // const email = signupEmail.current.value;
-    // const password = signupPassword.current.value;
-    // const confirm = signupPassword.current.value;
-    // const firstname = signupFirst.current.value;
-    // const lastname = signupLast.current.value;
-    // const obj = JSON.stringify({
-    //   email,
-    //   password,
-    //   firstname,
-    //   lastname,
-    //   confirm,
-    // });
+
 
     const response = await signIn("signup", {
       email: signupEmail.current.value,
@@ -183,12 +169,14 @@ function Account() {
     // 70 91 1870
 
     var adminToken = Cookies.get("ATDetails");
-    // if (
-    //   window.location.host === "localhost:3000" ||
-    //   window.location.host === "localhost:3001"
-    // ) {
-    //   adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
-    // }
+
+    console.log(adminToken);
+    if (
+      window.location.host === "localhost:3000" ||
+      window.location.host === "localhost:3001"
+    ) {
+      adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
+    }
 
     if (typeof adminToken != typeof undefined) {
       dispatch({ type: "setAdminToken", payload: adminToken });
