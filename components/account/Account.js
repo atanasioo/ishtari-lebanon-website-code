@@ -14,6 +14,7 @@ import { MdAvTimer } from "react-icons/md";
 import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 
+
 function Account() {
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -304,6 +305,7 @@ function Account() {
                 >
                   Forgot your password?
                 </p>
+               
 
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {loginLoading ? <span>LOADING</span> : <span>SIGN IN</span>}
@@ -327,6 +329,7 @@ function Account() {
               )}
             /> */}
               </form>
+              <a onClick={() => signIn('facebook')}>Sign in with Facebook</a>
             </div>
           )}
           {state.showSignup && (

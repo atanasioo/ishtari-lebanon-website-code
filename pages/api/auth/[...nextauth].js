@@ -3,6 +3,7 @@ import buildLink from "@/urls";
 import NextAuth from "next-auth";
 import cookie from "cookie";
 import CredentialsProvider from "next-auth/providers/credentials";
+import FacebookProvider from "next-auth/providers/facebook";
 import { signOut } from "next-auth/react";
 
 export const authOptions = {
@@ -10,7 +11,7 @@ export const authOptions = {
     CredentialsProvider({
       id: "login",
       async authorize(credentials, req) {
-        let site_host="";
+        let site_host = "";
         const cookies = req.headers.cookie;
         const parsedCookies = cookie.parse(cookies);
 
@@ -20,20 +21,19 @@ export const authOptions = {
         const hostname = req.headers.host;
 
         try {
-          if(typeof host_cookie !== "undefined"){
+          if (typeof host_cookie !== "undefined") {
             site_host = host_cookie;
-          }else{
-            site_host= hostname;
+          } else {
+            site_host = hostname;
           }
-          
 
           const response = await axiosServer.post(
             buildLink("login", undefined, undefined, site_host),
             credentials,
             {
               headers: {
-                Authorization: "Bearer " + token,
-              },
+                Authorization: "Bearer " + token
+              }
             }
           );
 
@@ -48,7 +48,7 @@ export const authOptions = {
               lastname: response.data.data.lastname,
               telephone: response.data.data.telephone
                 ? response.data.data.telephone
-                : null,
+                : null
             };
           } else {
             throw new Error(response.data.errors["0"]?.errorMsg);
@@ -56,7 +56,7 @@ export const authOptions = {
         } catch (error) {
           throw new Error(error.message);
         }
-      },
+      }
     }),
     CredentialsProvider({
       id: "signup",
@@ -66,21 +66,26 @@ export const authOptions = {
         const token = parsedCookies["api-token"];
         try {
           //const hostname = req.headers.host;
-          const hostname = "https://www.ishtari.com/";
+          const hostname = req.headers.host;
           return await axiosServer.post(
             buildLink("register", undefined, undefined, hostname),
             credentials,
             {
               headers: {
-                Authorization: "Bearer " + token,
-              },
+                Authorization: "Bearer " + token
+              }
             }
           );
         } catch (error) {
           throw new Error(error.message);
         }
-      },
+      }
     }),
+    FacebookProvider({
+      clientId: "130719880936639" , 
+      //getFacebookClientIdByHost,
+      // clientSecret: process.env.FACEBOOK_SECRET
+    })
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -107,8 +112,23 @@ export const authOptions = {
     },
     async signOut({ callbackUrl, req, res }) {
       return "/";
-    },
-  },
+    }
+  }
 };
 
-export default NextAuth(authOptions);
+export default (req, res) => NextAuth(req, res, authOptions);
+
+function getFacebookClientIdByHost(req) {
+  let clientId;
+  const hostname = req.headers.host;
+  // Set different client IDs based on host names
+  if (hostname === "ishtari.com") {
+    clientId = "130719880936639";
+  } else if (hostname === "ishtari.com.gh") {
+    clientId = "1044051939655564";
+  } else {
+    clientId = "130719880936639";
+  }
+
+  return clientId;
+}
