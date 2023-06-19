@@ -110,7 +110,11 @@ export const authOptions = {
       return token;
     },
     async signIn({ user }) {
+console.log(user)
+
+
       if (user) return true;
+    
 
       return false;
     },
