@@ -77,13 +77,14 @@ function Account() {
   // Check login
   function checkLogin() {
     dispatch({ type: "setLoading", payload: true });
+  
     axiosServer
       .get(
         buildLink(
           "login",
           undefined,
-          window.innerWidth
-
+         undefined,
+         hostname
         )
       )
       .then((response) => {
@@ -143,10 +144,25 @@ function Account() {
   }
 
   // console.log(state);
-
+  // Forget Password
+  async function handleForgetPassword() {
+    if (loginEmail.current.value) {
+      const new_password = await axiosServer.post(buildLink("forget_password"), {
+        email: loginEmail.current.value
+      });
+      if (new_password.data.errors) {
+        setErr("No Email Found");
+      } else {
+        setMessage(new_password?.data?.data?.message);
+        setErr();
+      }
+    } else {
+      setErr("Please enter your email");
+    }
+  }
   async function logOut(e) {
     e.preventDefault();
-    const hostname = "https://www.ishtari.com/";
+    const hostname = window.config['site-url'];
     dispatch({ type: "setLoading", payload: true });
     setShowUserMenu(false);
     //remove next-auth session from cookie, and clear the jwt(session) obj.
