@@ -25,6 +25,7 @@ import StarRatings from "react-star-ratings";
 import { WishlistContext } from "../../contexts/WishlistContext";
 import SingleProductBundle from "./SingleProductBundle";
 import Slider from "react-slick";
+import ProductOptionModal from "./ProductOptionModal";
 
 function ProductPage(props) {
   //Server props
@@ -67,6 +68,10 @@ function ProductPage(props) {
   const [checked, setChecked] = useState(["0"]);
   const [showModel, setShowModel] = useState(false);
   const [value, setValue] = useState(0);
+  const [showOptionModal, setShowOptionModal] = useState({
+    show: false,
+    bundle: null,
+  });
 
   const [width, height] = useDeviceSize();
   const Timer = dynamic(() => import("./Timer"), {
@@ -604,6 +609,24 @@ function ProductPage(props) {
     }
   }
 
+  function addBundle(bundle) {
+    console.log(bundle);
+    if (
+      bundle.products.filter((p) => p.product_options?.length > 0).length == 0
+    ) {
+      console.log("hello from the other sidee");
+      bundle.products.map((p) => {
+        const obj = {
+          product_id: p.product_id,
+          quantity: Number(p.required_quantity),
+        };
+        gtag_report_conversion(obj);
+      });
+    } else {
+      setShowOptionModal({ show: true, bundle: bundle });
+    }
+  }
+
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
@@ -613,6 +636,14 @@ function ProductPage(props) {
           toggleSucccessAdded={toggleSucccessAdded}
           hasBannerEvent={hasBannerEvent}
         />
+        
+        {showOptionModal.show && (
+          <ProductOptionModal
+            setShowOptionModal={setShowOptionModal}
+            bundle={showOptionModal.bundle}
+            addCart={addToCart}
+          />
+        )}
 
         <div className="flex flex-col px-2 mx-auto">
           <div className="breadcrumbs py-3 hidden md:block">
@@ -1184,9 +1215,9 @@ function ProductPage(props) {
                 )}
                 {bundles && (
                   <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8">
-                    <h6 className="font-black text-sm mb-2 ml-2">
+                    <p className="font-black pr-semibold text-sm mb-2 ml-2">
                       Frequently Bought Together
-                    </h6>
+                    </p>
                     <div className="bg-white">
                       <Slider {...productBundlesSetting}>
                         {bundles &&

@@ -5,11 +5,13 @@ import ImageFilter from "react-image-filter";
 import DOMPurify from "dompurify";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function SingleProductBundle(props) {
   const [state] = useContext(AccountContext);
   const [fetching, setFetching] = useState(false);
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
   const path = "";
   async function getProductData(e) {
     e.preventDefault();
@@ -114,14 +116,14 @@ function SingleProductBundle(props) {
             <div className={`${props.item.quantity === "0" && "opacity-40"}`}>
               {/* PUT IS AFTER _html "[brand name]  " +  */}
               <div className="h-17 overflow-hidden text-center leading-4 pt-1">
-                <p className="text-dblack text-d12 md:text-base flex flex-col gap-1 md:w-full font-bold p-1 mb-1">
+                <p className="text-dblack text-d16 md:text-base flex flex-col gap-1 md:w-full pr-bold p-1 mb-1">
                   {props.item.special !== "0" && props.item.special !== 0 && props.item.special !== "" && props.item.special !== false &&  props.item.special !== "$0" ? props.item.special : props.item.price}
-                  <span className="text-dblack text-d13 md:text-thin  font-light">
+                  <span className="text-dblack text-d13 md:text-thin  pr-light">
                     x{props.item.required_quantity}
                   </span>
                 </p>
                 <span
-                  className="text-dblack text-11 md:text-thin  font-semibold"
+                  className="text-dblack text-11 md:text-thin  pr-semibold"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(props.item.manufacturer_name),
                   }}
@@ -131,7 +133,7 @@ function SingleProductBundle(props) {
                 props.item.manufacturer_name !== undefined ? (
                   <span
                     className={
-                      "text-dblack ml-1 text-d11 md:text-thin  font-light"
+                      "text-dblack ml-1 text-d11 md:text-thin  pr-light"
                     }
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(props?.item?.name?.split(
