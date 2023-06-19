@@ -23,6 +23,8 @@ import { AccountContext } from "../../contexts/AccountContext";
 import CartSideModal from "./CartSideModal";
 import StarRatings from "react-star-ratings";
 import { WishlistContext } from "../../contexts/WishlistContext";
+import SingleProductBundle from "./SingleProductBundle";
+import Slider from "react-slick";
 
 function ProductPage(props) {
   //Server props
@@ -79,6 +81,43 @@ function ProductPage(props) {
     ? router.query.slug[0].split("=")[1]
     : router.query.slug[0];
 
+  const productBundlesSetting = {
+    speed: 200,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    infinite: false,
+    prevArrow: <CustomPrevArrows direction={"l"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />,
+  };
+
+  function CustomPrevArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 5px", marginLeft: "15px" }}
+        onClick={onClick}
+        className="mySwiper "
+      >
+        <div className="swiper-button-prev flex justify-center items-center cursor-pointer">
+          <BsChevronLeft className="text-dblack" />
+        </div>
+      </div>
+    );
+  }
+
+  function CustomNextArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 15px", marginRight: " 15px" }}
+        onClick={onClick}
+        className="mySwiper "
+      >
+        <div className="swiper-button-next flex justify-center items-center cursor-pointer">
+          <BsChevronRight className="text-dblack" />
+        </div>
+      </div>
+    );
+  }
+
   useEffect(() => {
     if (data.special_end !== null && data.special_end !== 0) {
       setHasBannerEvent(data?.bannerevent);
@@ -122,7 +161,7 @@ function ProductPage(props) {
       };
       if (typeof window !== "undefined") {
         // Dynamic import of react-facebook-pixel
-        import("react-facebook-pixel").then((ReactPixel) => {
+        import("react-facebook-pixel")?.then((ReactPixel) => {
           ReactPixel.default.init(pixelID, advancedMatching, {
             debug: true,
             autoConfig: false,
@@ -564,7 +603,6 @@ function ProductPage(props) {
       setChecked(checkboxesChecked);
     }
   }
-
 
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
@@ -1150,29 +1188,28 @@ function ProductPage(props) {
                       Frequently Bought Together
                     </h6>
                     <div className="bg-white">
-                      <Swiper>
+                      <Slider {...productBundlesSetting}>
                         {bundles &&
                           bundles?.products?.map((product, i) => (
-                            <SwiperSlide
+                            <div
                               key={product.product_id}
                               className="w-12/12 flex flex-row items-center"
                             >
                               <div className={`${width < 650 && "w-10/12"}`}>
-                                {/* <SingleProductNew
+                                <SingleProductBundle
                                   item={product}
                                   i={i}
                                   len={bundles.products?.length}
-                                /> */}
-                                hii
+                                />
                               </div>
                               {i !== bundles?.products?.length - 1 && (
                                 <span className="text-3xl font-bold mt-2">
                                   +
                                 </span>
                               )}
-                            </SwiperSlide>
+                            </div>
                           ))}
-                      </Swiper>
+                      </Slider>
                     </div>
 
                     {bundles && (
