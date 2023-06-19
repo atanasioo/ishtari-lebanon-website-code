@@ -636,7 +636,7 @@ function ProductPage(props) {
           toggleSucccessAdded={toggleSucccessAdded}
           hasBannerEvent={hasBannerEvent}
         />
-        
+
         {showOptionModal.show && (
           <ProductOptionModal
             setShowOptionModal={setShowOptionModal}
@@ -1099,11 +1099,11 @@ function ProductPage(props) {
                               height={80}
                             />
                           </div>
-                          {/* {accountstate.admin && (
-                              <div className="w-full text-center font-bold">
-                                {option?.quantity}
-                              </div>
-                            )} */}
+                          {accountState.admin && (
+                            <div className="w-full text-center font-bold">
+                              {option?.quantity}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -1291,6 +1291,42 @@ function ProductPage(props) {
             <div className="pl-3 hidden md:block border-l border-dborderProduct w-1/4">
               {/* EXTRA */}
               {/* admin div */}
+
+              {accountState.admin && (
+                <div className=" shadow-lg p-6 mb-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl">Quantity: </span>
+                    <span
+                      className={`text-2xl`}
+                      style={{
+                        color: data.quantity > 5 ? "black" : "red",
+                      }}
+                    >
+                      {data.quantity}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between my-2">
+                    <span className="text-xl">UPC: </span>
+                    <span className="text-2xl">{data.upc}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl">SKU: </span>
+                    <span className="text-2xl">{data.sku}</span>
+                  </div>
+                  <br />
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={`${
+                      window.config["admin-update-product"] + product_id
+                    }&token=${accountState.adminToken}`}
+                    className="text-dblack  bg-dgrey px-6 py-2 rounded my-2 inline-block"
+                  >
+                    Edit Product
+                  </a>
+                </div>
+              )}
+
               {data?.no_refundable === true && (
                 <>
                   <div className=" md:flex-row w-1/2 md:w-full md:flex md:items-center text-dblack py-6 border-b border-dinputBorder">

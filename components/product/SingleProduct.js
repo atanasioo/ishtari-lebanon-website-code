@@ -6,29 +6,30 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { sanitizeHTML } from "../Utils";
 import dynamic from "next/dynamic";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import useDeviceSize from "../useDeviceSize";
 // import "swiper/modules/pagination/pagination.min.css";
 // import "swiper/modules/navigation/navigation.min.css";
 import { Navigation } from "swiper";
 import { Pagination, Autoplay } from "swiper";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
+import { AccountContext } from "@/contexts/AccountContext";
 
 function SingleProduct(props) {
   const { item, host, addToCart } = props;
+  const [state] = useContext(AccountContext);
+  const [copied, setCopied] = useState(false);
   const router = useRouter();
   const path = "";
   const swiperRef = useRef(null);
   const onInit = (Swiper) => {
     swiperRef.current = Swiper;
   };
-  const [ width ] = useDeviceSize();
-
+  const [width] = useDeviceSize();
 
   const NewImage = dynamic(() => import("./NewImage"), {
     ssr: false, // Disable server-side rendering
   });
-
 
   const handleMouseEnter = () => {
     if (swiperRef.current !== null) {
@@ -37,7 +38,6 @@ function SingleProduct(props) {
     }
   };
 
-
   const handleMouseLeave = () => {
     if (swiperRef.current !== null) {
       swiperRef.current.autoplay.stop();
@@ -45,6 +45,19 @@ function SingleProduct(props) {
     }
   };
 
+  function copyContent(e, sku) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    const el = document.createElement("input");
+    el.value = sku;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  }
 
   return (
     <Link
@@ -130,7 +143,6 @@ function SingleProduct(props) {
                   priority={true}
                   className="max-w-full max-h-full"
                 />
-                
               ) : (
                 <Swiper
                   pagination={{
@@ -368,6 +380,21 @@ function SingleProduct(props) {
                 addToCart ? "hidden" : ""
               }`}
             ></div>
+            {state.admin && (
+              <div className="my-1 px-1 flex justify-between z-10">
+                {/* <button className=" text-dgrey1">Add To Cart</button> */}
+                <span
+                  className={`p-1  ${copied ? "text-dgreen" : ""}`}
+                  onClick={(e) => copyContent(e, props.item.sku)}
+                >
+                  {" "}
+                  {!copied ? props.item.sku : "Copied!"}
+                </span>
+                <span className="bg-dgrey1 bg-opacity-25 p-1 rounded">
+                  {props.item.quantity}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
