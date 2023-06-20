@@ -14,13 +14,14 @@ import { BsTrashFill } from "react-icons/bs";
 import { axiosServer } from "@/axiosServer";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
+import { AiOutlineShopping } from "react-icons/ai";
 
 function Cart(props) {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
   const [select, setSelect] = useState(true);
 
-  const {data} = props ;
+  const { data } = props;
   // console.log(data)
   const [error, setError] = useState(false);
   const [selectProduct, setSelectProduct] = useState([]);
@@ -283,8 +284,7 @@ function Cart(props) {
     } else {
       var elem = document.getElementsByName("chk");
       for (var j = 0; i < elem.length; j++) {
-        if (elem[j].type === "checkbox") 
-        elem[j].click();
+        if (elem[j].type === "checkbox") elem[j].click();
         ele[j].checked = false;
 
         // console.log("selectProduct")
@@ -300,8 +300,21 @@ function Cart(props) {
       var obj = { key: selectProduct };
       axiosServer
         .delete(buildLink("cart", undefined, window.innerWidth), { data: obj })
-        .then(() => {
-          //   window.location.reload();
+        .then((response) => {
+          // router.reload();
+          dispatch({
+            type: "setProducts",
+            payload: response.data.data.products
+          });
+
+          dispatch({
+            type: "setProductsCount",
+            payload: response.data.data.total_product_count || 0
+          });
+          dispatch({
+            type: "setTotals",
+            payload: response.data.data.totals
+          });
         });
     } else {
       setError(true);
@@ -351,7 +364,7 @@ function Cart(props) {
         </Head>
         {loading ? (
           <PointsLoader />
-        ) : state?.products?.length > 0 ? (
+        ) : state?.products?.length > 0 || stateWishlist?.length > 0 ? (
           <div className="flex py-4">
             <div className="w-full mobile:w-3/4 ">
               <div className="flex items-center">
@@ -666,7 +679,7 @@ function Cart(props) {
                   )}
                 </div>
               </div>
-              {data === true  && (
+              {data === true && (
                 <div className="flex justify-between  py-5">
                   <div className="flex items-center">
                     <h1 className=" font-bold" style={{ fontSize: "23px" }}>
@@ -755,16 +768,16 @@ function Cart(props) {
         ) : (
           <div>
             {products.length < 1 && (
-              <div className="flex items-center justify-center flex-col pt-16 sm:pt-40 text-dblack">
-                <i className="icon icon-basket text-5xl" />
-                <h2 className=" text-2xl my-3 font-semibold">
+              <div className="flex items-center justify-center flex-col pt-16 sm:pt-20 text-dblack">
+                <AiOutlineShopping className="text-7xl mobile:text-7xl" />
+                <h2 className=" text-2xl mobile:text-4xl mt-6 font-semibold">
                   Your shopping cart is empty
                 </h2>
-                <h3 className="my-1 font-light text-xl">
-                  What are you waiting for !
+                <h3 className=" font-light text-xl">
+                  What are you waiting for ?
                 </h3>
                 <Link
-                  className="bg-dblue px-20 py-3 text-white mt-4 inline-block font-semibold rounded hover:bg-dbluedark"
+                  className="bg-dblue px-16 py-3 text-white mt-7 inline-block font-semibold rounded hover:bg-dbluedark"
                   href="/"
                 >
                   START SHOPPING
@@ -783,11 +796,11 @@ export default Cart;
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
 
-var data = false
-if(session){
-   data = true 
-}
+  var data = false;
+  if (session) {
+    data = true;
+  }
   return {
-    props:{  data : data }
+    props: { data: data }
   };
 }

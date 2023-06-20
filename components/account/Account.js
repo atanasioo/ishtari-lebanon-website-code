@@ -11,7 +11,7 @@ import { FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
 import { BsFillCartCheckFill, BsFillHeartFill } from "react-icons/bs";
 import { MdAvTimer } from "react-icons/md";
-import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
+import { FaFacebookF, FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 
 
@@ -74,7 +74,7 @@ function Account() {
   // Check login
   function checkLogin() {
     dispatch({ type: "setLoading", payload: true });
-  
+     const hostname =   window.location.host
     axiosServer
       .get(
         buildLink(
@@ -224,7 +224,7 @@ function Account() {
       {state.showOver && (
         <div className="fixed w-screen min-h-screen bg-dblack top-0 left-0 z-50 bg-opacity-50 flex flex-col items-center justify-center">
           {state.showLogin && (
-            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
+            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4 overflow-hidden relative">
               <span
                 onClick={() => {
                   dispatch({ type: "setShowOver", payload: false });
@@ -314,7 +314,7 @@ function Account() {
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {loginLoading ? <span>LOADING</span> : <span>SIGN IN</span>}
                 </button>
-                <p className="pt-2 text-dgrey1">- OR -</p>
+                <p className="pb-2 text-dgrey1">- OR -</p>
                 {/* <FacebookLogin
               appId={window.config["appId"]}
               fields="name,email"
@@ -333,7 +333,9 @@ function Account() {
               )}
             /> */}
               </form>
-              <a onClick={() => signIn('facebook')}>Sign in with Facebook</a>
+              <button onClick={() => signIn('facebook')}  className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al"><FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook</button>
+
+          
             </div>
           )}
           {state.showSignup && (
