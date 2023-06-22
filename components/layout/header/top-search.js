@@ -94,7 +94,7 @@ function useOutsideAlerter(ref) {
     async function search() {
       setLoading(true);
       const res = await axiosServer.get(
-        buildLink("search", undefined, window.innerWidth) + query
+        buildLink("search", undefined, undefined) + query
       );
       try {
         setResults(!res?.data?.message && res?.data?.data);

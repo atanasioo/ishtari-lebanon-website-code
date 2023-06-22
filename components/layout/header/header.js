@@ -20,6 +20,7 @@ import TopWishlist from "./TopWishlist";
 import TopCart from "./TopCart";
 import LogofloOrange from "/public/images/logo-flo-orange.png";
 import { AccountContext } from "@/contexts/AccountContext";
+import { useRouter } from "next/router";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -31,9 +32,14 @@ function Header(props) {
   const { data: session, status } = useSession();
   const [stateAcc, dispatch] = useContext(AccountContext);
   const [sellerId, setSellerId] = useState("0");
+  const router = useRouter();
+  console.log("sssrouter");
+  console.log(router);
 
+  const { req } = router;
+  const serverSideDomain = req ? req.headers.host : "";
 
-
+  console.log(serverSideDomain);
   //  console.log(session);
   const [state, setState] = useState([]);
   useEffect(() => {
@@ -44,7 +50,6 @@ function Header(props) {
         setState(response.data.data);
       });
   }, []);
-
 
   useEffect(() => {
     if (width < 650) {
@@ -57,31 +62,34 @@ function Header(props) {
   }, []);
 
   useEffect(() => {
-    if (window.location.host === "localhost:3000") {
-      setLocal(true);
+    if (window !== undefined) {
+      if (window.location.host === "localhost:3000") {
+        setLocal(true);
+      }
     }
-    if (localStorage.getItem("site-local-name") === "flo") {
-    }
+
     function checkCookies() {
       const adminToken = Cookies.get("ATDetails");
-      if (typeof adminToken != "undefined") {s
+      if (typeof adminToken != "undefined") {
+        s;
         setToken(adminToken);
       }
-
     }
     checkCookies();
-    const numbers = window.config["numbers"];
-    if (numbers?.length > 0) {
-      const number = numbers[Math.floor(Math.random() * numbers?.length)];
-      if (Cookies.get("wtspNumber") === undefined) {
-        Cookies.set("wtspNumber", number, { expires: 1 });
-        dispatch({ type: "setNumber", payload: number });
-      } else {
-        const oldNumber = Cookies.get("wtspNumber");
-        dispatch({ type: "setNumber", payload: oldNumber });
-      }
-      if (Cookies.get("seller_id") !== "0") {
-        setSellerId(Cookies.get("seller_id"));
+    if (window !== undefined) {
+      const numbers = window.config["numbers"];
+      if (numbers?.length > 0) {
+        const number = numbers[Math.floor(Math.random() * numbers?.length)];
+        if (Cookies.get("wtspNumber") === undefined) {
+          Cookies.set("wtspNumber", number, { expires: 1 });
+          dispatch({ type: "setNumber", payload: number });
+        } else {
+          const oldNumber = Cookies.get("wtspNumber");
+          dispatch({ type: "setNumber", payload: oldNumber });
+        }
+        if (Cookies.get("seller_id") !== "0") {
+          setSellerId(Cookies.get("seller_id"));
+        }
       }
     }
   }, []);
@@ -93,10 +101,10 @@ function Header(props) {
   //   }
   // );
   const MobileMenu = dynamic(() => import("./MobileMenu"), {
-    ssr: false, // Disable server-side rendering
+    ssr: false // Disable server-side rendering
   });
   const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
-    ssr: false, // Disable server-side rendering
+    ssr: false // Disable server-side rendering
   });
 
   function closeMobileMenu() {
@@ -139,8 +147,7 @@ function Header(props) {
             href="/"
             className="header-logo flex justify-center lg:justify-start"
           >
-            {Cookies.get("site-local-name") === "flo" ||
-            Cookies.get("site-local-name") === "flo-bey" ? (
+            {serverSideDomain=== "https://www.flo-lebanon.com" && (
               <Image
                 src={LogofloOrange}
                 width={width > 768 ? 130 : 100}
@@ -149,7 +156,9 @@ function Header(props) {
                 priority={true}
                 style={{ width: "80%", height: "auto" }}
               />
-            ) : (
+            )}
+            {(serverSideDomain === "https://www.ishtari.com" ||
+              serverSideDomain === "https://www.ishtari.com.gh") && (
               <>
                 <Image
                   className="hidden mobile:block"
@@ -170,6 +179,28 @@ function Header(props) {
                 />
               </>
             )}
+
+            {serverSideDomain === "https://www.energyPlus-lb.com" && (
+                <>
+                  <Image
+                    className="hidden mobile:block"
+                    src="/images/logo/logo-red.png"
+                    width={130}
+                    height={130}
+                    alt="ishtari-logo"
+                    priority={true}
+                    style={{ width: "80%", height: "auto" }}
+                  />
+
+                  <ImageFilter
+                    className="h-5 w-24 mr-5 mobile:hidden"
+                    image={"/images/logo/logo-white.png"}
+                    filter={"duotone"} // see docs beneath
+                    colorOne={[96, 96, 96]}
+                    colorTwo={[65, 69, 81]}
+                  />
+                </>
+              )}
           </Link>
         </div>
 

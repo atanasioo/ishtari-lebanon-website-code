@@ -10,13 +10,15 @@ import buildLink from "@/urls";
 import cookie from "cookie";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import "@/config";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { useCookie } from "next-cookie";
 import { SessionProvider } from "next-auth/react";
 import { AccountProvider } from "@/contexts/AccountContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
+import {useSellerContext}  from "@/contexts/SellerContext";
+// import AsideMenu from "@/components/layout/AsideMenu";
 
 export default function App({
   Component,
@@ -28,6 +30,11 @@ export default function App({
   const router = useRouter();
   const topRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  // const isUserSeller = true;
+
+  // const { isUserSeller, setIsUserSeller } = useSllerContext();
+
+
 
   useEffect(() => {
     const handleStart = () => {
@@ -67,6 +74,8 @@ export default function App({
           <WishlistProvider>
             <CurrencyProvider>
             <div className="" ref={topRef}>
+            {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
+
               {loading && (
                 <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
                   <img
@@ -143,6 +152,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const response = await getToken(host_url);
 
         const newToken = response.access_token;
+        console.log("new-token")
+        console.log(newToken)
+        console.log("new-token")
         if(newToken!= undefined){
         cook.set("api-token", newToken, options);
         }

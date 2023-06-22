@@ -28,8 +28,8 @@ function MobileMenu(props) {
         {/* Logo */}
         <div className="flex flex-col py-3 border-b border-dgrey px-4 ">
           <div className="flex items-center justify-between">
-            {Cookies.get("site-local-name") === "flo" ||
-            window.location.host === "flo-lebanon.com" ? (
+            {(Cookies.get("site-local-name") === "flo" ||
+         (window !== undefined &&   window.location.host === "flo-lebanon.com" )) ? (
               <img
                 src={LogofloOrange}
                 alt={window.config["short-name"]}
@@ -47,7 +47,7 @@ function MobileMenu(props) {
             </button>
           </div>
           <h2 className=" font-semibold pt-2.5">
-            Hi, We Are {window.config["short-name"]}
+            Hi, We Are {window !== undefined && window.config["short-name"]}
           </h2>
         </div>
         <div className="relative">

@@ -20,7 +20,7 @@ function TopWishlist() {
     });
 
     axiosServer
-      .get(buildLink("wishlistCount", undefined, window.innerWidth))
+      .get(buildLink("wishlistCount", undefined, undefined))
       .then((response) => {
         if (response.data.success) {
           dispatch({

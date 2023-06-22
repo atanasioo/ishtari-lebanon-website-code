@@ -27,15 +27,15 @@ function AdminTopHeader() {
           ? "hidden"
           : `h-12 px-10 text-white flex items-center bg-dgrey1 ${
               (Cookies.get("site-local-name") === "energy-plus" ||
-                window.location.host === "www.energyplus-lb.com") &&
+             ( window !== undefined &&   window.location.host === "www.energyplus-lb.com")) &&
               "bg-Energyplus text-dblackk"
             }`
       }
       //style={{ background: "#555" }}
     >
       <div className="container flex justify-between  items-center">
-        {window.location.pathname !== "/pos" &&
-        window.location.pathname !== "/orders" ? (
+        {(window !== undefined && window.location.pathname !== "/pos" &&
+        window.location.pathname !== "/orders") ? (
           <div className="space-x-10 flex ">
             <a
               target="_blank"
@@ -81,7 +81,7 @@ function AdminTopHeader() {
           </div>
         )}
         <div> {showMessage && remove() && "Link COPIED"}</div>
-        {window.location.pathname !== "/pos" &&
+        {window !== undefined && window.location.pathname !== "/pos" &&
           window.location.pathname !== "/orders" && (
             <div className=" cursor-pointer">
               <p onClick={copy}>Copy Link</p>

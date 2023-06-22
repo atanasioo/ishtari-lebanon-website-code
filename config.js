@@ -123,7 +123,7 @@ if (typeof window !== "undefined") {
       "site-url": "https://www.flo-lebanon.com",
 
       "site-name": "FLO LEBANON",
-      numbers: [""],
+      numbers: [],
       "admin-update-product":
         "https://www.flo-lebanon.com/control/admin/index.php?route=catalog/product/update&product_id=",
       "admin-products-url":

@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import Header from './header/header'
 import Cookies from "js-cookie";
 import Footer from './footer/footer';
-//
+import Header from './header/header';
 function Layout({children, header_categories, footer_categories , information_data, token}) {
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
@@ -17,9 +16,13 @@ function Layout({children, header_categories, footer_categories , information_da
   //     // console.log(token);
   //   }
   //  },[token])
+
+
+
   
   return (
     <div>
+      
         <Header header_categories={header_categories} />
         {children}
         <Footer footer_categories={footer_categories}  information_data={information_data} />

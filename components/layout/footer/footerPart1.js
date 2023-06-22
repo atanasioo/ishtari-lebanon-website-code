@@ -25,7 +25,7 @@ export default function FooterPart1() {
             <div className="flex flex-col items-center justify-center">
               <span className="text-sm">Phone Support</span>
               <span className="text-xl">
-                {window != undefined && window.config["supportNumber"]}
+                {window.config["supportNumber"]}
               </span>
             </div>
           </div>
