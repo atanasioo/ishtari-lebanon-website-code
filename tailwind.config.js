@@ -22,6 +22,7 @@ module.exports = {
       width: {
         488: "48%",
         5.5: "22px",
+        "150px": "150px",
         "284px" : "284px",
         "unset": "unset",
       },

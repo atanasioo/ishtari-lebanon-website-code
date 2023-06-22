@@ -324,7 +324,7 @@ function profile() {
                       <label>New Password</label>
                       <input
                         type="password"
-                        defaultValue=""
+                        // defaultValue=""
                         value={newPass}
                         onChange={(e) => setNewPass(e.target.value)}
                       />
@@ -335,7 +335,7 @@ function profile() {
                       <label>Confirm New Password</label>
                       <input
                         type="password"
-                        defaultValue=""
+                        // defaultValue=""
                         value={confirmPass}
                         onChange={(e) => setConfirmPass(e.target.value)}
                       />

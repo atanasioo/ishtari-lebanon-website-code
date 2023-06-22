@@ -783,7 +783,7 @@ props; //data is for product part one data
       {productData2?.product_categories &&
         // !loader &&
         productData2?.product_categories?.length > 0 && (
-          <div className="w-full px-6 my-2 bg-white  ">
+          <div className="w-full md:px-6 my-2 bg-white  ">
             <div className="container pb-2 md:pb-8">
               <p className="pr-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
                 More to explore
@@ -855,7 +855,7 @@ props; //data is for product part one data
 
       {productData2?.smallest_cat_products &&
         productData2?.smallest_cat_products?.length > 0 && (
-          <div className=" w-full px-6 my-2 bg-white pt-1">
+          <div className=" w-full  md:px-6 my-2 bg-white pt-1">
             <div className="container pb-2 md:pb-8">
               <p className="pr-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
                 {productData2.product_categories[0]?.name}
@@ -885,7 +885,7 @@ props; //data is for product part one data
         accountstate?.loged && */}
       {productData2?.product_recentlyViewed &&
         productData2?.product_recentlyViewed?.length > 0 && (
-          <div className="w-full px-6 bg-white  ">
+          <div className="w-full md:px-6 bg-white  ">
             <div className="container pb-2 md:pb-8">
               <p className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
                 Recently Viewed

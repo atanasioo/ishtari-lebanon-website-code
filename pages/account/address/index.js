@@ -88,7 +88,7 @@ function Adresses() {
                 <div>No Addresses</div>
               ) : (
                 addresses?.map((address) => (
-                  <div className="p-8 mobile:flex mobile:justify-between bg-white mt-10 ">
+                  <div className="p-8 mobile:flex mobile:justify-between bg-white mt-10" key={address.address_id}>
                     <div>
                       <div className="flex gap-4 mb-5">
                         <div className="text-d18 capitalize pr-bold ">

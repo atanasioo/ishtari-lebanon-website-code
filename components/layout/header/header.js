@@ -34,7 +34,11 @@ function Header(props) {
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
 
+  console.log(router);
+
   const serverSideDomain = props.host;
+
+  console.log(serverSideDomain);
 
 
   //  console.log(session);
@@ -60,7 +64,7 @@ function Header(props) {
   useEffect(() => {
     if (window !== undefined) {
       if (window.location.host === "localhost:3000") {
-        // setLocal(true);
+        setLocal(true);
       }
     }
 
@@ -100,6 +104,9 @@ function Header(props) {
     ssr: false, // Disable server-side rendering
   });
   const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
+    ssr: false, // Disable server-side rendering
+  });
+  const LogoClient = dynamic(() => import("@/components/LogoClient"), {
     ssr: false, // Disable server-side rendering
   });
 
@@ -196,8 +203,28 @@ function Header(props) {
                   colorTwo={[65, 69, 81]}
                 />
               </>
-            ) : (
-              <div></div>
+            ) : Cookies.get("site-local-name") === "ishtari" ||  Cookies.get("site-local-name") === "ishtari-ghana" ? (
+              <>
+              <Image
+                className="hidden mobile:block"
+                src="/images/logo/logo-red.png"
+                width={130}
+                height={130}
+                alt="ishtari-logo"
+                priority={true}
+                style={{ width: "80%", height: "auto" }}
+              />
+
+              <ImageFilter
+                className="h-5 w-24 mr-5 mobile:hidden"
+                image={"/images/logo/logo-white.png"}
+                filter={"duotone"} // see docs beneath
+                colorOne={[96, 96, 96]}
+                colorTwo={[65, 69, 81]}
+              />
+            </>
+            ): (
+              <LogoClient />
             )}
            
           </Link>

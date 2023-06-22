@@ -17,7 +17,7 @@ import { SessionProvider } from "next-auth/react";
 import { AccountProvider } from "@/contexts/AccountContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
-import {useSellerContext}  from "@/contexts/SellerContext";
+import { useSellerContext } from "@/contexts/SellerContext";
 // import AsideMenu from "@/components/layout/AsideMenu";
 
 export default function App({
@@ -26,7 +26,7 @@ export default function App({
   header_categories,
   footer_categories,
   information_data,
-  host
+  host,
 }) {
   const router = useRouter();
   const topRef = useRef(null);
@@ -34,8 +34,6 @@ export default function App({
   // const isUserSeller = true;
 
   // const { isUserSeller, setIsUserSeller } = useSllerContext();
-
-
 
   useEffect(() => {
     const handleStart = () => {
@@ -69,37 +67,36 @@ export default function App({
   }, []);
   return (
     <SessionProvider>
-    
       <AccountProvider>
         <CartProvider>
           <WishlistProvider>
             <CurrencyProvider>
-            <div className="" ref={topRef}>
-            {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
+              <div className="" ref={topRef}>
+                {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
 
-              {loading && (
-                <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
-                  <img
-                    src={"/images/loader.gif"}
-                    alt="loader-gif"
-                    heigh="110"
-                    width="110"
-                  />
-                </div>
-              )}
-              <Layout
-                header_categories={header_categories}
-                footer_categories={footer_categories}
-                information_data={information_data}
-                host={host}
-              >
-                <div className="bg-dprimarybg min-h-screen">
-                  <div className="md:container ">
-                    <Component {...pageProps} />
+                {loading && (
+                  <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+                    <img
+                      src={"/images/loader.gif"}
+                      alt="loader-gif"
+                      heigh="110"
+                      width="110"
+                    />
                   </div>
-                </div>
-              </Layout>
-            </div>
+                )}
+                <Layout
+                  header_categories={header_categories}
+                  footer_categories={footer_categories}
+                  information_data={information_data}
+                  host={host}
+                >
+                  <div className="bg-dprimarybg min-h-screen">
+                    <div className="md:container ">
+                      <Component {...pageProps} />
+                    </div>
+                  </div>
+                </Layout>
+              </div>
             </CurrencyProvider>
           </WishlistProvider>
         </CartProvider>
@@ -109,6 +106,7 @@ export default function App({
 }
 
 App.getInitialProps = async ({ Component, ctx }) => {
+  console.log("hello");
   const { req } = ctx;
   const cook = useCookie(ctx);
 
@@ -132,6 +130,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
   const host = req?.headers.host;
 
+  console.log(cookies);
+
   if (typeof cookies !== "undefined" && cookies !== "") {
     var site_host = parsedCookies["site-local-name"];
 
@@ -140,7 +140,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
     }
 
     host_url = await getHost(site_host);
-    
 
     // Check if the token is invalid, undefined, or expired
     if (
@@ -157,8 +156,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
         // console.log("new-token")
         // console.log(newToken)
         // console.log("new-token")
-        if(newToken!= undefined){
-        cook.set("api-token", newToken, options);
+        if (newToken != undefined) {
+          cook.set("api-token", newToken, options);
         }
         setAuthorizationHeader(newToken);
 
@@ -173,7 +172,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           footer_categories: resp.footer_data.data?.data,
           information_data: resp.information_data.data?.data,
           token: newToken,
-          host: site_host
+          host: site_host,
         };
       } catch (error) {
         console.error("Failed to get a new token, or to fetch data:", error);
@@ -196,46 +195,49 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
       // Return the fetched data as props
 
-      return{
-        host:site_host
-      }
-     
+      return {
+        host: site_host,
+      };
     }
   } else {
     //live
+    if (typeof window === "undefined") {
+      host_url = await getHost(host);
 
-    host_url = await getHost(host);
+      try {
+        // Request a new token from the server
 
-    try {
-      // Request a new token from the server
+        const response = await getToken(host_url);
 
-      const response = await getToken(host_url);
+        const newToken = response.access_token;
 
-      const newToken = response.access_token;
+        console.log("where I shouldn't be");
+        console.log(cookies);
+        console.log(newToken);
+        console.log(host);
 
-      // cook.set("api-token", newToken, options);
+        // cook.set("api-token", newToken, options);
 
-      setAuthorizationHeader(newToken);
+        setAuthorizationHeader(newToken);
 
-      // Fetch header, footer, footer_information data using the new token
+        // Fetch header, footer, footer_information data using the new token
 
-      const resp = await getMainData(token, host_url);
+        const resp = await getMainData(token, host_url);
 
-      console.log("host isss:" +host);
+        // Return the fetched data as props
+        return {
+          header_categories: resp.data.data.data,
+          footer_categories: resp.footer_data.data.data,
+          information_data: resp.information_data?.data.data,
+          token: newToken,
+          host: host,
+        };
+      } catch (error) {
+        // Handle any errors that occurred during the token request
 
-      // Return the fetched data as props
-      return {
-        header_categories: resp.data.data.data,
-        footer_categories: resp.footer_data.data.data,
-        information_data: resp.information_data?.data.data,
-        token: newToken,
-        host: host
-      };
-    } catch (error) {
-      // Handle any errors that occurred during the token request
-
-      // console.error("host isss:" + site_host);
-      console.error("Failed to get a new token:", error);
+        // console.error("host isss:" + site_host);
+        console.error("Failed to get a new token:", error);
+      }
     }
   }
   return {};

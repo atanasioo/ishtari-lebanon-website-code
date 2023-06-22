@@ -17,7 +17,7 @@ var htmlEntities = {
   gt: ">",
   quot: '"',
   amp: "&",
-  apos: "'"
+  apos: "'",
 };
 
 function unescapeHTML(str) {
@@ -31,7 +31,7 @@ function unescapeHTML(str) {
       return htmlEntities[entityCode];
       /*eslint no-cond-assign: 0*/
     } else if ((match = entityCode.match(/^#x([\da-fA-F]+)$/))) {
-    return String.fromCharCode(parseInt(match[1], 16));
+      return String.fromCharCode(parseInt(match[1], 16));
       /*eslint no-cond-assign: 0*/
     } else if ((match = entityCode.match(/^#(\d+)$/))) {
       return String.fromCharCode(~~match[1]);
@@ -41,29 +41,25 @@ function unescapeHTML(str) {
   });
 }
 function Information(props) {
-const {data} = props
+  const { data } = props;
 
-//   const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-//     ssr: false, // Disable server-side rendering
-//   });
+  //   const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
+  //     ssr: false, // Disable server-side rendering
+  //   });
 
   return (
     <div>
-       <Head>
+      <Head>
         <title>{data?.title}</title>
 
-        <title>
-        {data?.title}
-          | ishtari
-        </title>
+        <title>{data?.title}| ishtari</title>
       </Head>
-  
-        <div
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHTML(unescapeHTML(data.description))
-          }}
-        />
-    
+
+      <div
+        dangerouslySetInnerHTML={{
+          __html: sanitizeHTML(unescapeHTML(data.description)),
+        }}
+      />
     </div>
   );
 }
@@ -71,7 +67,7 @@ const {data} = props
 export default Information;
 
 export async function getServerSideProps(context) {
-    const { req } = context;
+  const { req } = context;
   const { id } = context.query;
   const host = req.headers.host;
 
@@ -79,26 +75,26 @@ export async function getServerSideProps(context) {
   const parsedCookies = cookie.parse(cookies);
   const host_cookie = parsedCookies["site-local-name"];
   const token = parsedCookies["api-token"];
-var data
+  var data;
   await axiosServer
     .get(
-      buildLink("information", undefined, undefined) + "&information_id=" + id,  {
+      buildLink("information", undefined, undefined) + "&information_id=" + id,
+      {
         headers: {
           Authorization: "Bearer " + token,
         },
       }
     )
     .then((response) => {
-    //   response.data.data.description = unescape(response.data.data.description);
-      data =   response.data.data
-     console.log(data)
-     console.log("data-ppppp")
+      //   response.data.data.description = unescape(response.data.data.description);
+      data = response.data.data;
+      console.log(data);
+      console.log("data-ppppp");
     });
-
 
   return {
     props: {
-      data
-    }
+      data,
+    },
   };
 }

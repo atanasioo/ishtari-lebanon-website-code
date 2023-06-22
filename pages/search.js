@@ -7,6 +7,7 @@ import cookie from "cookie";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { HiOutlineChevronDown } from "react-icons/hi";
 import ReactPaginate from "react-paginate";
 
 function search(props) {
@@ -78,8 +79,11 @@ function search(props) {
   // Toggle Visibility
   function toggleVisibility(e) {
     const h_sender = e;
+    console.log(h_sender);
     const sender_parent = h_sender.parentNode;
+    console.log(sender_parent);
     const next_filters = sender_parent.nextElementSibling;
+    console.log(next_filters);
     const icon = sender_parent.lastChild;
     const next_filters_display = next_filters.style.display;
     if (next_filters_display === "block") {
@@ -90,6 +94,26 @@ function search(props) {
       icon.style.transform = "rotate(0deg)";
     }
   }
+
+  // function toggleVisibility(e) {
+  //   const h_sender = e;
+  //   const sender_parent = h_sender.parentNode;
+  //   const next_filters = sender_parent.nextElementSibling;
+
+  //   if (next_filters && next_filters.nodeType === 1) {
+  //     // Check if next_filters exists and is an element node
+  //     const icon = sender_parent.lastChild;
+  //     const next_filters_display = next_filters.style.display;
+
+  //     if (next_filters_display === "block") {
+  //       next_filters.style.display = "none";
+  //       icon.style.transform = "rotate(-90deg)";
+  //     } else {
+  //       next_filters.style.display = "block";
+  //       icon.style.transform = "rotate(0deg)";
+  //     }
+  //   }
+  // }
 
   // Toggle filters
   function toggleFilters(e) {
@@ -128,9 +152,10 @@ function search(props) {
                     <div className="absolute w-full h-full"></div>
                     <span>{filter.name}</span>
                     <i className="icon icon-angle-down text-dgrey1 text-2xl transition-all"></i>
+                    {/* <div className="text-dgrey1 text-2xl transition-all" >hii</div> */}
                   </div>
                 )}
-                <div className="block">
+                <div style={{ display: "block" }}>
                   <div>
                     {filter["new_items"].slice(0, 5).map((sub_filter) => (
                       <div
@@ -154,6 +179,42 @@ function search(props) {
                         </span>
                       </div>
                     ))}
+                  </div>
+                  <div>
+                    <label
+                      className={`text-dblue text-xs cursor-pointer select-none ${
+                        filter["new_items"].length < 6 && "hidden"
+                      }`}
+                      onClick={(e) => toggleFilters(e.target)}
+                    >
+                      Show More
+                    </label>
+                  </div>
+                  <div style={{ display: "none" }}>
+                    {filter["new_items"]
+                      .slice(5, filter["new_items"].length)
+                      .map((sub_filter) => (
+                        <div
+                          className="my-2 float flex justify-between items-center cursor-pointer hover:text-dblue select-none"
+                          key={sub_filter.name}
+                          onClick={() => {
+                            handleFilter(filter.name, sub_filter.name);
+                          }}
+                        >
+                          <div className="flex gap-1">
+                            <div className={`icon mr-1 text-base `}>
+                              {checkFilter(sub_filter.name)}
+                            </div>
+                            <span className="text-d13 font-light">
+                              {sub_filter.name}
+                            </span>
+                          </div>
+
+                          <span className="float-right text-d13 font-light">
+                            ({sub_filter.count})
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -266,7 +327,6 @@ export async function getServerSideProps(context) {
   data = response.data;
 
   if (data?.data?.redirect === "1") {
-
     return {
       redirect: {
         permanent: false,
@@ -294,7 +354,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-
 }
 
 export default search;

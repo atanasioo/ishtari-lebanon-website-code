@@ -87,11 +87,11 @@ function SingleProduct(props) {
       //       .replaceAll("/", "")}/p=${props.item.product_id}`
       //   )
       // }
-      className={` cursor-pointer ${props.isList && "mb-3"}`}
+      className={` cursor-pointer   ${props.isList && "mb-3"}`}
     >
       {props.item.new && <NewImage />}
       <div
-        className={`flex flex-col h-full bg-white text-dblack p-2.5 relative ${
+        className={`flex flex-col h-full w-150px md:w-unset bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
         style={{ height: props.isList && "260px" }}

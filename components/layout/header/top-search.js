@@ -119,7 +119,6 @@ function useOutsideAlerter(ref) {
     // return () => source.cancel("Previous request is canceled");
   }, [query]);
 
-  console.log(stateAcc.admin);
 
   return (
     <>

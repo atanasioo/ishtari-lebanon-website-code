@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@import url("../public/font/stylesheet.css");
+@import url("fontello.css");
 
  @font-face {
     font-family: "PR-light";
@@ -1533,6 +1534,8 @@ input:checked + .slider_swicth:before {
 .product-height {
   height: 680px;
 }
+
+
 
 
 
