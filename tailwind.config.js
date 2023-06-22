@@ -294,6 +294,9 @@ module.exports = {
         },
         ".top-245px":{
           top: "245px",
+        },
+        ".top-182px":{
+          top: "182px",
         }
       });
     },

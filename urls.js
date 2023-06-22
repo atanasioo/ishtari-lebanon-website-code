@@ -262,9 +262,7 @@ function buildLink(link, payload, width, hostServer) {
 
 
   const type =  Cookies.get('site-local-name')
-  console.log(type)
-  console.log("type-yessssssss")
-  console.log(type)
+
   // if (
   //   (width < 500 && localStorage.getItem("site-local-name") === "ishtari") ||
   //   (width < 500 && host === "https://www.ishtari.com/")

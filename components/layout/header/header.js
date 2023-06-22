@@ -33,20 +33,16 @@ function Header(props) {
   const [stateAcc, dispatch] = useContext(AccountContext);
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
-  console.log("sssrouter");
-  console.log(router);
 
-  const { req } = router;
-  const serverSideDomain = req ? req.headers.host : "";
+  const serverSideDomain = props.host;
 
-  console.log(serverSideDomain);
+
   //  console.log(session);
   const [state, setState] = useState([]);
   useEffect(() => {
     axiosServer
       .get(buildLink("headerv2", undefined, undefined))
       .then((response) => {
-        console.log(response.data);
         setState(response.data.data);
       });
   }, []);
@@ -64,7 +60,7 @@ function Header(props) {
   useEffect(() => {
     if (window !== undefined) {
       if (window.location.host === "localhost:3000") {
-        setLocal(true);
+        // setLocal(true);
       }
     }
 
@@ -101,10 +97,10 @@ function Header(props) {
   //   }
   // );
   const MobileMenu = dynamic(() => import("./MobileMenu"), {
-    ssr: false // Disable server-side rendering
+    ssr: false, // Disable server-side rendering
   });
   const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
-    ssr: false // Disable server-side rendering
+    ssr: false, // Disable server-side rendering
   });
 
   function closeMobileMenu() {
@@ -118,6 +114,7 @@ function Header(props) {
     setActiveCategory(category);
     setViewLevel2(true);
   }
+
 
   return (
     <div>
@@ -147,7 +144,7 @@ function Header(props) {
             href="/"
             className="header-logo flex justify-center lg:justify-start"
           >
-            {serverSideDomain=== "https://www.flo-lebanon.com" && (
+            {serverSideDomain === "https://www.flo-lebanon.com" ? (
               <Image
                 src={LogofloOrange}
                 width={width > 768 ? 130 : 100}
@@ -156,9 +153,10 @@ function Header(props) {
                 priority={true}
                 style={{ width: "80%", height: "auto" }}
               />
-            )}
-            {(serverSideDomain === "https://www.ishtari.com" ||
-              serverSideDomain === "https://www.ishtari.com.gh") && (
+            ) : serverSideDomain === "https://www.ishtari.com" ||
+              serverSideDomain === "https://www.ishtari.com.gh" ||
+              serverSideDomain === "ishtari" ||
+              serverSideDomain === "ishtari-ghana" ? (
               <>
                 <Image
                   className="hidden mobile:block"
@@ -178,29 +176,30 @@ function Header(props) {
                   colorTwo={[65, 69, 81]}
                 />
               </>
+            ) : serverSideDomain === "https://www.energyPlus-lb.com" ? (
+              <>
+                <Image
+                  className="hidden mobile:block"
+                  src="/images/logo/logo-red.png"
+                  width={130}
+                  height={130}
+                  alt="ishtari-logo"
+                  priority={true}
+                  style={{ width: "80%", height: "auto" }}
+                />
+
+                <ImageFilter
+                  className="h-5 w-24 mr-5 mobile:hidden"
+                  image={"/images/logo/logo-white.png"}
+                  filter={"duotone"} // see docs beneath
+                  colorOne={[96, 96, 96]}
+                  colorTwo={[65, 69, 81]}
+                />
+              </>
+            ) : (
+              <div></div>
             )}
-
-            {serverSideDomain === "https://www.energyPlus-lb.com" && (
-                <>
-                  <Image
-                    className="hidden mobile:block"
-                    src="/images/logo/logo-red.png"
-                    width={130}
-                    height={130}
-                    alt="ishtari-logo"
-                    priority={true}
-                    style={{ width: "80%", height: "auto" }}
-                  />
-
-                  <ImageFilter
-                    className="h-5 w-24 mr-5 mobile:hidden"
-                    image={"/images/logo/logo-white.png"}
-                    filter={"duotone"} // see docs beneath
-                    colorOne={[96, 96, 96]}
-                    colorTwo={[65, 69, 81]}
-                  />
-                </>
-              )}
+           
           </Link>
         </div>
 

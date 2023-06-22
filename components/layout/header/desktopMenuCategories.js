@@ -33,7 +33,6 @@ function DesktopMenuCategories(props) {
     }
   );
 
-  console.log(overlay);
 
   function handleState(state, value){
     if(state==="selectedTopCategory"){

@@ -26,6 +26,7 @@ export default function App({
   header_categories,
   footer_categories,
   information_data,
+  host
 }) {
   const router = useRouter();
   const topRef = useRef(null);
@@ -90,6 +91,7 @@ export default function App({
                 header_categories={header_categories}
                 footer_categories={footer_categories}
                 information_data={information_data}
+                host={host}
               >
                 <div className="bg-dprimarybg min-h-screen">
                   <div className="md:container ">
@@ -152,9 +154,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const response = await getToken(host_url);
 
         const newToken = response.access_token;
-        console.log("new-token")
-        console.log(newToken)
-        console.log("new-token")
+        // console.log("new-token")
+        // console.log(newToken)
+        // console.log("new-token")
         if(newToken!= undefined){
         cook.set("api-token", newToken, options);
         }
@@ -163,12 +165,15 @@ App.getInitialProps = async ({ Component, ctx }) => {
         // Fetch header, footer, footer_information data using the new token
         const resp = await getMainData(newToken, host_url);
 
+        console.log(resp);
+
         // Return the fetched data as props
         return {
           header_categories: resp.data.data?.data,
           footer_categories: resp.footer_data.data?.data,
           information_data: resp.information_data.data?.data,
           token: newToken,
+          host: site_host
         };
       } catch (error) {
         console.error("Failed to get a new token, or to fetch data:", error);
@@ -190,6 +195,10 @@ App.getInitialProps = async ({ Component, ctx }) => {
       const resp = await getMainData(token, host_url);
 
       // Return the fetched data as props
+
+      return{
+        host:site_host
+      }
      
     }
   } else {
@@ -212,17 +221,20 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
       const resp = await getMainData(token, host_url);
 
+      console.log("host isss:" +host);
+
       // Return the fetched data as props
       return {
         header_categories: resp.data.data.data,
         footer_categories: resp.footer_data.data.data,
         information_data: resp.information_data?.data.data,
         token: newToken,
+        host: host
       };
     } catch (error) {
       // Handle any errors that occurred during the token request
 
-      console.error("host isss:" + site_host);
+      // console.error("host isss:" + site_host);
       console.error("Failed to get a new token:", error);
     }
   }

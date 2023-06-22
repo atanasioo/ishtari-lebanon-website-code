@@ -18,7 +18,6 @@ function AdminTopHeader() {
     }, 2000);
   };
 
-  console.log(state.admin);
 
   return (
     <div

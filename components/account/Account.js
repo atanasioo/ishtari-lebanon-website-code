@@ -170,7 +170,6 @@ function Account() {
 
     var adminToken = Cookies.get("ATDetails");
 
-    console.log(adminToken);
     if (
       window.location.host === "localhost:3000" ||
       window.location.host === "localhost:3001"

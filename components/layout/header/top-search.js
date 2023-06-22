@@ -119,11 +119,13 @@ function useOutsideAlerter(ref) {
     // return () => source.cancel("Previous request is canceled");
   }, [query]);
 
+  console.log(stateAcc.admin);
+
   return (
     <>
        {overlay && (
         <div
-          className={`absolute z-50  bg-dblackk opacity-50 min-h-screen min-w-full min-w-screen left-0 ${stateAcc.admin ? "top-245px" : "top-32"}  mt-1 hidden mobile:block `}
+          className={`absolute z-50  bg-dblackk opacity-50 min-h-screen min-w-full min-w-screen left-0 ${stateAcc.admin ? "top-182px" : "top-32"}  mt-1 hidden mobile:block `}
           style={{ height: "1400px" }}
         ></div>
       )}

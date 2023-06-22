@@ -12,7 +12,6 @@ export default function Footer(props) {
     const curr = useContext(CurrencyContext);
 
 
-  console.log(curr)
   useEffect(()=>{
 
    axiosServer.get(
@@ -23,8 +22,7 @@ export default function Footer(props) {
         }
       }
     ).then((response) => {;
-    console.log("resp")
-    console.log(response.data)
+
     setResult(response.data)
     })
 
