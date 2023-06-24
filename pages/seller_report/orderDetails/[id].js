@@ -8,11 +8,11 @@ import { useSellerContext } from "../../../contexts/SellerContext";
 import { BsEyeFill } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import buildLink from "@/urls";
 
 const OrderDetails = () => {
   const router = useRouter();
- const {id } = router.query
-
+  const {id } = router.query
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
   const [limit, setLimit] = useState(10);
@@ -20,9 +20,8 @@ const OrderDetails = () => {
   const [status, setStatus] = useState("0");
   const [currentPage, setCurrentPage] = useState(1);
   const [showMenu, setShowMenu] = useState(false);
-  const { width } = useDeviceSize();
-  // const { toggle } = useSellerContext();
-const toggle = true
+  const [ width ] = useDeviceSize();
+  const { toggle } = useSellerContext();
   useEffect(() => {
     setLoading(true);
     window.scrollTo({
@@ -31,7 +30,8 @@ const toggle = true
     });
     axiosServer
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders/getOrderInfo&order_id=${id}&limit=${limit}&page=${currentPage}`
+        buildLink("seller_order_info")
+        + `&order_id=${id}&limit=${limit}&page=${currentPage}`
       )
       .then((response) => {
         setData(response.data.data);

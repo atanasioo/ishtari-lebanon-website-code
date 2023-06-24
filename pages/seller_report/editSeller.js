@@ -8,6 +8,8 @@ import { BsTrash } from "react-icons/bs";
 import { FiPhone } from "react-icons/fi";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSellerContext } from "@/contexts/SellerContext";
+import buildLink from "@/urls";
 const EditSeller = () => {
   const { width } = useDeviceSize();
   const [data, setData] = useState();
@@ -20,9 +22,9 @@ const EditSeller = () => {
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [thumb, setThumb] = useState("");
-  // const { toggle } = useSellerContext();
+  const { toggle } = useSellerContext();
   const router = useRouter();
-const toggle = false
+// const toggle = false
   useEffect(() => {
     setLoading(true);
     window.scrollTo({
@@ -31,10 +33,9 @@ const toggle = false
     });
     axiosServer
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/profile`
+        buildLink("seller_profile")
       )
       .then((response) => {
-        // console.log(response.data.data);
         setData(response.data.data);
         setFirstName(response.data.data.seller_firstname);
         setLastName(response.data.data.seller_lastname);

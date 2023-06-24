@@ -12,8 +12,9 @@ import DateRangePicker from "react-bootstrap-daterangepicker";
 import moment from "moment";
 import "bootstrap-daterangepicker/daterangepicker.css";
 import Cookies from "js-cookie";
+import buildLink from "@/urls";
 const AccountingSeller = () => {
-  const { width } = useDeviceSize();
+  const [width] = useDeviceSize();
   const [data, setData] = useState();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState(false);
@@ -22,7 +23,7 @@ const AccountingSeller = () => {
   const [total, setTotal] = useState();
   const [showMenu, setShowMenu] = useState(false);
   const [type, setType] = useState(getDefault("filter_type"));
-  // const { toggle } = useSellerContext();
+  const { toggle } = useSellerContext();
   const [bank, setBank] = useState("");
   const [description, setDescription] = useState("");
   const [reference, setReference] = useState("");
@@ -30,7 +31,7 @@ const AccountingSeller = () => {
   const [dueDate, setDueDate] = useState();
   const [method, setMethod] = useState("");
   const [balance, setBalance] = useState("");
-  const toggle = true;
+  const [resetClicked, setResetClicked] = useState(false);
   const handleCallback = (start, end) => {
     const finalDate =
       start.year() +
@@ -105,7 +106,7 @@ const AccountingSeller = () => {
     setLoading(true);
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
 
     /// DUE DATE STILL NOT DONE
@@ -132,22 +133,26 @@ const AccountingSeller = () => {
         filter_reference: reference !== "" ? reference : "",
         filter_balance: balance !== "" ? balance : "",
         filter_date: date?.finalDate ? date.finalDate : "",
-        filter_due_date: dueDate?.finalDate ? dueDate.finalDate : ""
+        filter_due_date: dueDate?.finalDate ? dueDate.finalDate : "",
       })
     );
 
-    axiosServer
-      .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/accounting&limit=${limit}&page=${currentPage}${filter_description}${filter_reference}${filter_bank}${filter_type}${filter_method}${filter_balance}${filter_date}${filter_due_date}`
-      )
-      .then((response) => {
-        setData(response.data.data);
-        setTotal(response.data.data.totals);
-        setLoading(false);
-      });
+    if (!resetClicked) {
+      axiosServer
+        .get(
+          buildLink("seller_accounting") +
+            `&limit=${limit}&page=${currentPage}${filter_description}${filter_reference}${filter_bank}${filter_type}${filter_method}${filter_balance}${filter_date}${filter_due_date}`
+        )
+        .then((response) => {
+          setData(response.data.data);
+          setTotal(response.data.data.totals);
+          setLoading(false);
+        });
+    }
   }, [limit, currentPage, type, method, bank, search]);
 
   const resetFilter = () => {
+    setResetClicked(true);
     setLoading(true);
     setLimit(10);
     setCurrentPage(1);
@@ -161,16 +166,17 @@ const AccountingSeller = () => {
     setBalance("");
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
     axiosServer
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/accounting&limit=10&page=1`
+        buildLink("seller_accounting") + `&limit=10&page=1`
       )
       .then((response) => {
         setData(response.data.data);
         setTotal(response.data.data.totals);
         setLoading(false);
+        setResetClicked(false);
       });
   };
 
@@ -199,7 +205,7 @@ const AccountingSeller = () => {
   }
 
   return data ? (
-    <div className="absolute top-0 left-0 right-0 w-full h-full bg-slate200 z-50">
+    <div className="absolute top-0 left-0 right-0 w-full h-full bg-slate200">
       <div
         className={`flex-auto min-w-0 flexflex-col aside-animation ${
           toggle ? "pl-64" : width < 1025 ? "pl-0" : "pl-20"
@@ -377,24 +383,24 @@ const AccountingSeller = () => {
                               ranges: {
                                 Today: [
                                   moment().startOf("day"),
-                                  moment().endOf("day")
+                                  moment().endOf("day"),
                                 ],
 
                                 Yesterday: [
                                   moment().subtract(1, "days").toDate(),
-                                  moment().subtract(1, "days").toDate()
+                                  moment().subtract(1, "days").toDate(),
                                 ],
                                 "Last 7 Days": [
                                   moment().subtract(6, "days").toDate(),
-                                  moment().toDate()
+                                  moment().toDate(),
                                 ],
                                 "Last 30 Days": [
                                   moment().subtract(29, "days").toDate(),
-                                  moment().toDate()
+                                  moment().toDate(),
                                 ],
                                 "This Month": [
                                   moment().startOf("month").toDate(),
-                                  moment().endOf("month").toDate()
+                                  moment().endOf("month").toDate(),
                                 ],
                                 "Last Month": [
                                   moment()
@@ -404,9 +410,9 @@ const AccountingSeller = () => {
                                   moment()
                                     .subtract(1, "month")
                                     .endOf("month")
-                                    .toDate()
-                                ]
-                              }
+                                    .toDate(),
+                                ],
+                              },
                             }}
                             onCallback={handleCallback}
                           >
@@ -417,7 +423,7 @@ const AccountingSeller = () => {
                                 background: "#fff",
                                 cursor: "pointer",
                                 padding: "5px 10px",
-                                width: "100%"
+                                width: "100%",
                               }}
                             >
                               <i className="fa fa-calendar"></i>&nbsp;
@@ -485,24 +491,24 @@ const AccountingSeller = () => {
                               ranges: {
                                 Today: [
                                   moment().startOf("day"),
-                                  moment().endOf("day")
+                                  moment().endOf("day"),
                                 ],
 
                                 Yesterday: [
                                   moment().subtract(1, "days").toDate(),
-                                  moment().subtract(1, "days").toDate()
+                                  moment().subtract(1, "days").toDate(),
                                 ],
                                 "Last 7 Days": [
                                   moment().subtract(6, "days").toDate(),
-                                  moment().toDate()
+                                  moment().toDate(),
                                 ],
                                 "Last 30 Days": [
                                   moment().subtract(29, "days").toDate(),
-                                  moment().toDate()
+                                  moment().toDate(),
                                 ],
                                 "This Month": [
                                   moment().startOf("month").toDate(),
-                                  moment().endOf("month").toDate()
+                                  moment().endOf("month").toDate(),
                                 ],
                                 "Last Month": [
                                   moment()
@@ -512,9 +518,9 @@ const AccountingSeller = () => {
                                   moment()
                                     .subtract(1, "month")
                                     .endOf("month")
-                                    .toDate()
-                                ]
-                              }
+                                    .toDate(),
+                                ],
+                              },
                             }}
                             onCallback={handleCallbackDueDate}
                           >
@@ -525,7 +531,7 @@ const AccountingSeller = () => {
                                 background: "#fff",
                                 cursor: "pointer",
                                 padding: "5px 10px",
-                                width: "100%"
+                                width: "100%",
                               }}
                             >
                               <i className="fa fa-calendar"></i>&nbsp;

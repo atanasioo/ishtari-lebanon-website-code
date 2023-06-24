@@ -14,9 +14,10 @@ import moment from "moment";
 import "bootstrap-daterangepicker/daterangepicker.css";
 import { MdSelectAll } from "react-icons/md";
 import Cookies from "js-cookie";
+import buildLink from "@/urls";
 
 const OrdersSeller = () => {
-  const { width } = useDeviceSize();
+  const [ width ] = useDeviceSize();
   const [data, setData] = useState();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState(false);
@@ -24,8 +25,7 @@ const OrdersSeller = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [total, setTotal] = useState();
   const [showMenu, setShowMenu] = useState(false);
-  // const { toggle } = useSellerContext();
-  const toggle= true
+  const { toggle } = useSellerContext();
   const [totalValue, setTotalValue] = useState("");
   const router = useRouter();
   const [selected, setSelected] = useState([]);
@@ -68,10 +68,6 @@ const OrdersSeller = () => {
       "-" +
       end.date();
 
-    // alert(finalDate)
-
-    // alert(start)
-    // alert(end)
     setDate({ start, end, finalDate });
   };
 
@@ -126,7 +122,9 @@ const OrdersSeller = () => {
 
     _axios
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}`
+        buildLink("seller_orders")
+        + `&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}`
+        // `https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}`
       )
       .then((response) => {
         setData(response.data.data);
@@ -150,7 +148,8 @@ const OrdersSeller = () => {
     });
     _axios
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders&limit=10&page=1`
+        buildLink("seller_orders")
+        + `&limit=10&page=1`
       )
       .then((response) => {
         setData(response.data.data);
@@ -226,14 +225,14 @@ const OrdersSeller = () => {
             <div className="box-border">
               <div className="transition-opacity block box-border">
                 <div className="orders-table items-stretch justify-between relative  px-0 py-25 border-b-1 border-borderbottom bg-white">
-                  <div className="border-b flex justify-between items-center border-dinputBorder p-4">
-                    <span>Orders</span>{" "}
+                  <div className="border-b flex flex-col md:flex-row justify-between items-center border-dinputBorder p-4">
+                    <span className="mb-3 md:mb-0">Orders</span>{" "}
                     <div className="flex justify-center items-center">
                       {" "}
                       <Link
                         href={`/seller_report/printOrderInvoice?orders=${selected}`}
                         target="_blank"
-                        className={`search_button text-xs mr-5 font-semibold text-white flex items-center justify-center
+                        className={`search_button text-d11 md:text-xs mr-5 font-semibold text-white flex items-center justify-center
                         ${selected.length == 0 ? "pointer-events-none opacity-60" : ""}`}
                       >
                         <BsPrinter className="mr-1.5" />

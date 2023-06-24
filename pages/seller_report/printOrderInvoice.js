@@ -1,17 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import queryString from "query-string";
 import _axios from "../../axios";
-import { useLocation, useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import Barcode from "react-barcode";
+import { useRouter } from "next/router";
+import buildLink from "@/urls";
 
 function PrintOrderInvoice() {
+  const router = useRouter();
   const [sellerData, setSellerData] = useState([]);
   const [printData, setPrintData] = useState([]);
-  const location = useLocation();
-  const parsedQueryString = queryString.parse(location.search);
+  // const parsedQueryString = queryString.parse(location.search);
   const invoiceRef = useRef();
-  const selected_orders = parsedQueryString.orders?.split(",");
+  const selected_orders = router.query.orders?.split(",");
   const current = new Date();
   const date = `${current.getDate()}/${
     current.getMonth() + 1
@@ -24,7 +24,8 @@ function PrintOrderInvoice() {
   useEffect(() => {
     _axios
       .get(
-        `https://www.ishtari.com/motor/v1/index.php?route=seller_report/profile`
+        buildLink("seller_profile")
+        // `https://www.ishtari.com/motor/v1/index.php?route=seller_report/profile`
       )
       .then((response) => {
         setSellerData(response.data.data);
@@ -36,7 +37,8 @@ function PrintOrderInvoice() {
   function printOrders(selected_orders) {
     _axios
       .post(
-        "https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders/getSellerOrders",
+        buildLink("seller_print_orders"),
+        // "https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders/getSellerOrders",
         selected_orders
       )
       .then((response) => {

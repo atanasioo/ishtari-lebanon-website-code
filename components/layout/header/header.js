@@ -40,7 +40,6 @@ function Header(props) {
 
   console.log(serverSideDomain);
 
-
   //  console.log(session);
   const [state, setState] = useState([]);
   useEffect(() => {
@@ -122,7 +121,6 @@ function Header(props) {
     setViewLevel2(true);
   }
 
-
   return (
     <div>
       {local && <SiteHeaders local={local} />}
@@ -203,34 +201,37 @@ function Header(props) {
                   colorTwo={[65, 69, 81]}
                 />
               </>
-            ) : Cookies.get("site-local-name") === "ishtari" ||  Cookies.get("site-local-name") === "ishtari-ghana" ? (
+            ) : Cookies.get("site-local-name") === "ishtari" ||
+              Cookies.get("site-local-name") === "ishtari-ghana" ? (
               <>
-              <Image
-                className="hidden mobile:block"
-                src="/images/logo/logo-red.png"
-                width={130}
-                height={130}
-                alt="ishtari-logo"
-                priority={true}
-                style={{ width: "80%", height: "auto" }}
-              />
+                <Image
+                  className="hidden mobile:block"
+                  src="/images/logo/logo-red.png"
+                  width={130}
+                  height={130}
+                  alt="ishtari-logo"
+                  priority={true}
+                  style={{ width: "80%", height: "auto" }}
+                />
 
-              <ImageFilter
-                className="h-5 w-24 mr-5 mobile:hidden"
-                image={"/images/logo/logo-white.png"}
-                filter={"duotone"} // see docs beneath
-                colorOne={[96, 96, 96]}
-                colorTwo={[65, 69, 81]}
-              />
-            </>
-            ): (
+                <ImageFilter
+                  className="h-5 w-24 mr-5 mobile:hidden"
+                  image={"/images/logo/logo-white.png"}
+                  filter={"duotone"} // see docs beneath
+                  colorOne={[96, 96, 96]}
+                  colorTwo={[65, 69, 81]}
+                />
+              </>
+            ) : (
               <LogoClient />
             )}
-           
           </Link>
         </div>
 
         <TopSearch />
+
+       
+
         <div className="flex  items-center">
           <div className="country-flag flex justify-center items-center lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 cursor-pointer">
             <img
@@ -241,6 +242,20 @@ function Header(props) {
             {width > 650 && <div className="flex ml-2"> Lebanon</div>}
             <FiChevronDown className="hidden md:block w-5 " />
           </div>
+
+          {stateAcc.isSeller && (
+          <div>
+            <Link
+              className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
+              // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
+              // href={`https://www.ishtari.com/seller_report/home`}
+              href="/seller_report"
+            >
+              seller dashboard
+            </Link>
+          </div>
+        )}
+
           <Account />
           {session?.user?.isLoggedIn && <TopWishlist />}
           <TopCart />

@@ -85,7 +85,25 @@ var urls = {
   wishlistUpdate: "v2/index.php?route=account/wishlist_group/updateGroup",
   addToWishlist_5: "v2/index.php?route=account/wishlist_group/addToWishlist",
   removeAll: "v2/index.php?route=account/wishlist_group/deleteItemFromAllGroup",
-  pos: "v2/index.php?route=checkout/cart/addToCartPos"
+  pos: "v2/index.php?route=checkout/cart/addToCartPos",
+
+  //Seller report
+  seller_home: "v2/index.php?route=seller_report/home",
+  seller_profile: "v2/index.php?route=seller_report/profile",
+  seller_products: "v2/index.php?route=seller_report/products",
+  seller_product_info: "v2/index.php?route=seller_report/products/info",
+  seller_edit_product: "v2/index.php?route=seller_report/products/edit",
+  seller_orders: "v2/index.php?route=seller_report/orders",
+  seller_print_orders:
+    "v2/index.php?route=seller_report/orders/getSellerOrders",
+  seller_order_info: "v2/index.php?route=seller_report/orders/getOrderInfo",
+  seller_return_orders: "v2/index.php?route=seller_report/return_order",
+  seller_return_order_info:
+    "v2/index.php?route=seller_report/return_order/getReturnOrderInfo",
+  seller_accounting: "v2/index.php?route=seller_report/accounting",
+  seller_reports: "v2/index.php?route=seller_report/reports",
+  seller_reports_sold_products:
+    "v2/index.php?route=seller_report/reports/getSoldProduct",
 };
 
 if (typeof window !== "undefined") {
@@ -210,7 +228,25 @@ if (typeof window !== "undefined") {
       EmailNotifications:
         "v2/index.php?route=account/account/getCustomerEmailDisable",
       disableEmailNotification:
-        "v2/index.php?route=account/account/customerEmailDisable"
+        "v2/index.php?route=account/account/customerEmailDisable",
+
+      //Seller report
+      seller_home: "v2/index.php?route=seller_report/home",
+      seller_profile: "v2/index.php?route=seller_report/profile",
+      seller_products: "v2/index.php?route=seller_report/products",
+      seller_product_info: "v2/index.php?route=seller_report/products/info",
+      seller_edit_product: "v2/index.php?route=seller_report/products/edit",
+      seller_orders: "v2/index.php?route=seller_report/orders",
+      seller_print_orders:
+        "v2/index.php?route=seller_report/orders/getSellerOrders",
+      seller_order_info: "v2/index.php?route=seller_report/orders/getOrderInfo",
+      seller_return_orders: "v2/index.php?route=seller_report/return_order",
+      seller_return_order_info:
+        "v2/index.php?route=seller_report/return_order/getReturnOrderInfo",
+      seller_accounting: "v2/index.php?route=seller_report/accounting",
+      seller_reports: "v2/index.php?route=seller_report/reports",
+      seller_reports_sold_products:
+        "v2/index.php?route=seller_report/reports/getSoldProduct",
     };
   }
   const firstPath = window.location.href.split("/")[3];
@@ -258,10 +294,7 @@ if (typeof window !== "undefined") {
   }
 }
 function buildLink(link, payload, width, hostServer) {
-
-
-
-  const type =  Cookies.get('site-local-name')
+  const type = Cookies.get("site-local-name");
 
   // if (
   //   (width < 500 && localStorage.getItem("site-local-name") === "ishtari") ||
@@ -273,45 +306,69 @@ function buildLink(link, payload, width, hostServer) {
   // } else {
   const extra_params = typeof payload == "undefined" ? "" : payload;
   // if (typeof window !== "undefined" &&  hostServer !== "https://cloudgoup.com/" && hostServer !== "https://www.cloudgoup.com/" && hostServer !== "http://cloudgoup.com" && hostServer !== "www.cloudgoup.com" && hostServer !== "www.ishtari.com"){
-  //  return host + path1 + urls[link] + extra_params; 
+  //  return host + path1 + urls[link] + extra_params;
   // }else{
 
-    if(hostServer === "ishtari" || hostServer === "https://www.ishtari.com/" || hostServer === "http://cloudgoup.com" || hostServer === "https://cloudgoup.com/" || hostServer === "www.cloudgoup.com"){
-      host="https://www.ishtari.com/";
-      path1 = "motor/"
-      return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "ishtari-ghana" || hostServer === "https://www.ishtari.com.gh/"  || type=== "ishtari-ghana"){
-     console.log("yessssssssssss")
-      host="https://www.ishtari.com.gh/";
-      path1 = ""
-      return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "flo" || hostServer === "https://www.flo-lebanon.com/"){
-      host="https://www.flo-lebanon.com/";
-      path1 = "api/"
-      return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "flo-bey" || hostServer === "https://www.flo-lebanon.com/"){
-      host="https://www.flo-lebanon.com/";
-      path1 = "bey/api/"
-      return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "aalbeit" || hostServer === "https://www.aalbeit.com/"){
-      host="https://www.aalbeit.com/";
-      path1 = "api/"
-      return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "ishtari-usd" || hostServer === "https://www.ishtari-usd.com/"){
-      host="https://www.ishtari-usd.com/";
-      path1 = "api/"
-      return host + path1 + urls[link] + extra_params; 
-    }else if(hostServer === "energy-plus" || hostServer === "https://energyplus-lb.com/"){
-      host="https://energyplus-lb.com/";
-      path1 = "api/"
-      return host + path1 + urls[link] + extra_params; 
-     }else{
-      // host="https://www.ishtari.com.gh/";
-
-    }
-    return host + path1 + urls[link] + extra_params; 
+  if (
+    hostServer === "ishtari" ||
+    hostServer === "https://www.ishtari.com/" ||
+    hostServer === "http://cloudgoup.com" ||
+    hostServer === "https://cloudgoup.com/" ||
+    hostServer === "www.cloudgoup.com"
+  ) {
+    host = "https://www.ishtari.com/";
+    path1 = "motor/";
+    return host + path1 + urls[link] + extra_params;
+  } else if (
+    hostServer === "ishtari-ghana" ||
+    hostServer === "https://www.ishtari.com.gh/" ||
+    type === "ishtari-ghana"
+  ) {
+    console.log("yessssssssssss");
+    host = "https://www.ishtari.com.gh/";
+    path1 = "";
+    return host + path1 + urls[link] + extra_params;
+  } else if (
+    hostServer === "flo" ||
+    hostServer === "https://www.flo-lebanon.com/"
+  ) {
+    host = "https://www.flo-lebanon.com/";
+    path1 = "api/";
+    return host + path1 + urls[link] + extra_params;
+  } else if (
+    hostServer === "flo-bey" ||
+    hostServer === "https://www.flo-lebanon.com/"
+  ) {
+    host = "https://www.flo-lebanon.com/";
+    path1 = "bey/api/";
+    return host + path1 + urls[link] + extra_params;
+  } else if (
+    hostServer === "aalbeit" ||
+    hostServer === "https://www.aalbeit.com/"
+  ) {
+    host = "https://www.aalbeit.com/";
+    path1 = "api/";
+    return host + path1 + urls[link] + extra_params;
+  } else if (
+    hostServer === "ishtari-usd" ||
+    hostServer === "https://www.ishtari-usd.com/"
+  ) {
+    host = "https://www.ishtari-usd.com/";
+    path1 = "api/";
+    return host + path1 + urls[link] + extra_params;
+  } else if (
+    hostServer === "energy-plus" ||
+    hostServer === "https://energyplus-lb.com/"
+  ) {
+    host = "https://energyplus-lb.com/";
+    path1 = "api/";
+    return host + path1 + urls[link] + extra_params;
+  } else {
+    // host="https://www.ishtari.com.gh/";
+  }
+  return host + path1 + urls[link] + extra_params;
   //}
-  
+
   // }
 }
 export default buildLink;

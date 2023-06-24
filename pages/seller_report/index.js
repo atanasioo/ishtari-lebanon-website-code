@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from "react";
 import {
   AiOutlineShoppingCart,
-  AiOutlineDashboard,
-  AiOutlineInbox,
   AiOutlineMail,
-  AiOutlineShopping,
   AiOutlineRight,
 } from "react-icons/ai";
 import _axios from "../../axios";
-import { GiChart } from "react-icons/gi";
-import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import useDeviceSize from "@/components/useDeviceSize";
 import { BiEdit } from "react-icons/bi";
 import { useSellerContext } from "../../contexts/SellerContext";
 import Link from "next/link";
 import SellerHeader from "@/components/seller/SellerHeader";
+import buildLink from "@/urls";
 
 const DashboardSeller = () => {
-  const { width } = useDeviceSize();
+  const [ width ] = useDeviceSize();
   const [data, setData] = useState();
   const [showMenu, setShowMenu] = useState(false);
-  const toggle = true;
-  // const { toggle } = useSellerContext();
+  const { toggle } = useSellerContext();
   const statusColor = {
     processing: "#5578eb",
     prepare: "#9816f4",
@@ -40,7 +35,7 @@ const DashboardSeller = () => {
   useEffect(() => {
     _axios
       .get(
-        "https://www.ishtari.com/motor/v2/index.php?route=seller_report/home"
+        buildLink("seller_home")
       )
       .then((response) => {
         setData(response.data.data);
@@ -90,9 +85,9 @@ const DashboardSeller = () => {
                   className="rounded-full w-20 h-20"
                 />
                 <div className="flex flex-col justify-start ml-6">
-                  <p className="font-bold text-lg">{data.seller_name}</p>
+                  <p className="pr-bold text-lg">{data.seller_name}</p>
                   <p className="text-dgrey1 text-xs">{data.seller_name}</p>
-                  <Link href={`/seller_report/edit`} className="text-dbluedark">
+                  <Link href={`/seller_report/editSeller`} className="text-dbluedark">
                     {" "}
                     <BiEdit />
                   </Link>
@@ -123,8 +118,8 @@ const DashboardSeller = () => {
                         y2="21.084"
                         gradientUnits="userSpaceOnUse"
                       >
-                        <stop offset="0" stop-color="#20b038" />
-                        <stop offset="1" stop-color="#60d66a" />
+                        <stop offset="0" stopColor="#20b038" />
+                        <stop offset="1" stopColor="#60d66a" />
                       </linearGradient>
                       <path
                         fill="url(#a)"
@@ -132,9 +127,9 @@ const DashboardSeller = () => {
                       />
                       <path
                         fill="#FFF"
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M462.273 349.294c-11.234-24.977-23.062-25.477-33.75-25.914-8.742-.375-18.75-.352-28.742-.352-10 0-26.25 3.758-39.992 18.766-13.75 15.008-52.5 51.289-52.5 125.078 0 73.797 53.75 145.102 61.242 155.117 7.5 10 103.758 166.266 256.203 226.383 126.695 49.961 152.477 40.023 179.977 37.523s88.734-36.273 101.234-71.297c12.5-35.016 12.5-65.031 8.75-71.305-3.75-6.25-13.75-10-28.75-17.5s-88.734-43.789-102.484-48.789-23.75-7.5-33.75 7.516c-10 15-38.727 48.773-47.477 58.773-8.75 10.023-17.5 11.273-32.5 3.773-15-7.523-63.305-23.344-120.609-74.438-44.586-39.75-74.688-88.844-83.438-103.859-8.75-15-.938-23.125 6.586-30.602 6.734-6.719 15-17.508 22.5-26.266 7.484-8.758 9.984-15.008 14.984-25.008 5-10.016 2.5-18.773-1.25-26.273s-32.898-81.67-46.234-111.326z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                       <path
                         fill="#FFF"
@@ -157,13 +152,13 @@ const DashboardSeller = () => {
               </div>
               <div className="flex items-center pt-8 flex-1 mr-4 text-dgrey1">
                 <div className="text-center ml-2 bg-dgrey pt-3 pb-3 pr-4 pl-4 rounded">
-                  <p className="font-semibold text-dblue">
+                  <p className="pr-semibold text-dblue">
                     {data.total_orders}
                   </p>
                   <p className="text-xs">Orders</p>
                 </div>
                 <div className="text-center ml-2 bg-dgrey pt-3 pb-3 pr-4 pl-4 rounded">
-                  <p className="font-semibold text-dblue">
+                  <p className="pr-semibold text-dblue">
                     {data.total_products}
                   </p>
                   <p className="text-xs">All Products</p>
@@ -187,8 +182,8 @@ const DashboardSeller = () => {
                       <p>Order Status</p>
                     </div>
                     {data.order_status_group &&
-                      data.order_status_group.map((status) => (
-                        <div className="p-4">
+                      data.order_status_group.map((status, key) => (
+                        <div className="p-4" key={key}>
                           <div className="flex justify-between">
                             <p>{status.name}</p>
                             <p>
@@ -237,7 +232,6 @@ const DashboardSeller = () => {
                                   </tr>
                                 </thead>
                                 <tfoot className="text-xs">
-                                  {" "}
                                   <tr>
                                     <th>Order ID</th>
                                     <th>Status</th>
@@ -248,7 +242,7 @@ const DashboardSeller = () => {
                                 <tbody>
                                   {data.orders.map((order) => {
                                     return (
-                                      <tr className="text-d13">
+                                      <tr className="text-d13" key={order.order_id}>
                                         <td>{order.order_id}</td>
                                         <td>
                                           {order.status === "trash" ? (

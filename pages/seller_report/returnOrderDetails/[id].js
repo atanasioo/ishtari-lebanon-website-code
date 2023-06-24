@@ -8,6 +8,7 @@ import useDeviceSize from "@/components/useDeviceSize";
 import SellerHeader from "@/components/seller/SellerHeader";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import buildLink from "@/urls";
 const ReturnOrderDetails = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -18,9 +19,8 @@ const ReturnOrderDetails = () => {
   const [status, setStatus] = useState("0");
   const [currentPage, setCurrentPage] = useState(1);
   const [showMenu, setShowMenu] = useState(false);
-  const { width } = useDeviceSize();
-  // const { toggle } = useSellerContext();
-  const toggle = true;
+  const [ width ] = useDeviceSize();
+  const { toggle } = useSellerContext();
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +30,8 @@ const ReturnOrderDetails = () => {
     });
     axiosServer
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/return_order/getReturnOrderInfo&return_order_id=${id}&limit=${limit}&page=${currentPage}`
+        buildLink("seller_return_order_info")
+        + `&return_order_id=${id}&limit=${limit}&page=${currentPage}`
       )
       .then((response) => {
         setData(response?.data?.data);
@@ -87,22 +88,6 @@ const ReturnOrderDetails = () => {
                 <div className="orders-table items-stretch justify-between relative  px-0 py-25 border-b-1 border-borderbottom bg-white">
                   <div className="border-b flex justify-between items-center border-dinputBorder p-4">
                     <span>Orders</span>{" "}
-                    {/* <div className="flex justify-center items-center">
-                      {" "}
-                      <span className=" text-xs mr-4 font-semibold text-dgrey1">
-                        DISPLAY
-                      </span>
-                      <select
-                        className="bg-white relative w-20 h-8 px-4 border text-sm font-semibold cursor-pointer rounded  "
-                        value={limit}
-                        onChange={handleChangeDisplay}
-                      >
-                        <option value={10}>10</option>
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                      </select>
-                    </div> */}
                   </div>
 
                   <div className=" flex flex-col px-2 rounded box-border overflow-auto overflow-x-scroll ">
@@ -118,7 +103,6 @@ const ReturnOrderDetails = () => {
                                   <th>Sku</th>
                                   <th>Cost</th>
                                   <th>Price</th>
-                                  {/* <th>Sold Price</th> */}
                                   <th>Order Quantity</th>
                                   <th>Reason</th>
 
@@ -133,10 +117,8 @@ const ReturnOrderDetails = () => {
                                   <th>Sku</th>
                                   <th>Cost</th>
                                   <th>Price</th>
-                                  {/* <th>Sold Price</th> */}
                                   <th>Order Quantity</th>
                                   <th>Reason</th>
-
                                   <th>Total</th>
                                 </tr>
                               </tfoot>

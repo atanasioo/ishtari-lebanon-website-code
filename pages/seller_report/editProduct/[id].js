@@ -1,21 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
-import _axios from "../../axios";
-import SellerHeader from "../../components/SellerHeader";
-import { useWindowDimensions } from "../../components/TopHeader";
-import { useSellerContext } from "../../contexts/SellerContext";
-import { Link, useHistory, useParams } from "react-router-dom";
+import _axios from "../../../axios";
+import SellerHeader from "../../../components/seller/SellerHeader";
+import { useSellerContext } from "../../../contexts/SellerContext";
 import { FaPen } from "react-icons/fa";
 import { BsTrash } from "react-icons/bs";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import useDeviceSize from "@/components/useDeviceSize";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import buildLink from "@/urls";
 
 const EditProduct = () => {
-  const { width } = useWindowDimensions();
+  const router = useRouter();
+  const [width] = useDeviceSize();
   const [data, setData] = useState();
-  const params = useParams();
   const [showMenu, setShowMenu] = useState(false);
   const [loading, setLoading] = useState(true);
+  const editorRef = useRef();
+  const [editorLoaded, setEditorLoaded] = useState(false);
+  const { CKEditor, ClassicEditor } = editorRef.current || {};
   const [productImage, setProductImage] = useState(
     "https://www.ishtari.com/image/cache/no_image-120x164.jpg"
   );
@@ -31,7 +35,6 @@ const EditProduct = () => {
   const editorConfiguration = {
     toolbar: ["bold", "italic"],
   };
-  const history = useHistory();
   function checkPermission(str) {
     let temp;
     permissions.map((p) => {
@@ -40,8 +43,16 @@ const EditProduct = () => {
       }
     });
     return temp;
-    
   }
+
+  useEffect(() => {
+    editorRef.current = {
+      CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
+      ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
+    };
+    setEditorLoaded(true);
+  }, []);
+
 
   useEffect(() => {
     setLoading(true);
@@ -51,7 +62,8 @@ const EditProduct = () => {
     });
     _axios
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/products/info&product_id=${params.id}`
+        buildLink("seller_product_info")
+        + `&product_id=${router.query.id}`
       )
       .then((response) => {
         setData(response.data.data);
@@ -93,13 +105,12 @@ const EditProduct = () => {
     console.log(formData);
     _axios
       .post(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/products/edit&product_id=${params.id}`,
+        buildLink("seller_edit_product")
+        +`&product_id=${router.query.id}`,
         formData
       )
       .then((response) => {
-        history.push({
-          pathname: "/seller_report/products",
-        });
+        router.push("/seller_report/products");
         console.log(response.data);
       });
   }
@@ -122,14 +133,14 @@ const EditProduct = () => {
           <div className="px-3.5 flex items-center py-4">
             <p className="text-lg ml-3 ">Products</p>
             <Link
-              to={`/seller_report/home`}
+              href={`/seller_report/home`}
               className={`pl-1 ml-3  text-dgrey1 hover:text-dblue`}
             >
               <AiOutlineHome />
             </Link>
             <span className="seller-dot  p-2"></span>
             <Link
-              to={`/seller_report/products`}
+              href={`/seller_report/products`}
               className="font-medium text-sm"
               style={{ color: "#959cb6" }}
             >
@@ -158,7 +169,7 @@ const EditProduct = () => {
                         Save
                       </button>
                       <Link
-                        to={`/seller_report/products`}
+                        href={`/seller_report/products`}
                         className="cursor-pointer text-white py-2 px-4"
                         style={{ borderRadius: "2rem", background: "#5867dd" }}
                       >
@@ -226,11 +237,11 @@ const EditProduct = () => {
                                         />
                                         {(checkPermission("name") ||
                                           permissions.length === 0) && (
-                                            <span className="tooltiptext text-sm">
-                                              you don't have a permission to
-                                              edit name
-                                            </span>
-                                          )}
+                                          <span className="tooltiptext text-sm">
+                                            you don't have a permission to edit
+                                            name
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -260,41 +271,48 @@ const EditProduct = () => {
                                         gridColumn: width > 768 ? "2 / 4" : "",
                                       }}
                                     >
-                                      <CKEditor
+                                      {editorLoaded ? (
+                                        <CKEditor
                                         editor={ClassicEditor}
-                                        disabled={
-                                          checkPermission("description") ||
-                                          permissions.length === 0
-                                        }
-                                        config={{
-                                          toolbar: [
-                                            "heading",
-                                            "|",
-                                            "bold",
-                                            "italic",
+                                          // editorLoaded={editorLoaded}
+                                          disabled={
+                                            checkPermission("description") ||
+                                            permissions.length === 0
+                                          }
+                                          config={{
+                                            toolbar: [
+                                              "heading",
+                                              "|",
+                                              "bold",
+                                              "italic",
 
-                                            "bulletedList",
-                                            "numberedList",
+                                              "bulletedList",
+                                              "numberedList",
 
-                                            "blockQuote",
-                                            "|",
-                                            "undo",
-                                            "redo",
-                                          ],
-                                        }}
-                                        data={value}
-                                        onChange={(event, editor) => {
-                                          const data = editor.getData();
-                                          setValue(data);
-                                        }}
-                                      />
+                                              "blockQuote",
+                                              "|",
+                                              "undo",
+                                              "redo",
+                                            ],
+                                          }}
+                                          
+                                          data={value}
+                                          onChange={(event, editor) => {
+                                            const data = editor.getData();
+                                            setValue(data);
+                                          }}
+                                        />
+                                      ) : (
+                                        <div>loading...</div>
+                                      )}
+
                                       {(checkPermission("description") ||
                                         permissions.length === 0) && (
-                                          <span className="tooltiptext text-sm">
-                                            you don't have a permission to edit
-                                            description
-                                          </span>
-                                        )}
+                                        <span className="tooltiptext text-sm">
+                                          you don't have a permission to edit
+                                          description
+                                        </span>
+                                      )}
                                     </div>
                                   </div>
 
@@ -349,11 +367,11 @@ const EditProduct = () => {
                                         />
                                         {(checkPermission("model") ||
                                           permissions.length === 0) && (
-                                            <span className="tooltiptext text-sm">
-                                              you don't have a permission to
-                                              edit model
-                                            </span>
-                                          )}
+                                          <span className="tooltiptext text-sm">
+                                            you don't have a permission to edit
+                                            model
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -400,11 +418,11 @@ const EditProduct = () => {
                                         />
                                         {(checkPermission("price") ||
                                           permissions.length === 0) && (
-                                            <span className="tooltiptext text-sm">
-                                              you don't have a permission to
-                                              edit price
-                                            </span>
-                                          )}
+                                          <span className="tooltiptext text-sm">
+                                            you don't have a permission to edit
+                                            price
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -451,11 +469,11 @@ const EditProduct = () => {
                                         />
                                         {(checkPermission("quantity") ||
                                           permissions.length === 0) && (
-                                            <span className="tooltiptext text-sm">
-                                              you don't have a permission to
-                                              edit quantity
-                                            </span>
-                                          )}
+                                          <span className="tooltiptext text-sm">
+                                            you don't have a permission to edit
+                                            quantity
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -551,10 +569,6 @@ const EditProduct = () => {
                                               color: "red",
                                               border: "1px solid red",
                                             }}
-                                            // disabled={
-                                            //   checkPermission("image") ||
-                                            //   permissions.length === 0
-                                            // }
                                             onClick={() => {
                                               deleteImage();
                                             }}
@@ -562,7 +576,7 @@ const EditProduct = () => {
                                             <BsTrash />
                                           </button>
                                           {(checkPermission("image") ||
-                                          permissions.length === 0) && (
+                                            permissions.length === 0) && (
                                             <span className="tooltiptext text-sm">
                                               you don't have a permission to
                                               edit image
@@ -572,42 +586,6 @@ const EditProduct = () => {
                                       </div>
                                     </div>
                                   </div>
-                                  {/* <div className="border-b border-dashed my-6 border-dplaceHolder"></div> */}
-                                  {/* PRODUCT TAG*/}
-                                  {/* <div
-                                    className={` w-10/12 grid ${
-                                      width > 768
-                                        ? "grid-cols-3"
-                                        : "grid-cols-1"
-                                    } `}
-                                  >
-                                    <label
-                                      className={`text-right font-light flex ${
-                                        width > 768
-                                          ? "gap-3 justify-end p-3 "
-                                          : "justify-start gap-1 pb-1"
-                                      } items-center`}
-                                    >
-                                      <span style={{ color: "#959cb6" }}>
-                                        Product Tags:
-                                      </span>
-                                    </label>
-                                    <div
-                                      className=" flex items-center"
-                                      style={{
-                                        gridColumn: width > 768 ? "2 / 4" : "",
-                                      }}
-                                    >
-                                      <input
-                                        className="w-full block py-2 px-4 font-normal leading-relaxed rounded h-10"
-                                        value={tags}
-                                        style={{ border: "1px solid #e2e5ec" }}
-                                        onChange={(e) => {
-                                          setTags(e.target.value);
-                                        }}
-                                      />
-                                    </div>
-                                  </div> */}
                                 </div>
                               </div>
                             </div>

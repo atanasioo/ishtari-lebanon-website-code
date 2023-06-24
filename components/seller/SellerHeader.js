@@ -8,7 +8,6 @@ import { GiChart } from "react-icons/gi";
 import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import bluebg from "@/assets/images/head_seller.jpg";
 import { AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
 import { axiosServer } from "@/axiosServer";
 import { AccountContext } from "@/contexts/AccountContext";
@@ -24,7 +23,7 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
   const [sellerImage, setSellerImage] = useState(image);
   const [state, dispatch] = useContext(AccountContext);
   const [sellerId, setSellerId] = useState("0");
-  const { width } = useDeviceSize();
+  const [width] = useDeviceSize();
   const router= useRouter();
 
   useEffect(() => {
@@ -198,7 +197,7 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
         >
           <div className="w-full h-full relative">
             <div className="w-full">
-              <img className="w-full h-16" alt="" src={bluebg} />
+              <img className="w-full h-16" alt="seller_header" src={"/images/head_seller.jpg"} />
             </div>
             <div className="flex items-end gap-4 absolute top-9 left-6">
               {" "}
@@ -227,7 +226,7 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
             </div>
             <div className="flex items-center mt-4 pl-5">
               <button
-                className="uppercase text-xs font-semibold px-4 py-2 rounded "
+                className="uppercase text-xs pr-semibold px-4 py-2 rounded "
                 style={{
                   color: "#5867dd",
                   background: "rgba(93, 120, 255, 0.1)",

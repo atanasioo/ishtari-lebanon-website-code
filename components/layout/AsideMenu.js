@@ -5,7 +5,7 @@ import {
   AiOutlineInbox,
   AiOutlineShopping,
 } from "react-icons/ai";
-import {MdOutlineAssignmentReturn}  from "react-icons/md";
+import { MdOutlineAssignmentReturn } from "react-icons/md";
 import { GiChart } from "react-icons/gi";
 import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import Link from "next/link";
@@ -13,27 +13,29 @@ import { useRouter } from "next/router";
 import { useSellerContext } from "@/contexts/SellerContext";
 import useDeviceSize from "../useDeviceSize";
 const AsideMenu = () => {
-  const { width } = useDeviceSize();
+  const [width] = useDeviceSize();
   const [route, setRoute] = useState("");
   const { isUserSeller, setIsUserSeller, toggle, toggleMenu, smallMenuToggle } =
     useSellerContext();
-  const location = useLocation();
+  const router = useRouter();
+  const path = "";
 
   useEffect(() => {
-    setRoute(location.pathname.split("/")[2]);
-  }, [location]);
-
+    setRoute(router.pathname.split("/")[2]);
+  }, [router]);
 
   return width > 1025 ? (
     <div
       className={`flex flex-col aside-animation ${
         toggle ? "w-64" : "w-20"
-      } fixed top-0 bottom-0 left-0 z-50 max-w-full bg-daside ${ location.pathname === "/seller_report/printOrderInvoice" ? "hidden" : "" } `}
+      } fixed top-0 bottom-0 left-0 z-50 max-w-full bg-daside ${
+        router.pathname === "/seller_report/printOrderInvoice" ? "hidden" : ""
+      } `}
     >
       <div className="flex max-w-full bg-daside aside-animation justify-between items-center flex-row aside-brand">
         {toggle && (
           <div>
-            <Link to={`/`} onClick={() => setIsUserSeller(false)}>
+            <Link href={`/`} onClick={() => setIsUserSeller(false)}>
               <img
                 alt="Logo"
                 className="h-8"
@@ -61,7 +63,7 @@ const AsideMenu = () => {
             {" "}
             <Link
               className={route === "home" && `active-link`}
-              to={`${path}/seller_report/home`}
+              href={`${path}/seller_report`}
             >
               <AiOutlineDashboard />
               {toggle && <span> Dashboard </span>}
@@ -74,11 +76,12 @@ const AsideMenu = () => {
                 (route === "products" || route === "EditProduct") &&
                 `active-link`
               }
-              to={`${path}/seller_report/products`}
+              href={`${path}/seller_report/products`}
             >
               {" "}
               <AiOutlineInbox />
               {toggle && <span> Products </span>}
+              
             </Link>
           </li>
           <li>
@@ -87,7 +90,7 @@ const AsideMenu = () => {
                 (route === "orders" || route === "OrderDetails") &&
                 `active-link`
               }
-              to={`${path}/seller_report/orders`}
+              href={`${path}/seller_report/orders`}
             >
               {" "}
               <AiOutlineShopping />
@@ -100,7 +103,7 @@ const AsideMenu = () => {
                 (route === "returnOrders" || route === "ReturnOrderDetails") &&
                 `active-link`
               }
-              to={`${path}/seller_report/returnOrders`}
+              href={`${path}/seller_report/returnOrders`}
             >
               {" "}
               <MdOutlineAssignmentReturn />
@@ -110,7 +113,7 @@ const AsideMenu = () => {
           <li>
             <Link
               className={route === "accounting" && `active-link`}
-              to={`${path}/seller_report/accounting`}
+              href={`${path}/seller_report/accounting`}
             >
               {" "}
               <GiChart />
@@ -123,14 +126,13 @@ const AsideMenu = () => {
                 (route === "reports" || route === "SoldProductDetails") &&
                 `active-link`
               }
-              to={`${path}/seller_report/reports`}
+              href={`${path}/seller_report/reports`}
             >
               {" "}
               <HiOutlinePresentationChartLine />
               {toggle && <span> Reports </span>}
             </Link>
           </li>
-         
         </ul>
       </div>
     </div>
@@ -142,7 +144,7 @@ const AsideMenu = () => {
         } max-w-full bg-daside z-50 overscroll-y-auto w-60 top-0 bottom-0 h-full aside-animation mb-4`}
       >
         <Link
-          to={`/seller_report/edit`}
+          href={`/seller_report/edit`}
           className="flex justify-center items-center p-4 rounded-full"
           onClick={toggleMenu}
         >
@@ -161,7 +163,7 @@ const AsideMenu = () => {
               className={`${
                 route === "home" && `active-link`
               } w-full flex items-stretch flex-grow relative pt-2 pb-2 pr-8 pl-8`}
-              to={`/seller_report/home`}
+              href={`/seller_report/home`}
               onClick={toggleMenu}
             >
               <AiOutlineDashboard />
@@ -175,7 +177,7 @@ const AsideMenu = () => {
                 (route === "products" || route === "EditProducts") &&
                 `active-link`
               } w-full flex items-stretch flex-grow relative pt-2 pb-2 pr-8 pl-8`}
-              to={`/seller_report/products`}
+              href={`/seller_report/products`}
               onClick={toggleMenu}
             >
               {" "}
@@ -189,7 +191,7 @@ const AsideMenu = () => {
                 (route === "orders" || route === "OrderDetails") &&
                 `active-link`
               } w-full flex items-stretch flex-grow relative pt-2 pb-2 pr-8 pl-8`}
-              to={`/seller_report/orders`}
+              href={`/seller_report/orders`}
               onClick={toggleMenu}
             >
               {" "}
@@ -203,7 +205,7 @@ const AsideMenu = () => {
                 (route === "returnOrders" || route === "ReturnOrderDetails") &&
                 `active-link`
               } w-full flex items-stretch flex-grow relative pt-2 pb-2 pr-8 pl-8`}
-              to={`/seller_report/returnOrders`}
+              href={`/seller_report/returnOrders`}
               onClick={toggleMenu}
             >
               {" "}
@@ -216,7 +218,7 @@ const AsideMenu = () => {
               className={`${
                 route === "accounting" && `active-link`
               } w-full flex items-stretch flex-grow relative pt-2 pb-2 pr-8 pl-8`}
-              to={`/seller_report/accounting`}
+              href={`/seller_report/accounting`}
               onClick={toggleMenu}
             >
               {" "}
@@ -230,7 +232,7 @@ const AsideMenu = () => {
                 (route === "reports" || route === "SoldProductDetails") &&
                 `active-link`
               } w-full flex items-stretch flex-grow relative pt-2 pb-2 pr-8 pl-8`}
-              to={`/seller_report/reports`}
+              href={`/seller_report/reports`}
               onClick={toggleMenu}
             >
               {" "}
@@ -250,7 +252,7 @@ const AsideMenu = () => {
       )}{" "}
       <div className="flex justify-start items-center">
         {" "}
-        <Link to={`/`} onClick={() => setIsUserSeller(false)}>
+        <Link href={`/`} onClick={() => setIsUserSeller(false)}>
           <img
             className="h-8"
             alt="Logo"

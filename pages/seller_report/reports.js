@@ -13,8 +13,9 @@ import "bootstrap-daterangepicker/daterangepicker.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import buildLink from "@/urls";
 const ReportsSeller = () => {
-  const { width } = useDeviceSize();
+  const [ width ] = useDeviceSize();
   const [data, setData] = useState();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState(false);
@@ -28,8 +29,7 @@ const ReportsSeller = () => {
   const [filterTotal, setFilterTotal] = useState(getDefault("filter_total"));
   const [status, setStatus] = useState("");
   const [showMenu, setShowMenu] = useState(false);
-  // const { toggle } = useSellerContext();
-const toggle = true
+  const { toggle } = useSellerContext();
 const router = useRouter()
 
   const [date, setDate] = useState(getDefault("filter_date"));
@@ -98,7 +98,8 @@ const router = useRouter()
 
     _axios
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/reports&limit=${limit}&page=${currentPage}${filter_name}${filter_sku}${filter_cost}${filter_price}${filter_total}${filter_date}`
+        buildLink("seller_reports")
+        + `&limit=${limit}&page=${currentPage}${filter_name}${filter_sku}${filter_cost}${filter_price}${filter_total}${filter_date}`
       )
       .then((response) => {
         setData(response.data.data);
@@ -123,7 +124,8 @@ const router = useRouter()
     });
     _axios
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/reports&limit=10&page=1`
+        buildLink("seller_reports")
+        + `&limit=10&page=1`
       )
       .then((response) => {
         setData(response.data.data);
@@ -147,7 +149,7 @@ const router = useRouter()
   }
 
   return data ? (
-    <div className="absolute top-0 left-0 right-0 w-full h-full bg-slate200 z-50">
+    <div className="absolute top-0 left-0 right-0 w-full h-full bg-slate200">
       <div
         className={`flex-auto min-w-0 flexflex-col aside-animation ${
           toggle ? "pl-64" : width < 1025 ? "pl-0" : "pl-20"
@@ -196,7 +198,7 @@ const router = useRouter()
                     } w-full p-4 text-dbluegray`}
                   >
                     <div className="pr-2 mb-4 w-full">
-                      <label className="block  mb-2 text-xs" for="orderId">
+                      <label className="block  mb-2 text-xs" htmlFor="orderId">
                         Product Name:
                       </label>
                       <input
@@ -209,7 +211,7 @@ const router = useRouter()
                     </div>
 
                     <div className="pr-2 mb-4 w-full">
-                      <label className="block  text-xs mb-2" for="prod_qty">
+                      <label className="block  text-xs mb-2" htmlFor="prod_qty">
                         Sku:
                       </label>
                       <input
@@ -222,7 +224,7 @@ const router = useRouter()
                     </div>
 
                     <div className="pr-2 mb-4 w-full">
-                      <label className="block  text-xs mb-2" for="prod_qty">
+                      <label className="block  text-xs mb-2" htmlFor="prod_qty">
                         Cost:
                       </label>
                       <input
@@ -235,7 +237,7 @@ const router = useRouter()
                     </div>
 
                     <div className="pr-2 mb-4 w-full">
-                      <label className="block  text-xs mb-2" for="prod_qty">
+                      <label className="block  text-xs mb-2" htmlFor="prod_qty">
                         Price:
                       </label>
                       <input
@@ -247,7 +249,7 @@ const router = useRouter()
                       />
                     </div>
                     <div className="pr-2 mb-4 w-full">
-                      <label className="block text-xs mb-2" for="date_added">
+                      <label className="block text-xs mb-2" htmlFor="date_added">
                         Date Added:
                       </label>
 
@@ -306,7 +308,7 @@ const router = useRouter()
                       </DateRangePicker>
                     </div>
                     <div className="pr-2 mb-4 w-full">
-                      <label className="block  text-xs mb-2" for="total">
+                      <label className="block  text-xs mb-2" htmlFor="total">
                         Total:
                       </label>
                       <input
@@ -368,7 +370,7 @@ const router = useRouter()
                                 </tr>
                               </thead>
                               <tfoot className="text-xs">
-                                {" "}
+                               
                                 <tr>
                                   <th>Image</th>
                                   <th>Name</th>
@@ -384,7 +386,7 @@ const router = useRouter()
                               <tbody>
                                 {data.products.map((product) => {
                                   return (
-                                    <tr className="text-d13">
+                                    <tr className="text-d13" key={product.product_id}>
                                       <td>
                                         <img
                                           className="w-full"

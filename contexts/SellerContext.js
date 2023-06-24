@@ -8,10 +8,9 @@ export const SellerProvider = ({ children }) => {
   const [isUserSeller, setIsUserSeller] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [smallMenuToggle, setSmallmenuToggle] = useState(true);
-  const { width } = useDeviceSize();
+  const [ width ] = useDeviceSize();
 
   const toggleMenu = () => {
-   alert(width)
     if (width > 1025) {
       setToggle(!toggle);
     } else {

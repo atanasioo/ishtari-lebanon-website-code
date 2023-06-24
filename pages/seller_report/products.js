@@ -14,10 +14,11 @@ import XLSX from "sheetjs-style";
 import SellerHeader from "@/components/seller/SellerHeader";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import buildLink from "@/urls";
 
 function ProductsSeller() {
   const [data, setData] = useState();
-  const { width } = useDeviceSize();
+  const [ width ] = useDeviceSize();
   const [limit, setLimit] = useState(10);
   const [loading, setLoading] = useState(true);
   const [exportLoading, setExportLoading] = useState(false);
@@ -25,8 +26,7 @@ function ProductsSeller() {
   const [search, setSearch] = useState(false);
   const [total, setTotal] = useState();
   const [showMenu, setShowMenu] = useState(false);
-  // const { toggle } = useSellerContext();
-  const toggle = true
+  const { toggle } = useSellerContext();
   const router = useRouter();
   const [model, setModel] = useState(getDefault("filter_modelP"));
   const [productName, setName] = useState(getDefault("filter_nameP"));
@@ -45,22 +45,13 @@ function ProductsSeller() {
       : "";
   }
 
-  // function test(id) {
-  //   _axios
-  //     .get(
-  //       `https://www.ishtari.com/motor/v2/index.php?route=seller_report/products/getForm&product_id=${id}`
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     });
-  // }
 
   useEffect(() => {
     setLoading(true);
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth"
-    // });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
     const filter_name = productName !== "" ? `&filter_name=${productName}` : "";
     const filter_model = model !== "" ? `&filter_model=${model}` : "";
@@ -92,7 +83,8 @@ function ProductsSeller() {
 
     _axios
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/products&limit=${limit}&page=${currentPage}${filter_name}${filter_model}${filter_sku}${filter_cost}${filter_price}${filter_quantity}${filter_status}${filter_date_added}${filter_date_modified}`
+        buildLink("seller_products")
+        + `&limit=${limit}&page=${currentPage}${filter_name}${filter_model}${filter_sku}${filter_cost}${filter_price}${filter_quantity}${filter_status}${filter_date_added}${filter_date_modified}`
       )
       .then((response) => {
         setData(response.data.data);
@@ -125,13 +117,14 @@ function ProductsSeller() {
     setStatus("");
     setModel("");
     setQuantity("");
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth"
-    // });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     _axios
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/products&limit=10&page=1`
+        buildLink("seller_products")
+        + `&limit=10&page=1`
       )
       .then((response) => {
         setData(response.data.data);
@@ -220,7 +213,8 @@ function ProductsSeller() {
     setExportLoading(true);
     _axios
       .get(
-        "https://www.ishtari.com/motor/v2/index.php?route=seller_report/products&export_all=1"
+        buildLink("seller_products")
+        + "&export_all=1"
       )
       .then((response) => {
         exportToExcel(response.data);
@@ -236,9 +230,9 @@ function ProductsSeller() {
   }
 
   return data ? (
-    <div className="absolute top-0 left-0 right-0 w-full  bg-white z-50">
+    <div className="absolute top-0 left-0 right-0 w-full  bg-white ">
       <div
-        className={`flex-auto min-w-0 flexflex-col aside-animation ${
+        className={`flex-auto min-w-0 flex flex-col aside-animation ${
           toggle ? "pl-64" : width < 1025 ? "pl-0" : "pl-20"
         } max-w-full box-border`}
       >
@@ -260,8 +254,8 @@ function ProductsSeller() {
             <div className="box-border">
               <div className="transition-opacity block box-border">
                 <div className="orders-table items-stretch justify-between relative  px-0 py-25 border-b-1 border-borderbottom bg-white">
-                  <div className="border-b flex justify-between items-center border-dinputBorder p-4">
-                    <span>Products</span>{" "}
+                  <div className="border-b flex flex-col md:flex-row  justify-between items-center border-dinputBorder p-4">
+                    <span className="mb-3 md:mb-0">Products</span>{" "}
                     <div className="flex justify-center items-center">
                       {" "}
                       {exportLoading ? (
@@ -270,7 +264,7 @@ function ProductsSeller() {
                         </span>
                       ) : (
                         <span
-                          className="search_button text-xs mr-5"
+                          className="search_button text-xs  mr-5"
                           onClick={() => exportExcel()}
                         >
                           EXPORT
@@ -638,7 +632,7 @@ function ProductsSeller() {
                                       <td>{product.date_modified}</td>
                                       <td>
                                         <Link
-                                          href={`/seller_report/EditProduct/${product.product_id}`}
+                                          href={`/seller_report/editProduct/${product.product_id}`}
                                           className={`w-full flex justify-center`}
                                         >
                                           <BiEdit

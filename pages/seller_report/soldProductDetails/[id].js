@@ -7,6 +7,7 @@ import useDeviceSize from "@/components/useDeviceSize";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSellerContext } from "@/contexts/SellerContext";
+import buildLink from "@/urls";
 const SoldProductDetails = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -17,9 +18,8 @@ const SoldProductDetails = () => {
   const [status, setStatus] = useState("0");
   const [currentPage, setCurrentPage] = useState(1);
   const [showMenu, setShowMenu] = useState(false);
-  const { width } = useDeviceSize();
-  // const { toggle } = useSellerContext();
-  const toggle = true
+  const [ width ] = useDeviceSize();
+  const { toggle } = useSellerContext();
   const statusColor = {
     processing: "#5578eb",
     prepare: "#9816f4",
@@ -42,7 +42,8 @@ const SoldProductDetails = () => {
     });
     axiosServer
       .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/reports/getSoldProduct&product_id=${id}&limit=${limit}&page=${currentPage}`
+        buildLink("seller_reports_sold_products")
+        + `&product_id=${id}&limit=${limit}&page=${currentPage}`
       )
       .then((response) => {
         setData(response.data.data);

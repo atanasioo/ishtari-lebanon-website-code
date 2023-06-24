@@ -13,11 +13,11 @@ import "bootstrap-daterangepicker/daterangepicker.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import buildLink from "@/urls";
 const ReturnOrdersSeller = () => {
   const [data, setData] = useState();
-  // const { toggle } = useSellerContext();
-  const { width } = useDeviceSize();
-const toggle = true
+  const { toggle } = useSellerContext();
+  const [width] = useDeviceSize();
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,6 +25,7 @@ const toggle = true
   const [showMenu, setShowMenu] = useState(false);
   const [totalValue, setTotalValue] = useState("");
   const [page, setPage] = useState(1);
+  const [resetClicked, setResetClicked] = useState(false);
   const [productQuantity, setProductQuantity] = useState(
     getDefault("filter_product_quantity")
   );
@@ -45,8 +46,9 @@ const toggle = true
 
   const [date, setDate] = useState(getDefault("filter_date"));
   function getDefault(temp) {
-    return JSON.parse(Cookies.get("seller_filter") ? Cookies.get("seller_filter") : 0) &&
-      JSON.parse(Cookies.get("seller_filter"))[temp]
+    return JSON.parse(
+      Cookies.get("seller_filter") ? Cookies.get("seller_filter") : 0
+    ) && JSON.parse(Cookies.get("seller_filter"))[temp]
       ? JSON.parse(Cookies.get("seller_filter"))[temp]
       : "";
   }
@@ -85,6 +87,7 @@ const toggle = true
     setDate({ start, end, finalDate });
   };
   const resetFilter = () => {
+    setResetClicked(true);
     setLoading(true);
     setLimit(10);
     setPage(1);
@@ -96,18 +99,18 @@ const toggle = true
     setTotalValue("");
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
 
     _axios
-    .get(
-      `https://www.ishtari.com/motor/v2/index.php?route=seller_report/ReturnOrders&limit=10&page=1`
-    )
-    .then((response) => {
-      setData(response.data.data);
-      setTotal(response.data.data.total);
-      setLoading(false);
-    });
+      .get(buildLink("seller_return_orders") + `&limit=10&page=1`)
+      .then((response) => {
+        console.log(response);
+        setData(response.data.data);
+        setTotal(response.data.data.total);
+        setLoading(false);
+        setResetClicked(false);
+      });
   };
   const statusColor = {
     processing: "#5578eb",
@@ -121,7 +124,7 @@ const toggle = true
     trash: "rgb(191, 27, 38)",
     Awaitingfailed: "",
     paidtoseller: "",
-    delayed: "rgb(191, 27, 38)"
+    delayed: "rgb(191, 27, 38)",
   };
   const handleChangeStatus = (event) => {
     setStatus(event.target.value);
@@ -129,15 +132,18 @@ const toggle = true
   };
 
   useEffect(() => {
-    _axios
-      .get(
-        `https://www.ishtari.com/motor/v2/index.php?route=seller_report/return_order&limit=${limit}&page=${page}${filter_date}${filter_total}${filter_status}${filter_order_id}${filter_product_quantity}${filter_return_order_id}`
-      )
-      .then((response) => {
-        setData(response.data.data);
-        setTotal(response?.data?.data?.total_item);
-        setLoading(false);
-      });
+    if (!resetClicked) {
+      _axios
+        .get(
+          buildLink("seller_return_orders")
+          + `&limit=${limit}&page=${page}${filter_date}${filter_total}${filter_status}${filter_order_id}${filter_product_quantity}${filter_return_order_id}`
+        )
+        .then((response) => {
+          setData(response.data.data);
+          setTotal(response?.data?.data?.total_item);
+          setLoading(false);
+        });
+    }
   }, [limit, page, search, status]);
 
   return (
@@ -234,28 +240,28 @@ const toggle = true
 
                         Yesterday: [
                           moment().subtract(1, "days").toDate(),
-                          moment().subtract(1, "days").toDate()
+                          moment().subtract(1, "days").toDate(),
                         ],
                         "Last 7 Days": [
                           moment().subtract(6, "days").toDate(),
-                          moment().toDate()
+                          moment().toDate(),
                         ],
                         "Last 30 Days": [
                           moment().subtract(29, "days").toDate(),
-                          moment().toDate()
+                          moment().toDate(),
                         ],
                         "This Month": [
                           moment().startOf("month").toDate(),
-                          moment().endOf("month").toDate()
+                          moment().endOf("month").toDate(),
                         ],
                         "Last Month": [
                           moment()
                             .subtract(1, "month")
                             .startOf("month")
                             .toDate(),
-                          moment().subtract(1, "month").endOf("month").toDate()
-                        ]
-                      }
+                          moment().subtract(1, "month").endOf("month").toDate(),
+                        ],
+                      },
                     }}
                     onCallback={handleCallback}
                   >
@@ -266,7 +272,7 @@ const toggle = true
                         background: "#fff",
                         cursor: "pointer",
                         padding: "5px 10px",
-                        width: "100%"
+                        width: "100%",
                       }}
                     >
                       <i className="fa fa-calendar"></i>&nbsp;
@@ -368,7 +374,7 @@ const toggle = true
                             <span
                               className="w-auto p-1 h-0 text-white rounded-2xl text-xs"
                               style={{
-                                background: statusColor[Rorder.status]
+                                background: statusColor[Rorder.status],
                               }}
                             >
                               {Rorder.status}
