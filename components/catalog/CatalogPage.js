@@ -781,7 +781,7 @@ function CatalogPage(props) {
                         }}
                       />
                       <span
-                        className={`block icon icon-angle-down ml-2 transition-all ${
+                        className={`block ml-2 transition-all ${
                           showSort && "transform  rotate-180"
                         }`}
                       >
@@ -836,7 +836,7 @@ function CatalogPage(props) {
                       )} */}
 
                       <span
-                        className={`block icon icon-angle-down ml-2 transition-all ${
+                        className={`block ml-2 transition-all ${
                           showLimit && "transform  rotate-180"
                         }`}
                       >

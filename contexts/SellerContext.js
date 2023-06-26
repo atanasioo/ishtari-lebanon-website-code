@@ -20,7 +20,7 @@ export const SellerProvider = ({ children }) => {
 
   useEffect(() => {
 
-    if (router.asPath.indexOf("/seller_report/")) {
+    if (router.pathname.startsWith("/seller_report")) {
       setIsUserSeller(true);
     } else {
       setIsUserSeller(false);

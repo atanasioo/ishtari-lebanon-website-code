@@ -13,9 +13,9 @@ import { axiosServer } from "@/axiosServer";
 import { AccountContext } from "@/contexts/AccountContext";
 import Cookies from "js-cookie";
 import buildLink, { path } from "@/urls";
-import {MdOutlineAssignmentReturn} from "react-icons/md";
+import { MdOutlineAssignmentReturn } from "react-icons/md";
 import useDeviceSize from "../useDeviceSize";
- 
+import { signOut } from "next-auth/react";
 
 const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -24,7 +24,7 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
   const [state, dispatch] = useContext(AccountContext);
   const [sellerId, setSellerId] = useState("0");
   const [width] = useDeviceSize();
-  const router= useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     console.log(name);
@@ -40,42 +40,46 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
     }
   }, [showDropdown]);
 
-    // Logout
-    function logout() {
-      dispatch({ type: "setLoading", payload: true });
-      setShowDropdown(false);
-      axiosServer.post(buildLink("logout", undefined, window.innerWidth)).then(() => {
-        checkLogin();
-      });
-      Cookies.remove("api-token");
-      router.push({
-        pathname: "/",
-      });
-      window.location.reload();
-    }
+  // Logout
+  async function logout() {
+    dispatch({ type: "setLoading", payload: true });
+    const hostname = window.config['site-url'];
+    setShowDropdown(false);
+    //remove next-auth session from cookie, and clear the jwt(session) obj.
+    await signOut({ redirect: false });
+    //Logout from Api
+    const response = await axiosServer.post(
+      buildLink("logout", undefined, undefined, hostname)
+    );
+    checkLogin();
+    dispatch({ type: "setSeller", payload: false });
+    Cookies.remove("seller_id");
+    Cookies.remove("api-token");
+    router.push("/");
+    // window.location.reload();
+  }
 
-    function checkLogin() {
-      dispatch({ type: "setLoading", payload: true });
-      axiosServer
-        .get(buildLink("login", undefined, window.innerWidth))
-        .then((response) => {
-          const data = response.data;
-  
-          dispatch({ type: "setShowOver", payload: false });
-          if (data.customer_id > 0) {
-            dispatch({ type: "setLoged", payload: true });
-            dispatch({ type: "setUsername", payload: data.username });
-            dispatch({ type: "setEmail", payload: data.email });
+  function checkLogin() {
+    dispatch({ type: "setLoading", payload: true });
+    axiosServer
+      .get(buildLink("login", undefined, window.innerWidth))
+      .then((response) => {
+        const data = response.data;
 
-          } else {
-            dispatch({ type: "setLoged", payload: false });
-          }
-          if (data.seller_logged !== "0") {
-            setSellerId(Number(data.seller_logged));
-          }
-          dispatch({ type: "setLoading", payload: false });
-        });
-    }
+        dispatch({ type: "setShowOver", payload: false });
+        if (data.customer_id > 0) {
+          dispatch({ type: "setLoged", payload: true });
+          dispatch({ type: "setUsername", payload: data.username });
+          dispatch({ type: "setEmail", payload: data.email });
+        } else {
+          dispatch({ type: "setLoged", payload: false });
+        }
+        if (data.seller_logged !== "0") {
+          setSellerId(Number(data.seller_logged));
+        }
+        dispatch({ type: "setLoading", payload: false });
+      });
+  }
 
   return (
     <div className="w-full">
@@ -125,7 +129,7 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
           <div className="py-4  border-r border-dinputBorder leading-loose w-full text-center">
             <p>Dashboard</p>
             <Link
-              href={`/seller_report/home`}
+              href={`/seller_report`}
               className="flex items-center justify-center cursor-pointer w-full hover:bg-dgrey rounded  hover:text-dblue py-2"
             >
               <AiOutlineDashboard />
@@ -142,27 +146,26 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
               <p className="font-light text-sm ml-2">Products</p>
             </Link>
           </div>
-       
+
           <div className="py-4  border-r border-dinputBorder leading-loose w-full text-center">
             <p>Orders</p>
             <Link
               href={`/seller_report/orders`}
               className="flex items-center justify-center cursor-pointer w-full hover:bg-dgrey rounded  hover:text-dblue py-2"
             >
-                            <AiOutlineShopping />
+              <AiOutlineShopping />
 
-
-              <p className="font-light text-sm ml-2"> Return Orders</p>
+              <p className="font-light text-sm ml-2"> Orders</p>
             </Link>
           </div>
           <div className="py-4  border-r border-dinputBorder leading-loose w-full text-center">
             <p>Return </p>
             <Link
-              href={`/seller_report/orders`}
+              href={`/seller_report/returnOrders`}
               className="flex items-center justify-center cursor-pointer w-full hover:bg-dgrey rounded  hover:text-dblue py-2"
             >
-          <MdOutlineAssignmentReturn />
-``              <p className="font-light text-sm ml-2">Return Orders</p>
+              <MdOutlineAssignmentReturn />
+              `` <p className="font-light text-sm ml-2">Return Orders</p>
             </Link>
           </div>
           <div className="py-4  border-r border-dinputBorder leading-loose w-full text-center">
@@ -197,7 +200,11 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
         >
           <div className="w-full h-full relative">
             <div className="w-full">
-              <img className="w-full h-16" alt="seller_header" src={"/images/head_seller.jpg"} />
+              <img
+                className="w-full h-16"
+                alt="seller_header"
+                src={"/images/head_seller.jpg"}
+              />
             </div>
             <div className="flex items-end gap-4 absolute top-9 left-6">
               {" "}
@@ -209,14 +216,14 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
             <div className="w-full flex justify-start pl-5 pb-5 border-b border-dplaceHolder">
               <div className="flex justify-center flex-col gap-3 mt-12 font-light text-d15">
                 <Link
-                  href={`/seller_report/home`}
+                  href={`/seller_report`}
                   className="flex justify-start items-center gap-3"
                 >
                   <AiOutlineUser style={{ color: "#a2a5b9" }} />
                   <span> Dashboard</span>
                 </Link>
                 <Link
-                  href={`/seller_report/edit`}
+                  href={`/seller_report/editSeller`}
                   className="flex justify-start items-center gap-3"
                 >
                   <AiOutlineSetting style={{ color: "#a2a5b9" }} />
@@ -231,7 +238,7 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
                   color: "#5867dd",
                   background: "rgba(93, 120, 255, 0.1)",
                 }}
-                onClick={()=> logout()}
+                onClick={() => logout()}
               >
                 sign out
               </button>

@@ -92,6 +92,8 @@ export async function getServerSideProps(context) {
   const parsedCookies = cookie.parse(cookies);
   const host_cookie = parsedCookies["site-local-name"];
   const token = parsedCookies["api-token"];
+  const AdminToken = parsedCookies["ATDetails"];
+
   let site_host = "";
   if (host_cookie === undefined || typeof host_cookie === "undefined") {
     site_host = host;
@@ -164,7 +166,6 @@ export async function getServerSideProps(context) {
       var filter =""
       if (!has_filter) {
 
-
         if (page != undefined) {
           filter += "&page=" + page;
         }
@@ -172,7 +173,9 @@ export async function getServerSideProps(context) {
         let link =
           buildLink(type, undefined, undefined, site_host) +
           id +
-          "&source_id=1&limit=50" + filter;
+          "&source_id=1&limit=50" + filter 
+          + (typeof AdminToken === "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
+          console.log(link);
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,
@@ -210,7 +213,8 @@ export async function getServerSideProps(context) {
           buildLink("filter", undefined, undefined) +
           "&path=" +
           slug[0].split("=")[1] +
-          filter;
+          filter
+          + (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,

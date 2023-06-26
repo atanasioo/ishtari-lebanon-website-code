@@ -116,7 +116,7 @@ function DesktopMenuCategories(props) {
         setViewMenuCategories2(true);
       }
     },
-    clearHover ? null : 300
+    clearHover ? null : 500
   );
 
   function refresh(test) {

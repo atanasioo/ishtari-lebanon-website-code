@@ -108,7 +108,6 @@ export default function App({
 }
 
 App.getInitialProps = async ({ Component, ctx }) => {
-  console.log("hello");
   const { req } = ctx;
   const cook = useCookie(ctx);
 
@@ -132,7 +131,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
   const host = req?.headers.host;
 
-  console.log(cookies);
 
   if (typeof cookies !== "undefined" && cookies !== "") {
     var site_host = parsedCookies["site-local-name"];
@@ -164,20 +162,20 @@ App.getInitialProps = async ({ Component, ctx }) => {
         setAuthorizationHeader(newToken);
 
         // Fetch header, footer, footer_information data using the new token
-        const resp = await getMainData(newToken, host_url);
+        // const resp = await getMainData(newToken, host_url);
 
-        console.log(resp);
+        // console.log(resp);
 
         // Return the fetched data as props
         return {
-          header_categories: resp.data.data?.data,
-          footer_categories: resp.footer_data.data?.data,
-          information_data: resp.information_data.data?.data,
+          // header_categories: resp.data.data?.data,
+          // footer_categories: resp.footer_data.data?.data,
+          // information_data: resp.information_data.data?.data,
           token: newToken,
           host: site_host,
         };
       } catch (error) {
-        console.error("Failed to get a new token, or to fetch data:", error);
+        console.error("Failed to get a new token, or to fetch data heree:", error);
       }
     } else {
       // Fetch data using the existing token

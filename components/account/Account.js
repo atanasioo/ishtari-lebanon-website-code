@@ -50,7 +50,7 @@ function Account() {
 
     if (response.status === 200) {
       checkLogin();
-      // window.location.reload();
+      window.location.reload();
     } else {
       setShowLoginError(true);
       setLoginError(response.error);
@@ -92,6 +92,7 @@ function Account() {
           dispatch({ type: "setLoged", payload: true });
           dispatch({ type: "setUsername", payload: data.username });
           dispatch({ type: "setEmail", payload: data.email });
+
           // if (
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
@@ -161,7 +162,6 @@ function Account() {
     dispatch({ type: "setSeller", payload: false });
     Cookies.remove("seller_id");
     window.location.reload();
-    console.log(response);
   }
 
   useEffect(() => {

@@ -74,23 +74,25 @@ export async function getServerSideProps(context) {
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
   const host_cookie = parsedCookies["site-local-name"];
+  let site_host = "";
+  if (host_cookie === undefined || typeof host_cookie === "undefined") {
+    site_host = host;
+  } else {
+    site_host = host_cookie;
+  }
   const token = parsedCookies["api-token"];
   var data;
-  await axiosServer
+  const response = await axiosServer
     .get(
-      buildLink("information", undefined, undefined) + "&information_id=" + id,
+      buildLink("information", undefined, undefined, site_host) + "&information_id=" + id,
       {
         headers: {
           Authorization: "Bearer " + token,
         },
       }
-    )
-    .then((response) => {
-      //   response.data.data.description = unescape(response.data.data.description);
-      data = response.data.data;
-      console.log(data);
-      console.log("data-ppppp");
-    });
+    );
+    
+    data = response.data.data;
 
   return {
     props: {

@@ -127,6 +127,7 @@ function HandlePhoneModel(props) {
     ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
   const red =
     "bg-transparent border-b border-dbase absolute bottom-0 left-0 w-full  text-dblack text-base pl-3";
+    
 
   return (
     <div className={`flex-end ${!fromContact ? "ml-5" : ""} `}>
@@ -139,9 +140,10 @@ function HandlePhoneModel(props) {
             required
             ref={phone}
             defaultValue={parentData?.telephone}
-            className={`text-d14 font-light ${!valid && `${red} !important`}`}
+            className={`text-d14 font-light ${fromContact && "border border-dplaceHolder text-d16 w-full h-14 mb-2.5 px-5 outline-none rounded-sm"} ${!valid && `${red}  !important`}`}
             minLength={7}
             maxLength={15}
+            placeholder={fromContact ? "Telephone" : ""}
             onChange={(e) => onChangeHandler(e.target.value)}
             onKeyDown={(e) => onChangeHandlerAdmin(e, e.target.value)}
             onKeyUp={(e) => onChangeHandler(e.target.value)}

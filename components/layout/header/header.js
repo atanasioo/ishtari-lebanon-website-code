@@ -60,6 +60,8 @@ function Header(props) {
     }
   }, []);
 
+ 
+
   useEffect(() => {
     if (window !== undefined) {
       if (window.location.host === "localhost:3000") {
@@ -230,8 +232,6 @@ function Header(props) {
 
         <TopSearch />
 
-       
-
         <div className="flex  items-center">
           <div className="country-flag flex justify-center items-center lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 cursor-pointer">
             <img
@@ -244,17 +244,17 @@ function Header(props) {
           </div>
 
           {stateAcc.isSeller && (
-          <div>
-            <Link
-              className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
-              // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
-              // href={`https://www.ishtari.com/seller_report/home`}
-              href="/seller_report"
-            >
-              seller dashboard
-            </Link>
-          </div>
-        )}
+            <div>
+              <Link
+                className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
+                // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
+                // href={`https://www.ishtari.com/seller_report/home`}
+                href="/seller_report"
+              >
+                seller dashboard
+              </Link>
+            </div>
+          )}
 
           <Account />
           {session?.user?.isLoggedIn && <TopWishlist />}

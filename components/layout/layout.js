@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import Footer from './footer/footer';
-import Header from './header/header';
-import { useRouter } from 'next/router';
-import AsideMenu from './AsideMenu';
-function Layout({children, header_categories, footer_categories , information_data, token, host}) {
+import Footer from "./footer/footer";
+import Header from "./header/header";
+import { useRouter } from "next/router";
+import AsideMenu from "./AsideMenu";
+function Layout({
+  children,
+  header_categories,
+  footer_categories,
+  information_data,
+  token,
+  host,
+}) {
   const router = useRouter();
-  const [isUserSeller, setIsUserSeller] = useState(false);
 
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
@@ -22,31 +28,26 @@ function Layout({children, header_categories, footer_categories , information_da
   //   }
   //  },[token])
 
-  useEffect(() => {
-    if (router.pathname.startsWith("/seller_report")) {
-      setIsUserSeller(true);
-    } else {
-      setIsUserSeller(false);
-    }
-  }, [router]);
-
-console.log(router.pathname.startsWith("/seller_report"));
-console.log(isUserSeller);
-  
   return (
     <div>
-      {!isUserSeller ? (
+      {!router.pathname.startsWith("/seller_report") ? (
+        //other user case
         <Header header_categories={header_categories} host={host} />
-      ):(
+      ) : (
+        //seller case
         <AsideMenu />
       )}
-        
-        {children}
-        {!isUserSeller && (
-          <Footer footer_categories={footer_categories}  information_data={information_data} />
-        )}
+
+      {children}
+      {!router.pathname.startsWith("/seller_report") && (
+        //other user case
+        <Footer
+          footer_categories={footer_categories}
+          information_data={information_data}
+        />
+      )}
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

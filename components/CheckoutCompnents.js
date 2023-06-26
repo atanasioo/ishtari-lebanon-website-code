@@ -1739,7 +1739,8 @@ function CheckoutCompnents() {
                                     ")"}{" "}
                                 </p>
                               )}{" "}
-                              <p
+                              <button
+                                type="button"
                                 className="cursor-pointer text-dgrey1 text-xs text-center"
                                 onClick={(e) =>
                                   updateQuantity(e, product.key, 0)
@@ -1747,7 +1748,7 @@ function CheckoutCompnents() {
                               >
                                 <span> Remove </span>{" "}
                                 <i className="icon icon-trash ml-1" />
-                              </p>{" "}
+                              </button>{" "}
                             </div>
                             <div className="py-2 px-6 w-48 flex flex-col items-end text-dblack justify-center">
                               <span className=" font-semibold text-lg">
@@ -1755,7 +1756,8 @@ function CheckoutCompnents() {
                                 {product.price_formatted}{" "}
                               </span>{" "}
                               <div className="flex mt-4">
-                                <p
+                                <button
+                                type="button"
                                   onClick={(e) =>
                                     updateQuantity(
                                       e,
@@ -1766,14 +1768,15 @@ function CheckoutCompnents() {
                                   className="text-center w-10 h-10  text-2xl border border-dinputBorder rounded-tl rounded-bl cursor-pointer hover:shadow"
                                 >
                                   -
-                                </p>{" "}
+                                </button>{" "}
                                 <input
                                   type="number"
                                   className="border border-dinputBorder w-20 h-10 border-r-0 border-l-0 text-center"
                                   value={product.quantity}
                                   onChange={() => {}}
                                 />{" "}
-                                <p
+                                <button
+                                type="button"
                                   onClick={(e) =>
                                     updateQuantity(
                                       e,
@@ -1784,7 +1787,7 @@ function CheckoutCompnents() {
                                   className="text-center w-10 h-10  text-2xl border border-dinputBorder  rounded-tr rounded-br cursor-pointer hover:shadow"
                                 >
                                   +
-                                </p>{" "}
+                                </button>{" "}
                               </div>{" "}
                             </div>{" "}
                           </Link>{" "}
