@@ -3,6 +3,7 @@ import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
@@ -63,6 +64,9 @@ function OrderDetails() {
 
   return (
     <div>
+      <Head>
+        <title>My Account | ishtari</title>
+      </Head>
       {loading ? (
         <PointsLoader />
       ) : (

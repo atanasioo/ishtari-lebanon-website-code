@@ -8,6 +8,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 import PointsLoader from "@/components/PointsLoader";
+import Head from "next/head";
 export default function Home(widgets) {
   // const data = widgets.data.widgets;
 
@@ -40,7 +41,7 @@ export default function Home(widgets) {
       var obj = {
         view: window.innerWidh > 650 ? "web_mobile" : "web_desktop",
         limit: 10,
-        page: page
+        page: page,
       };
       let link = buildLink("home", undefined, undefined) + "&source_id=1";
       axiosServer.post(link, obj).then((response) => {
@@ -50,7 +51,7 @@ export default function Home(widgets) {
 
           setData((prevWidgets) => {
             return [
-              ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
+              ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
             ];
           });
           setIsLoading(false);
@@ -86,29 +87,38 @@ export default function Home(widgets) {
   // },[])
 
   return (
-    <div className="overflow-x-hidden">
-      {data?.map((widget, index) => {
-        if (data.length === index + 1) {
-          return (
-            <div
-              className="theHome"
-              ref={lastElementRef}
-              key={widget.mobile_widget_id}
-            >
-              {" "}
-              <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
-            </div>
-          );
-        } else {
-          return (
-            <div className="" key={widget.mobile_widget_id}>
-              <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
-            </div>
-          );
-        }
-      })}
+    <div>
+      <Head>
+        <title>Ishtari | Online Shopping in Lebanon</title>
+        <meta
+          name="description"
+          content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
+        ></meta>
+      </Head>
+      <div className="overflow-x-hidden">
+        {data?.map((widget, index) => {
+          if (data.length === index + 1) {
+            return (
+              <div
+                className="theHome"
+                ref={lastElementRef}
+                key={widget.mobile_widget_id}
+              >
+                {" "}
+                <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
+              </div>
+            );
+          } else {
+            return (
+              <div className="" key={widget.mobile_widget_id}>
+                <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
+              </div>
+            );
+          }
+        })}
 
-      {isLoading && <PointsLoader />}
+        {isLoading && <PointsLoader />}
+      </div>
     </div>
   );
 }
@@ -139,7 +149,7 @@ export async function getServerSideProps(context) {
     var obj = {
       view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
       limit: 10,
-      page: 1
+      page: 1,
     };
   //  console.log(obj);
     //fetch product data
@@ -147,23 +157,23 @@ export async function getServerSideProps(context) {
     // console.log(link)
     const response = await axiosServer.post(link, obj, {
       headers: {
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     });
     if (!response.data.success) {
       return {
-        notFound: true
+        notFound: true,
       };
     }
 
     data = response.data.data;
 
     return {
-      props: { data, screentype: screenWidth }
+      props: { data, screentype: screenWidth },
     };
   } else {
     return {
-      props: {}
+      props: {},
     };
   }
 }

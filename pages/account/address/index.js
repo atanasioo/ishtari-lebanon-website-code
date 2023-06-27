@@ -6,6 +6,7 @@ import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -58,6 +59,9 @@ function Adresses() {
 
   return (
     <div className="container text-dblack">
+      <Head>
+        <title>My Account | ishtari</title>
+      </Head>
       <div>
         <div className="flex-row md:flex">
           <div className="w-full mb-3 md:w-1/5">

@@ -5,6 +5,7 @@ import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import Cookies from "js-cookie";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
@@ -37,6 +38,9 @@ function Orders() {
 
   return (
     <div className="container text-dblack">
+      <Head>
+        <title>My Account | ishtari</title>
+      </Head>
       <div>
         <div className="flex-row md:flex">
           <div className="w-full mb-3 md:w-1/5">

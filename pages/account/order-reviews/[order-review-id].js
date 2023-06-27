@@ -8,6 +8,7 @@ import buildLink from "@/urls";
 import StarRatings from "react-star-ratings";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
+import Head from "next/head";
 
 
 export async function getServerSideProps(context){
@@ -165,6 +166,9 @@ export default function OrderReviews(props) {
 
   return (
     <div className="container">
+      <Head>
+        <title>My Account | ishtari</title>
+      </Head>
       {loading ? (
         <PointsLoader />
       ) : (

@@ -4,6 +4,7 @@ import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
@@ -213,6 +214,9 @@ function profile() {
 
   return (
     <div className="container text-dblack">
+      <Head>
+        <title>My Account | ishtari</title>
+      </Head>
       <div>
         <div className="flex-row md:flex">
           <div className="w-full mb-3 md:w-1/5">

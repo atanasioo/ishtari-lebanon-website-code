@@ -16,6 +16,7 @@ import ReactPaginate from "react-paginate";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { WishlistContext } from "@/contexts/WishlistContext";
 import { useRouter } from "next/router";
+import Head from "next/head";
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
   const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
@@ -226,6 +227,9 @@ function wishlist() {
 
   return (
     <div className="container text-dblack">
+      <Head>
+        <title>My Account | ishtari</title>
+      </Head>
       <div>
         {state.loading ? (
           <div className="">
