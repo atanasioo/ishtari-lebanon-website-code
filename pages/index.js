@@ -195,7 +195,8 @@ function parseScreenWidth(userAgent) {
   //     screenWidth = parseInt(match[1], 10);
   //   }
   // }
-  if (userAgent.includes("Mobile")) {
+  //console.log(userAgent);
+  if (userAgent.includes("Mobile") && !userAgent.includes("iPad")) {
     return "mobile";
   }
   // Return a default width if the extraction fails

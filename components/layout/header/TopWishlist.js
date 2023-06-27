@@ -52,7 +52,7 @@ function TopWishlist() {
     <Link
       className={`${
         window.config["showCart"] ? "block" : "hidden"
-      } text-dblack lg:border-r lg:border-dplaceHolder font-semibold text-base flex items-center h-8 px-5 cursor-pointer hover:opacity-80 relative`}
+      } text-dblack lg:border-r lg:border-dplaceHolder font-semibold text-base flex items-center h-8 px-3 sm:px-5 cursor-pointer hover:opacity-80 relative`}
       href={`${path}/account/wishlist`}
     >
       <span className="hidden xl:block lg:block">Wishlist</span>
