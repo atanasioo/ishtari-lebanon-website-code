@@ -610,11 +610,11 @@ function ProductPage(props) {
   }
 
   function addBundle(bundle) {
-    console.log(bundle);
+    // console.log(bundle);
     if (
       bundle.products.filter((p) => p.product_options?.length > 0).length == 0
     ) {
-      console.log("hello from the other sidee");
+      // console.log("hello from the other sidee");
       bundle.products.map((p) => {
         const obj = {
           product_id: p.product_id,

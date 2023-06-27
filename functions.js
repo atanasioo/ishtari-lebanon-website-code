@@ -3,8 +3,8 @@ import { axiosServer } from "@/axiosServer.js";
 import buildLink from "@/urls";
 
 const getHost = async (host) => { 
-  console.log(host)
-  console.log("host=")
+  // console.log(host)
+  // console.log("host=")
 
   let url = "";
   if (
@@ -56,7 +56,7 @@ const getHost = async (host) => {
   }
 
 
-  console.log(url)
+  // console.log(url)
   return url;
 };
 

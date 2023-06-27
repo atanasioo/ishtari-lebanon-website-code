@@ -141,10 +141,10 @@ export async function getServerSideProps(context) {
       limit: 10,
       page: 1
     };
-   console.log(obj);
+  //  console.log(obj);
     //fetch product data
     let link = buildLink("home", undefined, undefined, site_host) + "&source_id=1";
-    console.log(link)
+    // console.log(link)
     const response = await axiosServer.post(link, obj, {
       headers: {
         Authorization: "Bearer " + token

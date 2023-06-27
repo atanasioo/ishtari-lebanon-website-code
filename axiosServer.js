@@ -5,6 +5,8 @@ const cookies = new Cookies();
 
 const getToken = async (site_host) => {
 
+
+
   let requestBody = {
     client_id: "shopping_oauth_client",
     client_secret: "shopping_oauth_secret",
@@ -14,9 +16,9 @@ const getToken = async (site_host) => {
     Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw=="
   };
 
-  console.log( "*********************");
-  console.log(site_host);
-  console.log( "*********************");
+  // console.log( "*********************");
+     console.log("site_host-1");
+  // console.log( "*********************");
   const response = await axios.post(
     buildLink("token", undefined, undefined, site_host),
     requestBody,

@@ -151,7 +151,7 @@ function Header(props) {
             href="/"
             className="header-logo flex justify-center lg:justify-start"
           >
-            {serverSideDomain === "https://www.flo-lebanon.com" ? (
+            {serverSideDomain.indexOf("flo")  > -1 ? (
               <Image
                 src={LogofloOrange}
                 width={width > 768 ? 130 : 100}
@@ -160,10 +160,7 @@ function Header(props) {
                 priority={true}
                 style={{ width: "80%", height: "auto" }}
               />
-            ) : serverSideDomain === "https://www.ishtari.com" ||
-              serverSideDomain === "https://www.ishtari.com.gh" ||
-              serverSideDomain === "ishtari" ||
-              serverSideDomain === "ishtari-ghana" ? (
+            ) : serverSideDomain.indexOf("ishtari")  > -1 ? (
               <>
                 <Image
                   className="hidden mobile:block"
@@ -183,7 +180,7 @@ function Header(props) {
                   colorTwo={[65, 69, 81]}
                 />
               </>
-            ) : serverSideDomain === "https://www.energyPlus-lb.com" ? (
+            ) :   serverSideDomain.indexOf("energy")  > -1  ? (
               <>
                 <Image
                   className="hidden mobile:block"

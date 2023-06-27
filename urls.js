@@ -324,7 +324,7 @@ function buildLink(link, payload, width, hostServer) {
     hostServer === "https://www.ishtari.com.gh/" ||
     type === "ishtari-ghana"
   ) {
-    console.log("yessssssssssss");
+
     host = "https://www.ishtari.com.gh/";
     path1 = "";
     return host + path1 + urls[link] + extra_params;

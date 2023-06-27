@@ -1,7 +1,7 @@
 import {
   axiosServer,
   getToken,
-  setAuthorizationHeader,
+  setAuthorizationHeader
 } from "@/axiosServer.js";
 import { getHost, getMainData } from "@/functions";
 import Layout from "@/components/layout/layout";
@@ -19,14 +19,14 @@ import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { SellerProvider, useSellerContext } from "@/contexts/SellerContext";
 // import AsideMenu from "@/components/layout/AsideMenu";
-
+import Head from "next/head";
 export default function App({
   Component,
   pageProps,
   header_categories,
   footer_categories,
   information_data,
-  host,
+  host
 }) {
   const router = useRouter();
   const topRef = useRef(null);
@@ -65,8 +65,31 @@ export default function App({
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, []);
+
+  var favicon = "favicon-1.ico";
+  var title = "ishtari | online Shopping in lebanon"
+  if (host.indexOf("flo") > -1) {
+    favicon = "images/logo/favicon-flo.ico";
+    title = "Flo Lebanon"
+  }
+
+  if (host.indexOf("energy") > -1) {
+    favicon = "images/logo/favicon-energyplus.ico";
+    title = "energyplus"
+  }
+
+
+  if (host.indexOf(".gh") > -1) {
+    title = "energyplus"
+    title = "ishtari | online Shopping in Ghana"
+  }
+
   return (
     <SessionProvider>
+      <Head>
+        <link rel="icon" href={favicon} />
+        <title>{title}</title>
+      </Head>
       <AccountProvider>
         <CartProvider>
           <WishlistProvider>
@@ -124,7 +147,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
   let options = {
     path: "/",
     maxAge: maxAgeInSeconds,
-    expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
+    expires: new Date(Date.now() + maxAgeInSeconds * 1000) // Calculate expiration date
   };
 
   let host_url = "";
@@ -172,7 +195,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           // footer_categories: resp.footer_data.data?.data,
           // information_data: resp.information_data.data?.data,
           token: newToken,
-          host: site_host,
+          host: site_host
         };
       } catch (error) {
         console.error("Failed to get a new token, or to fetch data heree:", error);
@@ -196,7 +219,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       // Return the fetched data as props
 
       return {
-        host: site_host,
+        host: site_host
       };
     }
   } else {
@@ -230,7 +253,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           footer_categories: resp.footer_data.data.data,
           information_data: resp.information_data?.data.data,
           token: newToken,
-          host: host,
+          host: host
         };
       } catch (error) {
         // Handle any errors that occurred during the token request
@@ -240,5 +263,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       }
     }
   }
-  return {};
+  return {
+    host: host_url
+  };
 };
