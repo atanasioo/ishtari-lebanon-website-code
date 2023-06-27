@@ -68,18 +68,18 @@ export default function App({
 
   var favicon = "favicon-1.ico";
   var title = "ishtari | online Shopping in lebanon"
-  if (host.indexOf("flo") > -1) {
+  if (host?.indexOf("flo") > -1) {
     favicon = "images/logo/favicon-flo.ico";
     title = "Flo Lebanon"
   }
 
-  if (host.indexOf("energy") > -1) {
+  if (host?.indexOf("energy") > -1) {
     favicon = "images/logo/favicon-energyplus.ico";
     title = "energyplus"
   }
 
 
-  if (host.indexOf(".gh") > -1) {
+  if (host?.indexOf(".gh") > -1) {
     title = "energyplus"
     title = "ishtari | online Shopping in Ghana"
   }

@@ -114,19 +114,19 @@ export default function FooterPart2(props) {
                 <ul className="flex px-6 flex-wrap justify-center items-center">
                   {" "}
                   <li className="flex rounded-sm items-center justify-center text-center mx-1.5 ">
-                    <Image className={`h-5 w-11`} src={mastercard} />
+                    <Image className={`h-5 w-11`} src={mastercard} alt="mastercard_payment" />
                   </li>
                   <li className="flex rounded-sm items-center justify-center text-center mx-1.5 ">
                     {" "}
-                    <Image className={`h-5 w-11`} src={visa} />
+                    <Image className={`h-5 w-11`} src={visa} alt="visa_payment"/>
                   </li>
                   <li className="flex rounded-sm items-center justify-center text-center mx-1.5 ">
                     {" "}
-                    <Image className={`h-4 w-11`} src={cash} />
+                    <Image className={`h-4 w-11`} src={cash} alt="cash_payment"/>
                   </li>
                   <li className="flex rounded-sm items-center justify-center text-center mx-1.5 ">
                     {" "}
-                    <Image className={`h-5 w-11`} src={amex} />
+                    <Image className={`h-5 w-11`} src={amex} alt="american_express_payment"/>
                   </li>
                 </ul>
               </div>

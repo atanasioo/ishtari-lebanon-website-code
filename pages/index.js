@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 import PointsLoader from "@/components/PointsLoader";
 import Head from "next/head";
+import { useCookie } from "next-cookie";
 export default function Home(widgets) {
   // const data = widgets.data.widgets;
 
@@ -39,7 +40,7 @@ export default function Home(widgets) {
     if (page > 1) {
       setIsLoading(true);
       var obj = {
-        view: window.innerWidh > 650 ? "web_mobile" : "web_desktop",
+        view: window.innerWidth > 650 ? "web_desktop" : "web_mobile",
         limit: 10,
         page: page,
       };
@@ -126,7 +127,9 @@ export default function Home(widgets) {
 export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
   const { req } = context;
+  const cook = useCookie(context);
   let data = null;
+  let host_url = "";
   const userAgent = context.req.headers["user-agent"];
   // console.log({ userAgent });
   // console.log("userAgent");
@@ -141,11 +144,15 @@ export async function getServerSideProps(context) {
     const token = parsedCookies["api-token"];
 
     let site_host = "";
-    if (host_cookie === undefined || typeof host_cookie === "undefined") {
+    if ((host_cookie === undefined || typeof host_cookie === "undefined") && host !== "localhost:3000" && host !== "localhost:3001") {
       site_host = host;
+    }else if((host_cookie === undefined || typeof host_cookie === "undefined") && (host === "localhost:3000" || host === "localhost:3001")){
+      cook.set("site-local-name", "ishtari");
+      site_host= "ishtari";
     } else {
       site_host = host_cookie;
     }
+    
     var obj = {
       view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
       limit: 10,
@@ -154,7 +161,8 @@ export async function getServerSideProps(context) {
   //  console.log(obj);
     //fetch product data
     let link = buildLink("home", undefined, undefined, site_host) + "&source_id=1";
-    // console.log(link)
+     console.log(link)
+     console.log(site_host)
     const response = await axiosServer.post(link, obj, {
       headers: {
         Authorization: "Bearer " + token,
