@@ -223,7 +223,12 @@ function CatalogPage(props) {
 
   function limitSetter(limitData) {
     setShowLimit(false);
-    alert(now);
+
+    setLimit({
+      value: limitData.value,
+      text: limitData.text,
+    })
+    // alert(now);
     var now = "&limit=" + limitData.value;
 
     if (limit == undefined) {
@@ -233,7 +238,8 @@ function CatalogPage(props) {
       router.push(router.asPath + now);
     } else {
       const old = "&limit=" + limit;
-      alert(old);
+
+      // alert(old);
       router.push(router.asPath.replace(old, now));
     }
   }
@@ -507,8 +513,8 @@ function CatalogPage(props) {
         url += "&" + type + "=" + adv_filters;
       }
     }
-    if (last !== undefined) {
-      url += "&last=" + last;
+    if (last === undefined) {
+        url += "&last=" + last;
     }
     if (filter_type === "page") {
     } else {

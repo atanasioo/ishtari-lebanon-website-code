@@ -76,6 +76,9 @@ export async function getServerSideProps(context) {
     filter_options,
     adv_filters,
     page,
+    sort,
+    order,
+    limit
   } = context.query;
   const { req } = context;
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
@@ -169,7 +172,13 @@ export async function getServerSideProps(context) {
         if (page != undefined) {
           filter += "&page=" + page;
         }
+
+        if (sort !== undefined && order !== undefined) {
+          filter += "&sort=" + sort;
+          filter += "&order=" + order;
+        }
         // } else {
+  
         let link =
           buildLink(type, undefined, undefined, site_host) +
           id +
@@ -208,13 +217,27 @@ export async function getServerSideProps(context) {
         if (page != undefined) {
           filter += "&page=" + page;
         }
-        // const q_s = router.asPath?.slice(router.asPath.indexOf("?"));
+
+        if (sort !== undefined && order !== undefined) {
+          filter += "&sort=" + sort;
+          filter += "&order=" + order;
+        }
+
+        if (limit != undefined) {
+          filter += "&limit=" + limit;
+        }
+
+        console.log("linkKKKKKKKK")
+
         const link =
-          buildLink("filter", undefined, undefined) +
+          buildLink("filter", undefined, undefined , site_host) +
           "&path=" +
           slug[0].split("=")[1] +
           filter
           + (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
+
+          console.log("linkKKKKKKKK")
+          console.log(link)
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,
