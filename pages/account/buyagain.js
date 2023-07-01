@@ -62,9 +62,9 @@ function buyagain() {
         <div className="flex-row md:flex">
           <div className="w-full mb-3 md:w-1/5">
             {width > 650 ? (
-              <UserSidebar active={"addresses"} />
+              <UserSidebar active={"buyagain"} />
             ) : (
-              <UserSidebarMobile active={"addresses"} />
+              <UserSidebarMobile active={"buyagain"} />
             )}
           </div>
           <div className="w-full px-2 md:w-4/5 md:pl-8 mb-8">

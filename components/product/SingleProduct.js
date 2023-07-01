@@ -34,7 +34,10 @@ function SingleProduct(props) {
   const handleMouseEnter = () => {
     if (swiperRef.current !== null) {
       swiperRef?.current?.autoplay?.start();
-      swiperRef.current.params.autoplay.delay = 1000;
+      if(swiperRef.current.params !== null){
+        swiperRef.current.params.autoplay.delay = 1000;
+      }
+      
     }
   };
 
@@ -87,6 +90,11 @@ function SingleProduct(props) {
       //       .replaceAll("/", "")}/p=${props.item.product_id}`
       //   )
       // }
+      onClickCapture={props.click}
+      // onClick={(e) => {
+      //   dragging === false && getProductData(e);
+      //   setProductHolder(props.item);
+      // }}
       className={` cursor-pointer   ${props.isList && "mb-3"}`}
     >
       {props.item.new && <NewImage />}
@@ -94,7 +102,7 @@ function SingleProduct(props) {
         className={`flex flex-col h-full w-150px md:w-unset bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
-        style={{ height: props.isList && "260px" }}
+        style={{ height: props.isList && "260px", minHeight: "150px" }}
       >
         <div
           className={`flex ${

@@ -31,7 +31,7 @@ function WidgetsLoop({ widget, likedData, width }) {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller"
+    4: "seller",
   };
 
   const handleMouseEnter = () => {
@@ -58,6 +58,16 @@ function WidgetsLoop({ widget, likedData, width }) {
     setDragging(false);
   }, [setDragging]);
 
+  const handleOnItemClick = useCallback(
+    (e) => {
+      if (dragging) {
+        // e.stopPropagation()
+        e.preventDefault();
+      }
+    },
+    [dragging]
+  );
+
   const settingM = {
     dots: true,
     speed: 1000,
@@ -67,7 +77,7 @@ function WidgetsLoop({ widget, likedData, width }) {
     autoplay: true,
     autoplaySpeed: 4000,
     arrows: false,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const productMobile = {
     dots: false,
@@ -82,7 +92,7 @@ function WidgetsLoop({ widget, likedData, width }) {
     slidesToScroll: 1,
     infinite: false,
     arrows: false,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const productSetting = {
     speed: 200,
@@ -90,7 +100,7 @@ function WidgetsLoop({ widget, likedData, width }) {
     slidesToScroll: 7,
     infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />
+    nextArrow: <CustomNextArrows direction={"r"} />,
   };
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
@@ -130,7 +140,7 @@ function WidgetsLoop({ widget, likedData, width }) {
             <h1
               className="pr-semibold p-2 text-d16"
               dangerouslySetInnerHTML={{
-                __html: widget.title
+                __html: widget.title,
               }}
             />
           )}
@@ -301,7 +311,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                 pagination={{ clickable: true }}
                 navigation={{
                   nextEl: swiperNavNextRef.current,
-                  prevEl: swiperNavPrevRef.current
+                  prevEl: swiperNavPrevRef.current,
                 }}
                 modules={[Pagination, Navigation, Autoplay]}
                 className="sliderSwiper"
@@ -735,11 +745,11 @@ function WidgetsLoop({ widget, likedData, width }) {
 
             return item.mobile_type_id !== "0" ? (
               <div
-                className={`${
+                className={`  ${
                   !bool && "w-full"
-                } cursor-pointer flex justify-center hover:opacity-80 w-1/${widget.column_number} `}
+                } cursor-pointer flex justify-center hover:opacity-80  `}
                 key={item.banner_image_id}
-                style={{ padding: "1px" }}
+                style={{ padding: "1px", width: `calc(100% / ${widget.column_number}) `}}
               >
                 <Link
                   href={
@@ -787,13 +797,12 @@ function WidgetsLoop({ widget, likedData, width }) {
                       setProductHolder(item);
                     }
                   }}
-
-                > 
+                >
                   <ImageClient
                     alt={item?.name}
                     src={item.image}
-                    width={widget?.banner_width }
-                    height={widget?.banner_height }
+                    width={widget?.banner_width}
+                    height={widget?.banner_height}
                     title={item?.name
                       .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                       .replace("%", "")
@@ -853,9 +862,9 @@ function WidgetsLoop({ widget, likedData, width }) {
                 <div
                   className={`${
                     !bool && "w-full"
-                  } cursor-pointer flex justify-center hover:opacity-80 w-1/${widget.column_number} md:w-1/${
+                  } cursor-pointer flex justify-center hover:opacity-80 w-1/${
                     widget.column_number
-                  }`}
+                  } md:w-1/${widget.column_number}`}
                   key={item.banner_image_id}
                   style={{ padding: "1px" }}
                 >
@@ -980,8 +989,8 @@ function WidgetsLoop({ widget, likedData, width }) {
                           <SingleProduct
                             likedData={likedData}
                             item={item}
-                            // click={handleOnItemClick}
-                            // dragging={dragging}
+                            click={handleOnItemClick}
+                            dragging={dragging}
                           ></SingleProduct>
                         </div>
                       );
@@ -992,7 +1001,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                           key={item.banner_image_id}
                         >
                           <Link
-                            // onClick={handleOnItemClick}
+                            onClick={handleOnItemClick}
                             href={`${
                               item?.name?.length > 0 && item?.filters != false
                                 ? "/" +
@@ -1159,17 +1168,21 @@ function WidgetsLoop({ widget, likedData, width }) {
                     );
                   })}
               </div>
-              <div className=" bg-white hidden mobile:block mobile: ">
+              <div className=" bg-white hidden mobile:block  ">
                 <Slider
                   {...productSetting}
-                  // beforeChange={handleBeforeChange}
-                  // afterChange={handleAfterChange}
+                  beforeChange={handleBeforeChange}
+                  afterChange={handleAfterChange}
                 >
                   {widget.items?.map((item) => {
                     if (item.product_id) {
                       return (
                         <div className="pr-3" key={item.product_id}>
-                          <SingleProduct item={item}></SingleProduct>
+                          <SingleProduct
+                            item={item}
+                            click={handleOnItemClick}
+                            dragging={dragging}
+                          ></SingleProduct>
                         </div>
                       );
                     } else {
@@ -1179,7 +1192,7 @@ function WidgetsLoop({ widget, likedData, width }) {
                           key={item.banner_image_id}
                         >
                           <Link
-                            // onClickCapture={handleOnItemClick}
+                            onClickCapture={handleOnItemClick}
                             href={
                               item?.name?.length > 0 && item.filters != false
                                 ? "/" +

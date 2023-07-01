@@ -50,12 +50,13 @@ function search(props) {
   function checkFilter(filter) {
     const Fil = encodeURIComponent(filter);
     console.log(Fil);
-    console.log(router.query);
+    // console.log(router.query);
 
     const hasFilterQuery = queryParameters.some(
       (param) => encodeURIComponent(router.query[param]) === Fil
     );
     console.log(hasFilterQuery);
+    console.log(encodeURIComponent("POLARIS 5 NOKTA"));
 
     if (hasFilterQuery) {
       return <input type="checkbox" className="" checked />;
@@ -79,11 +80,8 @@ function search(props) {
   // Toggle Visibility
   function toggleVisibility(e) {
     const h_sender = e;
-    console.log(h_sender);
     const sender_parent = h_sender.parentNode;
-    console.log(sender_parent);
     const next_filters = sender_parent.nextElementSibling;
-    console.log(next_filters);
     const icon = sender_parent.lastChild;
     const next_filters_display = next_filters.style.display;
     if (next_filters_display === "block") {

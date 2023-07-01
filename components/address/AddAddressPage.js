@@ -18,6 +18,7 @@ import GoogleMapReact from "google-map-react";
 import { ImLocation } from "react-icons/im";
 import { MdLocationOn } from "react-icons/md";
 import Geocode from "react-geocode";
+import Link from "next/link";
 
 function AddAddressPage(props) {
   const { address_id } = props;
@@ -337,10 +338,10 @@ function AddAddressPage(props) {
           }`}
         >
           <div className="header-div mb-6">
-            <button className="inline-flex mb-3 text-dgrey1 items-center gap-2">
+            <Link href={"/account/address"} className="inline-flex mb-3 text-dgrey1 items-center gap-2">
               <AiOutlineArrowLeft />
               Back to Addresses
-            </button>
+            </Link>
             <p className="pr-bold text-d28">Add new Address</p>
             <p className="text-dgrey1 mt-0.5">
               Enter your address and contact details so we can deliver to you

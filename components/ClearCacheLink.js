@@ -10,7 +10,7 @@ function ClearCacheLink(props) {
         <>
           {state?.admin && !successClear && (
             <a
-              className="px-12 text-dblue pointer-events-auto"
+              className="px-12 text-dblue pointer-events-auto cursor-pointer"
               onClick={() => clearCache()}
             >
               clear cache
