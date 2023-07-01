@@ -223,7 +223,7 @@ function CheckoutCompnents() {
                 setAddresses(response.data.data);
                 changeAddress(response.data.data[0], false);
                 getCart();
-                alert(1);
+                // alert(1);
               }
             });
         }
