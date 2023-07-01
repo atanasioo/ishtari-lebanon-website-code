@@ -165,7 +165,7 @@ export async function getServerSideProps(context) {
     buildLink("latest", undefined, undefined, site_host) +
     "&source_id=1" +
     `${limit != undefined && "&limit=" + limit}` +
-    `${page != undefined && "&page=3" + 3}`;
+    `${page != undefined && "&page=" + page}`;
   const response = await axiosServer.get(link, {
     headers: {
       Authorization: "Bearer " + token

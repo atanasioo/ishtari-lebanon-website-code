@@ -1761,7 +1761,7 @@ function CatalogPage(props) {
               previousLabel="<"
               activeClassName={"active-pagination-category"}
               renderOnZeroPageCount={null}
-              forcePage={data?.page > 0 ? Number(data?.page) - 1 : 0}
+              forcePage={Number(page) > 0 ? Number(page) - 1 : 0}
             />
           </div>
         </div>
