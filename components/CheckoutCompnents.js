@@ -191,6 +191,7 @@ function CheckoutCompnents() {
         const data = response.data;
         if (!data.success) {
           setloged(false);
+          // alert(2)
           getCart();
           if (cid < 1) {
             if (!state.admin) {
@@ -222,12 +223,13 @@ function CheckoutCompnents() {
                 setAddresses(response.data.data);
                 changeAddress(response.data.data[0], false);
                 getCart();
+                alert(1);
               }
             });
         }
       });
     // End account check
-  }, [router]);
+  }, [router.asPath]);
 
   // set active address from address list
   function changeAddress(address, _manual) {
