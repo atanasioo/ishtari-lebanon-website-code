@@ -34,10 +34,10 @@ export default function Home(widgets) {
     [isLoading, hasMore]
   );
 
-  const [data, setData] = useState(widgets?.data?.widgets);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (page > 1) {
+    // if (page > 1) {
       setIsLoading(true);
       var obj = {
         view: window.innerWidth > 650 ? "web_desktop" : "web_mobile",
@@ -61,7 +61,7 @@ export default function Home(widgets) {
           else setIsHasMore(true);
         }
       });
-    }
+    // }
 
     setIsLoading(false);
   }, [page]);
@@ -124,67 +124,67 @@ export default function Home(widgets) {
   );
 }
 
-export async function getServerSideProps(context) {
-  // Fetch the corresponding API endpoint based on the page type
-  const { req } = context;
-  const cook = useCookie(context);
-  let data = null;
-  let host_url = "";
-  const userAgent = context.req.headers["user-agent"];
-  // console.log({ userAgent });
-  // console.log("userAgent");
-  const screenWidth = parseScreenWidth(userAgent);
-  // console.log("width=" + screenWidth);
-  const host = req.headers.host;
-  const cookies = req.headers.cookie;
-  if (typeof cookies !== "undefined") {
-    const parsedCookies = cookie.parse(cookies);
+// export async function getServerSideProps(context) {
+//   // Fetch the corresponding API endpoint based on the page type
+//   const { req } = context;
+//   const cook = useCookie(context);
+//   let data = null;
+//   let host_url = "";
+//   const userAgent = context.req.headers["user-agent"];
+//   // console.log({ userAgent });
+//   // console.log("userAgent");
+//   const screenWidth = parseScreenWidth(userAgent);
+//   // console.log("width=" + screenWidth);
+//   const host = req.headers.host;
+//   const cookies = req.headers.cookie;
+//   if (typeof cookies !== "undefined") {
+//     const parsedCookies = cookie.parse(cookies);
 
-    const host_cookie = parsedCookies["site-local-name"];
-    const token = parsedCookies["api-token"];
+//     const host_cookie = parsedCookies["site-local-name"];
+//     const token = parsedCookies["api-token"];
 
-    let site_host = "";
-    if ((host_cookie === undefined || typeof host_cookie === "undefined") && host !== "localhost:3000" && host !== "localhost:3001") {
-      site_host = host;
-    }else if((host_cookie === undefined || typeof host_cookie === "undefined") && (host === "localhost:3000" || host === "localhost:3001")){
-      cook.set("site-local-name", "ishtari");
-      site_host= "ishtari";
-    } else {
-      site_host = host_cookie;
-    }
+//     let site_host = "";
+//     if ((host_cookie === undefined || typeof host_cookie === "undefined") && host !== "localhost:3000" && host !== "localhost:3001") {
+//       site_host = host;
+//     }else if((host_cookie === undefined || typeof host_cookie === "undefined") && (host === "localhost:3000" || host === "localhost:3001")){
+//       cook.set("site-local-name", "ishtari");
+//       site_host= "ishtari";
+//     } else {
+//       site_host = host_cookie;
+//     }
     
-    var obj = {
-      view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
-      limit: 10,
-      page: 1,
-    };
-  //  console.log(obj);
-    //fetch product data
-    let link = buildLink("home", undefined, undefined, site_host) + "&source_id=1";
-     console.log(link)
-     console.log(site_host)
-    const response = await axiosServer.post(link, obj, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
-    if (!response.data.success) {
-      return {
-        notFound: true,
-      };
-    }
+//     var obj = {
+//       view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
+//       limit: 10,
+//       page: 1,
+//     };
+//   //  console.log(obj);
+//     //fetch product data
+//     let link = buildLink("home", undefined, undefined, site_host) + "&source_id=1";
+//      console.log(link)
+//      console.log(site_host)
+//     const response = await axiosServer.post(link, obj, {
+//       headers: {
+//         Authorization: "Bearer " + token,
+//       },
+//     });
+//     if (!response.data.success) {
+//       return {
+//         notFound: true,
+//       };
+//     }
 
-    data = response.data.data;
+//     data = response.data.data;
 
-    return {
-      props: { data, screentype: screenWidth },
-    };
-  } else {
-    return {
-      props: {},
-    };
-  }
-}
+//     return {
+//       props: { data, screentype: screenWidth },
+//     };
+//   } else {
+//     return {
+//       props: {},
+//     };
+//   }
+// }
 
 function parseScreenWidth(userAgent) {
   // var screenWidth
