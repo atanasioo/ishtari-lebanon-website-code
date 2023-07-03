@@ -141,22 +141,22 @@ export default function FooterPartCenter(props) {
               <div className="mt-1 border-b  border-dinputBorder ">
                 <div className="flex items-center mx-4 justify-between font-normal text-sm pb-1 hover:text-dblue">
                   <Link
-                  href={"/"}
-                    // to={`${
-                    //   // state.admin
-                    //   //   ? path + "/category/" + cat.category_id
-                    //   //   :
-                    //   cat.name.length > 0
-                    //     ? "/" +
-                    //       cat.name
-                    //         .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                    //         .replaceAll("%", "")
-                    //         .replace(/\s+/g, "-") +
-                    //       "/c=" +
-                    //       cat.category_id
-                    //     : "cat/c=" + cat.category_id
-                    // }`}
-                    // to={`/${cat.name}/c=${cat.category_id}`}
+               
+                    href={`${
+                      // state.admin
+                      //   ? path + "/category/" + cat.category_id
+                      //   :
+                      cat.name.length > 0
+                        ? "/" +
+                          cat.name
+                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replaceAll("%", "")
+                            .replace(/\s+/g, "-") +
+                          "/c=" +
+                          cat.category_id
+                        : "cat/c=" + cat.category_id
+                    }`}
+                    to={`/${cat.name}/c=${cat.category_id}`}
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(cat.name),
                     }}
@@ -183,22 +183,21 @@ export default function FooterPartCenter(props) {
                     <Link
                       key={sub.category_id}
                       className="block font-light text-d13 py-1 hover:text-dblue"
-                      href={"/"}
-                      // to={`${
-                      //   // state.admin
-                      //   //   ? path + "/category/" + sub.category_id
-                      //   //   :
+                      href={`${
+                        // state.admin
+                        //   ? path + "/category/" + sub.category_id
+                        //   :
 
-                      //   sub.name.length > 0
-                      //     ? "/" +
-                      //       sub.name
-                      //         .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                      //         .replaceAll("%", "")
-                      //         .replace(/\s+/g, "-") +
-                      //       "/c=" +
-                      //       sub.category_id
-                      //     : "cat/c=" + sub.category_id
-                      // }`}
+                        sub.name.length > 0
+                          ? "/" +
+                            sub.name
+                              .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                              .replaceAll("%", "")
+                              .replace(/\s+/g, "-") +
+                            "/c=" +
+                            sub.category_id
+                          : "cat/c=" + sub.category_id
+                      }`}
                       // to={`${path}/${sub.name}/c=${sub.id}}`}
                       dangerouslySetInnerHTML={{
                         __html: DOMPurify.sanitize(sub.name),

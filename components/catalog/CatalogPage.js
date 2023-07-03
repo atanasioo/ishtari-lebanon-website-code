@@ -1751,6 +1751,7 @@ function CatalogPage(props) {
               </div>
             ))}
           </div>
+         { data?.total_pages > 1 &&
           <div className="h-12">
             <ReactPaginate
               className={"category-pagination"}
@@ -1765,7 +1766,7 @@ function CatalogPage(props) {
               renderOnZeroPageCount={null}
               forcePage={Number(page) > 0 ? Number(page) - 1 : 0}
             />
-          </div>
+          </div>}
         </div>
       </div>
 

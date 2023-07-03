@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "save-build-time": "next build-info.js"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^38.0.1",
