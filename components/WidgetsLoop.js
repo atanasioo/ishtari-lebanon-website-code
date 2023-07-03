@@ -246,7 +246,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                   </h1>
                 </Link>
               ) : (
-                <div
+                <Link
                   href={
                     widget.type === "new_arrival"
                       ? "/latest"
@@ -294,7 +294,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                   <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">
                     VIEW ALL
                   </h1>
-                </div>
+                </Link>
               )}
             </div>
           )}
