@@ -18,8 +18,12 @@ import { AccountProvider } from "@/contexts/AccountContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { SellerProvider, useSellerContext } from "@/contexts/SellerContext";
+import packageJson from '@/package.json'
+import moment      from 'moment';
+
 // import AsideMenu from "@/components/layout/AsideMenu";
 import Head from "next/head";
+import buildInfo from "@/build-info.json";
 export default function App({
   Component,
   pageProps,
@@ -31,10 +35,13 @@ export default function App({
   const router = useRouter();
   const topRef = useRef(null);
   const [loading, setLoading] = useState(false);
+
+  const buildTimestamp = buildInfo.buildDate;
+  const lastUpdateMoment = moment.unix(buildTimestamp / 1000);
+  const formattedDate = lastUpdateMoment.format("DD.MM.YYYY HH:mm:ss");
   // const isUserSeller = true;
 
   // const { isUserSeller, setIsUserSeller } = useSllerContext();
-
   useEffect(() => {
     const handleStart = () => {
       setLoading(true);
@@ -67,21 +74,20 @@ export default function App({
   }, []);
 
   var favicon = "favicon-1.ico";
-  var title = "ishtari | online Shopping in lebanon"
+  var title = "ishtari | online Shopping in lebanon";
   if (host?.indexOf("flo") > -1) {
     favicon = "images/logo/favicon-flo.ico";
-    title = "Flo Lebanon"
+    title = "Flo Lebanon";
   }
 
   if (host?.indexOf("energy") > -1) {
     favicon = "images/logo/favicon-energyplus.ico";
-    title = "energyplus"
+    title = "energyplus";
   }
 
-
   if (host?.indexOf(".gh") > -1) {
-    title = "energyplus"
-    title = "ishtari | online Shopping in Ghana"
+    title = "energyplus";
+    title = "ishtari | online Shopping in Ghana";
   }
 
   return (
@@ -121,6 +127,15 @@ export default function App({
                     </div>
                   </Layout>
                 </div>
+                <div className="text-xs text-dgrey1">
+                {'V'+packageJson.version}
+                {'.'}
+                {buildTimestamp}
+                {' '}
+                {'('}
+                {formattedDate}
+                {')'}
+            </div>
               </SellerProvider>
             </CurrencyProvider>
           </WishlistProvider>
@@ -153,7 +168,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
   let host_url = "";
 
   const host = req?.headers.host;
-
 
   if (typeof cookies !== "undefined" && cookies !== "") {
     var site_host = parsedCookies["site-local-name"];
@@ -198,7 +212,10 @@ App.getInitialProps = async ({ Component, ctx }) => {
           host: site_host
         };
       } catch (error) {
-        console.error("Failed to get a new token, or to fetch data heree:", error);
+        console.error(
+          "Failed to get a new token, or to fetch data heree:",
+          error
+        );
       }
     } else {
       // Fetch data using the existing token

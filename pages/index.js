@@ -120,7 +120,7 @@ export default function Home(widgets) {
             console.log("hello reff");
             return (
               <div
-                className="theHome"
+                className="theHome "
                 ref={lastElementRef}
                 key={widget.mobile_widget_id}
               >

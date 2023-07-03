@@ -39,7 +39,7 @@ const AsideMenu = () => {
               <img
                 alt="Logo"
                 className="h-8"
-                src="https://www.ishtari.com/catalog/view/javascript/keen_seller_report/assets/media/logos/ishtari-logo.png"
+                src="/images/logo/logo-white.png"
               />
             </Link>
           </div>

@@ -11,7 +11,8 @@ function HandlePhoneModel(props) {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // +961 03 123456
+
+  // +961 03 123456 //uuu
 
   const onChangeHandler = (num) => {
     // console.log(num)
