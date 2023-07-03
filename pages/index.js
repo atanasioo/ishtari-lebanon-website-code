@@ -11,6 +11,8 @@ const inter = Inter({ subsets: ["latin"] });
 import Head from "next/head";
 import { useCookie } from "next-cookie";
 import dynamic from "next/dynamic";
+import useDeviceSize from "@/components/useDeviceSize";
+import ScrollToTop from "react-scroll-to-top";
 
 export default function Home(widgets) {
   // const data = widgets.data.widgets;
@@ -19,13 +21,16 @@ export default function Home(widgets) {
     ssr: false, // Disable server-side rendering
   });
 
-  const DownloadAppImg = dynamic(() => import("@/components/DownloadAppImg.js"), { ssr: false });
-
+  const DownloadAppImg = dynamic(
+    () => import("@/components/DownloadAppImg.js"),
+    { ssr: false }
+  );
 
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [initialLoading, setInitialLoading]= useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [width] = useDeviceSize();
   const sentinelRef = useRef(null);
   const observer = useRef(null);
 
@@ -34,7 +39,12 @@ export default function Home(widgets) {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting  && entries[0].intersectionRatio > 0 && entries[0].intersectionRatio < 1 && hasMore) {
+        if (
+          entries[0].isIntersecting &&
+          entries[0].intersectionRatio > 0 &&
+          entries[0].intersectionRatio < 1 &&
+          hasMore
+        ) {
           console.log(entries[0]);
           setPage((prevPage) => prevPage + 1);
           // setIsLoading(true);
@@ -66,7 +76,7 @@ export default function Home(widgets) {
             ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
           ];
         });
-        
+
         // setTimeout(() => {
         //   setInitialLoading(false)
         // }, 200);
@@ -81,7 +91,6 @@ export default function Home(widgets) {
 
     // setIsLoading(false);
   }, [page]);
-  
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver((entries) => {
@@ -115,6 +124,17 @@ export default function Home(widgets) {
       </Head>
       <DownloadAppImg />
       <div className={`overflow-hidden container`}>
+        {width < 650 && (
+          <ScrollToTop
+            smooth
+            className="rounded-full  bg-dgreyBlack text-white text-center opacity-70"
+            width="36"
+            height="30"
+            color="white"
+            top="1000"
+            style={{ width: "50px", height: "50px", padding: "7px" }}
+          />
+        )}
         {data?.map((widget, index) => {
           if (data.length === index + 1) {
             console.log("hello reff");
@@ -130,13 +150,12 @@ export default function Home(widgets) {
             );
           } else {
             return (
-              <div className=""
-              //  style={{minHeight: initialLoading && widget.banner_height ? widget.banner_height : ""  }}
-                key={widget.mobile_widget_id}>
-                <WidgetsLoop
-                  widget={widget}
-                  width={widgets.screentype}
-                />{" "}
+              <div
+                className=""
+                //  style={{minHeight: initialLoading && widget.banner_height ? widget.banner_height : ""  }}
+                key={widget.mobile_widget_id}
+              >
+                <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
               </div>
             );
           }

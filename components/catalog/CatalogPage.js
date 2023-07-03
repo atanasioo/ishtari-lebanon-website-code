@@ -27,6 +27,7 @@ import { BsGrid } from "react-icons/bs";
 import useDeviceSize from "../useDeviceSize";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
+import ScrollToTop from "react-scroll-to-top";
 function CatalogPage(props) {
   // const [filters, setFilters] = useState(props.data?.filters );
   const { data } = props; //instead of productData
@@ -39,9 +40,7 @@ function CatalogPage(props) {
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   const [productDisplay, setProductDisplay] = useState("grid");
-  const { width, height } = useDeviceSize();
-
-  console.log(showSort);
+  const [width] = useDeviceSize();
 
   const productSetting = {
     speed: 200,
@@ -155,7 +154,7 @@ function CatalogPage(props) {
           sortRef.current &&
           !sortRef.current.contains(e.target)
         ) {
-          if (showSort)  setTimeout(() => setShowSort(false), 200);
+          if (showSort) setTimeout(() => setShowSort(false), 200);
         }
       };
 
@@ -229,7 +228,7 @@ function CatalogPage(props) {
     setLimit({
       value: limitData.value,
       text: limitData.text,
-    })
+    });
     // alert(now);
     var now = "&limit=" + limitData.value;
 
@@ -516,7 +515,7 @@ function CatalogPage(props) {
       }
     }
     if (last === undefined) {
-        url += "&last=" + last;
+      url += "&last=" + last;
     }
     if (filter_type === "page") {
     } else {
@@ -553,6 +552,17 @@ function CatalogPage(props) {
   }
   return (
     <div className="">
+      {width < 650 && (
+        <ScrollToTop
+          smooth
+          className="rounded-full  bg-dgreyBlack text-white text-center opacity-70"
+          width="36"
+          height="30"
+          color="white"
+          top="1000"
+          style={{ width: "50px", height: "50px", padding: "7px" }}
+        />
+      )}
       {data.isLoading && isLoading && (
         <div className="absolute z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
           <img

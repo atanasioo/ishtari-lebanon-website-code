@@ -9,21 +9,21 @@ import { useRouter } from "next/router";
 import LogofloOrange from "/public/images/logo-flo-orange.png";
 import logoflo from "/public/images/logo-flo.png";
 import { axiosServer } from "@/axiosServer";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import { signOut } from "next-auth/react";
 function MobileMenu(props) {
   const {
     viewMenu,
-    viewLevel2,
+    // viewLevel2,
     activeCategory,
     categories,
     closeMobileMenu,
     handleActiveCategory,
-    closeLevel2,
   } = props;
   const router = useRouter();
+  const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
 
   function handleScroll() {
@@ -71,12 +71,7 @@ function MobileMenu(props) {
   }
 
   return (
-    <div
-      className={`transition-all min-h-screen w-screen bg-white fixed top-0  bottom-0 right-0 ov/erflow-x-hidden overflow-y-scroll z-50  ${
-        viewMenu ? "right-0" : " right-full"
-      }`}
-      id="scrollDiv"
-    >
+    
       <div className=" text-dblack overflow-x-hidden">
         {/* Logo */}
         <div className="flex flex-col py-3 border-b border-dgrey px-4 ">
@@ -100,9 +95,9 @@ function MobileMenu(props) {
               <IoMdClose className=" text-2xl"></IoMdClose>
             </button>
           </div>
-          <h2 className=" font-semibold pt-2.5">
+          <p className=" font-semibold pt-2.5">
             Hi, We Are {window !== undefined && window.config["short-name"]}
-          </h2>
+          </p>
         </div>
         <div className="relative">
           {/* Second row */}
@@ -195,7 +190,7 @@ function MobileMenu(props) {
               <div className="p-4">
                 <div
                   className="flex items-center py-1  "
-                  onClick={() => closeLevel2()}
+                  onClick={() => setViewLevel2(false)}
                 >
                   <BsChevronLeft className="w-4 h-4  mr-2"></BsChevronLeft>
                   <h2
@@ -276,10 +271,10 @@ function MobileMenu(props) {
                       }}
                     ></div>
                     <span
-                      className="w-10 flex items-center justify-center"
+                      className="w-12 h-7 flex items-center justify-center"
                       onClick={() => {
                         handleActiveCategory(category);
-
+                        setViewLevel2(true);
                         handleScroll();
                       }}
                     >
@@ -297,7 +292,6 @@ function MobileMenu(props) {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

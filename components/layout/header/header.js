@@ -35,9 +35,7 @@ function Header(props) {
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
 
-
   const serverSideDomain = props.host;
-
 
   //  console.log(session);
   const [state, setState] = useState([]);
@@ -58,8 +56,6 @@ function Header(props) {
         });
     }
   }, []);
-
- 
 
   useEffect(() => {
     if (window !== undefined) {
@@ -116,28 +112,37 @@ function Header(props) {
   function closeMobileMenu() {
     setViewMenu(false);
   }
-  function closeLevel2() {
-    setViewLevel2(false);
-  }
+  // function closeLevel2() {
+  //   setViewLevel2(false);
+  // }
 
   function handleActiveCategory(category) {
     setActiveCategory(category);
-    setViewLevel2(true);
+    // setViewLevel2(true);
   }
+
 
   return (
     <div>
       {local && <SiteHeaders local={local} />}
 
-      <MobileMenu
-        viewMenu={viewMenu}
-        viewLevel2={viewLevel2}
-        activeCategory={activeCategory}
-        categories={categories}
-        closeMobileMenu={closeMobileMenu}
-        handleActiveCategory={handleActiveCategory}
-        closeLevel2={closeLevel2}
-      />
+     {/* Mobile Menu */}
+      <div
+        className={`transition-all  min-h-screen w-screen bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden overflow-y-scroll z-50  ${
+          viewMenu ? "right-0" : " right-full"
+        }`}
+        id="scrollDiv"
+      >
+        <MobileMenu
+          viewMenu={viewMenu}
+          viewLevel2={viewLevel2}
+          activeCategory={activeCategory}
+          categories={categories}
+          closeMobileMenu={closeMobileMenu}
+          handleActiveCategory={handleActiveCategory}
+          // closeLevel2={closeLevel2}
+        />
+      </div>
 
       <AdminTopHeader />
 
@@ -153,7 +158,7 @@ function Header(props) {
             href="/"
             className="header-logo flex justify-center lg:justify-start"
           >
-            {serverSideDomain.indexOf("flo")  > -1 ? (
+            {serverSideDomain.indexOf("flo") > -1 ? (
               <Image
                 src={LogofloOrange}
                 width={width > 768 ? 130 : 100}
@@ -162,7 +167,7 @@ function Header(props) {
                 priority={true}
                 style={{ width: "80%", height: "auto" }}
               />
-            ) : serverSideDomain.indexOf("ishtari")  > -1 ? (
+            ) : serverSideDomain.indexOf("ishtari") > -1 ? (
               <>
                 <Image
                   className="hidden mobile:block"
@@ -182,7 +187,7 @@ function Header(props) {
                   colorTwo={[65, 69, 81]}
                 />
               </>
-            ) :   serverSideDomain.indexOf("energy")  > -1  ? (
+            ) : serverSideDomain.indexOf("energy") > -1 ? (
               <>
                 <Image
                   className="hidden mobile:block"
@@ -233,7 +238,6 @@ function Header(props) {
 
         <div className="flex  items-center">
           <CountryDropdown />
-          
 
           {stateAcc.isSeller && (
             <div>
