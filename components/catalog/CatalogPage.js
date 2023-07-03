@@ -41,6 +41,8 @@ function CatalogPage(props) {
   const [productDisplay, setProductDisplay] = useState("grid");
   const { width, height } = useDeviceSize();
 
+  console.log(showSort);
+
   const productSetting = {
     speed: 200,
     slidesToShow: 8,
@@ -128,7 +130,7 @@ function CatalogPage(props) {
           limitRef.current &&
           !limitRef.current.contains(e.target)
         ) {
-          if (showLimit) setShowLimit(false);
+          if (showLimit) setTimeout(() => setShowLimit(false), 200);
         }
       };
 
@@ -149,11 +151,11 @@ function CatalogPage(props) {
       const checkIfClickedOutside = (e) => {
         // If the menu is open and the clicked target is not within the menu,
         if (
-          showSort &&
+          // showSort &&
           sortRef.current &&
           !sortRef.current.contains(e.target)
         ) {
-          if (showSort) setShowSort(false);
+          if (showSort)  setTimeout(() => setShowSort(false), 200);
         }
       };
 

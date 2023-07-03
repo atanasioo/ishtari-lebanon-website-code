@@ -139,7 +139,7 @@ mySwiper .swiper-button-next {
   border: 1px solid rgb(204, 204, 204) !important;
   background: rgb(255, 255, 255) !important;
   z-index: 1;
-  margin-left: -20px !important;
+  margin-left: -10px !important;
 }
 
 .mySwiper .swiper-button-prev::after,
@@ -434,7 +434,7 @@ mySwiper .swiper-button-next {
   border: 1px solid rgb(204, 204, 204) !important;
   background: rgb(255, 255, 255) !important;
   z-index: 1;
-  margin-right: -20px;
+  /* margin-right: -20px; */
   right: 0;
 }
 
@@ -449,7 +449,8 @@ mySwiper .swiper-button-next {
   border: 1px solid rgb(204, 204, 204) !important;
   background: rgb(255, 255, 255) !important;
   z-index: 1;
-  margin-left: -20px !important;
+  /* left: 0; */
+  /* margin-left: -20px !important; */
 }
 
 .mySwiper .swiper-button-prev::after,

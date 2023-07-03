@@ -143,11 +143,11 @@ function ProductZoomModal(props) {
                           width={800}
                           height={800}
                           alt=""
-                          style={{maxHeight:"700px"}}
-                          className={`rounded-lg w-
+                          className={`rounded-lg w-full
                             myimage-product-zoom  ${
                             cursor ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
+                          style={{height: "80vh"}}
                         />
                       </PrismaZoom>
                     ))}

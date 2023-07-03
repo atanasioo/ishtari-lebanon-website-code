@@ -34,7 +34,7 @@ function SingleProduct(props) {
   const handleMouseEnter = () => {
     if (swiperRef.current !== null) {
       swiperRef?.current?.autoplay?.start();
-      if(swiperRef.current.params !== null){
+      if(swiperRef.current.params !== null && swiperRef.current.params !== undefined){
         swiperRef.current.params.autoplay.delay = 1000;
       }
       
@@ -42,7 +42,7 @@ function SingleProduct(props) {
   };
 
   const handleMouseLeave = () => {
-    if (swiperRef.current !== null) {
+    if (swiperRef.current !== null && swiperRef.current.autoplay !== undefined) {
       swiperRef.current.autoplay.stop();
       swiperRef.current.slideTo(1);
     }

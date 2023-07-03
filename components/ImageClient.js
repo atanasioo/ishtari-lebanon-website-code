@@ -1,12 +1,10 @@
 import Image from "next/image";
-import React from "react";
-import "../config"
-
+import "../config";
 
 export default function ImageClient(props) {
   return (
     typeof window !== "undefined" && (
-<Image
+      <Image
         alt={props.alt}
         src={
           `${
@@ -15,9 +13,9 @@ export default function ImageClient(props) {
         }
         width={props.width}
         height={props?.height}
-        placeholder={props.placeholder}
-      />    )
-      
-    
+        placeholder={"blur"}
+        blurDataURL="/images/placeholder_slideshow.png"
+      />
+    )
   );
 }

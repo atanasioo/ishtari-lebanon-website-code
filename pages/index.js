@@ -7,26 +7,37 @@ import WidgetsLoop from "@/components/WidgetsLoop";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
-import PointsLoader from "@/components/PointsLoader";
+// import PointsLoader from "@/components/PointsLoader";
 import Head from "next/head";
 import { useCookie } from "next-cookie";
+import dynamic from "next/dynamic";
+
 export default function Home(widgets) {
   // const data = widgets.data.widgets;
 
+  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
+    ssr: false, // Disable server-side rendering
+  });
+
+  const DownloadAppImg = dynamic(() => import("@/components/DownloadAppImg.js"), { ssr: false });
+
+
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [initialLoading, setInitialLoading]= useState(true);
   const sentinelRef = useRef(null);
   const observer = useRef(null);
 
   const lastElementRef = useCallback(
     (node) => {
-      // if (loading) return;
+      if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        if (entries[0].isIntersecting  && entries[0].intersectionRatio > 0 && entries[0].intersectionRatio < 1 && hasMore) {
+          console.log(entries[0]);
           setPage((prevPage) => prevPage + 1);
-          setIsLoading(true);
+          // setIsLoading(true);
         }
       });
       if (node) observer.current.observe(node);
@@ -38,33 +49,39 @@ export default function Home(widgets) {
 
   useEffect(() => {
     // if (page > 1) {
-      setIsLoading(true);
-      var obj = {
-        view: window.innerWidth > 650 ? "web_desktop" : "web_mobile",
-        limit: 10,
-        page: page,
-      };
-      let link = buildLink("home", undefined, undefined) + "&source_id=1";
-      axiosServer.post(link, obj).then((response) => {
-        if (response?.data?.success) {
-          const newData = response?.data?.data?.widgets;
-          // setData((prevData) => [...prevData, ...newData]);
+    setIsLoading(true);
+    var obj = {
+      view: window.innerWidth > 650 ? "web_desktop" : "web_mobile",
+      limit: 10,
+      page: page,
+    };
+    let link = buildLink("home", undefined, undefined) + "&source_id=1";
+    axiosServer.post(link, obj).then((response) => {
+      if (response?.data?.success) {
+        const newData = response?.data?.data?.widgets;
+        // setData((prevData) => [...prevData, ...newData]);
 
-          setData((prevWidgets) => {
-            return [
-              ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
-            ];
-          });
-          setIsLoading(false);
-          if (page >= response?.data?.data?.meta?.total_pages)
-            setIsHasMore(false);
-          else setIsHasMore(true);
-        }
-      });
+        setData((prevWidgets) => {
+          return [
+            ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
+          ];
+        });
+        
+        // setTimeout(() => {
+        //   setInitialLoading(false)
+        // }, 200);
+
+        if (page >= response?.data?.data?.meta?.total_pages)
+          setIsHasMore(false);
+        else setIsHasMore(true);
+        setIsLoading(false);
+      }
+    });
     // }
 
-    setIsLoading(false);
+    // setIsLoading(false);
   }, [page]);
+  
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver((entries) => {
@@ -96,9 +113,11 @@ export default function Home(widgets) {
           content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
         ></meta>
       </Head>
-      <div className="overflow-x-hidden">
+      <DownloadAppImg />
+      <div className={`overflow-hidden container`}>
         {data?.map((widget, index) => {
           if (data.length === index + 1) {
+            console.log("hello reff");
             return (
               <div
                 className="theHome"
@@ -111,8 +130,13 @@ export default function Home(widgets) {
             );
           } else {
             return (
-              <div className="" key={widget.mobile_widget_id}>
-                <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
+              <div className=""
+              //  style={{minHeight: initialLoading && widget.banner_height ? widget.banner_height : ""  }}
+                key={widget.mobile_widget_id}>
+                <WidgetsLoop
+                  widget={widget}
+                  width={widgets.screentype}
+                />{" "}
               </div>
             );
           }
@@ -152,7 +176,7 @@ export default function Home(widgets) {
 //     } else {
 //       site_host = host_cookie;
 //     }
-    
+
 //     var obj = {
 //       view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
 //       limit: 10,

@@ -35,11 +35,9 @@ function Header(props) {
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
 
-  console.log(router);
 
   const serverSideDomain = props.host;
 
-  console.log(serverSideDomain);
 
   //  console.log(session);
   const [state, setState] = useState([]);
@@ -66,7 +64,7 @@ function Header(props) {
   useEffect(() => {
     if (window !== undefined) {
       if (window.location.host === "localhost:3000") {
-        setLocal(true);
+        // setLocal(true);
       }
     }
 

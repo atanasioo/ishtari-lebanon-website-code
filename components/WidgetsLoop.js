@@ -15,10 +15,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import ImageClient from "./imageClient";
 import Link from "next/link";
-
 import dynamic from "next/dynamic";
 
-function WidgetsLoop({ widget, likedData, width }) {
+function WidgetsLoop({ widget, likedData, width, initialLoading }) {
   const ImageClient = dynamic(() => import("./ImageClient.js"), { ssr: false });
 
   const [showNext, setShowNext] = useState(false);
@@ -131,8 +130,12 @@ function WidgetsLoop({ widget, likedData, width }) {
     );
   }
 
+
   return (
-    <div key={widget?.mobile_widget_id}>
+    <div
+
+      key={widget?.mobile_widget_id}
+    >
       {/* view all button */}
       {widget?.display === "carousel" && widget?.view_title !== "0" && (
         <div className="flex items-center justify-between  mb-3">
@@ -749,7 +752,10 @@ function WidgetsLoop({ widget, likedData, width }) {
                   !bool && "w-full"
                 } cursor-pointer flex justify-center hover:opacity-80  `}
                 key={item.banner_image_id}
-                style={{ padding: "1px", width: `calc(100% / ${widget.column_number}) `}}
+                style={{
+                  padding: "1px",
+                  width: `calc(100% / ${widget.column_number}) `,
+                }}
               >
                 <Link
                   href={
