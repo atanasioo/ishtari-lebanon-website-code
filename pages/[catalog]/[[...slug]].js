@@ -92,10 +92,19 @@ export async function getServerSideProps(context) {
   const host = req.headers.host;
 
   const cookies = req.headers.cookie;
-  const parsedCookies = cookie.parse(cookies);
-  const host_cookie = parsedCookies["site-local-name"];
-  const token = parsedCookies["api-token"];
-  const AdminToken = parsedCookies["ATDetails"];
+  var  host_cookie
+  var token 
+  var AdminToken
+ if ( typeof  cookies !== "undefined") {
+    var parsedCookies = cookie.parse(cookies);
+     host_cookie = parsedCookies["site-local-name"];
+     token = parsedCookies["api-token"];
+     AdminToken = parsedCookies["ATDetails"];
+  }
+  // const parsedCookies = cookie.parse(cookies);
+  // const host_cookie = parsedCookies["site-local-name"];
+  // const token = parsedCookies["api-token"];
+  // const AdminToken = parsedCookies["ATDetails"];
 
   let site_host = "";
   if (host_cookie === undefined || typeof host_cookie === "undefined") {
