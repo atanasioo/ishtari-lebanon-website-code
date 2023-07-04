@@ -9,8 +9,8 @@ import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
 import { sanitizeHTML } from "@/components/Utils";
 
-import {sellerImage}  from "/public/images/shop-svgrepo-com.svg";
-import {brandImage}  from "/public/images/brand-svgrepo-com.svg";
+// import {sellerImage}  from "/public/images/shop-svgrepo-com.svg";
+// import {brandImage}  from "/public/images/brand-svgrepo-com.svg";
 import { AccountContext } from "@/contexts/AccountContext";
 
 function TopSearch() {
@@ -199,7 +199,7 @@ function useOutsideAlerter(ref) {
                           width="24"
                           height="24"
                           src={
-                            types[type] === "seller" ? sellerImage : brandImage
+                            types[type] === "seller" ? "/images/shop-svgrepo-com.svg" : "/images/brand-svgrepo-com.svg"
                           }
                           alt=""
                         />

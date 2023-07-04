@@ -7,8 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { SliderPlaceholder } from "/public/images/placeholder_slideshow.png";
-import { ProductPlaceholder } from "/public/images/product_placeholder_square.png";
+// import { SliderPlaceholder } from "/images/placeholder_slideshow.png";
+// import { ProductPlaceholder } from "/images/product_placeholder_square.png";
 
 import { Pagination, Navigation, Autoplay } from "swiper";
 import "slick-carousel/slick/slick.css";
@@ -342,7 +342,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
-                              placeholder={SliderPlaceholder}
+                              placeholder={"//placeholder_slideshow.png"}
                             />
                           </Link>
                         ) : (
@@ -353,7 +353,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
-                              placeholder={SliderPlaceholder}
+                              placeholder={"/images/placeholder_slideshow.png"}
                             />
                           </div>
                         )
@@ -422,7 +422,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                             width={widget.banner_width}
                             height={widget.banner_height}
                             className="w-full"
-                            placeholder={SliderPlaceholder}
+                            placeholder={"/images/placeholder_slideshow.png"}
                           />
                         </Link>
                       )}
@@ -578,7 +578,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-                        placeholder={SliderPlaceholder}
+                        placeholder={"/images/placeholder_slideshow.png"}
                       />
                     </div>
                   ) : (
@@ -634,7 +634,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-                        placeholder={SliderPlaceholder}
+                        placeholder={"/images/placeholder_slideshow.png"}
                       />
                     </Link>
                   )
@@ -1061,7 +1061,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholder={ProductPlaceholder}
+                              placeholder={"/images/product_placeholder_square.png"}
                             />
                           </Link>
                         </div>
@@ -1146,7 +1146,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholder={ProductPlaceholder}
+                              placeholder={"/images/product_placeholder_square.png"}
                             />
                           </Link>
                         </div>
@@ -1253,7 +1253,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholder={ProductPlaceholder}
+                              placeholder={"/images/product_placeholder_square.png"}
                             />
                           </Link>
                         </div>
@@ -1340,7 +1340,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholder={ProductPlaceholder}
+                              placeholder={"/images/product_placeholder_square.png"}
                             />
                           </Link>
                         </div>
