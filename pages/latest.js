@@ -99,7 +99,7 @@ export default function latest(props) {
                   </span>
                   <span
                     onClick={() => {
-                      handleLimitClick(96);
+                      handleLimitClick(144);
                       setLimitSetter(144);
                       // setShowLimit(false);
                     }}
