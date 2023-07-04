@@ -148,6 +148,8 @@ function ProductZoomModal(props) {
                             cursor ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
                           style={{height: "80vh"}}
+                          placeholder={"blur"}
+                          blurDataURL="/images/product_placeholder_square.png"
                         />
                       </PrismaZoom>
                     ))}
@@ -164,13 +166,17 @@ function ProductZoomModal(props) {
                         onZoomChange={() => setCursor(!cursor)}
                         key={i["thumb"]}
                       >
-                        <img
+                        <Image
                           id="myimage"
+                          width={390}
+                          height={530}
                           src={i["popup"]}
                           alt="product-image"
                           className={`rounded-lg w-full  myimage-product-zoom  ${
                             cursor ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
+                          placeholder={"blur"}
+                          blurDataURL="/images/product_placeholder_square.png"
                         />
                       </PrismaZoom>
                     ))}
@@ -201,11 +207,15 @@ function ProductZoomModal(props) {
                               : "border-dgreyZoom"
                           } outline-none`}
                         >
-                          <img
+                          <Image
                             src={i["thumb"]}
+                            width={76}
+                            height={103}
                             alt="product-image"
                             onClick={() => changeImage(i)}
                             className={`cursor-pointer rounded-md `}
+                            placeholder={"blur"}
+                            blurDataURL="/images/product_placeholder_square.png"
                           />
                         </div>
                       ))}
@@ -231,6 +241,7 @@ function ProductZoomModal(props) {
                             alt="product-image"
                             onClick={() => changeImage(i)}
                             className={`cursor-pointer`}
+                            placeholder="/images/product_placeholder_square.png"
                           />
                         </div>
                       ))}

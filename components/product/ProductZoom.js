@@ -258,6 +258,8 @@ function ProductZoom(props) {
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
+                      placeholder={"blur"}
+                      blurDataURL="/images/product_placeholder_square.png"
                     />
                   </div>
                 ))}
@@ -279,6 +281,8 @@ function ProductZoom(props) {
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
+                      placeholder={"blur"}
+                      blurDataURL="/images/product_placeholder_square.png"
                     />
                   </div>
                 ))}
@@ -313,6 +317,8 @@ function ProductZoom(props) {
                       width={500}
                       height={680}
                       className="rounded-lg myimage-product-zoom"
+                      placeholder={"blur"}
+                      blurDataURL="/images/product_placeholder_square.png"
                     />
                   ))}
                 </Slider>

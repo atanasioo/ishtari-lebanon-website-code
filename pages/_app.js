@@ -90,6 +90,7 @@ export default function App({
     title = "ishtari | online Shopping in Ghana";
   }
 
+
   return (
     <SessionProvider>
       <Head>
@@ -250,11 +251,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const response = await getToken(host_url);
 
         const newToken = response.access_token;
-
-        console.log("where I shouldn't be");
-        console.log(cookies);
-        console.log(newToken);
-        console.log(host);
 
         // cook.set("api-token", newToken, options);
 

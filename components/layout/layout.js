@@ -14,6 +14,7 @@ function Layout({
 }) {
   const router = useRouter();
 
+
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {

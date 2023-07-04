@@ -149,6 +149,8 @@ function SingleProduct(props) {
                   width={200}
                   height={300}
                   priority={true}
+                  placeholder={"blur"}
+                  blurDataURL="/images/product_placeholder.png"
                   className="max-w-full max-h-full"
                 />
               ) : (
@@ -177,6 +179,8 @@ function SingleProduct(props) {
                       height={300}
                       priority={true}
                       className="max-w-full max-h-full"
+                      placeholder={"blur"}
+                      blurDataURL="/images/product_placeholder.png"
                     />
                   </SwiperSlide>
                   {props?.item?.images?.slice(0, 2).map((image) => {
@@ -190,6 +194,8 @@ function SingleProduct(props) {
                           height={300}
                           priority={true}
                           className="max-w-full max-h-full"
+                          placeholder={"blur"}
+                          blurDataURL="/images/product_placeholder.png"
                         />
                       </SwiperSlide>
                     );

@@ -328,13 +328,13 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                             data-index={index}
                             href={"/latest"}
                             key={Math.random()}
-                            onClick={() => {
-                              if (
-                                types[item.mobile_type]?.slice(0, 1) === "p"
-                              ) {
-                                setProductHolder({});
-                              }
-                            }}
+                            // onClick={() => {
+                            //   if (
+                            //     types[item.mobile_type]?.slice(0, 1) === "p"
+                            //   ) {
+                            //     setProductHolder({});
+                            //   }
+                            // }}
                           >
                             <ImageClient
                               alt={item?.name}
@@ -410,11 +410,11 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                               : "cat/c=" + item.mobile_type_id
                           }
                           key={Math.random()}
-                          onClick={() => {
-                            if (types[item.mobile_type]?.slice(0, 1) === "p") {
-                              setProductHolder({});
-                            }
-                          }}
+                          // onClick={() => {
+                          //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
+                          //     setProductHolder({});
+                          //   }
+                          // }}
                         >
                           <ImageClient
                             src={item.image}
@@ -798,11 +798,11 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                         item.mobile_type_id
                       : "cat/c=" + item.mobile_type_id
                   }
-                  onClick={() => {
-                    if (types[item.mobile_type]?.slice(0, 1) === "p") {
-                      setProductHolder(item);
-                    }
-                  }}
+                  // onClick={() => {
+                  //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
+                  //     setProductHolder(item);
+                  //   }
+                  // }}
                 >
                   <ImageClient
                     alt={item?.name}
@@ -917,11 +917,11 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                           item.mobile_type_id
                         : "cat/c=" + item.mobile_type_id
                     }
-                    onClick={() => {
-                      if (types[item.mobile_type]?.slice(0, 1) === "p") {
-                        setProductHolder(item);
-                      }
-                    }}
+                    // onClick={() => {
+                    //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
+                    //     setProductHolder(item);
+                    //   }
+                    // }}
                   >
                     <ImageClient
                       alt={item?.name}

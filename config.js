@@ -8,7 +8,9 @@ if (typeof window !== "undefined") {
   if (
     Cookies.get("site-local-name") === "ishtari" ||
     host === "www.ishtari.com" ||
-    host === "www.sari3.com"
+    
+    host === "www.sari3.com" || 
+    host === "www.cloudgoup.com"
   ) {
     config = {
       "short-name": "ishtari",

@@ -80,6 +80,9 @@ function ProductPage(props) {
   const SellerImage = dynamic(() => import("./SellerImage"), {
     ssr: false, // Disable server-side rendering
   });
+  const WhatsappBtn = dynamic(() => import("./WhatsappBtn"), {
+    ssr: false, // Disable server-side rendering
+  });
 
   const router = useRouter();
   const product_id = router.query.slug[0].includes("p=")
@@ -1272,19 +1275,7 @@ function ProductPage(props) {
                 )}
 
                 <div className="my-4 hidden mobile:block">
-                  <a
-                    className="flex justify-start"
-                    // href={`https://api.whatsapp.com/send?phone=${
-                    //   window.config["countryCode"] + accountstate.wtspNumber
-                    // }&text=Hi%20there%20i%27m%20interested%20in%20${
-                    //   window.config["site-url"]
-                    // }/product/${product_id}`}
-                  >
-                    <div className=" flex justify-start items-center rounded-md bg-dgreen py-2 px-4 text-white">
-                      <BsWhatsapp className="w-5 h-5" />
-                      <p className="text-md ml-4">Whatsapp Support</p>
-                    </div>
-                  </a>
+                  <WhatsappBtn product_id={product_id} />
                 </div>
               </div>
             </div>
@@ -1468,7 +1459,7 @@ function ProductPage(props) {
           {/* Product Description */}
 
           <div className="my-4 container block mobile:hidden">
-            <a
+            {/* <a
               className=""
               // href={`https://api.whatsapp.com/send?phone=${
               //   window.config["countryCode"] + accountstate.wtspNumber
@@ -1480,7 +1471,8 @@ function ProductPage(props) {
                 <BsWhatsapp className="w-5 h-5" />
                 <p className="text-md ml-4">Whatsapp Support</p>
               </div>
-            </a>
+            </a> */}
+            <WhatsappBtn product_id={product_id} />
           </div>
 
           <div
