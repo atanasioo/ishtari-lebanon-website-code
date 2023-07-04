@@ -14,17 +14,14 @@ import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
 import ScrollToTop from "react-scroll-to-top";
 
-export default function Home(widgets) {
-  // const data = widgets.data.widgets;
+export default function Home(props) {
 
   const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
     ssr: false, // Disable server-side rendering
   });
-
-  const DownloadAppImg = dynamic(
-    () => import("@/components/DownloadAppImg.js"),
-    { ssr: false }
-  );
+  const DownloadAppImg = dynamic(() => import("@/components/DownloadAppImg"), {
+    ssr: false, // Disable server-side rendering
+  });
 
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -122,7 +119,7 @@ export default function Home(widgets) {
           content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
         ></meta>
       </Head>
-      <DownloadAppImg />
+      <DownloadAppImg/>
       <div className={`overflow-hidden container`}>
         {width < 650 && (
           <ScrollToTop
@@ -145,7 +142,10 @@ export default function Home(widgets) {
                 key={widget.mobile_widget_id}
               >
                 {" "}
-                <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
+                <WidgetsLoop 
+                widget={widget} 
+                // width={widgets.screentype} 
+                />{" "}
               </div>
             );
           } else {
@@ -155,7 +155,10 @@ export default function Home(widgets) {
                 //  style={{minHeight: initialLoading && widget.banner_height ? widget.banner_height : ""  }}
                 key={widget.mobile_widget_id}
               >
-                <WidgetsLoop widget={widget} width={widgets.screentype} />{" "}
+                <WidgetsLoop 
+                widget={widget} 
+                // width={widgets.screentype}
+                 />{" "}
               </div>
             );
           }
@@ -166,6 +169,7 @@ export default function Home(widgets) {
     </div>
   );
 }
+
 
 // export async function getServerSideProps(context) {
 //   // Fetch the corresponding API endpoint based on the page type

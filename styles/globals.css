@@ -628,6 +628,7 @@ mySwiper .swiper-button-next {
   bottom: -120%;
   border-radius: 16px 16px 0px 0px;
   transition: bottom 0.4s ease-in-out 0s;
+  z-index: 10;
 }
 
 .mobile-catalog-container-before::before {

@@ -97,6 +97,14 @@ function ProductPage(props) {
     prevArrow: <CustomPrevArrows direction={"l"} />,
     nextArrow: <CustomNextArrows direction={"r"} />,
   };
+  const productMobileBundlesSetting = {
+    speed: 200,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    infinite: false,
+    prevArrow: <CustomPrevArrows direction={"l"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />,
+  };
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
@@ -1222,7 +1230,29 @@ function ProductPage(props) {
                       Frequently Bought Together
                     </p>
                     <div className="bg-white">
-                      <Slider {...productBundlesSetting}>
+                      <Slider className="hidden mobile:block" {...productBundlesSetting}>
+                        {bundles &&
+                          bundles?.products?.map((product, i) => (
+                            <div
+                              key={product.product_id}
+                              className="w-12/12 flex flex-row items-center"
+                            >
+                              <div className={`${width < 650 && "w-10/12"}`}>
+                                <SingleProductBundle
+                                  item={product}
+                                  i={i}
+                                  len={bundles.products?.length}
+                                />
+                              </div>
+                              {i !== bundles?.products?.length - 1 && (
+                                <span className="text-3xl font-bold mt-2">
+                                  +
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                      </Slider>
+                      <Slider className=" mobile:hidden" {...productMobileBundlesSetting}>
                         {bundles &&
                           bundles?.products?.map((product, i) => (
                             <div

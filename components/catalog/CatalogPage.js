@@ -1078,7 +1078,7 @@ function CatalogPage(props) {
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
-              <div className="  w-full block relative z-10 ">
+              <div className="  w-full block relative z-20 ">
                 <div className="relative flex items-center mb-3 mt-4">
                   <div
                     className={`catalog-top-filter hidden mobile:block  ${

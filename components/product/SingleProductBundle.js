@@ -69,10 +69,11 @@ function SingleProductBundle(props) {
     >
       {
         <div
-          className={`bg-white ${fetching && "animate-pulse"}`}
+          className={`bg-white h-full ${fetching && "animate-pulse"}`}
           style={{
             width: props.carousel ? "40vw" : "100%",
             marginRight: props.carousel ? "7.5px" : "0",
+            minWidth:"100px"
           }}
         >
           <div className="relative">
