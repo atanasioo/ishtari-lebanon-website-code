@@ -264,7 +264,6 @@ function ProductPage(props) {
 
   const observer = useRef();
 
-  console.log(data);
 
   const lastElementRef = useCallback(
     (node) => {

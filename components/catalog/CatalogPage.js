@@ -97,7 +97,6 @@ function CatalogPage(props) {
     order,
     limit,
   } = router.query;
-  console.log(page);
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
@@ -168,7 +167,6 @@ function CatalogPage(props) {
     }, [showSort]);
   }
 
-  console.log(productDisplay);
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);

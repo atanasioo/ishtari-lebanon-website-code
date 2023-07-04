@@ -155,8 +155,6 @@ function GoogleMap(props) {
     );
   };
 
-  console.log(position.lat);
-  console.log(position.lng);
 
   return (
     <div className="my-4 relative h-full">

@@ -8,7 +8,7 @@ function CountryDropdown() {
 
   return window.config["site-url"] === "https://www.ishtari.com" ||
     window.config["site-url"] === "https://www.ishtari.com.gh" ? (
-    <div className="flex justify-center lg:border-r lg:border-dplaceHolder mr-3">
+    <div className="flex justify-center lg:border-r lg:border-dplaceHolder md:mr-3">
       <div>
         <div className="dropdown relative float-right pr-2">
           <button

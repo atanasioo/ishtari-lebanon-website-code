@@ -284,6 +284,7 @@ function MobileMenu(props) {
                 ))}
               <Link
                 href={`/latest`}
+                onClick={() => closeMobileMenu()}
                 className=" flex justify-between items-center"
               >
                 <span className="font-semibold py-2 pb-36">NEW ARRIVALS</span>

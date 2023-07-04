@@ -128,12 +128,10 @@ function search(props) {
 
   //  Pagination
   function pageSetter(page) {
-    console.log(page);
     const new_page = parseInt(page["selected"]);
     router.push("/search?keyword=" + encodedKeyword + "&page=" + new_page);
   }
 
-  console.log(data);
 
   return (
     <div>

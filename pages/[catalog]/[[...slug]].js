@@ -126,7 +126,9 @@ export async function getServerSideProps(context) {
       let link =
         buildLink("product", undefined, undefined, site_host) +
         product_id +
-        "&source_id=1&part_one&employer=true";  //dont' forget to remove employer=true
+        "&source_id=1&part_one" 
+        + ((AdminToken !== undefined || typeof AdminToken !== "undefined") ? "&employer=true" : "");  
+
       const response = await axiosServer.get(link, {
         headers: {
           Authorization: "Bearer " + token,
@@ -236,7 +238,6 @@ export async function getServerSideProps(context) {
           filter += "&limit=" + limit;
         }
 
-        console.log("linkKKKKKKKK")
 
         const link =
           buildLink("filter", undefined, undefined , site_host) +
@@ -245,8 +246,6 @@ export async function getServerSideProps(context) {
           filter
           + (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
 
-          console.log("linkKKKKKKKK")
-          console.log(link)
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,

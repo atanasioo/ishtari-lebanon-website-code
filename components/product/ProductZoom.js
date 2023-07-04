@@ -132,7 +132,7 @@ function ProductZoom(props) {
     lens = document.createElement("DIV");
     lens.setAttribute("class", "img-zoom-lens " + lensClass);
     /*insert lens:*/
-    img.parentElement.insertBefore(lens, img);
+    img?.parentElement.insertBefore(lens, img);
     /*calculate the ratio between result DIV and lens:*/
     cx = result.offsetWidth / (lens.offsetWidth * 1.5);
     cy = result.offsetHeight / (lens.offsetHeight * 1.5);
