@@ -43,8 +43,12 @@ export default function App({
 
   // const { isUserSeller, setIsUserSeller } = useSllerContext();
   useEffect(() => {
-    const handleStart = () => {
-      setLoading(true);
+    const handleStart = (url) => {
+      const excludeHome = url === "/"
+      if(!excludeHome){
+        setLoading(true);
+      }
+      
     };
 
     const handleComplete = () => {

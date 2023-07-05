@@ -170,12 +170,12 @@ function Account() {
 
     var adminToken = Cookies.get("ATDetails");
 
-    if (
-      window.location.host === "localhost:3000" ||
-      window.location.host === "localhost:3001"
-    ) {
-      adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
-    }
+    // if (
+    //   window.location.host === "localhost:3000" ||
+    //   window.location.host === "localhost:3001"
+    // ) {
+    //   adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
+    // }
 
     if (typeof adminToken != typeof undefined) {
       dispatch({ type: "setAdminToken", payload: adminToken });

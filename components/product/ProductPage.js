@@ -31,7 +31,7 @@ function ProductPage(props) {
   //Server props
   const { data, host, hovered } = props; //instead of productData
   //contexts
-  const [accountState] = useContext(AccountContext);
+  const [accountState, dispatchAccount] = useContext(AccountContext);
   const [state, dispatch] = useContext(CartContext);
   const [stateW, dispatchW] = useContext(WishlistContext);
   //states
@@ -636,6 +636,16 @@ function ProductPage(props) {
       setShowOptionModal({ show: true, bundle: bundle });
     }
   }
+
+  const checkIfLogged = () => {
+    if (accountState.loged === true) {
+      setShowNotify(true);
+    } else {
+      dispatchAccount({ type: "setShowOver", payload: true });
+      dispatchAccount({ type: "setShowLogin", payload: true });
+      dispatchAccount({ type: "setShowSignup", payload: false });
+    }
+  };
 
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">

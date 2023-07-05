@@ -60,7 +60,7 @@ function Header(props) {
   useEffect(() => {
     if (window !== undefined) {
       if (window.location.host === "localhost:3000") {
-        setLocal(true);
+        // setLocal(true);
       }
     }
 
@@ -157,6 +157,12 @@ function Header(props) {
           <Link
             href="/"
             className="header-logo flex justify-center lg:justify-start"
+            onClick={(e) => {
+              // to prevent the unsmooth behavior when clicking on the logo when you're already in the homepage
+              if (router.pathname === "/") {
+                e.preventDefault();
+              }
+            }}
           >
             {serverSideDomain.indexOf("flo") > -1 ? (
               <Image

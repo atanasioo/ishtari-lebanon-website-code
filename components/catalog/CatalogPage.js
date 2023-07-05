@@ -549,7 +549,7 @@ function CatalogPage(props) {
     }
   }
   return (
-    <div className="">
+    <div className="overflow-x-hidden">
       {width < 650 && (
         <ScrollToTop
           smooth

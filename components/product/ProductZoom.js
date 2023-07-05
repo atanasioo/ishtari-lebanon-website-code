@@ -134,18 +134,18 @@ function ProductZoom(props) {
     /*insert lens:*/
     img?.parentElement.insertBefore(lens, img);
     /*calculate the ratio between result DIV and lens:*/
-    cx = result.offsetWidth / (lens.offsetWidth * 1.5);
-    cy = result.offsetHeight / (lens.offsetHeight * 1.5);
+    cx = result.offsetWidth / (lens.offsetWidth * 1.05);
+    cy = result.offsetHeight / (lens.offsetHeight * 1.05);
     /*set background properties for the result DIV:*/
-    result.style.backgroundImage = "url('" + img.src + "')";
+    result.style.backgroundImage = "url('" + img?.src + "')";
     result.style.backgroundSize =
-      img.width * cx + "px " + img.height * cy + "px";
+      img?.width * cx + "px " + img?.height * cy + "px";
     /*execute a function when someone moves the cursor over the image, or the lens:*/
     lens.addEventListener("mousemove", moveLens);
-    img.addEventListener("mousemove", moveLens);
+    img?.addEventListener("mousemove", moveLens);
     /*and also for touch screens:*/
     lens.addEventListener("touchmove", moveLens);
-    img.addEventListener("touchmove", moveLens);
+    img?.addEventListener("touchmove", moveLens);
     function moveLens(e) {
       var pos, x, y;
       /*prevent any other actions that may occur when moving over the imagee:*/
@@ -153,8 +153,8 @@ function ProductZoom(props) {
       /*get the cursor's x and y positions:*/
       pos = getCursorPos(e);
       /*calculate the position of the lenss:*/
-      x = pos.x - lens.offsetWidth / (10 * 1.5);
-      y = pos.y - lens.offsetHeight / (10 * 1.5);
+      x = pos.x - lens.offsetWidth / (10 * 1.05);
+      y = pos.y - lens.offsetHeight / (10 * 1.05);
       /*prevent the lens from being positioned outside the image:*/
       if (x < 0) {
         x = 0;
@@ -162,17 +162,17 @@ function ProductZoom(props) {
       if (y < 0) {
         y = 0;
       }
-      if (x > img.width - lens.offsetWidth) {
-        x = img.width - lens.offsetWidth;
+      if (x > img?.width - lens.offsetWidth) {
+        x = img?.width - lens.offsetWidth;
       }
 
-      if (y > img.height - lens.offsetHeight) {
-        y = img.height - lens.offsetHeight;
+      if (y > img?.height - lens.offsetHeight) {
+        y = img?.height - lens.offsetHeight;
       }
 
       // prevent the lens from being positioned outside the image:
-      x = Math.max(Math.min(x / 1.5, img.width - lens.offsetWidth), 0);
-      y = Math.max(Math.min(y / 1.5, img.height - lens.offsetHeight), 0);
+      x = Math.max(Math.min(x / 1.05, img?.width - lens.offsetWidth), 0);
+      y = Math.max(Math.min(y / 1.05, img?.height - lens.offsetHeight), 0);
 
       /*set the position of the lens:*/
       lens.style.left = x + "px";
@@ -186,7 +186,7 @@ function ProductZoom(props) {
         y = 0;
       e = e || window.event;
       /*get the x and y positions of the imagee:*/
-      a = img.getBoundingClientRect();
+      a = img?.getBoundingClientRect();
       /*calculate the cursor's x and y coordinates, relative to the image:*/
       x = e.pageX - a.left;
       y = e.pageY - a.top;

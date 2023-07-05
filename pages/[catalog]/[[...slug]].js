@@ -194,7 +194,7 @@ export async function getServerSideProps(context) {
           buildLink(type, undefined, undefined, site_host) +
           id +
           "&source_id=1&limit=50" + filter 
-          + (typeof AdminToken === "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
+          + (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
           console.log(link);
         const response = await axiosServer.get(link, {
           headers: {

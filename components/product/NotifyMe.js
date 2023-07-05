@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { axiosServer } from "@/axiosServer";
 // import { AccountContext } from "../contexts/AccountContext";
 import buildLink from "@/urls";
+import { AccountContext } from "@/contexts/AccountContext";
 
 function NotifyMe({ setShowNotify, showNotify, pname, pid }) {
-//   const [state] = useContext(AccountContext);
+  const [state] = useContext(AccountContext);
   const [phone, setPhone] = useState();
   const [email, setEmail] = useState();
   const [error, setError] = useState();
@@ -15,7 +16,7 @@ function NotifyMe({ setShowNotify, showNotify, pname, pid }) {
       phone,
       email,
     };
-    _axios
+    axiosServer
       .post(buildLink("notify", undefined, window.innerWidth), body)
       .then((data) => {
         if (data.data.success === true) {
