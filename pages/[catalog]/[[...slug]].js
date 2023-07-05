@@ -37,11 +37,11 @@ function SlugPage(props) {
     <div>
       <Head>
         <title>
-          {(props.type === "product"
+          {/* { props.type != undefined && (props.type === "product"
             ? props.data?.name
             : props.data?.heading_title
-          )?.replaceAll("&amp;", "&")}{" "}
-          | ishtari
+          )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
+          {(props.type  === "product" ?   props.data?.name.replaceAll("&amp;", "&")     :   props.data?.heading_title.replaceAll("&amp;", "&")        + " | ishtari").replaceAll("<!-- -->", "")}
         </title>
         <meta
           name="description"
