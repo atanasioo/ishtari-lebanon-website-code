@@ -41,7 +41,10 @@ function SlugPage(props) {
             ? props.data?.name
             : props.data?.heading_title
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
-          {(props.type  === "product" ?   props.data?.name.replaceAll("&amp;", "&")     :   props.data?.heading_title.replaceAll("&amp;", "&")        + " | ishtari").replaceAll("<!-- -->", "")}
+          {(props.type === "product"
+            ? props.data?.name.replaceAll("&amp;", "&")
+            : props.data?.heading_title.replaceAll("&amp;", "&") + " | ishtari"
+          ).replaceAll("<!-- -->", "")}
         </title>
         <meta
           name="description"
@@ -50,7 +53,11 @@ function SlugPage(props) {
       </Head>
       {props.type === "product" ? (
         <>
-          <ProductPage data={props.data} host={props.host} hovered={props.hovered} />
+          <ProductPage
+            data={props.data}
+            host={props.host}
+            hovered={props.hovered}
+          />
         </>
       ) : (
         <CatalogPage
@@ -78,6 +85,7 @@ export async function getServerSideProps(context) {
     page,
     sort,
     order,
+    last,
     limit
   } = context.query;
   const { req } = context;
@@ -92,14 +100,14 @@ export async function getServerSideProps(context) {
   const host = req.headers.host;
 
   const cookies = req.headers.cookie;
-  var  host_cookie
-  var token 
-  var AdminToken
- if ( typeof  cookies !== "undefined") {
+  var host_cookie;
+  var token;
+  var AdminToken;
+  if (typeof cookies !== "undefined") {
     var parsedCookies = cookie.parse(cookies);
-     host_cookie = parsedCookies["site-local-name"];
-     token = parsedCookies["api-token"];
-     AdminToken = parsedCookies["ATDetails"];
+    host_cookie = parsedCookies["site-local-name"];
+    token = parsedCookies["api-token"];
+    AdminToken = parsedCookies["ATDetails"];
   }
   // const parsedCookies = cookie.parse(cookies);
   // const host_cookie = parsedCookies["site-local-name"];
@@ -126,22 +134,25 @@ export async function getServerSideProps(context) {
       let link =
         buildLink("product", undefined, undefined, site_host) +
         product_id +
-        "&source_id=1&part_one" 
-        + ((AdminToken !== undefined || typeof AdminToken !== "undefined") ? "&employer=true" : "");  
+        "&source_id=1&part_one" +
+        (AdminToken !== undefined || typeof AdminToken !== "undefined"
+          ? "&employer=true"
+          : "");
 
       const response = await axiosServer.get(link, {
         headers: {
-          Authorization: "Bearer " + token,
-        },
+          Authorization: "Bearer " + token
+        }
       });
       // console.log(response.data);
       if (!response.data.success) {
         return {
-          notFound: true,
+          notFound: true
         };
       }
-
-      data = response.data.data;
+      console.log(response);
+      data = response?.data?.data;
+      console.log();
       type = "product";
     } else if (
       catalog === "category" ||
@@ -177,9 +188,8 @@ export async function getServerSideProps(context) {
           id = slug[0];
         }
       }
-      var filter =""
+      var filter = "";
       if (!has_filter) {
-
         if (page != undefined) {
           filter += "&page=" + page;
         }
@@ -189,25 +199,25 @@ export async function getServerSideProps(context) {
           filter += "&order=" + order;
         }
         // } else {
-  
+
         let link =
           buildLink(type, undefined, undefined, site_host) +
           id +
-          "&source_id=1&limit=50" + filter 
-          + (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
-          console.log(link);
+          "&source_id=1&limit=50" +
+          filter +
+          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
+        console.log(link);
         const response = await axiosServer.get(link, {
           headers: {
-            Authorization: "Bearer " + token,
-          },
+            Authorization: "Bearer " + token
+          }
         });
         if (!response.data.success) {
           return {
-            notFound: true,
+            notFound: true
           };
         }
         data = response.data.data;
-   
       } else {
         var filter = "";
         if (filter_categories !== undefined) {
@@ -228,6 +238,9 @@ export async function getServerSideProps(context) {
         if (page != undefined) {
           filter += "&page=" + page;
         }
+        if (last != undefined) {
+          filter += "&last=" + last;
+        }
 
         if (sort !== undefined && order !== undefined) {
           filter += "&sort=" + sort;
@@ -238,25 +251,31 @@ export async function getServerSideProps(context) {
           filter += "&limit=" + limit;
         }
 
-
         const link =
-          buildLink("filter", undefined, undefined , site_host) +
+          buildLink("filter", undefined, undefined, site_host) +
           "&path=" +
           slug[0].split("=")[1] +
-          filter
-          + (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
-
+          filter +
+          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
+        console.log("link");
+        console.log(link);
         const response = await axiosServer.get(link, {
           headers: {
-            Authorization: "Bearer " + token,
-          },
+            Authorization: "Bearer " + token
+          }
         });
-        data = response.data.data;
+        console.log(response.data);
+        if (response.data.success == false) {
+          return {
+            notFound: true
+          };
+        }
+        data = response?.data?.data;
       }
     } else {
       //redirect to 404
       return {
-        notFound: true,
+        notFound: true
       };
     }
     return {
@@ -266,30 +285,13 @@ export async function getServerSideProps(context) {
         host,
         hovered: false,
         isLoading: "false",
-        p,
-      },
+        p
+      }
     };
-  }else{
-    return{
-      notFound:true
-    }
+  } else {
+    return {
+      notFound: true
+    };
   }
 }
 export default SlugPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

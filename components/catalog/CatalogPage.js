@@ -512,9 +512,9 @@ function CatalogPage(props) {
         url += "&" + type + "=" + adv_filters;
       }
     }
-    if (last === undefined) {
-      url += "&last=" + last;
-    }
+    // if (last !== undefined) {
+    //   url += "&last=" + last;
+    // }
     if (filter_type === "page") {
     } else {
       if (filter_type != "adv_filters") {
