@@ -3,7 +3,7 @@ import { axiosServer } from "@/axiosServer.js";
 import buildLink from "@/urls";
 
 const getHost = async (host) => { 
-  // console.log(host)
+  console.log(host)
   // console.log("host=")
 
   let url = "";
@@ -21,7 +21,8 @@ const getHost = async (host) => {
     host === "https://next.ishtari.com/" ||
     host === "https://www.next.ishtari.com/" ||
     host === "http://next.ishtari.com" ||
-    host === "www.next.ishtari.com"
+    host === "www.next.ishtari.com" ||
+    host === "next.ishtari.com"
   ) {
     // url = "https://www.ishtari.com/";
     url = "https://www.ishtari.com/";

@@ -316,11 +316,12 @@ function buildLink(link, payload, width, hostServer) {
     hostServer === "https://cloudgoup.com/" ||
     hostServer === "www.cloudgoup.com" ||
 
-    host === "https://next.ishtari.com/" ||
-    host === "https://www.next.ishtari.com/" ||
-    host === "http://next.ishtari.com" ||
-    host === "www.next.ishtari.com"
-    
+    hostServer === "https://next.ishtari.com/" ||
+    hostServer === "https://www.next.ishtari.com/" ||
+    hostServer === "http://next.ishtari.com" ||
+    hostServer === "www.next.ishtari.com"||
+    hostServer === "next.ishtari.com"
+
   ) {
     host = "https://www.ishtari.com/";
     path1 = "motor/";

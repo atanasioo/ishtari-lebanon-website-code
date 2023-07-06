@@ -1,11 +1,6 @@
 const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');
-const ssgManifest = require('./.next/static/IFEoqAevc7tvfrq3JMt8F/_ssgManifest.js');
-
-const { createServer } = require('http');
-const { parse } = require('url');
-const next = require('next');
 const ssgManifest = require('./.next/static/AanfiBvTONjxvzuhjP9Q8/_ssgManifest.js');
 
 const dev = process.env.NODE_ENV !== 'production';
