@@ -16,7 +16,12 @@ const getHost = async (host) => {
     host === "https://cloudgoup.com/" ||
     host === "https://www.cloudgoup.com/" ||
     host === "http://cloudgoup.com" ||
-    host === "www.cloudgoup.com"
+    host === "www.cloudgoup.com" ||
+
+    host === "https://next.ishtari.com/" ||
+    host === "https://www.next.ishtari.com/" ||
+    host === "http://next.ishtari.com" ||
+    host === "www.next.ishtari.com"
   ) {
     // url = "https://www.ishtari.com/";
     url = "https://www.ishtari.com/";

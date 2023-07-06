@@ -10,7 +10,9 @@ if (typeof window !== "undefined") {
     host === "www.ishtari.com" ||
     
     host === "www.sari3.com" || 
-    host === "www.cloudgoup.com"
+    host === "www.cloudgoup.com" || 
+    host === "www.next.ishtari.com" ||
+    host === "next.ishtari.com" 
   ) {
     config = {
       "short-name": "ishtari",
