@@ -729,7 +729,7 @@ function ProductPage(props) {
                       <div className="modelNumber mr-1.5">
                         Model Number: {data.sku}
                       </div>
-                      <div className="divider h-4 w-0.5 bg-dplaceHolder mr-1.5"></div>
+                      {data?.rating > 0 &&  <div className="divider h-4 w-0.5 bg-dplaceHolder mx-1.5"></div>}
                       <div className="product-rating">
                         {data?.rating > 0 && (
                           <div className="flex" onClick={handleClick}>
@@ -737,14 +737,14 @@ function ProductPage(props) {
                               className="flex justify-center rounded-full px-1 space-x-0.5 h-5 ml-3 mt-0.5   cursor-pointer"
                               style={{ backgroundColor: "rgb(130, 174, 4" }}
                             >
-                              <div className="text-d14 font-bold text-white">
+                              <div className="text-d13 font-bold text-white">
                                 {data?.rating || "0.0"}
                               </div>
                               <StarRatings
-                                containerClassName=" text-white text-bold"
+                                containerClassName="mb-0.5 text-white text-bold"
                                 starEmptyColor="#FFFFFF"
                                 numberOfStars={1}
-                                starDimension="13px"
+                                starDimension="12px"
                                 isReadOnly="true"
                               />{" "}
                             </div>
