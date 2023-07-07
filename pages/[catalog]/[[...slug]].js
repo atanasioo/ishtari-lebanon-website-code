@@ -7,6 +7,7 @@ import buildLink from "@/urls";
 import ProductPage from "@/components/product/ProductPage";
 import CatalogPage from "@/components/catalog/CatalogPage";
 function SlugPage(props) {
+  console.log(props)
   const router = useRouter();
   const [isCatalog, setIsCatalog] = useState(false);
   const [isProduct, setIsProduct] = useState(false);
@@ -60,12 +61,14 @@ function SlugPage(props) {
           />
         </>
       ) : (
-        <CatalogPage
-          type={props.type}
-          data={props.data}
-          isloading={props.isLoading}
-          page={props?.page}
-        />
+        <></>
+        // <CatalogPage
+        //   type={props.type}
+        //   data={props.data}
+        //   isloading={props.isLoading}
+        //   page={props.p}
+        //   link={props.link}
+        // />
       )}
     </div>
   );
@@ -98,7 +101,7 @@ export async function getServerSideProps(context) {
     p = page;
   }
   const host = req.headers.host;
-
+  var link;
   const cookies = req.headers.cookie;
   var host_cookie;
   var token;
@@ -131,7 +134,7 @@ export async function getServerSideProps(context) {
       }
       // console.log(context);
       //fetch product data
-      let link =
+      link =
         buildLink("product", undefined, undefined, site_host) +
         product_id +
         "&source_id=1&part_one" +
@@ -199,7 +202,7 @@ export async function getServerSideProps(context) {
         }
         // } else {
 
-        let link =
+        link =
           buildLink(type, undefined, undefined, site_host) +
           id +
           "&source_id=1&limit=50" +
@@ -250,14 +253,13 @@ export async function getServerSideProps(context) {
           filter += "&limit=" + limit;
         }
 
-        const link =
+        link =
           buildLink("filter", undefined, undefined, site_host) +
           "&path=" +
           slug[0].split("=")[1] +
           filter +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
-        console.log("link");
-        console.log(link);
+
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token
@@ -282,9 +284,10 @@ export async function getServerSideProps(context) {
         data,
         type,
         host,
+        // page,
         hovered: false,
         isLoading: "false",
-         link,
+        link,
         p
       }
     };
