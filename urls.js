@@ -312,7 +312,7 @@ function buildLink(link, payload, width, hostServer) {
 
   if (
     hostServer === "ishtari" ||
-    hostServer === "https://www.ishtari.com/" ||
+    hostServer === "https://www.ishtari.com" ||
     hostServer === "http://cloudgoup.com" ||
     hostServer === "https://cloudgoup.com/" ||
     hostServer === "www.cloudgoup.com" ||
