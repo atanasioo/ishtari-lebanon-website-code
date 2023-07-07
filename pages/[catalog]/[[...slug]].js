@@ -6,6 +6,7 @@ import cookie from "cookie";
 import buildLink from "@/urls";
 import ProductPage from "@/components/product/ProductPage";
 import CatalogPage from "@/components/catalog/CatalogPage";
+import CatalogPages from "@/components/catalog/CatalogPages";
 function SlugPage(props) {
   console.log(props)
   const router = useRouter();
@@ -61,14 +62,14 @@ function SlugPage(props) {
           />
         </>
       ) : (
-        <></>
-        // <CatalogPage
-        //   type={props.type}
-        //   data={props.data}
-        //   isloading={props.isLoading}
-        //   page={props.p}
-        //   link={props.link}
-        // />
+      
+        <CatalogPages
+          type={props.type}
+          data={props.data}
+          isloading={props.isLoading}
+          page={props.p}
+          link={props.link}
+        />
       )}
     </div>
   );
@@ -96,7 +97,7 @@ export async function getServerSideProps(context) {
   // const { NEXT_INIT_QUERY  = context.has_filter;
   let data = null;
   let type = "";
-  var p = "";
+  var p = 0;
   if (page !== undefined) {
     p = page;
   }
