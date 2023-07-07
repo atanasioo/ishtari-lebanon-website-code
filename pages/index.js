@@ -62,7 +62,7 @@ export default function Home(props) {
       limit: 10,
       page: page,
     };
-    let link = buildLink("home", undefined, undefined) + "&source_id=1";
+    let link = buildLink("home", undefined, undefined, window.config['site-url']) + "&source_id=1";
     axiosServer.post(link, obj).then((response) => {
       if (response?.data?.success) {
         const newData = response?.data?.data?.widgets;

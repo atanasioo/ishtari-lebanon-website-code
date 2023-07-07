@@ -206,7 +206,7 @@ function ProductPage(props) {
         dataSocial["link"] = window.location.href;
 
         axiosServer
-          .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+          .post(buildLink("pixel", undefined, window.innerWidth, window.config['site-url']), dataSocial)
           .then((response) => {
             const data = response.data;
           });
@@ -253,7 +253,7 @@ function ProductPage(props) {
   function handleReturnPolicy() {
     axiosServer
       .get(
-        buildLink("information", undefined, window.innerWidth) +
+        buildLink("information", undefined, window.innerWidth, window.config['site-url']) +
           "&information_id=10"
       )
       .then((response) => {
@@ -291,7 +291,7 @@ function ProductPage(props) {
   function getProductPart2() {
     // console.log("entered");
     var link =
-      buildLink("product", undefined, window.innerWidth) +
+      buildLink("product", undefined, window.innerWidth, window.config['site-url']) +
       `${product_id}&source_id=1&part_two=true`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
@@ -393,7 +393,7 @@ function ProductPage(props) {
     let error = "";
     axiosServer
       .post(
-        buildLink("cart", undefined, window.innerWidth) + "&source_id=1",
+        buildLink("cart", undefined, window.innerWidth, window.config['site-url']) + "&source_id=1",
         bundle === undefined ? obj : bundle
       )
       .then((response) => {
@@ -423,7 +423,7 @@ function ProductPage(props) {
             payload: true,
           });
           axiosServer
-            .get(buildLink("cart", undefined, window.innerWidth))
+            .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
             .then((response_data) => {
               dispatch({
                 type: "setProducts",
@@ -471,7 +471,7 @@ function ProductPage(props) {
           dataSocial["ttp"] = Cookies.get("_ttp");
 
           axiosServer
-            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+            .post(buildLink("pixel", undefined, window.innerWidth, window.config['site-url']), dataSocial)
             .then((response) => {
               const data = response.data;
               if (data.success === true) {
@@ -502,7 +502,7 @@ function ProductPage(props) {
       description: descriptionValue,
     };
     axiosServer
-      .post(buildLink("wishlistAdd", undefined, undefined), obj)
+      .post(buildLink("wishlistAdd", undefined, undefined, window.config['site-url']), obj)
       .then((response) => {
         if (response.data.success) {
           setShowModel(false);
@@ -517,7 +517,7 @@ function ProductPage(props) {
   useEffect(() => {
     if (showGroup === true) {
       axiosServer
-        .get(buildLink("wishlist_group", undefined, undefined))
+        .get(buildLink("wishlist_group", undefined, undefined, window.config['site-url']))
         .then((response) => {
           setGroupsWishlist(response.data.data);
         });
@@ -552,10 +552,10 @@ function ProductPage(props) {
       product_id: product_id,
     };
     axiosServer
-      .post(buildLink("addToWishlist_5", undefined, window.innerWidth), obj)
+      .post(buildLink("addToWishlist_5", undefined, window.innerWidth, window.config['site-url']), obj)
       .then(() => {
         axiosServer
-          .get(buildLink("wishlistCount", undefined, window.innerWidth))
+          .get(buildLink("wishlistCount", undefined, window.innerWidth, window.config['site-url']))
           .then((response) => {
             if (response.data.success) {
               dispatchW({
@@ -579,7 +579,7 @@ function ProductPage(props) {
   function deleteItemFromAllGroup() {
     axiosServer
       .post(
-        buildLink("removeAll", undefined, undefined) +
+        buildLink("removeAll", undefined, undefined, window.config['site-url']) +
           "&product_id=" +
           product_id
       )
@@ -588,7 +588,7 @@ function ProductPage(props) {
           setIsWishlist(false);
 
           axiosServer
-            .get(buildLink("wishlistCount", undefined, window.innerWidth))
+            .get(buildLink("wishlistCount", undefined, window.innerWidth, window.config['site-url']))
             .then((response) => {
               if (response.data.success) {
                 dispatchW({

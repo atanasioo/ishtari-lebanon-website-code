@@ -68,7 +68,7 @@ function search(props) {
   function clearCache() {
     axiosServer
       .get(
-        buildLink("clearCache", undefined, window.innerWidth) + encodedKeyword
+        buildLink("clearCache", undefined, window.innerWidth, window.config['site-url']) + encodedKeyword
       )
       .then((response) => {
         if (response.data.success) {

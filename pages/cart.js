@@ -39,7 +39,7 @@ function Cart(props) {
   useEffect(() => {
     function getCart() {
       axiosServer
-        .get(buildLink("cart", undefined, undefined) + "&source_id=1")
+        .get(buildLink("cart", undefined, undefined, window.config['site-url']) + "&source_id=1")
         .then((response) => {
           if (response.data.success) {
             dispatch({
@@ -92,10 +92,10 @@ function Cart(props) {
       payload: true
     });
     axiosServer
-      .put(buildLink("cart", undefined, window.innerWidth), obj)
+      .put(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), obj)
       .then(() => {
         axiosServer
-          .get(buildLink("cart", undefined, window.innerWidth))
+          .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
           .then((response) => {
             dispatch({
               type: "setProducts",
@@ -144,10 +144,10 @@ function Cart(props) {
         payload: true
       });
       axiosServer
-        .put(buildLink("cart", undefined, window.innerWidth), obj)
+        .put(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), obj)
         .then(() => {
           axiosServer
-            .get(buildLink("cart", undefined, window.innerWidth))
+            .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
             .then((response) => {
               dispatch({
                 type: "setProducts",
@@ -195,13 +195,13 @@ function Cart(props) {
   function remove(product_id) {
     axiosServer
       .delete(
-        buildLink("wishlist", undefined, window.innerWidth) +
+        buildLink("wishlist", undefined, window.innerWidth, window.config['site-url']) +
           "/&id=" +
           product_id
       )
       .then(() => {
         axiosServer
-          .get(buildLink("wishlist", undefined, window.innerWidth))
+          .get(buildLink("wishlist", undefined, window.innerWidth, window.config['site-url']))
           .then((response) => {
             const data = response.data.data.products;
             setProducts(data);
@@ -230,7 +230,7 @@ function Cart(props) {
     };
     // console.log(obj);
     axiosServer
-      .post(buildLink("cart", undefined, window.innerWidth), obj)
+      .post(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), obj)
       .then((response) => {
         const data = response.data;
         if (!data.success) {
@@ -245,7 +245,7 @@ function Cart(props) {
           payload: true
         });
         axiosServer
-          .get(buildLink("cart", undefined, window.innerWidth))
+          .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
           .then((response) => {
             dispatch({
               type: "setProducts",
@@ -299,7 +299,7 @@ function Cart(props) {
     if (selectProduct.length > 0) {
       var obj = { key: selectProduct };
       axiosServer
-        .delete(buildLink("cart", undefined, window.innerWidth), { data: obj })
+        .delete(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), { data: obj })
         .then((response) => {
           // router.reload();
           dispatch({
@@ -342,7 +342,7 @@ function Cart(props) {
       from: "checkout"
     };
     axiosServer
-      .post(buildLink("pixel", undefined, window.innerWidth), obj)
+      .post(buildLink("pixel", undefined, window.innerWidth, window.config['site-url']), obj)
       .then((response) => {
         const data = response.data;
         if (data.success === true) {

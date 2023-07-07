@@ -186,7 +186,7 @@ function CheckoutCompnents() {
 
   useEffect(() => {
     axiosServer
-      .get(buildLink("get_account", undefined, undefined))
+      .get(buildLink("get_account", undefined, undefined, window.config['site-url']))
       .then((response) => {
         const data = response.data;
         if (!data.success) {
@@ -202,13 +202,13 @@ function CheckoutCompnents() {
         } else {
           setloged(true);
           axiosServer
-            .get(buildLink("login", undefined, undefined))
+            .get(buildLink("login", undefined, undefined, window.config['site-url']))
             .then((response) => {
               setCustomerId(response.data.customer_id);
               Cookies.set("cid", response.data.customer_id);
             });
           axiosServer
-            .get(buildLink("address", undefined, undefined))
+            .get(buildLink("address", undefined, undefined, window.config['site-url']))
             .then((response) => {
               if (!response.data.success) {
                 router.push({
@@ -281,7 +281,7 @@ function CheckoutCompnents() {
   function getCart() {
     // cart check
     axiosServer
-      .get(buildLink("cart", undefined, undefined))
+      .get(buildLink("cart", undefined, undefined, window.config['site-url']))
       .then((response) => {
         const data = response.data;
         if (!data.success) {
@@ -341,7 +341,7 @@ function CheckoutCompnents() {
     const bool = state.admin ? "&admin=true" : "&admin=false";
     axiosServer
       .get(
-        buildLink("zone", undefined, undefined) + window.config["zone"] + bool
+        buildLink("zone", undefined, undefined, window.config['site-url']) + window.config["zone"] + bool
       )
       .then((response) => {
         setZones(response.data.data.zones);
@@ -350,7 +350,7 @@ function CheckoutCompnents() {
       window.config["site-url"] === "https://www.ishtari.com.gh" ||
       Cookies.get("site-local-name") === "ishtari-ghana"
     ) {
-      axiosServer.get(buildLink("town", undefined, undefined) + 1274)
+      axiosServer.get(buildLink("town", undefined, undefined, window.config['site-url']) + 1274)
         .then((response) => {
           setTownes(response.data.data);
         });
@@ -432,7 +432,7 @@ function CheckoutCompnents() {
       }
     }
     axiosServer
-      .post(buildLink("manual", undefined, undefined), body)
+      .post(buildLink("manual", undefined, undefined, window.config['site-url']), body)
       .then((response) => {
         setManualResponse(response.data.data);
         setError(response.data);
@@ -471,7 +471,7 @@ function CheckoutCompnents() {
           setIsFirst(false);
 
           axiosServer
-            .post(buildLink("pixel", undefined, undefined), dataSocial)
+            .post(buildLink("pixel", undefined, undefined, window.config['site-url']), dataSocial)
             .then((response) => {
               const data = response.data;
               if (data.success === true) {
@@ -511,7 +511,7 @@ function CheckoutCompnents() {
     e.preventDefault();
     setLoading(true);
     const obj = { key, quantity };
-    axiosServer.put(buildLink("cart", undefined, undefined), obj).then(() => {
+    axiosServer.put(buildLink("cart", undefined, undefined, window.config['site-url']), obj).then(() => {
       getCart();
     });
   }
@@ -521,7 +521,7 @@ function CheckoutCompnents() {
     setLoading(true);
 
     axiosServer
-      .delete(buildLink("cart", undefined, undefined), { key })
+      .delete(buildLink("cart", undefined, undefined, window.config['site-url']), { key })
       .then(() => {
         getCart();
       });
@@ -573,7 +573,7 @@ function CheckoutCompnents() {
     // }
 
     axiosServer
-      .get(buildLink("town", undefined, undefined) + zone.current.id)
+      .get(buildLink("town", undefined, undefined, window.config['site-url']) + zone.current.id)
       .then((response) => {
         if (response.data.success) {
           setTownes(response.data.data);
@@ -662,7 +662,7 @@ function CheckoutCompnents() {
   function paymentForm(confirm, p_m) {
     setLoading(true);
     axiosServer
-      .post(buildLink("payment_form"), { payment_method: p_m })
+      .post(buildLink("payment_form", undefined, undefined, window.config['site-url']), { payment_method: p_m })
       .then((response) => {
         const data = response.data;
         try {
@@ -896,7 +896,7 @@ function CheckoutCompnents() {
         dataSocial["fbc"] = Cookies.get("_fbc");
         dataSocial["ttp"] = Cookies.get("_ttp");
         axiosServer
-          .post(buildLink("pixel", undefined, undefined), dataSocial)
+          .post(buildLink("pixel", undefined, undefined, window.config['site-url']), dataSocial)
           .then((response) => {
             const data = response.data;
             if (data.success === true) {
@@ -981,7 +981,7 @@ function CheckoutCompnents() {
       currency: currency
     };
     axiosServer
-      .post(buildLink("currency", undefined, undefined), obj)
+      .post(buildLink("currency", undefined, undefined, window.config['site-url']), obj)
       .then((response) => {
         const data = response.data;
         if (data.success === true) {

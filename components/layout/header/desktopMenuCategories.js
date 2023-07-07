@@ -54,7 +54,7 @@ function DesktopMenuCategories(props) {
       // setSelectedMenuCategory2(header_categories[0]);
     } else {
       axiosServer
-        .get(buildLink("headerv2", undefined, undefined) 
+        .get(buildLink("headerv2", undefined, undefined, window.config['site-url']) 
         )
         .then((response) => {
           const data = response?.data;
@@ -64,7 +64,7 @@ function DesktopMenuCategories(props) {
     }
     //sub menu categories
     axiosServer
-      .get(buildLink("all_categories", undefined, undefined))
+      .get(buildLink("all_categories", undefined, undefined, window.config['site-url']))
       .then((response) => {
         try {
           const data = response.data.data;

@@ -100,7 +100,7 @@ function TopSearch() {
     async function search() {
       setLoading(true);
       const res = await axiosServer.get(
-        buildLink("search", undefined, undefined) + query
+        buildLink("search", undefined, undefined, window.config['site-url']) + query
       );
       try {
         setResults(!res?.data?.message && res?.data?.data);

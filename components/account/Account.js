@@ -81,7 +81,7 @@ function Account() {
           "login",
           undefined,
          undefined,
-         hostname
+         window.config['site-url']
         )
       )
       .then((response) => {
@@ -134,7 +134,7 @@ function Account() {
   // Forget Password
   async function handleForgetPassword() {
     if (loginEmail.current.value) {
-      const new_password = await axiosServer.post(buildLink("forget_password"), {
+      const new_password = await axiosServer.post(buildLink("forget_password", undefined, undefined, window.config['site-url']), {
         email: loginEmail.current.value
       });
       if (new_password.data.errors) {
@@ -156,7 +156,7 @@ function Account() {
     await signOut({ redirect: false });
     //Logout from Api
     const response = await axiosServer.post(
-      buildLink("logout", undefined, undefined, hostname)
+      buildLink("logout", undefined, undefined, window.config['site-url'])
     );
     checkLogin();
     dispatch({ type: "setSeller", payload: false });
@@ -191,7 +191,8 @@ function Account() {
         buildLink(
           "login",
           undefined,
-          undefined
+          undefined,
+          window.config['site-url']
         )
       )
       .then((response) => {

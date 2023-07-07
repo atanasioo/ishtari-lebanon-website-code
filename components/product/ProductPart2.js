@@ -105,7 +105,7 @@ props; //data is for product part one data
     var obj = { product_id: product_id };
     axiosServer
       .get(
-        buildLink("reviews") +
+        buildLink("reviews", undefined, undefined, window.config['site-url']) +
           "&product_id=" +
           product_id +
           "&page=" +
@@ -212,7 +212,7 @@ props; //data is for product part one data
         });
 
         axiosServer
-          .post(buildLink("reviews", undefined, window.innerWidth), formData)
+          .post(buildLink("reviews", undefined, window.innerWidth, window.config['site-url']), formData)
           .then((response) => {
             // console.log(response);
             window.location.reload();

@@ -15,7 +15,7 @@ function TopCart() {
             type: "loading",
             payload: true
         })
-        axiosServer.get(buildLink("cartCount",undefined, undefined)).then((response) => {
+        axiosServer.get(buildLink("cartCount",undefined, undefined, window.config['site-url'])).then((response) => {
             if (response.data.success) {
                 
                 dispatch({

@@ -15,7 +15,7 @@ export default function Footer(props) {
   useEffect(()=>{
 
    axiosServer.get(
-      buildLink("footerv2", undefined, undefined),
+      buildLink("footerv2", undefined, undefined, window.config['site-url']),
       {
         headers: {
           Authorization: "Bearer " + Cookies.get("api-token")

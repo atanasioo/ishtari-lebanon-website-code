@@ -41,7 +41,7 @@ function Header(props) {
   const [state, setState] = useState([]);
   useEffect(() => {
     axiosServer
-      .get(buildLink("headerv2", undefined, undefined))
+      .get(buildLink("headerv2", undefined, undefined, window.config['site-url']))
       .then((response) => {
         setState(response.data.data);
       });
@@ -50,7 +50,7 @@ function Header(props) {
   useEffect(() => {
     if (width < 650) {
       axiosServer
-        .get(buildLink("all_categories", undefined, undefined))
+        .get(buildLink("all_categories", undefined, undefined, window.config['site-url']))
         .then((response) => {
           setCategories(response.data.data);
         });
