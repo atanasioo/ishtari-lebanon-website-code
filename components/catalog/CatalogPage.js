@@ -26,9 +26,11 @@ import ScrollToTop from "react-scroll-to-top";
 function CatalogPage(props) {
 
   const { data } = props; //instead of productData
+  const { link } = props; //instead of productData
+
   const filters = data?.filters;
   console.log(data)
-  console.log(data.link)
+  console.log(link)
 
   var isLoading = useRef(false);
   const [showSort, setShowSort] = useState(false);
