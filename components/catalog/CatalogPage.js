@@ -12,29 +12,25 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
 import { Navigation } from "swiper";
-import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import WidgetsLoop from "../WidgetsLoop";
 import {
   IoIosArrowDown,
-  IoIosCheckbox,
-  IoIosCheckboxOutline,
-  IoMdCheckbox,
 } from "react-icons/io";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
 import { BsGrid } from "react-icons/bs";
 import useDeviceSize from "../useDeviceSize";
-import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import ScrollToTop from "react-scroll-to-top";
 function CatalogPage(props) {
-  // const [filters, setFilters] = useState(props.data?.filters );
+
   const { data } = props; //instead of productData
-  // const {filters} = data; //instead of productData
   const filters = data?.filters;
+  console.log(data)
+  console.log(data.link)
+
   var isLoading = useRef(false);
-  // const [data, setData] = useState(props.data);
   const [showSort, setShowSort] = useState(false);
   const [showMobileSort, setShowMobileSort] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
@@ -593,7 +589,7 @@ function CatalogPage(props) {
 
       <div className="flex">
         <div className="w-full mobile:w-1/5 mobile:px-5 ">
-          {filters &&
+          {/* {filters &&
             Object.keys(filters).map((key) => (
               <div className="hidden mobile:block">
                 {filters[key].items.length > 0 && (
@@ -756,7 +752,7 @@ function CatalogPage(props) {
                   )}
                 </div>
               </div>
-            ))}
+            ))} */}
         </div>
         <div className=" w-full mobile:w-4/5 leading-dtight">
           <div className="flex justify-between">
@@ -1073,7 +1069,7 @@ function CatalogPage(props) {
                 </div>
               ))}
           </div>
-          {filters &&
+          {/* {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
               <div className="  w-full block relative z-20 ">
@@ -1739,7 +1735,7 @@ function CatalogPage(props) {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
           <div
             className={`grid transition-all mobile:pt-2 ${
@@ -1799,7 +1795,7 @@ function CatalogPage(props) {
               <div style={{ display: "block" }}>
                 {key ? (
                   <div>
-                    {filters[key].items.slice(0, 5).map((filter) => (
+                    {/* {filters[key].items.slice(0, 5).map((filter) => (
                       <div key={Math.random()}>
                         {filters[key].name === "Light Color" ||
                         filters[key].name === "Color" ? (
@@ -1864,7 +1860,7 @@ function CatalogPage(props) {
                           </div>
                         )}
                       </div>
-                    ))}
+                    ))} */}
                     <div>
                       <label
                         className={
@@ -1877,7 +1873,7 @@ function CatalogPage(props) {
                         See All
                       </label>
                     </div>
-                    <div style={{ display: "none" }}>
+                    {/* <div style={{ display: "none" }}>
                       {filters[key].items
                         .slice(5, filters[key].items.length)
                         .map((filter) => (
@@ -1944,7 +1940,7 @@ function CatalogPage(props) {
                             )}
                           </div>
                         ))}
-                    </div>
+                    </div> */}
                   </div>
                 ) : (
                   ""

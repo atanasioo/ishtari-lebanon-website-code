@@ -173,7 +173,6 @@ export async function getServerSideProps(context) {
         }
       } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
         type = "manufacturer";
-        let manufacturer_id = "";
         if (slug[0].includes("m=")) {
           id = slug[0].split("=")[1];
           // console.log(manufacturer_id);
@@ -285,6 +284,7 @@ export async function getServerSideProps(context) {
         host,
         hovered: false,
         isLoading: "false",
+         link,
         p
       }
     };
