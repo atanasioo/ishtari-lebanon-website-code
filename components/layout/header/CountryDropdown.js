@@ -1,16 +1,41 @@
 import useDeviceSize from "@/components/useDeviceSize";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 
 function CountryDropdown() {
   const [int, setInt] = useState(false);
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+
+      if (int) {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setTimeout(() => setInt(false), 200);
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }
+    }, [ref, int]);
+  }
 
 
   return window.config["site-url"] === "https://www.ishtari.com" ||
     window.config["site-url"] === "https://www.ishtari.com.gh" ? (
     <div className="flex justify-center lg:border-r lg:border-dplaceHolder md:mr-3">
       <div>
-        <div className="dropdown relative float-right pr-2">
+        <div className="dropdown relative float-right lg:pr-2">
           <button
             className="
                   dropdown-toggle
@@ -50,21 +75,6 @@ function CountryDropdown() {
               </div>
             )}{" "}
            
-            {/* //   <svg
-            //     aria-hidden="true"
-            //     focusable="false"
-            //     data-prefix="fas"
-            //     data-icon="caret-down"
-            //     className="w-2 -ml-1 mr-2"
-            //     role="img"
-            //     xmlns="http://www.w3.org/2000/svg"
-            //     viewBox="0 0 320 512"
-            //   >
-            //     <path
-            //       fill="currentColor"
-            //       d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-            //     ></path>
-            //   </svg> */}
             <FiChevronDown
                 className={`icon icon-down-dir transition-all hidden mobile:block ${
                   int && "transform rotate-180"
@@ -74,7 +84,7 @@ function CountryDropdown() {
           </button>
 
           {int ? (
-            <ul className="dropdown-menu min-w-max absolute bg-white text-base z-50 float-left py-3 px-3 list-none text-left rounded-sm shadow-lg">
+            <ul ref={wrapperRef} className="dropdown-menu min-w-max absolute right-0 bg-white text-base z-50 float-left py-3 px-3 list-none text-left rounded-sm shadow-lg">
               <li>
                 <a
                   className="flex py-3 pl-2 pr-3"

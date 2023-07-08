@@ -41,7 +41,9 @@ function Header(props) {
   const [state, setState] = useState([]);
   useEffect(() => {
     axiosServer
-      .get(buildLink("headerv2", undefined, undefined, window.config['site-url']))
+      .get(
+        buildLink("headerv2", undefined, undefined, window.config["site-url"])
+      )
       .then((response) => {
         setState(response.data.data);
       });
@@ -50,7 +52,14 @@ function Header(props) {
   useEffect(() => {
     if (width < 650) {
       axiosServer
-        .get(buildLink("all_categories", undefined, undefined, window.config['site-url']))
+        .get(
+          buildLink(
+            "all_categories",
+            undefined,
+            undefined,
+            window.config["site-url"]
+          )
+        )
         .then((response) => {
           setCategories(response.data.data);
         });
@@ -121,12 +130,11 @@ function Header(props) {
     // setViewLevel2(true);
   }
 
-
   return (
     <div>
       {local && <SiteHeaders local={local} />}
 
-     {/* Mobile Menu */}
+      {/* Mobile Menu */}
       <div
         className={`transition-all  min-h-screen w-screen bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden overflow-y-scroll z-50  ${
           viewMenu ? "right-0" : " right-full"
@@ -240,27 +248,29 @@ function Header(props) {
           </Link>
         </div>
 
-        <TopSearch />
+        <div className="flex justify-end items-center flex-1">
+          <TopSearch />
 
-        <div className="flex  items-center">
-          <CountryDropdown />
+          <div className="flex  items-center">
+            <CountryDropdown />
 
-          {stateAcc.isSeller && (
-            <div>
-              <Link
-                className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
-                // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
-                // href={`https://www.ishtari.com/seller_report/home`}
-                href="/seller_report"
-              >
-                seller dashboard
-              </Link>
-            </div>
-          )}
+            {stateAcc.isSeller && (
+              <div>
+                <Link
+                  className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
+                  // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
+                  // href={`https://www.ishtari.com/seller_report/home`}
+                  href="/seller_report"
+                >
+                  seller dashboard
+                </Link>
+              </div>
+            )}
 
-          <Account />
-          {session?.user?.isLoggedIn && <TopWishlist />}
-          <TopCart />
+            <Account />
+            {session?.user?.isLoggedIn && <TopWishlist />}
+            <TopCart />
+          </div>
         </div>
       </div>
 

@@ -323,8 +323,8 @@ function AddAddressPage(props) {
   }
 
   return (
-    <div className="container text-dblack">
-      <div className="flex-row md:flex">
+    <div className="container text-dblack min-h-screen">
+      <div className="flex-row md:flex" style={{height: "100%", minHeight: "830px"}}>
         <div className="w-full mb-3 md:w-1/5">
           {width > 650 ? (
             <UserSidebar active={"addresses"} />
@@ -333,7 +333,7 @@ function AddAddressPage(props) {
           )}
         </div>
         <div
-          className={`w-full p-6 ${
+          className={`w-full md:p-6 ${
             (googleLocation || isEdit) && "overflow-y-auto"
           }`}
         >
@@ -350,7 +350,7 @@ function AddAddressPage(props) {
           </div>
           {(googleLocation || isEdit) && (
             <form className="mb-16 bg-white" onSubmit={(e) => addAddress(e)}>
-              <div className="grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+              <div className="md:grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
                 <div className="relative py-6 px-8">
                   <div className="inline-flex items-center gap-3">
                     <p className="text-d22 pr-bold">Address Details </p>
@@ -626,7 +626,7 @@ function AddAddressPage(props) {
                 <div className="save-btn-addr">
                   <button
                     style={{ transition: "background 0.8s ease 0s" }}
-                    className="rounded px-6 text-d14 pr-bold bg-dblue text-white h-12"
+                    className="rounded w-full md:w-unset px-6 text-d14 pr-bold bg-dblue text-white h-12"
                   >
                     SAVE ADDRESS
                   </button>

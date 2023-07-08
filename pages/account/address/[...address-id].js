@@ -26,17 +26,7 @@ export async function getServerSideProps(context) {
 
 function AddAddress() {
   const router = useRouter();
-  // const [position, setPosition] = useState({
-  //   lat: 0,
-  //   lng: 0,
-  // });
 
-  // function handlePosition(lat, lng) {
-  //   setPosition({
-  //     lat: lat,
-  //     lng: lng,
-  //   });
-  // }
   const slug = router.query;
 
   const [isEdit, setIsEdit] = useState(slug["address-id"][1] === "edit");
@@ -50,7 +40,6 @@ function AddAddress() {
     }
   );
 
-  // console.log(slug);
 
   return (
     <>

@@ -120,7 +120,7 @@ function ProductZoomModal(props) {
         <div className="absolute w-full lg:w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
           <div className="h-full" id="popup_modal">
             <CgClose
-              className="absolute right-1 m-3 w-7 z-10  h-7 md:w-9 md:h-9 cursor-pointer  text-dblack"
+              className="absolute right-1 md:m-3 w-7 z-10  h-7 md:w-9 md:h-9 cursor-pointer text-white  md:text-dblack"
               onClick={() => closeModal()}
             />
             <div className="flex flex-col justify-center h-full md:h-unset ">

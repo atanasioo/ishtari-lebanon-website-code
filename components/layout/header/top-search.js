@@ -247,7 +247,7 @@ function TopSearch() {
           type={"text"}
           placeholder={"What are you looking for?"}
           autoComplete="off"
-          className="hidden lg:block rounded-sm h-11  w-11/12  outline-none p-4 bg-dsearchGrey "
+          className="hidden lg:block rounded-sm h-11  w-4/5  outline-none p-4 bg-dsearchGrey "
           id="searchInput"
           value={query}
           onChange={(e) => {

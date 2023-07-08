@@ -181,9 +181,7 @@ function GoogleMap(props) {
           <AnyReactComponent key ={key} lat={position.lat} lng={position.lng} />
         </GoogleMapReact>
         <div
-          className={`
-               "block p-1"
-               bottom-0 right-0 mobile:absolute mobile:p-5  `}
+          className={`block p-1 bottom-0 right-0 mobile:absolute mobile:p-5`}
         >
           <button
             disabled={position.lat > 0 ? false : true}
@@ -229,13 +227,13 @@ function GoogleMap(props) {
 
         <div
           className={`absolute bottom-0 
-              "right-0 p-1 mobile:left-0 mobile:p-5 "
+              right-0 p-1 mobile:left-0 mobile:p-5 
               `}
         >
           <button
             className={`rounded-full bg-white
-                "h-8 text-xs px-2 mobile:h-10 mobile:px-4 mobile:text-sm"
-               border uppercase w-full block relative overflow-hidden font-bold cursor-pointer`}
+                h-8 text-xs px-2 mobile:h-10 mobile:px-4 mobile:text-sm
+               border uppercase  block relative overflow-hidden pr-bold cursor-pointer`}
             style={{
               color: "#424452",
             }}

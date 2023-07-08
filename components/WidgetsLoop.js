@@ -16,6 +16,7 @@ import "slick-carousel/slick/slick-theme.css";
 // import ImageClient from "./imageClient";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import useDeviceSize from "./useDeviceSize.js";
 
 function WidgetsLoop({ widget, likedData, width, initialLoading }) {
   const ImageClient = dynamic(() => import("./ImageClient.js"), { ssr: false });
@@ -130,12 +131,8 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
     );
   }
 
-
   return (
-    <div
-
-      key={widget?.mobile_widget_id}
-    >
+    <div key={widget?.mobile_widget_id}>
       {/* view all button */}
       {widget?.display === "carousel" && widget?.view_title !== "0" && (
         <div className="flex items-center justify-between  mb-3">
@@ -980,9 +977,9 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
       {widget?.display === "carousel" && widget.type !== "text" && (
         <div>
           {widget?.items?.length < 7 ? (
-            <div className="flex">
+            <div className="mobile:flex">
               {/* {width > 650 ? ( */}
-              <div classNsame="hidden mobile:block px-6">
+              <div className="hidden mobile:block px-6">
                 <Slider
                   {...productSetting}
                   beforeChange={handleBeforeChange}
@@ -1061,7 +1058,9 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholder={"/images/product_placeholder_square.png"}
+                              placeholder={
+                                "/images/product_placeholder_square.png"
+                              }
                             />
                           </Link>
                         </div>
@@ -1071,89 +1070,109 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                 </Slider>
               </div>
               {/* ) : ( */}
-              <div className=" block mobile:hidden">
-                <Slider {...productMobile}>
-                  {widget.items?.map((item) => {
-                    if (!item.product_id) {
-                      //   return (
-
-                      //     // <div className="pr-2" key={item.product_id}>
-                      //     //   <SingleProduct
-                      //     //     item={item}
-                      //     //   ></SingleProduct>
-                      //     // </div>
-                      //   );
-                      // } else {
+              <div className="block mobile:hidden">
+                <div className="flex overflow-x-auto space-x-2 ">
+                  {widget?.display === "carousel" &&
+                    widget.type !== "text" &&
+                    widget?.items[0]?.product_id &&
+                    widget.items?.map((item) => {
                       return (
-                        <div className={`pr-2`} key={item.banner_image_id}>
-                          <Link
-                            href={
-                              // accountState.admin
-                              //   ? `${path}/${types[item.mobile_type]}/${
-                              //       item.mobile_type_id
-                              //     }`
-                              //   :
-                              item?.name?.length > 0 && item.filters != false
-                                ? "/" +
-                                  item?.name
-                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                    ?.replace(/\s+/g, "-")
-                                    ?.replaceAll("/", "-")
-                                    ?.replace("%", "") +
-                                  "/" +
-                                  types[item.mobile_type].slice(0, 1) +
-                                  "=" +
-                                  item.mobile_type_id +
-                                  "?has_filter=true" +
-                                  (item?.filters?.filter_categories
-                                    ? "&filter_categories=" +
-                                      item?.filters?.filter_categories.map(
-                                        (fc) => fc.id
-                                      )
-                                    : "") +
-                                  (item?.filters?.filter_manufacturers
-                                    ? "&filter_manufacturers=" +
-                                      item?.filters?.filter_manufacturers.map(
-                                        (fm) => fm.id
-                                      )
-                                    : "") +
-                                  (item?.filters?.filter_sellers
-                                    ? "&filter_sellers=" +
-                                      item?.filters?.filter_sellers.map(
-                                        (fs) => fs.id
-                                      )
-                                    : "")
-                                : item?.name?.length > 0
-                                ? "/" +
-                                  item?.name
-                                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                    ?.replace(/\s+/g, "-")
-                                    ?.replaceAll("/", "-")
-                                    ?.replace("%", "") +
-                                  "/" +
-                                  types[item.mobile_type].slice(0, 1) +
-                                  "=" +
-                                  item.mobile_type_id
-                                : "cat/c=" + item.mobile_type_id
-                            }
-                          >
-                            <ImageClient
-                              alt={item?.name}
-                              src={item.image}
-                              width={widget.banner_width}
-                              height={widget.banner_height}
-                              title={item?.name
-                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                ?.replace(/\s+/g, "-")
-                                ?.replaceAll("/", "-")}
-                              placeholder={"/images/product_placeholder_square.png"}
-                            />
-                          </Link>
+                        <div className="" key={item.product_id}>
+                          <SingleProduct
+                            scroll={true}
+                            item={item}
+                          ></SingleProduct>
                         </div>
                       );
-                    }
-                  })}
-                </Slider>
+                    })}
+                </div>
+                {/* <Slider {...productMobile}>
+                    {widget.items?.map((item) => {
+                      if (item.product_id) {
+                        return (
+                          <div
+                            className="pr-2 "
+                            key={item.product_id}
+                          >
+                            
+                            <SingleProduct
+                              item={item}
+                            ></SingleProduct>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div className={`pr-2`} key={item.banner_image_id}>
+                            <Link
+                              href={
+                                // accountState.admin
+                                //   ? `${path}/${types[item.mobile_type]}/${
+                                //       item.mobile_type_id
+                                //     }`
+                                //   :
+                                item?.name?.length > 0 && item.filters != false
+                                  ? "/" +
+                                    item?.name
+                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                      ?.replace(/\s+/g, "-")
+                                      ?.replaceAll("/", "-")
+                                      ?.replace("%", "") +
+                                    "/" +
+                                    types[item.mobile_type]?.slice(0, 1) +
+                                    "=" +
+                                    item.mobile_type_id +
+                                    "?has_filter=true" +
+                                    (item?.filters?.filter_categories
+                                      ? "&filter_categories=" +
+                                        item?.filters?.filter_categories.map(
+                                          (fc) => fc.id
+                                        )
+                                      : "") +
+                                    (item?.filters?.filter_manufacturers
+                                      ? "&filter_manufacturers=" +
+                                        item?.filters?.filter_manufacturers.map(
+                                          (fm) => fm.id
+                                        )
+                                      : "") +
+                                    (item?.filters?.filter_sellers
+                                      ? "&filter_sellers=" +
+                                        item?.filters?.filter_sellers.map(
+                                          (fs) => fs.id
+                                        )
+                                      : "")
+                                  : item?.name?.length > 0
+                                  ? "/" +
+                                    item?.name
+                                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                      ?.replace(/\s+/g, "-")
+                                      ?.replaceAll("/", "-")
+                                      ?.replace("%", "") +
+                                    "/" +
+                                    types[item.mobile_type].slice(0, 1) +
+                                    "=" +
+                                    item.mobile_type_id
+                                  : "cat/c=" + item.mobile_type_id
+                              }
+                            >
+                              <ImageClient
+                                alt={item?.name}
+                                src={item.image}
+                                width={widget.banner_width}
+                                height={widget.banner_height}
+                                title={item?.name
+                                  ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                  ?.replace(/\s+/g, "-")
+                                  ?.replaceAll("/", "-")}
+                                placeholder={
+                                  "/images/product_placeholder_square.png"
+                                }
+                              />
+                            </Link>
+                          </div>
+                        );
+                      }
+                    })}
+                  </Slider> */}
               </div>
               {/* )} */}
             </div>
@@ -1253,7 +1272,9 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholder={"/images/product_placeholder_square.png"}
+                              placeholder={
+                                "/images/product_placeholder_square.png"
+                              }
                             />
                           </Link>
                         </div>
@@ -1340,7 +1361,9 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 ?.replace(/\s+/g, "-")
                                 ?.replaceAll("/", "-")}
-                              placeholder={"/images/product_placeholder_square.png"}
+                              placeholder={
+                                "/images/product_placeholder_square.png"
+                              }
                             />
                           </Link>
                         </div>

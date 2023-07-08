@@ -1021,7 +1021,7 @@ function ProductPage(props) {
                       <span
                         onClick={() => {
                           setHasAddToCartError(false);
-                          setCountDonwPointer(false);
+                          setCountDownPointer(false);
                         }}
                         className=" rounded absolute top-0 right-0 cursor-pointer w-11 h-11 flex items-center justify-center hover:bg-white hover:text-dbase border border-dbase border-l-0"
                       >

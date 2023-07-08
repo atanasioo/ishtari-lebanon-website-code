@@ -334,14 +334,14 @@ function SingleProduct(props) {
                   {props.item.market === "0" ? (
                     <img
                       src={"/images/express.png"}
-                      className="h-6 py-1"
+                      className="h-6 w-16 py-1"
                       alt="Express delivery"
                     />
                   ) : (
                     <img
                       src={"/images/market.svg"}
-                      className="h-6 py-1 "
-                      alt={111}
+                      className="h-6 w-16 py-1 "
+                      alt={"market image"}
                     />
                   )}
                 </div>

@@ -287,7 +287,7 @@ export async function getServerSideProps(context) {
         // page,
         hovered: false,
         isLoading: "false",
-        link,
+        //  link,
         p
       }
     };
