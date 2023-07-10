@@ -181,7 +181,7 @@ function Header(props) {
                 priority={true}
                 style={{ width: "80%", height: "auto" }}
               />
-            ) : serverSideDomain.indexOf("ishtari") > -1 ? (
+            ) : serverSideDomain.indexOf("ishtari") > -1 || serverSideDomain.indexOf("next") > -1 ? (
               <>
                 <Image
                   className="hidden mobile:block"
