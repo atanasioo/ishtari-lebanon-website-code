@@ -4,18 +4,16 @@ import cookie from "cookie";
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
 import WidgetsLoop from "@/components/WidgetsLoop";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, memo } from "react";
 import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 // import PointsLoader from "@/components/PointsLoader";
 import Head from "next/head";
-import { useCookie } from "next-cookie";
 import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
 import ScrollToTop from "react-scroll-to-top";
 
 export default function Home(props) {
-
   const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
     ssr: false, // Disable server-side rendering
   });
@@ -26,7 +24,6 @@ export default function Home(props) {
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [initialLoading, setInitialLoading] = useState(true);
   const [width] = useDeviceSize();
   const sentinelRef = useRef(null);
   const observer = useRef(null);
@@ -62,7 +59,9 @@ export default function Home(props) {
       limit: 10,
       page: page,
     };
-    let link = buildLink("home", undefined, undefined, window.config['site-url']) + "&source_id=1";
+    let link =
+      buildLink("home", undefined, undefined, window.config["site-url"]) +
+      "&source_id=1";
     axiosServer.post(link, obj).then((response) => {
       if (response?.data?.success) {
         const newData = response?.data?.data?.widgets;
@@ -110,6 +109,38 @@ export default function Home(props) {
   //   console.log(window.config);
   // },[])
 
+  // Memoized WidgetsList component
+  const WidgetsList = memo(({ widgets }) => {
+
+    return(
+      
+      widgets?.map((widget, index) => {
+        console.log("marhaba");
+     
+        if (widgets.length === index + 1) {
+          return (
+            <div
+              className="theHome "
+              ref={lastElementRef}
+              key={widget.mobile_widget_id}
+            >
+              {" "}
+              <WidgetsLoop widget={widget} />{" "}
+            </div>
+          );
+        } else {
+          return (
+            <div className="" key={widget.mobile_widget_id}>
+              <WidgetsLoop widget={widget} />{" "}
+            </div>
+          );
+        }
+      })
+    
+    )
+    
+  });
+
   return (
     <div>
       <Head>
@@ -119,7 +150,7 @@ export default function Home(props) {
           content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
         ></meta>
       </Head>
-      <DownloadAppImg/>
+      <DownloadAppImg />
       <div className={`overflow-hidden container`}>
         {width < 650 && (
           <ScrollToTop
@@ -132,9 +163,10 @@ export default function Home(props) {
             style={{ width: "50px", height: "50px", padding: "7px" }}
           />
         )}
-        {data?.map((widget, index) => {
+        <WidgetsList widgets={data} />
+
+        {/* {data?.map((widget, index) => {
           if (data.length === index + 1) {
-            console.log("hello reff");
             return (
               <div
                 className="theHome "
@@ -142,9 +174,9 @@ export default function Home(props) {
                 key={widget.mobile_widget_id}
               >
                 {" "}
-                <WidgetsLoop 
-                widget={widget} 
-                // width={widgets.screentype} 
+                <WidgetsLoop
+                  widget={widget}
+                  // width={widgets.screentype}
                 />{" "}
               </div>
             );
@@ -155,21 +187,20 @@ export default function Home(props) {
                 //  style={{minHeight: initialLoading && widget.banner_height ? widget.banner_height : ""  }}
                 key={widget.mobile_widget_id}
               >
-                <WidgetsLoop 
-                widget={widget} 
-                // width={widgets.screentype}
-                 />{" "}
+                <WidgetsLoop
+                  widget={widget}
+                  // width={widgets.screentype}
+                />{" "}
               </div>
             );
           }
-        })}
+        })} */}
 
         {isLoading && <PointsLoader />}
       </div>
     </div>
   );
 }
-
 
 // export async function getServerSideProps(context) {
 //   // Fetch the corresponding API endpoint based on the page type

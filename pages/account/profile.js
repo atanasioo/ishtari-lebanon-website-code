@@ -221,9 +221,9 @@ function profile() {
         <div className="flex-row md:flex">
           <div className="w-full mb-3 md:w-1/5">
             {width > 650 ? (
-              <UserSidebar active={"addresses"} />
+              <UserSidebar active={"profile"} />
             ) : (
-              <UserSidebarMobile active={"addresses"} />
+              <UserSidebarMobile active={"profile"} />
             )}
           </div>
           <div
