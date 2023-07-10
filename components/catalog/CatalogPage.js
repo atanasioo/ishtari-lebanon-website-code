@@ -12,9 +12,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
 import { Navigation } from "swiper";
-// import { loader } from "/public/images/loader.gif";
-// import ReactPaginate from "react-paginate";
-// import WidgetsLoop from "../WidgetsLoop";
+import { loader } from "/public/images/loader.gif";
+import ReactPaginate from "react-paginate";
+import WidgetsLoop from "../WidgetsLoop";
 import {
   IoIosArrowDown,
   IoIosCheckbox,
@@ -58,7 +58,28 @@ function CatalogPage(props) {
     infinite: false
   };
 
-
+  function CustomPrevArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 5px" }}
+        onClick={onClick}
+        className="mySwiper"
+      >
+        <div className="swiper-button-prev"></div>
+      </div>
+    );
+  }
+  function CustomNextArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 5px" }}
+        onClick={onClick}
+        className="mySwiper"
+      >
+        <div className="swiper-button-next"></div>
+      </div>
+    );
+  }
 
   const router = useRouter();
   const {
@@ -1017,7 +1038,7 @@ function CatalogPage(props) {
                 </div>
               </div>
             )}
-          {/* <div className="hidden mobile:block">
+          <div className="hidden mobile:block">
             {(page === undefined || page < 2) &&
               (data?.category_widget_status === "1" ||
                 data?.desktop_widget_status === "1") &&
@@ -1027,8 +1048,8 @@ function CatalogPage(props) {
                   <WidgetsLoop widget={widget} />{" "}
                 </div>
               ))}
-          </div> */}
-          {/* <div className="mobile:hidden">
+          </div>
+          <div className="mobile:hidden">
             {
               //  page === undefined ||
               //   page < 2 &&
@@ -1050,7 +1071,7 @@ function CatalogPage(props) {
                   <WidgetsLoop widget={widget} />{" "}
                 </div>
               ))}
-          </div> */}
+          </div>
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
@@ -1729,11 +1750,11 @@ function CatalogPage(props) {
             {" "}
             {data?.products?.map((item) => (
               <div className="p-1">
-                <SingleProduct
+                {/* <SingleProduct
                   item={item}
-                  isSlider={true}
+                  isSlider={false}
                   isList={productDisplay === "grid" ? false : true}
-                ></SingleProduct>
+                ></SingleProduct> */}
               </div>
             ))}
           </div>
@@ -1750,7 +1771,7 @@ function CatalogPage(props) {
                 previousLabel="<"
                 activeClassName={"active-pagination-category"}
                 renderOnZeroPageCount={null}
-                // forcePage={Number(page) > 0 ? Number(page) - 1 : 0}
+                forcePage={Number(page) > 0 ? Number(page) - 1 : 0}
               />
             </div>
           )}

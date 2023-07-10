@@ -10,7 +10,6 @@ import { useContext, useRef, useState } from "react";
 import useDeviceSize from "../useDeviceSize";
 // import "swiper/modules/pagination/pagination.min.css";
 // import "swiper/modules/navigation/navigation.min.css";
-import { Navigation } from "swiper";
 import { Pagination, Autoplay } from "swiper";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
