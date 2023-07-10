@@ -592,7 +592,170 @@ function CatalogPage(props) {
 
       <div className="flex">
         <div className="w-full mobile:w-1/5 mobile:px-5 ">
-        
+        {filters &&
+            Object.keys(filters).map((key) => (
+              <div className="hidden mobile:block">
+                {filters[key].items.length > 0 && (
+                  <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
+                    {filters[key].name}
+                  </div>
+                )}
+                <div style={{ display: "block" }}>
+                  {key ? (
+                    <div>
+                      {filters[key].items.slice(0, 5).map((filter) => (
+                        <div key={Math.random()}>
+                          {filters[key].name === "Light Color" ||
+                          filters[key].name === "Color" ? (
+                            <div
+                              className="my-2 flex items-center cursor-pointer hover:text-dblue"
+                              key={filter.name}
+                              onClick={() =>
+                                parseFilter(filters[key].id, filter.id)
+                              }
+                            >
+                              <span className="flex w-10/12">
+                                <span
+                                  className={`flex w-7 h-7 ${checkFilter(
+                                    filters[key]?.id,
+                                    filters[key].name,
+                                    filter
+                                  )}`}
+                                >
+                                  <img
+                                    src={filter.image}
+                                    style={{
+                                      padding: `1px`
+                                    }}
+                                    className={`w-12/12 rounded-full border border-dgreyRate`}
+                                    alt="Not Found"
+                                  />
+                                </span>
+                                <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                  {" "}
+                                  {filter.name}
+                                </p>
+                              </span>
+                              <span className="flex w-1/12"></span>
+                              <span className="text-d14 text-right font-light opacity-70">
+                                ({filter.count})
+                              </span>
+                            </div>
+                          ) : (
+                            <div>
+                              <p
+                                className="my-2 flex  items-center cursor-pointer hover:text-dblue "
+                                key={filter.name}
+                                onClick={() =>
+                                  parseFilter(filters[key].id, filter.id)
+                                }
+                              >
+                                <i>
+                                  {checkFilter(
+                                    filters[key].id,
+                                    filter.name,
+                                    filter
+                                  )}
+                                </i>
+                                <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                  {filter.name}
+                                </span>
+
+                                <span className="text-d14 text-right font-light opacity-70">
+                                  ({filter.count})
+                                </span>
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      <div>
+                        <label
+                          className={
+                            filters[key].items.length > 5
+                              ? `text-dblue text-xs cursor-pointer`
+                              : "hidden"
+                          }
+                          onClick={(e) => toggleFilters(e.target)}
+                        >
+                          See All
+                        </label>
+                      </div>
+                      <div style={{ display: "none" }}>
+                        {filters[key].items
+                          .slice(5, filters[key].items.length)
+                          .map((filter) => (
+                            <div key={Math.random()}>
+                              {filters[key].name === "Light Color" ||
+                              filters[key].name === "Color" ? (
+                                <div
+                                  className="my-2 flex items-center cursor-pointer hover:text-dblue"
+                                  key={filter.name}
+                                  // onClick={() => parseFilter(filters[key].id, filter)}
+                                >
+                                  <span className="flex w-10/12">
+                                    <span
+                                      className={`flex w-7 h-7 ${checkFilter(
+                                        filters[key].id,
+                                        filters[key].name,
+                                        filter
+                                      )}`}
+                                    >
+                                      <img
+                                        src={filter.image}
+                                        style={{
+                                          padding: `1px`
+                                        }}
+                                        className={`w-12/12 rounded-full border border-dgreyRate`}
+                                        alt="Not Found"
+                                      />
+                                    </span>
+                                    <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                      {" "}
+                                      {filter.name}
+                                    </p>
+                                  </span>
+                                  <span className="flex w-1/12"></span>
+                                  <span className="text-d14 text-right font-light opacity-70">
+                                    ({filter.count})
+                                  </span>
+                                </div>
+                              ) : (
+                                <div>
+                                  <p
+                                    className="my-2 flex float items-center cursor-pointer hover:text-dblue "
+                                    key={filter.name}
+                                    onClick={() =>
+                                      parseFilter(filters[key].id, filter)
+                                    }
+                                  >
+                                    <i>
+                                      {checkFilter(
+                                        filters[key].id,
+                                        filter.name,
+                                        filter
+                                      )}
+                                    </i>
+                                    <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                      {filter.name}
+                                    </span>
+
+                                    <span className="text-d14 text-right font-light opacity-70">
+                                      ({filter.count})
+                                    </span>
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            ))}
         </div>
         <div className=" w-full mobile:w-4/5 leading-dtight">
           <div className="flex justify-between">
@@ -780,7 +943,7 @@ function CatalogPage(props) {
               <div style={{ display: "block" }}>
                 {key ? (
                   <div>
-                    {/* {filters[key].items.slice(0, 5).map((filter) => (
+                    {filters[key].items.slice(0, 5).map((filter) => (
                       <div key={Math.random()}>
                         {filters[key].name === "Light Color" ||
                         filters[key].name === "Color" ? (
@@ -845,7 +1008,7 @@ function CatalogPage(props) {
                           </div>
                         )}
                       </div>
-                    ))} */}
+                    ))}
                     <div>
                       <label
                         className={
