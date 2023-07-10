@@ -413,10 +413,7 @@ mySwiper .swiper-button-next {
   list-style: disc!important;
   margin-left: 20px;
   font-weight: 300!important;
-<<<<<<< HEAD
   @apply pr-light;
-=======
->>>>>>> 8610c3e (,,,,)
 }
 .add_images_upload {
   position: absolute;
