@@ -270,12 +270,8 @@ function TopSearch() {
         {/* Results */}
         {results.length > 0 && viewResults && (
           <div
-            onMouseLeave={() => {
-              setViewResults(false);
-              setOverlay(false);
-            }}
             onClick={() => setOverlay(false)}
-            className="hidden xl:block lg:block absolute top-10 w-11/12  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
+            className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
           >
             {results.length > 0 &&
               results.slice(0, 8).map(({ type, id, value, img, num_prods }) => (

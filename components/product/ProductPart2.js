@@ -19,8 +19,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 
 function ProductPart2(props) {
-  const { titleRef, loader, productData2, data, host, product_id } =
-props; //data is for product part one data
+  const { titleRef, loader, productData2, data, host, product_id } = props; //data is for product part one data
   const [width, height] = useDeviceSize();
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
@@ -40,8 +39,8 @@ props; //data is for product part one data
   const path = "";
 
   useEffect(() => {
-    setReviews(props.reviews)
-  },[props.reviews])
+    setReviews(props.reviews);
+  }, [props.reviews]);
 
   const PointsLoader = dynamic(() => import("../PointsLoader"), {
     ssr: false, // Disable server-side rendering
@@ -105,7 +104,7 @@ props; //data is for product part one data
     var obj = { product_id: product_id };
     axiosServer
       .get(
-        buildLink("reviews", undefined, undefined, window.config['site-url']) +
+        buildLink("reviews", undefined, undefined, window.config["site-url"]) +
           "&product_id=" +
           product_id +
           "&page=" +
@@ -197,7 +196,7 @@ props; //data is for product part one data
   }
 
   function addReview() {
-    setExceedSizeLimitErr(false)
+    setExceedSizeLimitErr(false);
     if (validateImagesSize()) {
       if (ratingCustomer > 0) {
         var formData = new FormData(); // Currently empty
@@ -212,7 +211,15 @@ props; //data is for product part one data
         });
 
         axiosServer
-          .post(buildLink("reviews", undefined, window.innerWidth, window.config['site-url']), formData)
+          .post(
+            buildLink(
+              "reviews",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            ),
+            formData
+          )
           .then((response) => {
             // console.log(response);
             window.location.reload();
@@ -220,10 +227,10 @@ props; //data is for product part one data
       } else {
         setRequired("Please provide a rating");
       }
-    }else{
-      setExceedSizeLimitErr(true)
+    } else {
+      setExceedSizeLimitErr(true);
       setTimeout(() => {
-        setExceedSizeLimitErr(false)
+        setExceedSizeLimitErr(false);
       }, 4000);
     }
   }
@@ -233,7 +240,6 @@ props; //data is for product part one data
   }
 
   async function onFileChange(event) {
-
     if (event.target.files.length === 5) {
       setReviewImages([...event.target.files]);
       setExceededMaxNb(false);
@@ -251,21 +257,20 @@ props; //data is for product part one data
     }
   }
 
-  function validateImagesSize(){
-    const files = ReviewImages
+  function validateImagesSize() {
+    const files = ReviewImages;
     let cumulativeSize = totalSize;
     // Iterate through the newly selected files
     files.forEach((file) => {
       // console.log(file);
       //max allowed size 2 mb for the sum of images
       cumulativeSize += file.size;
-    
     });
     //  console.log(cumulativeSize);
-    if(cumulativeSize <= 2 * 1024 * 1024){
-      return true
-    }else{
-      return false
+    if (cumulativeSize <= 2 * 1024 * 1024) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -571,17 +576,17 @@ props; //data is for product part one data
                           </div>
                         ))}
                       {data?.product_reviews?.totals > 0 && (
-                        <div
-                          className="font-bold text-xl border-b border-dinputBorder px-4 pt-8 pb-2"
-                          
-                        >
+                        <div className="font-bold text-xl border-b border-dinputBorder px-4 pt-8 pb-2">
                           {data?.product_reviews?.totals} Customer Reviews
                         </div>
                       )}
 
                       <div className="mt-2" ref={commentRef}>
                         {reviews?.map((r) => (
-                          <div className="border-b-2 border-dinputBorder pb-2">
+                          <div
+                            className="border-b-2 border-dinputBorder pb-2"
+                            key={r.review_id}
+                          >
                             <div className="mt-4 flex justify-start items-center flex-row space-x-2.5 ">
                               <div
                                 className="flex rounded-full w-14 h-14 border-2 text-white  text-d22 items-center justify-center"
@@ -668,47 +673,50 @@ props; //data is for product part one data
                           </div>
                         ))}
                         {productData2?.product_reviews?.total_pages > 1 && (
-                      <ReactPaginate
-                        pageCount={Math.ceil(
-                          productData2?.product_reviews?.total_pages
+                          <ReactPaginate
+                            pageCount={Math.ceil(
+                              productData2?.product_reviews?.total_pages
+                            )}
+                            containerClassName={"product-pagination"}
+                            onPageChange={pageSetter}
+                            pageRangeDisplayed={-1}
+                            marginPagesDisplayed={0}
+                            previousLabel={
+                              <div
+                                className={`flex ${
+                                  pageValue === 1 &&
+                                  "pointer-events-none opacity-50"
+                                }`}
+                              >
+                                <IoIosArrowBack />{" "}
+                                <span className="text-d13 ml-1 text-dblack">
+                                  Previous Page
+                                </span>{" "}
+                              </div>
+                            }
+                            activeClassName={"active-pagination-product"}
+                            nextLinkClassName={"bg-dgreyPrev  w-32 pr-1"}
+                            previousLinkClassName={
+                              "bg-dgreyPrev items-center	justify-center"
+                            }
+                            nextLabel={
+                              <div
+                                className={`flex ml-2 p-0 ${
+                                  pageValue ===
+                                    productData2?.product_reviews
+                                      ?.total_pages &&
+                                  "pointer-events-none opacity-50"
+                                }`}
+                              >
+                                {" "}
+                                <span className="text-d13 mr-1 text-dblack">
+                                  Next Page
+                                </span>{" "}
+                                <IoIosArrowForward className="" />{" "}
+                              </div>
+                            }
+                          />
                         )}
-                        containerClassName={"product-pagination"}
-                        onPageChange={pageSetter}
-                        pageRangeDisplayed={-1}
-                        marginPagesDisplayed={0}
-                        previousLabel={
-                          <div
-                            className={`flex ${
-                              pageValue === 1 &&
-                              "pointer-events-none opacity-50"
-                            }`}
-                          >
-                            <IoIosArrowBack />{" "}
-                            <span className="text-d13 ml-1 text-dblack">Previous Page</span>{" "}
-                          </div>
-                        }
-                        activeClassName={"active-pagination-product"}
-                        nextLinkClassName={"bg-dgreyPrev  w-32 pr-1"}
-                        previousLinkClassName={
-                          "bg-dgreyPrev items-center	justify-center"
-                        }
-                        nextLabel={
-                          <div
-                            className={`flex ml-2 p-0 ${
-                              pageValue ===
-                                productData2?.product_reviews?.total_pages &&
-                              "pointer-events-none opacity-50"
-                            }`}
-                          >
-                            {" "}
-                            <span className="text-d13 mr-1 text-dblack">
-                              Next Page
-                            </span>{" "}
-                            <IoIosArrowForward className="" />{" "}
-                          </div>
-                        }
-                      />
-                    )}
                       </div>
                     </div>
                   </div>
@@ -758,16 +766,29 @@ props; //data is for product part one data
                 Related products
               </p>
               {width < 650 ? (
-                <Slider {...productMobile}>
-                  {productData2.product_related.map((item, index) => {
+                <div className="flex overflow-x-auto space-x-2 ">
+                  {productData2.product_related.map((item) => {
                     return (
-                      <div className="pr-2" key={item.product_id}>
-                        <SingleProduct item={item} host={host} />
+                      <div className="" key={item.product_id}>
+                        <SingleProduct
+                          scroll={true}
+                          item={item}
+                          host={host}
+                        ></SingleProduct>
                       </div>
                     );
                   })}
-                </Slider>
+                </div>
               ) : (
+                // <Slider {...productMobile}>
+                //   {productData2.product_related.map((item, index) => {
+                //     return (
+                //       <div className="pr-2" key={item.product_id}>
+                //         <SingleProduct item={item} host={host} />
+                //       </div>
+                //     );
+                //   })}
+                // </Slider>
                 <Slider {...productSetting} className="product-carousel">
                   {productData2.product_related.map((item) => (
                     <div className="pr-2" key={item.product_id}>
@@ -862,11 +883,25 @@ props; //data is for product part one data
               </p>
               <div className="block">
                 {width < 650 ? (
-                  <Slider {...productMobile}>
-                    {productData2.smallest_cat_products.map((item) => (
-                      <SingleProduct item={item} host={host}></SingleProduct>
-                    ))}
-                  </Slider>
+                  // <Slider {...productMobile}>
+                  //   {productData2.smallest_cat_products.map((item) => (
+                  //     <SingleProduct item={item} host={host}></SingleProduct>
+                  //   ))}
+                  // </Slider>
+
+                  <div className="flex overflow-x-auto space-x-2 ">
+                    {productData2.smallest_cat_products.map((item) => {
+                      return (
+                        <div className="" key={item.product_id}>
+                          <SingleProduct
+                            scroll={true}
+                            item={item}
+                            host={host}
+                          ></SingleProduct>
+                        </div>
+                      );
+                    })}
+                  </div>
                 ) : (
                   <div className="same-category-slider">
                     <Slider {...moreSettings} className="relative ">
@@ -891,15 +926,30 @@ props; //data is for product part one data
                 Recently Viewed
               </p>
               {width < 650 ? (
-                <Slider {...productMobile}>
-                  {productData2?.product_recentlyViewed?.map((item) => {
-                    return (
-                      <div className="pr-2" key={item.product_id}>
-                        <SingleProduct item={item} host={host} />
-                      </div>
-                    );
-                  })}
-                </Slider>
+                // <Slider {...productMobile}>
+                //   {productData2?.product_recentlyViewed?.map((item) => {
+                //     return (
+                //       <div className="pr-2" key={item.product_id}>
+                //         <SingleProduct item={item} host={host} />
+                //       </div>
+                //     );
+                //   })}
+                // </Slider>
+
+                <div className="flex overflow-x-auto space-x-2 ">
+                    {productData2?.product_recentlyViewed?.map((item) => {
+                      return (
+                        <div className="" key={item.product_id}>
+                          <SingleProduct
+                            scroll={true}
+                            item={item}
+                            host={host}
+                          ></SingleProduct>
+                        </div>
+                      );
+                    })}
+                  </div>
+
               ) : (
                 <Slider {...productSetting}>
                   {productData2?.product_recentlyViewed?.map((item) => {
@@ -914,8 +964,6 @@ props; //data is for product part one data
             </div>
           </div>
         )}
-
-
     </div>
   );
 }
