@@ -27,8 +27,8 @@ function Header(props) {
   const [local, setLocal] = useState(false);
   const [width, height] = useDeviceSize();
   const [viewMenu, setViewMenu] = useState(false);
-  const [viewLevel2, setViewLevel2] = useState(false);
-  const [activeCategory, setActiveCategory] = useState({});
+  // const [viewLevel2, setViewLevel2] = useState(false);
+  // const [activeCategory, setActiveCategory] = useState({});
   const [categories, setCategories] = useState([]);
   const { data: session, status } = useSession();
   const [stateAcc, dispatch] = useContext(AccountContext);
@@ -121,14 +121,7 @@ function Header(props) {
   function closeMobileMenu() {
     setViewMenu(false);
   }
-  // function closeLevel2() {
-  //   setViewLevel2(false);
-  // }
 
-  function handleActiveCategory(category) {
-    setActiveCategory(category);
-    // setViewLevel2(true);
-  }
 
   return (
     <div>
@@ -143,12 +136,8 @@ function Header(props) {
       >
         <MobileMenu
           viewMenu={viewMenu}
-          viewLevel2={viewLevel2}
-          activeCategory={activeCategory}
           categories={categories}
           closeMobileMenu={closeMobileMenu}
-          handleActiveCategory={handleActiveCategory}
-          // closeLevel2={closeLevel2}
         />
       </div>
 

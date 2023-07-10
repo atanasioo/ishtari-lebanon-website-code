@@ -16,21 +16,19 @@ import { signOut } from "next-auth/react";
 function MobileMenu(props) {
   const {
     viewMenu,
-    // viewLevel2,
-    activeCategory,
     categories,
     closeMobileMenu,
-    handleActiveCategory,
   } = props;
   const router = useRouter();
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
+  const [activeCategory, setActiveCategory] = useState({});
 
   function handleScroll() {
     var myDiv = document.getElementById("scrollDiv");
     myDiv.scrollTop = 0;
   }
-
+console.log(viewLevel2);
   // Logout
   async function logout() {
     dispatch({ type: "setLoading", payload: true });
@@ -71,7 +69,6 @@ function MobileMenu(props) {
   }
 
   return (
-    
       <div className=" text-dblack overflow-x-hidden">
         {/* Logo */}
         <div className="flex flex-col py-3 border-b border-dgrey px-4 ">
@@ -273,8 +270,11 @@ function MobileMenu(props) {
                     <span
                       className="w-12 h-7 flex items-center justify-center"
                       onClick={() => {
-                        handleActiveCategory(category);
                         setViewLevel2(true);
+                     
+                        // handleActiveCategory(category); 
+                        setActiveCategory(category)
+                                           
                         handleScroll();
                       }}
                     >

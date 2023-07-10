@@ -735,13 +735,13 @@ function ProductPart2(props) {
           <p className="font-semibold text-xl py-2 text-dblack mb-1">
             Product Details
           </p>
-          {/* <i
+          <i
               className={
                 !isDetails
                   ? "icon icon-angle-right text-dgrey1 text-2xl transition-all"
                   : "icon icon-angle-down text-dgrey1 text-2xl transition-all"
               }
-            ></i> */}
+            ></i>
         </div>
         <div
           className={!isDetails ? "hidden" : "block"}

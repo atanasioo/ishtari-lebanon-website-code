@@ -1519,7 +1519,7 @@ function ProductPage(props) {
             className="border-t-8 border-dinputBorder bg-dinputBorder"
             onScroll={() => setScroll(!scroll && true)}
           ></div>
-          <div className="w-full bg-white">
+          <div className="hidden mobile:block w-full bg-white">
             <div className="my-1 bg-white mb-4 container px-6 my-content">
               <div className="flex border-b border-dinputBorder space-x-10 px-6">
                 <p
