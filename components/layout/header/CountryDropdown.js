@@ -29,7 +29,7 @@ function CountryDropdown() {
       }
     }, [ref, int]);
   }
-
+//
 
   return window.config["site-url"] === "https://www.ishtari.com" ||
     window.config["site-url"] === "https://www.ishtari.com.gh" ? (
