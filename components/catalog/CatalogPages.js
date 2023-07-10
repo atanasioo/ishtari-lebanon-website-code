@@ -615,7 +615,7 @@ function CatalogPage(props) {
 
           </div>
 
-          {/* <div className="flex  mobile:hidden">
+          <div className="flex  mobile:hidden">
             <div className="w-screen bg-white -mx-4 mt-3">
               <div className="grid grid-cols-2 divide-x divide-dinputBorder bg-white py-2 rounded">
                 <button
@@ -669,7 +669,7 @@ function CatalogPage(props) {
                 </div>
               )}
             </div>
-          </div> */}
+          </div>
 
           {data?.categories?.length > 0 &&
             data?.sub_category_status === "1" && (
@@ -741,7 +741,7 @@ function CatalogPage(props) {
           </div>
           {data?.total_pages > 1 && (
             <div className="h-12">
-              {/* <ReactPaginate
+              <ReactPaginate
                 className={"category-pagination"}
                 breakLabel="..."
                 nextLabel=">"
@@ -753,7 +753,7 @@ function CatalogPage(props) {
                 activeClassName={"active-pagination-category"}
                 renderOnZeroPageCount={null}
                 // forcePage={Number(page) > 0 ? Number(page) - 1 : 0}
-              /> */}
+              />
             </div>
           )}
         </div>
