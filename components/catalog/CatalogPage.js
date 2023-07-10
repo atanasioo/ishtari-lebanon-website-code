@@ -7,14 +7,14 @@ import "swiper/swiper.min.css";
 // import 'swiper/css/pagination.min.css';
 // import 'swiper/css/navigation.min.css';
 import Slider from "react-slick";
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import Image from "next/image";
 import { Navigation } from "swiper";
-import { loader } from "/public/images/loader.gif";
-import ReactPaginate from "react-paginate";
-import WidgetsLoop from "../WidgetsLoop";
+// import { loader } from "/public/images/loader.gif";
+// import ReactPaginate from "react-paginate";
+// import WidgetsLoop from "../WidgetsLoop";
 import {
   IoIosArrowDown,
   IoIosCheckbox,
@@ -58,28 +58,7 @@ function CatalogPage(props) {
     infinite: false
   };
 
-  function CustomPrevArrows({ direction, onClick, style, className }) {
-    return (
-      <div
-        style={{ ...style, padding: "2px 5px" }}
-        onClick={onClick}
-        className="mySwiper"
-      >
-        <div className="swiper-button-prev"></div>
-      </div>
-    );
-  }
-  function CustomNextArrows({ direction, onClick, style, className }) {
-    return (
-      <div
-        style={{ ...style, padding: "2px 5px" }}
-        onClick={onClick}
-        className="mySwiper"
-      >
-        <div className="swiper-button-next"></div>
-      </div>
-    );
-  }
+
 
   const router = useRouter();
   const {
