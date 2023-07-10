@@ -63,7 +63,7 @@ function SlugPage(props) {
         </>
       ) : (
       
-        <CatalogPage
+        <CatalogPages
           type={props.type}
           data={props.data}
           isloading={props.isLoading}
