@@ -16,7 +16,9 @@ function LogoClient() {
       ) : window.location.host === "https://www.ishtari.com" ||
         window.location.host === "https://www.ishtari.com.gh" ||
         window.location.host === "ishtari" ||
-        window.location.host === "ishtari-ghana" ? (
+        window.location.host === "ishtari-ghana" ||
+        window.location.host === "next.ishtari.com"
+         ? (
         <>
           <Image
             className="hidden mobile:block"
