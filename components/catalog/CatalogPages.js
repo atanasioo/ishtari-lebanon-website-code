@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 // import "swiper/swiper.min.css";
 // import 'swiper/css/pagination.min.css';
 // import 'swiper/css/navigation.min.css';
@@ -11,7 +11,7 @@ import Slider from "react-slick";
 // import "swiper/css/navigation";
 // import "swiper/css/pagination";
 import Image from "next/image";
-import { Navigation } from "swiper";
+// import { Navigation } from "swiper";
 import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import WidgetsLoop from "../WidgetsLoop";
@@ -1461,13 +1461,13 @@ function CatalogPage(props) {
                     } items-center w-full whitespace-nowrap`}
                     id={`button-wrapper`}
                   >
-                    <Swiper
+                    {/* <Swiper
                       slidesPerView={"auto"}
                       freeMode={true}
                       draggable={false}
                       pagination={false}
                       navigation={true}
-                      modules={[Navigation]}
+                      // modules={[Navigation]}
                       className="myFilterSwiper"
                     >
                       {data.filters.map((filter) => {
@@ -1734,7 +1734,7 @@ function CatalogPage(props) {
                           })
                         );
                       })}
-                    </Swiper>
+                    </Swiper> */}
                   </div>
                 </div>
               </div>
@@ -1760,7 +1760,7 @@ function CatalogPage(props) {
           </div>
           {data?.total_pages > 1 && (
             <div className="h-12">
-              <ReactPaginate
+              {/* <ReactPaginate
                 className={"category-pagination"}
                 breakLabel="..."
                 nextLabel=">"
@@ -1772,7 +1772,7 @@ function CatalogPage(props) {
                 activeClassName={"active-pagination-category"}
                 renderOnZeroPageCount={null}
                 // forcePage={Number(page) > 0 ? Number(page) - 1 : 0}
-              />
+              /> */}
             </div>
           )}
         </div>
