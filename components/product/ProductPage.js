@@ -749,7 +749,7 @@ function ProductPage(props) {
                               />{" "}
                             </div>
                             <p className=" flex text-dgrey1 text-d15 mb-1 md:mb-3 font-light  ml-2 underline_effect cursor-pointer">
-                              5 Rating
+                              {data.nb_of_reviews} Rating{data.nb_of_reviews > 1 ? "s" : ""}
                             </p>
                           </div>
                         )}{" "}

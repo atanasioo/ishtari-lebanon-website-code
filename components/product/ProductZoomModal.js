@@ -120,12 +120,12 @@ function ProductZoomModal(props) {
         <div className="absolute w-full lg:w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
           <div className="h-full" id="popup_modal">
             <CgClose
-              className="absolute right-1 md:m-3 w-7 z-10  h-7 md:w-9 md:h-9 cursor-pointer text-white  md:text-dblack"
+              className="absolute right-0 p-0.5 md:m-3 w-8 z-10 bg-dblackOverlay md:bg-transparent rounded-sm h-8 md:w-9 md:h-9 cursor-pointer text-white  md:text-dblack"
               onClick={() => closeModal()}
             />
             <div className="flex flex-col justify-center h-full md:h-unset ">
-              <div className=" flex flex-col h-full md:my-8  justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
-                <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-5/12 flex flex-col h-5/6 justify-center items-center ">
+              <div className=" flex flex-col h-full md:my-8  justify-center gap-3 lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
+                <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-5/12 flex flex-col h-3/4 lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
                     className="w-11/12   hidden lg:block"
@@ -199,7 +199,7 @@ function ProductZoomModal(props) {
                     </div>
                     {/* selector-div */}
 
-                    <div className={`hidden lg:grid grid-cols-6 mt-7  `}>
+                    <div className={`hidden lg:grid grid-cols-6 mt-7`}>
                       {images?.map((i) => (
                         <div
                           key={i["thumb"]}
