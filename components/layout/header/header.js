@@ -37,6 +37,8 @@ function Header(props) {
 
   const serverSideDomain = props.host;
 
+  console.log("serversidedomain is " + serverSideDomain);
+
   //  console.log(session);
   const [state, setState] = useState([]);
   useEffect(() => {
