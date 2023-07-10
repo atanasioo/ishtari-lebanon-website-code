@@ -118,6 +118,7 @@ export default function latest(props) {
           <SingleProducts
             key={product.product_id}
             item={product}
+            isSlider={true}
             //
           ></SingleProducts>
         ))}
