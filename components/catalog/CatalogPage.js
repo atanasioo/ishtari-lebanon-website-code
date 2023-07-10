@@ -11,7 +11,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
-import { Navigation } from "swiper";
+// import { Navigation } from "swiper";
 import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import WidgetsLoop from "../WidgetsLoop";
@@ -1467,7 +1467,7 @@ function CatalogPage(props) {
                       draggable={false}
                       pagination={false}
                       navigation={true}
-                      modules={[Navigation]}
+                      // modules={[Navigation]}
                       className="myFilterSwiper"
                     >
                       {data.filters.map((filter) => {
