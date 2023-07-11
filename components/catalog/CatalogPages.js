@@ -2,24 +2,31 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, div } from "swiper/react";
+import "swiper/swiper.min.css";
 // import 'swiper/css/pagination.min.css';
 // import 'swiper/css/navigation.min.css';
-// import "swiper/css";
-import "swiper/swiper.min.css";
+import Slider from "react-slick";
+import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
-// import { Navigation } from "swiper";
+import { Navigation } from "swiper";
 import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import WidgetsLoop from "../WidgetsLoop";
+import styles from "/styles/slider.module.css";
+import { CustomArrowProps } from "react-slick";
 import {
   IoIosArrowDown,
   IoIosCheckbox,
   IoIosCheckboxOutline,
   IoMdCheckbox
 } from "react-icons/io";
+import {
+  MdOutlineArrowForwardIos,
+  MdOutlineArrowBackIos
+} from "react-icons/md";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
 import { BsGrid } from "react-icons/bs";
@@ -57,6 +64,93 @@ function CatalogPage(props) {
     infinite: false
   };
 
+  const sliderRef = useRef(null);
+
+  useEffect(() => {
+    const isOverflowingRight = false;
+    const isOverflowingLeft = false;
+
+    const sliderElement = sliderRef.current;
+    if (!sliderElement) return;
+
+    const contentElement = sliderElement.querySelector(".slider-content");
+    const arrowLeftElement = sliderElement.querySelector(".slider-arrow-left");
+    const arrowRightElement = sliderElement.querySelector(
+      ".slider-arrow-right"
+    );
+
+    const handleResize = () => {
+      console.log(contentElement.scrollLeft);
+      console.log(contentElement.clientWidth);
+      console.log(contentElement.scrollWidth);
+      // const isOverflowing = contentElement.offsetWidth < contentElement.scrollWidth;
+      const maxScroll = contentElement.scrollWidth - contentElement.clientWidth;
+      var scrollRight = maxScroll - contentElement.scrollLeft;
+      const sliderWidth = sliderElement.offsetWidth;
+      const contentWidth = contentElement.scrollWidth;
+      const maxScrolld = contentWidth - sliderWidth;
+      // alert(maxScrolld)
+
+      // const sliderWidth = sliderElement.offsetWidth;
+      // const contentWidth = contentElement.scrollWidth;
+      // const maxScroll = contentWidth - sliderWidth;
+      const isOverflowingLeft = true;
+      const isOverflowingRight =
+        contentElement.scrollLeft + contentElement.clientWidth <
+        contentElement.scrollWidth;
+
+      // arrowLeftElement.style.display = isOverflowingLeft ? "block" : "none";
+      arrowRightElement.style.display = isOverflowingRight ? "block" : "none";
+      console.log(scrollRight);
+
+      if (isOverflowingRight) {
+        // arrowLeftElement.addEventListener('click', slideLeft);
+        arrowRightElement.addEventListener("click", slideRight);
+      } else {
+        arrowLeftElement.addEventListener("click", slideLeft);
+      }
+      arrowLeftElement.addEventListener("click", slideLeft);
+      arrowRightElement.addEventListener("click", slideRight);
+
+      // if (isOverflowingLeft) {
+      //   alert(1)
+      //   arrowLeftElement.addEventListener("click", slideLeft);
+      // } else {
+      //   // arrowLeftElement.removeEventListener('click', slideLeft);
+      //   // arrowLeftElement.addEventListener("click", slideRight);
+
+      // }
+    };
+
+    const slideLeft = () => {
+      contentElement.style.transform = `translateX(0px)`;
+      contentElement.style.behavior = "smooth";
+
+      arrowLeftElement.style.display = "none";
+      arrowRightElement.style.display = "block";
+    };
+
+    const slideRight = () => {
+      const sliderWidth = sliderElement.offsetWidth;
+      const contentWidth = contentElement.scrollWidth;
+      const maxScroll = contentWidth - sliderWidth;
+
+      contentElement.style.transform = `translateX(-${maxScroll}px)`;
+
+      arrowLeftElement.style.display = "block";
+      arrowRightElement.style.display = "none";
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  function setLeft() {
+    contentElement.style.transform = "translateX(0)";
+  }
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
       <div
@@ -591,7 +685,7 @@ function CatalogPage(props) {
 
       <div className="flex">
         <div className="w-full mobile:w-1/5 mobile:px-5 ">
-        {filters &&
+          {filters &&
             Object.keys(filters).map((key) => (
               <div className="hidden mobile:block">
                 {filters[key].items.length > 0 && (
@@ -775,6 +869,129 @@ function CatalogPage(props) {
             {/* Settings */}
             {/* Desktop setting */}
 
+            <div className="mobile:flex justify-end  hidden">
+              {/* Sorts */}
+              {data?.products?.length > 0 && (
+                <div className=" px-8 flex items-center">
+                  <span className=" text-xs font-semibold text-dgrey1 pb-1 ">
+                    SORT BY
+                  </span>
+                  <div className="relative pb-1">
+                    <button
+                      className="bg-white px-3 py-1 ml-4 border text-sm font-semibold cursor-pointer rounded  flex items-start space-x-2"
+                      onClick={() => setShowSort(!showSort)}
+                      ref={sortRef}
+                    >
+                      <span
+                        className=" uppercase text-d12 leading-tight font-bold mt-0.5"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHTML(sortValue?.text)
+                        }}
+                      />
+                      <span
+                        className={`block ml-2 transition-all ${
+                          showSort && "transform  rotate-180"
+                        }`}
+                      >
+                        {" "}
+                        <IoIosArrowDown className=" text-d18" />
+                      </span>
+                    </button>
+                    {showSort && (
+                      <div
+                        className="bg-white py-4 w-44 shadow-2xl absolute z-40 right-0 top-9"
+                        ref={sortRef}
+                      >
+                        {data?.sorts?.map((sort) => (
+                          <span
+                            onClick={() => {
+                              sortSetter(sort);
+                            }}
+                            className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
+                            key={sort.value}
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(sort.text)
+                            }}
+                          ></span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Sorts */}
+              {data?.products?.length > 0 && (
+                <div className=" px-8 flex items-center">
+                  <span className=" text-xs font-semibold text-dgrey1 pb-1 ">
+                    DISPLAY
+                  </span>
+                  <div className="relative p-1">
+                    <button
+                      className="bg-white px-3 py-1 ml-4 border text-d14 font-semibold cursor-pointer rounded flex items-start space-x-2"
+                      onClick={() => setShowLimit(!showLimit)}
+                    >
+                      <span
+                        className=" uppercase text-d12 leading-tight font-bold mt-0.5"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHTML(limitValue.text + " PER PAGE")
+                        }}
+                      />
+                      {/* {!showLimit ? (
+                        <IoIosArrowDown className="ml-2 text-d18" />
+                      ) : (
+                        <IoIosArrowUp className="ml-2 text-d18" />
+                      )} */}
+
+                      <span
+                        className={`block ml-2 transition-all ${
+                          showLimit && "transform  rotate-180"
+                        }`}
+                      >
+                        {" "}
+                        <IoIosArrowDown className=" text-d18" />
+                      </span>
+                    </button>
+                    {showLimit && (
+                      <div
+                        className="bg-white py-4 w-44 shadow-2xl absolute z-40 right-0 top-9"
+                        ref={limitRef}
+                      >
+                        {data?.limits?.map((limit) => (
+                          <span
+                            onClick={() => limitSetter(limit)}
+                            className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
+                            key={limit.value}
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(limit.text)
+                            }}
+                          ></span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {data?.products?.length > 0 && (
+                <div className="flex  items-center">
+                  <span className=" text-d14 font-semibold text-dgrey1">
+                    {productDisplay === "grid" ? "Grid" : "List"}
+                  </span>
+                  <button
+                    className={`bg-white ml-4 text-lg border rounded block icon  transition-all p-1.5`}
+                    onClick={() =>
+                      setProductDisplay(
+                        productDisplay === "grid" ? "list" : "grid"
+                      )
+                    }
+                    // style={{ width: "30px", height: "30px" }}
+                  >
+                    {productDisplay === "grid" ? <FaList /> : <BsGrid />}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex  mobile:hidden">
@@ -838,16 +1055,83 @@ function CatalogPage(props) {
               <div>
                 {/* Desktop Categories */}
                 <div className=" hidden lg:block w-full mt-3 mb-2 bg-white justify-cente mx-1">
-      
+                  <Slider {...productSetting}>
+                    {data?.categories.map((category, idx) => {
+                      return (
+                        <Link
+                          href={`/${
+                            category.name
+                              .replace(/\s+&amp;\s+|\s+&gt;/g, "-")
+                              .replace(/\s+/g, "-")
+                              .replace("/", "-") +
+                            "/c=" +
+                            category.id
+                          }`}
+                          className="inline-flex w-24 xl:w-28 lg:w-28 text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
+                        >
+                          <Image
+                            alt={category.name}
+                            src={category.thumb}
+                            className="h-20"
+                            width={"100"}
+                            height={"100"}
+                            placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
+                          />
+                          <h2
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(category.name)
+                            }}
+                            className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
+                          ></h2>
+                        </Link>
+                      );
+                    })}
+                  </Slider>
                 </div>
                 {/* Mobile Categories */}
                 <div className="block xl:hidden lg:hidden w-screen  -mx-4 mb-2">
                   {/* <div className="overflow-x-scroll flex px-2 "> */}
-           
+                  <Slider {...productMSetting}>
+                    {data.categories.map((category) => (
+                      <Link
+                        href={
+                          // state.admin
+                          //   ? `${path}/category/${category.id}`
+                          //   :
+                          `/${
+                            category.name
+                              .replace(/\s+&amp;\s+|\s+&gt;/g, "-")
+                              .replace(/\s+/g, "-")
+                              .replace("/", "-") +
+                            "/c=" +
+                            category.id
+                          }`
+                        }
+                        className="inline-flex text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
+                      >
+                        <Image
+                          alt={category.name}
+                          src={category.thumb}
+                          width={110}
+                          height={110}
+                          placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
+                          className="h-20 w-20"
+                        />
+
+                        <h2
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeHTML(category.name)
+                          }}
+                          className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
+                        ></h2>
+                      </Link>
+                    ))}
+                    {/* </div> */}
+                  </Slider>
                 </div>
               </div>
             )}
-          {/* <div className="hidden mobile:block">
+          <div className="hidden mobile:block">
             {(page === undefined || page < 2) &&
               (data?.category_widget_status === "1" ||
                 data?.desktop_widget_status === "1") &&
@@ -857,8 +1141,8 @@ function CatalogPage(props) {
                   <WidgetsLoop widget={widget} />{" "}
                 </div>
               ))}
-          </div> */}
-          {/* <div className="mobile:hidden">
+          </div>
+          <div className="mobile:hidden">
             {
               //  page === undefined ||
               //   page < 2 &&
@@ -880,16 +1164,15 @@ function CatalogPage(props) {
                   <WidgetsLoop widget={widget} />{" "}
                 </div>
               ))}
-          </div> */}
-     
-         {filters &&
+          </div>
+          {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
               <div className="  w-full block relative z-20 ">
                 <div className="relative flex items-center mb-3 mt-4">
                   <div
                     className={`catalog-top-filter hidden mobile:block  ${
-                      topFilter.show ? " " : ""
+                      topFilter.show ? "catalog-top-filter-open " : ""
                     }`}
                     style={{ left: topFilter.offset }}
                     ref={wrapperRef}
@@ -1263,29 +1546,16 @@ function CatalogPage(props) {
                     </div>
                   </div>
 
-                  {/* <div
-                    className={` ${
-                      700 > 650
-                        ? "button-wrapper overflow-hidden"
-                        : "overflow-x-auto py-1"
-                    } items-center w-full whitespace-nowrap`}
-                    id={`button-wrapper`}
-                  >
-                    <Swiper
-                      slidesPerView={"auto"}
-                      freeMode={true}
-                      draggable={false}
-                      pagination={false}
-                      navigation={true}
-                      // modules={[Navigation]}
-                      className="myFilterSwiper"
+                  <div className={styles.slider} ref={sliderRef}>
+                    <div
+                      className={`${styles["slider-content"]} slider-content`}
                     >
                       {data.filters.map((filter) => {
                         return (
                           filter.items.length > 0 &&
                           filter.name !== "Socks" &&
                           filter.name !== "Size by Age" && (
-                            <SwiperSlide
+                            <div
                               key={Math.random()}
                               id={filter.name}
                               onClick={() => handleTopFilter(filter.name)}
@@ -1309,7 +1579,7 @@ function CatalogPage(props) {
                                   </span>
                                 </div>
                               </button>
-                            </SwiperSlide>
+                            </div>
                           )
                         );
                       })}
@@ -1323,7 +1593,7 @@ function CatalogPage(props) {
                             ) {
                               // console.log(userFilters);
                               return (
-                                <SwiperSlide>
+                                <div>
                                   <button
                                     className="p-1 "
                                     onClick={() => parseFilter(filter.id, item)}
@@ -1341,7 +1611,7 @@ function CatalogPage(props) {
                                       </span>
                                     </div>
                                   </button>
-                                </SwiperSlide>
+                                </div>
                               );
                             }
                           })
@@ -1369,7 +1639,7 @@ function CatalogPage(props) {
 
                                 if (temp && Number(item.count) === temp) {
                                   return (
-                                    <SwiperSlide>
+                                    <div>
                                       <button
                                         className="p-1 "
                                         onClick={() =>
@@ -1402,7 +1672,7 @@ function CatalogPage(props) {
                                           </span>
                                         </div>
                                       </button>
-                                    </SwiperSlide>
+                                    </div>
                                   );
                                 }
                               } else if (filter.name === "Brands") {
@@ -1418,7 +1688,7 @@ function CatalogPage(props) {
                                 );
                                 if (temp && Number(item.count) === temp) {
                                   return (
-                                    <SwiperSlide>
+                                    <div>
                                       <button
                                         className="p-1"
                                         onClick={() =>
@@ -1436,7 +1706,7 @@ function CatalogPage(props) {
                                           </span>
                                         </div>
                                       </button>
-                                    </SwiperSlide>
+                                    </div>
                                   );
                                 }
                               } else if (filter.name === "Color") {
@@ -1452,7 +1722,7 @@ function CatalogPage(props) {
                                 );
                                 if (temp && Number(item.count) === temp) {
                                   return (
-                                    <SwiperSlide>
+                                    <div>
                                       <button
                                         className="p-1"
                                         onClick={() =>
@@ -1470,7 +1740,7 @@ function CatalogPage(props) {
                                           </span>
                                         </div>
                                       </button>
-                                    </SwiperSlide>
+                                    </div>
                                   );
                                 }
                               } else if (filter.name === "Shoes size") {
@@ -1492,7 +1762,7 @@ function CatalogPage(props) {
                                   filter.items.length < 3
                                 ) {
                                   return (
-                                    <SwiperSlide>
+                                    <div>
                                       <button
                                         className="p-1"
                                         onClick={() =>
@@ -1514,11 +1784,11 @@ function CatalogPage(props) {
                                           </span>
                                         </div>
                                       </button>
-                                    </SwiperSlide>
+                                    </div>
                                   );
                                 } else {
                                   return (
-                                    <SwiperSlide>
+                                    <div>
                                       <button
                                         className="p-1"
                                         onClick={() =>
@@ -1536,7 +1806,7 @@ function CatalogPage(props) {
                                           </span>
                                         </div>
                                       </button>
-                                    </SwiperSlide>
+                                    </div>
                                   );
                                 }
                               }
@@ -1544,11 +1814,295 @@ function CatalogPage(props) {
                           })
                         );
                       })}
-                    </Swiper>
-                  </div> */}
+                    </div>
+
+                    <div
+                      className={`${styles["slider-arrow"]} ${styles["slider-arrow-left"]} slider-arrow-left  bg-white p-3 hidden mobile:block`}
+                    >
+                      {/* Add left arrow SVG icon or custom content */}
+                      {/* Example arrow */}
+                      <MdOutlineArrowBackIos className="text-d18" />
+                    </div>
+                    <div
+                      className={`${styles["slider-arrow"]} ${styles["slider-arrow-right"]} slider-arrow-right  text-dbgray bg-white p-3 hidden mobile:block`}
+                    >
+                      {/* Add right arrow SVG icon or custom content */}
+                      {/* Example arrow */}
+                      <MdOutlineArrowForwardIos className="text-d18" />
+                      {/* Example arrow */}
+                    </div>
+                  </div>
+
+                  <div className="flex overflow-x-scroll py-3 ">
+                    <div className="flex w-full">
+                    {data.filters.map((filter) => {
+                      return (
+                        filter.items.length > 0 &&
+                        filter.name !== "Socks" &&
+                        filter.name !== "Size by Age" && (
+                          <div
+                            key={Math.random()}
+                            id={filter.name}
+                            onClick={() => handleTopFilter(filter.name)}
+                          >
+                            <button className="p-1 " id={filter.name}>
+                              <div
+                                className={`text-d14 px-3 py-1 flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl ${checkMainFilter(
+                                  filter
+                                )}`}
+                                // style={{
+                                //   paddingTop: "5px",
+                                //   paddingBottom: "5px"
+                                // }}
+                              >
+                                <span className="w-max">
+                                  {filter.name.charAt(0).toUpperCase() +
+                                    filter.name.slice(1)}
+                                </span>
+                                <span className="ml-2">
+                                  <IoIosArrowDown className="text-d18" />
+                                </span>
+                              </div>
+                            </button>
+                          </div>
+                        )
+                      );
+                    })}
+                    {data.filters.map((filter) => {
+                      return (
+                        filter.items.length > 0 &&
+                        filter.items.map((item) => {
+                          if (
+                            filter.id != undefined &&
+                            filter.id.replace('"', "").includes(item.id)
+                          ) {
+                            // console.log(userFilters);
+                            return (
+                              <div>
+                                <button
+                                  className="p-1 "
+                                  onClick={() => parseFilter(filter.id, item)}
+                                >
+                                  <div
+                                    className={`text-d14 bg-dgreyRate px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
+                                    // style={{
+                                    //   paddingTop: "6px",
+                                    //   paddingBottom: "6px"
+                                    // }}
+                                  >
+                                    <span className="w-max">{item.name}</span>
+                                    <span className="ml-2">
+                                      <AiOutlineClose className="text-d18" />
+                                    </span>
+                                  </div>
+                                </button>
+                              </div>
+                            );
+                          }
+                        })
+                      );
+                    })}
+                    {data.filters.map((filter) => {
+                      return (
+                        filter.items.length > 0 &&
+                        filter.items.slice(0, 3).map((item) => {
+                          if (
+                            filter.id != undefined &&
+                            !filter.id.includes(item.id)
+                          ) {
+                            if (filter.name === "Sellers") {
+                              const temp = Math.max(
+                                ...filter.items.map((o) => {
+                                  if (
+                                    filter.id != undefined &&
+                                    !filter.id.includes(o.id)
+                                  ) {
+                                    return Number(o.count);
+                                  }
+                                })
+                              );
+
+                              if (temp && Number(item.count) === temp) {
+                                return (
+                                  <div>
+                                    <button
+                                      className="p-1 "
+                                      onClick={() =>
+                                        parseFilter(filter.id, item.id)
+                                      }
+
+                                      // onClick={() =>
+                                      //   parseFilter(
+                                      //     filters[
+                                      //       data.filters.findIndex(
+                                      //         (x) => x.name === topFilter.name
+                                      //       )
+                                      //     ].id,
+                                      //     item.id
+                                      //   )
+                                      // }
+                                    >
+                                      <div
+                                        className={`text-d14 px-3 py-1 overflow-hidden flex-nowrap flex justify-between items-center bg-dgreyRate rounded-2xl `}
+                                        // style={{
+                                        //   paddingTop: "6px",
+                                        //   paddingBottom: "6px"
+                                        // }}
+                                      >
+                                        <span className="w-max">
+                                          <span className="font-bold mr-1">
+                                            Seller:
+                                          </span>
+                                          {item.name}
+                                        </span>
+                                      </div>
+                                    </button>
+                                  </div>
+                                );
+                              }
+                            } else if (filter.name === "Brands") {
+                              const temp = Math.max(
+                                ...filter.items.map((o) => {
+                                  if (
+                                    filter.id != undefined &&
+                                    !filter.id.includes(o.id)
+                                  ) {
+                                    return Number(o.count);
+                                  }
+                                })
+                              );
+                              if (temp && Number(item.count) === temp) {
+                                return (
+                                  <div>
+                                    <button
+                                      className="p-1"
+                                      onClick={() =>
+                                        parseFilter(filter.id, item.id)
+                                      }
+                                    >
+                                      <div
+                                        className={`text-d14 px-3 py-1  flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
+                                      >
+                                        <span className="w-max">
+                                          <span className="font-bold mr-1">
+                                            Brand:
+                                          </span>
+                                          {item.name}
+                                        </span>
+                                      </div>
+                                    </button>
+                                  </div>
+                                );
+                              }
+                            } else if (filter.name === "Color") {
+                              const temp = Math.max(
+                                ...filter.items.map((o) => {
+                                  if (
+                                    filter.id != undefined &&
+                                    !filter.id.includes(o.id)
+                                  ) {
+                                    return Number(o.count);
+                                  }
+                                })
+                              );
+                              if (temp && Number(item.count) === temp) {
+                                return (
+                                  <div>
+                                    <button
+                                      className="p-1"
+                                      onClick={() =>
+                                        parseFilter(filter.id, item.id)
+                                      }
+                                    >
+                                      <div
+                                        className={`text-d14 py-1 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
+                                      >
+                                        <span className="w-max">
+                                          <span className="font-bold mr-1">
+                                            Color:
+                                          </span>
+                                          {item.name}
+                                        </span>
+                                      </div>
+                                    </button>
+                                  </div>
+                                );
+                              }
+                            } else if (filter.name === "Shoes size") {
+                              const temp = Math.max(
+                                ...filter.items.map((o) => {
+                                  if (
+                                    filter.id != undefined &&
+                                    filter.id.replaceAll('"', "").includes(o.id)
+                                  ) {
+                                    return Number(o.count);
+                                  }
+                                })
+                              );
+                              if (
+                                temp &&
+                                Number(item.count) === temp &&
+                                filter.items.length < 3
+                              ) {
+                                return (
+                                  <div>
+                                    <button
+                                      className="p-1"
+                                      onClick={() =>
+                                        parseFilter(filter.id, item.id)
+                                      }
+                                    >
+                                      <div
+                                        className={`text-d14 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
+                                        // style={{
+                                        //   paddingTop: "6px",
+                                        //   paddingBottom: "6px"
+                                        // }}
+                                      >
+                                        <span className="w-max">
+                                          <span className="font-bold mr-1">
+                                            Shoes Size:
+                                          </span>
+                                          {item.name}
+                                        </span>
+                                      </div>
+                                    </button>
+                                  </div>
+                                );
+                              } else {
+                                return (
+                                  <div>
+                                    <button
+                                      className="p-1"
+                                      onClick={() =>
+                                        parseFilter(filter.id, item.id)
+                                      }
+                                    >
+                                      <div
+                                        className={`text-d14 bg-dgreyRate px-3 py-1 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
+                                      >
+                                        <span className="w-max">
+                                          <span className="font-bold mr-1">
+                                            Shoes Size:
+                                          </span>
+                                          {item.name}
+                                        </span>
+                                      </div>
+                                    </button>
+                                  </div>
+                                );
+                              }
+                            }
+                          }
+                        })
+                      );
+                    })}
+                  </div>
                 </div>
+        </div>
               </div>
             )}
+
           <div
             className={`grid transition-all mobile:pt-2 ${
               productDisplay === "grid"
@@ -1561,7 +2115,7 @@ function CatalogPage(props) {
               <div className="p-1">
                 <SingleProduct
                   item={item}
-                  // isSlider={true}
+                  isSlider={false}
                   isList={productDisplay === "grid" ? false : true}
                 ></SingleProduct>
               </div>
