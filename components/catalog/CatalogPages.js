@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import "swiper/swiper.min.css";
 // import 'swiper/css/pagination.min.css';
 // import 'swiper/css/navigation.min.css';
-import "swiper/css";
+// import "swiper/css";
+import "swiper/swiper.min.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
@@ -882,14 +882,14 @@ function CatalogPage(props) {
               ))}
           </div> */}
      
-     {filters &&
+         {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
               <div className="  w-full block relative z-20 ">
                 <div className="relative flex items-center mb-3 mt-4">
                   <div
                     className={`catalog-top-filter hidden mobile:block  ${
-                      topFilter.show ? "catalog-top-filter-open " : ""
+                      topFilter.show ? " " : ""
                     }`}
                     style={{ left: topFilter.offset }}
                     ref={wrapperRef}
@@ -1561,7 +1561,7 @@ function CatalogPage(props) {
               <div className="p-1">
                 <SingleProduct
                   item={item}
-                  isSlider={true}
+                  // isSlider={true}
                   isList={productDisplay === "grid" ? false : true}
                 ></SingleProduct>
               </div>
