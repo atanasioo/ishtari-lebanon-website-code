@@ -25,32 +25,32 @@ const getHost = async (host) => {
     host === "next.ishtari.com"
   ) {
     // url = "https://www.ishtari.com/";
-    url = "https://www.ishtari.com/";
+    url = "https://www.ishtari.com";
   } else if (
     host === "ishtari-ghana" ||
     host === "https://www.ishtari.com.gh/" ||
     host === "ishtari.com.gh"
   ) {
-    url = "https://www.ishtari.com.gh/";
+    url = "https://www.ishtari.com.gh";
   } else if (
     host === "flo" ||
     host === "www.flo-lebanon.com" ||
     host === "www.flo-lebanon.com" ||
     host === "flo-lebanon.com"
   ) {
-    url = "https://www.flo-lebanon.com/";
+    url = "https://www.flo-lebanon.com";
   } else if (
     host === "flo-bey" ||
     host === "www.flo-lebanon.com" ||
     host === "flo-lebanon.com"
   ) {
-    url = "https://www.flo-lebanon.com/";
+    url = "https://www.flo-lebanon.com";
   } else if (
     host === "aalbeit" ||
     host === "www.aalbeit.com" ||
     host === "aalbeit.com"
   ) {
-    url = "https://www.aalbeit.com/";
+    url = "https://www.aalbeit.com";
   } else if (host === "ishtari-usd" || host === "www.ishtari-usd.com") {
     url = "https://www.ishtari-usd.com/";
   } else if (
@@ -58,7 +58,7 @@ const getHost = async (host) => {
     host === "www.energyplus-lb.com" ||
     host === "energyplus-lb.com"
   ) {
-    url = "https://energyplus-lb.com/";
+    url = "https://energyplus-lb.com";
   }
 
 
