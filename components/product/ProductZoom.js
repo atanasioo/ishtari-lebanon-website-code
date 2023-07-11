@@ -30,7 +30,7 @@ function ProductZoom(props) {
   const setting = {
     dots: false,
     infinite: false,
-    speed: 200,
+    speed: 500,
     slidesToShow: 3.15,
     slidesToScroll: 3,
     swipeToSlide: false,

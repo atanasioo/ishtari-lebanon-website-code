@@ -1,13 +1,9 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
-import cookie from "cookie";
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
 import WidgetsLoop from "@/components/WidgetsLoop";
 import { useEffect, useRef, useState, useCallback, memo } from "react";
-import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
-// import PointsLoader from "@/components/PointsLoader";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
@@ -111,11 +107,8 @@ export default function Home(props) {
 
   // Memoized WidgetsList component
   const WidgetsList = memo(({ widgets }) => {
-
-    return(
-      
+    return(   
       widgets?.map((widget, index) => {
-        console.log("marhaba");
      
         if (widgets.length === index + 1) {
           return (

@@ -9,7 +9,9 @@ module.exports = {
   theme: {
     extend: {
       maxHeight:{
-        '90%': "90%"
+        '90%': "90%",
+        "450px": "450px",
+        "700px": "700px",
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
