@@ -256,7 +256,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
         const newToken = response.access_token;
 
-        // cook.set("api-token", newToken, options);
+        cook.set("api-token", newToken, options);
 
         setAuthorizationHeader(newToken);
 

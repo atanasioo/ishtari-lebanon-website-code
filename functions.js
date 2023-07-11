@@ -13,6 +13,7 @@ const getHost = async (host) => {
     // host === "localhost:3000") ||
     host === "ishtari.com" ||
     host === "www.ishtari.com" ||
+    host === "https://www.ishtari.com" ||
     host === "https://cloudgoup.com/" ||
     host === "https://www.cloudgoup.com/" ||
     host === "http://cloudgoup.com" ||
@@ -67,6 +68,7 @@ const getHost = async (host) => {
 };
 
 const getMainData = async (token, host) => {
+  console.log("from getmaindata " +host);
   var data = [];
   let response = {};
 

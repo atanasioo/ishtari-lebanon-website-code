@@ -36,7 +36,7 @@ export default function Home(props) {
           hasMore
         ) {
           console.log(entries[0]);
-          setPage((prevPage) => prevPage + 1);
+          // setPage((prevPage) => prevPage + 1);
           // setIsLoading(true);
         }
       });
