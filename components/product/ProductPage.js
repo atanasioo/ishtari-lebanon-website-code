@@ -1563,7 +1563,7 @@ function ProductPage(props) {
 
           <div
             id="dialog"
-            className={` fixed z-50 top-0 left-0 right-0 bottom-0 m-auto w-full h-3/4  md:w-1/2 lg:w-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg `}
+            className={`fixed z-50 top-0 left-0 right-0 bottom-0 m-auto w-full h-fit  md:w-1/2 lg:w-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg `}
           >
             <button
               id="close"
