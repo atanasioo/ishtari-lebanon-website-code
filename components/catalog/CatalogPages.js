@@ -1833,7 +1833,7 @@ function CatalogPage(props) {
                     </div>
                   </div>
 
-                  <div className="flex overflow-x-scroll py-3 ">
+                  <div className="flex overflow-x-scroll py-3 mobile:hidden min-w-full">
                     <div className="flex w-full">
                     {data.filters.map((filter) => {
                       return (
