@@ -1193,7 +1193,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                     );
                   })}
               </div>
-              <div className=" bg-white hidden mobile:block  ">
+              <div className=" hidden mobile:block  ">
                 <Slider
                   {...productSetting}
                   beforeChange={handleBeforeChange}

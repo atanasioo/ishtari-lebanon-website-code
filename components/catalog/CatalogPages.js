@@ -684,7 +684,7 @@ function CatalogPage(props) {
       </div>
 
       <div className="flex">
-        <div className="w-full mobile:w-1/5 mobile:px-5 ">
+        <div className="hidden mobile:block px-5 ">
           {filters &&
             Object.keys(filters).map((key) => (
               <div className="hidden mobile:block">
@@ -850,7 +850,7 @@ function CatalogPage(props) {
               </div>
             ))}
         </div>
-        <div className=" w-full mobile:w-4/5 leading-dtight">
+        <div className="w-full mobile:w-4/5 leading-dtight">
           <div className="flex justify-between">
             {/* Results found */}
             <div className="flex mx-1 mobile:w-4/12 pt-2 mobile:pt-1 ">
