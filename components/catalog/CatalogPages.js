@@ -73,6 +73,10 @@ function CatalogPage(props) {
     const sliderElement = sliderRef.current;
     if (!sliderElement) return;
 
+
+
+    const slider = sliderElement.querySelector(".slider-con");
+
     const contentElement = sliderElement.querySelector(".slider-content");
     const arrowLeftElement = sliderElement.querySelector(".slider-arrow-left");
     const arrowRightElement = sliderElement.querySelector(
@@ -83,6 +87,7 @@ function CatalogPage(props) {
       console.log(contentElement.scrollLeft);
       console.log(contentElement.clientWidth);
       console.log(contentElement.scrollWidth);
+
       // const isOverflowing = contentElement.offsetWidth < contentElement.scrollWidth;
       const maxScroll = contentElement.scrollWidth - contentElement.clientWidth;
       var scrollRight = maxScroll - contentElement.scrollLeft;
@@ -684,7 +689,7 @@ function CatalogPage(props) {
       </div>
 
       <div className="flex">
-        <div className="hidden mobile:block px-5 ">
+        <div className="hidden mobile:block mobile:px-5 ">
           {filters &&
             Object.keys(filters).map((key) => (
               <div className="hidden mobile:block">
@@ -1546,7 +1551,7 @@ function CatalogPage(props) {
                     </div>
                   </div>
 
-                  <div className={styles.slider} ref={sliderRef}>
+                  <div className={`w-full ${styles.slider} slider-con`} ref={sliderRef}>
                     <div
                       className={`${styles["slider-content"]} slider-content`}
                     >
@@ -1817,14 +1822,14 @@ function CatalogPage(props) {
                     </div>
 
                     <div
-                      className={`${styles["slider-arrow"]} ${styles["slider-arrow-left"]} slider-arrow-left  bg-white p-3 hidden mobile:block`}
+                      className={`${styles["slider-arrow"]} ${styles["slider-arrow-left"]} slider-arrow-left  bg-white p-3 `}
                     >
                       {/* Add left arrow SVG icon or custom content */}
                       {/* Example arrow */}
                       <MdOutlineArrowBackIos className="text-d18" />
                     </div>
                     <div
-                      className={`${styles["slider-arrow"]} ${styles["slider-arrow-right"]} slider-arrow-right  text-dbgray bg-white p-3 hidden mobile:block`}
+                      className={`${styles["slider-arrow"]} ${styles["slider-arrow-right"]} slider-arrow-right  text-dbgray bg-white p-3 `}
                     >
                       {/* Add right arrow SVG icon or custom content */}
                       {/* Example arrow */}
