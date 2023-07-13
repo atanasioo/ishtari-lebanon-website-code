@@ -35,6 +35,25 @@ function Account() {
   const signupLast = useRef("");
   const path = "";
 
+
+  const handleFacebookLogin = async () => {
+    const result = await signIn('facebook');
+    alert(result)
+    console.log(result)
+    if (result?.error) {
+      console.log('Facebook login error:', result.error);
+      return;
+    }
+
+    if (session) {
+      try {
+        await axios.post('/api/save-user');
+        console.log('User data saved successfully');
+      } catch (error) {
+        console.log('Error saving user data:', error);
+      }
+    }
+  };
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
@@ -333,7 +352,7 @@ function Account() {
               )}
             /> */}
               </form>
-              <button onClick={() => signIn('facebook')}  className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al"><FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook</button>
+              <button onClick={handleFacebookLogin}  className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al"><FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook</button>
 
           
             </div>

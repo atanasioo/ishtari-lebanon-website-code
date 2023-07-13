@@ -595,8 +595,7 @@ function ProductPart2(props) {
                                     color[
                                       r.name
                                         .replace(/\s+/g, "")
-                                        .charAt(0)
-                                        .toLowerCase()
+                                        .charAt(0)?.toLowerCase()
                                     ] || "red",
                                   minWidth: "56px",
                                 }}
