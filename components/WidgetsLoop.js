@@ -333,24 +333,40 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                             //   }
                             // }}
                           >
-                            <ImageClient
+                            {/* <ImageClient
                               alt={item?.name}
                               src={item.image}
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
                               placeholder={"//placeholder_slideshow.png"}
+                            /> */}
+                            <Image
+                              alt={item?.name}
+                              src={"https://www.ishtari.com/image/" +item.image}
+                              className="w-full"
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              // placeholder={"//placeholder_slideshow.png"}
                             />
                           </Link>
                         ) : (
                           <div data-index={index} key={`slider` + index}>
-                            <ImageClient
+                            {/* <ImageClient
                               alt={item?.name}
                               src={item.image}
                               className="w-full"
                               width={widget.banner_width}
                               height={widget.banner_height}
                               placeholder={"/images/placeholder_slideshow.png"}
+                            /> */}
+                            <Image
+                              alt={item?.name}
+                              src={"https://www.ishtari.com/image/" + item.image}
+                              className="w-full"
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              // placeholder={"/images/placeholder_slideshow.png"}
                             />
                           </div>
                         )
@@ -413,13 +429,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                           //   }
                           // }}
                         >
-                          <ImageClient
+                          {/* <ImageClient
                             src={item.image}
                             alt={item?.name}
                             width={widget.banner_width}
                             height={widget.banner_height}
                             className="w-full"
                             placeholder={"/images/placeholder_slideshow.png"}
+                          /> */}
+                          <Image
+                            src={item.image}
+                            alt={"https://www.ishtari.com/image/" +item?.name}
+                            width={widget.banner_width}
+                            height={widget.banner_height}
+                            className="w-full"
+                            // placeholder={"/images/placeholder_slideshow.png"}
                           />
                         </Link>
                       )}
@@ -569,13 +593,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                 {widget.items.map((item, index) =>
                   item.mobile_type_id === "0" ? (
                     <div data-index={index} key={`sliderM` + index}>
-                      <ImageClient
+                      {/* <ImageClient
                         alt={item?.name}
                         src={item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
                         placeholder={"/images/placeholder_slideshow.png"}
+                      /> */}
+                      <Image
+                        alt={item?.name}
+                        src={"https://www.ishtari.com/image/" +item.image}
+                        className="w-full"
+                        height={widget.banner_height}
+                        width={widget.banner_width}
+                        // placeholder={"/images/placeholder_slideshow.png"}
                       />
                     </div>
                   ) : (
@@ -625,13 +657,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                       }
                       key={Math.random()}
                     >
-                      <ImageClient
+                      {/* <ImageClient
                         alt={item?.name}
                         src={item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
                         placeholder={"/images/placeholder_slideshow.png"}
+                      /> */}
+                      <Image
+                        alt={item?.name}
+                        src={"https://www.ishtari.com/image/" +item.image}
+                        className="w-full"
+                        height={widget.banner_height}
+                        width={widget.banner_width}
+                        // placeholder={"/images/placeholder_slideshow.png"}
                       />
                     </Link>
                   )
@@ -698,9 +738,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                     }
                     className="w-full"
                   >
-                    <ImageClient
+                    {/* <ImageClient
                       alt={item?.name}
                       src={item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name
+                        ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        ?.replace("%", "")
+                        ?.replace(/\s+/g, "-")
+                        ?.replaceAll("/", "-")}
+                      className={`${true && "w-full"}`}
+                    /> */}
+                    <Image
+                      alt={item?.name}
+                      src={"https://www.ishtari.com/image/" +item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -718,9 +770,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    <ImageClient
+                    {/* <ImageClient
                       alt={item?.name}
                       src={item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name
+                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        .replace("%", "")
+                        .replace(/\s+/g, "-")
+                        .replaceAll("/", "-")}
+                      className={"w-full"}
+                    /> */}
+                    <Image
+                      alt={item?.name}
+                      src={"https://www.ishtari.com/image/" +item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -801,9 +865,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                   //   }
                   // }}
                 >
-                  <ImageClient
+                  {/* <ImageClient
                     alt={item?.name}
                     src={item.image}
+                    width={widget?.banner_width}
+                    height={widget?.banner_height}
+                    title={item?.name
+                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      .replace("%", "")
+                      .replace(/\s+/g, "-")
+                      .replaceAll("/", "-")}
+                    className={`${!bool && "w-full"}`}
+                  /> */}
+                  <Image
+                    alt={item?.name}
+                    src={"https://www.ishtari.com/image/" +item.image}
                     width={widget?.banner_width}
                     height={widget?.banner_height}
                     title={item?.name
@@ -821,9 +897,17 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                 key={item.banner_image_id}
               >
                 <Link href={"/latest"}>
-                  <ImageClient
+                  {/* <ImageClient
                     alt={item?.name}
                     src={item.image}
+                    width={widget.banner_width}
+                    height={widget.banner_height}
+                    title={item?.name}
+                    className={"w-full"}
+                  /> */}
+                  <Image
+                    alt={item?.name}
+                    src={"https://www.ishtari.com/image/" +item.image}
                     width={widget.banner_width}
                     height={widget.banner_height}
                     title={item?.name}
@@ -836,9 +920,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                 className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                 key={item.banner_image_id}
               >
-                <ImageClient
+                {/* <ImageClient
                   alt={item?.name}
                   src={item.image}
+                  width={widget.banner_width}
+                  height={widget.banner_height}
+                  title={item?.name
+                    .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                    .replace("%", "")
+                    .replace(/\s+/g, "-")
+                    .replaceAll("/", "-")}
+                  className={`${"w-full"}`}
+                /> */}
+                <Image
+                  alt={item?.name}
+                  src={"https://www.ishtari.com/image/" +item.image}
                   width={widget.banner_width}
                   height={widget.banner_height}
                   title={item?.name
@@ -920,9 +1016,21 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                     //   }
                     // }}
                   >
-                    <ImageClient
+                    {/* <ImageClient
                       alt={item?.name}
                       src={item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name
+                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        .replace("%", "")
+                        .replace(/\s+/g, "-")
+                        .replaceAll("/", "-")}
+                      className={`${"w-full"}`}
+                    /> */}
+                    <Image
+                      alt={item?.name}
+                      src={"https://www.ishtari.com/image/" +item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -940,9 +1048,17 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                   key={item.banner_image_id}
                 >
                   <Link href={"/latest"}>
-                    <ImageClient
+                    {/* <ImageClient
                       alt={item?.name}
                       src={item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name}
+                      className={"w-full"}
+                    /> */}
+                    <Image
+                      alt={item?.name}
+                      src={"https://www.ishtari.com/image/" +item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
@@ -956,9 +1072,20 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    <ImageClient
+                    {/* <ImageClient
                       alt={item?.name}
                       src={item.image}
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      title={item?.name
+                        ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        ?.replace(/\s+/g, "-")
+                        ?.replaceAll("/", "-")}
+                      className={"w-full"}
+                    /> */}
+                    <Image
+                      alt={item?.name}
+                      src={"https://www.ishtari.com/image/" +item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1049,7 +1176,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 : "cat/c=" + item.mobile_type_id
                             }`}
                           >
-                            <ImageClient
+                            {/* <ImageClient
                               alt={item?.name}
                               src={item.image}
                               width={widget.banner_width}
@@ -1061,6 +1188,19 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                               placeholder={
                                 "/images/product_placeholder_square.png"
                               }
+                            /> */}
+                            <Image
+                              alt={item?.name}
+                              src={"https://www.ishtari.com/image/" +item.image}
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              title={item?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                ?.replaceAll("/", "-")}
+                              // placeholder={
+                              //   "/images/product_placeholder_square.png"
+                              // }
                             />
                           </Link>
                         </div>
@@ -1263,7 +1403,7 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 : "cat/c=" + item.mobile_type_id
                             }
                           >
-                            <ImageClient
+                            {/* <ImageClient
                               alt={item?.name}
                               src={item.image}
                               width={widget.banner_width}
@@ -1275,6 +1415,19 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                               placeholder={
                                 "/images/product_placeholder_square.png"
                               }
+                            /> */}
+                            <Image
+                              alt={item?.name}
+                              src={"https://www.ishtari.com/image/" +item.image}
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              title={item?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                ?.replaceAll("/", "-")}
+                              // placeholder={
+                              //   "/images/product_placeholder_square.png"
+                              // }
                             />
                           </Link>
                         </div>
@@ -1352,9 +1505,22 @@ function WidgetsLoop({ widget, likedData, width, initialLoading }) {
                                 : "cat/c=" + item.mobile_type_id
                             }
                           >
-                            <ImageClient
+                            {/* <ImageClient
                               alt={item?.name}
                               src={item.image}
+                              width={widget.banner_width}
+                              height={widget.banner_height}
+                              title={item?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                ?.replaceAll("/", "-")}
+                              placeholder={
+                                "/images/product_placeholder_square.png"
+                              }
+                            /> */}
+                            <Image
+                              alt={item?.name}
+                              src={"https://www.ishtari.com/image/" +item.image}
                               width={widget.banner_width}
                               height={widget.banner_height}
                               title={item?.name
