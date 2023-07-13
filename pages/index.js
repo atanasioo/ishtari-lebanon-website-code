@@ -35,7 +35,7 @@ export default function Home(props) {
           entries[0].intersectionRatio < 1 &&
           hasMore
         ) {
-          setPage((prevPage) => prevPage + 1);
+          // setPage((prevPage) => prevPage + 1);
           // setIsLoading(true);
         }
       });
