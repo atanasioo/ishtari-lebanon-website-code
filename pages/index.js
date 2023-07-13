@@ -2,18 +2,18 @@ import { Inter } from "next/font/google";
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
 import WidgetsLoop from "@/components/WidgetsLoop";
-import { useEffect, useRef, useState, useCallback, memo } from "react";
+import { useEffect, useRef, useState, useCallback, memo, useMemo } from "react";
 const inter = Inter({ subsets: ["latin"] });
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
 import ScrollToTop from "react-scroll-to-top";
-import Image from "next/legacy/image";
+import PointsLoader from "@/components/PointsLoader";
 
 export default function Home(props) {
-  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
+  // const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
+  //   ssr: false, // Disable server-side rendering
+  // });
   const DownloadAppImg = dynamic(() => import("@/components/DownloadAppImg"), {
     ssr: false, // Disable server-side rendering
   });
@@ -36,7 +36,7 @@ export default function Home(props) {
           entries[0].intersectionRatio < 1 &&
           hasMore
         ) {
-          // setPage((prevPage) => prevPage + 1);
+          setPage((prevPage) => prevPage + 1);
           // setIsLoading(true);
         }
       });
@@ -45,7 +45,8 @@ export default function Home(props) {
     [isLoading, hasMore]
   );
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
+  const dataRef = useRef([]);
 
   useEffect(() => {
     // if (page > 1) {
@@ -63,11 +64,13 @@ export default function Home(props) {
         const newData = response?.data?.data?.widgets;
         // setData((prevData) => [...prevData, ...newData]);
 
-        setData((prevWidgets) => {
-          return [
-            ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
-          ];
-        });
+        // setData((prevWidgets) => {
+        //   return [
+        //     ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
+        //   ];
+        // });
+        dataRef.current = [...dataRef.current, ...response?.data?.data?.widgets];
+
 
         // setTimeout(() => {
         //   setInitialLoading(false)
@@ -80,6 +83,8 @@ export default function Home(props) {
       }
     });
     // }
+
+    console.log("hello there");
 
     // setIsLoading(false);
   }, [page]);
@@ -106,72 +111,56 @@ export default function Home(props) {
   // },[])
 
   // Memoized WidgetsList component
-  const WidgetsList = memo(({ widgets }) => {
-    return(   
-      widgets?.map((widget, index) => {
-        return(
-
-        
+  // const WidgetsList = memo(({ widgets }) => {
+  //   return(   
+  //     widgets?.map((widget, index) => {
      
-        // if (widgets.length === index + 1) {
-        //   return (
-        //     <div
-        //       className="theHome "
-        //       ref={lastElementRef}
-        //       key={widget.mobile_widget_id}
-        //     >
-        //       {" "}
-        //       <WidgetsLoop widget={widget} />{" "}
-        //     </div>
-        //   );
-        // } else {
-        //   return (
-        //     <div className="" key={widget.mobile_widget_id}>
-        //       <WidgetsLoop widget={widget} />{" "}
-        //     </div>
-        //   );
-        // }
-        <>
-          <Image src="https://www.ishtari.com/image/data/system_banner/10000/2200/2280/wweb-fisrt-b.png" width={1437} height={319} className="w-full" />
-          <div className="grid grid-cols-6"> 
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-          </div>
-          <div>
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-          </div>
-          <Image src="https://www.ishtari.com/image/data/system_banner/10000/2200/2280/wweb-fisrt-b.png" width={1437} height={319} className="w-full" />
-          <div className="grid grid-cols-6"> 
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
-          </div>
-          <div>
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-            hello from the other sideeeee 
-          </div>
-        </>
+  //       if (widgets.length === index + 1) {
+  //         return (
+  //           <div
+  //             className="theHome "
+  //             ref={lastElementRef}
+  //             key={widget.mobile_widget_id}
+  //           >
+  //             {" "}
+  //             <WidgetsLoop widget={widget} />{" "}
+  //           </div>
+  //         );
+  //       } else {
+  //         return (
+  //           <div className="" key={widget.mobile_widget_id}>
+  //             <WidgetsLoop widget={widget} />{" "}
+  //             {/* <WidgetsLoop widget={widget} />{" "} */}
+  //           </div>
+  //         );
+  //       }
+  //     })
+  //   )
+  // });
 
-        )
-      })
-    
-    )
-    
-  });
+  const WidgetsList = useMemo(() => {
+    return dataRef.current.map((widget, index) => {
+      if (dataRef.current.length === index + 1) {
+        return (
+          <div
+            className="theHome "
+            ref={lastElementRef}
+            key={widget.mobile_widget_id}
+          >
+            {" "}
+            <WidgetsLoop widget={widget} />{" "}
+          </div>
+        );
+      } else {
+        return (
+          <div className="" key={widget.mobile_widget_id}>
+            <WidgetsLoop widget={widget} />{" "}
+            {/* <WidgetsLoop widget={widget} />{" "} */}
+          </div>
+        );
+      }
+    });
+  }, [lastElementRef]);
 
   return (
     <div>
@@ -195,7 +184,9 @@ export default function Home(props) {
             style={{ width: "50px", height: "50px", padding: "7px" }}
           />
         )}
-        <WidgetsList widgets={data} />
+        {/* <WidgetsList widgets={data} /> */}
+
+        {WidgetsList}
 
         {/* {data?.map((widget, index) => {
           if (data.length === index + 1) {
