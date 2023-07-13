@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
@@ -331,13 +331,17 @@ function SingleProduct(props) {
               >
                 <div className="express w-6/12 -mt-1">
                   {props.item.market === "0" ? (
-                    <img
+                    <Image
+                      width={64}
+                      height={24}
                       src={"/images/express.png"}
                       className="h-6 w-16 py-1"
                       alt="Express delivery"
                     />
                   ) : (
-                    <img
+                    <Image
+                      width={64}
+                      height={24}
                       src={"/images/market.svg"}
                       className="h-6 w-16 py-1 "
                       alt={"market image"}
