@@ -8,6 +8,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
 import ScrollToTop from "react-scroll-to-top";
+import Image from "next/legacy/image";
 
 export default function Home(props) {
   const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
@@ -35,7 +36,7 @@ export default function Home(props) {
           entries[0].intersectionRatio < 1 &&
           hasMore
         ) {
-          setPage((prevPage) => prevPage + 1);
+          // setPage((prevPage) => prevPage + 1);
           // setIsLoading(true);
         }
       });
@@ -108,25 +109,64 @@ export default function Home(props) {
   const WidgetsList = memo(({ widgets }) => {
     return(   
       widgets?.map((widget, index) => {
+        return(
+
+        
      
-        if (widgets.length === index + 1) {
-          return (
-            <div
-              className="theHome "
-              ref={lastElementRef}
-              key={widget.mobile_widget_id}
-            >
-              {" "}
-              <WidgetsLoop widget={widget} />{" "}
-            </div>
-          );
-        } else {
-          return (
-            <div className="" key={widget.mobile_widget_id}>
-              <WidgetsLoop widget={widget} />{" "}
-            </div>
-          );
-        }
+        // if (widgets.length === index + 1) {
+        //   return (
+        //     <div
+        //       className="theHome "
+        //       ref={lastElementRef}
+        //       key={widget.mobile_widget_id}
+        //     >
+        //       {" "}
+        //       <WidgetsLoop widget={widget} />{" "}
+        //     </div>
+        //   );
+        // } else {
+        //   return (
+        //     <div className="" key={widget.mobile_widget_id}>
+        //       <WidgetsLoop widget={widget} />{" "}
+        //     </div>
+        //   );
+        // }
+        <>
+          <Image src="https://www.ishtari.com/image/data/system_banner/10000/2200/2280/wweb-fisrt-b.png" width={1437} height={319} className="w-full" />
+          <div className="grid grid-cols-6"> 
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+          </div>
+          <div>
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+          </div>
+          <Image src="https://www.ishtari.com/image/data/system_banner/10000/2200/2280/wweb-fisrt-b.png" width={1437} height={319} className="w-full" />
+          <div className="grid grid-cols-6"> 
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+            <Image src={"https://www.ishtari.com/image/data/system_banner/10000/2400/2301/appliancesk.png"} width={74} height={88} />
+          </div>
+          <div>
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+            hello from the other sideeeee 
+          </div>
+        </>
+
+        )
       })
     
     )

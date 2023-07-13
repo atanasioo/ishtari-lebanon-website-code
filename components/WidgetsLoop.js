@@ -1,6 +1,5 @@
 import SingleProduct from "./product/SingleProduct.js";
 import Slider from "react-slick";
-import DOMPurify from "dompurify";
 import Image from "next/legacy/image";
 import { useRef, useState, useCallback } from "react";
 // import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,7 +15,6 @@ import "slick-carousel/slick/slick-theme.css";
 // import ImageClient from "./imageClient";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import useDeviceSize from "./useDeviceSize.js";
 
 function WidgetsLoop({ widget, likedData, width, initialLoading }) {
   const ImageClient = dynamic(() => import("./ImageClient.js"), { ssr: false });
