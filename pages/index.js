@@ -35,8 +35,7 @@ export default function Home(props) {
           entries[0].intersectionRatio < 1 &&
           hasMore
         ) {
-          console.log(entries[0]);
-          // setPage((prevPage) => prevPage + 1);
+          setPage((prevPage) => prevPage + 1);
           // setIsLoading(true);
         }
       });
@@ -143,7 +142,7 @@ export default function Home(props) {
           content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
         ></meta>
       </Head>
-      <DownloadAppImg />
+      {/* <DownloadAppImg /> */}
       <div className={`overflow-hidden container`}>
         {width < 650 && (
           <ScrollToTop
