@@ -32,8 +32,8 @@ export const authOptions = {
             credentials,
             {
               headers: {
-                Authorization: "Bearer " + token,
-              },
+                Authorization: "Bearer " + token
+              }
             }
           );
 
@@ -48,7 +48,7 @@ export const authOptions = {
               lastname: response.data.data.lastname,
               telephone: response.data.data.telephone
                 ? response.data.data.telephone
-                : null,
+                : null
             };
           } else {
             throw new Error(response.data.errors["0"]?.errorMsg);
@@ -56,7 +56,7 @@ export const authOptions = {
         } catch (error) {
           throw new Error(error.message);
         }
-      },
+      }
     }),
     CredentialsProvider({
       id: "signup",
@@ -79,8 +79,8 @@ export const authOptions = {
             credentials,
             {
               headers: {
-                Authorization: "Bearer " + token,
-              },
+                Authorization: "Bearer " + token
+              }
             }
           );
           if (response.data.success) {
@@ -91,12 +91,12 @@ export const authOptions = {
         } catch (error) {
           throw new Error(error.message);
         }
-      },
+      }
     }),
     FacebookProvider({
       clientId: "130719880936639",
       clientSecret: "4619d8d5d7e5ac00d59e5ffbbb7bf475"
-    }),
+    })
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -109,11 +109,9 @@ export const authOptions = {
       return token;
     },
     async signIn({ user }) {
-console.log(user)
-
+      console.log(user);
 
       if (user) return true;
-    
 
       return false;
     },
@@ -127,8 +125,8 @@ console.log(user)
     },
     async signOut({ callbackUrl, req, res }) {
       return "/";
-    },
-  },
+    }
+  }
 };
 
 export default (req, res) => NextAuth(req, res, authOptions);
