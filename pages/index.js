@@ -1,22 +1,29 @@
-import { Inter } from "next/font/google";
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
 import WidgetsLoop from "@/components/WidgetsLoop";
 import { useEffect, useRef, useState, useCallback, memo, useMemo } from "react";
-const inter = Inter({ subsets: ["latin"] });
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
 import ScrollToTop from "react-scroll-to-top";
-import PointsLoader from "@/components/PointsLoader";
+import { useCookie } from "next-cookie";
+import cookie from "cookie";
+import { getHost } from "@/functions";
+import DownloadAppImg from "@/components/DownloadAppImg";
+
+// import PointsLoader from "@/components/PointsLoader";
 
 export default function Home(props) {
-  // const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-  //   ssr: false, // Disable server-side rendering
-  // });
-  const DownloadAppImg = dynamic(() => import("@/components/DownloadAppImg"), {
+  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
     ssr: false, // Disable server-side rendering
   });
+  // const DownloadAppImg = dynamic(() => import("@/components/DownloadAppImg"), {
+  //   ssr: false, // Disable server-side rendering
+  // });
+
+  const host_url = props.host;
+
+  console.log(host_url);
 
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -69,8 +76,10 @@ export default function Home(props) {
         //     ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
         //   ];
         // });
-        dataRef.current = [...dataRef.current, ...response?.data?.data?.widgets];
-
+        dataRef.current = [
+          ...dataRef.current,
+          ...response?.data?.data?.widgets,
+        ];
 
         // setTimeout(() => {
         //   setInitialLoading(false)
@@ -112,9 +121,9 @@ export default function Home(props) {
 
   // Memoized WidgetsList component
   // const WidgetsList = memo(({ widgets }) => {
-  //   return(   
+  //   return(
   //     widgets?.map((widget, index) => {
-     
+
   //       if (widgets.length === index + 1) {
   //         return (
   //           <div
@@ -171,8 +180,8 @@ export default function Home(props) {
           content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
         ></meta>
       </Head>
-      {/* <DownloadAppImg /> */}
-      <div className={`overflow-hidden container`}>
+      <DownloadAppImg host_url={host_url} />
+      <div className={`overflow-x-hidden container`}>
         {width < 650 && (
           <ScrollToTop
             smooth
@@ -184,7 +193,6 @@ export default function Home(props) {
             style={{ width: "50px", height: "50px", padding: "7px" }}
           />
         )}
-        {/* <WidgetsList widgets={data} /> */}
 
         {WidgetsList}
 
@@ -223,6 +231,40 @@ export default function Home(props) {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context){
+  const { req } = context;
+  const cook = useCookie(context);
+  const host = req.headers.host;
+  const cookies = req.headers.cookie;
+  if (typeof cookies !== "undefined"){
+    const parsedCookies = cookie.parse(cookies);
+    const host_cookie = parsedCookies["site-local-name"];
+    let site_host = "";
+    if ((typeof host_cookie === "undefined") && host !== "localhost:3000" && host !== "localhost:3001") {
+      site_host = host;
+    }else if((host_cookie === undefined || typeof host_cookie === "undefined") && (host === "localhost:3000" || host === "localhost:3001")){
+      cook.set("site-local-name", "ishtari");
+      site_host= "ishtari";
+    } else {
+      site_host = host_cookie;
+    }
+    const host_url = await getHost(site_host);
+
+    // console.log("host_url iss" +host_url);
+    return{
+      props: {
+        host: host_url
+      }
+    }
+  }else{
+    return{
+      props: {
+        host: host
+      }
+    }
+  }
 }
 
 // export async function getServerSideProps(context) {

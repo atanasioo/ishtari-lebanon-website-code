@@ -1,8 +1,8 @@
 
-function DownloadAppImg() {
+function DownloadAppImg(props) {
   return (
     <div>
-        { window.config["site-url"] === "https://www.ishtari.com" && (
+        { props.host_url === "https://www.ishtari.com" && (
           <img
             style={{ marginTop: "-1px" }}
             src={"/images/download.gif"}
@@ -13,7 +13,7 @@ function DownloadAppImg() {
             }
           />
         )}
-        {window.config["site-url"] === "https://www.ishtari.com.gh" && (
+        {props.host_url === "https://www.ishtari.com.gh" && (
           <img
             style={{ marginTop: "-1px" }}
             src={"/images/download.gif"}
