@@ -687,7 +687,7 @@ function CatalogPage(props) {
       </div>
 
       <div className="flex">
-        <div className="hidden mobile:block mobile:px-5 ">
+        <div className="hidden mobile:block mobile:w-1/5 mobile:px-5 ">
           {filters &&
             Object.keys(filters).map((key) => (
               <div className="hidden mobile:block">
