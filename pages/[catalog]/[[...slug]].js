@@ -254,14 +254,18 @@ export async function getServerSideProps(context) {
 
         if (limit != undefined) {
           filter += "&limit=" + limit;
+        }else{
+          filter += "$limit=50";
         }
 
         link =
           buildLink("filter", undefined, undefined, site_host) +
           "&path=" +
           slug[0].split("=")[1] +
-          filter +
+          filter + 
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
+          
+          console.log(link);
 
         const response = await axiosServer.get(link, {
           headers: {

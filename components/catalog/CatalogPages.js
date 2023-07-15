@@ -21,11 +21,11 @@ import {
   IoIosArrowDown,
   IoIosCheckbox,
   IoIosCheckboxOutline,
-  IoMdCheckbox
+  IoMdCheckbox,
 } from "react-icons/io";
 import {
   MdOutlineArrowForwardIos,
-  MdOutlineArrowBackIos
+  MdOutlineArrowBackIos,
 } from "react-icons/md";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
@@ -52,7 +52,7 @@ function CatalogPage(props) {
     speed: 200,
     slidesToShow: 8,
     slidesToScroll: 3,
-    infinite: false
+    infinite: false,
     // prevArrow: <CustomPrevArrows direction={"l"} />,
     // nextArrow: <CustomNextArrows direction={"r"} />
   };
@@ -61,7 +61,7 @@ function CatalogPage(props) {
     speed: 200,
     slidesToShow: 3.5,
     slidesToScroll: 3,
-    infinite: false
+    infinite: false,
   };
 
   const sliderRef = useRef(null);
@@ -82,10 +82,6 @@ function CatalogPage(props) {
     );
 
     const handleResize = () => {
-      console.log(contentElement.scrollLeft);
-      console.log(contentElement.clientWidth);
-      console.log(contentElement.scrollWidth);
-
       // const isOverflowing = contentElement.offsetWidth < contentElement.scrollWidth;
       const maxScroll = contentElement.scrollWidth - contentElement.clientWidth;
       var scrollRight = maxScroll - contentElement.scrollLeft;
@@ -104,7 +100,6 @@ function CatalogPage(props) {
 
       // arrowLeftElement.style.display = isOverflowingLeft ? "block" : "none";
       arrowRightElement.style.display = isOverflowingRight ? "block" : "none";
-      console.log(scrollRight);
 
       if (isOverflowingRight) {
         // arrowLeftElement.addEventListener('click', slideLeft);
@@ -191,26 +186,28 @@ function CatalogPage(props) {
     page,
     sort,
     order,
-    limit
+    limit,
   } = router.query;
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
     value: "p2co.sort_order-ASC",
-    text: "Default"
+    text: "Default",
   });
   const [topFilter, setTopFilter] = useState({
     show: false,
     name: "",
-    offset: 0
+    offset: 0,
   });
 
   const [showLimit, setShowLimit] = useState(false);
 
   const [limitValue, setLimit] = useState({
     value: "50",
-    text: "50"
+    text: "50",
   });
+
+  // console.log(checkFilter("filter_sellers", "Blue", filter));
 
   const limitRef = useRef(null);
   useOutsideLimit(limitRef);
@@ -274,11 +271,15 @@ function CatalogPage(props) {
 
       if (topFilter.show) {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target)) {
+          if (
+            ref.current &&
+            !ref.current.contains(event.target) &&
+            width > 650
+          ) {
             setTopFilter({
               show: false,
               name: topFilter.name,
-              offset: topFilter.offset
+              offset: topFilter.offset,
             });
           }
         }
@@ -320,7 +321,7 @@ function CatalogPage(props) {
 
     setLimit({
       value: limitData.value,
-      text: limitData.text
+      text: limitData.text,
     });
     // alert(now);
     var now = "&limit=" + limitData.value;
@@ -396,26 +397,26 @@ function CatalogPage(props) {
         setTopFilter({
           show: false,
           name: name,
-          offset: topFilter.offset
+          offset: topFilter.offset,
         });
       } else if (topFilter.name !== name && topFilter.show === true) {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off
+          offset: off > 531 ? 531 : off,
         });
       } else {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off
+          offset: off > 531 ? 531 : off,
         });
       }
     } else {
       setTopFilter({
         show: true,
         name: name,
-        offset: off > 531 ? 531 : off
+        offset: off > 531 ? 531 : off,
       });
     }
   };
@@ -456,6 +457,7 @@ function CatalogPage(props) {
         name === "jeans Size" ||
         name === "Socks")
     ) {
+      console.log("hello from the other side");
       if (filter_options.indexOf(filter["id"]) > -1) {
         return "border rounded text-dblue border-dblue p-2";
       } else {
@@ -625,6 +627,7 @@ function CatalogPage(props) {
       router.push("/" + catalog + "/" + slug[0]);
     }
   }
+
   // Toggle filters
   function toggleFilters(e) {
     const h_sender = e;
@@ -673,7 +676,7 @@ function CatalogPage(props) {
               href="/"
               className="hidden md:block text-dblack font-light truncate text-d12 md:text-tiny mr-2 hover:text-dblue"
               dangerouslySetInnerHTML={{
-                __html: "Home"
+                __html: "Home",
               }}
             />{" "}
             <span className="text-d11 mt-1">{" >"}</span>
@@ -721,7 +724,7 @@ function CatalogPage(props) {
                                   <img
                                     src={filter.image}
                                     style={{
-                                      padding: `1px`
+                                      padding: `1px`,
                                     }}
                                     className={`w-12/12 rounded-full border border-dgreyRate`}
                                     alt="Not Found"
@@ -800,7 +803,7 @@ function CatalogPage(props) {
                                       <img
                                         src={filter.image}
                                         style={{
-                                          padding: `1px`
+                                          padding: `1px`,
                                         }}
                                         className={`w-12/12 rounded-full border border-dgreyRate`}
                                         alt="Not Found"
@@ -864,7 +867,7 @@ function CatalogPage(props) {
               <h1
                 className="font-semibold capitalize text-d16"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.heading_title)
+                  __html: sanitizeHTML(data.heading_title),
                 }}
               />
               {data.heading_title && '"'}
@@ -888,7 +891,7 @@ function CatalogPage(props) {
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(sortValue?.text)
+                          __html: sanitizeHTML(sortValue?.text),
                         }}
                       />
                       <span
@@ -913,7 +916,7 @@ function CatalogPage(props) {
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={sort.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(sort.text)
+                              __html: sanitizeHTML(sort.text),
                             }}
                           ></span>
                         ))}
@@ -937,7 +940,7 @@ function CatalogPage(props) {
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(limitValue.text + " PER PAGE")
+                          __html: sanitizeHTML(limitValue.text + " PER PAGE"),
                         }}
                       />
                       {/* {!showLimit ? (
@@ -966,7 +969,7 @@ function CatalogPage(props) {
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={limit.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(limit.text)
+                              __html: sanitizeHTML(limit.text),
                             }}
                           ></span>
                         ))}
@@ -1029,7 +1032,7 @@ function CatalogPage(props) {
                           className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                           key={s.value}
                           dangerouslySetInnerHTML={{
-                            __html: s.text
+                            __html: s.text,
                           }}
                         ></span>
 
@@ -1082,7 +1085,7 @@ function CatalogPage(props) {
                           />
                           <h2
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(category.name)
+                              __html: sanitizeHTML(category.name),
                             }}
                             className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                           ></h2>
@@ -1123,7 +1126,7 @@ function CatalogPage(props) {
 
                         <h2
                           dangerouslySetInnerHTML={{
-                            __html: sanitizeHTML(category.name)
+                            __html: sanitizeHTML(category.name),
                           }}
                           className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                         ></h2>
@@ -1254,13 +1257,25 @@ function CatalogPage(props) {
                                           <img
                                             src={filter.image}
                                             style={{
-                                              padding: `2px`
+                                              padding: `2px`,
                                             }}
-                                            className={`w-7 h-7 rounded-full mr-1 ${checkFilter(
-                                              filters[key]?.id,
-                                              filter.name,
+                                            className={`w-7 h-7 rounded-full  mr-1 
+                                            ${checkFilter(
+                                              filters[
+                                                data.filters.findIndex(
+                                                  (x) =>
+                                                    x.name === topFilter.name
+                                                )
+                                              ].id,
+                                              filters[
+                                                data.filters.findIndex(
+                                                  (x) =>
+                                                    x.name === topFilter.name
+                                                )
+                                              ].name,
                                               filter
-                                            )}`}
+                                            )}
+                                            `}
                                             alt={filters[key]?.id}
                                           />
 
@@ -1393,7 +1408,7 @@ function CatalogPage(props) {
                         setTopFilter({
                           show: false,
                           name: topFilter.name,
-                          offset: 0
+                          offset: 0,
                         })
                       }
                     ></div>
@@ -1408,7 +1423,7 @@ function CatalogPage(props) {
                           setTopFilter({
                             show: false,
                             name: topFilter.name,
-                            offset: 0
+                            offset: 0,
                           })
                         }
                       ></div>
@@ -1475,20 +1490,38 @@ function CatalogPage(props) {
                                       className=" flex items-center justify-between cursor-pointer hover:text-dblue"
                                       key={filter.name}
                                       onClick={() =>
-                                        parseFilter(filters[key].id, filter.id)
+                                        parseFilter(
+                                          // filters[key].id,
+                                          filters[
+                                            data.filters.findIndex(
+                                              (x) => x.name === topFilter.name
+                                            )
+                                          ].id,
+                                          filter.id
+                                        )
                                       }
                                     >
                                       <span className="flex">
                                         <img
                                           src={filter.image}
                                           style={{
-                                            padding: `2px`
+                                            padding: `2px`,
                                           }}
-                                          className={`w-7 h-7 rounded-full  pt-5 ${checkFilter(
-                                            filters[key]?.id,
-                                            filter.name,
+                                          className={`w-7 h-7 rounded-full 
+                                          ${checkFilter(
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].id,
+                                            filters[
+                                              data.filters.findIndex(
+                                                (x) => x.name === topFilter.name
+                                              )
+                                            ].name,
                                             filter
-                                          )}`}
+                                          )}
+                                          `}
                                           alt={filter.name}
                                         />
 
@@ -1516,8 +1549,8 @@ function CatalogPage(props) {
                                           )
                                         }
                                       >
-                                        <i
-                                          className={`icon mr-1 text-base  ${checkFilter(
+                                        <i className={`icon mr-1 text-base`}>
+                                          {checkFilter(
                                             filters[
                                               data.filters.findIndex(
                                                 (x) => x.name === topFilter.name
@@ -1525,9 +1558,9 @@ function CatalogPage(props) {
                                             ].id,
                                             filter.name,
                                             filter
-                                          )}`}
-                                        ></i>
-                                        <span className="text-d13 font-light">
+                                          )}
+                                        </i>
+                                        <span className="text-d13 font-light ml-1">
                                           {filter.name}
                                           {data.filters.findIndex(
                                             (x) => x.name === topFilter.name
@@ -2189,7 +2222,7 @@ function CatalogPage(props) {
                                 <img
                                   src={filter.image}
                                   style={{
-                                    padding: `1px`
+                                    padding: `1px`,
                                   }}
                                   className={`w-12/12 rounded-full border border-dgreyRate`}
                                   alt="Not Found"
@@ -2268,7 +2301,7 @@ function CatalogPage(props) {
                                     <img
                                       src={filter.image}
                                       style={{
-                                        padding: `1px`
+                                        padding: `1px`,
                                       }}
                                       className={`w-12/12 rounded-full border border-dgreyRate`}
                                       alt="Not Found"

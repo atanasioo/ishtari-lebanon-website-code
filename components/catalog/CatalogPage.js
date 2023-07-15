@@ -343,7 +343,8 @@ function CatalogPage(props) {
 
   function checkFilter(type, name, filter) {
     // console.log(router.asPath);
-    // console.log(type);
+    //  console.log(type);
+     console.log(name);
     if (
       filter_options != undefined &&
       (name === "Color" || name === "Light Color")
@@ -1160,7 +1161,7 @@ function CatalogPage(props) {
                                             style={{
                                               padding: `2px`
                                             }}
-                                            className={`w-7 h-7 rounded-full mr-1 ${checkFilter(
+                                            className={`w-7 h-7 rounded-full  mr-1 ${checkFilter(
                                               filters[key]?.id,
                                               filter.name,
                                               filter
