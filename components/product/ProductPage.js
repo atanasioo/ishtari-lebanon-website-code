@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BsChevronRight, BsFillHeartFill, BsWhatsapp } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsFillHeartFill, BsWhatsapp } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaBus } from "react-icons/fa";
