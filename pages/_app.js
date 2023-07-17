@@ -1,7 +1,7 @@
 import {
   axiosServer,
   getToken,
-  setAuthorizationHeader
+  setAuthorizationHeader,
 } from "@/axiosServer.js";
 import { getHost, getMainData } from "@/functions";
 import Layout from "@/components/layout/layout";
@@ -18,19 +18,20 @@ import { AccountProvider } from "@/contexts/AccountContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { SellerProvider, useSellerContext } from "@/contexts/SellerContext";
-import packageJson from '@/package.json'
-import moment      from 'moment';
+import packageJson from "@/package.json";
+import moment from "moment";
 
 // import AsideMenu from "@/components/layout/AsideMenu";
 import Head from "next/head";
 import buildInfo from "@/build-info.json";
+import { HostProvider } from "@/contexts/HostContext";
 export default function App({
   Component,
   pageProps,
   header_categories,
   footer_categories,
   information_data,
-  host
+  host,
 }) {
   const router = useRouter();
   const topRef = useRef(null);
@@ -44,11 +45,10 @@ export default function App({
   // const { isUserSeller, setIsUserSeller } = useSllerContext();
   useEffect(() => {
     const handleStart = (url) => {
-      const excludeHome = url === "/"
-      if(!excludeHome){
+      const excludeHome = url === "/";
+      if (!excludeHome) {
         setLoading(true);
       }
-      
     };
 
     const handleComplete = () => {
@@ -94,7 +94,6 @@ export default function App({
     title = "ishtari | online Shopping in Ghana";
   }
 
-
   return (
     <SessionProvider>
       <Head>
@@ -106,41 +105,41 @@ export default function App({
           <WishlistProvider>
             <CurrencyProvider>
               <SellerProvider>
-                <div className="" ref={topRef}>
-                  {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
+                <HostProvider>
+                  <div className="" ref={topRef}>
+                    {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
 
-                  {loading && (
-                    <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
-                      <img
-                        src={"/images/loader.gif"}
-                        alt="loader-gif"
-                        heigh="110"
-                        width="110"
-                      />
-                    </div>
-                  )}
-                  <Layout
-                    header_categories={header_categories}
-                    footer_categories={footer_categories}
-                    information_data={information_data}
-                    host={host}
-                  >
-                    <div className="bg-dprimarybg min-h-screen">
-                      <div className="md:container ">
-                        <Component {...pageProps} />
+                    {loading && (
+                      <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+                        <img
+                          src={"/images/loader.gif"}
+                          alt="loader-gif"
+                          heigh="110"
+                          width="110"
+                        />
                       </div>
-                    </div>
-                  </Layout>
-                </div>
-                <div className="text-xs text-dgrey1">
-                {'V'+packageJson.version}
-                {'.'}
-                {buildTimestamp}
-                {' '}
-                {'('}
-                {formattedDate}
-                {')'}
-            </div>
+                    )}
+                    <Layout
+                      header_categories={header_categories}
+                      footer_categories={footer_categories}
+                      information_data={information_data}
+                      host={host}
+                    >
+                      <div className="bg-dprimarybg min-h-screen">
+                        <div className="md:container ">
+                          <Component {...pageProps} />
+                        </div>
+                      </div>
+                    </Layout>
+                  </div>
+                  <div className="text-xs text-dgrey1">
+                    {"V" + packageJson.version}
+                    {"."}
+                    {buildTimestamp} {"("}
+                    {formattedDate}
+                    {")"}
+                  </div>
+                </HostProvider>
               </SellerProvider>
             </CurrencyProvider>
           </WishlistProvider>
@@ -167,7 +166,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
   let options = {
     path: "/",
     maxAge: maxAgeInSeconds,
-    expires: new Date(Date.now() + maxAgeInSeconds * 1000) // Calculate expiration date
+    expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
   };
 
   let host_url = "";
@@ -214,7 +213,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           // footer_categories: resp.footer_data.data?.data,
           // information_data: resp.information_data.data?.data,
           token: newToken,
-          host: site_host
+          host: site_host,
         };
       } catch (error) {
         console.error(
@@ -241,7 +240,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       // Return the fetched data as props
 
       return {
-        host: site_host
+        host: site_host,
       };
     }
   } else {
@@ -270,7 +269,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
           footer_categories: resp.footer_data.data.data,
           information_data: resp.information_data?.data.data,
           token: newToken,
-          host: host
+          host: host,
         };
       } catch (error) {
         // Handle any errors that occurred during the token request
@@ -281,6 +280,6 @@ App.getInitialProps = async ({ Component, ctx }) => {
     }
   }
   return {
-    host: host_url
+    host: host_url,
   };
 };

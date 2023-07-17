@@ -22,6 +22,8 @@ import LogofloOrange from "/public/images/logo-flo-orange.png";
 import { AccountContext } from "@/contexts/AccountContext";
 import { useRouter } from "next/router";
 import CountryDropdown from "./CountryDropdown";
+import { HostContext } from "@/contexts/HostContext";
+import LogoClient from "@/components/LogoClient";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -34,6 +36,9 @@ function Header(props) {
   const [stateAcc, dispatch] = useContext(AccountContext);
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
+  const host = useContext(HostContext);
+
+  console.log(host);
 
   const serverSideDomain = props.host;
 
@@ -113,9 +118,9 @@ function Header(props) {
   const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
     ssr: false, // Disable server-side rendering
   });
-  const LogoClient = dynamic(() => import("@/components/LogoClient"), {
-    ssr: false, // Disable server-side rendering
-  });
+  // const LogoClient = dynamic(() => import("@/components/LogoClient"), {
+  //   ssr: false, // Disable server-side rendering
+  // });
   const CountryDropdown = dynamic(() => import("./CountryDropdown"), {
     ssr: false, // Disable server-side rendering
   });
@@ -234,7 +239,7 @@ function Header(props) {
                 />
               </>
             ) : (
-              <LogoClient />
+              <LogoClient host={host} />
             )}
           </Link>
         </div>

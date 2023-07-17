@@ -2,10 +2,10 @@ import Image from "next/image";
 import React from "react";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 
-function LogoClient() {
+function LogoClient(props) {
   return (
     <div>
-      {window.location.host === "https://www.flo-lebanon.com" ? (
+      {props.host === "https://www.flo-lebanon.com" ? (
         <Image
           src={LogofloOrange}
           width={width > 768 ? 130 : 100}
@@ -14,11 +14,11 @@ function LogoClient() {
           priority={true}
           style={{ width: "80%", height: "auto" }}
         />
-      ) : window.location.host === "https://www.ishtari.com" ||
-        window.location.host === "https://www.ishtari.com.gh" ||
-        window.location.host === "ishtari" ||
-        window.location.host === "ishtari-ghana" ||
-        window.location.host === "next.ishtari.com"
+      ) : props.host === "https://www.ishtari.com" ||
+        props.host === "https://www.ishtari.com.gh" ||
+        props.host === "ishtari" ||
+        props.host === "ishtari-ghana" ||
+        props.host === "next.ishtari.com"
          ? (
         <>
           <Image
