@@ -99,13 +99,21 @@ export const authOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user , account, profile, isNewUser}) {
       if (user) {
         token.customer_id = user.customer_id;
         token.firstname = user.firstname;
         token.lastname = user.lastname;
         token.telephone = user.telephone;
       }
+
+      if (account?.provider === 'facebook' && user?.id) {
+        token.facebookUserId = user.id;
+        token.name = profile.name;
+        token.username = profile.username;
+      }
+
+
       return token;
     },
     async signIn({ user }) {

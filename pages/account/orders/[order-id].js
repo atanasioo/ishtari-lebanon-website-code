@@ -64,6 +64,8 @@ function OrderDetails() {
 
   return (
     <div>
+
+
       <Head>
         <title>My Account | ishtari</title>
       </Head>
@@ -207,7 +209,7 @@ function OrderDetails() {
             <div className="mt-7">
               {width > 650 ? (
                 <table className="w-full  text-left">
-                  <thead className="border">
+                <thead className="border">
                     <th className=" border-l  px-4  py-1 text-sm">#</th>
                     <th className="border-l px-2 md:px-4 py-1  text-sm">
                       Product
@@ -304,6 +306,8 @@ function OrderDetails() {
           </div>
         )
       )}
+
+
     </div>
   );
 }

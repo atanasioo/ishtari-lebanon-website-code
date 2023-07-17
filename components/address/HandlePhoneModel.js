@@ -142,7 +142,7 @@ function HandlePhoneModel(props) {
             onFocus={(e) => setShow(e.target.value.length > 1)}
             onBlur={() => setShow(false)}
             required
-            value={phone}
+            ref={phone}
             className={!valid && `${red} !important`}
             minLength={7}
             maxLength={
@@ -159,7 +159,9 @@ function HandlePhoneModel(props) {
           <input
             id="phoneUser"
             autoComplete={false}
-            value={phone}
+            ref={phone}
+          
+            
             className={!valid && `${red} !important`}
             minLength={window.config["zone"] === "82" ? 11 : 8}
             required

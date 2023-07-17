@@ -7,7 +7,7 @@ import buildLink from "@/urls";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
-
+import Cookies from "js-cookie";
 function profile() {
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
@@ -101,7 +101,9 @@ function profile() {
   }
 
   function logout() {
-    axiosServer.post(buildLink("logout")).then(() => {});
+    axiosServer.post(buildLink("logout")).then(() => {
+      Cookies.set("cid", 0)
+    });
   }
 
   function ChangePassword(e) {

@@ -47,7 +47,19 @@ function Account() {
 
     if (session) {
       try {
-        await axios.post('/api/save-user');
+        const obj = {
+          provider: "facebook",
+          social_access_token: response.accessToken,
+          email: response?.email
+            ? response?.email
+            : response.id + "@ishtari-mobile.com",
+          id: response.id
+        };
+    
+        _axios.post(buildLink("social"), obj).then(() => {
+          checkLogin();
+          window.location.reload();
+        })
         console.log('User data saved successfully');
       } catch (error) {
         console.log('Error saving user data:', error);
@@ -180,7 +192,7 @@ function Account() {
     checkLogin();
     dispatch({ type: "setSeller", payload: false });
     Cookies.remove("seller_id");
-    window.location.reload();
+    window.location.href="/";
   }
 
   useEffect(() => {

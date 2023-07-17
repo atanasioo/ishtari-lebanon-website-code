@@ -8,7 +8,6 @@ import Loader from "./Loader";
 import { AccountContext } from "../contexts/AccountContext";
 import buildLink, { path, pixelID } from "../urls";
 import { CartContext } from "../contexts/CartContext";
-
 import useDeviceSize from "@/components/useDeviceSize";
 import HeaderCheckout from "@/components/HeaderCheckout";
 import { CurrencyContext } from "../contexts/CurrencyContext";
@@ -17,6 +16,7 @@ import DOMPurify from "dompurify";
 import dynamic from "next/dynamic";
 import { ImLocation } from "react-icons/im";
 import { FaMoneyBillWaveAlt, FaBus } from "react-icons/fa";
+import HandlePhoneModel from "./PhoneHanlder";
 function CheckoutCompnents() {
   const [state, dispatchAccount] = useContext(AccountContext);
   const [cartState, dispatch] = useContext(CartContext);
@@ -94,9 +94,9 @@ function CheckoutCompnents() {
 
   // dynamic
 
-  const HandlePhoneModel = dynamic(() => import("./PhoneHanlder"), {
-    ssr: false // Disable server-side rendering
-  });
+  // const HandlePhoneModel = dynamic(() => import("./PhoneHanlder"), {
+  //   ssr: false // Disable server-side rendering
+  // });
 
   const CellulantCheckoutPopup = dynamic(
     () => import("./CellulantCheckoutPopup"),
@@ -193,7 +193,7 @@ function CheckoutCompnents() {
           setloged(false);
           // alert(2)
           getCart();
-          if (cid < 1) {
+          if (!state.loged) {
             if (!state.admin) {
               dispatchAccount({ type: "setShowOver", payload: true });
               dispatchAccount({ type: "setShowLogin", payload: true });
@@ -492,7 +492,7 @@ function CheckoutCompnents() {
         }
       });
 
-    if (cid < 1) {
+    if (!state.loged) {
       if (!state.admin) {
         // dispatchAccount({ type: "setShowOver", payload: true });
         // dispatchAccount({ type: "setShowLogin", payload: true });
@@ -607,7 +607,7 @@ function CheckoutCompnents() {
   useEffect(() => {
     if (
       (window.config["site-url"] === "https://www.flo-lebanon.com" ||
-        localStorage.getItem("site-local-name") === "flo" ||
+        Cookies.get("site-local-name") === "flo" ||
         firstPath === "bey") &&
       !state.admin
     ) {
@@ -630,7 +630,7 @@ function CheckoutCompnents() {
       var obj = {
         //mobile nb for the customer
         msisdn: telephone.current?.value.replace("-", ""),
-        account_number: localStorage.getItem("cid"),
+        account_number: Cookies.get("cid"),
         country_code: "GHA",
         currency_code: manualResponse.default_currency,
         customer_first_name: firstname.current?.value,
@@ -748,7 +748,7 @@ function CheckoutCompnents() {
             setCellulantPopup(true);
             setCellulantCheckoutObj({
               msisdn: telephone.current?.value.replace("-", ""),
-              account_number: localStorage.getItem("cid"),
+              account_number: Cookies.get("cid"),
               callback_url: data.callback_url,
               country_code: "GHA",
               currency_code: manualResponse.default_currency,
@@ -1180,7 +1180,7 @@ function CheckoutCompnents() {
                                 phoneHanlder={phoneHanlder}
                                 setConfirmDisalbe={setConfirmDisalbe}
                                 AdminPhoneHandler={AdminPhoneHandler}
-                              />{" "}
+                              />{" "} 
                               <p className="text-dbase text-xs ml-2"> {err} </p>{" "}
                             </div>{" "}
                           </div>{" "}
@@ -2121,7 +2121,7 @@ function CheckoutCompnents() {
                               className="pl-4 cursor-pointer"
                               onClick={() => changeCurrency("USD")}
                             >
-                              {/* {localStorage.getItem("currency") === "USD" ? (
+                              {/* {Cookies.get("currency") === "USD" ? (
                               <input
                                 name="currency"
                                 type="radio"
@@ -2169,7 +2169,7 @@ function CheckoutCompnents() {
                               onClick={() => changeCurrency("LBP")}
                             >
                               <span>
-                                {/* {localStorage.getItem("currency") === "LBP" ? (
+                                {/* {Cookies.get("currency") === "LBP" ? (
                               <input
                                 name="currency"
                                 type="radio"
