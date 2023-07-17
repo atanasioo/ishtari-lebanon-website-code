@@ -18,8 +18,7 @@ function LogoClient(props) {
         props.host === "https://www.ishtari.com.gh" ||
         props.host === "ishtari" ||
         props.host === "ishtari-ghana" ||
-        props.host === "next.ishtari.com"
-         ? (
+        props.host === "next.ishtari.com" ? (
         <>
           <Image
             className="hidden mobile:block"
@@ -40,7 +39,25 @@ function LogoClient(props) {
           />
         </>
       ) : (
-        <></>
+        <>
+          <Image
+            className="hidden mobile:block"
+            src="/images/logo/logo-red.png"
+            width={130}
+            height={130}
+            alt="ishtari-logo"
+            priority={true}
+            style={{ width: "80%", height: "auto" }}
+          />
+
+          <ImageFilter
+            className="h-5 w-24 mr-5 mobile:hidden"
+            image={"/images/logo/logo-white.png"}
+            filter={"duotone"} 
+            colorOne={[96, 96, 96]}
+            colorTwo={[65, 69, 81]}
+          />
+        </>
       )}
     </div>
   );
