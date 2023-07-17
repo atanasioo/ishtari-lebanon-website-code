@@ -1527,10 +1527,11 @@ function CatalogPage(props) {
 
                                         <p className="p-2 mx-2 text-d13 w-8/12 font-light">
                                           {" "}
-                                          {filter.name} -{" "}
+                                          {filter.name} 
+                                          {/* -{" "}
                                           {data.filters.findIndex(
                                             (x) => x.name === topFilter.name
-                                          )}
+                                          )} */}
                                         </p>
                                       </span>
                                       <span className="text-d13  text-right font-light ">

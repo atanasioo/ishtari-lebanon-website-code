@@ -217,27 +217,27 @@ mySwiper .swiper-button-next {
 }
 
 @media only screen and (min-width: 768px) {
-  .sliderSwiper .izCJif,
-  .sliderSwiper .heEmBF {
+  .sliderSwiper .swiper-button-prev .izCJif,
+  .sliderSwiper .swiper-button-next .heEmBF {
     display: inline-block !important;
   }
 }
 
-.sliderSwiper .heEmBF {
+.sliderSwiper  .swiper-button-next .heEmBF {
   height: 100%;
   width: auto;
   transform-origin: left center;
   transform: scaleX(1);
-  transition: transform 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s;
+  transition: transform 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s!important;
   display: none;
 }
 
-.sliderSwiper .izCJif {
+.sliderSwiper .swiper-button-prev .izCJif {
   height: 100%;
   width: auto;
   transform-origin: right center;
   transform: scaleX(1);
-  transition: transform 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s;
+  transition: transform 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s!important;
   display: none;
 }
 
@@ -269,13 +269,16 @@ mySwiper .swiper-button-next {
   transform: scaleX(3.5);
 }
 
-.sliderSwiper .izCJif .sliderSwiper .wave {
-  transition: all 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s;
+.sliderSwiper .swiper-button-prev .izCJif .wave {
+  transition: all 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s !important;
+}
+.sliderSwiper .swiper-button-next .heEmBF .wave {
+  transition: all 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s !important;
 }
 
 .sliderSwiper .activeFill {
   fill: rgb(255, 255, 255);
-  transition: all 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s;
+  transition: all 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s !important;
 }
 
 @media only screen and (min-width: 768px) {

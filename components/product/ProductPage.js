@@ -26,6 +26,7 @@ import { WishlistContext } from "../../contexts/WishlistContext";
 import SingleProductBundle from "./SingleProductBundle";
 import Slider from "react-slick";
 import ProductOptionModal from "./ProductOptionModal";
+import WhatsappBtn from "./WhatsappBtn";
 
 function ProductPage(props) {
   //Server props
@@ -80,9 +81,9 @@ function ProductPage(props) {
   const SellerImage = dynamic(() => import("./SellerImage"), {
     ssr: false, // Disable server-side rendering
   });
-  const WhatsappBtn = dynamic(() => import("./WhatsappBtn"), {
-    ssr: false, // Disable server-side rendering
-  });
+  // const WhatsappBtn = dynamic(() => import("./WhatsappBtn"), {
+  //   ssr: false, // Disable server-side rendering
+  // });
 
   const router = useRouter();
   const product_id = router.query.slug[0].includes("p=")
