@@ -43,9 +43,9 @@ function SlugPage(props) {
             ? props.data?.name
             : props.data?.heading_title
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
-          {(props.type === "product"
+          {props.data?.heading_title || props.data?.name && (props?.type === "product"
             ? props.data?.name.replaceAll("&amp;", "&")
-            : props.data?.heading_title.replaceAll("&amp;", "&") + " | ishtari"
+            : props.data?.heading_title && props.data?.heading_title.replaceAll("&amp;", "&") + " | ishtari"
           ).replaceAll("<!-- -->", "")}
         </title>
         <meta
@@ -129,7 +129,7 @@ export async function getServerSideProps(context) {
   }
 
   const config = await getConfig(site_host);
-
+   var path = "&path="
   if (typeof slug !== "undefined") {
     if (catalog === "product" || slug[0].includes("p=")) {
       // get product id
@@ -187,6 +187,7 @@ export async function getServerSideProps(context) {
         } else {
           id = slug[0];
         }
+        path = "&manufacturer_id="
       } else if (catalog === "seller" || slug[0].includes("s=")) {
         type = "seller";
         if (slug[0].includes("s=")) {
@@ -194,6 +195,8 @@ export async function getServerSideProps(context) {
         } else {
           id = slug[0];
         }
+        path = "&seller_id="
+
       }
       var filter = "";
       if (!has_filter) {
@@ -227,6 +230,9 @@ export async function getServerSideProps(context) {
         data = response.data.data;
       } else {
         var filter = "";
+        if (has_filter !== undefined) {
+          filter += "&has_filter=" + has_filter;
+        }
         if (filter_categories !== undefined) {
           filter += "&filter_categories=" + filter_categories;
         }
@@ -257,16 +263,16 @@ export async function getServerSideProps(context) {
         if (limit != undefined) {
           filter += "&limit=" + limit;
         }else{
-          filter += "$limit=50";
+          filter += "&limit=50";
         }
 
         link =
           buildLink("filter", undefined, undefined, site_host) +
-          "&path=" +
+           path + 
           slug[0].split("=")[1] +
           filter + 
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
-          
+          console.log("FFFFFFFFFFFFFF");
           console.log(link);
 
         const response = await axiosServer.get(link, {

@@ -417,13 +417,14 @@ function Cart(props) {
                     <div classname="">
                       {/* Desktop Design */}
                       <div
-                        className={`hidden xl:flex lg:flex mb-2 px-4 py-2 rounded ${
+                        className={`hidden xl:flex lg:flex mb-2 px-4 py-2 rounded justify-center items-center ${
                           product.stock ? "bg-white " : "bg-dbase bg-opacity-10"
                         }`}
                       >
                         {select && showSelect && (
+                          <div className="">
                           <input
-                            className="mr-2"
+                            className="mx-1"
                             type="checkbox"
                             id={product.cart_id}
                             onClick={() => change(product.cart_id)}
@@ -434,6 +435,7 @@ function Cart(props) {
                             }
                             name="chk"
                           />
+                          </div>
                         )}
                         <img
                           onClick={() =>
@@ -524,20 +526,22 @@ function Cart(props) {
                         }`}
                       >
                         <div className="w-3/12 ">
-                          <div className="flex">
+                          <div className="flex justify-center items-center">
                             {select && showSelect && (
-                              <input
-                                className=""
-                                type="checkbox"
-                                id={product.cart_id}
-                                onClick={() => change(product.cart_id)}
-                                checked={
-                                  selectProduct.indexOf(product.cart_id) > -1
-                                    ? "checked"
-                                    : ""
-                                }
-                                name="chk"
-                              />
+                            <div className="">
+                            <input
+                              className="mx-1"
+                              type="checkbox"
+                              id={product.cart_id}
+                              onClick={() => change(product.cart_id)}
+                              checked={
+                                selectProduct.indexOf(product.cart_id) > -1
+                                  ? "checked"
+                                  : ""
+                              }
+                              name="chk"
+                            />
+                            </div>
                             )}
                             <img
                               onClick={() =>

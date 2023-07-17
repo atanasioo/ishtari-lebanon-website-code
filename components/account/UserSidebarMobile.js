@@ -55,7 +55,7 @@ function UserSidebarMobile(props) {
       >
         <div className="flex flex-col justify-between h-full items-center w-24">
           <div className="text-center">
-          <MdAvTimer className=" my-1 text-d20" />
+          <MdAvTimer className=" my-1 text-2xl" />
           </div>
           <span className="text-center text-d11 mt-1">Recently Viewed</span>
         </div>
