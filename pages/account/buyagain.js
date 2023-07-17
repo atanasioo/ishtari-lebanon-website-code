@@ -58,7 +58,7 @@ function buyagain() {
       <Head>
         <title>My Account | ishtari</title>
       </Head>
-      <div>
+      <div className="pb-2">
         <div className="flex-row md:flex">
           <div className="w-full mb-3 md:w-1/5">
             {width > 650 ? (

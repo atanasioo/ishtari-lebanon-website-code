@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../../contexts/AccountContext";
 import buildLink, { path } from "../../urls";
-import {BsFillCartCheckFill, BsFillHeartFill} from 'react-icons/bs'
-import {MdAvTimer} from "react-icons/md"
+import { BsFillCartCheckFill, BsFillHeartFill } from "react-icons/bs";
+import { MdAvTimer } from "react-icons/md";
 import Link from "next/link";
 import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
@@ -16,9 +16,7 @@ function UserSidebar(props) {
   const [showBuyArrow, setShowBuyArrow] = useState(false);
   const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
 
-
   const [showProfileArrow, setShowProfileArrow] = useState(false);
-
 
   return true ? (
     <aside
@@ -28,6 +26,35 @@ function UserSidebar(props) {
       }}
     >
       <ul className="lg:py-3 py-1">
+        <li
+          onMouseEnter={() => {
+            setShowProfileArrow(true);
+          }}
+          onMouseLeave={() => {
+            setShowProfileArrow(false);
+          }}
+        >
+          <Link
+            href={`${path}/account/profile`}
+            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            style={{ color: "rgb(126,133,155)" }}
+          >
+            <FaUserAlt className="text-d16 text-dbase" />
+            <span
+              className={`flex-1 ml-3 ${
+                props.active === "profile" && "font-semibold underline"
+              }`}
+              style={{
+                color: props.active === "profile" ? "rgb(64,69,83)" : "",
+              }}
+            >
+              Profile
+            </span>
+            {showProfileArrow && (
+              <img className="-mr-1" src={"/images/arrow-right.svg"} />
+            )}{" "}
+          </Link>
+        </li>
         <li
           onMouseEnter={() => {
             setShowOrderArrow(true);
@@ -41,7 +68,7 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <FaMoneyBillWave className="text-d16 text-dbase"/>
+            <FaMoneyBillWave className="text-d16 text-dbase" />
             <span
               className={`flex-1 ml-3 ${
                 props.active === "orders" && "font-semibold underline"
@@ -52,10 +79,11 @@ function UserSidebar(props) {
             >
               Orders
             </span>
-            {showOrderArrow && <img className="-mr-1" src={"/images/arrow-right.svg"} alt=""/>}{" "}
+            {showOrderArrow && (
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+            )}{" "}
           </Link>
         </li>
-
 
         <li
           onMouseEnter={() => {
@@ -81,10 +109,11 @@ function UserSidebar(props) {
             >
               Buy Again
             </span>
-            {showBuyArrow && <img className="-mr-1" src={"/images/arrow-right.svg"} alt=""/>}{" "}
+            {showBuyArrow && (
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+            )}{" "}
           </Link>
         </li>
-
 
         <li
           onMouseEnter={() => {
@@ -108,9 +137,11 @@ function UserSidebar(props) {
                 color: props.active === "recentlyViewed" ? "rgb(64,69,83)" : "",
               }}
             >
-             Recently Viewed
+              Recently Viewed
             </span>
-            {showRecentlyViewedArrow && <img className="-mr-1" src={"/images/arrow-right.svg"} alt=""/>}{" "}
+            {showRecentlyViewedArrow && (
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+            )}{" "}
           </Link>
         </li>
         <li
@@ -123,7 +154,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/address`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="px-16 md:px-0 md:pl-6 lg:px-8 xl:px-10 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
             <ImLocation className="text-d16 text-dbase" />
@@ -137,7 +168,9 @@ function UserSidebar(props) {
             >
               Addresses
             </span>
-            {showAddArrow && <img className="-mr-1" src={"/images/arrow-right.svg"} alt=""/>}{" "}
+            {showAddArrow && (
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+            )}{" "}
           </Link>
         </li>
         <li
@@ -164,34 +197,9 @@ function UserSidebar(props) {
             >
               WishList
             </span>
-            {showWishArrow && <img className="-mr-1" src={"/images/arrow-right.svg"} alt=""/>}{" "}
-          </Link>
-        </li>
-        <li
-          onMouseEnter={() => {
-            setShowProfileArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowProfileArrow(false);
-          }}
-        >
-          <Link
-            href={`${path}/account/profile`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
-          >
-            <FaUserAlt className="text-d16 text-dbase" />
-            <span
-              className={`flex-1 ml-3 ${
-                props.active === "profile" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "profile" ? "rgb(64,69,83)" : "",
-              }}
-            >
-              Profile
-            </span>
-            {showProfileArrow && <img className="-mr-1" src={"/images/arrow-right.svg"} />}{" "}
+            {showWishArrow && (
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+            )}{" "}
           </Link>
         </li>
       </ul>

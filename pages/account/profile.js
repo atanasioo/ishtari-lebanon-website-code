@@ -242,7 +242,7 @@ function profile() {
               </div>
             </div>
 
-            <div className="my-4 px-8 bg-white">
+            <div className="my-4 px-1 md:px-8 bg-white">
               <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center">
                 General Info
               </p>
@@ -282,7 +282,7 @@ function profile() {
               </form>
             </div>
 
-            <div className="my-4 px-8 bg-white">
+            <div className="my-4 px-1 md:px-8 bg-white">
               <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center">
                 Security
               </p>
@@ -321,7 +321,7 @@ function profile() {
                   </div>
                 </div>
                 <div
-                  className={`flex pt-4 ${width > 650 ? "gap-10" : "gap-8"}`}
+                  className={`flex flex-col mobile:flex-row pt-4 ${width > 650 ? "gap-10" : "gap-8"}`}
                 >
                   <div className={width > 650 ? "w-1/2" : "w-full"}>
                     <div className={`${equal ? "input" : "errorInput"}`}>
@@ -355,7 +355,7 @@ function profile() {
               </div>
             </div>
 
-            <div className="my-4 px-8 bg-white">
+            <div className="my-4 px-1 md:px-8 bg-white">
               <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
                 Email Notifications
               </p>
@@ -394,7 +394,7 @@ function profile() {
               </div>
             </div>
 
-            <div className="my-4 px-8 bg-white">
+            <div className="my-4 px-1 md:px-8 bg-white">
               <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
                 Account Deletion
               </p>

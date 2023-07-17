@@ -633,7 +633,7 @@ function Cart(props) {
                   {window.innerWidth > 650 && (
                     <div className="mt-6">
                       <Link
-                        className="rounded px-3 py-2 border border-dblue text-dblue text-d16 font-semibold mt-12"
+                        className="rounded px-3 py-2 border border-dblue text-dblue text-d16 pr-semibold mt-12"
                         href="/"
                       >
                         Continue Shopping
@@ -668,9 +668,9 @@ function Cart(props) {
                   )}
 
                   {window.innerWidth < 650 && (
-                    <div className="p-4">
+                    <div className="py-4">
                       <Link
-                        className="block rounded px-3 py-2 text-center  border border-dblue text-dblue text-d16 font-semibold w-full"
+                        className="block rounded px-3 py-2 text-center  border-2 border-dblue text-dblue text-d16 pr-semibold w-full"
                         href="/"
                       >
                         Continue Shopping

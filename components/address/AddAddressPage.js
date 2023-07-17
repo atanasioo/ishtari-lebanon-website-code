@@ -12,12 +12,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { HiLocationMarker } from "react-icons/hi";
 import GoogleMap from "./GoogleMap";
-
-
-import GoogleMapReact from "google-map-react";
-import { ImLocation } from "react-icons/im";
-import { MdLocationOn } from "react-icons/md";
-import Geocode from "react-geocode";
 import Link from "next/link";
 
 function AddAddressPage(props) {
@@ -360,8 +354,8 @@ function AddAddressPage(props) {
                         alt="country-flag"
                         src={
                           window.location.host === "www.ishtari.com" ||
-                          window.location.host === "www.sari3.com" ||
-                          Cookies.get("site-local-name") === "ishtari"
+                          window.location.host === "next.ishtari.com" ||
+                          Cookies.get("site-local-name") === "ishtari"  
                             ? "/images/flags/lebanon.svg"
                             : "/images/flags/ghana.svg"
                         }

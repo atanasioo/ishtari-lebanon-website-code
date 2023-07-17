@@ -69,6 +69,9 @@ function ProductPage(props) {
   const [checked, setChecked] = useState(["0"]);
   const [showModel, setShowModel] = useState(false);
   const [value, setValue] = useState(0);
+  const [result, setResult] = useState();
+  const [nameValue, setName] = useState("");
+  const [descriptionValue, setDescription] = useState("");
   const [showOptionModal, setShowOptionModal] = useState({
     show: false,
     bundle: null,
