@@ -7,8 +7,8 @@ import buildLink from "@/urls";
 import ProductPage from "@/components/product/ProductPage";
 import CatalogPage from "@/components/catalog/CatalogPage";
 import CatalogPages from "@/components/catalog/CatalogPages";
+import { getConfig } from "@/functions";
 function SlugPage(props) {
-  console.log(props)
   const router = useRouter();
   const [isCatalog, setIsCatalog] = useState(false);
   const [isProduct, setIsProduct] = useState(false);
@@ -61,6 +61,7 @@ function SlugPage(props) {
             data={props.data}
             host={props.host}
             hovered={props.hovered}
+            config={props.config}
           />
         </>
       ) : (
@@ -126,6 +127,9 @@ export async function getServerSideProps(context) {
   } else {
     site_host = host_cookie;
   }
+
+  const config = await getConfig(site_host);
+
   if (typeof slug !== "undefined") {
     if (catalog === "product" || slug[0].includes("p=")) {
       // get product id
@@ -156,9 +160,7 @@ export async function getServerSideProps(context) {
           notFound: true
         };
       }
-      console.log(response);
       data = response?.data?.data;
-      console.log();
       type = "product";
     } else if (
       catalog === "category" ||
@@ -291,6 +293,7 @@ export async function getServerSideProps(context) {
         data,
         type,
         host,
+        config,
         // page,
         hovered: false,
         isLoading: "false",

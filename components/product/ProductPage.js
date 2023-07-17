@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BsChevronLeft, BsChevronRight, BsFillHeartFill, BsWhatsapp } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsFillHeartFill } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaBus } from "react-icons/fa";
@@ -30,7 +30,7 @@ import WhatsappBtn from "./WhatsappBtn";
 
 function ProductPage(props) {
   //Server props
-  const { data, host, hovered } = props; //instead of productData
+  const { data, host, hovered, config } = props; //instead of productData
   //contexts
   const [accountState, dispatchAccount] = useContext(AccountContext);
   const [state, dispatch] = useContext(CartContext);
@@ -81,9 +81,6 @@ function ProductPage(props) {
   const SellerImage = dynamic(() => import("./SellerImage"), {
     ssr: false, // Disable server-side rendering
   });
-  // const WhatsappBtn = dynamic(() => import("./WhatsappBtn"), {
-  //   ssr: false, // Disable server-side rendering
-  // });
 
   const router = useRouter();
   const product_id = router.query.slug[0].includes("p=")
@@ -1315,7 +1312,7 @@ function ProductPage(props) {
                 )}
 
                 <div className="my-4 hidden mobile:block">
-                  <WhatsappBtn product_id={product_id} />
+                  <WhatsappBtn product_id={product_id} config={config} />
                 </div>
               </div>
             </div>
@@ -1499,20 +1496,8 @@ function ProductPage(props) {
           {/* Product Description */}
 
           <div className="my-4 container block mobile:hidden">
-            {/* <a
-              className=""
-              // href={`https://api.whatsapp.com/send?phone=${
-              //   window.config["countryCode"] + accountstate.wtspNumber
-              // }&text=Hi%20there%20i%27m%20interested%20in%20${
-              //   window.config["site-url"]
-              // }/product/${product_id}`}
-            >
-              <div className=" flex justify-around items-center bg-dgreen w-8/12 py-2 px-4 text-white rounded-md">
-                <BsWhatsapp className="w-5 h-5" />
-                <p className="text-md ml-4">Whatsapp Support</p>
-              </div>
-            </a> */}
-            <WhatsappBtn product_id={product_id} />
+
+            <WhatsappBtn product_id={product_id} config={config} />
           </div>
 
           <div
