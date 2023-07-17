@@ -38,7 +38,6 @@ function Header(props) {
   const router = useRouter();
   const host = useContext(HostContext);
 
-  console.log(host);
 
   const serverSideDomain = props.host;
 
@@ -239,7 +238,7 @@ function Header(props) {
                 />
               </>
             ) : (
-              <LogoClient host={host} />
+              <LogoClient host={host.host} />
             )}
           </Link>
         </div>
