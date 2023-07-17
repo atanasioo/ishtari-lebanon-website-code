@@ -336,7 +336,7 @@ function ProductPart2(props) {
                             </div>
                           </div>
                         </div>
-                        {/* {!stateAccount.loged && ( */}
+                        {!stateAccount.loged && (
                         <div className="grid place-items-center ">
                           <div></div>
                           <div className="text-center ml-12">
@@ -363,7 +363,7 @@ function ProductPart2(props) {
                           </div>
                           <div></div>
                         </div>
-                        {/* )} */}
+                       )} 
                       </div>
                       <div className="p-1 py-2">
                         <div className="flex">
