@@ -2,27 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-// import "swiper/swiper.min.css";
-// import 'swiper/css/pagination.min.css';
-// import 'swiper/css/navigation.min.css';
+import dynamic from "next/dynamic";
+
+const SwiperComponent = dynamic(() => import("./SwiperComponent"), {
+  ssr: false
+});
+
 import Slider from "react-slick";
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
 import Image from "next/image";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import WidgetsLoop from "../WidgetsLoop";
 import styles from "/styles/slider.module.css";
 import { CustomArrowProps } from "react-slick";
-import {
-  IoIosArrowDown,
-  IoIosCheckbox,
-  IoIosCheckboxOutline,
-  IoMdCheckbox
-} from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 import {
   MdOutlineArrowForwardIos,
   MdOutlineArrowBackIos
@@ -35,12 +28,9 @@ import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import ScrollToTop from "react-scroll-to-top";
 function CatalogPage(props) {
-  // const [filters, setFilters] = useState(props.data?.filters );
   const { data } = props; //instead of productData
-  // const {filters} = data; //instead of productData
   const filters = data?.filters;
   var isLoading = useRef(false);
-  // const [data, setData] = useState(props.data);
   const [showSort, setShowSort] = useState(false);
   const [showMobileSort, setShowMobileSort] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
@@ -188,6 +178,33 @@ function CatalogPage(props) {
     order,
     limit
   } = router.query;
+  const clearFilter = (filter) => {
+    console.log("router");
+    console.log(router);
+
+    setTopFilter({
+      show: false,
+      name: "",
+      offset: 0
+    });
+
+    let params = new URLSearchParams(location.search);
+    if (filter.id === "filter_sellers") {
+      params && params.delete("filter_sellers");
+    } else if (filter.id === "filter_manufacturers") {
+      params && params.delete("filter_manufacturers");
+    } else if (filter.id === "filter_options") {
+      params && params.delete("filter_options");
+    } else if (filter.id === "filter_categories") {
+      params && params.delete("filter_categories");
+    } else if (filter.id === "adv_filters") {
+      params && params.delete("adv_filters");
+    } else if (filter.id === "filter_price") {
+      params && params.delete("filter_price");
+    }
+
+    router.push({ pathname: "/" + catalog + "/" + slug, search: params });
+  };
 
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
@@ -1171,11 +1188,18 @@ function CatalogPage(props) {
                 </div>
               ))}
           </div>
+          <div className="hidden mobile:block pt-3">
+            <SwiperComponent
+              data={data}
+              onButtonClick={parseFilter}
+              onHandleClickTopFilter={handleTopFilter}
+            />
+          </div>
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
-              <div className="  w-full block relative z-20 ">
-                <div className="relative flex items-center mb-3 mt-4">
+              <div className=" w-full block relative z-20 ">
+                <div className="relative flex items-center mb-3">
                   <div
                     className={`catalog-top-filter hidden mobile:block  ${
                       topFilter.show ? "catalog-top-filter-open " : ""
@@ -1859,7 +1883,6 @@ function CatalogPage(props) {
                                   className={`text-d14 px-3 py-1 flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl ${checkMainFilter(
                                     filter
                                   )}`}
-                                
                                 >
                                   <span className="w-max">
                                     {filter.name.charAt(0).toUpperCase() +
@@ -1882,7 +1905,6 @@ function CatalogPage(props) {
                               filter.id != undefined &&
                               filter.id.replace('"', "").includes(item.id)
                             ) {
-                       
                               return (
                                 <div>
                                   <button
@@ -1891,7 +1913,6 @@ function CatalogPage(props) {
                                   >
                                     <div
                                       className={`text-d14 bg-dgreyRate px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
-                                 
                                     >
                                       <span className="w-max">{item.name}</span>
                                       <span className="ml-2">
@@ -1933,12 +1954,9 @@ function CatalogPage(props) {
                                         onClick={() =>
                                           parseFilter(filter.id, item.id)
                                         }
-
-                                   
                                       >
                                         <div
                                           className={`text-d14 px-3 py-1 overflow-hidden flex-nowrap flex justify-between items-center bg-dgreyRate rounded-2xl `}
-                                     
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -2047,7 +2065,6 @@ function CatalogPage(props) {
                                       >
                                         <div
                                           className={`text-d14 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                         
                                         >
                                           <span className="w-max">
                                             <span className="font-bold mr-1">
@@ -2092,280 +2109,6 @@ function CatalogPage(props) {
                 </div>
               </div>
             )}
-          <div
-            className={` ${
-              700 > 650
-                ? "button-wrapper overflow-hidden"
-                : "overflow-x-auto py-1"
-            } items-center w-full whitespace-nowrap`}
-            id={`button-wrapper`}
-          >
-            <Swiper
-              slidesPerView={"auto"}
-              modules={[Navigation, Pagination, Scrollbar, A11y]}
-              freeMode={true}
-              draggable={false}
-              navigation={true}
-              pagination={false}
-              // scrollbar={{ draggable: true }}
-              onSwiper={(swiper) => console.log(swiper)}
-              onSlideChange={() => console.log("slide change")}
-              className="myFilterSwiper"
-            >
-              {data.filters.map((filter) => {
-                return (
-                  filter.items.length > 0 &&
-                  filter.name !== "Socks" &&
-                  filter.name !== "Size by Age" && (
-                    <SwiperSlide
-                      key={Math.random()}
-                      id={filter.name}
-                      onClick={() => handleTopFilter(filter.name)}
-                    >
-                      <button className="p-1 " id={filter.name}>
-                        <div
-                          className={`text-d14 px-3 py-1 flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl ${checkMainFilter(
-                            filter
-                          )}`}
-                          // style={{
-                          //   paddingTop: "5px",
-                          //   paddingBottom: "5px"
-                          // }}
-                        >
-                          <span className="w-max">
-                            {filter.name.charAt(0).toUpperCase() +
-                              filter.name.slice(1)}
-                          </span>
-                          <span className="ml-2">
-                            <IoIosArrowDown className="text-d18" />
-                          </span>
-                        </div>
-                      </button>
-                    </SwiperSlide>
-                  )
-                );
-              })}
-              {data.filters.map((filter) => {
-                return (
-                  filter.items.length > 0 &&
-                  filter.items.map((item) => {
-                    if (
-                      filter.id != undefined &&
-                      filter.id.replace('"', "").includes(item.id)
-                    ) {
-                      // console.log(userFilters);
-                      return (
-                        <SwiperSlide>
-                          <button
-                            className="p-1 "
-                            onClick={() => parseFilter(filter.id, item)}
-                          >
-                            <div
-                              className={`text-d14 bg-dgreyRate px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
-                              // style={{
-                              //   paddingTop: "6px",
-                              //   paddingBottom: "6px"
-                              // }}
-                            >
-                              <span className="w-max">{item.name}</span>
-                              <span className="ml-2">
-                                <AiOutlineClose className="text-d18" />
-                              </span>
-                            </div>
-                          </button>
-                        </SwiperSlide>
-                      );
-                    }
-                  })
-                );
-              })}
-              {data.filters.map((filter) => {
-                return (
-                  filter.items.length > 0 &&
-                  filter.items.slice(0, 3).map((item) => {
-                    if (
-                      filter.id != undefined &&
-                      !filter.id.includes(item.id)
-                    ) {
-                      if (filter.name === "Sellers") {
-                        const temp = Math.max(
-                          ...filter.items.map((o) => {
-                            if (
-                              filter.id != undefined &&
-                              !filter.id.includes(o.id)
-                            ) {
-                              return Number(o.count);
-                            }
-                          })
-                        );
-
-                        if (temp && Number(item.count) === temp) {
-                          return (
-                            <SwiperSlide>
-                              <button
-                                className="p-1 "
-                                onClick={() => parseFilter(filter.id, item.id)}
-
-                                // onClick={() =>
-                                //   parseFilter(
-                                //     filters[
-                                //       data.filters.findIndex(
-                                //         (x) => x.name === topFilter.name
-                                //       )
-                                //     ].id,
-                                //     item.id
-                                //   )
-                                // }
-                              >
-                                <div
-                                  className={`text-d14 px-3 py-1 overflow-hidden flex-nowrap flex justify-between items-center bg-dgreyRate rounded-2xl `}
-                                  // style={{
-                                  //   paddingTop: "6px",
-                                  //   paddingBottom: "6px"
-                                  // }}
-                                >
-                                  <span className="w-max">
-                                    <span className="font-bold mr-1">
-                                      Seller:
-                                    </span>
-                                    {item.name}
-                                  </span>
-                                </div>
-                              </button>
-                            </SwiperSlide>
-                          );
-                        }
-                      } else if (filter.name === "Brands") {
-                        const temp = Math.max(
-                          ...filter.items.map((o) => {
-                            if (
-                              filter.id != undefined &&
-                              !filter.id.includes(o.id)
-                            ) {
-                              return Number(o.count);
-                            }
-                          })
-                        );
-                        if (temp && Number(item.count) === temp) {
-                          return (
-                            <SwiperSlide>
-                              <button
-                                className="p-1"
-                                onClick={() => parseFilter(filter.id, item.id)}
-                              >
-                                <div
-                                  className={`text-d14 px-3 py-1  flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                >
-                                  <span className="w-max">
-                                    <span className="font-bold mr-1">
-                                      Brand:
-                                    </span>
-                                    {item.name}
-                                  </span>
-                                </div>
-                              </button>
-                            </SwiperSlide>
-                          );
-                        }
-                      } else if (filter.name === "Color") {
-                        const temp = Math.max(
-                          ...filter.items.map((o) => {
-                            if (
-                              filter.id != undefined &&
-                              !filter.id.includes(o.id)
-                            ) {
-                              return Number(o.count);
-                            }
-                          })
-                        );
-                        if (temp && Number(item.count) === temp) {
-                          return (
-                            <SwiperSlide>
-                              <button
-                                className="p-1"
-                                onClick={() => parseFilter(filter.id, item.id)}
-                              >
-                                <div
-                                  className={`text-d14 py-1 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                >
-                                  <span className="w-max">
-                                    <span className="font-bold mr-1">
-                                      Color:
-                                    </span>
-                                    {item.name}
-                                  </span>
-                                </div>
-                              </button>
-                            </SwiperSlide>
-                          );
-                        }
-                      } else if (filter.name === "Shoes size") {
-                        const temp = Math.max(
-                          ...filter.items.map((o) => {
-                            if (
-                              filter.id != undefined &&
-                              filter.id.replaceAll('"', "").includes(o.id)
-                            ) {
-                              return Number(o.count);
-                            }
-                          })
-                        );
-                        if (
-                          temp &&
-                          Number(item.count) === temp &&
-                          filter.items.length < 3
-                        ) {
-                          return (
-                            <SwiperSlide>
-                              <button
-                                className="p-1"
-                                onClick={() => parseFilter(filter.id, item.id)}
-                              >
-                                <div
-                                  className={`text-d14 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                                  // style={{
-                                  //   paddingTop: "6px",
-                                  //   paddingBottom: "6px"
-                                  // }}
-                                >
-                                  <span className="w-max">
-                                    <span className="font-bold mr-1">
-                                      Shoes Size:
-                                    </span>
-                                    {item.name}
-                                  </span>
-                                </div>
-                              </button>
-                            </SwiperSlide>
-                          );
-                        } else {
-                          return (
-                            <SwiperSlide>
-                              <button
-                                className="p-1"
-                                onClick={() => parseFilter(filter.id, item.id)}
-                              >
-                                <div
-                                  className={`text-d14 bg-dgreyRate px-3 py-1 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-not-selected`}
-                                >
-                                  <span className="w-max">
-                                    <span className="font-bold mr-1">
-                                      Shoes Size:
-                                    </span>
-                                    {item.name}
-                                  </span>
-                                </div>
-                              </button>
-                            </SwiperSlide>
-                          );
-                        }
-                      }
-                    }
-                  })
-                );
-              })}
-            </Swiper>
-          </div>
           <div
             className={`grid transition-all mobile:pt-2 ${
               productDisplay === "grid"
