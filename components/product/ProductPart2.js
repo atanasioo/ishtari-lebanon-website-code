@@ -809,7 +809,7 @@ function ProductPart2(props) {
                 More to explore
               </p>
               {width < 650 ? (
-                <div className="flex overflow-x-scroll">
+                <div className="flex overflow-x-scroll py-2">
                   {productData2.product_categories?.map((category) => (
                     <Link
                       key={category.category_id}
