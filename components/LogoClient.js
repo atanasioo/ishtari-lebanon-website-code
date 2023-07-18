@@ -20,22 +20,24 @@ function LogoClient(props) {
         props.host === "ishtari-ghana" ||
         props.host === "next.ishtari.com" ? (
         <>
-          <Image
-            className="hidden mobile:block"
-            src="/images/logo/logo-red.png"
-            width={130}
-            height={130}
-            alt="ishtari-logo"
-            priority={true}
-            style={{ width: "80%", height: "auto" }}
-          />
+          
+          
 
-          <ImageFilter
+          {/* <ImageFilter
             className="h-5 w-24 mr-5 mobile:hidden"
             image={"/images/logo/logo-white.png"}
             filter={"duotone"} // see docs beneath
             colorOne={[96, 96, 96]}
             colorTwo={[65, 69, 81]}
+          /> */}
+          <Image
+            className="mobile:hidden"
+            src="/images/logo/logo-dblack.png"
+            width={96}
+            height={40}
+            alt="ishtari-logo"
+            priority={true}
+            style={{ width: "78%", height: "auto" }}
           />
         </>
       ) : (
@@ -50,12 +52,21 @@ function LogoClient(props) {
             style={{ width: "80%", height: "auto" }}
           />
 
-          <ImageFilter
+          {/* <ImageFilter
             className="h-5 w-24 mr-5 mobile:hidden"
             image={"/images/logo/logo-white.png"}
-            filter={"duotone"} 
+            filter={"duotone"}
             colorOne={[96, 96, 96]}
             colorTwo={[65, 69, 81]}
+          /> */}
+          <Image
+            className="mobile:hidden"
+            src="/images/logo/logo-dblack.png"
+            width={96}
+            height={40}
+            alt="ishtari-logo"
+            priority={true}
+            style={{ width: "78%", height: "auto" }}
           />
         </>
       )}

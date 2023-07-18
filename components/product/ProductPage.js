@@ -72,6 +72,7 @@ function ProductPage(props) {
   const [result, setResult] = useState();
   const [nameValue, setName] = useState("");
   const [descriptionValue, setDescription] = useState("");
+  const descriptionRef= useRef();
   const [showOptionModal, setShowOptionModal] = useState({
     show: false,
     bundle: null,
@@ -90,6 +91,8 @@ function ProductPage(props) {
     ? router.query.slug[0].split("=")[1]
     : router.query.slug[0];
 
+    console.log(product_id);
+
   const productBundlesSetting = {
     speed: 200,
     slidesToShow: 3,
@@ -106,6 +109,12 @@ function ProductPage(props) {
     prevArrow: <CustomPrevArrows direction={"l"} />,
     nextArrow: <CustomNextArrows direction={"r"} />,
   };
+
+
+  useEffect(()=>{
+    // to force re-render when navigating using client side
+    setLoader(true);
+  },[router])
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
@@ -281,15 +290,21 @@ function ProductPage(props) {
       });
       if (node) observer.current.observe(node);
     },
-    [loader]
+    [loader, router.asPath]
   );
 
   const titleRef = useRef();
   function handleClick() {
-    titleRef.current.scrollIntoView({ behavior: "smooth" });
+    if(titleRef.current !== null){
+      titleRef.current.scrollIntoView({ behavior: "smooth" });
+    }else{
+      descriptionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    
   }
 
   function getProductPart2() {
+    console.log("hello part 2");
     // console.log("entered");
     var link =
       buildLink("product", undefined, window.innerWidth, window.config['site-url']) +
@@ -1529,6 +1544,7 @@ function ProductPage(props) {
               />{" "}
             </div>
           </div>
+          <div ref={descriptionRef}></div>
           <ProductPart2
             titleRef={titleRef}
             loader={loader}

@@ -75,6 +75,35 @@ function ProductPart2(props) {
     s: "#DC143C",
   };
 
+  const textColor = {
+    a: "#FFEBCD	",
+    b: "#00BFFF",
+    c: "#00BFFF",
+    d: "#00BFFF",
+    e: "#DC143C",
+    f: "#bf1b26",
+    g: "#008000",
+    h: "#008000",
+    i: "#008000",
+    j: "#008000",
+    k: "#008000",
+    l: "#008000",
+    m: "#008000",
+    n: "#008000",
+    o: "#F08080	",
+    p: "#bf1b26",
+    q: "#bf1b26",
+    r: "#DC143C",
+    t: "#FFD700",
+    u: "#bf1b26",
+    v: "#bf1b26",
+    w: "#bf1b26",
+    x: "#bf1b26",
+    y: "#00BFFF",
+    z: "#00BFFF",
+    s: "#00BFFF",
+  };
+
   function changeRating(newRating, name) {
     // console.log(newRating);
     setRatingCustomer(newRating);
@@ -422,8 +451,30 @@ function ProductPart2(props) {
                               }
                             >
                               <div className="flex items-center">
-                                <div className="flex rounded-full w-14 h-14  bg-Orangeflo  text-white  text-d22 items-center justify-center disable">
-                                  F
+                                <div
+                                  className="flex rounded-full w-14 h-14 text-white  text-d22 items-center justify-center disable"
+                                  style={{
+                                    backgroundColor:
+                                      color[
+                                        stateAccount.username
+                                          .replace(/\s+/g, "")
+                                          .charAt(0)
+                                          .toLowerCase()
+                                      ],
+                                    color:
+                                      textColor[
+                                        stateAccount.username
+                                          .replace(/\s+/g, "")
+                                          .charAt(0)
+                                          .toLowerCase()
+                                      ],
+                                  }}
+                                >
+                                  {" "}
+                                  {stateAccount.username
+                                    .replace(/\s+/g, "")
+                                    .charAt(0)
+                                    .toUpperCase()}
                                 </div>
                                 <div className="flex flex-col ml-3">
                                   <div className=""> Fatima</div>
@@ -595,7 +646,8 @@ function ProductPart2(props) {
                                     color[
                                       r.name
                                         .replace(/\s+/g, "")
-                                        .charAt(0)?.toLowerCase()
+                                        .charAt(0)
+                                        ?.toLowerCase()
                                     ] || "red",
                                   minWidth: "56px",
                                 }}
@@ -735,12 +787,12 @@ function ProductPart2(props) {
             Product Details
           </p>
           <i
-              className={
-                !isDetails
-                  ? "icon icon-angle-right text-dgrey1 text-2xl transition-all"
-                  : "icon icon-angle-down text-dgrey1 text-2xl transition-all"
-              }
-            ></i>
+            className={
+              !isDetails
+                ? "icon icon-angle-right text-dgrey1 text-2xl transition-all"
+                : "icon icon-angle-down text-dgrey1 text-2xl transition-all"
+            }
+          ></i>
         </div>
         <div
           className={!isDetails ? "hidden" : "block"}
@@ -916,8 +968,8 @@ function ProductPart2(props) {
         )}
 
       {/* {!loading &&
-        accountstate?.loged && */}
-      {productData2?.product_recentlyViewed &&
+         */}
+      {stateAccount?.loged && productData2?.product_recentlyViewed &&
         productData2?.product_recentlyViewed?.length > 0 && (
           <div className="w-full md:px-6 bg-white  ">
             <div className="container pb-2 md:pb-8">
@@ -936,19 +988,18 @@ function ProductPart2(props) {
                 // </Slider>
 
                 <div className="flex overflow-x-auto space-x-2 ">
-                    {productData2?.product_recentlyViewed?.map((item) => {
-                      return (
-                        <div className="" key={item.product_id}>
-                          <SingleProduct
-                            scroll={true}
-                            item={item}
-                            host={host}
-                          ></SingleProduct>
-                        </div>
-                      );
-                    })}
-                  </div>
-
+                  {productData2?.product_recentlyViewed?.map((item) => {
+                    return (
+                      <div className="" key={item.product_id}>
+                        <SingleProduct
+                          scroll={true}
+                          item={item}
+                          host={host}
+                        ></SingleProduct>
+                      </div>
+                    );
+                  })}
+                </div>
               ) : (
                 <Slider {...productSetting}>
                   {productData2?.product_recentlyViewed?.map((item) => {

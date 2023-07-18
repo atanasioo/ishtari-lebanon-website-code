@@ -41,7 +41,6 @@ function Header(props) {
   console.log("fatima");
   console.log(host.host);
 
-
   const serverSideDomain = props.host;
 
   console.log("serversidedomain is " + serverSideDomain);
@@ -131,7 +130,6 @@ function Header(props) {
     setViewMenu(false);
   }
 
-
   return (
     <div>
       {local && <SiteHeaders local={local} />}
@@ -162,7 +160,7 @@ function Header(props) {
           </button>
           <Link
             href="/"
-            className="header-logo flex justify-center lg:justify-start"
+            className="header-logo flex justify-start md:justify-center lg:justify-start"
             onClick={(e) => {
               // to prevent the unsmooth behavior when clicking on the logo when you're already in the homepage
               if (router.pathname === "/") {
@@ -179,7 +177,8 @@ function Header(props) {
                 priority={true}
                 style={{ width: "80%", height: "auto" }}
               />
-            ) : serverSideDomain.indexOf("ishtari") > -1 || serverSideDomain.indexOf("next") > -1 ? (
+            ) : serverSideDomain.indexOf("ishtari") > -1 ||
+              serverSideDomain.indexOf("next") > -1 ? (
               <>
                 <Image
                   className="hidden mobile:block"
@@ -191,12 +190,21 @@ function Header(props) {
                   style={{ width: "80%", height: "auto" }}
                 />
 
-                <ImageFilter
+                {/* <ImageFilter
                   className="h-5 w-24 mr-5 mobile:hidden"
                   image={"/images/logo/logo-white.png"}
                   filter={"duotone"} // see docs beneath
                   colorOne={[96, 96, 96]}
                   colorTwo={[65, 69, 81]}
+                /> */}
+                <Image
+                  className="mobile:hidden"
+                  src="/images/logo/logo-dblack2.png"
+                  width={96}
+                  height={20}
+                  alt="ishtari-logo"
+                  priority={true}
+                  style={{ width: "78%", height: "auto" }}
                 />
               </>
             ) : serverSideDomain.indexOf("energy") > -1 ? (
@@ -211,12 +219,22 @@ function Header(props) {
                   style={{ width: "80%", height: "auto" }}
                 />
 
-                <ImageFilter
+                {/* <ImageFilter
                   className="h-5 w-24 mr-5 mobile:hidden"
                   image={"/images/logo/logo-white.png"}
                   filter={"duotone"} // see docs beneath
                   colorOne={[96, 96, 96]}
                   colorTwo={[65, 69, 81]}
+                /> */}
+                <Image
+                  className="mobile:hidden"
+                  src="/images/logo/logo-dblack2
+                  .png"
+                  width={96}
+                  height={40}
+                  alt="ishtari-logo"
+                  priority={true}
+                  style={{ width: "78%", height: "auto" }}
                 />
               </>
             ) : Cookies.get("site-local-name") === "ishtari" ||
@@ -232,12 +250,21 @@ function Header(props) {
                   style={{ width: "80%", height: "auto" }}
                 />
 
-                <ImageFilter
+                {/* <ImageFilter
                   className="h-5 w-24 mr-5 mobile:hidden"
                   image={"/images/logo/logo-white.png"}
                   filter={"duotone"} // see docs beneath
                   colorOne={[96, 96, 96]}
                   colorTwo={[65, 69, 81]}
+                /> */}
+                <Image
+                  className="mobile:hidden"
+                  src="/images/logo/logo-dblack2.png"
+                  width={96}
+                  height={40}
+                  alt="ishtari-logo"
+                  priority={true}
+                  style={{ width: "78%", height: "auto" }}
                 />
               </>
             ) : (
