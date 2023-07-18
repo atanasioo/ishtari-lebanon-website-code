@@ -1176,6 +1176,7 @@ function CheckoutCompnents() {
                             <div className="input mb-6 required ">
                               <label htmlFor="telephone"> Telephone </label>{" "}
                               <HandlePhoneModel
+                                fromCheckout={true}
                                 phone={telephone}
                                 phoneHanlder={phoneHanlder}
                                 setConfirmDisalbe={setConfirmDisalbe}

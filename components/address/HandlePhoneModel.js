@@ -12,6 +12,7 @@ function HandlePhoneModel(props) {
     phoneHanlder,
     AdminPhoneHandler,
     setConfirmDisalbe,
+    fromCheckout
   } = props;
   const [state, dispatch] = useContext(AccountContext);
   const [valid, setValid] = useState(true);
@@ -142,7 +143,7 @@ function HandlePhoneModel(props) {
             onFocus={(e) => setShow(e.target.value.length > 1)}
             onBlur={() => setShow(false)}
             required
-            ref={phone}
+            ref={fromCheckout ? phone : null}
             className={!valid && `${red} !important`}
             minLength={7}
             maxLength={
@@ -159,7 +160,7 @@ function HandlePhoneModel(props) {
           <input
             id="phoneUser"
             autoComplete={false}
-            ref={phone}
+            ref={fromCheckout ? phone : null}
           
             
             className={!valid && `${red} !important`}
