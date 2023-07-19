@@ -30,6 +30,8 @@ function SingleProductTest(props) {
     ssr: false, // Disable server-side rendering
   });
 
+  
+
 //   const handleMouseEnter = () => {
 //     if (swiperRef.current !== null) {
 //       swiperRef?.current?.autoplay?.start();
