@@ -8,12 +8,11 @@ import buildLink from "@/urls";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { HiLocationMarker } from "react-icons/hi";
 import GoogleMap from "./GoogleMap";
 import Link from "next/link";
-
 
 function AddAddressPage(props) {
   const { address_id } = props;
@@ -26,7 +25,6 @@ function AddAddressPage(props) {
   const [town_id, setTown_id] = useState("");
   const [isEdit, setIsEdit] = useState(props.isEdit);
   const [townes, setTownes] = useState([]);
-  const [telephone, setTelephone] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [zones, setZones] = useState([]);
   const [phoneValidate, setphoneValidate] = useState("");
@@ -39,6 +37,9 @@ function AddAddressPage(props) {
   const [message, setMessage] = useState("");
   const [fromCheckout, setFromCheckout] = useState(false);
   const [googleLocation, setGoogleLocation] = useState(true);
+  const telephone = useRef("");
+  const [telephone_s, setTelephone_s] = useState("");
+
   const [position, setPosition] = useState({
     lat: 0,
     lng: 0,
@@ -60,9 +61,9 @@ function AddAddressPage(props) {
     return p1 + "-" + p2 + "-" + p3;
   };
 
-  useEffect(()=>{
-    setKey((prevKey) => prevKey + 1)
-  },[position])
+  useEffect(() => {
+    setKey((prevKey) => prevKey + 1);
+  }, [position]);
 
   const country_id = window.config["zone"];
   const city = "";
@@ -135,22 +136,34 @@ function AddAddressPage(props) {
                           : Number(addressDetails.longitude),
                       });
 
-                      setTelephone(
-                        telephone === ""
-                          ? window.location.host === "www.ishtari.com.gh" ||
-                            Cookies.get("site-local-name") === "ishtari-ghana"
-                            ? getGhanaFormat(
-                                addressDetails.telephone.substring(
-                                  3,
-                                  addressDetails.telephone.length
-                                )
-                              )
-                            : addressDetails.telephone.substring(
-                                3,
-                                addressDetails.telephone.length
-                              )
-                          : telephone
-                      );
+                      if (telephone.current) {
+                        telephone.current.value =
+                          addressDetails.telephone.substring(
+                            3,
+                            addressDetails.telephone.length
+                          );
+                        setTelephone_s(
+                          addressDetails.telephone.substring(
+                            3,
+                            addressDetails.telephone.length
+                          )
+                        );
+                      }
+
+                      // telephone === ""
+                      //   ? window.location.host === "www.ishtari.com.gh" ||
+                      //     Cookies.get("site-local-name") === "ishtari-ghana"
+                      //     ? getGhanaFormat(
+                      //         addressDetails.telephone.substring(
+                      //           3,
+                      //           addressDetails.telephone.length
+                      //         )
+                      //       )
+                      //     : addressDetails.telephone.substring(
+                      //         3,
+                      //         addressDetails.telephone.length
+                      //       )
+                      //   : telephone;
 
                       setZone_id(
                         zone_id === "" ? addressDetails.zone_id : zone_id
@@ -174,12 +187,16 @@ function AddAddressPage(props) {
   }, []);
 
   const phoneHanlder = (childData, isValid) => {
+
+    console.log(childData);
     // console.log(isValid);
     if (isValid === true) {
-      setTelephone(childData);
+      // setTelephone(childData);
+      telephone.current.value = childData;
       setErr("");
     } else {
-      setTelephone(childData);
+      telephone.current.value = childData;
+      // setTelephone(childData);
     }
 
     setIsValid(isValid);
@@ -202,7 +219,7 @@ function AddAddressPage(props) {
       lastname: lastname,
       address_1: address_1,
       address_2: address_2,
-      telephone: window.config["countryCode"] + telephone,
+      telephone: window.config["countryCode"] + telephone.current.value,
       google_address_description: confirmedLocation,
       zone_id: zone_id,
       town_id: town_id === "" ? 0 : town_id,
@@ -258,7 +275,7 @@ function AddAddressPage(props) {
       axiosServer
         .post(buildLink("address", undefined, window.innerWidth), obj)
         .then((response) => {
-            // console.log(response);
+          // console.log(response);
           if (response.data.success) {
             setErrors([]);
             setMessage(
@@ -319,7 +336,10 @@ function AddAddressPage(props) {
 
   return (
     <div className="container text-dblack min-h-screen">
-      <div className="flex-row md:flex" style={{height: "100%", minHeight: "830px"}}>
+      <div
+        className="flex-row md:flex"
+        style={{ height: "100%", minHeight: "830px" }}
+      >
         <div className="w-full mb-3 md:w-1/5">
           {width > 650 ? (
             <UserSidebar active={"addresses"} />
@@ -333,7 +353,10 @@ function AddAddressPage(props) {
           }`}
         >
           <div className="header-div mb-6">
-            <Link href={"/account/address"} className="inline-flex mb-3 text-dgrey1 items-center gap-2">
+            <Link
+              href={"/account/address"}
+              className="inline-flex mb-3 text-dgrey1 items-center gap-2"
+            >
               <AiOutlineArrowLeft />
               Back to Addresses
             </Link>
@@ -345,7 +368,10 @@ function AddAddressPage(props) {
           </div>
           {(googleLocation || isEdit) && (
             <form className="mb-16 bg-white" onSubmit={(e) => addAddress(e)}>
-              <div className="md:grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+              <div
+                className="md:grid"
+                style={{ gridTemplateColumns: "1fr 1fr" }}
+              >
                 <div className="relative py-6 px-8">
                   <div className="inline-flex items-center gap-3">
                     <p className="text-d22 pr-bold">Address Details </p>
@@ -356,7 +382,7 @@ function AddAddressPage(props) {
                         src={
                           window.location.host === "www.ishtari.com" ||
                           window.location.host === "next.ishtari.com" ||
-                          Cookies.get("site-local-name") === "ishtari"  
+                          Cookies.get("site-local-name") === "ishtari"
                             ? "/images/flags/lebanon.svg"
                             : "/images/flags/ghana.svg"
                         }
@@ -610,7 +636,6 @@ function AddAddressPage(props) {
                           {/* <label htmlFor="telephone">Telephone</label> */}
                           <HandlePhoneModel
                             phone={telephone}
-                            setPhone={setTelephone}
                             phoneHanlder={phoneHanlder}
                           />
                         </div>

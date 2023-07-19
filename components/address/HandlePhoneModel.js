@@ -129,8 +129,18 @@ function HandlePhoneModel(props) {
       });
   }
 
-  const blockInvalidChar = (e) =>
-    ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
+  // const blockInvalidChar = (e) =>
+  //   ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
+
+  const blockInvalidChar = (e) => {
+    const regex = /^[0-9]+$/; // Regular expression to match numeric characters
+    const key = e.key;
+    const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+    if (!regex.test(key) && !allowedKeys.includes(key)) {
+      e.preventDefault();
+    }
+  };
+  
 
   const red =
     "bg-transparent border-b border-dbase absolute bottom-0 left-0 w-full  text-dblack text-base pl-3";
@@ -143,15 +153,10 @@ function HandlePhoneModel(props) {
             onFocus={(e) => setShow(e.target.value.length > 1)}
             onBlur={() => setShow(false)}
             required
-            ref={fromCheckout ? phone : null}
+            ref={phone}
             className={!valid && `${red} !important`}
             minLength={7}
-            maxLength={
-              window.location.host === "www.ishtari.com.gh" ||
-              Cookies.get("site-local-name") === "ishtari-ghana"
-                ? 11
-                : 11
-            }
+            maxLength={15}
             onChange={(e) => onChangeHandler(e.target.value)}
             onKeyDown={(e) => onChangeHandlerAdmin(e, e.target.value)}
             onKeyUp={(e) => onChangeHandler(e.target.value)}
@@ -160,18 +165,18 @@ function HandlePhoneModel(props) {
           <input
             id="phoneUser"
             autoComplete={false}
-            ref={fromCheckout ? phone : null}
-          
-            
+            ref={phone}
             className={!valid && `${red} !important`}
-            minLength={window.config["zone"] === "82" ? 11 : 8}
+            minLength={window.config["zone"] === "82" ? 11 : 7}
             required
-            type={
-              window.location.host === "www.ishtari.com.gh" ||
-              Cookies.get("site-local-name") === "ishtari-ghana"
-                ? "text"
-                : "number"
-            }
+            type="text"
+            // type={
+            //   window.location.host === "www.ishtari.com.gh" ||
+            //   Cookies.get("site-local-name") === "ishtari-ghana"
+            //     ? "text"
+            //     : "number"
+            // }
+            
             pattern={
               window.location.host === "www.ishtari.com.gh" ||
               Cookies.get("site-local-name") === "ishtari-ghana"
@@ -182,7 +187,7 @@ function HandlePhoneModel(props) {
               window.location.host === "www.ishtari.com.gh" ||
               Cookies.get("site-local-name") === "ishtari-ghana"
                 ? 11
-                : 11
+                : 8
             }
             onChange={(e) => {
               if (

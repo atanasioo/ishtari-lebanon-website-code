@@ -181,7 +181,7 @@ function GoogleMap(props) {
           <AnyReactComponent key ={key} lat={position.lat} lng={position.lng} />
         </GoogleMapReact>
         <div
-          className={`block p-1 bottom-0 right-0 mobile:absolute mobile:p-5`}
+          className={`block p-1 bottom-0 right-0 mobile:absolute z-10 mobile:p-5`}
         >
           <button
             disabled={position.lat > 0 ? false : true}
