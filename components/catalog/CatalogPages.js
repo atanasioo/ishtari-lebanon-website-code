@@ -4,9 +4,7 @@ import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const SwiperComponent = dynamic(() => import("./SwiperComponent"), {
-  ssr: false
-});
+
 
 import Slider from "react-slick";
 import Image from "next/image";
@@ -37,7 +35,9 @@ function CatalogPage(props) {
 
   const [productDisplay, setProductDisplay] = useState("grid");
   const [width] = useDeviceSize();
-
+  const SwiperComponent = dynamic(() => import("./SwiperComponent"), {
+    ssr: false
+  });
   const productSetting = {
     speed: 200,
     slidesToShow: 8,
