@@ -1696,7 +1696,7 @@ function CheckoutCompnents() {
                     {manualResponse?.order_product?.length > 0 &&
                       manualResponse?.order_product.map((product) => (
                         // Desktop Design
-                        <div>
+                        <div className="flex">
                           <Link
                             href={`${product?.name
                               ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -1722,6 +1722,7 @@ function CheckoutCompnents() {
                               className="w-24 block rounded ml-2"
                               alt={product.name}
                             />{" "}
+                              </Link>{" "}
                             <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow ">
                               <p className="text-d13 text-dgrey1">
                                 {" "}
@@ -1793,7 +1794,7 @@ function CheckoutCompnents() {
                                 </button>{" "}
                               </div>{" "}
                             </div>{" "}
-                          </Link>{" "}
+                        
                           {/* Mobile design */}{" "}
                           {/* <Link
                             // href={`${product.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g,"-").replace(/\s+/g,'-').replace('/','-')}/p=${product.product_id}`}
