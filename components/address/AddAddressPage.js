@@ -13,6 +13,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { HiLocationMarker } from "react-icons/hi";
 import GoogleMap from "./GoogleMap";
 import Link from "next/link";
+import AddressHandlePhoneModel from "./AddressPhoneHandler";
 
 function AddAddressPage(props) {
   const { address_id } = props;
@@ -37,8 +38,9 @@ function AddAddressPage(props) {
   const [message, setMessage] = useState("");
   const [fromCheckout, setFromCheckout] = useState(false);
   const [googleLocation, setGoogleLocation] = useState(true);
-  const telephone = useRef("");
-  const [telephone_s, setTelephone_s] = useState("");
+  // const telephone = useRef("");
+  const [telephone, setTelephone] = useState("");
+  // const [telephone_s, setTelephone_s] = useState("");
 
   const [position, setPosition] = useState({
     lat: 0,
@@ -61,9 +63,12 @@ function AddAddressPage(props) {
     return p1 + "-" + p2 + "-" + p3;
   };
 
+  console.log(telephone);
+
   useEffect(() => {
     setKey((prevKey) => prevKey + 1);
   }, [position]);
+  
 
   const country_id = window.config["zone"];
   const city = "";
@@ -136,19 +141,37 @@ function AddAddressPage(props) {
                           : Number(addressDetails.longitude),
                       });
 
-                      if (telephone.current) {
-                        telephone.current.value =
-                          addressDetails.telephone.substring(
-                            3,
-                            addressDetails.telephone.length
-                          );
-                        setTelephone_s(
-                          addressDetails.telephone.substring(
-                            3,
-                            addressDetails.telephone.length
-                          )
-                        );
-                      }
+                      // if (telephone.current) {
+                      //   telephone.current.value =
+                      //     addressDetails.telephone.substring(
+                      //       3,
+                      //       addressDetails.telephone.length
+                      //     );
+                      //   setTelephone_s(
+                      //     addressDetails.telephone.substring(
+                      //       3,
+                      //       addressDetails.telephone.length
+                      //     )
+                      //   );
+                      // }
+
+                      setTelephone(
+                        telephone === ""
+                          ? window.location.host === "www.ishtari.com.gh" ||
+                            localStorage.getItem("site-local-name") ===
+                              "ishtari-ghana"
+                            ? getGhanaFormat(
+                                addressDetails.telephone.substring(
+                                  3,
+                                  addressDetails.telephone.length
+                                )
+                              )
+                            : addressDetails.telephone.substring(
+                                3,
+                                addressDetails.telephone.length
+                              )
+                          : telephone
+                      );
 
                       // telephone === ""
                       //   ? window.location.host === "www.ishtari.com.gh" ||
@@ -188,15 +211,13 @@ function AddAddressPage(props) {
 
   const phoneHanlder = (childData, isValid) => {
 
-    console.log(childData);
-    // console.log(isValid);
     if (isValid === true) {
-      // setTelephone(childData);
-      telephone.current.value = childData;
+      setTelephone(childData);
+      // telephone.current.value = childData;
       setErr("");
     } else {
-      telephone.current.value = childData;
-      // setTelephone(childData);
+      // telephone.current.value = childData;
+      setTelephone(childData);
     }
 
     setIsValid(isValid);
@@ -219,7 +240,7 @@ function AddAddressPage(props) {
       lastname: lastname,
       address_1: address_1,
       address_2: address_2,
-      telephone: window.config["countryCode"] + telephone.current.value,
+      telephone: window.config["countryCode"] + telephone,
       google_address_description: confirmedLocation,
       zone_id: zone_id,
       town_id: town_id === "" ? 0 : town_id,
@@ -324,11 +345,13 @@ function AddAddressPage(props) {
     });
   }
 
+
   function handleProps(key, val) {
     if (key === "countryCorrect") {
       setCountryCorrect(val);
     } else if (key === "googleLocation") {
       setGoogleLocation(true);
+
     } else if (key === "confirmedLocation") {
       setConfirmedLocation(val);
     }
@@ -501,6 +524,7 @@ function AddAddressPage(props) {
                     <div className="flex gap-4">
                       {confirmedLocation ? (
                         <button
+                        type="button"
                           className="w-20 h-16 flex relative"
                           onClick={(e) => {
                             e.preventDefault();
@@ -634,7 +658,11 @@ function AddAddressPage(props) {
 
                         <div className="input mb-6 ">
                           {/* <label htmlFor="telephone">Telephone</label> */}
-                          <HandlePhoneModel
+                          {/* <HandlePhoneModel
+                            phone={telephone}
+                            phoneHanlder={phoneHanlder}
+                          /> */}
+                          <AddressHandlePhoneModel
                             phone={telephone}
                             phoneHanlder={phoneHanlder}
                           />

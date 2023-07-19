@@ -132,6 +132,7 @@ function GoogleMap(props) {
         if (
           window.location.host === "www.ishtari.com" ||
           window.location.host === "ishtari.com" ||
+          window.location.host === "next.ishtari.com" ||
           (Cookies.get("site-local-name") === "ishtari" &&
             country === "Lebanon") ||
           window.location.host === "www.ishtari.com.gh" ||
