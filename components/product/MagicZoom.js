@@ -13,9 +13,9 @@ function MagicZoom(props) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const router = useRouter();
 
-  console.log(activeImage);
 
   useEffect(() => {
+    console.log("hello can you hear me");
     setImages(props.images);
     try {
       document.getElementById("mag-z-id").outerHTML = "";
@@ -91,7 +91,6 @@ function MagicZoom(props) {
       }
     }, [ref, showShare]);
 
-    console.log(activeImageIndex);
   }
 
   return (
@@ -134,7 +133,8 @@ function MagicZoom(props) {
                   </a>
                 ))}
               </Slider>
-              <Slider {...mobileSetting} className=" mobile:hidden">
+              {/* <Slider {...mobileSetting} className=" mobile:hidden"> */}
+              <div className=" mobile:hidden flex overflow-x-auto">
                 {images?.map((i, index) => (
                   <a
                     data-zoom-id="Zoom-1"
@@ -144,7 +144,11 @@ function MagicZoom(props) {
                     data-zoom-image-2x={i["popup"]}
                     data-image-2x={i["popup"]}
                     className="mz-thumb flex justify-center"
-                    onTouchStart={() => setActiveImageIndex(index)}
+                    // onTouchStart={() => setActiveImageIndex(index)}
+                    onTouchStart={(event) => {
+                      event.preventDefault(); // Prevent the default click behavior
+                      setActiveImageIndex(index);
+                    }}
                   >
                     <img
                       srcSet={i["thumb"]}
@@ -160,7 +164,9 @@ function MagicZoom(props) {
                     />
                   </a>
                 ))}
-              </Slider>
+              </div>
+                
+              {/* </Slider> */}
             </div>
           </div>
           <div className="w-full md:w-10/12 relative flex items-center ">

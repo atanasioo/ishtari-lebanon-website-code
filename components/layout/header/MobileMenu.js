@@ -28,7 +28,6 @@ function MobileMenu(props) {
     var myDiv = document.getElementById("scrollDiv");
     myDiv.scrollTop = 0;
   }
-console.log(viewLevel2);
   // Logout
   async function logout() {
     dispatch({ type: "setLoading", payload: true });

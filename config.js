@@ -5,8 +5,6 @@ var config = {};
 if (typeof window !== "undefined") {
   const host = window.location.host;
 
-  console.log("form config" +host);
-
   if (
     Cookies.get("site-local-name") === "ishtari" ||
     host === "www.ishtari.com" ||

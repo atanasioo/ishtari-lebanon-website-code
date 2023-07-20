@@ -3,7 +3,6 @@ import { axiosServer } from "@/axiosServer.js";
 import buildLink from "@/urls";
 
 const getHost = async (host) => {
-  console.log(host);
   // console.log("host=")
 
   let url = "";
@@ -66,7 +65,6 @@ const getHost = async (host) => {
 };
 
 const getMainData = async (token, host) => {
-  console.log("from getmaindata " + host);
   var data = [];
   let response = {};
 };

@@ -294,7 +294,6 @@ if (typeof window !== "undefined") {
   }
 }
 function buildLink(link, payload, width, hostServer) {
-  console.log(hostServer);
   const type = Cookies.get("site-local-name");
 
   // if (

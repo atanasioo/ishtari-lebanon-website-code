@@ -312,8 +312,6 @@ function ProductPage(props) {
   }
 
   function getProductPart2() {
-    console.log("hello part 2");
-    // console.log("entered");
     var link =
       buildLink(
         "product",
@@ -335,8 +333,6 @@ function ProductPage(props) {
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
-
-    console.log(images);
 
     var count = 0;
     var i = 0;
@@ -699,8 +695,6 @@ function ProductPage(props) {
       });
   }
 
-  console.log(activeImageOption.product_option_value_id);
-
   function updateState(id) {
     var checkboxes = document.getElementsByName("wish");
     var checkboxesChecked = [];
@@ -806,22 +800,27 @@ function ProductPage(props) {
               </div>
               <div className="product-info w-full md:w-6/12 px-4">
                 {/* BRAND NAME */}
-                <Link
-                  href={`/${data?.manufacturer + "/m=" + data.manufacturer_id}`}
-                  className="text-dgrey1 hover:text-dblue"
-                >
-                  {data?.manufacturer_image ? (
-                    <Image
-                      src={data.manufacturer_image}
-                      alt={data.manufacturer_id}
-                      className="w-24"
-                      width={96}
-                      height={38}
-                    />
-                  ) : (
-                    data?.manufacturer?.toUpperCase()
-                  )}
-                </Link>
+                {data?.manufacturer.length > 0 && (
+                  <Link
+                    href={`/${
+                      data?.manufacturer + "/m=" + data.manufacturer_id
+                    }`}
+                    className="text-dgrey1 hover:text-dblue"
+                  >
+                    {data?.manufacturer_image ? (
+                      <Image
+                        src={data.manufacturer_image}
+                        alt={data.manufacturer_id}
+                        className="w-24"
+                        width={96}
+                        height={38}
+                      />
+                    ) : (
+                      data?.manufacturer?.toUpperCase()
+                    )}
+                  </Link>
+                )}
+
                 <h1
                   className="text-dblack font-semibold text-d22 mb-3 leading-pn"
                   dangerouslySetInnerHTML={{
@@ -972,7 +971,7 @@ function ProductPage(props) {
                               <FiChevronDown
                                 className="text-dgreyQtyProduct h-6 w-6"
                                 style={{
-                                  transform: toggleQty ? "rotate(-180deg)" : "",
+                                  // transform: toggleQty ? "rotate(-180deg)" : "",
                                   transition: "transform 0.2s ease",
                                 }}
                               />

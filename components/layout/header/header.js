@@ -38,12 +38,7 @@ function Header(props) {
   const router = useRouter();
   const host = useContext(HostContext);
 
-  console.log("fatima");
-  console.log(host.host);
-
   const serverSideDomain = props.host;
-
-  console.log("serversidedomain is " + serverSideDomain);
 
   //  console.log(session);
   const [state, setState] = useState([]);

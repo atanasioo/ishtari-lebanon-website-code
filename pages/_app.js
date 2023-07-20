@@ -98,6 +98,7 @@ export default function App({
     <SessionProvider>
       <Head>
         <link rel="icon" href={favicon} />
+        {/* <link rel="manifest" href="%PUBLIC_URL%/magiczoomplus/magiczoomplus.css" /> */}
         <title>{title}</title>
       </Head>
       <AccountProvider>
