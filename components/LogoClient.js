@@ -3,6 +3,9 @@ import React from "react";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 
 function LogoClient(props) {
+
+  console.log("props.host is");
+  console.log(props.host);
   return (
     <div>
       {props.host === "https://www.flo-lebanon.com" ? (
@@ -32,7 +35,7 @@ function LogoClient(props) {
           /> */}
           <Image
             className="mobile:hidden"
-            src="/images/logo/logo-dblack.png"
+            src="/images/logo/logo-dblack2.png"
             width={96}
             height={40}
             alt="ishtari-logo"
@@ -61,7 +64,7 @@ function LogoClient(props) {
           /> */}
           <Image
             className="mobile:hidden"
-            src="/images/logo/logo-dblack.png"
+            src="/images/logo/logo-dblack2.png"
             width={96}
             height={40}
             alt="ishtari-logo"
