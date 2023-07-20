@@ -27,6 +27,7 @@ import SingleProductBundle from "./SingleProductBundle";
 import Slider from "react-slick";
 import ProductOptionModal from "./ProductOptionModal";
 import WhatsappBtn from "./WhatsappBtn";
+import MagicZoom from "./MagicZoom";
 
 function ProductPage(props) {
   //Server props
@@ -72,7 +73,7 @@ function ProductPage(props) {
   const [result, setResult] = useState();
   const [nameValue, setName] = useState("");
   const [descriptionValue, setDescription] = useState("");
-  const descriptionRef= useRef();
+  const descriptionRef = useRef();
   const [showOptionModal, setShowOptionModal] = useState({
     show: false,
     bundle: null,
@@ -91,8 +92,6 @@ function ProductPage(props) {
     ? router.query.slug[0].split("=")[1]
     : router.query.slug[0];
 
-    console.log(product_id);
-
   const productBundlesSetting = {
     speed: 200,
     slidesToShow: 3,
@@ -110,11 +109,10 @@ function ProductPage(props) {
     nextArrow: <CustomNextArrows direction={"r"} />,
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     // to force re-render when navigating using client side
     setLoader(true);
-  },[router])
+  }, [router]);
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
@@ -216,7 +214,15 @@ function ProductPage(props) {
         dataSocial["link"] = window.location.href;
 
         axiosServer
-          .post(buildLink("pixel", undefined, window.innerWidth, window.config['site-url']), dataSocial)
+          .post(
+            buildLink(
+              "pixel",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            ),
+            dataSocial
+          )
           .then((response) => {
             const data = response.data;
           });
@@ -263,8 +269,12 @@ function ProductPage(props) {
   function handleReturnPolicy() {
     axiosServer
       .get(
-        buildLink("information", undefined, window.innerWidth, window.config['site-url']) +
-          "&information_id=10"
+        buildLink(
+          "information",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ) + "&information_id=10"
       )
       .then((response) => {
         const data = response.data.data;
@@ -273,7 +283,6 @@ function ProductPage(props) {
   }
 
   const observer = useRef();
-
 
   const lastElementRef = useCallback(
     (node) => {
@@ -295,20 +304,23 @@ function ProductPage(props) {
 
   const titleRef = useRef();
   function handleClick() {
-    if(titleRef.current !== null){
+    if (titleRef.current !== null) {
       titleRef.current.scrollIntoView({ behavior: "smooth" });
-    }else{
+    } else {
       descriptionRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    
   }
 
   function getProductPart2() {
     console.log("hello part 2");
     // console.log("entered");
     var link =
-      buildLink("product", undefined, window.innerWidth, window.config['site-url']) +
-      `${product_id}&source_id=1&part_two=true`;
+      buildLink(
+        "product",
+        undefined,
+        window.innerWidth,
+        window.config["site-url"]
+      ) + `${product_id}&source_id=1&part_two=true`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
 
@@ -323,6 +335,8 @@ function ProductPage(props) {
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
+
+    console.log(images);
 
     var count = 0;
     var i = 0;
@@ -409,7 +423,12 @@ function ProductPage(props) {
     let error = "";
     axiosServer
       .post(
-        buildLink("cart", undefined, window.innerWidth, window.config['site-url']) + "&source_id=1",
+        buildLink(
+          "cart",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ) + "&source_id=1",
         bundle === undefined ? obj : bundle
       )
       .then((response) => {
@@ -439,7 +458,14 @@ function ProductPage(props) {
             payload: true,
           });
           axiosServer
-            .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
+            .get(
+              buildLink(
+                "cart",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              )
+            )
             .then((response_data) => {
               dispatch({
                 type: "setProducts",
@@ -487,7 +513,15 @@ function ProductPage(props) {
           dataSocial["ttp"] = Cookies.get("_ttp");
 
           axiosServer
-            .post(buildLink("pixel", undefined, window.innerWidth, window.config['site-url']), dataSocial)
+            .post(
+              buildLink(
+                "pixel",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              ),
+              dataSocial
+            )
             .then((response) => {
               const data = response.data;
               if (data.success === true) {
@@ -518,7 +552,15 @@ function ProductPage(props) {
       description: descriptionValue,
     };
     axiosServer
-      .post(buildLink("wishlistAdd", undefined, undefined, window.config['site-url']), obj)
+      .post(
+        buildLink(
+          "wishlistAdd",
+          undefined,
+          undefined,
+          window.config["site-url"]
+        ),
+        obj
+      )
       .then((response) => {
         if (response.data.success) {
           setShowModel(false);
@@ -533,7 +575,14 @@ function ProductPage(props) {
   useEffect(() => {
     if (showGroup === true) {
       axiosServer
-        .get(buildLink("wishlist_group", undefined, undefined, window.config['site-url']))
+        .get(
+          buildLink(
+            "wishlist_group",
+            undefined,
+            undefined,
+            window.config["site-url"]
+          )
+        )
         .then((response) => {
           setGroupsWishlist(response.data.data);
         });
@@ -543,12 +592,14 @@ function ProductPage(props) {
   useEffect(() => {
     // setChecked(data?.data?.groups_wishlist);
     handleWishlist(0);
+    setImages(data.images)
     return () => {
       setImages([]);
-      setActiveImage({});
+      // setActiveImage({});
       setHasOption(false);
     };
   }, [product_id]);
+
 
   function handleWishlist(counter) {
     if (counter < 1) {
@@ -568,10 +619,25 @@ function ProductPage(props) {
       product_id: product_id,
     };
     axiosServer
-      .post(buildLink("addToWishlist_5", undefined, window.innerWidth, window.config['site-url']), obj)
+      .post(
+        buildLink(
+          "addToWishlist_5",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ),
+        obj
+      )
       .then(() => {
         axiosServer
-          .get(buildLink("wishlistCount", undefined, window.innerWidth, window.config['site-url']))
+          .get(
+            buildLink(
+              "wishlistCount",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            )
+          )
           .then((response) => {
             if (response.data.success) {
               dispatchW({
@@ -595,7 +661,12 @@ function ProductPage(props) {
   function deleteItemFromAllGroup() {
     axiosServer
       .post(
-        buildLink("removeAll", undefined, undefined, window.config['site-url']) +
+        buildLink(
+          "removeAll",
+          undefined,
+          undefined,
+          window.config["site-url"]
+        ) +
           "&product_id=" +
           product_id
       )
@@ -604,7 +675,14 @@ function ProductPage(props) {
           setIsWishlist(false);
 
           axiosServer
-            .get(buildLink("wishlistCount", undefined, window.innerWidth, window.config['site-url']))
+            .get(
+              buildLink(
+                "wishlistCount",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              )
+            )
             .then((response) => {
               if (response.data.success) {
                 dispatchW({
@@ -621,6 +699,8 @@ function ProductPage(props) {
         setShowGroup(false);
       });
   }
+
+  console.log(activeImageOption.product_option_value_id);
 
   function updateState(id) {
     var checkboxes = document.getElementsByName("wish");
@@ -711,12 +791,19 @@ function ProductPage(props) {
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
               <div className="product-zoom w-full md:w-6/12">
                 {/* <Image width={380} height={518} src={data.popup} /> */}
-                <ProductZoom
+                {/* <ProductZoom
                   activeOption={activeImageOption.product_option_value_id}
                   images={data.images}
                   hovered={hovered}
                   productData={data}
-                />
+                /> */}
+                {data.images?.length > 0 && (
+                  <MagicZoom
+                    activeOption={activeImageOption.product_option_value_id}
+                    productData={data}
+                    images={data.images}
+                  />
+                )}
               </div>
               <div className="product-info w-full md:w-6/12 px-4">
                 {/* BRAND NAME */}
@@ -745,7 +832,9 @@ function ProductPage(props) {
                       <div className="modelNumber mr-1.5">
                         Model Number: {data.sku}
                       </div>
-                      {data?.rating > 0 &&  <div className="divider h-4 w-0.5 bg-dplaceHolder mx-1.5"></div>}
+                      {data?.rating > 0 && (
+                        <div className="divider h-4 w-0.5 bg-dplaceHolder mx-1.5"></div>
+                      )}
                       <div className="product-rating">
                         {data?.rating > 0 && (
                           <div className="flex" onClick={handleClick}>
@@ -765,7 +854,8 @@ function ProductPage(props) {
                               />{" "}
                             </div>
                             <p className=" flex text-dgrey1 text-d15 mb-1 md:mb-3 font-light  ml-2 underline_effect cursor-pointer">
-                              {data.nb_of_reviews} Rating{data.nb_of_reviews > 1 ? "s" : ""}
+                              {data.nb_of_reviews} Rating
+                              {data.nb_of_reviews > 1 ? "s" : ""}
                             </p>
                           </div>
                         )}{" "}
@@ -1255,7 +1345,10 @@ function ProductPage(props) {
                       Frequently Bought Together
                     </p>
                     <div className="bg-white">
-                      <Slider className="hidden mobile:block" {...productBundlesSetting}>
+                      <Slider
+                        className="hidden mobile:block"
+                        {...productBundlesSetting}
+                      >
                         {bundles &&
                           bundles?.products?.map((product, i) => (
                             <div
@@ -1277,7 +1370,10 @@ function ProductPage(props) {
                             </div>
                           ))}
                       </Slider>
-                      <Slider className=" mobile:hidden" {...productMobileBundlesSetting}>
+                      <Slider
+                        className=" mobile:hidden"
+                        {...productMobileBundlesSetting}
+                      >
                         {bundles &&
                           bundles?.products?.map((product, i) => (
                             <div
@@ -1514,7 +1610,6 @@ function ProductPage(props) {
           {/* Product Description */}
 
           <div className="my-4 container block mobile:hidden">
-
             <WhatsappBtn product_id={product_id} config={config} />
           </div>
 

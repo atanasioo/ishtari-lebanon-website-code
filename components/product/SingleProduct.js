@@ -333,7 +333,7 @@ function SingleProduct(props) {
                       width={64}
                       height={24}
                       src={"/images/express.png"}
-                      className="h-6 w-16 py-1"
+                      className="h-6 w-16 py-1 mobile:py-0 lg:py-1"
                       alt="Express delivery"
                       priority={true}
                     />
@@ -342,7 +342,7 @@ function SingleProduct(props) {
                       width={64}
                       height={24}
                       src={"/images/market.svg"}
-                      className="h-6 w-16 py-1 "
+                      className="h-6 w-16 py-1 mobile:py-0 lg:py-1 "
                       alt={"market image"}
                       priority={true}
                     />

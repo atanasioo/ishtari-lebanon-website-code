@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("../public/font/stylesheet.css");
+@import url("magiczoom.css");
 @import url("fontello.css");
 
  @font-face {
@@ -788,7 +789,7 @@ mySwiper .swiper-button-next {
   height: 439px !important;
   
 }
-@media (max-width: 768px){
+@media (max-width: 650px){
 .selector_div  .slick-list{
   height: unset !important;   
   
