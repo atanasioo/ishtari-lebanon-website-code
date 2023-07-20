@@ -14,7 +14,6 @@ import { MdAvTimer } from "react-icons/md";
 import { FaFacebookF, FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 
-
 function Account() {
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -35,13 +34,12 @@ function Account() {
   const signupLast = useRef("");
   const path = "";
 
-
   const handleFacebookLogin = async () => {
-    const result = await signIn('facebook');
-    alert(result)
-    console.log(result)
+    const result = await signIn("facebook");
+    alert(result);
+    console.log(result);
     if (result?.error) {
-      console.log('Facebook login error:', result.error);
+      console.log("Facebook login error:", result.error);
       return;
     }
 
@@ -53,16 +51,16 @@ function Account() {
           email: response?.email
             ? response?.email
             : response.id + "@ishtari-mobile.com",
-          id: response.id
+          id: response.id,
         };
-    
+
         _axios.post(buildLink("social"), obj).then(() => {
           checkLogin();
           window.location.reload();
-        })
-        console.log('User data saved successfully');
+        });
+        console.log("User data saved successfully");
       } catch (error) {
-        console.log('Error saving user data:', error);
+        console.log("Error saving user data:", error);
       }
     }
   };
@@ -105,16 +103,9 @@ function Account() {
   // Check login
   function checkLogin() {
     dispatch({ type: "setLoading", payload: true });
-     const hostname =   window.location.host
+    const hostname = window.location.host;
     axiosServer
-      .get(
-        buildLink(
-          "login",
-          undefined,
-         undefined,
-         window.config['site-url']
-        )
-      )
+      .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
 
@@ -142,7 +133,6 @@ function Account() {
     e.preventDefault();
     setSignupLoading(true);
 
-
     const response = await signIn("signup", {
       email: signupEmail.current.value,
       password: signupPassword.current.value,
@@ -165,9 +155,17 @@ function Account() {
   // Forget Password
   async function handleForgetPassword() {
     if (loginEmail.current.value) {
-      const new_password = await axiosServer.post(buildLink("forget_password", undefined, undefined, window.config['site-url']), {
-        email: loginEmail.current.value
-      });
+      const new_password = await axiosServer.post(
+        buildLink(
+          "forget_password",
+          undefined,
+          undefined,
+          window.config["site-url"]
+        ),
+        {
+          email: loginEmail.current.value,
+        }
+      );
       if (new_password.data.errors) {
         setErr("No Email Found");
       } else {
@@ -180,19 +178,19 @@ function Account() {
   }
   async function logOut(e) {
     e.preventDefault();
-    const hostname = window.config['site-url'];
+    const hostname = window.config["site-url"];
     dispatch({ type: "setLoading", payload: true });
     setShowUserMenu(false);
     //remove next-auth session from cookie, and clear the jwt(session) obj.
     await signOut({ redirect: false });
     //Logout from Api
     const response = await axiosServer.post(
-      buildLink("logout", undefined, undefined, window.config['site-url'])
+      buildLink("logout", undefined, undefined, window.config["site-url"])
     );
     checkLogin();
     dispatch({ type: "setSeller", payload: false });
     Cookies.remove("seller_id");
-    window.location.href="/";
+    window.location.href = "/";
   }
 
   useEffect(() => {
@@ -218,14 +216,7 @@ function Account() {
     }
     dispatch({ type: "setLoading", payload: true });
     axiosServer
-      .get(
-        buildLink(
-          "login",
-          undefined,
-          undefined,
-          window.config['site-url']
-        )
-      )
+      .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
 
@@ -340,7 +331,6 @@ function Account() {
                 >
                   Forgot your password?
                 </p>
-               
 
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {loginLoading ? <span>LOADING</span> : <span>SIGN IN</span>}
@@ -364,9 +354,12 @@ function Account() {
               )}
             /> */}
               </form>
-              <button onClick={handleFacebookLogin}  className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al"><FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook</button>
-
-          
+              <button
+                onClick={handleFacebookLogin}
+                className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al"
+              >
+                <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
+              </button>
             </div>
           )}
           {state.showSignup && (
@@ -524,6 +517,14 @@ function Account() {
             {showUserMenu && (
               <div className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1">
                 <Link
+                  href={`${path}/account/profile`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
+                >
+                  <FaUserAlt className="text-d17"></FaUserAlt>
+                  <span className="ml-4">Profile</span>
+                </Link>
+                <Link
                   href={`${path}/account/orders`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="py-2 flex items-center cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 px-3"
@@ -563,15 +564,6 @@ function Account() {
                 >
                   <BsFillHeartFill className="text-d17"></BsFillHeartFill>
                   <span className="ml-4">WishList</span>
-                </Link>
-
-                <Link
-                  href={`${path}/account/profile`}
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
-                >
-                  <FaUserAlt className="text-d17"></FaUserAlt>
-                  <span className="ml-4">Profile</span>
                 </Link>
 
                 <p

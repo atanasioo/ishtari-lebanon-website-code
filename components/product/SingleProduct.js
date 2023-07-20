@@ -13,6 +13,7 @@ import useDeviceSize from "../useDeviceSize";
 import { Pagination, Autoplay } from "swiper";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
+import NewImage from "./NewImage";
 
 function SingleProduct(props) {
   const { item, host, addToCart } = props;
@@ -26,9 +27,9 @@ function SingleProduct(props) {
   };
   const [width] = useDeviceSize();
 
-  const NewImage = dynamic(() => import("./NewImage"), {
-    ssr: false, // Disable server-side rendering
-  });
+  // const NewImage = dynamic(() => import("./NewImage"), {
+  //   ssr: false, // Disable server-side rendering
+  // });
 
   const handleMouseEnter = () => {
     if (swiperRef.current !== null) {

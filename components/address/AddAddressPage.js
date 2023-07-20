@@ -389,6 +389,13 @@ function AddAddressPage(props) {
               quickly and efficiently
             </p>
           </div>
+
+          {message.length > 2 && (
+            <h2 className=" bg-dgreen text-white py-3 px-6 rounded mb-3">
+              {message}
+            </h2>
+           )}
+
           {(googleLocation || isEdit) && (
             <form className="mb-16 bg-white" onSubmit={(e) => addAddress(e)}>
               <div

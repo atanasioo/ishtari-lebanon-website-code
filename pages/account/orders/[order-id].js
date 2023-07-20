@@ -206,7 +206,7 @@ function OrderDetails() {
             </div>
 
             {/* TABLE */}
-            <div className="mt-7">
+            <div className="mt-7 overflow-x-scroll">
               {width > 650 ? (
                 <table className="w-full  text-left">
                 <thead className="border">
@@ -251,7 +251,7 @@ function OrderDetails() {
                   ))}
                 </table>
               ) : (
-                <table className="w-full  text-left">
+                <table className="w-full text-left">
                   <thead className="border">
                     <div className="hidden md:block">
                       {" "}
