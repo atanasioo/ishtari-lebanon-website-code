@@ -592,14 +592,13 @@ function ProductPage(props) {
   useEffect(() => {
     // setChecked(data?.data?.groups_wishlist);
     handleWishlist(0);
-    setImages(data.images)
+    setImages(data.images);
     return () => {
       setImages([]);
       // setActiveImage({});
       setHasOption(false);
     };
   }, [product_id]);
-
 
   function handleWishlist(counter) {
     if (counter < 1) {
@@ -807,7 +806,10 @@ function ProductPage(props) {
               </div>
               <div className="product-info w-full md:w-6/12 px-4">
                 {/* BRAND NAME */}
-                <Link href={"/"} className="text-dgrey1 hover:text-dblue">
+                <Link
+                  href={`/${data?.manufacturer + "/m=" + data.manufacturer_id}`}
+                  className="text-dgrey1 hover:text-dblue"
+                >
                   {data?.manufacturer_image ? (
                     <Image
                       src={data.manufacturer_image}

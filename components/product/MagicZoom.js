@@ -26,9 +26,10 @@ function MagicZoom(props) {
     script.id = "mag-z-id";
     document.body.appendChild(script);
     setActiveImage(images[0]);
-    props?.images?.map((i) => {
+    props?.images?.map((i, index) => {
       if (i.product_option_value_id === props.activeOption) {
         setActiveImage(i);
+        setActiveImageIndex(index);
       }
     });
 

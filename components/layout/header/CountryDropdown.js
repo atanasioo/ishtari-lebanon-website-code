@@ -2,7 +2,7 @@ import useDeviceSize from "@/components/useDeviceSize";
 import React, { useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 
-function CountryDropdown() {
+function CountryDropdown(props) {
   const [int, setInt] = useState(false);
 
   const wrapperRef = useRef(null);
@@ -31,8 +31,8 @@ function CountryDropdown() {
   }
 //
 
-  return window.config["site-url"] === "https://www.ishtari.com" ||
-    window.config["site-url"] === "https://www.ishtari.com.gh" ? (
+  return props.host === "https://www.ishtari.com" ||
+  props.host === "https://www.ishtari.com.gh" ? (
     <div className="flex justify-center lg:border-r lg:border-dplaceHolder md:mr-3">
       <div>
         <div className="dropdown relative float-right lg:pr-2">
@@ -55,7 +55,7 @@ function CountryDropdown() {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {window.config["site-url"] === "https://www.ishtari.com" ? (
+            {props.host === "https://www.ishtari.com" ? (
               <div className=" flex  p-1 sm:p-3" >
                 <img
                   className="w-7 h-5 "

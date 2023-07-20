@@ -122,9 +122,9 @@ function Header(props) {
   // const LogoClient = dynamic(() => import("@/components/LogoClient"), {
   //   ssr: false, // Disable server-side rendering
   // });
-  const CountryDropdown = dynamic(() => import("./CountryDropdown"), {
-    ssr: false, // Disable server-side rendering
-  });
+  // const CountryDropdown = dynamic(() => import("./CountryDropdown"), {
+  //   ssr: false, // Disable server-side rendering
+  // });
 
   function closeMobileMenu() {
     setViewMenu(false);
@@ -277,7 +277,7 @@ function Header(props) {
           <TopSearch />
 
           <div className="flex  items-center">
-            <CountryDropdown />
+            <CountryDropdown host={host.host} />
 
             {stateAcc.isSeller && (
               <div>
