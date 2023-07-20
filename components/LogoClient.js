@@ -4,8 +4,6 @@ import ImageFilter from "react-image-filter/lib/ImageFilter";
 
 function LogoClient(props) {
 
-  console.log("props.host is");
-  console.log(props.host);
   return (
     <div>
       {props.host === "https://www.flo-lebanon.com" ? (
@@ -23,8 +21,15 @@ function LogoClient(props) {
         props.host === "ishtari-ghana" ||
         props.host === "next.ishtari.com" ? (
         <>
-          
-          
+          <Image
+            className="hidden mobile:block"
+            src="/images/logo/logo-red.png"
+            width={130}
+            height={130}
+            alt="ishtari-logo"
+            priority={true}
+            style={{ width: "80%", height: "auto" }}
+          />
 
           {/* <ImageFilter
             className="h-5 w-24 mr-5 mobile:hidden"
