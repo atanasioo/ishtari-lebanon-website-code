@@ -57,7 +57,7 @@ function ProductZoom(props) {
     slidesToScroll: 1,
     autoplay: false,
     ref: imageSlider,
-    swipe: false,
+    swipe: true,
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
@@ -293,7 +293,7 @@ function ProductZoom(props) {
             </div>
           </div>
           <div className="w-full md:w-10/12 relative flex items-center ">
-            <div className="w-full md:w-11/12 hover:cursor-zoom-in relative">
+            <div className="w-full md:w-11/12 md:hover:cursor-zoom-in relative">
               <div
                 onClick={() => {
                   //htmlOverflow();

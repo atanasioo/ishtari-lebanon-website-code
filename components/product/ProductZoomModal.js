@@ -37,7 +37,7 @@ function ProductZoomModal(props) {
   const mobileSingleSetting = {
     dots: false,
     infinite: false,
-    speed: 50,
+    speed: 200,
     slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
@@ -51,7 +51,7 @@ function ProductZoomModal(props) {
   const mobileSetting = {
     dots: false,
     infinite: false,
-    speed: 50,
+    speed: 200,
     slidesToShow: 6,
     slidesToScroll: 2,
     swipeToSlide: true,
