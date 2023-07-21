@@ -588,10 +588,10 @@ function ProductPage(props) {
   useEffect(() => {
     // setChecked(data?.data?.groups_wishlist);
     handleWishlist(0);
-    setImages(data.images);
+    // setImages(data.images); //uncomment it for magic zoom
     return () => {
       setImages([]);
-      // setActiveImage({});
+      setActiveImage({});  //comment it for magic zoom
       setHasOption(false);
     };
   }, [product_id]);
@@ -784,19 +784,19 @@ function ProductPage(props) {
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
               <div className="product-zoom w-full md:w-6/12">
                 {/* <Image width={380} height={518} src={data.popup} /> */}
-                {/* <ProductZoom
+                <ProductZoom
                   activeOption={activeImageOption.product_option_value_id}
                   images={data.images}
                   hovered={hovered}
                   productData={data}
-                /> */}
-                {data.images?.length > 0 && (
+                />
+                {/* {data.images?.length > 0 && (
                   <MagicZoom
                     activeOption={activeImageOption.product_option_value_id}
                     productData={data}
                     images={data.images}
                   />
-                )}
+                )} */}
               </div>
               <div className="product-info w-full md:w-6/12 px-4">
                 {/* BRAND NAME */}

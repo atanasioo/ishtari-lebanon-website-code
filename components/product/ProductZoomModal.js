@@ -37,7 +37,7 @@ function ProductZoomModal(props) {
   const mobileSingleSetting = {
     dots: false,
     infinite: false,
-    speed: 100,
+    speed: 50,
     slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
@@ -51,7 +51,7 @@ function ProductZoomModal(props) {
   const mobileSetting = {
     dots: false,
     infinite: false,
-    speed: 100,
+    speed: 50,
     slidesToShow: 6,
     slidesToScroll: 2,
     swipeToSlide: true,
@@ -62,40 +62,40 @@ function ProductZoomModal(props) {
     nextArrow: <div><BsChevronRight className="w-8 h-8 text-darrowZoom"/></div>, // or null
   };
 
-  useEffect(()=>{
-    setActiveImage(selectedImage);
-    if (width < 840) {
-      const popup = document.getElementById("popup_modal");
-      const backgroundImageUrl = selectedImage["popup"];
-      const overlayColor = "rgba(0, 0, 0, 0.6)";
-      // Create a new style element
-      const style = document.createElement("style");
-      style.type = "text/css";
-      // Add a CSS rule for the #popup_modal::before pseudo-element
-      const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
-      style.appendChild(document.createTextNode(css));
-      // Add the style element to the head of the document
-      document.head.appendChild(style);
-    }
-  },[selectedImage])
+  // useEffect(()=>{
+  //   setActiveImage(selectedImage);
+  //   if (width < 840) {
+  //     const popup = document.getElementById("popup_modal");
+  //     const backgroundImageUrl = selectedImage["popup"];
+  //     const overlayColor = "rgba(0, 0, 0, 0.6)";
+  //     // Create a new style element
+  //     const style = document.createElement("style");
+  //     style.type = "text/css";
+  //     // Add a CSS rule for the #popup_modal::before pseudo-element
+  //     const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
+  //     style.appendChild(document.createTextNode(css));
+  //     // Add the style element to the head of the document
+  //     document.head.appendChild(style);
+  //   }
+  // },[selectedImage])
 
   const handleFirstSliderChange = (index) => {
     setCurrentSlide(index);
     slider2.current.slickGoTo(index);
     setActiveImage(images[index]);
-    const popup = document.getElementById("popup_modal");
-    const backgroundImageUrl = activeImage["popup"];
+    // const popup = document.getElementById("popup_modal");
+    // const backgroundImageUrl = activeImage["popup"];
 
-    const overlayColor = "rgba(0, 0, 0, 0.6)";
+    // const overlayColor = "rgba(0, 0, 0, 0.6)";
 
-    // Create a new style element
-    const style = document.createElement("style");
-    style.type = "text/css";
-    // Add a CSS rule for the #popup_modal::before pseudo-element
-    const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
-    style.appendChild(document.createTextNode(css));
-    // Add the style element to the head of the document
-    document.head.appendChild(style);
+    // // Create a new style element
+    // const style = document.createElement("style");
+    // style.type = "text/css";
+    // // Add a CSS rule for the #popup_modal::before pseudo-element
+    // const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
+    // style.appendChild(document.createTextNode(css));
+    // // Add the style element to the head of the document
+    // document.head.appendChild(style);
   };
 
   function changeImage(imgSrc) {
@@ -118,7 +118,7 @@ function ProductZoomModal(props) {
     <div className="fixed bg-white md:bg-dblackOverlay top-0 lef-0 right-0 bottom-0 w-full h-full z-30 overflow-hidden">
       <div className="relative z-40 h-screen mx-auto text-center box-border">
         <div className="absolute w-full lg:w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
-          <div className="h-full" id="popup_modal">
+          <div className="h-full bg-dblack lg:bg-white" id="popup_modal">
             <CgClose
               className="absolute right-0 p-0.5 md:m-3 w-8 z-10 bg-dblackOverlay md:bg-transparent rounded-sm h-8 md:w-9 md:h-9 cursor-pointer text-white  md:text-dblack"
               onClick={() => closeModal()}
