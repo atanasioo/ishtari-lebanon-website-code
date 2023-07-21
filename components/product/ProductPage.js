@@ -588,7 +588,7 @@ function ProductPage(props) {
   useEffect(() => {
     // setChecked(data?.data?.groups_wishlist);
     handleWishlist(0);
-    // setImages(data.images); //uncomment it for magic zoom
+    setImages(data.images);
     return () => {
       setImages([]);
       setActiveImage({});  //comment it for magic zoom //

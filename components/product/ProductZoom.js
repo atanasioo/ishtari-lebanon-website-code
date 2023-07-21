@@ -111,6 +111,7 @@ function ProductZoom(props) {
   }
 
   useEffect(() => {
+    console.log("heree");
     setImages(props.images);
 
     props?.images?.map((i, index) => {
@@ -123,12 +124,17 @@ function ProductZoom(props) {
 
     return () => {
       setActiveImage({});
+      
       setImages([]);
     };
   }, [props.activeOption, props.images]);
 
+  console.log(images[0]);
+
   useEffect(() => {
     setActiveImage(images[0]);
+    setActiveSlide(0);
+    imageSlider?.current?.slickGoTo(0);
   }, [images]);
 
   useEffect(() => {
