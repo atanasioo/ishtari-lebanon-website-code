@@ -1097,7 +1097,7 @@ function ProductPage(props) {
                           </div>
                         ) : (
                           <div
-                            // onClick={() => checkIfLogged()}
+                            onClick={() => checkIfLogged()}
                             className="fixed z-10 bottom-1 bg-dblue text-white rounded-full py-1  cursor-pointer  px-3  md:px-3  w-3/4 "
                           >
                             <div className="my-1 flex justify-around items-center">

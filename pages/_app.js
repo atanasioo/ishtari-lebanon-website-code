@@ -67,7 +67,7 @@ export default function App({
   }, []);
   useEffect(() => {
     const handleRouteChange = () => {
-      topRef.current?.scrollIntoView({ behavior: "smooth" });
+      topRef.current?.scrollIntoView();
     };
 
     router.events.on("routeChangeComplete", handleRouteChange);

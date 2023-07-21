@@ -13,6 +13,68 @@ function MagicZoom(props) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const router = useRouter();
 
+  // useEffect(() => {
+  //   console.log("hello can you hear me");
+  //   setImages(props.images);
+  //   try {
+  //     document.getElementById("mag-z-id").outerHTML = "";
+  //   } catch (e) {}
+
+  //   const script = document.createElement("script");
+  //   script.src = "https://www.ishtari.com/magiczoomplus/magiczoomplus.js";
+  //   script.async = false;
+  //   script.id = "mag-z-id";
+  //   document.body.appendChild(script);
+  //   setActiveImage(images[0]);
+  //   props?.images?.map((i, index) => {
+  //     if (i.product_option_value_id === props.activeOption) {
+  //       setActiveImage(i);
+  //       setActiveImageIndex(index);
+  //     }
+  //   });
+
+  //   return () => {
+  //     setActiveImage({});
+  //     setImages([]);
+  //     setActiveImageIndex(0);
+  //   };
+  // }, [activeOption, router]);
+
+  // useEffect(() => {
+  //   console.log("hello can you hear me");
+  //   setImages(props.images);
+  //   try {
+  //     document.getElementById("mag-z-id").outerHTML = "";
+  //   } catch (e) {}
+
+  //   // Load magiczoom.js script asynchronously
+  //   const script = document.createElement("script");
+  //   script.src = "https://www.ishtari.com/magiczoomplus/magiczoomplus.js";
+  //   script.async = true;
+  //   script.id = "mag-z-id";
+  //   script.onload = () => {
+  //     // Callback when the script is successfully loaded
+  //     // Now you can initialize Magic Zoom here, after the script is loaded
+  //     setActiveImage(images[0]);
+  //     props?.images?.map((i, index) => {
+  //       if (i.product_option_value_id === props.activeOption) {
+  //         setActiveImage(i);
+  //         setActiveImageIndex(index);
+  //       }
+  //     });
+  //   };
+  //   script.onerror = () => {
+  //     // Callback when there's an error loading the script
+  //     console.error("Error loading magiczoom.js");
+  //   };
+  //   document.body.appendChild(script);
+
+  //   return () => {
+  //     setActiveImage({});
+  //     setImages([]);
+  //     setActiveImageIndex(0);
+  //   };
+  // }, [activeOption, router]);
 
   useEffect(() => {
     console.log("hello can you hear me");
@@ -20,18 +82,35 @@ function MagicZoom(props) {
     try {
       document.getElementById("mag-z-id").outerHTML = "";
     } catch (e) {}
-    const script = document.createElement("script");
-    script.src = "https://www.ishtari.com/magiczoomplus/magiczoomplus.js";
-    script.async = false;
-    script.id = "mag-z-id";
-    document.body.appendChild(script);
-    setActiveImage(images[0]);
-    props?.images?.map((i, index) => {
-      if (i.product_option_value_id === props.activeOption) {
-        setActiveImage(i);
-        setActiveImageIndex(index);
-      }
-    });
+
+    // Load magiczoom.js script asynchronously
+    const loadScript = () => {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://www.ishtari.com/magiczoomplus/magiczoomplus.js";
+        script.async = true;
+        script.id = "mag-z-id";
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+      });
+    };
+
+    loadScript()
+      .then(() => {
+        // Magic Zoom script loaded successfully
+        setActiveImage(images[0]);
+        props?.images?.map((i, index) => {
+          if (i.product_option_value_id === props.activeOption) {
+            setActiveImage(i);
+            setActiveImageIndex(index);
+            console.log("hello there");
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error loading magiczoom.js", error);
+      });
 
     return () => {
       setActiveImage({});
@@ -90,7 +169,6 @@ function MagicZoom(props) {
         };
       }
     }, [ref, showShare]);
-
   }
 
   return (
@@ -128,7 +206,7 @@ function MagicZoom(props) {
                       }`}
                       width={76}
                       height={108}
-                      style={{ height: "108px"}}
+                      style={{ height: "108px" }}
                     />
                   </a>
                 ))}
@@ -165,7 +243,7 @@ function MagicZoom(props) {
                   </a>
                 ))}
               </div>
-                
+
               {/* </Slider> */}
             </div>
           </div>
