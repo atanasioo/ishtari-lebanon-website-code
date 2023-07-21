@@ -14,7 +14,7 @@ import { Pagination, Autoplay } from "swiper";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
 import NewImage from "./NewImage";
-
+import Slider from "./Slider";
 function SingleProduct(props) {
   const { item, host, addToCart } = props;
   const [state] = useContext(AccountContext);

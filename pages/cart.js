@@ -33,6 +33,7 @@ function Cart(props) {
   const [accountState] = useContext(AccountContext);
   const [sel, setSel] = useState([]);
   const router = useRouter();
+  const route= useRouter()
   const PointsLoader = dynamic(() => import("../components/PointsLoader"), {
     ssr: false // Disable server-side rendering
   });
@@ -439,7 +440,7 @@ function Cart(props) {
                         )}
                         <img
                           onClick={() =>
-                            history.push(
+                            route.push(
                               `${product.name
                                 .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 .replaceAll("20%", "")
@@ -545,7 +546,7 @@ function Cart(props) {
                             )}
                             <img
                               onClick={() =>
-                                history.push(
+                                route.push(
                                   `${product.name
                                     .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                     .replace(/\s+/g, "-")

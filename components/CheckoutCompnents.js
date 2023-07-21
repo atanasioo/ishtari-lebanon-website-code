@@ -201,9 +201,12 @@ function CheckoutCompnents() {
           // alert(2)
           getCart();
           if (!state.loged) {
-            if (!state.admin) {
+            if (!state.admin && firstAttemp==true) {
               dispatchAccount({ type: "setShowOver", payload: true });
               dispatchAccount({ type: "setShowLogin", payload: true });
+            }else{
+              dispatchAccount({ type: "setShowOver", payload: false });
+              dispatchAccount({ type: "setShowLogin", payload: false });
             }
           }
         } else {
