@@ -2140,6 +2140,10 @@ input:checked + .slider_swicth:before {
   
 }
 
+.single-product-img-slider .slick-slider{
+  touch-action: pan-y !important;
+}
+
 
 
 

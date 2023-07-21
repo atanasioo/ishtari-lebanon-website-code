@@ -59,7 +59,7 @@ function ProductZoom(props) {
     slidesToScroll: 1,
     autoplay: false,
     ref: imageSlider,
-    swipe: width >768 ? false: true,
+    swipe: false,
     touchMove: true, // Enable touchMove when isSlidingEnabled is true
 
     prevArrow: <></>, // or null
@@ -355,7 +355,7 @@ function ProductZoom(props) {
                   setLensClass("hidden");
                 }}
               >
-                <Slider {...singleSetting}>
+                <Slider {...singleSetting} className="single-product-img-slider">
                   {images?.map((i, index) => (
                     <Image
                       key={i["thumb"]}
