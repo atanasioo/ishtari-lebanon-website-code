@@ -341,7 +341,7 @@ function ProductZoom(props) {
                       alt="product image"
                       width={80}
                       height={120}
-                      onTouchStart={() => changeImage(i)}
+                      onClick={() => changeImage(i)}
                       className={`cursor-pointer border-2 ${
                         activeImage && activeImage["popup"] === i["popup"]
                           ? "border-dblue"

@@ -35,6 +35,7 @@ module.exports = {
         5.5: "22px",
         "unset": "unset",
         "90%": "90%",
+        "100svh": "100svh"
       },
       lineHeight: {
         'dsnug': '21.56px',
@@ -244,6 +245,12 @@ module.exports = {
       },
       dblackOverlay:{
         DEFAULT: "rgba(0,0,0,0.5)"
+      },
+      dblackOverlay2: {
+        DEFAULT: "rgba(74,74,74,0.3)"
+      },
+      dblackOverlay3: {
+        DEFAULT: "rgba(74,74,74,1)"
       },
       dbeigeRed:{
         DEFAULT: "rgb(252, 244, 244)"

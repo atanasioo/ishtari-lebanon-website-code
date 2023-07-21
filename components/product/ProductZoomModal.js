@@ -117,14 +117,14 @@ function ProductZoomModal(props) {
   return (
     <div className="fixed bg-white md:bg-dblackOverlay top-0 lef-0 right-0 bottom-0 w-full h-full z-30 overflow-hidden">
       <div className="relative z-40 h-screen mx-auto text-center box-border">
-        <div className="absolute w-full lg:w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
-          <div className="h-full bg-dblack lg:bg-white" id="popup_modal">
+        <div  className="absolute w-full lg:w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
+          <div className="h-full bg-dblackOverlay3 lg:bg-white" id="popup_modal">
             <CgClose
               className="absolute right-0 p-0.5 md:m-3 w-8 z-10 bg-dblackOverlay md:bg-transparent rounded-sm h-8 md:w-9 md:h-9 cursor-pointer text-white  md:text-dblack"
               onClick={() => closeModal()}
             />
-            <div className="flex flex-col justify-center h-full lg:h-unset ">
-              <div className="flex flex-col h-full md:my-8  justify-center gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
+            <div className="flex flex-col justify-center h-100svh lg:h-unset">
+              <div  className="flex flex-col h-100svh lg:h-full md:my-8  justify-center gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
                 <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-5/12 flex flex-col  lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
@@ -170,10 +170,10 @@ function ProductZoomModal(props) {
                         <Image
                           id="myimage"
                           width={390}
-                          height={530}
+                          height={450}
                           src={i["popup"]}
                           alt="product-image"
-                          className={`rounded-lg w-full max-h-450px md:max-h-700px lg:max-h-full  myimage-product-zoom  ${
+                          className={`rounded-lg w-full h-100svh  max-h-450px md:max-h-700px lg:max-h-full  myimage-product-zoom  ${
                             cursor ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
                           placeholder={"blur"}
