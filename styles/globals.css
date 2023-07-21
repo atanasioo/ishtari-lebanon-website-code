@@ -2144,6 +2144,14 @@ input:checked + .slider_swicth:before {
   touch-action: pan-y !important;
 }
 
+@media (max-width: 840px){
+  .popup-open {
+    overflow-y: hidden !important;
+    position: fixed;
+    width: 100%;
+  }
+}
+
 
 
 

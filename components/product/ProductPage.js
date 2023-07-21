@@ -591,7 +591,7 @@ function ProductPage(props) {
     // setImages(data.images); //uncomment it for magic zoom
     return () => {
       setImages([]);
-      setActiveImage({});  //comment it for magic zoom
+      setActiveImage({});  //comment it for magic zoom //
       setHasOption(false);
     };
   }, [product_id]);

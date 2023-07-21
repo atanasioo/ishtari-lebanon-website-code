@@ -11,6 +11,7 @@ import {
   WhatsappShareButton,
 } from "react-share";
 import ShareSocial from "./ShareSocial";
+import { useRouter } from "next/router";
 
 function ProductZoom(props) {
   const { productData, activeOption } = props;
@@ -22,9 +23,8 @@ function ProductZoom(props) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [showShare, setShowShare] = useState(false);
   const [hovered, setHovered] = useState(props.hovered);
-  const selectorSlider = useRef(null);
   const imageSlider = useRef(null);
-  const [isSlidingEnabled, setIsSlidingEnabled] = useState(true);
+  const router= useRouter();
 
   const [width, height] = useDeviceSize();
 
@@ -60,8 +60,7 @@ function ProductZoom(props) {
     autoplay: false,
     ref: imageSlider,
     swipe: false,
-    touchMove: true, // Enable touchMove when isSlidingEnabled is true
-
+    // touchMove: false, // Enable touchMove when isSlidingEnabled is true
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
@@ -165,6 +164,7 @@ function ProductZoom(props) {
       element.remove();
     });
     // lensExist.remove();
+    ///
 
     /*create lens:*/
     lens = document.createElement("DIV");
@@ -260,6 +260,32 @@ function ProductZoom(props) {
     }, [ref, showShare]);
   }
 
+  function htmlOverflow() {
+    const htmlElement = document.querySelector("html");
+    const bodyElement = document.querySelector("body");
+
+    // Add a CSS class to remove the overflow-y
+    htmlElement.classList.add("popup-open");
+    bodyElement.classList.add("popup-open");
+  }
+
+  // Function to remove popup-open class when the user starts navigating to a new route
+  const handleRouteChangeStart = () => {
+    const htmlElement = document.querySelector("html");
+    htmlElement.classList.remove("popup-open");
+    const bodyElement = document.querySelector("body");
+    bodyElement.classList.remove("popup-open");
+  };
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", handleRouteChangeStart);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+    };
+  }, [router.events]);
+
   return (
     <div>
       {showModal && (
@@ -315,7 +341,7 @@ function ProductZoom(props) {
                       alt="product image"
                       width={80}
                       height={120}
-                      onClick={() => changeImage(i)}
+                      onTouchStart={() => changeImage(i)}
                       className={`cursor-pointer border-2 ${
                         activeImage && activeImage["popup"] === i["popup"]
                           ? "border-dblue"
@@ -341,7 +367,7 @@ function ProductZoom(props) {
             >
               <div
                 onClick={() => {
-                  //htmlOverflow();
+                  htmlOverflow();
                   setShowModal(true);
                   //props.hideFixedCartMenu(true);
                 }}
@@ -355,7 +381,10 @@ function ProductZoom(props) {
                   setLensClass("hidden");
                 }}
               >
-                <Slider {...singleSetting} className="single-product-img-slider">
+                <Slider
+                  {...singleSetting}
+                  className="single-product-img-slider"
+                >
                   {images?.map((i, index) => (
                     <Image
                       key={i["thumb"]}
