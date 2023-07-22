@@ -79,8 +79,8 @@ function Header(props) {
     function checkCookies() {
       const adminToken = Cookies.get("ATDetails");
       if (typeof adminToken != "undefined") {
-        s;
-        setToken(adminToken);
+      
+        // setToken(adminToken);
       }
     }
     checkCookies();

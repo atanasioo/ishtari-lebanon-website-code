@@ -313,12 +313,17 @@ function ProductPage(props) {
 
   function getProductPart2() {
     var link =
-      buildLink(
-        "product",
-        undefined,
-        window.innerWidth,
-        window.config["site-url"]
-      ) + `${product_id}&source_id=1&part_two=true`;
+    buildLink("product", undefined, window.innerWidth) +
+    `${
+      Cookies.get("ATDetails")
+        ? (product_id +
+          `${
+            window.config["site-url"].indexOf("ishtari") > -1 || Cookies.get("site-local-name").includes("ishtari")
+              ? "&employer=true"
+              : "&admin=true"
+          }`
+        ): (product_id)
+    }&source_id=1&part_two=true`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
 

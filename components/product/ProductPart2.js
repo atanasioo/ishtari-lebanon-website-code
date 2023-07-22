@@ -314,7 +314,9 @@ function ProductPart2(props) {
             {loader ? (
               <PointsLoader />
             ) : (
-              productData2?.product_reviews && (
+
+              <>
+              {productData2?.product_reviews && (
                 <div ref={titleRef} className="container">
                   <div className="flex space-x-10 px-6 ">
                     <p
@@ -477,7 +479,7 @@ function ProductPart2(props) {
                                     .toUpperCase()}
                                 </div>
                                 <div className="flex flex-col ml-3">
-                                  <div className=""> Fatima</div>
+                                  <div className="">  {stateAccount.username}</div>
                                   <div className="flex">
                                     <StarRatings
                                       starDimension="18px"
@@ -772,7 +774,258 @@ function ProductPart2(props) {
                     </div>
                   </div>
                 </div>
-              )
+              )}
+               {productData2?.admin_product_reviews && (
+                <div ref={titleRef} className="">
+                  <div className="flex  ">
+                    <p
+                      className={`${
+                        // showReview &&
+                        "border-b-4 border-dblue scale-110 transform ease-in-out duration-300"
+                      }  font-semibold cursor-pointer text-xl mx-2  py-4`}
+                    >
+                      Product Reviews  
+                    </p>
+                    <span className="text-dbase  py-5 pl-3">( Disabled )</span>
+                  </div>
+                  <div
+                  // className={
+                  //   showReview
+                  //     ? " bg-white  mb-2 container"
+                  //     : "bg-white my-2 mx-1 container"
+                  // }
+                  >
+                    <div className="grid gap-4 lg:grid-cols-3 pt-4">
+                      <div className="flex p-1 md:border-r-2 md:border-dgreyRate">
+                        <div className="flex ">
+                          <div className="text-center">
+                            <div className="text-center font-bold text-d14">
+                              Overall Rating
+                            </div>
+                            <div className="font-bold text-xxl text-dRate">
+                              {productData2.admin_product_reviews?.avg_rating?.toFixed(
+                                1
+                              ) || "0.0"}
+                            </div>
+                            <div className="grid place-items-center  just auto-rows-max">
+                              <StarRatings
+                                starDimension="20px"
+                                starEmptyColor="#e3e3e3"
+                                starRatedColor="#f5a523"
+                                starSpacing="1px"
+                                rating={
+                                  productData2?.admin_product_reviews?.avg_rating
+                                }
+                              />
+                            </div>
+                            <div className="pl-3 text-sm md:text-d16">
+                              Based on{" "}
+                              {productData2?.admin_product_reviews?.totals
+                                ? productData2?.admin_product_reviews?.totals
+                                : "0"}{" "}
+                              ratings
+                            </div>
+                          </div>
+                        </div>
+                        {!stateAccount.loged && (
+                        <div className="grid place-items-center ">
+                          <div></div>
+                          <div className="text-center ml-12">
+                            {" "}
+                            <button
+                              className="flex rounded bg-dblue text-white text-sm md:text-d16 text px-3 py-1 hover:opacity-50	"
+                              onClick={() => {
+                                dispatchAccount({
+                                  type: "setShowOver",
+                                  payload: true,
+                                });
+                                dispatchAccount({
+                                  type: "setShowLogin",
+                                  payload: true,
+                                });
+                                dispatchAccount({
+                                  type: "setShowSignup",
+                                  payload: false,
+                                });
+                              }}
+                            >
+                              Write a review
+                            </button>
+                          </div>
+                          <div></div>
+                        </div>
+                       )} 
+                      </div>
+                  
+                 
+                    </div>
+
+                    <div className="mobile:px-6">
+                      <div className="ml-1">
+                       
+                      </div>
+
+                      {!productData2?.admin_product_reviews?.reviews &&
+                        productData2?.admin_product_reviews?.reviews?.length < 1 &&
+                        (width >= 650 ? (
+                          <div className="px-1 py-1 bg-dinputBorder w-1/4 font-light text-center text-d12 mt-3">
+                            There are no customer reviews or customer ratings.
+                          </div>
+                        ) : (
+                          <div className="px-1 py-1 bg-dinputBorder w-full font-light text-center text-d12 mt-3">
+                            There are no customer reviews or customer ratings.
+                          </div>
+                        ))}
+                      {productData2?.admin_product_reviews?.totals > 0 && (
+                        <div className="font-bold text-xl border-b border-dinputBorder px-4 pt-8 pb-2">
+                          {data?.admin_product_reviews?.totals} Customer Reviews
+                        </div>
+                      )}
+
+                      <div className="mt-2" ref={commentRef}>
+                        {productData2?.admin_product_reviews?.reviews?.map((r) => (
+                          <div
+                            className="border-b-2 border-dinputBorder pb-2"
+                            key={r.review_id}
+                          >
+                            <div className="mt-4 flex justify-start items-center flex-row space-x-2.5 ">
+                              <div
+                                className="flex rounded-full w-14 h-14 border-2 text-white  text-d22 items-center justify-center"
+                                style={{
+                                  backgroundColor:
+                                    color[
+                                      r.name
+                                        .replace(/\s+/g, "")
+                                        .charAt(0)
+                                        ?.toLowerCase()
+                                    ] || "red",
+                                  minWidth: "56px",
+                                }}
+                              >
+                                {r.name
+                                  .replace(/\s+/g, "")
+                                  .charAt(0)
+                                  .toUpperCase()}{" "}
+                              </div>
+                              <div className="flex flex-col justify-start ">
+                                <div className="flex items-center">
+                                  <p className="text-base font-bold pr-3 w-40 md:w-48">
+                                    {r?.name}
+                                  </p>
+                                  {r.check_purchase && (
+                                    <div className="flex items-center justify-center text-d12 border-l-2 border-dinputBorder pl-2 pr-3">
+                                      <svg
+                                        width="13"
+                                        height="13"
+                                        className=" mr-2"
+                                        viewBox="0 0 13 13"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M5.07262 9.64218L2.67767 7.24723L3.52189 6.403L5.07262 7.94775L9.0183 4.00206L9.86252 4.85227L5.07262 9.64218ZM6.2701 0.661133C2.96506 0.661133 0.282715 3.34348 0.282715 6.64851C0.282715 9.95355 2.96506 12.6359 6.2701 12.6359C9.57513 12.6359 12.2575 9.95355 12.2575 6.64851C12.2575 3.34348 9.57513 0.661133 6.2701 0.661133Z"
+                                          fill="#3866DF"
+                                        ></path>
+                                      </svg>
+                                      <p className="item-center justified-item mt-1">
+                                        Verified Purchase
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex -mt-1.5">
+                                  <StarRatings
+                                    starDimension="18px"
+                                    size="13"
+                                    starSpacing="1px"
+                                    starEmptyColor="#e3e3e3"
+                                    starRatedColor="#f5a523"
+                                    rating={parseInt(r.rating)}
+                                  />
+                                </div>
+
+                                <p
+                                  className="text-sm leading-none  font-d11 pt-1"
+                                  style={{ color: "rgb(189, 189, 189)" }}
+                                >
+                                  {/* {r.reviews.text} */}
+                                  {r?.date_added
+                                    .replace("-", " ")
+                                    .replace("-", " ")}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="images flex flex-wrap gap-1 my-4">
+                              {r?.images.map((img) => (
+                                <div className="mr-2">
+                                  <img
+                                    src={img}
+                                    alt={img}
+                                    className="w-14 h-14 sm:w-20 sm:h-20"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                            <div className="text-sm leading-none   pt-3 ">
+                              {r?.text}
+                            </div>
+                          </div>
+                        ))}
+                        {productData2?.admin_product_reviews?.total_pages > 1 && (
+                          <ReactPaginate
+                            pageCount={Math.ceil(
+                              productData2?.product_reviews?.total_pages
+                            )}
+                            containerClassName={"product-pagination"}
+                            onPageChange={pageSetter}
+                            pageRangeDisplayed={-1}
+                            marginPagesDisplayed={0}
+                            previousLabel={
+                              <div
+                                className={`flex ${
+                                  pageValue === 1 &&
+                                  "pointer-events-none opacity-50"
+                                }`}
+                              >
+                                <IoIosArrowBack />{" "}
+                                <span className="text-d13 ml-1 text-dblack">
+                                  Previous Page
+                                </span>{" "}
+                              </div>
+                            }
+                            activeClassName={"active-pagination-product"}
+                            nextLinkClassName={"bg-dgreyPrev  w-32 pr-1"}
+                            previousLinkClassName={
+                              "bg-dgreyPrev items-center	justify-center"
+                            }
+                            nextLabel={
+                              <div
+                                className={`flex ml-2 p-0 ${
+                                  pageValue ===
+                                    productData2?.product_reviews
+                                      ?.total_pages &&
+                                  "pointer-events-none opacity-50"
+                                }`}
+                              >
+                                {" "}
+                                <span className="text-d13 mr-1 text-dblack">
+                                  Next Page
+                                </span>{" "}
+                                <IoIosArrowForward className="" />{" "}
+                              </div>
+                            }
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              </>
+
+              
             )}
           </div>
         </div>
