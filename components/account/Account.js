@@ -13,7 +13,6 @@ import { BsFillCartCheckFill, BsFillHeartFill } from "react-icons/bs";
 import { MdAvTimer } from "react-icons/md";
 import { FaFacebookF, FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
-
 function Account() {
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -33,7 +32,6 @@ function Account() {
   const signupFirst = useRef("");
   const signupLast = useRef("");
   const path = "";
-
   const handleFacebookLogin = async () => {
     const result = await signIn("facebook");
     alert(result);
@@ -194,6 +192,7 @@ function Account() {
   }
 
   useEffect(() => {
+
     dispatch({ type: "setAdminLoading", payload: true });
     // 70 91 1870
 

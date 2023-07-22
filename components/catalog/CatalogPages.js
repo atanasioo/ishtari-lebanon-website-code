@@ -2148,8 +2148,8 @@ function CatalogPage(props) {
       </div>
 
       {filters && showMobileFilter && (
-        <div className="bg-white fixed w-full z-30 top-0 pl-2 pr-7 h-screen py-3">
-          <div className="flex justify-between">
+        <div className="bg-white fixed w-full z-30 top-0  h-screen py-3 ">
+          <div className="flex justify-between pl-2 pr-7">
             <div className="text-d22">Filters</div>{" "}
             <div
               className="text-d25 py-2"
@@ -2158,6 +2158,8 @@ function CatalogPage(props) {
               <AiOutlineClose />
             </div>
           </div>
+          <div className=" w-full h-screen pl-2 pr-7 overflow-y-auto">
+
           {Object.keys(filters).map((key) => (
             <div className="py-2">
               {filters[key].items.length > 0 && (
@@ -2322,6 +2324,8 @@ function CatalogPage(props) {
             </div>
           ))}
         </div>
+        </div>
+
       )}
     </div>
   );

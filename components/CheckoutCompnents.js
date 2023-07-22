@@ -92,6 +92,34 @@ function CheckoutCompnents() {
     }
   });
 
+
+  useEffect(() => {
+    // Function to execute before the route changes
+    const handleBeforeHistoryChange = (url) => {
+      console.log('Current Route:', router.pathname); // Log the current route
+      console.log('New Route:', url); // Log the new route
+     if(router.asPath === "/checkout"){
+      dispatchAccount({ type: "setShowOver", payload: false });
+      dispatchAccount({ type: "setShowLogin", payload: false });
+      dispatchAccount({ type: "setShowSignup", payload: false });
+
+     }
+    
+    };
+
+    // Add the beforeHistoryChange event listener
+    router.events.on('beforeHistoryChange', handleBeforeHistoryChange);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      router.events.off('beforeHistoryChange', handleBeforeHistoryChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    // This effect runs on component mount and whenever router.pathname changes
+    console.log(router.pathname);
+  }, [router.pathname]);
   // dynamic
 
   // const HandlePhoneModel = dynamic(() => import("./PhoneHanlder"), {
@@ -185,6 +213,7 @@ function CheckoutCompnents() {
   const cid = Cookies.get("cid");
 
   useEffect(() => {
+    console.log(router)
     axiosServer
       .get(
         buildLink(
@@ -201,12 +230,10 @@ function CheckoutCompnents() {
           // alert(2)
           getCart();
           if (!state.loged) {
-            if (!state.admin && firstAttemp==true) {
+            // alert(window.location.href)
+            if (!state.admin && router.asPath.indexOf("/checkout") > -1) {
               dispatchAccount({ type: "setShowOver", payload: true });
               dispatchAccount({ type: "setShowLogin", payload: true });
-            }else{
-              dispatchAccount({ type: "setShowOver", payload: false });
-              dispatchAccount({ type: "setShowLogin", payload: false });
             }
           }
         } else {

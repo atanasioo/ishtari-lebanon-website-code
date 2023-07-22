@@ -265,7 +265,29 @@ function SingleProduct(props) {
                   <Slider
                     images={props?.item?.images?.slice(0, 2)}
                     autoplay={true}
+                    primary={item?.popup}
                   />
+                 {props?.item?.option_color_count &&
+                  props?.item?.option_color_count > 1 ? (
+                    <div className="flex items-center flex-col ">
+                      <div
+                        className="text-d12 absolute bottom-0 z-50 font-semibold mb-2 px-3 overflow-hidden whitespace-nowrap overflow-ellipsis w-auto bg-dprimarybg"
+                        style={{
+                          borderRadius: "30px",
+                          // background: "rgb(239, 243, 253)",
+                          border: "1px solid rgba(255, 255, 255, 0.7)",
+                          maxWidth: width > 650 ? "45%" : "55%",
+                          paddingTop: "0.5px",
+                          paddingBottom: "0.5px",
+                        }}
+                      >
+                        {props?.item?.option_color_count} Colours
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  
                   {/* <div className="thumbnails">
                     {props?.item?.images?.slice(0, 2).map((image, index) => (
                       <div

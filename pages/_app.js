@@ -14,7 +14,8 @@ import { useRef, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { useCookie } from "next-cookie";
 import { SessionProvider } from "next-auth/react";
-import { AccountProvider } from "@/contexts/AccountContext";
+import { AccountProvider} from "@/contexts/AccountContext";
+// import { AccountContext } from "@/contexts/AccountContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { SellerProvider, useSellerContext } from "@/contexts/SellerContext";
@@ -40,9 +41,7 @@ export default function App({
   const buildTimestamp = buildInfo.buildDate;
   const lastUpdateMoment = moment.unix(buildTimestamp / 1000);
   const formattedDate = lastUpdateMoment.format("DD.MM.YYYY HH:mm:ss");
-  // const isUserSeller = true;
 
-  // const { isUserSeller, setIsUserSeller } = useSllerContext();
   useEffect(() => {
     const handleStart = (url) => {
       const excludeHome = url === "/";
