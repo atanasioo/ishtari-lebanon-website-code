@@ -132,8 +132,9 @@ function ProductZoomModal(props) {
         <div  className="absolute w-full lg:w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
           <div className="h-screen md:h-full bg-dblackOverlay3 lg:bg-white" id="popup_modal">
             <CgClose
-              className="absolute right-0 p-0.5 md:m-3 w-8 z-10 bg-dblackOverlay md:bg-transparent rounded-sm h-8 md:w-9 md:h-9 cursor-pointer text-white  md:text-dblack"
+              className="absolute right-0 p-0.5 md:m-3 w-8 z-10 bg-dblackOverlay lg:bg-transparent rounded-sm h-8 md:w-9 md:h-9 cursor-pointer text-white  lg:text-dblack"
               onClick={() => closeModal()}
+              onTouchStart={() => closeModal()}
             />
             <div className="flex flex-col justify-center h-100svh lg:h-unset">
               <div  className="flex flex-col h-100svh lg:h-full md:my-8  justify-center gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
