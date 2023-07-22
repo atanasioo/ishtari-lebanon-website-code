@@ -24,6 +24,7 @@ function ProductZoom(props) {
   const [showShare, setShowShare] = useState(false);
   const [hovered, setHovered] = useState(props.hovered);
   const imageSlider = useRef(null);
+  const SmallImageSlider = useRef(null);
   const router= useRouter();
 
   const [width, height] = useDeviceSize();
@@ -37,6 +38,7 @@ function ProductZoom(props) {
     swipeToSlide: false,
     autoplay: false,
     vertical: true,
+    ref: SmallImageSlider,
     prevArrow: <SmallArrows direction={"u"} />,
     nextArrow: <SmallArrows direction={"d"} />,
   };
@@ -60,7 +62,7 @@ function ProductZoom(props) {
     autoplay: false,
     ref: imageSlider,
     swipe: false,
-    // touchMove: false, // Enable touchMove when isSlidingEnabled is true
+    // touchMove: true, // Enable touchMove when isSlidingEnabled is true
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
@@ -129,16 +131,16 @@ function ProductZoom(props) {
     };
   }, [props.activeOption, props.images]);
 
-  console.log(images[0]);
 
   useEffect(() => {
     setActiveImage(images[0]);
     setActiveSlide(0);
     imageSlider?.current?.slickGoTo(0);
+    SmallImageSlider?.current?.slickGoTo(0);
   }, [images]);
 
   useEffect(() => {
-    if (hoverZoom) {
+    if (hoverZoom && width > 768) {
       imageZoom("myimage" + activeSlide, "myresult");
     }
   }, [hoverZoom]);

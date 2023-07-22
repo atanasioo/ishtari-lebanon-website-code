@@ -19,6 +19,7 @@ function ProductZoomModal(props) {
   const slider1 = useRef(null);
   const slider2 = useRef(null);
   const slider3 = useRef(null);
+  const zoomRef = useRef(null);
 
   const singleSetting = {
     dots: false,
@@ -83,6 +84,17 @@ function ProductZoomModal(props) {
     setCurrentSlide(index);
     slider2.current.slickGoTo(index);
     setActiveImage(images[index]);
+
+    // Get the currently active slide index
+    // const activeSlideIndex = slider3.current?.innerSlider?.state.currentSlide;
+
+    // // Reset the zoom of the currently zoomed image by setting the zoom level to 1
+    // if (slider3.current && activeSlideIndex !== null) {
+    //   slider3.current.innerSlider.state.currentSlide = activeSlideIndex;
+    //   console.log(slider3.current.innerSlider.props.children[activeSlideIndex].props.children[0].props.children[0]);
+    // }
+    zoomRef.current.reset();
+
     // const popup = document.getElementById("popup_modal");
     // const backgroundImageUrl = activeImage["popup"];
 
@@ -164,6 +176,7 @@ function ProductZoomModal(props) {
                       <PrismaZoom
                         minZoom={1}
                         maxZoom={3}
+                        ref={zoomRef}
                         onZoomChange={() => setCursor(!cursor)}
                         key={i["thumb"]}
                       >
