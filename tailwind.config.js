@@ -35,7 +35,9 @@ module.exports = {
         5.5: "22px",
         "unset": "unset",
         "90%": "90%",
-        "100svh": "100svh"
+        "100svh": "100svh",
+        "100lvh": "100lvh",
+        "100dvh": "100dvh",
       },
       lineHeight: {
         'dsnug': '21.56px',

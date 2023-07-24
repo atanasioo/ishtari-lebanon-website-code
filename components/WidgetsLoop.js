@@ -53,14 +53,19 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
 
   const handleBeforeChange = useCallback(() => {
     setDragging(true);
+    setTimeout(() =>{
+      setDragging(false);
+    },200)
   }, [setDragging]);
 
   const handleAfterChange = useCallback(() => {
     setDragging(false);
   }, [setDragging]);
+  
 
   const handleOnItemClick = useCallback(
     (e) => {
+      console.log(dragging);
       if (dragging) {
         // e.stopPropagation()
         e.preventDefault();
@@ -114,6 +119,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
     infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
     nextArrow: <CustomNextArrows direction={"r"} />,
+
   };
 
   function CustomSliderPrevArrows({ direction, onClick, style, className }) {
