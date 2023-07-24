@@ -15,7 +15,7 @@ import { axiosServer } from "@/axiosServer";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import { AiOutlineShopping } from "react-icons/ai";
-
+import { slugify } from "@/components/Utils";
 function Cart(props) {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
@@ -235,7 +235,7 @@ function Cart(props) {
       .then((response) => {
         const data = response.data;
         if (!data.success) {
-          history.push({
+          route.push({
             pathname: "/product/" + product_id
           });
           // console.log(data);
@@ -441,11 +441,8 @@ function Cart(props) {
                         <img
                           onClick={() =>
                             route.push(
-                              `${product.name
-                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                .replaceAll("20%", "")
-                                .replace(/\s+/g, "-")
-                                .replaceAll("/", "-")}/p=${product.product_id}`
+                              `${slugify(product.name)
+                               }/p=${product.product_id}`
                             )
                           }
                           src={product.thumb}

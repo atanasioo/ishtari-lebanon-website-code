@@ -43,9 +43,9 @@ function SlugPage(props) {
             ? props.data?.name
             : props.data?.heading_title
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
-          {props.data?.heading_title || props.data?.name && (props?.type === "product"
-            ? props.data?.name.replaceAll("&amp;", "&")
-            : props.data?.heading_title && props.data?.heading_title.replaceAll("&amp;", "&") + " | ishtari"
+          {(props.data?.heading_title || props.data?.name) && (props?.type === "product"
+            ? props.data?.name.replaceAll("&amp;", "&").replaceAll("&quot;", "&")
+            : props.data?.heading_title && props.data?.heading_title.replaceAll("&amp;", "&").replaceAll("&quot;", "&") + " | ishtari"
           ).replaceAll("<!-- -->", "")}
         </title>
         <meta

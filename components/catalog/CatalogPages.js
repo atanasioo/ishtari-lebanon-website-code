@@ -460,7 +460,7 @@ function CatalogPage(props) {
     // console.log(type);
     if (
       filter_options != undefined &&
-      (name === "Color" || name === "Light Color")
+      (name === "Color" || name === "Light color")
     ) {
       if (filter_options.indexOf(filter["id"]) > -1) {
         return "rounded-full border border-dblue";
@@ -721,7 +721,7 @@ function CatalogPage(props) {
                     <div>
                       {filters[key].items.slice(0, 5).map((filter) => (
                         <div key={Math.random()}>
-                          {filters[key].name === "Light Color" ||
+                          {filters[key].name === "Light color" ||
                           filters[key].name === "Color" ? (
                             <div
                               className="my-2 flex items-center cursor-pointer hover:text-dblue"
@@ -802,7 +802,7 @@ function CatalogPage(props) {
                           .slice(5, filters[key].items.length)
                           .map((filter) => (
                             <div key={Math.random()}>
-                              {filters[key].name === "Light Color" ||
+                              {filters[key].name === "Light color" ||
                               filters[key].name === "Color" ? (
                                 <div
                                   className="my-2 flex items-center cursor-pointer hover:text-dblue"
@@ -1198,7 +1198,7 @@ function CatalogPage(props) {
           {filters &&
             (filters[0]?.items?.length > 0 ||
               filters[1]?.items?.length > 0) && (
-              <div className=" w-full block relative z-20 ">
+              <div className=" w-full block relative z-100 ">
                 <div className="relative flex items-center mb-3">
                   <div
                     className={`catalog-top-filter hidden mobile:block  ${
@@ -1257,7 +1257,7 @@ function CatalogPage(props) {
                                       data.filters.findIndex(
                                         (x) => x.name === topFilter.name
                                       )
-                                    ].name === "Light Color" ||
+                                    ].name === "Light color" ||
                                     filters[
                                       data.filters.findIndex(
                                         (x) => x.name === topFilter.name
@@ -1504,7 +1504,7 @@ function CatalogPage(props) {
                                     data.filters.findIndex(
                                       (x) => x.name === topFilter.name
                                     )
-                                  ].name === "Light Color" ||
+                                  ].name === "Light color" ||
                                   filters[
                                     data.filters.findIndex(
                                       (x) => x.name === topFilter.name
@@ -2172,7 +2172,7 @@ function CatalogPage(props) {
                   <div>
                     {filters[key].items.slice(0, 5).map((filter) => (
                       <div key={Math.random()}>
-                        {filters[key].name === "Light Color" ||
+                        {filters[key].name === "Light color" ||
                         filters[key].name === "Color" ? (
                           <div
                             className="my-2 flex items-center cursor-pointer hover:text-dblue"
@@ -2253,7 +2253,7 @@ function CatalogPage(props) {
                         .slice(5, filters[key].items.length)
                         .map((filter) => (
                           <div key={Math.random()}>
-                            {filters[key].name === "Light Color" ||
+                            {filters[key].name === "Light color" ||
                             filters[key].name === "Color" ? (
                               <div
                                 className="my-2 flex items-center cursor-pointer hover:text-dblue"
