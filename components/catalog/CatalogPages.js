@@ -202,7 +202,8 @@ function CatalogPage(props) {
     } else if (filter.id === "filter_price") {
       params && params.delete("filter_price");
     }
-    if(!params.includes("filter")){
+console.log(params)
+    if(params && params.indexOf("filters") < 0  &&  params?.indexOf("&filter_") < 0  && params?.indexOf("has_filter") > -1){
       params.delete("has_filter")
       params.delete("last")
     }
