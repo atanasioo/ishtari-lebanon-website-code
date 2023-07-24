@@ -202,7 +202,11 @@ function CatalogPage(props) {
     } else if (filter.id === "filter_price") {
       params && params.delete("filter_price");
     }
-
+    if(!params.includes("filter")){
+      params.delete("has_filter")
+      params.delete("last")
+    }
+    
     router.push({ pathname: "/" + catalog + "/" + slug, search: params });
   };
 
