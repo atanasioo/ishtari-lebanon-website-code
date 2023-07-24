@@ -203,11 +203,16 @@ function CatalogPage(props) {
       params && params.delete("filter_price");
     }
 console.log(params)
-    if(params && params.indexOf("filters") < 0  &&  params?.indexOf("&filter_") < 0  && params?.indexOf("has_filter") > -1){
-      params.delete("has_filter")
-      params.delete("last")
-    }
-    
+if (
+  params &&
+  (typeof params === 'string' || params instanceof String) &&
+  !params.includes('filters') &&
+  !params.includes('&filter_') &&
+   params.includes('has_filter')
+) {
+  params.delete("has_filter");
+  params.delete("last");
+}
     router.push({ pathname: "/" + catalog + "/" + slug, search: params });
   };
 
