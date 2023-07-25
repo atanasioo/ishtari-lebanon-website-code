@@ -410,7 +410,7 @@ function wishlist() {
                             {product.special}
                           </span>
                         </div>
-                        <div className="flex ">
+                        <div className="flex flex-col md:flex-row">
                           <button
                             onClick={() => addToCart(product.product_id)}
                             className="cursor-pointer text-dgrey1 text-sm"
@@ -420,7 +420,7 @@ function wishlist() {
                           </button>
                           <button
                             onClick={() => remove(product.product_id)}
-                            className="cursor-pointer text-dgrey1 text-sm ml-4"
+                            className="cursor-pointer text-dgrey1 text-left text-sm md:ml-4"
                           >
                             <span>Remove</span>
                             <i className="icon icon-trash ml-1"></i>
