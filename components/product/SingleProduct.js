@@ -15,6 +15,8 @@ import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
 import NewImage from "./NewImage";
 import Slider from "./Slider";
+import { useMarketingData } from "@/contexts/MarketingContext";
+
 function SingleProduct(props) {
   const { item, host, addToCart } = props;
   const [state] = useContext(AccountContext);
@@ -26,6 +28,41 @@ function SingleProduct(props) {
     swiperRef.current = Swiper;
   };
   const [width] = useDeviceSize();
+  const { setMarketingData } = useMarketingData();
+
+  const source_type =
+    router.asPath === "/"
+      ? "home"
+      : router.asPath.startsWith("/category") || router.asPath.includes("c=")
+      ? "category"
+      : router.asPath.startsWith("/seller") || router.asPath.includes("s=")
+      ? "seller"
+      : router.asPath.startsWith("/manufacturer") ||
+        router.asPath.includes("m=")
+      ? "manufacturer"
+      : router.asPath.startsWith("/latest")
+      ? "new_arrival"
+      : "home";
+
+  const source_type_id =
+    Object.keys(router.query).length > 0
+      ? router.query.slug[0].includes("p=") ||
+        router.query.slug[0].includes("s=") ||
+        router.query.slug[0].includes("m=") ||
+        router.query.slug[0].includes("c=")
+        ? router.query.slug[0].split("=")[1]
+        : router.query.slug[0]
+      : "";
+
+  const handleLinkClick = () => {
+    //for marketing
+    setMarketingData({
+      ignore: false,
+      banner_image_id: "",
+      source_type: source_type,
+      source_type_id: source_type_id,
+    });
+  };
 
   // const NewImage = dynamic(() => import("./NewImage"), {
   //   ssr: false, // Disable server-side rendering
@@ -71,7 +108,7 @@ function SingleProduct(props) {
   const images = [
     "image-url-1.jpg",
     "image-url-2.jpg",
-    "image-url-3.jpg"
+    "image-url-3.jpg",
     // Add more image URLs here
   ];
 
@@ -92,6 +129,7 @@ function SingleProduct(props) {
 
   return (
     <Link
+      onClick={handleLinkClick}
       href={`${path}/${item.name
         .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
         .replaceAll("%", parseInt(""))
@@ -267,7 +305,7 @@ function SingleProduct(props) {
                     autoplay={true}
                     primary={item?.popup}
                   />
-                 {props?.item?.option_color_count &&
+                  {props?.item?.option_color_count &&
                   props?.item?.option_color_count > 1 ? (
                     <div className="flex items-center flex-col ">
                       <div
@@ -287,7 +325,7 @@ function SingleProduct(props) {
                   ) : (
                     ""
                   )}
-                  
+
                   {/* <div className="thumbnails">
                     {props?.item?.images?.slice(0, 2).map((image, index) => (
                       <div
@@ -319,7 +357,7 @@ function SingleProduct(props) {
                       props.isList ? " pr-semibold" : "text-d13 "
                     }  mb-1 h-10 pr-semibold`}
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHTML(props.item.manufacturer_name)
+                      __html: sanitizeHTML(props.item.manufacturer_name),
                     }}
                   />
                   {props.isList && <br />}
@@ -335,7 +373,7 @@ function SingleProduct(props) {
                       dangerouslySetInnerHTML={{
                         __html: sanitizeHTML(
                           item?.name?.split(item.manufacturer_name)[1]
-                        )
+                        ),
                       }}
                     />
                   ) : (
@@ -346,7 +384,7 @@ function SingleProduct(props) {
                           : "ml-1 text-d13 md:text-thin font-light"
                       }   mb-1 h-10 `}
                       dangerouslySetInnerHTML={{
-                        __html: props.isList ? item.full_name : item.name
+                        __html: props.isList ? item.full_name : item.name,
                       }}
                     />
                   )}
@@ -387,7 +425,8 @@ function SingleProduct(props) {
                 <div
                   dangerouslySetInnerHTML={{
                     __html:
-                      sanitizeHTML(props.item.description.slice(0, 500)) + "..."
+                      sanitizeHTML(props.item.description.slice(0, 500)) +
+                      "...",
                   }}
                 ></div>
               </div>
@@ -431,7 +470,7 @@ function SingleProduct(props) {
                             ? "rgb(110, 159, 0)"
                             : item?.rating < 4 && item?.rating >= 3.5
                             ? "rgb(243, 153, 22)"
-                            : "rgb(246,90,31)"
+                            : "rgb(246,90,31)",
                       }}
                     >
                       <div

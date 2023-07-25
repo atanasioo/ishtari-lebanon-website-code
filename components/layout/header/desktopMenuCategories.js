@@ -11,6 +11,7 @@ import DesktopMenuClientPopups from "./DesktopMenuClientPopups";
 import dynamic from "next/dynamic";
 import { sanitizeHTML } from "@/components/Utils";
 import { axiosServer } from "@/axiosServer";
+import { useMarketingData } from "@/contexts/MarketingContext";
 
 function DesktopMenuCategories(props) {
   const { header_categories, local } = props;
@@ -22,9 +23,9 @@ function DesktopMenuCategories(props) {
   const [allCategories, setAllCategories] = useState([]);
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
   const [clearHover, setClearHover] = useState(false);
+  const { setMarketingData } = useMarketingData();
 
   const router = useRouter();
-
 
   const DesktopMenuClientPopups = dynamic(
     () => import("./DesktopMenuClientPopups"),
@@ -33,20 +34,17 @@ function DesktopMenuCategories(props) {
     }
   );
 
-
-  function handleState(state, value){
-    if(state==="selectedTopCategory"){
+  function handleState(state, value) {
+    if (state === "selectedTopCategory") {
       setSelectedTopCategory(value);
-    }else if(state==="viewMenuCategories2"){
-      setViewMenuCategories2(value)
-    }else if(state ==="viewSubAllCategories2"){
+    } else if (state === "viewMenuCategories2") {
+      setViewMenuCategories2(value);
+    } else if (state === "viewSubAllCategories2") {
       setViewSubAllCategories2(value);
-    }else if(state==="overlay"){
-      setOverlay(value)
+    } else if (state === "overlay") {
+      setOverlay(value);
     }
   }
-
-
 
   useEffect(() => {
     if (header_categories) {
@@ -54,7 +52,8 @@ function DesktopMenuCategories(props) {
       // setSelectedMenuCategory2(header_categories[0]);
     } else {
       axiosServer
-        .get(buildLink("headerv2", undefined, undefined, window.config['site-url']) 
+        .get(
+          buildLink("headerv2", undefined, undefined, window.config["site-url"])
         )
         .then((response) => {
           const data = response?.data;
@@ -64,7 +63,14 @@ function DesktopMenuCategories(props) {
     }
     //sub menu categories
     axiosServer
-      .get(buildLink("all_categories", undefined, undefined, window.config['site-url']))
+      .get(
+        buildLink(
+          "all_categories",
+          undefined,
+          undefined,
+          window.config["site-url"]
+        )
+      )
       .then((response) => {
         try {
           const data = response.data.data;
@@ -208,6 +214,7 @@ function DesktopMenuCategories(props) {
                     href={`/${slugify(category["title"].title)}/c=${
                       category["title"].mobile_type_id
                     }`}
+                    onClick={() => setMarketingData({})}
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHTML(category["title"].title),
                     }}
@@ -215,7 +222,9 @@ function DesktopMenuCategories(props) {
                 </div>
               ))}
             <div className="px-4 hover:text-dbase cursor-pointer">
-               <Link href={`/latest`} >New Arrivals</Link>
+              <Link href={`/latest`} onClick={() => setMarketingData({})}>
+                New Arrivals
+              </Link>
             </div>
           </div>
         </div>

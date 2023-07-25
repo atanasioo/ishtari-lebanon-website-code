@@ -4,12 +4,10 @@ import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaBus } from "react-icons/fa";
 import { AiOutlineShop } from "react-icons/ai";
-import DOMPurify from "dompurify";
 import Image from "next/image";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { Swiper, SwiperSlide } from "swiper/react";
 import useDeviceSize from "@/components/useDeviceSize";
 import { axiosServer } from "@/axiosServer";
 import buildLink, { path, pixelID } from "@/urls";
@@ -28,6 +26,7 @@ import Slider from "react-slick";
 import ProductOptionModal from "./ProductOptionModal";
 import WhatsappBtn from "./WhatsappBtn";
 import MagicZoom from "./MagicZoom";
+import { useMarketingData } from "@/contexts/MarketingContext";
 
 function ProductPage(props) {
   //Server props
@@ -36,6 +35,7 @@ function ProductPage(props) {
   const [accountState, dispatchAccount] = useContext(AccountContext);
   const [state, dispatch] = useContext(CartContext);
   const [stateW, dispatchW] = useContext(WishlistContext);
+  const { marketingData, setMarketingData } = useMarketingData();
   //states
   const [countDownPointer, setCountDownPointer] = useState();
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
@@ -78,6 +78,12 @@ function ProductPage(props) {
     show: false,
     bundle: null,
   });
+
+  async function initializeReactPixel() {
+    return import("react-facebook-pixel").then((module) => module.default);
+  }
+
+  console.log(marketingData);
 
   const [width, height] = useDeviceSize();
   const Timer = dynamic(() => import("./Timer"), {
@@ -184,14 +190,16 @@ function ProductPage(props) {
         fbp: Cookies.get("_fbp"),
       };
       if (typeof window !== "undefined") {
-        // Dynamic import of react-facebook-pixel
-        import("react-facebook-pixel")?.then((ReactPixel) => {
-          ReactPixel.default.init(pixelID, advancedMatching, {
+        let ReactPixel; // Define a variable to hold the reference to ReactPixel
+
+        initializeReactPixel().then((reactPixelModule) => {
+          ReactPixel = reactPixelModule; // Assign the default export to the variable
+          ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
             autoConfig: false,
           });
-          ReactPixel.default.pageView();
-          ReactPixel.default.fbq("track", "PageView");
+          ReactPixel.pageView();
+          ReactPixel.fbq("track", "PageView");
 
           window.fbq(
             "track",
@@ -212,6 +220,22 @@ function ProductPage(props) {
         dataSocial["fbc"] = Cookies.get("_fbc");
         dataSocial["ttp"] = Cookies.get("_ttp");
         dataSocial["link"] = window.location.href;
+        dataSocial["view_type"] = "product";
+        dataSocial["view_type_id"] = product_id;
+
+        if (
+          marketingData.source_type === "" ||
+          marketingData.source_type === null ||
+          typeof marketingData.source_type === "undefined"  
+        ) {
+          dataSocial["ignore"] = true;
+        } else {
+          dataSocial["source_type"] = marketingData.source_type;
+          dataSocial["source_type_id"] = marketingData.source_type_id;
+          dataSocial["banner_image_id"] = marketingData.banner_image_id
+            ? marketingData.banner_image_id
+            : "";
+        }
 
         axiosServer
           .post(
@@ -313,17 +337,18 @@ function ProductPage(props) {
 
   function getProductPart2() {
     var link =
-    buildLink("product", undefined, window.innerWidth) +
-    `${
-      Cookies.get("ATDetails")
-        ? (product_id +
-          `${
-            window.config["site-url"].indexOf("ishtari") > -1 || Cookies.get("site-local-name").includes("ishtari")
-              ? "&employer=true"
-              : "&admin=true"
-          }`
-        ): (product_id)
-    }&source_id=1&part_two=true`;
+      buildLink("product", undefined, window.innerWidth) +
+      `${
+        Cookies.get("ATDetails")
+          ? product_id +
+            `${
+              window.config["site-url"].indexOf("ishtari") > -1 ||
+              Cookies.get("site-local-name").includes("ishtari")
+                ? "&employer=true"
+                : "&admin=true"
+            }`
+          : product_id
+      }&source_id=1&part_two=true`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
 
@@ -596,7 +621,7 @@ function ProductPage(props) {
     setImages(data.images);
     return () => {
       setImages([]);
-      setActiveImage({});  //comment it for magic zoom //
+      setActiveImage({}); //comment it for magic zoom //
       setHasOption(false);
     };
   }, [product_id]);

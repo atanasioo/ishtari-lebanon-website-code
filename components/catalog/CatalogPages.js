@@ -3,9 +3,6 @@ import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-
-
-
 import Slider from "react-slick";
 import Image from "next/image";
 import { loader } from "/public/images/loader.gif";
@@ -14,17 +11,17 @@ import WidgetsLoop from "../WidgetsLoop";
 import styles from "/styles/slider.module.css";
 import { CustomArrowProps } from "react-slick";
 import { IoIosArrowDown } from "react-icons/io";
-import {
-  MdOutlineArrowForwardIos,
-  MdOutlineArrowBackIos
-} from "react-icons/md";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
 import { BsGrid } from "react-icons/bs";
 import useDeviceSize from "../useDeviceSize";
-import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import ScrollToTop from "react-scroll-to-top";
+import { useMarketingData } from "@/contexts/MarketingContext";
+import { axiosServer } from "@/axiosServer";
+import Cookies from "js-cookie";
+import buildLink from "@/urls";
+
 function CatalogPage(props) {
   const { data } = props; //instead of productData
   const filters = data?.filters;
@@ -35,14 +32,18 @@ function CatalogPage(props) {
 
   const [productDisplay, setProductDisplay] = useState("grid");
   const [width] = useDeviceSize();
+  const { marketingData, setMarketingData } = useMarketingData();
+
+  console.log(marketingData);
+  console.log(props.type);
   const SwiperComponent = dynamic(() => import("./SwiperComponent"), {
-    ssr: false
+    ssr: false,
   });
   const productSetting = {
     speed: 200,
     slidesToShow: 8,
     slidesToScroll: 3,
-    infinite: false
+    infinite: false,
     // prevArrow: <CustomPrevArrows direction={"l"} />,
     // nextArrow: <CustomNextArrows direction={"r"} />
   };
@@ -51,7 +52,7 @@ function CatalogPage(props) {
     speed: 200,
     slidesToShow: 3.5,
     slidesToScroll: 3,
-    infinite: false
+    infinite: false,
   };
 
   const sliderRef = useRef(null);
@@ -163,6 +164,12 @@ function CatalogPage(props) {
   }
 
   const router = useRouter();
+  const catalog_id =
+    router.query.slug[0].includes("c=") ||
+    router.query.slug[0].includes("s=") ||
+    router.query.slug[0].includes("m=")
+      ? router.query.slug[0].split("=")[1]
+      : router.query.slug[0];
   const {
     catalog,
     filter_categories,
@@ -176,8 +183,9 @@ function CatalogPage(props) {
     page,
     sort,
     order,
-    limit
+    limit,
   } = router.query;
+  console.log("id is " + slug);
   const clearFilter = (filter) => {
     console.log("router");
     console.log(router);
@@ -185,7 +193,7 @@ function CatalogPage(props) {
     setTopFilter({
       show: false,
       name: "",
-      offset: 0
+      offset: 0,
     });
 
     let params = new URLSearchParams(location.search);
@@ -219,19 +227,19 @@ if (
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
     value: "p2co.sort_order-ASC",
-    text: "Default"
+    text: "Default",
   });
   const [topFilter, setTopFilter] = useState({
     show: false,
     name: "",
-    offset: 0
+    offset: 0,
   });
 
   const [showLimit, setShowLimit] = useState(false);
 
   const [limitValue, setLimit] = useState({
     value: "50",
-    text: "50"
+    text: "50",
   });
 
   // console.log(checkFilter("filter_sellers", "Blue", filter));
@@ -306,7 +314,7 @@ if (
             setTopFilter({
               show: false,
               name: topFilter.name,
-              offset: topFilter.offset
+              offset: topFilter.offset,
             });
           }
         }
@@ -348,7 +356,7 @@ if (
 
     setLimit({
       value: limitData.value,
-      text: limitData.text
+      text: limitData.text,
     });
     // alert(now);
     var now = "&limit=" + limitData.value;
@@ -424,26 +432,26 @@ if (
         setTopFilter({
           show: false,
           name: name,
-          offset: topFilter.offset
+          offset: topFilter.offset,
         });
       } else if (topFilter.name !== name && topFilter.show === true) {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off
+          offset: off > 531 ? 531 : off,
         });
       } else {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off
+          offset: off > 531 ? 531 : off,
         });
       }
     } else {
       setTopFilter({
         show: true,
         name: name,
-        offset: off > 531 ? 531 : off
+        offset: off > 531 ? 531 : off,
       });
     }
   };
@@ -673,6 +681,40 @@ if (
       // sender_parent.nextElementSibling.textContent ="See All"
     }
   }
+
+  //marketing analytics
+
+  useEffect(() => {
+    var dataSocial = data?.social_data;
+    dataSocial["fbp"] = Cookies.get("_fbp");
+    dataSocial["fbc"] = Cookies.get("_fbc");
+    dataSocial["ttp"] = Cookies.get("_ttp");
+    dataSocial["link"] = window.location.href;
+    dataSocial["view_type"] = props.type;
+    dataSocial["view_type_id"] = catalog_id;
+    if (
+      marketingData.source_type === "" ||
+      marketingData.source_type === null ||
+      typeof marketingData.source_type === "undefined"
+    ) {
+      dataSocial["ignore"] = true;
+    } else {
+      dataSocial["source_type"] = marketingData.source_type;
+      dataSocial["source_type_id"] = marketingData.source_type_id;
+      dataSocial["banner_image_id"] = marketingData.banner_image_id
+        ? marketingData.banner_image_id
+        : "";
+    }
+
+    axiosServer
+      .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+      .then((response) => {
+        const data = response.data;
+        if (data.success === true) {
+        }
+      });
+  }, [router]);
+
   return (
     <div className="overflow-x-hidden">
       {width < 650 && (
@@ -703,7 +745,7 @@ if (
               href="/"
               className="hidden md:block text-dblack font-light truncate text-d12 md:text-tiny mr-2 hover:text-dblue"
               dangerouslySetInnerHTML={{
-                __html: "Home"
+                __html: "Home",
               }}
             />{" "}
             <span className="text-d11 mt-1">{" >"}</span>
@@ -751,7 +793,7 @@ if (
                                   <img
                                     src={filter.image}
                                     style={{
-                                      padding: `1px`
+                                      padding: `1px`,
                                     }}
                                     className={`w-12/12 rounded-full border border-dgreyRate`}
                                     alt="Not Found"
@@ -830,7 +872,7 @@ if (
                                       <img
                                         src={filter.image}
                                         style={{
-                                          padding: `1px`
+                                          padding: `1px`,
                                         }}
                                         className={`w-12/12 rounded-full border border-dgreyRate`}
                                         alt="Not Found"
@@ -894,7 +936,7 @@ if (
               <h1
                 className="font-semibold capitalize text-d16"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.heading_title)
+                  __html: sanitizeHTML(data.heading_title),
                 }}
               />
               {data.heading_title && '"'}
@@ -918,7 +960,7 @@ if (
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(sortValue?.text)
+                          __html: sanitizeHTML(sortValue?.text),
                         }}
                       />
                       <span
@@ -943,7 +985,7 @@ if (
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={sort.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(sort.text)
+                              __html: sanitizeHTML(sort.text),
                             }}
                           ></span>
                         ))}
@@ -967,7 +1009,7 @@ if (
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(limitValue.text + " PER PAGE")
+                          __html: sanitizeHTML(limitValue.text + " PER PAGE"),
                         }}
                       />
                       {/* {!showLimit ? (
@@ -996,7 +1038,7 @@ if (
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={limit.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(limit.text)
+                              __html: sanitizeHTML(limit.text),
                             }}
                           ></span>
                         ))}
@@ -1059,7 +1101,7 @@ if (
                           className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                           key={s.value}
                           dangerouslySetInnerHTML={{
-                            __html: s.text
+                            __html: s.text,
                           }}
                         ></span>
 
@@ -1112,7 +1154,7 @@ if (
                           />
                           <h2
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(category.name)
+                              __html: sanitizeHTML(category.name),
                             }}
                             className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                           ></h2>
@@ -1153,7 +1195,7 @@ if (
 
                         <h2
                           dangerouslySetInnerHTML={{
-                            __html: sanitizeHTML(category.name)
+                            __html: sanitizeHTML(category.name),
                           }}
                           className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                         ></h2>
@@ -1291,7 +1333,7 @@ if (
                                           <img
                                             src={filter.image}
                                             style={{
-                                              padding: `2px`
+                                              padding: `2px`,
                                             }}
                                             className={`w-7 h-7 rounded-full  mr-1 
                                             ${checkFilter(
@@ -1442,7 +1484,7 @@ if (
                         setTopFilter({
                           show: false,
                           name: topFilter.name,
-                          offset: 0
+                          offset: 0,
                         })
                       }
                     ></div>
@@ -1457,7 +1499,7 @@ if (
                           setTopFilter({
                             show: false,
                             name: topFilter.name,
-                            offset: 0
+                            offset: 0,
                           })
                         }
                       ></div>
@@ -1539,7 +1581,7 @@ if (
                                         <img
                                           src={filter.image}
                                           style={{
-                                            padding: `2px`
+                                            padding: `2px`,
                                           }}
                                           className={`w-7 h-7 rounded-full 
                                           ${checkFilter(

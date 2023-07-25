@@ -4,6 +4,8 @@ import Image from "next/image";
 import { slugify } from "@/components/Utils";
 import { sanitizeHTML } from "@/components/Utils";
 import { useRouter } from "next/router";
+import { useMarketingData } from "@/contexts/MarketingContext";
+
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -24,6 +26,7 @@ function DesktopMenuClientPopups(props) {
   };
 
   const router = useRouter();
+  const { setMarketingData } = useMarketingData();
   const path= "";
 
   return (
@@ -48,6 +51,7 @@ function DesktopMenuClientPopups(props) {
                         href={`/${slugify(category.name)}/c=${
                           category.category_id
                         }`}
+                        onClick={() => setMarketingData({})}
                         className="flex items-center py-1 hover:text-dblue px-4"
                       >
                         <Image
@@ -77,6 +81,7 @@ function DesktopMenuClientPopups(props) {
                     <Link
                       className="text-dblue text-sm"
                       href={`/category/${selectedTopCategory.category_id}`}
+                      onClick={() => setMarketingData({})}
                     >
                       <span>View All </span>
                       <i className="icon icon-angle-right"></i>
@@ -88,6 +93,7 @@ function DesktopMenuClientPopups(props) {
                         key={Math.random()}
                         href={`/category/${sub_category.category_id}`}
                         className=" flex items-center py-1 hover:bg-dsearchGrey"
+                        onClick={() => setMarketingData({})}
                       >
                         <Image
                           alt={sub_category.name}
@@ -143,6 +149,7 @@ function DesktopMenuClientPopups(props) {
                       selectedMenuCategory2["top-category"].name?.toUpperCase()
                     ),
                   }}
+                  onClick={() => setMarketingData({})}
                 ></Link>
                 {selectedMenuCategory2["sub-categories"]?.map((category) => (
                   <Link
@@ -154,6 +161,7 @@ function DesktopMenuClientPopups(props) {
                     href={`/${slugify(category.name)}/c=${
                       category.category_id
                     }`}
+                    onClick={() => setMarketingData({})}
                   ></Link>
                 ))}
               </div>

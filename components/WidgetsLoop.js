@@ -1,7 +1,7 @@
 import SingleProduct from "./product/SingleProduct.js";
 import Slider from "react-slick";
 import Image from "next/legacy/image";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 // import { Swiper, SwiperSlide } from "swiper/react";
 // import "swiper/swiper-bundle.min.css";
 // import "swiper/swiper.min.css";
@@ -17,6 +17,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import useDeviceSize from "./useDeviceSize.js";
 import SingleProductTest from "./product/SingleProductTest.js";
+import { useRouter } from "next/router.js";
+import { useMarketingData } from "@/contexts/MarketingContext.js";
 
 function WidgetsLoop({ widget, likedData, initialLoading }) {
   const ImageClient = dynamic(() => import("./ImageClient.js"), { ssr: false });
@@ -27,12 +29,47 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
   const swiperNavPrevRef = useRef(null);
   const [dragging, setDragging] = useState(false);
   const [width] = useDeviceSize();
+  const router = useRouter();
+  const { setMarketingData } = useMarketingData();
+  const source_type =
+    router.asPath === "/"
+      ? "home"
+      : router.asPath.startsWith("/category") || router.asPath.includes("c=")
+      ? "category"
+      : router.asPath.startsWith("/seller") || router.asPath.includes("s=")
+      ? "seller"
+      : router.asPath.startsWith("/manufacturer") ||
+        router.asPath.includes("m=")
+      ? "manufacturer"
+      : router.asPath.startsWith("/latest")
+      ? "new_arrival"
+      : "home";
+
+  const source_type_id =
+    Object.keys(router.query).length > 0
+      ? router.query.slug[0].includes("p=") ||
+        router.query.slug[0].includes("s=") ||
+        router.query.slug[0].includes("m=") ||
+        router.query.slug[0].includes("c=")
+        ? router.query.slug[0].split("=")[1]
+        : router.query.slug[0]
+      : "";
 
   const types = {
     1: "product",
     2: "category",
     3: "manufacturer",
     4: "seller",
+  };
+
+  const handleLinkClick = (banner_image_id) => {
+    //for marketing
+    setMarketingData({
+      ignore: false,
+      banner_image_id: banner_image_id,
+      source_type: source_type,
+      source_type_id: source_type_id,
+    });
   };
 
   const handleMouseEnter = () => {
@@ -53,15 +90,14 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
 
   const handleBeforeChange = useCallback(() => {
     setDragging(true);
-    setTimeout(() =>{
+    setTimeout(() => {
       setDragging(false);
-    },200)
+    }, 200);
   }, [setDragging]);
 
   const handleAfterChange = useCallback(() => {
     setDragging(false);
   }, [setDragging]);
-  
 
   const handleOnItemClick = useCallback(
     (e) => {
@@ -93,8 +129,8 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
     infinite: true,
     autoplay: true,
     autoplaySpeed: 4000,
-    prevArrow: <CustomSliderPrevArrows  />,
-    nextArrow: <CustomSliderNextArrows  />,
+    prevArrow: <CustomSliderPrevArrows />,
+    nextArrow: <CustomSliderNextArrows />,
     lazyLoad: true,
   };
   const productMobile = {
@@ -119,7 +155,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
     infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
     nextArrow: <CustomNextArrows direction={"r"} />,
-
   };
 
   function CustomSliderPrevArrows({ direction, onClick, style, className }) {
@@ -212,8 +247,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
             showNext
               ? "activeTransform"
               : `${
-                  showNext 
-                  && widget.banner_height < 400
+                  showNext && widget.banner_height < 400
                     ? "activeTransformSmaller"
                     : ""
                 }`
@@ -492,6 +526,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   ) : (
                     <Link
                       data-index={index}
+                      onClick={() => handleLinkClick(item.banner_image_id)}
                       href={
                         item?.name?.length > 0 && item.filters != false
                           ? "/" +
@@ -849,14 +884,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                 {widget.items.map((item, index) =>
                   item.mobile_type_id === "0" ? (
                     <div data-index={index} key={`sliderM` + index}>
-                      {/* <ImageClient
-                        alt={item?.name}
-                        src={item.image}
-                        className="w-full"
-                        height={widget.banner_height}
-                        width={widget.banner_width}
-                        placeholder={"/images/placeholder_slideshow.png"}
-                      /> */}
                       <Image
                         alt={item?.name}
                         src={"https://www.ishtari.com/image/" + item.image}
@@ -871,6 +898,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   ) : (
                     <Link
                       data-index={index}
+                      onClick={() => handleLinkClick(item.banner_image_id)}
                       href={
                         item?.name?.length > 0 && item.filters != false
                           ? "/" +
@@ -954,6 +982,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   key={item.banner_image_id}
                 >
                   <Link
+                    onClick={() => handleLinkClick(item.banner_image_id)}
                     href={
                       item?.name?.length > 0 && item.filters != false
                         ? "/" +
@@ -1083,6 +1112,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                 }}
               >
                 <Link
+                  onClick={() => handleLinkClick(item.banner_image_id)}
                   href={
                     item?.name?.length > 0 && item?.filters != false
                       ? "/" +
@@ -1162,7 +1192,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                 className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                 key={item.banner_image_id}
               >
-                <Link href={"/latest"}>
+                <Link
+                  onClick={() => handleLinkClick(item.banner_image_id)}
+                  href={"/latest"}
+                >
                   {/* <ImageClient
                     alt={item?.name}
                     src={item.image}
@@ -1238,6 +1271,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   style={{ padding: "1px" }}
                 >
                   <Link
+                    onClick={() => handleLinkClick(item.banner_image_id)}
                     href={
                       item?.name?.length > 0 && item?.filters != false
                         ? "/" +
@@ -1319,7 +1353,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   className={` w-full hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                   key={item.banner_image_id}
                 >
-                  <Link href={"/latest"}>
+                  <Link
+                    onClick={() => handleLinkClick(item.banner_image_id)}
+                    href={"/latest"}
+                  >
                     {/* <ImageClient
                       alt={item?.name}
                       src={item.image}
@@ -1407,7 +1444,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                           key={item.banner_image_id}
                         >
                           <Link
-                            onClick={handleOnItemClick}
+                            onClick={() => {
+                              handleOnItemClick();
+                              handleLinkClick(item.banner_image_id);
+                            }}
                             href={`${
                               item?.name?.length > 0 && item?.filters != false
                                 ? "/" +
@@ -1646,6 +1686,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                             key={item.banner_image_id}
                           >
                             <Link
+                              onClick={()=> handleLinkClick(item.banner_image_id)}
                               onClickCapture={handleOnItemClick}
                               href={
                                 item?.name?.length > 0 && item.filters != false

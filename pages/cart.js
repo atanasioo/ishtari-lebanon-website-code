@@ -16,6 +16,9 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import { AiOutlineShopping } from "react-icons/ai";
 import { slugify } from "@/components/Utils";
+import { useMarketingData } from "@/contexts/MarketingContext";
+
+
 function Cart(props) {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
@@ -34,6 +37,7 @@ function Cart(props) {
   const [sel, setSel] = useState([]);
   const router = useRouter();
   const route= useRouter()
+  const { setMarketingData } = useMarketingData();
   const PointsLoader = dynamic(() => import("../components/PointsLoader"), {
     ssr: false // Disable server-side rendering
   });
@@ -440,10 +444,13 @@ function Cart(props) {
                         )}
                         <img
                           onClick={() =>
-                            route.push(
-                              `${slugify(product.name)
-                               }/p=${product.product_id}`
-                            )
+                            {
+                              route.push(
+                                `${slugify(product.name)
+                                 }/p=${product.product_id}`
+                              )
+                            setMarketingData({})
+                          }
                           }
                           src={product.thumb}
                           className="w-24 cursor-pointer block rounded"
@@ -543,12 +550,15 @@ function Cart(props) {
                             )}
                             <img
                               onClick={() =>
-                                route.push(
+                                {
+                                  route.push(
                                   `${product.name
                                     .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                     .replace(/\s+/g, "-")
                                     .replace("/", "-")}/p=${product.product_id}`
-                                )
+                                );
+                                setMarketingData({})
+                              }
                               }
                               src={product.thumb}
                               className="w-full block cursor-pointer rounded"

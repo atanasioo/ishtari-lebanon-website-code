@@ -14,7 +14,7 @@ import { useRef, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { useCookie } from "next-cookie";
 import { SessionProvider } from "next-auth/react";
-import { AccountProvider} from "@/contexts/AccountContext";
+import { AccountProvider } from "@/contexts/AccountContext";
 // import { AccountContext } from "@/contexts/AccountContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
@@ -26,6 +26,7 @@ import moment from "moment";
 import Head from "next/head";
 import buildInfo from "@/build-info.json";
 import { HostProvider } from "@/contexts/HostContext";
+import { MarketingProvider } from "@/contexts/MarketingContext";
 export default function App({
   Component,
   pageProps,
@@ -106,39 +107,41 @@ export default function App({
             <CurrencyProvider>
               <SellerProvider>
                 <HostProvider>
-                  <div className="" ref={topRef}>
-                    {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
+                  <MarketingProvider>
+                    <div className="" ref={topRef}>
+                      {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
 
-                    {loading && (
-                      <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
-                        <img
-                          src={"/images/loader.gif"}
-                          alt="loader-gif"
-                          heigh="110"
-                          width="110"
-                        />
-                      </div>
-                    )}
-                    <Layout
-                      header_categories={header_categories}
-                      footer_categories={footer_categories}
-                      information_data={information_data}
-                      host={host}
-                    >
-                      <div className="bg-dprimarybg min-h-screen">
-                        <div className="md:container ">
-                          <Component {...pageProps} />
+                      {loading && (
+                        <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+                          <img
+                            src={"/images/loader.gif"}
+                            alt="loader-gif"
+                            heigh="110"
+                            width="110"
+                          />
                         </div>
-                      </div>
-                    </Layout>
-                  </div>
-                  <div className="text-xs text-dgrey1">
-                    {"V" + packageJson.version}
-                    {"."}
-                    {buildTimestamp} {"("}
-                    {formattedDate}
-                    {")"}
-                  </div>
+                      )}
+                      <Layout
+                        header_categories={header_categories}
+                        footer_categories={footer_categories}
+                        information_data={information_data}
+                        host={host}
+                      >
+                        <div className="bg-dprimarybg min-h-screen">
+                          <div className="md:container ">
+                            <Component {...pageProps} />
+                          </div>
+                        </div>
+                      </Layout>
+                    </div>
+                    <div className="text-xs text-dgrey1">
+                      {"V" + packageJson.version}
+                      {"."}
+                      {buildTimestamp} {"("}
+                      {formattedDate}
+                      {")"}
+                    </div>
+                  </MarketingProvider>
                 </HostProvider>
               </SellerProvider>
             </CurrencyProvider>
