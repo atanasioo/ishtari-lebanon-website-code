@@ -57,6 +57,16 @@ function CatalogPage(props) {
 
   const sliderRef = useRef(null);
 
+  const handleLinkClick = () => {
+    //for marketing
+    setMarketingData({
+      ignore: false,
+      banner_image_id: "",
+      source_type: props.type,
+      source_type_id: catalog_id,
+    });
+  };
+
   useEffect(() => {
     const isOverflowingRight = false;
     const isOverflowingLeft = false;
@@ -210,17 +220,17 @@ function CatalogPage(props) {
     } else if (filter.id === "filter_price") {
       params && params.delete("filter_price");
     }
-console.log(params)
-if (
-  params &&
-  (typeof params === 'string' || params instanceof String) &&
-  !params.includes('filters') &&
-  !params.includes('&filter_') &&
-   params.includes('has_filter')
-) {
-  params.delete("has_filter");
-  params.delete("last");
-}
+    console.log(params);
+    if (
+      params &&
+      (typeof params === "string" || params instanceof String) &&
+      !params.includes("filters") &&
+      !params.includes("&filter_") &&
+      params.includes("has_filter")
+    ) {
+      params.delete("has_filter");
+      params.delete("last");
+    }
     router.push({ pathname: "/" + catalog + "/" + slug, search: params });
   };
 
@@ -1142,6 +1152,7 @@ if (
                             "/c=" +
                             category.id
                           }`}
+                          onClick={() => handleLinkClick()}
                           className="inline-flex w-24 xl:w-28 lg:w-28 text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
                         >
                           <Image
@@ -1182,6 +1193,7 @@ if (
                             category.id
                           }`
                         }
+                        onClick={() => handleLinkClick()}
                         className="inline-flex text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
                       >
                         <Image
@@ -2211,173 +2223,171 @@ if (
             </div>
           </div>
           <div className=" w-full h-screen pl-2 pr-7 overflow-y-auto">
-
-          {Object.keys(filters).map((key) => (
-            <div className="py-2">
-              {filters[key].items.length > 0 && (
-                <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
-                  {filters[key].name}
-                </div>
-              )}
-              <div style={{ display: "block" }}>
-                {key ? (
-                  <div>
-                    {filters[key].items.slice(0, 5).map((filter) => (
-                      <div key={Math.random()}>
-                        {filters[key].name === "Light color" ||
-                        filters[key].name === "Color" ? (
-                          <div
-                            className="my-2 flex items-center cursor-pointer hover:text-dblue"
-                            key={filter.name}
-                            onClick={() =>
-                              parseFilter(filters[key].id, filter.id)
-                            }
-                          >
-                            <span className="flex w-10/12">
-                              <span
-                                className={`flex w-7 h-7 ${checkFilter(
-                                  filters[key]?.id,
-                                  filters[key].name,
-                                  filter
-                                )}`}
-                              >
-                                <img
-                                  src={filter.image}
-                                  style={{
-                                    padding: `1px`
-                                  }}
-                                  className={`w-12/12 rounded-full border border-dgreyRate`}
-                                  alt="Not Found"
-                                />
-                              </span>
-                              <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
-                                {" "}
-                                {filter.name}
-                              </p>
-                            </span>
-                            <span className="flex w-2/12"></span>
-                            <span className="text-d14 text-right font-light opacity-70 ">
-                              ({filter.count})
-                            </span>
-                          </div>
-                        ) : (
-                          <div>
-                            <p
-                              className="my-2 flex  items-center cursor-pointer hover:text-dblue "
+            {Object.keys(filters).map((key) => (
+              <div className="py-2">
+                {filters[key].items.length > 0 && (
+                  <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
+                    {filters[key].name}
+                  </div>
+                )}
+                <div style={{ display: "block" }}>
+                  {key ? (
+                    <div>
+                      {filters[key].items.slice(0, 5).map((filter) => (
+                        <div key={Math.random()}>
+                          {filters[key].name === "Light color" ||
+                          filters[key].name === "Color" ? (
+                            <div
+                              className="my-2 flex items-center cursor-pointer hover:text-dblue"
                               key={filter.name}
                               onClick={() =>
                                 parseFilter(filters[key].id, filter.id)
                               }
                             >
-                              <i>
-                                {checkFilter(
-                                  filters[key].id,
-                                  filter.name,
-                                  filter
-                                )}
-                              </i>
-                              <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
-                                {filter.name}
+                              <span className="flex w-10/12">
+                                <span
+                                  className={`flex w-7 h-7 ${checkFilter(
+                                    filters[key]?.id,
+                                    filters[key].name,
+                                    filter
+                                  )}`}
+                                >
+                                  <img
+                                    src={filter.image}
+                                    style={{
+                                      padding: `1px`,
+                                    }}
+                                    className={`w-12/12 rounded-full border border-dgreyRate`}
+                                    alt="Not Found"
+                                  />
+                                </span>
+                                <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                  {" "}
+                                  {filter.name}
+                                </p>
                               </span>
-
-                              <span className="text-d14 text-right font-light opacity-70">
+                              <span className="flex w-2/12"></span>
+                              <span className="text-d14 text-right font-light opacity-70 ">
                                 ({filter.count})
                               </span>
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                    <div>
-                      <label
-                        className={
-                          filters[key].items.length > 5
-                            ? `text-dblue text-xs cursor-pointer`
-                            : "hidden"
-                        }
-                        onClick={(e) => toggleFilters(e.target)}
-                      >
-                        See All
-                      </label>
-                    </div>
-                    <div style={{ display: "none" }}>
-                      {filters[key].items
-                        .slice(5, filters[key].items.length)
-                        .map((filter) => (
-                          <div key={Math.random()}>
-                            {filters[key].name === "Light color" ||
-                            filters[key].name === "Color" ? (
-                              <div
-                                className="my-2 flex items-center cursor-pointer hover:text-dblue"
+                            </div>
+                          ) : (
+                            <div>
+                              <p
+                                className="my-2 flex  items-center cursor-pointer hover:text-dblue "
                                 key={filter.name}
-                                // onClick={() => parseFilter(filters[key].id, filter)}
+                                onClick={() =>
+                                  parseFilter(filters[key].id, filter.id)
+                                }
                               >
-                                <span className="flex w-10/12">
-                                  <span
-                                    className={`flex w-7 h-7 ${checkFilter(
-                                      filters[key].id,
-                                      filters[key].name,
-                                      filter
-                                    )}`}
-                                  >
-                                    <img
-                                      src={filter.image}
-                                      style={{
-                                        padding: `1px`
-                                      }}
-                                      className={`w-12/12 rounded-full border border-dgreyRate`}
-                                      alt="Not Found"
-                                    />
-                                  </span>
-                                  <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
-                                    {" "}
-                                    {filter.name}
-                                  </p>
+                                <i>
+                                  {checkFilter(
+                                    filters[key].id,
+                                    filter.name,
+                                    filter
+                                  )}
+                                </i>
+                                <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                  {filter.name}
                                 </span>
-                                <span className="flex w-1/12"></span>
+
                                 <span className="text-d14 text-right font-light opacity-70">
                                   ({filter.count})
                                 </span>
-                              </div>
-                            ) : (
-                              <div>
-                                <p
-                                  className="my-2 flex float items-center cursor-pointer hover:text-dblue "
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      <div>
+                        <label
+                          className={
+                            filters[key].items.length > 5
+                              ? `text-dblue text-xs cursor-pointer`
+                              : "hidden"
+                          }
+                          onClick={(e) => toggleFilters(e.target)}
+                        >
+                          See All
+                        </label>
+                      </div>
+                      <div style={{ display: "none" }}>
+                        {filters[key].items
+                          .slice(5, filters[key].items.length)
+                          .map((filter) => (
+                            <div key={Math.random()}>
+                              {filters[key].name === "Light color" ||
+                              filters[key].name === "Color" ? (
+                                <div
+                                  className="my-2 flex items-center cursor-pointer hover:text-dblue"
                                   key={filter.name}
-                                  onClick={() =>
-                                    parseFilter(filters[key].id, filter)
-                                  }
+                                  // onClick={() => parseFilter(filters[key].id, filter)}
                                 >
-                                  <i>
-                                    {checkFilter(
-                                      filters[key].id,
-                                      filter.name,
-                                      filter
-                                    )}
-                                  </i>
-                                  <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
-                                    {filter.name}
+                                  <span className="flex w-10/12">
+                                    <span
+                                      className={`flex w-7 h-7 ${checkFilter(
+                                        filters[key].id,
+                                        filters[key].name,
+                                        filter
+                                      )}`}
+                                    >
+                                      <img
+                                        src={filter.image}
+                                        style={{
+                                          padding: `1px`,
+                                        }}
+                                        className={`w-12/12 rounded-full border border-dgreyRate`}
+                                        alt="Not Found"
+                                      />
+                                    </span>
+                                    <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                      {" "}
+                                      {filter.name}
+                                    </p>
                                   </span>
-
+                                  <span className="flex w-1/12"></span>
                                   <span className="text-d14 text-right font-light opacity-70">
                                     ({filter.count})
                                   </span>
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-        </div>
+                                </div>
+                              ) : (
+                                <div>
+                                  <p
+                                    className="my-2 flex float items-center cursor-pointer hover:text-dblue "
+                                    key={filter.name}
+                                    onClick={() =>
+                                      parseFilter(filters[key].id, filter)
+                                    }
+                                  >
+                                    <i>
+                                      {checkFilter(
+                                        filters[key].id,
+                                        filter.name,
+                                        filter
+                                      )}
+                                    </i>
+                                    <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                      {filter.name}
+                                    </span>
 
+                                    <span className="text-d14 text-right font-light opacity-70">
+                                      ({filter.count})
+                                    </span>
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
