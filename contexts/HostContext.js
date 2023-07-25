@@ -14,7 +14,6 @@ export const HostProvider = ({ children }) => {
     }
 
     getHost(site_host).then((hostUrl) => {
-        console.log(hostUrl);
       setHost(hostUrl);
     });
   }, []);
