@@ -91,7 +91,28 @@ function CheckoutCompnents() {
       fname?.focus();
     }
   });
+  const modalRef = useRef(null);
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      // Check if the click is outside the modal
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        // Handle the click outside here (e.g., close the modal)
+        console.log('Clicked outside the modal!');
+        dispatchAccount({ type: "setShowOver", payload: false });
+        dispatchAccount({ type: "setShowLogin", payload: false });
+        dispatchAccount({ type: "setShowSignup", payload: false });
+      }
+    }
+
+    // Add event listener to handle clicks outside the modal
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     // Function to execute before the route changes
@@ -231,7 +252,7 @@ function CheckoutCompnents() {
           getCart();
           if (!state.loged) {
             // alert(window.location.href)
-            if (!state.admin && router.asPath.indexOf("/checkout") > -1) {
+            if (!state.admin && router.asPath === "/checkout") {
               dispatchAccount({ type: "setShowOver", payload: true });
               dispatchAccount({ type: "setShowLogin", payload: true });
             }
@@ -1115,7 +1136,7 @@ function CheckoutCompnents() {
   }
 
   return (
-    <div>
+    <div  ref={modalRef}>
       {window.config["site-url"] === "https://www.ishtari.com" ||
       Cookies.get("site-local-name") === "ishtari" ? (
         <div>
