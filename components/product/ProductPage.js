@@ -83,7 +83,6 @@ function ProductPage(props) {
     return import("react-facebook-pixel").then((module) => module.default);
   }
 
-  console.log(marketingData);
 
   const [width, height] = useDeviceSize();
   const Timer = dynamic(() => import("./Timer"), {

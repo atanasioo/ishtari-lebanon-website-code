@@ -131,6 +131,13 @@ function ProductZoom(props) {
     };
   }, [props.activeOption, props.images]);
 
+  // function hideLens() {
+  //   const lensElement = document.querySelector(".img-zoom-lens");
+  //   if (lensElement) {
+  //     lensElement.remove();
+  //   }
+  // }
+
 
   useEffect(() => {
     setActiveImage(images[0]);
@@ -142,7 +149,11 @@ function ProductZoom(props) {
   useEffect(() => {
     if (hoverZoom && width > 768) {
       imageZoom("myimage" + activeSlide, "myresult");
-    }
+    } 
+    // else {
+    //   // Hide the lens when not hovering over the image
+    //   hideLens();
+    // }
   }, [hoverZoom]);
 
   function changeImage(imgSrc) {
@@ -158,6 +169,7 @@ function ProductZoom(props) {
     imageSlider.current.slickGoTo(selectedImgIndex);
     setActiveSlide(selectedImgIndex);
   }
+
 
   function imageZoom(imgID, resultID) {
     var img, lens, result, cx, cy;
@@ -199,8 +211,10 @@ function ProductZoom(props) {
       /*get the cursor's x and y positions:*/
       pos = getCursorPos(e);
       /*calculate the position of the lenss:*/
-      x = pos.x - lens.offsetWidth / (10 * 1.05);
-      y = pos.y - lens.offsetHeight / (10 * 1.05);
+      // x = pos.x - lens.offsetWidth / (10 * 1.05);
+      // y = pos.y - lens.offsetHeight / (10 * 1.05);
+      x = pos.x - lens.offsetWidth / 2;
+      y = pos.y - lens.offsetHeight / 2;
       /*prevent the lens from being positioned outside the image:*/
       if (x < 0) {
         x = 0;
