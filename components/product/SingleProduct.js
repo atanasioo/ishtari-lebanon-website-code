@@ -42,7 +42,7 @@ function SingleProduct(props) {
       ? "manufacturer"
       : router.asPath.startsWith("/latest")
       ? "new_arrival"
-      : "home";
+      : "";
 
   const source_type_id =
     Object.keys(router.query).length > 0

@@ -17,6 +17,7 @@ import dynamic from "next/dynamic";
 import { ImLocation } from "react-icons/im";
 import { FaMoneyBillWaveAlt, FaBus } from "react-icons/fa";
 import HandlePhoneModel from "./PhoneHanlder";
+import { useMarketingData } from "@/contexts/MarketingContext";
 function CheckoutCompnents() {
   const [state, dispatchAccount] = useContext(AccountContext);
   const [cartState, dispatch] = useContext(CartContext);
@@ -31,6 +32,7 @@ function CheckoutCompnents() {
   const [cellulantPopup, setCellulantPopup] = useState(false);
   const [cellulantCheckoutObj, setCellulantCheckoutObj] = useState({});
   const [cellulantData, setCellulantData] = useState([]);
+  const { setMarketingData } = useMarketingData()
 
   const [err, setErr] = useState("");
   const router = useRouter();
@@ -1856,6 +1858,7 @@ function CheckoutCompnents() {
                               ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                               ?.replace(/\s+/g, "-")
                               .replace("/", "-")}/p=${product.product_id}`}
+                              onClick={() => setMarketingData({})}
                             key={product.product_id}
                           >
                             <img

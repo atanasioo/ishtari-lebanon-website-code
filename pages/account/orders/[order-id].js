@@ -1,6 +1,7 @@
 import { axiosServer } from "@/axiosServer";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
+import { useMarketingData } from "@/contexts/MarketingContext";
 import buildLink from "@/urls";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -13,28 +14,29 @@ import { BsCart2 } from "react-icons/bs";
 import { HiOutlineHome } from "react-icons/hi";
 
 function OrderDetails() {
-    const router = useRouter();
+  const router = useRouter();
   const [data, setData] = useState();
   const [email, setEmail] = useState("");
-  let id  = router.query["order-id"];
+  let id = router.query["order-id"];
   const [width, height] = useDeviceSize();
   const [loading, setLoading] = useState(true);
   const [state, dispatch] = useContext(AccountContext);
   const [success, setSuccess] = useState(false);
+  const { setMarketingData } = useMarketingData();
 
   const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
     ssr: false, // Disable server-side rendering
   });
 
-//   useEffect(() => {
-//     if (!state.loged) {
-//       dispatch({ type: "setShowOver", payload: true });
-//       dispatch({ type: "setShowLogin", payload: true });
-//     } else {
-//       dispatch({ type: "setShowOver", payload: false });
-//       dispatch({ type: "setShowLogin", payload: false });
-//     }
-//   }, [state.loged, loading, success]);
+  //   useEffect(() => {
+  //     if (!state.loged) {
+  //       dispatch({ type: "setShowOver", payload: true });
+  //       dispatch({ type: "setShowLogin", payload: true });
+  //     } else {
+  //       dispatch({ type: "setShowOver", payload: false });
+  //       dispatch({ type: "setShowLogin", payload: false });
+  //     }
+  //   }, [state.loged, loading, success]);
 
   useEffect(() => {
     window.scrollTo({
@@ -64,8 +66,6 @@ function OrderDetails() {
 
   return (
     <div>
-
-
       <Head>
         <title>My Account | ishtari</title>
       </Head>
@@ -209,7 +209,7 @@ function OrderDetails() {
             <div className="mt-7 overflow-x-scroll">
               {width > 650 ? (
                 <table className="w-full  text-left">
-                <thead className="border">
+                  <thead className="border">
                     <th className=" border-l  px-4  py-1 text-sm">#</th>
                     <th className="border-l px-2 md:px-4 py-1  text-sm">
                       Product
@@ -229,13 +229,18 @@ function OrderDetails() {
                   {data?.products?.map((data) => (
                     <tr className="border">
                       <td className="border  px-4">
-                        <Link href={`/product/${data.product_id}`}>
-                            <img className="w-12" src={data.image} alt={data.name} />
+                        <Link href={`/product/${data.product_id}`} onClick={() => setMarketingData({})}>
+                          <img
+                            className="w-12"
+                            src={data.image}
+                            alt={data.name}
+                          />
                         </Link>
                       </td>
                       <td className="px-4 text-sm">
-                        <span dangerouslySetInnerHTML={{__html: data.name}}></span>
-                        
+                        <span
+                          dangerouslySetInnerHTML={{ __html: data.name }}
+                        ></span>
                         <span className="font-semibold">
                           {" "}
                           {data?.option[0]?.name &&
@@ -306,8 +311,6 @@ function OrderDetails() {
           </div>
         )
       )}
-
-
     </div>
   );
 }
