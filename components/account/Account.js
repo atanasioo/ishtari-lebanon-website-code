@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
-import { BsFillCartCheckFill, BsFillHeartFill } from "react-icons/bs";
+import { BsFillCartCheckFill, BsFillHeartFill, BsStarFill } from "react-icons/bs";
 import { MdAvTimer } from "react-icons/md";
 import { FaFacebookF, FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
@@ -565,7 +565,14 @@ function Account() {
                   <BsFillHeartFill className="text-d17"></BsFillHeartFill>
                   <span className="ml-4">WishList</span>
                 </Link>
-
+                <Link
+                  href={`${path}/account/reviewCenter`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
+                >
+                  <BsStarFill className="text-d17 mb-1"></BsStarFill>
+                  <span className="ml-4">Review Center</span>
+                </Link>
                 <p
                   onClick={(e) => logOut(e)}
                   className="text-center text-sm border-t border-dinputBorder cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 py-3"

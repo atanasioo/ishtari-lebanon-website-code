@@ -27,6 +27,7 @@ import ProductOptionModal from "./ProductOptionModal";
 import WhatsappBtn from "./WhatsappBtn";
 import MagicZoom from "./MagicZoom";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
 
 function ProductPage(props) {
   //Server props
@@ -36,6 +37,7 @@ function ProductPage(props) {
   const [state, dispatch] = useContext(CartContext);
   const [stateW, dispatchW] = useContext(WishlistContext);
   const { marketingData, setMarketingData } = useMarketingData();
+  const { reviewCenterData, setReviewCenterData } = useReviewCenterData();
   //states
   const [countDownPointer, setCountDownPointer] = useState();
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
@@ -69,6 +71,8 @@ function ProductPage(props) {
   const [showGroup, setShowGroup] = useState(false);
   const [checked, setChecked] = useState(["0"]);
   const [showModel, setShowModel] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
   const [value, setValue] = useState(0);
   const [result, setResult] = useState();
   const [nameValue, setName] = useState("");
@@ -82,7 +86,6 @@ function ProductPage(props) {
   async function initializeReactPixel() {
     return import("react-facebook-pixel").then((module) => module.default);
   }
-
 
   const [width, height] = useDeviceSize();
   const Timer = dynamic(() => import("./Timer"), {
@@ -117,7 +120,47 @@ function ProductPage(props) {
   useEffect(() => {
     // to force re-render when navigating using client side
     setLoader(true);
+    
   }, [router]);
+
+  useEffect(() =>{
+    const fetchDataAndScroll = async () => {
+    if (reviewCenterData.scrollToReview && reviewCenterData.product_id === product_id) {
+      await getProductPart2();
+      console.log(width);
+      if (titleRef.current !== null) {
+        if(window.innerWidth > 768){
+         titleRef?.current?.scrollIntoView({ behavior: "smooth" }); 
+        }else{
+          titleRef?.current?.scrollIntoView();
+        }
+      } 
+
+      const handleScroll = () => {
+      if (titleRef.current && descriptionRef.current) {
+        const titleRect = titleRef.current.getBoundingClientRect();
+        const descriptionRect =
+          descriptionRef.current.getBoundingClientRect();
+        const titleTopOffset = titleRect.top;
+        const descriptionTopOffset = descriptionRect.top;
+        if (
+          titleTopOffset <= window.innerHeight  ||
+          descriptionTopOffset <= window.innerHeight 
+        ) {
+          setReviewCenterData({})
+
+          // Remove the event listener once the scrolling is done
+          window.removeEventListener("scroll", handleScroll);
+        }
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+
+    }
+  }
+  fetchDataAndScroll();
+
+  },[])
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
@@ -225,7 +268,7 @@ function ProductPage(props) {
         if (
           marketingData.source_type === "" ||
           marketingData.source_type === null ||
-          typeof marketingData.source_type === "undefined"  
+          typeof marketingData.source_type === "undefined"
         ) {
           dataSocial["ignore"] = true;
         } else {
@@ -315,7 +358,7 @@ function ProductPage(props) {
       // console.log("omar")
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && loader) {
+        if (entries[0].isIntersecting && loader && !reviewCenterData.scrollToReview) {
           setLoader(true);
           getProductPart2();
         }
@@ -359,6 +402,13 @@ function ProductPage(props) {
       }
     });
   }
+
+  // useEffect(()=> {
+  //   if(reviewCenterData.scrollToReview){
+  //     console.log("hello scroll into view");
+  //     getProductPart2();
+  //   }
+  // },[])
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];

@@ -37,6 +37,8 @@ var urls = {
   //home: "v2/index.php?route=common/widgets_preview",
   product: "v2/index.php?route=catalog/product&product_id=",
   recentlyViewed: "v2/index.php?route=catalog/recently_viewed",
+  reviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerReviewedProducts",
+  unreviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerUnreviewedProducts",
   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
   category: "v2/index.php?route=catalog/category&path=",
   manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",

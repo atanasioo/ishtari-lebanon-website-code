@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../../contexts/AccountContext";
 import buildLink, { path } from "../../urls";
-import { BsFillCartCheckFill, BsFillHeartFill } from "react-icons/bs";
+import { BsFillCartCheckFill, BsFillHeartFill, BsStarFill } from "react-icons/bs";
 import { MdAvTimer } from "react-icons/md";
 import Link from "next/link";
 import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
@@ -15,6 +15,7 @@ function UserSidebar(props) {
   const [showWishArrow, setShowWishArrow] = useState(false);
   const [showBuyArrow, setShowBuyArrow] = useState(false);
   const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
+  const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
 
   const [showProfileArrow, setShowProfileArrow] = useState(false);
 
@@ -51,7 +52,7 @@ function UserSidebar(props) {
               Profile
             </span>
             {showProfileArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} />
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
             )}{" "}
           </Link>
         </li>
@@ -80,7 +81,7 @@ function UserSidebar(props) {
               Orders
             </span>
             {showOrderArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
             )}{" "}
           </Link>
         </li>
@@ -110,7 +111,7 @@ function UserSidebar(props) {
               Buy Again
             </span>
             {showBuyArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
             )}{" "}
           </Link>
         </li>
@@ -140,7 +141,7 @@ function UserSidebar(props) {
               Recently Viewed
             </span>
             {showRecentlyViewedArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
             )}{" "}
           </Link>
         </li>
@@ -169,7 +170,7 @@ function UserSidebar(props) {
               Addresses
             </span>
             {showAddArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
             )}{" "}
           </Link>
         </li>
@@ -199,6 +200,35 @@ function UserSidebar(props) {
             </span>
             {showWishArrow && (
               <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+            )}{" "}
+          </Link>
+        </li>
+        <li
+          onMouseEnter={() => {
+            setShowReviewCenterArrow(true);
+          }}
+          onMouseLeave={() => {
+            setShowReviewCenterArrow(false);
+          }}
+        >
+          <Link
+            href={`${path}/account/reviewCenter`}
+            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            style={{ color: "rgb(126,133,155)" }}
+          >
+            <BsStarFill className="text-d16 text-dbase" />
+            <span
+              className={`flex-1 ml-3 ${
+                props.active === "reviewCenter" && "font-semibold underline"
+              }`}
+              style={{
+                color: props.active === "reviewCenter" ? "rgb(64,69,83)" : "",
+              }}
+            >
+              Review Center
+            </span>
+            {showReviewCenterArrow && (
+              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
             )}{" "}
           </Link>
         </li>
