@@ -56,7 +56,6 @@ function reviewCenter() {
     });
   };
 
-  console.log(reviewCenterData);
 
   return (
     <div className="container text-dblack">
