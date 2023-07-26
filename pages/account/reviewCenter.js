@@ -49,7 +49,6 @@ function reviewCenter() {
   }, [awaitingReview]);
 
   const handleClick = (product_id) => {
-    console.log("hello click");
     setReviewCenterData({
       product_id: product_id,
       scrollToReview: true,

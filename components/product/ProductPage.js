@@ -120,47 +120,50 @@ function ProductPage(props) {
   useEffect(() => {
     // to force re-render when navigating using client side
     setLoader(true);
-    
   }, [router]);
+  
 
-  useEffect(() =>{
+  useEffect(() => {
     const fetchDataAndScroll = async () => {
-    if (reviewCenterData.scrollToReview && reviewCenterData.product_id === product_id) {
-      await getProductPart2();
-      console.log(width);
-      if (titleRef.current !== null) {
-        if(window.innerWidth > 768){
-         titleRef?.current?.scrollIntoView({ behavior: "smooth" }); 
-        }else{
-          titleRef?.current?.scrollIntoView();
-        }
-      } 
+      if (
+        reviewCenterData.scrollToReview &&
+        reviewCenterData.product_id === product_id
+      ) {
+        console.log("here");
+        await getProductPart2();
+        
+        // if (titleRef.current !== null) {
+        //   if(window.innerWidth > 768){
+        //    titleRef?.current?.scrollIntoView({ behavior: "smooth" });
+        //   }else{
+        //     titleRef?.current?.scrollIntoView();
+        //   }
+        // }
 
-      const handleScroll = () => {
-      if (titleRef.current && descriptionRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
-        const descriptionRect =
-          descriptionRef.current.getBoundingClientRect();
-        const titleTopOffset = titleRect.top;
-        const descriptionTopOffset = descriptionRect.top;
-        if (
-          titleTopOffset <= window.innerHeight  ||
-          descriptionTopOffset <= window.innerHeight 
-        ) {
-          setReviewCenterData({})
+        const handleScroll = () => {
+          if (titleRef.current && descriptionRef.current) {
+            const titleRect = titleRef.current.getBoundingClientRect();
+            const descriptionRect =
+              descriptionRef.current.getBoundingClientRect();
+            const titleTopOffset = titleRect.top;
+            const descriptionTopOffset = descriptionRect.top;
+            if (
+              titleTopOffset <= window.innerHeight ||
+              descriptionTopOffset <= window.innerHeight
+            ) {
+              setReviewCenterData({});
 
-          // Remove the event listener once the scrolling is done
-          window.removeEventListener("scroll", handleScroll);
-        }
+              // Remove the event listener once the scrolling is done
+              window.removeEventListener("scroll", handleScroll);
+            }
+          }
+        };
+        window.addEventListener("scroll", handleScroll);
       }
-    }
-    window.addEventListener("scroll", handleScroll);
+    };
+    fetchDataAndScroll();
+  }, []);
 
-    }
-  }
-  fetchDataAndScroll();
-
-  },[])
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
@@ -358,7 +361,11 @@ function ProductPage(props) {
       // console.log("omar")
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && loader && !reviewCenterData.scrollToReview) {
+        if (
+          entries[0].isIntersecting &&
+          loader &&
+          !reviewCenterData.scrollToReview
+        ) {
           setLoader(true);
           getProductPart2();
         }
@@ -377,7 +384,7 @@ function ProductPage(props) {
     }
   }
 
-  function getProductPart2() {
+  async function getProductPart2() {
     var link =
       buildLink("product", undefined, window.innerWidth) +
       `${
@@ -399,6 +406,18 @@ function ProductPage(props) {
 
         setProductData2(data.data);
         setLoader(false);
+        if (
+          reviewCenterData.scrollToReview &&
+          reviewCenterData.product_id === product_id
+        ) {
+          if (titleRef.current !== null) {
+            // if (window.innerWidth > 768) {
+              titleRef?.current?.scrollIntoView({ behavior: "smooth" });
+            // } else {
+            //   titleRef?.current?.scrollIntoView();
+            // }
+          }
+        }
       }
     });
   }

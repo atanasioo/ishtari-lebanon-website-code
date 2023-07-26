@@ -113,7 +113,6 @@ function ProductZoom(props) {
   }
 
   useEffect(() => {
-    console.log("heree");
     setImages(props.images);
 
     props?.images?.map((i, index) => {
