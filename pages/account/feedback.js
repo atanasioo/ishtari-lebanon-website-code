@@ -222,7 +222,7 @@ function feedback() {
 
                   <textarea
                     id={`feedback${i}`}
-                    className="w-3/4 h-44 rounded-lg shadow-lg p-5 text-sm"
+                    className="w-11/12 md:w-3/4 h-44 rounded-lg shadow-lg p-5 text-sm"
                     placeholder="There is no failure. Only feedback."
                     defaultValue={
                       service.is_general
