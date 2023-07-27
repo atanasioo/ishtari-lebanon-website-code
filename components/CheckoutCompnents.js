@@ -33,6 +33,7 @@ function CheckoutCompnents() {
   const [cellulantCheckoutObj, setCellulantCheckoutObj] = useState({});
   const [cellulantData, setCellulantData] = useState([]);
   const { setMarketingData } = useMarketingData()
+  const [loginShow, setLoginShow] = useState(false);
 
   const [err, setErr] = useState("");
   const router = useRouter();
@@ -91,53 +92,11 @@ function CheckoutCompnents() {
     if (firstAttemp) {
       const fname = document.getElementById("firstname");
       fname?.focus();
+
+      
     }
   });
-  const modalRef = useRef(null);
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      // Check if the click is outside the modal
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        // Handle the click outside here (e.g., close the modal)
-        console.log('Clicked outside the modal!');
-        dispatchAccount({ type: "setShowOver", payload: false });
-        dispatchAccount({ type: "setShowLogin", payload: false });
-        dispatchAccount({ type: "setShowSignup", payload: false });
-      }
-    }
-
-    // Add event listener to handle clicks outside the modal
-    document.addEventListener('mousedown', handleClickOutside);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Function to execute before the route changes
-    const handleBeforeHistoryChange = (url) => {
-      console.log('Current Route:', router.pathname); // Log the current route
-      console.log('New Route:', url); // Log the new route
-     if(router.asPath === "/checkout"){
-      dispatchAccount({ type: "setShowOver", payload: false });
-      dispatchAccount({ type: "setShowLogin", payload: false });
-      dispatchAccount({ type: "setShowSignup", payload: false });
-
-     }
-    
-    };
-
-    // Add the beforeHistoryChange event listener
-    router.events.on('beforeHistoryChange', handleBeforeHistoryChange);
-
-    // Clean up the event listener when the component is unmounted
-    return () => {
-      router.events.off('beforeHistoryChange', handleBeforeHistoryChange);
-    };
-  }, []);
 
   useEffect(() => {
     // This effect runs on component mount and whenever router.pathname changes
@@ -234,9 +193,17 @@ function CheckoutCompnents() {
   }, [window.location.href]);
 
   const cid = Cookies.get("cid");
+useEffect(()=>{
+
+  if(loginShow){
+  dispatchAccount({ type: "setShowOver", payload: true });
+  dispatchAccount({ type: "setShowLogin", payload: true });
+}
+}, [loginShow])
+
 
   useEffect(() => {
-    console.log(router)
+
     axiosServer
       .get(
         buildLink(
@@ -252,13 +219,14 @@ function CheckoutCompnents() {
           setloged(false);
           // alert(2)
           getCart();
-          if (!state.loged) {
-            // alert(window.location.href)
-            if (!state.admin && router.asPath === "/checkout") {
-              dispatchAccount({ type: "setShowOver", payload: true });
-              dispatchAccount({ type: "setShowLogin", payload: true });
+         
+          if (!state.loged ){
+            if (!state.admin && !loginShow) {
+              
+              setLoginShow(true)
             }
-          }
+        
+        }
         } else {
           setloged(true);
           axiosServer
@@ -272,7 +240,7 @@ function CheckoutCompnents() {
             )
             .then((response) => {
               setCustomerId(response.data.customer_id);
-              Cookies.set("cid", response.data.customer_id);
+              // localStorage.setItem("cid", response.data.customer_id);
             });
           axiosServer
             .get(
@@ -303,7 +271,9 @@ function CheckoutCompnents() {
         }
       });
     // End account check
-  }, [router.asPath]);
+
+
+  }, [window.location]);
 
   // set active address from address list
   function changeAddress(address, _manual) {
@@ -1138,7 +1108,7 @@ function CheckoutCompnents() {
   }
 
   return (
-    <div  ref={modalRef}>
+    <div>
       {window.config["site-url"] === "https://www.ishtari.com" ||
       Cookies.get("site-local-name") === "ishtari" ? (
         <div>
@@ -1451,178 +1421,178 @@ function CheckoutCompnents() {
                 {/* If user is logged in */}{" "}
                 {loged && (
                   <>
-                   <div className="text-dbase mb-1">
+                    <div className="text-dbase mb-1">
                       {!error.success && error.message}
                     </div>
-                  <div className="cart ">
-                    <div className="cart-header flex justify-between">
-                      <div className={`flex items-center`}>
-                        <span className="cart-icon">
-                          <i className="icon icon-location" />
-                        </span>{" "}
-                        <span> Address </span>{" "}
-                      </div>
-                      <div
-                        className={`text-dgreen cursor-pointer`}
-                        onClick={() => setShowAddresses(!showAddresses)}
-                      >
-                        {!showAddresses ? (
-                          <span> Show Addresses </span>
-                        ) : (
-                          <span> Hide Addresses </span>
-                        )}{" "}
-                      </div>{" "}
-                    </div>{" "}
-                    <div className="cart-body relative">
-                      <div className=" hidden">
-                        <input
-                          type="text"
-                          value={activeAddress.firstname}
-                          ref={firstname}
-                        />{" "}
-                        <input
-                          type="text"
-                          value={activeAddress.lastname}
-                          ref={lastname}
-                        />{" "}
-                        <input
-                          type="text"
-                          value={activeAddress.address_1}
-                          ref={address_1}
-                        />{" "}
-                        <input
-                          type="text"
-                          value={activeAddress.address_2}
-                          ref={address_2}
-                        />{" "}
-                        <input
-                          type="text"
-                          value={activeAddress.telephone}
-                          ref={telephone}
-                        />{" "}
-                        <input
-                          type="text"
-                          value={activeAddress.zone_id}
-                          ref={zone.zone_id}
-                        />{" "}
-                        <input
-                          type="text"
-                          value={activeAddress.town_id}
-                          ref={town.town_id}
-                        />{" "}
-                        <input type="text" value={state.email} ref={email} />{" "}
-                      </div>
-                      <div>
-                        {Object.keys(manualErrors.current).map((errorKey) => (
-                          <div>
-                            {" "}
-                            {errorKey === "address" &&
-                            manualErrors.current[errorKey]["errorCode"] !==
-                              "stock" ? (
-                              <div className="border  border-dinputBorder py-4 px-2 mb-4">
-                                <h2 className="text-lg font-semibold mb-2">
-                                  Address Errors{}
-                                </h2>{" "}
-                                {Object.keys(
-                                  manualErrors.current[errorKey]
-                                ).map((addressErrorKey) => (
-                                  <div className="text-dbase">
-                                    <span className="capitalize">
-                                      {" "}
-                                      {addressErrorKey.replace("_", " ")}:
-                                    </span>{" "}
-                                    <span className="ml-2">
-                                      {" "}
-                                      {
-                                        manualErrors.current[errorKey][
-                                          addressErrorKey
-                                        ]
-                                      }{" "}
-                                    </span>{" "}
-                                  </div>
-                                ))}{" "}
-                              </div>
-                            ) : (
-                              manualErrors.current[errorKey]["errorCode"] !=
-                                "stock" && (
-                                <div className="border  border-dinputBorder py-4 px-2 mb-4">
-                                  {/* {Object.keys(manualErrors.current[errorKey]).map( */}
-                                  {/* (addressErrorKey) => ( */}
-                                  <div className="text-dbase">
-                                    <span className="capitalize">
-                                      {/* {addressErrorKey.replace("_", " ")}: */}
-                                    </span>{" "}
-                                    <span className="ml-2">
-                                      {
-                                        manualErrors.current[errorKey][
-                                          "errorMsg"
-                                        ]
-                                      }{" "}
-                                    </span>{" "}
-                                  </div>
-                                </div>
-                              )
-                            )}{" "}
-                          </div>
-                        ))}{" "}
-                      </div>{" "}
-                      {loading && (
-                        <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
-                          <Loader styles="h-9 w-9 text-dblue ml-4" />
+                    <div className="cart ">
+                      <div className="cart-header flex justify-between">
+                        <div className={`flex items-center`}>
+                          <span className="cart-icon">
+                            <i className="icon icon-location" />
+                          </span>{" "}
+                          <span> Address </span>{" "}
                         </div>
-                      )}{" "}
-                      <p>
-                        <span> First name: </span>{" "}
-                        <span className={`font-semibold`}>
-                          {" "}
-                          {activeAddress.firstname}{" "}
-                        </span>{" "}
-                      </p>{" "}
-                      <p>
-                        <span> Last name: </span>{" "}
-                        <span className={`font-semibold`}>
-                          {" "}
-                          {activeAddress.lastname}{" "}
-                        </span>{" "}
-                      </p>{" "}
-                      <p>
-                        <span> Zone: </span>{" "}
-                        <span className={`font-semibold`}>
-                          {" "}
-                          {activeAddress.zone}{" "}
-                        </span>{" "}
-                      </p>{" "}
-                      {window.config["useTown"] && (
+                        <div
+                          className={`text-dgreen cursor-pointer`}
+                          onClick={() => setShowAddresses(!showAddresses)}
+                        >
+                          {!showAddresses ? (
+                            <span> Show Addresses </span>
+                          ) : (
+                            <span> Hide Addresses </span>
+                          )}{" "}
+                        </div>{" "}
+                      </div>{" "}
+                      <div className="cart-body relative">
+                        <div className=" hidden">
+                          <input
+                            type="text"
+                            value={activeAddress.firstname}
+                            ref={firstname}
+                          />{" "}
+                          <input
+                            type="text"
+                            value={activeAddress.lastname}
+                            ref={lastname}
+                          />{" "}
+                          <input
+                            type="text"
+                            value={activeAddress.address_1}
+                            ref={address_1}
+                          />{" "}
+                          <input
+                            type="text"
+                            value={activeAddress.address_2}
+                            ref={address_2}
+                          />{" "}
+                          <input
+                            type="text"
+                            value={activeAddress.telephone}
+                            ref={telephone}
+                          />{" "}
+                          <input
+                            type="text"
+                            value={activeAddress.zone_id}
+                            ref={zone.zone_id}
+                          />{" "}
+                          <input
+                            type="text"
+                            value={activeAddress.town_id}
+                            ref={town.town_id}
+                          />{" "}
+                          <input type="text" value={state.email} ref={email} />{" "}
+                        </div>
+                        <div>
+                          {Object.keys(manualErrors.current).map((errorKey) => (
+                            <div>
+                              {" "}
+                              {errorKey === "address" &&
+                              manualErrors.current[errorKey]["errorCode"] !==
+                                "stock" ? (
+                                <div className="border  border-dinputBorder py-4 px-2 mb-4">
+                                  <h2 className="text-lg font-semibold mb-2">
+                                    Address Errors{}
+                                  </h2>{" "}
+                                  {Object.keys(
+                                    manualErrors.current[errorKey]
+                                  ).map((addressErrorKey) => (
+                                    <div className="text-dbase">
+                                      <span className="capitalize">
+                                        {" "}
+                                        {addressErrorKey.replace("_", " ")}:
+                                      </span>{" "}
+                                      <span className="ml-2">
+                                        {" "}
+                                        {
+                                          manualErrors.current[errorKey][
+                                            addressErrorKey
+                                          ]
+                                        }{" "}
+                                      </span>{" "}
+                                    </div>
+                                  ))}{" "}
+                                </div>
+                              ) : (
+                                manualErrors.current[errorKey]["errorCode"] !=
+                                  "stock" && (
+                                  <div className="border  border-dinputBorder py-4 px-2 mb-4">
+                                    {/* {Object.keys(manualErrors.current[errorKey]).map( */}
+                                    {/* (addressErrorKey) => ( */}
+                                    <div className="text-dbase">
+                                      <span className="capitalize">
+                                        {/* {addressErrorKey.replace("_", " ")}: */}
+                                      </span>{" "}
+                                      <span className="ml-2">
+                                        {
+                                          manualErrors.current[errorKey][
+                                            "errorMsg"
+                                          ]
+                                        }{" "}
+                                      </span>{" "}
+                                    </div>
+                                  </div>
+                                )
+                              )}{" "}
+                            </div>
+                          ))}{" "}
+                        </div>{" "}
+                        {loading && (
+                          <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
+                            <Loader styles="h-9 w-9 text-dblue ml-4" />
+                          </div>
+                        )}{" "}
                         <p>
-                          <span> Town: </span>{" "}
+                          <span> First name: </span>{" "}
                           <span className={`font-semibold`}>
                             {" "}
-                            {activeAddress.town_name}{" "}
+                            {activeAddress.firstname}{" "}
                           </span>{" "}
-                          {townRequired && (
-                            <span className={`text-dbase`}>
-                              Town is Required
-                            </span>
-                          )}
-                        </p>
-                      )}
-                      <p>
-                        <span> Address: </span>{" "}
-                        <span className={`font-semibold`}>
-                          {" "}
-                          {activeAddress.address_1 +
-                            " " +
-                            activeAddress.address_2}{" "}
-                        </span>{" "}
-                      </p>{" "}
-                      <p>
-                        <span> Telephone: </span>{" "}
-                        <span className={`font-semibold`}>
-                          {" "}
-                          {activeAddress.telephone}{" "}
-                        </span>{" "}
-                      </p>{" "}
-                      {/* <Link
+                        </p>{" "}
+                        <p>
+                          <span> Last name: </span>{" "}
+                          <span className={`font-semibold`}>
+                            {" "}
+                            {activeAddress.lastname}{" "}
+                          </span>{" "}
+                        </p>{" "}
+                        <p>
+                          <span> Zone: </span>{" "}
+                          <span className={`font-semibold`}>
+                            {" "}
+                            {activeAddress.zone}{" "}
+                          </span>{" "}
+                        </p>{" "}
+                        {window.config["useTown"] && (
+                          <p>
+                            <span> Town: </span>{" "}
+                            <span className={`font-semibold`}>
+                              {" "}
+                              {activeAddress.town_name}{" "}
+                            </span>{" "}
+                            {townRequired && (
+                              <span className={`text-dbase`}>
+                                Town is Required
+                              </span>
+                            )}
+                          </p>
+                        )}
+                        <p>
+                          <span> Address: </span>{" "}
+                          <span className={`font-semibold`}>
+                            {" "}
+                            {activeAddress.address_1 +
+                              " " +
+                              activeAddress.address_2}{" "}
+                          </span>{" "}
+                        </p>{" "}
+                        <p>
+                          <span> Telephone: </span>{" "}
+                          <span className={`font-semibold`}>
+                            {" "}
+                            {activeAddress.telephone}{" "}
+                          </span>{" "}
+                        </p>{" "}
+                        {/* <Link
                         // href={{
                         //   pathname:
                         //     "/account/address/" +
@@ -1635,12 +1605,12 @@ function CheckoutCompnents() {
                         <span> Edit address </span>{" "}
                         <i className="icon icon-edit ml-1"> </i>{" "}
                       </Link>{" "} */}
-                      {/*Addresses*/} {/* +96103006964 */}
-                      {showAddresses && (
-                        <div
-                          className={` py-2 flex-row md:flex w-full overflow-scroll`}
-                        >
-                          {/* <Link
+                        {/*Addresses*/} {/* +96103006964 */}
+                        {showAddresses && (
+                          <div
+                            className={` py-2 flex-row md:flex w-full overflow-scroll`}
+                          >
+                            {/* <Link
                             // href={`${path}/account/address/add`}
                             className={`text-sm bg-dgreen text-white border border-dinputBorder p-2 flex items-center justify-center flex-col`}
                             style={{ minWidth: "19%" }}
@@ -1650,64 +1620,64 @@ function CheckoutCompnents() {
                             </span>{" "}
                             <span className={`text-3xl`}> + </span>{" "}
                           </Link>{" "} */}
-                          {addresses.map((address) => (
-                            <div
-                              key={address.address_id}
-                              onClick={() => changeAddress(address, true)}
-                              className={`text-sm bg-white border border-dinputBorder p-2 hover:bg-dgrey1 hover:bg-opacity-20 cursor-pointer`}
-                              style={{ minWidth: "19%" }}
-                            >
-                              <p>
-                                <span> First name: </span>{" "}
-                                <span className={`font-semibold`}>
-                                  {" "}
-                                  {address.firstname}{" "}
-                                </span>{" "}
-                              </p>{" "}
-                              <p>
-                                <span> Last name: </span>{" "}
-                                <span className={`font-semibold`}>
-                                  {" "}
-                                  {address.lastname}{" "}
-                                </span>{" "}
-                              </p>{" "}
-                              <p>
-                                <span> Zone: </span>{" "}
-                                <span className={`font-semibold`}>
-                                  {" "}
-                                  {address.zone}{" "}
-                                </span>{" "}
-                              </p>{" "}
-                              {window.config["useTown"] && (
+                            {addresses.map((address) => (
+                              <div
+                                key={address.address_id}
+                                onClick={() => changeAddress(address, true)}
+                                className={`text-sm bg-white border border-dinputBorder p-2 hover:bg-dgrey1 hover:bg-opacity-20 cursor-pointer`}
+                                style={{ minWidth: "19%" }}
+                              >
                                 <p>
-                                  <span> Town: </span>{" "}
+                                  <span> First name: </span>{" "}
                                   <span className={`font-semibold`}>
                                     {" "}
-                                    {address.town_name}{" "}
+                                    {address.firstname}{" "}
                                   </span>{" "}
+                                </p>{" "}
+                                <p>
+                                  <span> Last name: </span>{" "}
+                                  <span className={`font-semibold`}>
+                                    {" "}
+                                    {address.lastname}{" "}
+                                  </span>{" "}
+                                </p>{" "}
+                                <p>
+                                  <span> Zone: </span>{" "}
+                                  <span className={`font-semibold`}>
+                                    {" "}
+                                    {address.zone}{" "}
+                                  </span>{" "}
+                                </p>{" "}
+                                {window.config["useTown"] && (
+                                  <p>
+                                    <span> Town: </span>{" "}
+                                    <span className={`font-semibold`}>
+                                      {" "}
+                                      {address.town_name}{" "}
+                                    </span>{" "}
+                                  </p>
+                                )}
+                                <p>
+                                  <span> Address: </span>{" "}
+                                  <span className={`font-semibold`}>
+                                    {" "}
+                                    {address.address_1 +
+                                      " " +
+                                      address.address_2}{" "}
+                                  </span>{" "}
+                                </p>{" "}
+                                <p>
+                                  <span> Telephone: </span>{" "}
+                                  <span className={`font-semibold`}>
+                                    {address.telephone}
+                                  </span>
                                 </p>
-                              )}
-                              <p>
-                                <span> Address: </span>{" "}
-                                <span className={`font-semibold`}>
-                                  {" "}
-                                  {address.address_1 +
-                                    " " +
-                                    address.address_2}{" "}
-                                </span>{" "}
-                              </p>{" "}
-                              <p>
-                                <span> Telephone: </span>{" "}
-                                <span className={`font-semibold`}>
-                                  {address.telephone}
-                                </span>
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
                   </>
                 )}
                 {/* End If user is logged in */}

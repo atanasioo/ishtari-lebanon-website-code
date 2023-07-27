@@ -33,7 +33,7 @@ function DesktopMenuClientPopups(props) {
     <div>
       {/* Subcategories' menu */}
 
-      {viewSubAllCategories2 && (
+      { viewSubAllCategories2 && (
         <div className="relative" onMouseEnter={()=>{handleState("viewSubAllCategories2", true); handleState("overlay", true);}}>
           <div className="absolute top-0 z-40">
             <div>

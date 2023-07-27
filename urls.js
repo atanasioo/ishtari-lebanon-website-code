@@ -108,6 +108,10 @@ var urls = {
   seller_reports: "v2/index.php?route=seller_report/reports",
   seller_reports_sold_products:
     "v2/index.php?route=seller_report/reports/getSoldProduct",
+   
+    pos : "v2/index.php?route=checkout/cart/addToCartPos",
+    getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
+    searchProduct: "v2/index.php?route=stockapi/product&item=",
 };
 
 if (typeof window !== "undefined") {
@@ -251,6 +255,10 @@ if (typeof window !== "undefined") {
       seller_reports: "v2/index.php?route=seller_report/reports",
       seller_reports_sold_products:
         "v2/index.php?route=seller_report/reports/getSoldProduct",
+        pos : "v2/index.php?route=checkout/cart/addToCartPos",
+        getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
+        searchProduct: "v2/index.php?route=stockapi/product&item=",
+
     };
   }
   const firstPath = window.location.href.split("/")[3];

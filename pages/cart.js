@@ -42,6 +42,7 @@ function Cart(props) {
     ssr: false // Disable server-side rendering
   });
   useEffect(() => {
+    
     function getCart() {
       axiosServer
         .get(buildLink("cart", undefined, undefined, window.config['site-url']) + "&source_id=1")

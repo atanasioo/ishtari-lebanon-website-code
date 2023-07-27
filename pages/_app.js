@@ -109,6 +109,7 @@ export default function App({
               <SellerProvider>
                 <HostProvider>
                   <MarketingProvider>
+<<<<<<< HEAD
                     <ReviewCenterProvider>
                       <div className="" ref={topRef}>
                         {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
@@ -121,6 +122,31 @@ export default function App({
                               heigh="110"
                               width="110"
                             />
+=======
+                    <div className={`${router.pathname.indexOf("pos") > -1 && "max-h-screen fixed w-full bootom-0"}`} ref={topRef}>
+                      {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
+
+                      {loading && (
+                        <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+                          <img
+                            src={"/images/loader.gif"}
+                            alt="loader-gif"
+                            heigh="110"
+                            width="110"
+                          />
+                        </div>
+                      )}
+                  
+                      <Layout
+                        header_categories={header_categories}
+                        footer_categories={footer_categories}
+                        information_data={information_data}
+                        host={host}
+                      >
+                        <div className="bg-dprimarybg min-h-screen">
+                          <div className="md:container ">
+                            <Component {...pageProps} />
+>>>>>>> 19485b3 (ddddd)
                           </div>
                         )}
                         <Layout
@@ -200,9 +226,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const response = await getToken(host_url);
 
         const newToken = response.access_token;
-        // console.log("new-token")
-        // console.log(newToken)
-        // console.log("new-token")
+        console.log("new-token")
+        console.log(newToken)
+        console.log("new-token")
         if (newToken != undefined) {
           cook.set("api-token", newToken, options);
         }

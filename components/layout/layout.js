@@ -10,10 +10,9 @@ function Layout({
   footer_categories,
   information_data,
   token,
-  host,
+  host
 }) {
   const router = useRouter();
-
 
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
@@ -31,7 +30,9 @@ function Layout({
 
   return (
     <div>
-      {!router.pathname.startsWith("/seller_report") ? (
+      {router.pathname.indexOf("print") > -1 ? (
+        <></>
+      ) : !router.pathname.startsWith("/seller_report") ? (
         //other user case
         <Header header_categories={header_categories} host={host} />
       ) : (
@@ -40,8 +41,13 @@ function Layout({
       )}
 
       {children}
-      {!router.pathname.startsWith("/seller_report") && (
+      {  (router.pathname.indexOf("print") > -1 ||  router.pathname.startsWith("/orders") ) ? (
+        <></>
+      ):
+      
+      !router.pathname.startsWith("/seller_report") &&  router.pathname.indexOf("pos") < 0  &&(
         //other user case
+       
         <Footer
           footer_categories={footer_categories}
           information_data={information_data}

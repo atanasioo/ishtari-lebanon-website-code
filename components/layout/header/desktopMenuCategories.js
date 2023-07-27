@@ -148,6 +148,7 @@ function DesktopMenuCategories(props) {
 
   return (
     <div>
+      {router.asPath.indexOf("pos") < 0 && router.asPath.indexOf("orders") < 0 && 
       <div
         className="hidden lg:block bg-white container w-full shadow-md shadow-dbeigeRed  text-d16 "
         onClick={() => {
@@ -229,7 +230,7 @@ function DesktopMenuCategories(props) {
           </div>
         </div>
       </div>
-
+}
       <DesktopMenuClientPopups
         viewSubAllCategories2={viewSubAllCategories2}
         selectedMenuCategory2={selectedMenuCategory2}

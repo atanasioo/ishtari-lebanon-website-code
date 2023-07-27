@@ -1,19 +1,18 @@
 import Image from "next/image";
 import React from "react";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
-
 function LogoClient(props) {
 
   return (
     <div>
       {props.host === "https://www.flo-lebanon.com" ? (
         <Image
-          src={LogofloOrange}
-          width={width > 768 ? 130 : 100}
-          height={width > 768 ? 130 : 100}
+          src={"/images/logo-flo-orange.png"}
+          width={130}
+          height={130}
           alt="ishtari-logo"
           priority={true}
-          style={{ width: "80%", height: "auto" }}
+          style={{ width: "70%", height: "auto" }}
         />
       ) : props.host === "https://www.ishtari.com" ||
         props.host === "https://www.ishtari.com.gh" ||
