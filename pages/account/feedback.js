@@ -44,7 +44,6 @@ function feedback() {
       });
   }, []);
 
-  console.log(feedbacks);
 
   function handleActiveService(operation) {
     console.log(data.length);
@@ -99,8 +98,6 @@ function feedback() {
         });
     }
   }
-
-  console.log(required);
 
   function handleStarRatingChange(service_id, rating) {
     console.log(service_id);
