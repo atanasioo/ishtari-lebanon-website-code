@@ -1,8 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../../contexts/AccountContext";
 import buildLink, { path } from "../../urls";
-import { BsFillCartCheckFill, BsFillHeartFill, BsStarFill } from "react-icons/bs";
-import { MdAvTimer } from "react-icons/md";
+import {
+  BsFillCartCheckFill,
+  BsFillHeartFill,
+  BsStarFill,
+} from "react-icons/bs";
+import { MdAvTimer, MdFeedback } from "react-icons/md";
 import Link from "next/link";
 import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
@@ -16,6 +20,7 @@ function UserSidebar(props) {
   const [showBuyArrow, setShowBuyArrow] = useState(false);
   const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
   const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
+  const [showFeedbackArrow, setShowFeedbackArrow] = useState(false);
 
   const [showProfileArrow, setShowProfileArrow] = useState(false);
 
@@ -52,7 +57,11 @@ function UserSidebar(props) {
               Profile
             </span>
             {showProfileArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
             )}{" "}
           </Link>
         </li>
@@ -81,7 +90,11 @@ function UserSidebar(props) {
               Orders
             </span>
             {showOrderArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
             )}{" "}
           </Link>
         </li>
@@ -111,7 +124,11 @@ function UserSidebar(props) {
               Buy Again
             </span>
             {showBuyArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
             )}{" "}
           </Link>
         </li>
@@ -141,7 +158,11 @@ function UserSidebar(props) {
               Recently Viewed
             </span>
             {showRecentlyViewedArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
             )}{" "}
           </Link>
         </li>
@@ -170,7 +191,11 @@ function UserSidebar(props) {
               Addresses
             </span>
             {showAddArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
             )}{" "}
           </Link>
         </li>
@@ -228,7 +253,44 @@ function UserSidebar(props) {
               Review Center
             </span>
             {showReviewCenterArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="arrow" />
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
+            )}{" "}
+          </Link>
+        </li>
+        <li
+          onMouseEnter={() => {
+            setShowFeedbackArrow(true);
+          }}
+          onMouseLeave={() => {
+            setShowFeedbackArrow(false);
+          }}
+        >
+          <Link
+            href={`${path}/account/feedback`}
+            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            style={{ color: "rgb(126,133,155)" }}
+          >
+            <MdFeedback className="text-d16 text-dbase" />
+            <span
+              className={`flex-1 ml-3 ${
+                props.active === "feedback" && "font-semibold underline"
+              }`}
+              style={{
+                color: props.active === "feedback" ? "rgb(64,69,83)" : "",
+              }}
+            >
+              Feedback
+            </span>
+            {showFeedbackArrow && (
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
             )}{" "}
           </Link>
         </li>

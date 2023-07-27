@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
 import { BsFillCartCheckFill, BsFillHeartFill, BsStarFill } from "react-icons/bs";
-import { MdAvTimer } from "react-icons/md";
+import { MdAvTimer, MdFeedback } from "react-icons/md";
 import { FaFacebookF, FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 function Account() {
@@ -572,6 +572,14 @@ function Account() {
                 >
                   <BsStarFill className="text-d17 mb-1"></BsStarFill>
                   <span className="ml-4">Review Center</span>
+                </Link>
+                <Link
+                  href={`${path}/account/feedback`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
+                >
+                  <MdFeedback className="text-d17 mb-1"></MdFeedback>
+                  <span className="ml-4">Feedback</span>
                 </Link>
                 <p
                   onClick={(e) => logOut(e)}

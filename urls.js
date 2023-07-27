@@ -39,6 +39,8 @@ var urls = {
   recentlyViewed: "v2/index.php?route=catalog/recently_viewed",
   reviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerReviewedProducts",
   unreviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerUnreviewedProducts",
+  getcustomerfeedback:"v2/index.php?route=account/feedback/getCustomerFeedback",
+  editcustomerfeedback: "v2/index.php?route=account/feedback/editCustomerFeedback",
   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
   category: "v2/index.php?route=catalog/category&path=",
   manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",
