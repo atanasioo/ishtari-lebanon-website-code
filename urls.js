@@ -40,6 +40,8 @@ var urls = {
   reviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerReviewedProducts",
   unreviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerUnreviewedProducts",
   getcustomerfeedback:"v2/index.php?route=account/feedback/getCustomerFeedback",
+  getFlashSale: "v2/index.php?route=catalog/flash_sale&limit=20&page=1&date_start=",
+  addReminderForFlashSale: "v2/index.php?route=catalog/flash_sale/remindMe",
   editcustomerfeedback: "v2/index.php?route=account/feedback/editCustomerFeedback",
   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
   category: "v2/index.php?route=catalog/category&path=",

@@ -842,10 +842,26 @@ mySwiper .swiper-button-next {
 }
 
 .img-zoom-result {
-  border: 1px solid #d4d4d4;
+  /* border: 1px solid #d4d4d4; */
   /*set the size of the result div:*/
   width: 398px;
   height: 542.77px;
+}
+
+.img-zoom-result {
+  animation-name: showup;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showup {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .img-zoom-lens {

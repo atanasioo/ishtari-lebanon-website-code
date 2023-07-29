@@ -63,36 +63,28 @@ function ProductZoomModal(props) {
     nextArrow: <div><BsChevronRight className="w-8 h-8 text-darrowZoom"/></div>, // or null
   };
 
-  // useEffect(()=>{
-  //   setActiveImage(selectedImage);
-  //   if (width < 840) {
-  //     const popup = document.getElementById("popup_modal");
-  //     const backgroundImageUrl = selectedImage["popup"];
-  //     const overlayColor = "rgba(0, 0, 0, 0.6)";
-  //     // Create a new style element
-  //     const style = document.createElement("style");
-  //     style.type = "text/css";
-  //     // Add a CSS rule for the #popup_modal::before pseudo-element
-  //     const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
-  //     style.appendChild(document.createTextNode(css));
-  //     // Add the style element to the head of the document
-  //     document.head.appendChild(style);
-  //   }
-  // },[selectedImage])
+  useEffect(()=>{
+    setActiveImage(selectedImage);
+    // if (width < 840) {
+    //   const popup = document.getElementById("popup_modal");
+    //   const backgroundImageUrl = selectedImage["popup"];
+    //   const overlayColor = "rgba(0, 0, 0, 0.6)";
+    //   // Create a new style element
+    //   const style = document.createElement("style");
+    //   style.type = "text/css";
+    //   // Add a CSS rule for the #popup_modal::before pseudo-element
+    //   const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
+    //   style.appendChild(document.createTextNode(css));
+    //   // Add the style element to the head of the document
+    //   document.head.appendChild(style);
+    // }
+  },[selectedImage])
 
   const handleFirstSliderChange = (index) => {
     setCurrentSlide(index);
     slider2.current.slickGoTo(index);
     setActiveImage(images[index]);
 
-    // Get the currently active slide index
-    // const activeSlideIndex = slider3.current?.innerSlider?.state.currentSlide;
-
-    // // Reset the zoom of the currently zoomed image by setting the zoom level to 1
-    // if (slider3.current && activeSlideIndex !== null) {
-    //   slider3.current.innerSlider.state.currentSlide = activeSlideIndex;
-    //   console.log(slider3.current.innerSlider.props.children[activeSlideIndex].props.children[0].props.children[0]);
-    // }
     zoomRef.current.reset();
 
     // const popup = document.getElementById("popup_modal");

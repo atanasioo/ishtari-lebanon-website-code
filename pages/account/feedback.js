@@ -161,7 +161,7 @@ function feedback() {
                 </div>
                 {data?.map((service, i) => (
                   <div
-                    className={`starts-div absolute z-10 rounded-lg bg-white text-dgreyProduct text-d18 shadow-md italic px-6 py-1.5 -bottom-4 ${
+                    className={`starts-div absolute z-10 rounded-lg bg-white text-dgreyProduct text-sm md:text-d18 shadow-md italic px-6 py-1.5 -bottom-4 ${
                       activeService === i ? "" : "hidden"
                     }`}
                     key={i}

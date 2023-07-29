@@ -89,6 +89,7 @@ module.exports = {
       d18: "18px",
       d20: "20.5712px",
       d22: "22px",
+      d24: "24px",
       d25: "25px",
       d28: "28px",
       xs: ".75rem",
