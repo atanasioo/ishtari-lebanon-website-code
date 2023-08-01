@@ -229,6 +229,7 @@ mySwiper .swiper-button-next {
   width: auto;
   transform-origin: left center;
   transform: scaleX(1);
+  /* background-color: red; */
   transition: transform 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0s!important;
   display: none;
 }

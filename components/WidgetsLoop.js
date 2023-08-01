@@ -507,6 +507,78 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
         widget.type !== "text" &&
         (widget.items.length > 1 ? (
           <div className="-mx-4 py-2">
+
+            {/* <div className="sliderSwiper">
+              <div
+              className="swiper-button-next"
+              ref={swiperNavPrevRef}
+              // onClick={onClick}
+              onMouseEnter={handleMouseEnterPrev}
+              onMouseLeave={handleMouseLeavePrev}
+            >
+              <svg
+                width="44"
+                height="502"
+                viewBox="0 0 44 502"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={`heEmBF 
+          ${
+            showPrev
+              ? "activeTransform"
+              : `${
+                  showPrev && widget.banner_height < 400
+                    ? "activeTransformSmaller"
+                    : ""
+                }`
+          }
+          `}
+              >
+                <path
+                  className={`wave ${showPrev ? "activeFill" : ""}`}
+                  d="M0.999973 501C32.9999 301.5 42.9999 308 42.9999 252.5C42.9999 197 29.4999 189 1.00002 0.999996L0.999973 501Z"
+                  fill="rgba(255,255,255,.4)"
+                ></path>
+              </svg>
+              <div
+                className={`swiper-button-circle-left ${
+                  showPrev ? "active-circle-left" : ""
+                }`}
+              >
+                <svg
+                  width={`${showPrev ? "312" : "221"}`}
+                  height="403"
+                  viewBox={`${showPrev ? "0 0 312 403" : "0 0 221 403"}`}
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="gHFIbo"
+                >
+                  {!showPrev ? (
+                    <path
+                      d="M216 383.885C221.5 389.385 218.5 395.885 216 398.385C213.5 400.885 206.5 404.385 200.5 398.385L0.99997 216.385L200.5 4.38534C205.5 -0.614703 212 0.385379 216 4.38535C220 8.38531 221.5 17.3853 216 22.8853L29 216.385L216 383.885Z"
+                      fill="black"
+                      stroke="none"
+                    ></path>
+                  ) : (
+                    <>
+                      <path
+                        d="M307.416 383.885C312.916 389.385 309.916 395.885 307.416 398.385C304.916 400.885 297.915 404.385 291.916 398.385L92.4157 216.385L291.916 4.38534C296.916 -0.614703 303.416 0.385379 307.416 4.38535C311.416 8.38531 312.916 17.3853 307.416 22.8853L120.416 216.385L307.416 383.885z"
+                        fill="black"
+                      ></path>
+
+                      <path
+                        d="M153.5 319.385C159 324.885 156 331.385 153.5 333.885C151 336.385 144 339.885 138 333.885L0.999986 216.385L143.5 72.8853C148.5 67.8853 155 68.8854 159 72.8853C163 76.8853 164.5 85.8853 159 91.3853L28.9999 216.385L153.5 319.385z"
+                        fill="black"
+                      ></path>
+                    </>
+                  )}
+                </svg>
+              </div>
+              <div className="swiper-button-circle-back-left"></div>
+            </div>
+            </div> */}
+            
+
             {width > 650 ? (
               <Slider {...settingSliderD} className="sliderSwiper">
                 {widget.items.map((item, index) =>
@@ -1686,7 +1758,9 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                             key={item.banner_image_id}
                           >
                             <Link
-                              onClick={()=> handleLinkClick(item.banner_image_id)}
+                              onClick={() =>
+                                handleLinkClick(item.banner_image_id)
+                              }
                               onClickCapture={handleOnItemClick}
                               href={
                                 item?.name?.length > 0 && item.filters != false
