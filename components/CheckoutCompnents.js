@@ -23,7 +23,7 @@ function CheckoutCompnents() {
   const [cartState, dispatch] = useContext(CartContext);
   const curr = useContext(CurrencyContext);
   console.log(curr);
-  const { width } = useDeviceSize();
+  const [width]  = useDeviceSize();
   // Is Phone Number Valid ?
   const [isValid, setIsValid] = useState(true);
   const [error, setError] = useState(false);
@@ -2019,7 +2019,7 @@ useEffect(()=>{
               >
                 <div
                   className={`${
-                    state.admin && width > 650 && "fixed  w-full md:w-3/12"
+                    state.admin && width > 650  &&"fixed w-full md:w-4/12 md:pr-6 mr-24 z-50 bg-dprimarybg "
                   } `}
                 >
                   <div

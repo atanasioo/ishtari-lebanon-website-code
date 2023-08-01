@@ -46,12 +46,12 @@ function SingleProduct(props) {
 
   const source_type_id =
     Object.keys(router.query).length > 0
-      ? router.query.slug[0].includes("p=") ||
-        router.query.slug[0].includes("s=") ||
-        router.query.slug[0].includes("m=") ||
-        router.query.slug[0].includes("c=")
-        ? router.query.slug[0].split("=")[1]
-        : router.query.slug[0]
+      ? router.query?.slug &&( router.query?.slug[0]?.includes("p=") ||
+        router.query?.slug[0]?.includes("s=") ||
+        router.query?.slug[0]?.includes("m=") ||
+        router.query?.slug[0]?.includes("c="))
+        ? router.query?.slug[0]?.split("=")[1]
+        : router?.query?.slug && router?.query?.slug[0]
       : "";
 
   const handleLinkClick = () => {

@@ -131,10 +131,6 @@ console.log("yes")
   insertNext(0);
 };
 
-export { handleSaveIndexDb, insertBatchData, insertToCart };
+export { handleSaveIndexDb, insertBatchData };
 
 
-
-export function insertToCart(products) {
-  // Your logic to insert products to the cart goes here
-}
