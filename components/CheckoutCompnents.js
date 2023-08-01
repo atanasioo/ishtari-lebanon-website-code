@@ -2015,11 +2015,11 @@ useEffect(()=>{
                 {/* End My cart */}
               </div>
               <div
-                className={`relative w-full pb-3 md:pb-0 md:w-4/12 ml-0 md:ml-4`}
+                className={`relative w-full pb-3 md:pb-0 md:w-4/12 ml-0 md:ml-4 bg-dprimarybg`}
               >
                 <div
                   className={`${
-                    state.admin && width > 650  &&"fixed w-full md:w-4/12 md:pr-6 mr-24 z-50 bg-dprimarybg "
+                    state.admin && width > 650  &&"fixed w-full md:w-4/12 md:pr-6 mr-24 z-40 bg-dprimarybg "
                   } `}
                 >
                   <div
@@ -2223,7 +2223,7 @@ useEffect(()=>{
                       className={`${
                         state.admin &&
                         width > 650 &&
-                        "fixed  w-full md:w-3/12 pb-4  bg-white"
+                        "fixed  w-full md:w-3/12 pb-4 "
                       } `}
                     >
                       <div

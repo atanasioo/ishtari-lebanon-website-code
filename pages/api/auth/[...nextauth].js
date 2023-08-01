@@ -145,7 +145,7 @@ function getFacebookClientIdByHost(req) {
   // Set different client IDs based on host names
   if (hostname === "ishtari.com") {
     clientId = "130719880936639";
-  } else if (hostname === "ishtari.com.gh") {
+  } else if (hostname === "ishtari.com.gh" ||  hostname === "next.ishtari.com.gh"  ) {
     clientId = "1044051939655564";
   } else {
     clientId = "130719880936639";

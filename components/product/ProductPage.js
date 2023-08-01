@@ -482,7 +482,7 @@ function ProductPage(props) {
           event_callback: callback,
         });
         return false;
-      } else if (window.location.host === "www.ishtari.com.gh") {
+      } else if ( window.location.host === "next.ishtari.com.gh" || window.location.host === "www.ishtari.com.gh" ) {
         const callback = addToCart(obj);
         gtag("event", "conversion", {
           send_to: "AW-10993907106/6Y9jCLfUipEYEKLrpvoo",

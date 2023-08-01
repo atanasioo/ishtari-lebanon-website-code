@@ -28,7 +28,7 @@ const getHost = async (host) => {
   } else if (
     host === "ishtari-ghana" ||
     host === "https://www.ishtari.com.gh/" ||
-    host === "ishtari.com.gh"
+    host === "ishtari.com.gh" ||  host === "next.ishtari.com.gh"
   ) {
     url = "https://www.ishtari.com.gh";
   } else if (

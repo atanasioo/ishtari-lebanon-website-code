@@ -180,13 +180,13 @@ function AddressHandlePhoneModel(props) {
             // }
             
             pattern={
-              window.location.host === "www.ishtari.com.gh" ||
+              window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh" ||
               Cookies.get("site-local-name") === "ishtari-ghana"
                 ? "[0-9]{2}-[0-9]{3}-[0-9]{4}"
                 : "[0-9]+"
             }
             maxLength={
-              window.location.host === "www.ishtari.com.gh" ||
+              window.location.host === "www.ishtari.com.gh" ||  window.location.host === "next.ishtari.com.gh" ||
               Cookies.get("site-local-name") === "ishtari-ghana"
                 ? 11
                 : 8
@@ -195,7 +195,7 @@ function AddressHandlePhoneModel(props) {
               if (
                 e.target.value.length <=
                 (window.location.host === "www.ishtari.com.gh" ||
-                Cookies.get("site-local-name") === "ishtari-ghana"
+                Cookies.get("site-local-name") === "ishtari-ghana" || window.location.host === "next.ishtari.com.gh" ||
                   ? 11
                   : 8)
               ) {

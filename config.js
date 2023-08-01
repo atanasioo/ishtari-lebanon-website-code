@@ -62,7 +62,7 @@ if (typeof window !== "undefined") {
   if (
     Cookies.get("site-local-name") === "ishtari-ghana" ||
     host === "www.ishtari.com.gh" ||
-    host === "ishtari.com.gh"
+    host === "ishtari.com.gh"  ||  host === "next.ishtari.com.gh"
   ) {
     config = {
       "short-name": "ishtari",

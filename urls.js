@@ -119,7 +119,7 @@ var urls = {
 if (typeof window !== "undefined") {
   if (
     Cookies.get("site-local-name") === "ishtari-ghana" ||
-    host === "www.ishtari.com.gh" ||
+    host === "www.ishtari.com.gh" ||  host === "next.ishtari.com.gh" || 
     host === "ishtari.com.gh"
   ) {
     pixelID = "1132590020651282";
@@ -172,7 +172,7 @@ if (typeof window !== "undefined") {
     Cookies.get("site-local-name") === "ishtari" ||
     host === "www.ishtari.com" ||
     host === "www.sari3.com" ||
-    host === "ishtari.com"
+    host === "ishtari.com" 
   ) {
     pixelID = "668318187192045";
     host = "https://www.ishtari.com/";
@@ -342,7 +342,7 @@ function buildLink(link, payload, width, hostServer) {
     return host + path1 + urls[link] + extra_params;
   } else if (
     hostServer === "ishtari-ghana" ||
-    hostServer === "https://www.ishtari.com.gh/" ||
+    hostServer === "https://www.ishtari.com.gh/" ||  hostServer === "next.ishtari.com.gh" ||
     type === "ishtari-ghana"
   ) {
 

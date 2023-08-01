@@ -135,7 +135,7 @@ function GoogleMap(props) {
           window.location.host === "next.ishtari.com" ||
           (Cookies.get("site-local-name") === "ishtari" &&
             country === "Lebanon") ||
-          window.location.host === "www.ishtari.com.gh" ||
+          window.location.host === "www.ishtari.com.gh" ||  window.location.host === "next.ishtari.com.gh" ||
           window.location.host === "ishtari.com.gh" ||
           (Cookies.get("site-local-name") === "ishtari-ghana" &&
             country === "Ghana")

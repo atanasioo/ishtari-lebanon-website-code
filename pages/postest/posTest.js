@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { axiosServer } from "@/axiosServer";
-
+import { useRouter } from "next/router";
 function Pos() {
   const [result, setResult] = useState();
+  const [update, setUpdate] = useState(false);
+  const router = useRouter();
+
+
 
   useEffect(() => {
     // Open the database
@@ -45,7 +49,7 @@ function Pos() {
     request.onerror = function (event) {
       console.error("Error opening database:", event.target.error);
     };
-  }, []);
+  }, [router, update]);
 
   function addToCart(e) {
     const searchKeyWord = e.target.value;
@@ -68,98 +72,94 @@ function Pos() {
 
       openRequest.onsuccess = (event) => {
         const db = event.target.result;
-                const transaction = db.transaction(['products', 'cart'], "readonly");
+        const transaction = db.transaction(["products", "cart"], "readonly");
 
-                  // Check if a value exists in table1
-  const table1Store = transaction.objectStore('cart');
+        // Check if a value exists in table1
+        const table1Store = transaction.objectStore("cart");
 
+        const request1 = table1Store.openCursor();
 
-  const request1 = table1Store.openCursor();
+        request1.onsuccess = (event) => {
+          const result = event.target.result;
+          const cart = result.value;
+          // console.log(cart)
 
-  request1.onsuccess = (event) => {
-    const result = event.target.result;
-   const  cart = result.value
-// console.log(cart)
+          console.log(cart[0]?.option_value?.barcode);
+          console.log(search);
+          const check = cart[0]?.option_value?.barcode === search && cart.id;
+          // find(
+          //   (opt) =>
+          //     opt.barcode === search ||
+          //     cart.sku === search ||
+          //     cart.model === search
+          // );
+          if (check) {
+            console.log(`${search} exists in table1.`);
 
-console.log(cart[0]?.option_value?.barcode)
-console.log(search)
-    const check =  cart[0]?.option_value?.barcode === search && true
-              // find(
-              //   (opt) =>
-              //     opt.barcode === search ||
-              //     cart.sku === search ||
-              //     cart.model === search
-              // );
-    if (check) {
-      console.log(`${search} exists in table1.`);
-
-      updateQuantity()
-    } else {
-      console.log(`${search} does not exist in table1.`);
-  
-
-        // const transaction = db.transaction(objectStoreName, "readonly");
-        const objectStore = transaction.objectStore(objectStoreName);
-      
-        const products = [];
-        const request = objectStore.openCursor();
-
-        request.onsuccess = (event) => {
-          const cursor = event.target.result;
-          if (cursor) {
-            const product = cursor.value;
-            // Check if the desired option value exists in the product's options
-
-
-            // const check =
-            // product.product_options[0]?.option_value?.find(
-            //   (opt) =>
-            //     opt.barcode === search ||
-            //     product.sku === search ||
-            //     product.model === search
-            // );
-            const matchingOption =
-              product.product_options[0]?.option_value?.find(
-                (opt) =>
-                  opt.barcode === search ||
-                  product.sku === search ||
-                  product.model === search
-              );
-            if (matchingOption) {
-
-              products.push({
-                name: product.name,
-                price: product.price,
-                sku: product.sku,
-                optin_name: product?.product_options[0]?.name,
-                option_value: matchingOption,
-                quantity: 1
-              });
-              console.log(products);
-              insertToCart(products);
-              return;
-            }
-            // cursor.continue();
+            updateQuantity(check, search);
           } else {
-            resolve(products);
+            console.log(`${search} does not exist in table1.`);
+
+            // const transaction = db.transaction(objectStoreName, "readonly");
+            const objectStore = transaction.objectStore(objectStoreName);
+
+            const products = [];
+            const request = objectStore.openCursor();
+
+            request.onsuccess = (event) => {
+              const cursor = event.target.result;
+              console.log(cursor);
+              if (cursor) {
+                const product = cursor.value;
+                // Check if the desired option value exists in the product's options
+
+                console.log("products");
+                const matchingOption =
+                  product.product_options[0]?.option_value?.find(
+                    (opt) =>
+                      opt.barcode === search ||
+                      product.sku === search ||
+                      product.model === search
+                  ) && true;
+                console.log(matchingOption);
+                if (matchingOption) {
+                  console.log("products");
+
+                  products.push({
+                    name: product.name,
+                    price: product.price,
+                    sku: product.sku,
+                    optin_name: product?.product_options[0]?.name,
+                    option_value: matchingOption,
+                    quantity: 1
+                  });
+                  console.log(products);
+                  insertToCart(products);
+                  return;
+                }
+                // cursor.continue();
+              } else {
+                resolve(products);
+              }
+            };
+
+            request.onerror = (event) => {
+              reject(event.target.error);
+            };
           }
-        };
 
-        request.onerror = (event) => {
-          reject(event.target.error);
+          openRequest.onerror = (event) => {
+            reject(event.target.error);
+          };
         };
       };
-
-      openRequest.onerror = (event) => {
-        reject(event.target.error);
-      };
-    }
-  };
     });
   }
 
+  //insert in cart
   function insertToCart(products) {
-    console.log(products);
+    // console.log(products);
+    setUpdate(false);
     // Your logic to insert products to the cart goes here
     const openRequest = indexedDB.open("posDB", 4);
     console.log("event");
@@ -189,6 +189,7 @@ console.log(search)
       const request = objectStore.add(products);
 
       request.onsuccess = () => {
+        setUpdate(true);
         console.log("Data inserted successfully");
 
         // Successfully inserted, move to the next object
@@ -203,9 +204,7 @@ console.log(search)
     // Start inserting from index 0
   }
 
-  function updateQuantity(e) {
-    const search = e.target.value;
-
+  function updateQuantity(check, search) {
     return new Promise((resolve, reject) => {
       const openRequest = indexedDB.open("posDB");
 
@@ -220,25 +219,28 @@ console.log(search)
         request.onsuccess = (event) => {
           const cursor = event.target.result;
           if (cursor) {
+            var products = [];
             const product = cursor.value;
             // Check if the desired option value exists in the product's options
             console.log(product);
             const matchingOption =
-              product && product?.find((opt) => opt.barcode === search);
+              product &&
+              product[0]?.option_value.barcode === search &&
+              product[0];
 
             console.log(product.id);
             if (matchingOption) {
-              console.log(product);
+              console.log(matchingOption);
               products.push({
-                name: product.name,
-                price: product.price,
-                sku: product.sku,
-                optin_name: product?.product_options[0]?.name,
-                option_value: matchingOption
+                name: matchingOption.name,
+                price: matchingOption.price,
+                sku: matchingOption.sku,
+                option_name: matchingOption?.option_name,
+                option_value: matchingOption.option_value
               });
 
               console.log(products);
-              updateQuantitys(products);
+              updateQuantitys(matchingOption, product.id);
             }
             // cursor.continue();
           } else {
@@ -258,9 +260,9 @@ console.log(search)
     // Open the database
   }
 
-  function updateQuantitys(product) {
+  function updateQuantitys(product, key) {
     const request = indexedDB.open("posDB", 4);
-
+    console.log(product, key);
     // Event handler for database creation or version change
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
@@ -285,21 +287,23 @@ console.log(search)
       const objectStore = transaction.objectStore("cart");
 
       // Retrieve the record you want to update using a key or index
-      const keyToFind = product.key; // Assuming the record's key is 1
+      const keyToFind = key; // Assuming the record's key is 1
       const getRequest = objectStore.get(keyToFind);
 
       getRequest.onsuccess = function (event) {
         // Get the record from the request result
         const record = event.target.result;
-
+        setUpdate(false);
         if (record) {
+          console.log(product.quantity);
           // Modify the record properties (for example, update the 'name' property)
-          record.quantity = product.quantity + 1;
-
-          // Use the 'put' method to update the modified record
+          record[0].quantity = product.quantity + 1;
+          console.log("record = " + product.quantity);
+          // Use the 'put' method t o update the modified record
           const updateRequest = objectStore.put(record);
 
           updateRequest.onsuccess = function () {
+            setUpdate(true);
             console.log("Record updated successfully!");
           };
 
@@ -341,12 +345,21 @@ console.log(search)
               onKeyUp={(e) => addToCart(e)}
             />
           </div>
-          {result?.map((cart , key) => (
+          {result?.map((cart, key) => (
             <div className="flex justify-between my-2 w-full">
-                 <div>{key}</div> 
-       <div className="w-3/4">{cart[0].name}</div>  
-       <div>{cart[0].sku}</div> 
-          <div className="mx-1"><input className="px-2 border border-1 w-1/3 text-center" defaultValue={cart[0].quantity} /></div>   
+              <div>{key}</div>
+              <div className="w-3/4">{cart[0].name}</div>
+              <div>{cart[0].sku}</div>
+              <div>
+                {cart[0].optin_name || cart[0].option_name} :{" "}
+                {cart[0].option_value.name}
+              </div>
+              <div className="mx-1">
+                <input
+                  className="px-2 border border-1 w-1/3 text-center"
+                  defaultValue={cart[0].quantity}
+                />
+              </div>
             </div>
           ))}
         </div>
