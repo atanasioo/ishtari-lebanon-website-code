@@ -195,7 +195,7 @@ function AddressHandlePhoneModel(props) {
               if (
                 e.target.value.length <=
                 (window.location.host === "www.ishtari.com.gh" ||
-                Cookies.get("site-local-name") === "ishtari-ghana" || window.location.host === "next.ishtari.com.gh" ||
+                Cookies.get("site-local-name") === "ishtari-ghana" || window.location.host === "next.ishtari.com.gh" 
                   ? 11
                   : 8)
               ) {
