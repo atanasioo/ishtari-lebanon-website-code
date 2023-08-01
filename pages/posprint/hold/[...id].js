@@ -114,28 +114,17 @@ export default function PosPrint(props) {
           </div>
 
           <div className="w-5/12 ">
-            <div className="w-full flex  mb-1">
-              <div className="w-3/4">sub Total</div>
-              <div className="text-right "> ${ hold.sub_total}</div>
-            </div>
-
-            {hold?.modification && (
-              <div className="w-full flex  mb-1">
-                <div className="w-3/4">{hold.modification_type}</div>
-                <div className="text-right ">{hold?.modification}</div>
-              </div>
+            {hold?.totals?.map(
+              (total) =>
+                total.title !== "Store" && (
+                  <div className="w-full flex  mb-1">
+                    <div className="w-3/4">{total.title}</div>
+                    <div className="text-right ">{total.text}</div>
+                  </div>
+                )
             )}
 
-            {hold?.coupon && (
-              <div className="w-full flex  mb-1">
-                <div className="w-3/4">coupon</div>
-                <div className="text-right ">{hold.coupon}</div>
-              </div>
-            )}
-            <div className="w-full flex  mb-1">
-              <div className="w-3/4">Total</div>
-              <div className="text-right ">${hold?.total}</div>
-            </div>
+          
           </div>
         </div>
       )}

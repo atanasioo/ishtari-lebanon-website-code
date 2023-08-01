@@ -26,9 +26,8 @@ export default function PosOrders() {
   const [manualResponse, setManualResponse] = useState();
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
-  const [stored, setStored] =
-    useState();
-    //   JSON.parse(typeof window !== 'undefined' && localStorage.getItem("orders"))
+  const [stored, setStored] = useState();
+  //   JSON.parse(typeof window !== 'undefined' && localStorage.getItem("orders"))
 
   const orderId = useRef("");
 
@@ -58,11 +57,10 @@ export default function PosOrders() {
 
       var sumHold = 0;
 
-   storedHolder?.map((item) => {
-    console.log(item)
+      storedHolder?.map((item) => {
+        console.log(item);
         // console.log(item?.order_total)
-        if (item?.total !== undefined)
-          sumHold += Number(item?.total); // Replace "columnName" with the actual column you want to sum
+        if (item?.total !== undefined) sumHold += Number(item?.total); // Replace "columnName" with the actual column you want to sum
       });
 
       setTotalsHold(sumHold);
@@ -412,7 +410,7 @@ export default function PosOrders() {
 
       {(showDetails || showDetails === 0) && (
         <div class="fixed left-0 top-0   h-full w-full overflow-y-auto overflow-x-hidden outline-none z-50">
-          <div class="pointer-events-none relative w-1/2 top-1/3 left-1/4 right-1/4  translate-y-[-50px]  transition-all duration-300 ease-in-out">
+          <div class="pointer-events-none relative w-8/12 top-1/3 left-1/4 right-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out">
             <div class="p-5  pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none">
               <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder z-50	 ">
                 <h5
@@ -471,7 +469,7 @@ export default function PosOrders() {
                         QTY
                       </th>
 
-                      <th scope="col" class="py-4">
+                      <th scope="col" class="py-4 text-center">
                         Total
                       </th>
                     </tr>
@@ -496,7 +494,7 @@ export default function PosOrders() {
                             {order?.quantity}
                           </td>
 
-                          <td class="whitespace-nowrap  py-2">
+                          <td class="whitespace-nowrap text-center py-2">
                             {order?.total}
                           </td>
                         </tr>
@@ -528,179 +526,52 @@ export default function PosOrders() {
                             {order?.quantity}
                           </td>
 
-                          <td class="whitespace-nowrap  py-2">
+                          <td class="whitespace-nowrap  text-center py-2">
                             {order?.price}
                           </td>
                         </tr>
                       ))}
                   </tbody>
-                  {details && details[0] && (
-                    <tfoot>
+                
+                  <tfoot>
+                  {details && details[0] && details[0]?.totals?.map(   (item) => item.code !== "shipping"  &&
+             
                       <tr class="border border-DarkGrey ">
                         <td
                           class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
                           colspan="6"
                         >
-                          Sub-total
+                           {item?.title}
                         </td>{" "}
-                        <td class="whitespace-nowrap px-6 py-2  text-center">
-                          {details[0]?.totals?.map(
-                            (item) => item?.code === "sub_total" && item?.text
-                          )}
+                        <td class="whitespace-nowrap text-center py-2">
+                          {item?.text}
+                        
                         </td>
                       </tr>
-                      <tr class="border border-DarkGrey ">
-                        <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                          colspan="6"
-                        >
-                          Modification
-                        </td>
-                        <td class="whitespace-nowrap px-6 py-2">
-                          {details[0]?.totals?.map(
-                            (item) =>
-                              item?.code === "modification" &&
-                              item?.text + " (" + item.title + ")"
-                          )}
-                        </td>
-                      </tr>
-                      <tr class="border border-DarkGrey ">
-                        <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                          colspan="6"
-                        >
-                          coupon
-                        </td>
-                        <td class="whitespace-nowrap px-6 py-2">
-                          {details[0]?.totals?.map(
-                            (item) =>
-                              item?.code === "coupon" && (item?.text || 0)
-                          )}
-                        </td>
-                      </tr>
-                      <tr class="border border-DarkGrey ">
-                        <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                          colspan="6"
-                        >
-                          Total
-                        </td>
-                        <td class="whitespace-nowrap px-6 py-4">
-                          {details[0]?.totals?.map(
-                            (item) =>
-                              item?.code === "total" && (item?.text || 0)
-                          )}
-                        </td>
-                      </tr>
-                    </tfoot>
+                  
                   )}
-                  {holdDetails && (
-                    <tfoot>
-                      <tr class="border border-DarkGrey ">
-                        <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                          colspan="5"
-                        >
-                          Sub Total
-                        </td>
-                        <td class="whitespace-nowrap  py-2">
-                          {holdDetails?.sub_total}
-                        </td>
-                      </tr>
-                      {holdDetails?.modification_type && (
-                        <tr class="border border-DarkGrey ">
-                          <td
-                            class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                            colspan="5"
-                          >
-                            {holdDetails?.modification_type}
-                          </td>
-                          <td class="whitespace-nowrap  py-2">
-                            {holdDetails?.modification}
-                          </td>
-                        </tr>
-                      )}
-
-                      {holdDetails?.coupon && (
-                        <tr class="border border-DarkGrey ">
-                          <td
-                            class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                            colspan="5"
-                          >
-                            Coupon
-                          </td>
-                          <td class="whitespace-nowrap  py-2">
-                            {holdDetails?.coupon}
-                          </td>
-                        </tr>
-                      )}
-                      <tr class="border border-DarkGrey ">
-                        <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                          colspan="5"
-                        >
-                          Total
-                        </td>
-                        <td class="whitespace-nowrap  py-2">
-                          {holdDetails?.total || holdDetails?.order_total}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  )}
-
-                  {/* {details && (
-                    <tfoot>
-                      <tr class="border border-DarkGrey ">
-                        <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                          colspan="5"
-                        >
-                          Sub Total
-                        </td>
-                        <td class="whitespace-nowrap  py-2">
-                          {details?.sub_total}
-                        </td>
-                      </tr>
-                      {details?.modification_amount && (
-                        <tr class="border border-DarkGrey ">
-                          <td
-                            class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                            colspan="5"
-                          >
-                            {details?.modification_type}
-                          </td>
-                          <td class="whitespace-nowrap  py-2">
-                            {details?.modification_amount}
-                          </td>
-                        </tr>
-                      )}
-
-                      {holdDetails?.coupon && (
-                        <tr class="border border-DarkGrey ">
-                          <td
-                            class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                            colspan="5"
-                          >
-                            Coupon
-                          </td>
-                          <td class="whitespace-nowrap  py-2">
-                            {holdDetails?.coupon}
-                          </td>
-                        </tr>
-                      )}
-                      <tr class="border border-DarkGrey ">
-                        <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
-                          colspan="5"
-                        >
-                          Total
-                        </td>
-                        <td class="whitespace-nowrap  py-2">
-                          {holdDetails?.total || holdDetails?.order_total}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  )} */}
+                    {holdDetails &&
+                      holdDetails &&
+                      holdDetails?.totals
+                        ?.sort((a, b) => a.sort_order - b.sort_order)
+                        ?.map(
+                          (item) =>
+                            item.code !== "shipping" && (
+                              <tr class="border border-DarkGrey ">
+                                <td
+                                  class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
+                                  colspan="6"
+                                >
+                                  {item?.title}
+                                </td>{" "}
+                                <td class="whitespace-nowrap  py-2 text-center">
+                                  {item?.text}
+                                </td>
+                              </tr>
+                            )
+                        )}
+                  </tfoot>
+                
                 </table>
               </div>
               <div className="flex justify-between">
@@ -810,7 +681,7 @@ export default function PosOrders() {
 
         <button
           className="px-5 bg-dblue text-white py-2 rounded-md ml-5 float-right mr-6 mt-3"
-          onClick={(e) =>print(date.finalDate)}
+          onClick={(e) => print(date.finalDate)}
         >
           Print
         </button>
@@ -949,16 +820,17 @@ export default function PosOrders() {
                           </td>
 
                           <td class="whitespace-nowrap px-6 py-4">
-                            {order.modification  && order.modification +
-                              "  (" +
-                              order.modification_type +
-                              ":" +
+                            {order.modification &&
                               order.modification +
-                              ")"}
+                                "  (" +
+                                order.modification_type +
+                                ":" +
+                                order.modification +
+                                ")"}
                           </td>
 
                           <td class="whitespace-nowrap px-6 py-4">
-                            {order.coupon  && "$"+ order.coupon }
+                            {order.coupon && "$" + order.coupon}
                           </td>
                           <td class="whitespace-nowrap px-6 py-4">
                             ${order?.total || order?.order_total}

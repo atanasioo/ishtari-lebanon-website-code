@@ -669,6 +669,7 @@ export default function Pos() {
         if (response?.data?.success === false) {
           setManualResponse(response?.data?.data);
           console.log(response?.data);
+
           setError(response?.data?.errors);
           setManualResponse(response?.data?.data);
           if (
@@ -680,6 +681,8 @@ export default function Pos() {
           ) {
             setSuccess(true);
             body.hold_reason = response?.data.message;
+            body.totals = response?.data?.data?.order_total;
+
             addToHold(body);
             setShowCalculate(false);
             setOpacity(true);
