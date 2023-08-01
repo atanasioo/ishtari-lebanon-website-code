@@ -869,7 +869,7 @@ function CatalogPage(props) {
                                 <div
                                   className="my-2 flex items-center cursor-pointer hover:text-dblue"
                                   key={filter.name}
-                                  // onClick={() => parseFilter(filters[key].id, filter)}
+                                  onClick={() => parseFilter(filters[key].id, filter.id)}
                                 >
                                   <span className="flex w-10/12">
                                     <span
@@ -904,7 +904,7 @@ function CatalogPage(props) {
                                     className="my-2 flex float items-center cursor-pointer hover:text-dblue "
                                     key={filter.name}
                                     onClick={() =>
-                                      parseFilter(filters[key].id, filter)
+                                      parseFilter(filters[key].id, filter.id)
                                     }
                                   >
                                     <i>
@@ -2356,7 +2356,7 @@ function CatalogPage(props) {
                                     className="my-2 flex float items-center cursor-pointer hover:text-dblue "
                                     key={filter.name}
                                     onClick={() =>
-                                      parseFilter(filters[key].id, filter)
+                                      parseFilter(filters[key].id, filter.id)
                                     }
                                   >
                                     <i>
