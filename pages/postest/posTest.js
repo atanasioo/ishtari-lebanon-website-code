@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { axiosServer } from "@/axiosServer";
-import { insertToCart } from "@/functions";
 
 function Pos() {
   const [result, setResult] = useState();
