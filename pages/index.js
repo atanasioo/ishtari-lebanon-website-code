@@ -181,7 +181,7 @@ export default function Home(props) {
         ></meta>
       </Head>
       <DownloadAppImg host_url={host_url} />
-      <div className={`overflow-x-hidden container`}>
+      <div className={`overflow-hidden container`}>
         {width < 650 && (
           <ScrollToTop
             smooth
