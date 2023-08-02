@@ -120,16 +120,16 @@ function ProductZoomModal(props) {
 
   return (
     <div className="fixed bg-white md:bg-dblackOverlay top-0 lef-0 right-0 bottom-0 w-full h-full z-30 overflow-hidden">
-      <div className="relative z-40 h-screen mx-auto text-center box-border">
-        <div  className="absolute w-full m-auto h-screen lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
-          <div className=" m-0 p-0 md:min-h-full h-screen md:h-full bg-dblackOverlay3 lg:bg-white" id="popup_modal">
+      <div className="modal_zoom_div relative z-40 h-full mx-auto text-center box-border">
+        <div   className="modal_zoom_div absolute w-full m-auto h-full lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
+          <div className=" m-0 p-0 md:min-h-full modal_zoom_div md:h-full bg-dblackOverlay3 lg:bg-white" id="popup_modal">
             <CgClose
               className="absolute top-2 right-4 p-0.5 md:m-3 w-9 h-9 z-10 md:w-9 md:h-9 cursor-pointer text-darrowZoom  lg:text-dblack"
               onClick={() => closeModal()}
               onTouchStart={() => closeModal()}
             />
-            <div className="flex flex-col justify-center h-100dvh lg:h-unset">
-              <div  className="flex flex-col h-100svh lg:h-full md:my-8  justify-start gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
+            <div className={`flex flex-col justify-start ${width < 768 ? "items-center" : ""} md:justify-center modal_zoom_div  lg:h-unset`}>
+              <div  className="flex flex-col w-86% md:w-unset h-full lg:h-full md:my-8  justify-start gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
                 <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-5/12 flex flex-col  lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
@@ -179,7 +179,7 @@ function ProductZoomModal(props) {
                           height={450}
                           src={i["popup"]}
                           alt="product-image"
-                          className={` w-full   lg:max-h-full  myimage-product-zoom  ${
+                          className={`   modal_zoom_div lg:max-h-full  myimage-product-zoom  ${
                             cursor ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
                           placeholder={"blur"}

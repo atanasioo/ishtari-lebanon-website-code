@@ -2169,6 +2169,14 @@ input:checked + .slider_swicth:before {
   }
 }
 
+.modal_zoom_div{
+  height: 100%; /* Fallback */
+  height: -moz-available;
+  height: -webkit-fill-available;
+  /* height: fill-available; */
+  height: stretch; /* Latest specification */
+}
+
 
 
 
