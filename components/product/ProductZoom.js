@@ -61,47 +61,12 @@ function ProductZoom(props) {
     slidesToScroll: 1,
     autoplay: false,
     ref: imageSlider,
-    swipe: false,
+    // swipe: false,
     // touchMove: true, // Enable touchMove when isSlidingEnabled is true
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
 
-  // const handleTouchStart = (e) => {
-  //   if (!isSlidingEnabled) {
-  //     // If sliding is disabled, prevent touch events
-  //     e.preventDefault();
-  //   }
-  // };
-
-  // const handleTouchMove = (e) => {
-  //   if (!isSlidingEnabled) {
-  //     // If sliding is disabled, prevent touch events
-  //     e.preventDefault();
-  //   }
-  // };
-
-  // const handleTouchEnd = (e) => {
-  //   if (isSlidingEnabled) {
-  //     const touch = e.changedTouches[0];
-  //     const startX = touch.clientX;
-  //     const endX = touch.pageX;
-
-  //     // Calculate the difference in X coordinates
-  //     const deltaX = endX - startX;
-
-  //     // Set a threshold for swipe action (you can adjust this as needed)
-  //     const swipeThreshold = 50;
-
-  //     if (deltaX > swipeThreshold) {
-  //       // Simulate swipe to previous slide
-  //       imageSlider.current.slickPrev();
-  //     } else if (deltaX < -swipeThreshold) {
-  //       // Simulate swipe to next slide
-  //       imageSlider.current.slickNext();
-  //     }
-  //   }
-  // };
 
   function closeModal() {
     setShowModal(false);

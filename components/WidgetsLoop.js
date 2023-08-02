@@ -1,7 +1,7 @@
 import SingleProduct from "./product/SingleProduct.js";
 import Slider from "react-slick";
 import Image from "next/legacy/image";
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect, useContext } from "react";
 // import { Swiper, SwiperSlide } from "swiper/react";
 // import "swiper/swiper-bundle.min.css";
 // import "swiper/swiper.min.css";
@@ -19,6 +19,7 @@ import useDeviceSize from "./useDeviceSize.js";
 import SingleProductTest from "./product/SingleProductTest.js";
 import { useRouter } from "next/router.js";
 import { useMarketingData } from "@/contexts/MarketingContext.js";
+import { HostContext } from "@/contexts/HostContext.js";
 
 function WidgetsLoop({ widget, likedData, initialLoading }) {
   const ImageClient = dynamic(() => import("./ImageClient.js"), { ssr: false });
@@ -31,6 +32,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
   const [width] = useDeviceSize();
   const router = useRouter();
   const { setMarketingData } = useMarketingData();
+  const host = useContext(HostContext);
   const source_type =
     router.asPath === "/"
       ? "home"
@@ -586,7 +588,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     <div data-index={index} key={`sliderM` + index}>
                       <Image
                         alt={item?.name}
-                        src={"https://www.ishtari.com/image/" + item.image}
+                        src={host.host +"/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -645,7 +647,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     >
                       <Image
                         alt={item?.name}
-                        src={"https://www.ishtari.com/image/" + item.image}
+                        src={host.host +"/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -958,7 +960,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     <div data-index={index} key={`sliderM` + index}>
                       <Image
                         alt={item?.name}
-                        src={"https://www.ishtari.com/image/" + item.image}
+                        src={host.host +"/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -1025,7 +1027,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                       /> */}
                       <Image
                         alt={item?.name}
-                        src={"https://www.ishtari.com/image/" + item.image}
+                        src={host.host +"/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -1113,7 +1115,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     /> */}
                     <Image
                       alt={item?.name}
-                      src={"https://www.ishtari.com/image/" + item.image}
+                      src={host.host +"/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1147,7 +1149,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     /> */}
                     <Image
                       alt={item?.name}
-                      src={"https://www.ishtari.com/image/" + item.image}
+                      src={host.host +"/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1245,7 +1247,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   /> */}
                   <Image
                     alt={item?.name}
-                    src={"https://www.ishtari.com/image/" + item.image}
+                    src={host.host +"/image/" + item.image}
                     width={widget?.banner_width}
                     height={widget?.banner_height}
                     title={item?.name
@@ -1278,7 +1280,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   /> */}
                   <Image
                     alt={item?.name}
-                    src={"https://www.ishtari.com/image/" + item.image}
+                    src={host.host +"/image/" + item.image}
                     width={widget.banner_width}
                     height={widget.banner_height}
                     title={item?.name}
@@ -1307,7 +1309,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                 /> */}
                 <Image
                   alt={item?.name}
-                  src={"https://www.ishtari.com/image/" + item.image}
+                  src={host.host +"/image/" + item.image}
                   width={widget.banner_width}
                   height={widget.banner_height}
                   title={item?.name
@@ -1406,7 +1408,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     /> */}
                     <Image
                       alt={item?.name}
-                      src={"https://www.ishtari.com/image/" + item.image}
+                      src={host.host +"/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1439,7 +1441,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     /> */}
                     <Image
                       alt={item?.name}
-                      src={"https://www.ishtari.com/image/" + item.image}
+                      src={host.host +"/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
@@ -1468,7 +1470,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     /> */}
                     <Image
                       alt={item?.name}
-                      src={"https://www.ishtari.com/image/" + item.image}
+                      src={host.host +"/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1580,7 +1582,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                             <Image
                               alt={item?.name}
                               src={
-                                "https://www.ishtari.com/image/" + item.image
+                                host.host +"/image/" + item.image
                               }
                               width={widget.banner_width}
                               height={widget.banner_height}
@@ -1823,7 +1825,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                               <Image
                                 alt={item?.name}
                                 src={
-                                  "https://www.ishtari.com/image/" + item.image
+                                  host.host +"/image/" + item.image
                                 }
                                 width={widget.banner_width}
                                 height={widget.banner_height}
