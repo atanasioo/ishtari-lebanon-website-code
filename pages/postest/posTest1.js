@@ -9,9 +9,39 @@ function Pos() {
 
   const router = useRouter();
 
+  function addNewTable() {
+    console.log("omar");
+    // Your logic to insert products to the cart goes here
+    const openRequest = indexedDB.open("posDB", 5);
+
+
+    // console.log("event");
+    openRequest.onupgradeneeded = (event) => {
+      console.log("omar" + event);
+
+      // console.log("ddddddd" + event);
+      // const openRequest = indexedDB.open(dbName, 2);
+      const db = event.target.result;
+
+      // Create the second object store
+      if (!db.objectStoreNames.contains("carts")) {
+        db.createObjectStore("carts", {
+          keyPath: "id",
+          // autoIncrement: true
+
+        });
+        // You can add indexes for faster searching if needed
+      }
+    };
+    openRequest.onsuccess = (event) => {
+      // Database opened successfully, you can start using i
+      console.log(event);
+      console.log("cart insert completed");
+    };
+  }
   useEffect(() => {
     // Open the database
-    const request = indexedDB.open("posDB", 4);
+    const request = indexedDB.open("posDB", 5);
 
     // Event handler for successful database open
     request.onsuccess = function (event) {
@@ -32,7 +62,7 @@ function Pos() {
           setResult(data);
           var total_cart = 0;
           data.map((t) => {
-            if (t[0].total) total_cart += t[0].total;
+            if (t[0].total) total_cart += Number(t[0].total);
           });
           setTotal(total_cart);
           console.log("All data in the object store:", data);
@@ -120,13 +150,14 @@ function Pos() {
 
                 console.log("products");
                 const matchingOption =
-                  product.product_options[0]?.option_value?.find(
+                  product.product_options[0]?.option_value?.map(
                     (opt) =>
-                      opt.barcode === search ||
-                      product.sku === search ||
-                      product.model === search
-                  ) && true;
-                console.log(matchingOption);
+                      (opt.barcode === search ||
+                        product.sku === search ||
+                        product.model === search) &&
+                      true
+                  );
+                console.log(product.product_options[0]?.option_value);
                 if (matchingOption) {
                   console.log("products");
 
@@ -167,7 +198,7 @@ function Pos() {
     // console.log(products);
     setUpdate(false);
     // Your logic to insert products to the cart goes here
-    const openRequest = indexedDB.open("posDB", 4);
+    const openRequest = indexedDB.open("posDB", 5);
     // console.log("event");
     openRequest.onupgradeneeded = (event) => {
       // console.log("ddddddd" + event);
@@ -175,10 +206,9 @@ function Pos() {
       const db = event.target.result;
 
       // Create the second object store
-      if (!db.objectStoreNames.contains("cart")) {
-        const objectStore2 = db.createObjectStore("cart", {
-          keyPath: "id",
-          autoIncrement: true
+      if (!db.objectStoreNames.contains("carts")) {
+        const objectStore2 = db.createObjectStore("carts", {
+          keyPath: "id"
         });
         // You can add indexes for faster searching if needed
       }
@@ -197,6 +227,32 @@ function Pos() {
       request.onsuccess = () => {
         console.log("Data inserted successfully");
 
+        const objectIdToUpdate = 8; // Provide the ID of the object you want to update
+
+        // Step 4: Retrieve the object from the object store
+        const getRequest = objectStore.get(objectIdToUpdate);
+
+        getRequest.onsuccess = function (event) {
+          const existingObject = event.target.result;
+          console.log(existingObject);
+          // Check if the object with the provided ID exists
+          if (existingObject) {
+            // Step 5: Modify the object by adding the new array to the existing table array
+            const newArrayToAdd = products;
+            existingObject.push(newArrayToAdd);
+
+            // Update the modified object back into the object store
+            const updateRequest = objectStore.put(existingObject);
+
+            updateRequest.onsuccess = function (event) {
+              console.log("Object updated successfully!");
+            };
+
+            updateRequest.onerror = function (event) {
+              console.error("Error updating object:", event.target.error);
+            };
+          }
+        };
         // Successfully inserted, move to the next object
       };
 
@@ -266,7 +322,7 @@ function Pos() {
   }
 
   function updateQuantitys(product, key) {
-    const request = indexedDB.open("posDB", 4);
+    const request = indexedDB.open("posDB", 5);
     console.log(product, key);
     // Event handler for database creation or version change
     request.onupgradeneeded = function (event) {
@@ -338,7 +394,7 @@ function Pos() {
   }
 
   function deleteRowById(tableName, idToDelete) {
-    const openRequest = indexedDB.open("posDB", 4);
+    const openRequest = indexedDB.open("posDB", 5);
     console.log("event");
     var db;
     openRequest.onupgradeneeded = (event) => {
@@ -379,8 +435,56 @@ function Pos() {
     };
   }
 
+  function deleteTable() {
+    const dbName = "posDB";
+    const objectStoreNameToDelete = "carts";
+
+    const request = indexedDB.open(dbName, 5);
+    console.log("yes de");
+    request.onerror = function (event) {
+      console.error("Error opening IndexedDB:", event.target.errorCode);
+    };
+
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+
+      // Step 2: Check if the object store exists
+      if (db.objectStoreNames.contains(objectStoreNameToDelete)) {
+        // Step 3: Delete the object store from the database
+        const version = db.version;
+
+        // Close the database connection to perform the delete operation
+        // db.close();
+
+        const requestDelete = indexedDB.open(dbName, version);
+
+        requestDelete.onupgradeneeded = function (event) {
+          const dbToDelete = event.target.result;
+
+          // Delete the object store from the database
+          dbToDelete.deleteObjectStore(objectStoreNameToDelete);
+        };
+
+        requestDelete.onerror = function (event) {
+          console.error("Error deleting object store:", event.target.error);
+        };
+
+        requestDelete.onsuccess = function (event) {
+          console.log("Object store deleted successfully!");
+        };
+      } else {
+        console.error("Object store not found.");
+      }
+    };
+
+    request.onupgradeneeded = function (event) {
+      // This event will only be triggered if the database is not yet created
+      console.log("Database created successfully.");
+    };
+  }
+
   return (
-    <div>
+    <div className="fixed min-h-screen w-full top-0 bg-dlabelColor -ml-3">
       {/* Add your POS page content here */}
 
       <div className="flex">
@@ -394,7 +498,10 @@ function Pos() {
               onKeyUp={(e) => addToCart(e)}
             />
           </div>
-          <div className="">
+          <div onClick={() => deleteTable()}>delete</div>
+          <div onClick={() => addNewTable()}>Add</div>
+
+          <div className=" overflow-y-auto h-2/3">
             {result?.map((cart, key) => (
               <div className="flex my-2 justify-between w-full px-5 pt-2  bg-white ">
                 <div className="w-1/12">{key}</div>
@@ -434,16 +541,15 @@ function Pos() {
             ))}
           </div>
         </div>
-      
       </div>
-      <div className="flex w-full justify-between fixed bottom-0 bg-white p-6">
-          <div className=" pr-semibold  text-2xl">
-            {" "}
-            Total: ${total}
-          </div>
+      <div className="flex w-full justify-between  h-1/6 bg-white p-6 ">
+        <div className=" pr-semibold  text-2xl"> Total: ${total}</div>
 
-          <span className=" bg-Orangeflo px-12 text-white text-xxl w-1/3 text-center "> Pay</span>
-        </div>
+        <span className=" bg-Orangeflo px-12 text-white text-xxl w-1/3 text-center ">
+          {" "}
+          Pay
+        </span>
+      </div>
     </div>
   );
 }

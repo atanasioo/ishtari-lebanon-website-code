@@ -443,7 +443,7 @@ useEffect(()=>{
         //     : true,
         source_id: 1,
         coupon: "",
-        code_version: undefined > 600 ? "web_desktop" : "web_mobile"
+        code_version: width > 600 ? "web_desktop" : "web_mobile"
       };
     } else {
       body = {
@@ -474,7 +474,7 @@ useEffect(()=>{
         payment_session: manualResponse.payment_session,
         source_id: 1,
         coupon: coupon.current.value || "",
-        code_version: undefined > 600 ? "web_desktop" : "web_mobile"
+        code_version: width > 600 ? "web_desktop" : "web_mobile"
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {

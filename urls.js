@@ -343,6 +343,8 @@ function buildLink(link, payload, width, hostServer) {
   } else if (
     hostServer === "ishtari-ghana" ||
     hostServer === "https://www.ishtari.com.gh/" ||  hostServer === "next.ishtari.com.gh" ||
+    hostServer === "httpd://next.ishtari.com.gh" ||
+    hostServer === "www.next.ishtari.com.gh"||
     type === "ishtari-ghana"
   ) {
 
