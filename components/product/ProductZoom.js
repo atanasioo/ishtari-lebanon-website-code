@@ -25,7 +25,7 @@ function ProductZoom(props) {
   const [hovered, setHovered] = useState(props.hovered);
   const imageSlider = useRef(null);
   const SmallImageSlider = useRef(null);
-  const router= useRouter();
+  const router = useRouter();
 
   const [width, height] = useDeviceSize();
 
@@ -61,12 +61,12 @@ function ProductZoom(props) {
     slidesToScroll: 1,
     autoplay: false,
     ref: imageSlider,
-    // swipe: false,
+    swipe: width > 768 ? false : true,
+    afterChange: (currentSlide) => handleSingleMobileChange(currentSlide),
     // touchMove: true, // Enable touchMove when isSlidingEnabled is true
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
-
 
   function closeModal() {
     setShowModal(false);
@@ -90,7 +90,7 @@ function ProductZoom(props) {
 
     return () => {
       setActiveImage({});
-      
+
       setImages([]);
     };
   }, [props.activeOption, props.images]);
@@ -102,7 +102,6 @@ function ProductZoom(props) {
   //   }
   // }
 
-
   useEffect(() => {
     setActiveImage(images[0]);
     setActiveSlide(0);
@@ -113,7 +112,7 @@ function ProductZoom(props) {
   useEffect(() => {
     if (hoverZoom && width > 768) {
       imageZoom("myimage" + activeSlide, "myresult");
-    } 
+    }
     // else {
     //   // Hide the lens when not hovering over the image
     //   hideLens();
@@ -134,6 +133,16 @@ function ProductZoom(props) {
     setActiveSlide(selectedImgIndex);
   }
 
+  function handleSingleMobileChange(currentSlide) {
+    if (width < 768) {
+      console.log("hii");
+      console.log(currentSlide);
+      setActiveImage(images[currentSlide])
+      setActiveSlide(currentSlide);
+    }
+  }
+
+  console.log(images);
 
   function imageZoom(imgID, resultID) {
     var img, lens, result, cx, cy;
@@ -317,7 +326,7 @@ function ProductZoom(props) {
               </Slider>
               {/* <Slider {...mobileSetting} className=" md:hidden"> */}
               <div className="md:hidden flex overflow-x-auto pb-2.5">
-                {images?.map((i) => (
+                {images?.map((i, index) => (
                   <div
                     key={i["thumb"]}
                     className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
@@ -329,7 +338,8 @@ function ProductZoom(props) {
                       height={120}
                       onClick={() => changeImage(i)}
                       className={`cursor-pointer border-2 ${
-                        activeImage && activeImage["popup"] === i["popup"]
+                        (activeImage && activeImage["popup"] === i["popup"]) 
+                        //  activeSlide === index
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
