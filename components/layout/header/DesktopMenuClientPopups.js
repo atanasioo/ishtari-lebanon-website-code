@@ -179,9 +179,14 @@ function DesktopMenuClientPopups(props) {
                   {selectedTopCategory?.Top_Selling_Products?.products?.length > 0 && (
                     <div>
                       <div className="flex items-center mt-4 text-dblack">
-                        <div className="pr-semibold cursor-pointer hover:text-dblue">
+                        <Link href={{
+                          pathname: "/categoryTopSelling",
+                          query: {
+                            category_id: selectedTopCategory.category_id
+                          }
+                        }} className="pr-semibold cursor-pointer hover:text-dblue">
                           Explore Top Selling Products
-                        </div>
+                        </Link>
                         <i className="icon icon-angle-right"></i>
                       </div>
                       <div className="w-full">

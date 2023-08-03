@@ -190,7 +190,7 @@ function SingleProduct(props) {
                   filter={"duotone"} // see docs beneath
                   colorOne={[96, 96, 96]}
                   colorTwo={[255, 255, 255]}
-                  style={{height: "246.4px"}}
+                  style={{height: !topSelling ? "246.4px" : "200px"}}
                 />
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
