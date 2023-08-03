@@ -18,7 +18,7 @@ import Slider from "./Slider";
 import { useMarketingData } from "@/contexts/MarketingContext";
 
 function SingleProduct(props) {
-  const { item, host, addToCart } = props;
+  const { item, host, addToCart, topSelling } = props;
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
   const router = useRouter();
@@ -198,8 +198,8 @@ function SingleProduct(props) {
                 <Image
                   alt={item.name}
                   src={item.thumb}
-                  width={200}
-                  height={300}
+                  width={!topSelling ? 200 : 150}
+                  height={!topSelling ? 300 : 200}
                   priority={true}
                   className="max-w-full max-h-full"
                 />
@@ -324,7 +324,7 @@ function SingleProduct(props) {
               </div>
             )}
 
-            <div className="flex pt-2">
+            <div className={`flex pt-2 ${topSelling ? "hidden" : ""}`}>
               <div
                 className="mt-3 flex flex-row justify-between w-full"
                 style={{ minHeight: "16px" }}

@@ -43,6 +43,7 @@ var urls = {
   getFlashSale: "v2/index.php?route=catalog/flash_sale&limit=20&page=1&date_start=",
   addReminderForFlashSale: "v2/index.php?route=catalog/flash_sale/remindMe",
   editcustomerfeedback: "v2/index.php?route=account/feedback/editCustomerFeedback",
+  getTopSellingByCategoryId: "v2/index.php?route=cronjob/sold_item/getTopSellingByCategoryid",
   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
   category: "v2/index.php?route=catalog/category&path=",
   manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",

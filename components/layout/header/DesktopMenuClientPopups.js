@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "@/components/Utils";
 import { sanitizeHTML } from "@/components/Utils";
 import { useRouter } from "next/router";
 import { useMarketingData } from "@/contexts/MarketingContext";
-
+import { axiosServer } from "@/axiosServer";
+import buildLink from "@/urls";
+import SingleProduct from "@/components/product/SingleProduct";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -15,7 +21,7 @@ function DesktopMenuClientPopups(props) {
     handleState,
     allCategories,
     selectedTopCategory,
-    overlay
+    overlay,
   } = props;
 
   const types = {
@@ -25,16 +31,74 @@ function DesktopMenuClientPopups(props) {
     4: "seller",
   };
 
+  const slidesPerRow = 3; // Display 3 products per row
+  const slideWidth = 66.66; // Adjust the slide width based on your design
+
+  const settings = {
+    slidesPerRow: 3,
+    rows: 2,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesPerRow: 1,
+          rows: 2,
+        },
+      },
+    ],
+    arrows: true,
+    prevArrow: <CustomPrevArrows direction={"l"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />,
+  };
+
+  function CustomPrevArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 5px", marginLeft: "15px" }}
+        onClick={onClick}
+        className="mySwiper "
+      >
+        <div className="swiper-button-prev flex justify-center items-center cursor-pointer">
+          <BsChevronLeft className="text-dblack" />
+        </div>
+      </div>
+    );
+  }
+
+  function CustomNextArrows({ direction, onClick, style, className }) {
+    return (
+      <div
+        style={{ ...style, padding: "2px 15px", marginRight: " 15px" }}
+        onClick={onClick}
+        className="mySwiper "
+      >
+        <div className="swiper-button-next flex justify-center items-center cursor-pointer">
+          <BsChevronRight className="text-dblack" />
+        </div>
+      </div>
+    );
+  }
+
   const router = useRouter();
   const { setMarketingData } = useMarketingData();
-  const path= "";
+  const path = "";
 
   return (
     <div>
       {/* Subcategories' menu */}
 
-      { viewSubAllCategories2 && (
-        <div className="relative" onMouseEnter={()=>{handleState("viewSubAllCategories2", true); handleState("overlay", true);}}>
+      {viewSubAllCategories2 && (
+        <div
+          className="relative"
+          onMouseEnter={() => {
+            handleState("viewSubAllCategories2", true);
+            handleState("overlay", true);
+          }}
+        >
           <div className="absolute top-0 z-40">
             <div>
               <div className="flex">
@@ -42,9 +106,11 @@ function DesktopMenuClientPopups(props) {
                   {allCategories?.map((category) => (
                     <div
                       key={category.category_id}
-                      onMouseEnter={() => 
+                      onMouseEnter={() =>
                         // setSelectedTopCategory(category)
-                        handleState("selectedTopCategory", category)
+                        {
+                          handleState("selectedTopCategory", category);
+                        }
                       }
                     >
                       <Link
@@ -109,6 +175,39 @@ function DesktopMenuClientPopups(props) {
                         ></span>
                       </Link>
                     ))}
+
+                  {selectedTopCategory?.Top_Selling_Products?.products?.length > 0 && (
+                    <div>
+                      <div className="flex items-center mt-4 text-dblack">
+                        <div className="pr-semibold cursor-pointer hover:text-dblue">
+                          Explore Top Selling Products
+                        </div>
+                        <i className="icon icon-angle-right"></i>
+                      </div>
+                      <div className="w-full">
+                        <Slider {...settings}>
+                          {selectedTopCategory?.Top_Selling_Products?.products?.slice(0, 10).map((item) => (
+                            <div>
+                              <SingleProduct
+                                key={item.product_id}
+                                item={item}
+                                topSelling={true}
+                              />
+                            </div>
+                          ))}
+                          {selectedTopCategory?.Top_Selling_Products?.products?.slice(10).map((item) => (
+                            <div>
+                              <SingleProduct
+                                key={item.product_id}
+                                item={item}
+                                topSelling={true}
+                              />
+                            </div>
+                          ))}
+                        </Slider>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -130,10 +229,10 @@ function DesktopMenuClientPopups(props) {
             }}
             onMouseLeave={() => {
               // setViewSubAllCategories2(false);
-              handleState("viewSubAllCategories2", false)
+              handleState("viewSubAllCategories2", false);
               handleState("overlay", false);
               // setViewMenuCategories2(false);
-              handleState("viewMenuCategories2", false)
+              handleState("viewMenuCategories2", false);
             }}
             style={{ borderTop: "1px solid rgb(226, 229, 241)" }}
           >

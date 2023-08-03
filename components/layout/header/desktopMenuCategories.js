@@ -146,6 +146,7 @@ function DesktopMenuCategories(props) {
   //       });
   // },[])
 
+
   return (
     <div>
       {router.asPath.indexOf("pos") < 0 && router.asPath.indexOf("orders") < 0 && 
