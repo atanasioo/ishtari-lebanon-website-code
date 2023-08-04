@@ -85,6 +85,7 @@ function TopSearch() {
     }
   }
 
+
   function handleSearchResults() {
     const input = document.getElementById("searchInput").value;
     if (input === "") {
@@ -107,7 +108,7 @@ function TopSearch() {
         // setMessage(res?.data?.message);
         setLoading(false);
         setViewResults(true);
-        setOverlay(true);
+        // setOverlay(true);
       } catch (error) {
         if (axios.isCancel(error)) {
           console.error("axios error", error.message);

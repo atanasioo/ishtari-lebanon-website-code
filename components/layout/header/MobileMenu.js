@@ -232,7 +232,7 @@ function MobileMenu(props) {
           >
             <div className="p-4">
               <div
-                className="flex items-center py-1  "
+                className="flex items-center py-1"
                 onClick={() => setViewLevel2(false)}
               >
                 <BsChevronLeft className="w-4 h-4  mr-2"></BsChevronLeft>

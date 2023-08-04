@@ -45,19 +45,14 @@ function search(props) {
     router.push(`/search?${queryString}`);
   }
 
-  console.log(router.query);
 
   // CheckFilter
   function checkFilter(filter) {
     const Fil = encodeURIComponent(filter);
-    console.log(Fil);
-    // console.log(router.query);
 
     const hasFilterQuery = queryParameters.some(
       (param) => encodeURIComponent(router.query[param]) === Fil
     );
-    console.log(hasFilterQuery);
-    console.log(encodeURIComponent("POLARIS 5 NOKTA"));
 
     if (hasFilterQuery) {
       // return <input type="checkbox" className="" checked />;
@@ -385,7 +380,6 @@ export async function getServerSideProps(context) {
 
   let encodedKeyword = encodeURIComponent(keyword);
 
-  console.log(context.query);
   const { req } = context;
   let data = null;
   let type = "";
@@ -428,7 +422,6 @@ export async function getServerSideProps(context) {
     },
   });
 
-  console.log(link);
 
   data = response.data;
 

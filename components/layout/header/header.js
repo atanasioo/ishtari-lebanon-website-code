@@ -134,7 +134,7 @@ function Header(props) {
 
       {/* Mobile Menu */}
       <div
-        className={`transition-all  min-h-screen w-screen bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden overflow-y-scroll z-50  ${
+        className={`transition-all  min-h-screen w-screen bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden  z-50  ${
           viewMenu ? "right-0" : " right-full"
         }`}
         id="scrollDiv"

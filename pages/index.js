@@ -93,8 +93,6 @@ export default function Home(props) {
     });
     // }
 
-    console.log("hello there");
-
     // setIsLoading(false);
   }, [page]);
 
