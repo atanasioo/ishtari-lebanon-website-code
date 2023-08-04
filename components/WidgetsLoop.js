@@ -338,7 +338,24 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
   }
 
   return (
-    <div key={widget?.mobile_widget_id}>
+    <div
+      key={widget?.mobile_widget_id}
+      style={{
+        backgroundColor:
+          widget?.background_color !== "#000000" && widget?.background_color,
+        paddingLeft: widget.padding_left !== "-1" && widget.padding_left + "%",
+        paddingRight:
+          widget.padding_right !== "-1" && widget.padding_right + "%",
+        paddingBottom:
+          widget.padding_bottom !== "-1" && widget.padding_bottom + "%",
+        paddingTop: widget.padding_top !== "-1" && widget.padding_top + "%",
+        marginLeft: widget.margin_left !== "-1" ? widget.margin_left + "%" : "",
+        marginRight: widget.margin_right !== "-1" && widget.margin_right + "%",
+        marginBottom:
+          widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
+        marginTop: widget.margin_top !== "-1" && widget.margin_top + "%",
+      }}
+    >
       {/* view all button */}
       {widget?.display === "carousel" && widget?.view_title !== "0" && (
         <div className="flex items-center justify-between  mb-3">
@@ -509,7 +526,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
         widget.type !== "text" &&
         (widget.items.length > 1 ? (
           <div className="-mx-4 py-2">
-
             {/* <div className="sliderSwiper">
               <div
               className="swiper-button-next"
@@ -579,7 +595,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
               <div className="swiper-button-circle-back-left"></div>
             </div>
             </div> */}
-            
 
             {width > 650 ? (
               <Slider {...settingSliderD} className="sliderSwiper">
@@ -588,7 +603,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     <div data-index={index} key={`sliderM` + index}>
                       <Image
                         alt={item?.name}
-                        src={host.host +"/image/" + item.image}
+                        src={host.host + "/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -647,7 +662,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     >
                       <Image
                         alt={item?.name}
-                        src={host.host +"/image/" + item.image}
+                        src={host.host + "/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -960,7 +975,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     <div data-index={index} key={`sliderM` + index}>
                       <Image
                         alt={item?.name}
-                        src={host.host +"/image/" + item.image}
+                        src={host.host + "/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -1017,17 +1032,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                       }
                       key={Math.random()}
                     >
-                      {/* <ImageClient
-                        alt={item?.name}
-                        src={item.image}
-                        className="w-full"
-                        height={widget.banner_height}
-                        width={widget.banner_width}
-                        placeholder={"/images/placeholder_slideshow.png"}
-                      /> */}
+                    
                       <Image
                         alt={item?.name}
-                        src={host.host +"/image/" + item.image}
+                        src={host.host + "/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
@@ -1101,21 +1109,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     }
                     className="w-full"
                   >
-                    {/* <ImageClient
-                      alt={item?.name}
-                      src={item.image}
-                      width={widget.banner_width}
-                      height={widget.banner_height}
-                      title={item?.name
-                        ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                        ?.replace("%", "")
-                        ?.replace(/\s+/g, "-")
-                        ?.replaceAll("/", "-")}
-                      className={`${true && "w-full"}`}
-                    /> */}
+                    
                     <Image
                       alt={item?.name}
-                      src={host.host +"/image/" + item.image}
+                      src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1135,21 +1132,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    {/* <ImageClient
-                      alt={item?.name}
-                      src={item.image}
-                      width={widget.banner_width}
-                      height={widget.banner_height}
-                      title={item?.name
-                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                        .replace("%", "")
-                        .replace(/\s+/g, "-")
-                        .replaceAll("/", "-")}
-                      className={"w-full"}
-                    /> */}
+                   
                     <Image
                       alt={item?.name}
-                      src={host.host +"/image/" + item.image}
+                      src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1227,27 +1213,12 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                         item.mobile_type_id
                       : "cat/c=" + item.mobile_type_id
                   }
-                  // onClick={() => {
-                  //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
-                  //     setProductHolder(item);
-                  //   }
-                  // }}
+                 
                 >
-                  {/* <ImageClient
-                    alt={item?.name}
-                    src={item.image}
-                    width={widget?.banner_width}
-                    height={widget?.banner_height}
-                    title={item?.name
-                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                      .replace("%", "")
-                      .replace(/\s+/g, "-")
-                      .replaceAll("/", "-")}
-                    className={`${!bool && "w-full"}`}
-                  /> */}
+               
                   <Image
                     alt={item?.name}
-                    src={host.host +"/image/" + item.image}
+                    src={host.host + "/image/" + item.image}
                     width={widget?.banner_width}
                     height={widget?.banner_height}
                     title={item?.name
@@ -1270,17 +1241,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   onClick={() => handleLinkClick(item.banner_image_id)}
                   href={"/latest"}
                 >
-                  {/* <ImageClient
-                    alt={item?.name}
-                    src={item.image}
-                    width={widget.banner_width}
-                    height={widget.banner_height}
-                    title={item?.name}
-                    className={"w-full"}
-                  /> */}
+                 
                   <Image
                     alt={item?.name}
-                    src={host.host +"/image/" + item.image}
+                    src={host.host + "/image/" + item.image}
                     width={widget.banner_width}
                     height={widget.banner_height}
                     title={item?.name}
@@ -1295,21 +1259,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                 className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                 key={item.banner_image_id}
               >
-                {/* <ImageClient
-                  alt={item?.name}
-                  src={item.image}
-                  width={widget.banner_width}
-                  height={widget.banner_height}
-                  title={item?.name
-                    .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                    .replace("%", "")
-                    .replace(/\s+/g, "-")
-                    .replaceAll("/", "-")}
-                  className={`${"w-full"}`}
-                /> */}
+              
                 <Image
                   alt={item?.name}
-                  src={host.host +"/image/" + item.image}
+                  src={host.host + "/image/" + item.image}
                   width={widget.banner_width}
                   height={widget.banner_height}
                   title={item?.name
@@ -1388,27 +1341,12 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                           item.mobile_type_id
                         : "cat/c=" + item.mobile_type_id
                     }
-                    // onClick={() => {
-                    //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
-                    //     setProductHolder(item);
-                    //   }
-                    // }}
+                   
                   >
-                    {/* <ImageClient
-                      alt={item?.name}
-                      src={item.image}
-                      width={widget.banner_width}
-                      height={widget.banner_height}
-                      title={item?.name
-                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                        .replace("%", "")
-                        .replace(/\s+/g, "-")
-                        .replaceAll("/", "-")}
-                      className={`${"w-full"}`}
-                    /> */}
+                   
                     <Image
                       alt={item?.name}
-                      src={host.host +"/image/" + item.image}
+                      src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1431,17 +1369,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     onClick={() => handleLinkClick(item.banner_image_id)}
                     href={"/latest"}
                   >
-                    {/* <ImageClient
-                      alt={item?.name}
-                      src={item.image}
-                      width={widget.banner_width}
-                      height={widget.banner_height}
-                      title={item?.name}
-                      className={"w-full"}
-                    /> */}
+                    
                     <Image
                       alt={item?.name}
-                      src={host.host +"/image/" + item.image}
+                      src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
@@ -1457,20 +1388,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    {/* <ImageClient
-                      alt={item?.name}
-                      src={item.image}
-                      width={widget.banner_width}
-                      height={widget.banner_height}
-                      title={item?.name
-                        ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                        ?.replace(/\s+/g, "-")
-                        ?.replaceAll("/", "-")}
-                      className={"w-full"}
-                    /> */}
+                 
                     <Image
                       alt={item?.name}
-                      src={host.host +"/image/" + item.image}
+                      src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name
@@ -1566,24 +1487,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                                 : "cat/c=" + item.mobile_type_id
                             }`}
                           >
-                            {/* <ImageClient
-                              alt={item?.name}
-                              src={item.image}
-                              width={widget.banner_width}
-                              height={widget.banner_height}
-                              title={item?.name
-                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                ?.replace(/\s+/g, "-")
-                                ?.replaceAll("/", "-")}
-                              placeholder={
-                                "/images/product_placeholder_square.png"
-                              }
-                            /> */}
+                            
                             <Image
                               alt={item?.name}
-                              src={
-                                host.host +"/image/" + item.image
-                              }
+                              src={host.host + "/image/" + item.image}
                               width={widget.banner_width}
                               height={widget.banner_height}
                               title={item?.name
@@ -1712,7 +1619,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
             </div>
           ) : (
             <div className="">
-              {/* //div l mashekel */}
               <div className="flex overflow-x-auto space-x-2 mobile:hidden">
                 {widget?.display === "carousel" &&
                   widget.type !== "text" &&
@@ -1728,7 +1634,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                           scroll={true}
                           item={item}
                         ></SingleProductTest>
-                        {/* <div className="h-10 w-10 bg-Orangeflo rounded-sm mb-10"></div> */}
                       </div>
                     );
                   })}
@@ -1809,24 +1714,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                                   : "cat/c=" + item.mobile_type_id
                               }
                             >
-                              {/* <ImageClient
-                              alt={item?.name}
-                              src={item.image}
-                              width={widget.banner_width}
-                              height={widget.banner_height}
-                              title={item?.name
-                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                ?.replace(/\s+/g, "-")
-                                ?.replaceAll("/", "-")}
-                              placeholder={
-                                "/images/product_placeholder_square.png"
-                              }
-                            /> */}
+                            
                               <Image
                                 alt={item?.name}
-                                src={
-                                  host.host +"/image/" + item.image
-                                }
+                                src={host.host + "/image/" + item.image}
                                 width={widget.banner_width}
                                 height={widget.banner_height}
                                 title={item?.name
@@ -1845,7 +1736,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                       }
                     })}
 
-                    {/* <div>omar</div> */}
                   </Slider>
                 </div>
               )}
