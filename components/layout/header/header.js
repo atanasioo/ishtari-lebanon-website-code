@@ -291,7 +291,7 @@ function Header(props) {
             )}
 
             <Account />
-            {session?.user?.isLoggedIn && <TopWishlist />}
+            {stateAcc.loged && <TopWishlist />}
             <TopCart />
           </div>
         </div>

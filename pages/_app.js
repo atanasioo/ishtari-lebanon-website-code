@@ -241,7 +241,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       host_url = await getHost(site_host);
 
       // Fetch header, footer, footer_information data using the existing token
-      const resp = await getMainData(token, host_url);
+      // const resp = await getMainData(token, host_url);  
 
       // Return the fetched data as props
 
