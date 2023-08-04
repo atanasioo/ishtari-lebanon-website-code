@@ -295,7 +295,10 @@ function SingleProduct(props) {
                 </div>
                 <div
                   className={`mt-0.5 text-d12 flex items-center ${
-                    !item.special && "invisible"
+                    (item.special === "0" ||
+                      item.special === "" ||
+                      item.special === false) &&
+                    "invisible"
                   } ${props.isList && "m-px"}`}
                 >
                   <div
