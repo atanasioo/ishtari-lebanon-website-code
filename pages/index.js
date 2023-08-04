@@ -1,7 +1,7 @@
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
 import WidgetsLoop from "@/components/WidgetsLoop";
-import { useEffect, useRef, useState, useCallback, memo, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo, useContext } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
@@ -10,6 +10,7 @@ import { useCookie } from "next-cookie";
 import cookie from "cookie";
 import { getHost } from "@/functions";
 import DownloadAppImg from "@/components/DownloadAppImg";
+import { AccountContext } from "@/contexts/AccountContext";
 
 // import PointsLoader from "@/components/PointsLoader";
 
@@ -28,6 +29,7 @@ export default function Home(props) {
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [state] = useContext(AccountContext);
   const [width] = useDeviceSize();
   const sentinelRef = useRef(null);
   const observer = useRef(null);
@@ -169,14 +171,46 @@ export default function Home(props) {
     });
   }, [lastElementRef]);
 
+  //page view conversion google ads
+  useEffect(() => {
+    if (!state.admin) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+
+      if (window.location.host === "www.ishtari.com") {
+        gtag("event", "conversion", {
+          send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
+        });
+      } else if (window.location.host === "www.ishtari.com.gh") {
+        gtag("event", "conversion", {
+          send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
+        });
+      }
+    }
+  }, []);
+
   return (
     <div>
       <Head>
-        <title>Ishtari | Online Shopping in Lebanon</title>
-        <meta
-          name="description"
-          content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
-        ></meta>
+        {host_url === "https://www.ishtari.com" ? (
+          <>
+            <title>Ishtari | Online Shopping in Lebanon</title>
+            <meta
+              name="description"
+              content="Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية"
+            ></meta>
+          </>
+        ) : (
+          <>
+            <title>Ishtari | Online Shopping in Ghana</title>
+            <meta
+              name="description"
+              content="Discover ishtari- Ghana best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery."
+            ></meta>
+          </>
+        )}
       </Head>
       <DownloadAppImg host_url={host_url} />
       <div className={`overflow-hidden container`}>
@@ -231,37 +265,44 @@ export default function Home(props) {
   );
 }
 
-export async function getServerSideProps(context){
+export async function getServerSideProps(context) {
   const { req } = context;
   const cook = useCookie(context);
   const host = req.headers.host;
   const cookies = req.headers.cookie;
-  if (typeof cookies !== "undefined"){
+  if (typeof cookies !== "undefined") {
     const parsedCookies = cookie.parse(cookies);
     const host_cookie = parsedCookies["site-local-name"];
     let site_host = "";
-    if ((typeof host_cookie === "undefined") && host !== "localhost:3000" && host !== "localhost:3001") {
+    if (
+      typeof host_cookie === "undefined" &&
+      host !== "localhost:3000" &&
+      host !== "localhost:3001"
+    ) {
       site_host = host;
-    }else if((host_cookie === undefined || typeof host_cookie === "undefined") && (host === "localhost:3000" || host === "localhost:3001")){
+    } else if (
+      (host_cookie === undefined || typeof host_cookie === "undefined") &&
+      (host === "localhost:3000" || host === "localhost:3001")
+    ) {
       cook.set("site-local-name", "ishtari");
-      site_host= "ishtari";
+      site_host = "ishtari";
     } else {
       site_host = host_cookie;
     }
     const host_url = await getHost(site_host);
 
     // console.log("host_url iss" +host_url);
-    return{
+    return {
       props: {
-        host: host_url
-      }
-    }
-  }else{
-    return{
+        host: host_url,
+      },
+    };
+  } else {
+    return {
       props: {
-        host: host
-      }
-    }
+        host: host,
+      },
+    };
   }
 }
 

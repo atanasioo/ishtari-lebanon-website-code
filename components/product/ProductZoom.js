@@ -135,14 +135,11 @@ function ProductZoom(props) {
 
   function handleSingleMobileChange(currentSlide) {
     if (width < 768) {
-      console.log("hii");
-      console.log(currentSlide);
       setActiveImage(images[currentSlide])
       setActiveSlide(currentSlide);
     }
   }
 
-  console.log(images);
 
   function imageZoom(imgID, resultID) {
     var img, lens, result, cx, cy;

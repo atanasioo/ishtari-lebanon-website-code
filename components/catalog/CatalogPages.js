@@ -725,6 +725,27 @@ function CatalogPage(props) {
       });
   }, [router]);
 
+  //page view conversion for google ads
+  useEffect(() => {
+    if (!state.admin) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      if (window.location.host === "www.ishtari.com") {
+        gtag("event", "conversion", {
+          send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
+          ids: data?.social_data?.content_ids,
+        });
+      } else if (window.location.host === "www.ishtari.com.gh") {
+        gtag("event", "conversion", {
+          send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
+          ids: data?.social_data?.content_ids,
+        });
+      }
+    }
+  }, [data, state.admin]);
+
   return (
     <div className="overflow-x-hidden">
       {width < 650 && (
@@ -869,7 +890,9 @@ function CatalogPage(props) {
                                 <div
                                   className="my-2 flex items-center cursor-pointer hover:text-dblue"
                                   key={filter.name}
-                                  onClick={() => parseFilter(filters[key].id, filter.id)}
+                                  onClick={() =>
+                                    parseFilter(filters[key].id, filter.id)
+                                  }
                                 >
                                   <span className="flex w-10/12">
                                     <span

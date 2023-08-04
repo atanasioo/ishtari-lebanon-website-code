@@ -176,39 +176,39 @@ function DesktopMenuClientPopups(props) {
                       </Link>
                     ))}
 
-                  {selectedTopCategory?.Top_Selling_Products?.products?.length > 0 && (
+                  {selectedTopCategory?.Top_Selling_Products?.products?.length >
+                    0 && (
                     <div>
                       <div className="flex items-center mt-4 text-dblack">
-                        <Link href={{
-                          pathname: "/categoryTopSelling",
-                          query: {
-                            category_id: selectedTopCategory.category_id
-                          }
-                        }} className="pr-semibold cursor-pointer hover:text-dblue">
+                        <Link
+                          href={{
+                            pathname: "/categoryTopSelling",
+                            query: {
+                              category_id: selectedTopCategory.category_id,
+                            },
+                          }}
+                          className="pr-semibold cursor-pointer hover:text-dblue"
+                        >
                           Explore Top Selling Products
                         </Link>
                         <i className="icon icon-angle-right"></i>
                       </div>
                       <div className="w-full">
                         <Slider {...settings}>
-                          {selectedTopCategory?.Top_Selling_Products?.products?.slice(0, 10).map((item) => (
-                            <div>
-                              <SingleProduct
-                                key={item.product_id}
-                                item={item}
-                                topSelling={true}
-                              />
-                            </div>
-                          ))}
-                          {selectedTopCategory?.Top_Selling_Products?.products?.slice(10).map((item) => (
-                            <div>
-                              <SingleProduct
-                                key={item.product_id}
-                                item={item}
-                                topSelling={true}
-                              />
-                            </div>
-                          ))}
+                          {selectedTopCategory?.Top_Selling_Products?.products
+                            ?.slice(0, 10)
+                            .map((item) => (
+                              <div key={item.product_id}>
+                                <SingleProduct item={item} topSelling={true} />
+                              </div>
+                            ))}
+                          {selectedTopCategory?.Top_Selling_Products?.products
+                            ?.slice(10)
+                            .map((item) => (
+                              <div key={item.product_id}>
+                                <SingleProduct item={item} topSelling={true} />
+                              </div>
+                            ))}
                         </Slider>
                       </div>
                     </div>

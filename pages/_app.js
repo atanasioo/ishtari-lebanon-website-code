@@ -6,7 +6,6 @@ import {
 import { getHost, getMainData } from "@/functions";
 import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
-import buildLink from "@/urls";
 import cookie from "cookie";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import "@/config";
@@ -28,6 +27,8 @@ import buildInfo from "@/build-info.json";
 import { HostProvider } from "@/contexts/HostContext";
 import { MarketingProvider } from "@/contexts/MarketingContext";
 import { ReviewCenterProvider } from "@/contexts/ReviewCenterContext";
+import Script from "next/script";
+
 export default function App({
   Component,
   pageProps,
@@ -95,13 +96,56 @@ export default function App({
     title = "ishtari | online Shopping in Ghana";
   }
 
+  useEffect(() => {
+    if (
+      localStorage.getItem("site-local-name") === "ishtari" ||
+      window.location.host === "www.ishtari.com"
+    ) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "AW-991347483");
+    } else if (
+      localStorage.getItem("site-local-name") === "ishtari-ghana" ||
+      window.location.host === "www.ishtari.com.gh"
+    ) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "AW-10993907106");
+    } else {
+      document.getElementById("tag").src = "";
+    }
+  }, []);
+
+  console.log(host);
+
   return (
     <SessionProvider>
       <Head>
         <link rel="icon" href={favicon} />
-        {/* <link rel="manifest" href="%PUBLIC_URL%/magiczoomplus/magiczoomplus.css" /> */}
         <title>{title}</title>
       </Head>
+      {host === "https://www.ishtari.com" || host === "ishtari" ? (
+        <Script
+          id="tag"
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-991347483"
+        />
+      ) : host === "https://www.ishtari.com.gh" || host === "ishtari-ghana" ? (
+        <Script
+          id="tag"
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-10993907106"
+        />
+      ) : (
+        <></>
+      )}
+
       <AccountProvider>
         <CartProvider>
           <WishlistProvider>
@@ -200,9 +244,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const response = await getToken(host_url);
 
         const newToken = response.access_token;
-        console.log("new-token")
-        console.log(newToken)
-        console.log("new-token")
+        console.log("new-token");
+        console.log(newToken);
+        console.log("new-token");
         if (newToken != undefined) {
           cook.set("api-token", newToken, options);
         }
@@ -241,7 +285,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       host_url = await getHost(site_host);
 
       // Fetch header, footer, footer_information data using the existing token
-      // const resp = await getMainData(token, host_url);  
+      // const resp = await getMainData(token, host_url);
 
       // Return the fetched data as props
 

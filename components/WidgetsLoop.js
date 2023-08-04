@@ -48,7 +48,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
       : "home";
 
   const source_type_id =
-    Object.keys(router.query).length > 0
+    Object.keys(router.query).length > 0 && typeof router.query.slug !== "undefined"
       ? router.query.slug[0].includes("p=") ||
         router.query.slug[0].includes("s=") ||
         router.query.slug[0].includes("m=") ||
@@ -355,7 +355,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
           widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
         marginTop: widget.margin_top !== "-1" && widget.margin_top + "%",
       }}
-      className={widget.padding_left > -1 && "-mx-3"}
+      className={widget.padding_left > -1 ? "-mx-3" : ""}
     >
       {/* view all button */}
       {widget?.display === "carousel" && widget?.view_title !== "0" && (

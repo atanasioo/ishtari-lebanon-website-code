@@ -121,7 +121,6 @@ function ProductPage(props) {
     // to force re-render when navigating using client side
     setLoader(true);
   }, [router]);
-  
 
   useEffect(() => {
     const fetchDataAndScroll = async () => {
@@ -131,7 +130,7 @@ function ProductPage(props) {
       ) {
         console.log("here");
         await getProductPart2();
-        
+
         // if (titleRef.current !== null) {
         //   if(window.innerWidth > 768){
         //    titleRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -163,7 +162,6 @@ function ProductPage(props) {
     };
     fetchDataAndScroll();
   }, []);
-
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
@@ -412,7 +410,7 @@ function ProductPage(props) {
         ) {
           if (titleRef.current !== null) {
             // if (window.innerWidth > 768) {
-              titleRef?.current?.scrollIntoView({ behavior: "smooth" });
+            titleRef?.current?.scrollIntoView({ behavior: "smooth" });
             // } else {
             //   titleRef?.current?.scrollIntoView();
             // }
@@ -465,6 +463,44 @@ function ProductPage(props) {
     setActiveOption(option);
   }
 
+  //page view conversion for google ads
+  useEffect(() => {
+    if (!accountState.admin) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+
+      if (window.location.host === "www.ishtari.com") {
+        var price = 10;
+        if (data.special_net_value) {
+          price = data.special_net_value;
+        } else {
+          price = data.price_net_value;
+        }
+
+        gtag("event", "conversion", {
+          send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
+          value: price,
+          currency: "USD",
+        });
+      } else if (window.location.host === "www.ishtari.com.gh") {
+        var price = 10;
+        if (data.special_net_value) {
+          price = data.special_net_value;
+        } else {
+          price = data.price_net_value;
+        }
+
+        gtag("event", "conversion", {
+          send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
+          value: price,
+          currency: "USD",
+        });
+      }
+    }
+  }, []);
+
   function gtag_report_conversion(obj) {
     if (!accountState.admin) {
       var price = 10;
@@ -482,7 +518,10 @@ function ProductPage(props) {
           event_callback: callback,
         });
         return false;
-      } else if ( window.location.host === "next.ishtari.com.gh" || window.location.host === "www.ishtari.com.gh" ) {
+      } else if (
+        window.location.host === "next.ishtari.com.gh" ||
+        window.location.host === "www.ishtari.com.gh"
+      ) {
         const callback = addToCart(obj);
         gtag("event", "conversion", {
           send_to: "AW-10993907106/6Y9jCLfUipEYEKLrpvoo",

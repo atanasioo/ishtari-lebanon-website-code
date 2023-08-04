@@ -53,7 +53,7 @@ function Header(props) {
   }, []);
 
   useEffect(() => {
-    if (width < 650) {
+    if (window.innerWidth < 1024) {
       axiosServer
         .get(
           buildLink(
@@ -102,31 +102,18 @@ function Header(props) {
     }
   }, []);
 
-  // const DesktopMenuCategories = dynamic(
-  //   () => import("./DesktopMenuCategories"),
-  //   {
-  //     ssr: false, // Disable server-side rendering
-  //   }
-  // );
+
   const MobileMenu = dynamic(() => import("./MobileMenu"), {
     ssr: false, // Disable server-side rendering
   });
   const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
     ssr: false, // Disable server-side rendering
   });
-  // const LogoClient = dynamic(() => import("@/components/LogoClient"), {
-  //   ssr: false, // Disable server-side rendering
-  // });
-  // const CountryDropdown = dynamic(() => import("./CountryDropdown"), {
-  //   ssr: false, // Disable server-side rendering
-  // });
+
 
   function closeMobileMenu() {
     setViewMenu(false);
   }
-
-  
-
 
   return (
     <div>
