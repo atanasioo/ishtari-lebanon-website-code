@@ -115,7 +115,7 @@ function MobileMenu(props) {
   }
 
   return (
-    <div className=" text-dblack overflow-x-hidden">
+    <div className={`text-dblack overflow-x-hidden h-full`}>
       {/* Logo */}
       <div className="flex flex-col py-3 border-b border-dgrey px-4 ">
         <div className="flex items-center justify-between">
