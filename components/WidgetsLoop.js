@@ -355,6 +355,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
           widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
         marginTop: widget.margin_top !== "-1" && widget.margin_top + "%",
       }}
+      className={widget.padding_left > -1 && "-mx-3"}
     >
       {/* view all button */}
       {widget?.display === "carousel" && widget?.view_title !== "0" && (
