@@ -132,13 +132,13 @@ export default function App({
         <link rel="icon" href={favicon} />
         <title>{title}</title>
       </Head>
-      {host === "https://www.ishtari.com" || host === "ishtari" ? (
+      {host === "https://www.ishtari.com" || host === "ishtari" || (typeof window !== "undefined" && window.location.host === "www.ishtari.com") ? (
         <Script
           id="tag"
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-991347483"
         />
-      ) : host === "https://www.ishtari.com.gh" || host === "ishtari-ghana" ? (
+      ) : host === "https://www.ishtari.com.gh" || host === "ishtari-ghana" || (typeof window !== "undefined" && window.location.host === "www.ishtari.com.gh") ? (
         <Script
           id="tag"
           async
