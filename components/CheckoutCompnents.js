@@ -122,7 +122,7 @@ function CheckoutCompnents() {
       function gtag() {
         window.dataLayer.push(arguments);
       }
-      if (window.location.host === "www.ishtari.com") {
+      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
         gtag("event", "conversion", {
           send_to: "AW-991347483/EUVMCKj7nI8YEJuG29gD",
           value: manualResponse?.sub_total,
@@ -130,7 +130,7 @@ function CheckoutCompnents() {
           // 'coupon': coupon?.current?.value,
           items: manualResponse?.order_product
         });
-      } else if (window.location.host === "www.ishtari.com.gh") {
+      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/lOeeCOi6kZEYEKLrpvoo",
           value: manualResponse?.sub_total,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import SingleProduct from "../product/SingleProduct";
 import Link from "next/link";
@@ -21,6 +21,7 @@ import { useMarketingData } from "@/contexts/MarketingContext";
 import { axiosServer } from "@/axiosServer";
 import Cookies from "js-cookie";
 import buildLink from "@/urls";
+import { AccountContext } from "@/contexts/AccountContext";
 
 function CatalogPage(props) {
   const { data } = props; //instead of productData
@@ -29,6 +30,8 @@ function CatalogPage(props) {
   const [showSort, setShowSort] = useState(false);
   const [showMobileSort, setShowMobileSort] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [state] = useContext(AccountContext);
+
 
   const [productDisplay, setProductDisplay] = useState("grid");
   const [width] = useDeviceSize();
@@ -732,12 +735,12 @@ function CatalogPage(props) {
       function gtag() {
         window.dataLayer.push(arguments);
       }
-      if (window.location.host === "www.ishtari.com") {
+      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
           ids: data?.social_data?.content_ids,
         });
-      } else if (window.location.host === "www.ishtari.com.gh") {
+      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
           ids: data?.social_data?.content_ids,

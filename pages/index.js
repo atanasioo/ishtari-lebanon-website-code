@@ -179,11 +179,11 @@ export default function Home(props) {
         window.dataLayer.push(arguments);
       }
 
-      if (window.location.host === "www.ishtari.com") {
+      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
         });
-      } else if (window.location.host === "www.ishtari.com.gh") {
+      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
         });

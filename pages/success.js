@@ -18,14 +18,14 @@ function Success(props) {
         window.dataLayer.push(arguments);
       }
 
-      if (window.location.host === "www.ishtari.com") {
+      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
         gtag("event", "conversion", {
           send_to: "AW-991347483/CZZzCOys3YwYEJuG29gD",
           value: data?.total,
           currency: "USD",
           transaction_id: data?.orderDetails?.order_id,
         });
-      } else if (window.location.host === "www.ishtari.com.gh") {
+      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/ZuLdCKWOl5EYEKLrpvoo",
           value: data?.total,

@@ -28,6 +28,7 @@ import { HostProvider } from "@/contexts/HostContext";
 import { MarketingProvider } from "@/contexts/MarketingContext";
 import { ReviewCenterProvider } from "@/contexts/ReviewCenterContext";
 import Script from "next/script";
+import Cookies from "js-cookie";
 
 export default function App({
   Component,
@@ -98,8 +99,9 @@ export default function App({
 
   useEffect(() => {
     if (
-      localStorage.getItem("site-local-name") === "ishtari" ||
-      window.location.host === "www.ishtari.com"
+      Cookies.get("site-local-name") === "ishtari" ||
+      window.location.host === "www.ishtari.com" ||
+      window.location.host === "next.ishtari.com"
     ) {
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -108,8 +110,9 @@ export default function App({
       gtag("js", new Date());
       gtag("config", "AW-991347483");
     } else if (
-      localStorage.getItem("site-local-name") === "ishtari-ghana" ||
-      window.location.host === "www.ishtari.com.gh"
+      Cookies.get("site-local-name") === "ishtari-ghana" ||
+      window.location.host === "www.ishtari.com.gh" ||
+      window.location.host === "next.ishtari.com.gh"
     ) {
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -122,7 +125,6 @@ export default function App({
     }
   }, []);
 
-  console.log(host);
 
   return (
     <SessionProvider>
