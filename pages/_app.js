@@ -142,8 +142,8 @@ export default function App({
       ) : host === "https://www.ishtari.com.gh" ||
         host === "ishtari-ghana" ||
         (typeof window !== "undefined" &&
-          window.location.host === "www.ishtari.com.gh") ||
-        window.location.host === "next.ishtari.com.gh" ? (
+          (window.location.host === "www.ishtari.com.gh" ||
+          window.location.host === "next.ishtari.com.gh"))  ? (
         <Script
           id="tag"
           async
