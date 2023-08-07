@@ -134,7 +134,7 @@ export default function App({
           host === "ishtari-ghana" ||
           (typeof window !== "undefined" &&
             (window.location.host === "www.ishtari.com.gh" ||
-              window.location.host === "next.ishtari.com.gh" || window.location.host === "localhost:3000"))) && (
+              window.location.host === "next.ishtari.com.gh"))) && (
               <meta
                 id="csp"
                 http-equiv="Content-Security-Policy"
