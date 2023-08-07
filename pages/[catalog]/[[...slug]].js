@@ -104,6 +104,7 @@ export async function getServerSideProps(context) {
   if (page !== undefined) {
     p = page;
   }
+
   const host = req.headers.host;
   var link;
   const cookies = req.headers.cookie;
@@ -116,10 +117,6 @@ export async function getServerSideProps(context) {
     token = parsedCookies["api-token"];
     AdminToken = parsedCookies["ATDetails"];
   }
-  // const parsedCookies = cookie.parse(cookies);
-  // const host_cookie = parsedCookies["site-local-name"];
-  // const token = parsedCookies["api-token"];
-  // const AdminToken = parsedCookies["ATDetails"];
 
   let site_host = "";
   if (host_cookie === undefined || typeof host_cookie === "undefined") {
@@ -139,7 +136,7 @@ export async function getServerSideProps(context) {
       } else {
         product_id = slug[0];
       }
-      // console.log(context);
+
       //fetch product data
       link =
         buildLink("product", undefined, undefined, site_host) +
@@ -171,19 +168,21 @@ export async function getServerSideProps(context) {
       slug[0].includes("s=")
     ) {
       let id = "";
+      console.log(slug)
       if (catalog === "category" || slug[0].includes("c=")) {
         type = "category";
         if (slug[0].includes("c=")) {
           id = slug[0].split("=")[1];
-          // console.log(category_id);
+
         } else {
           id = slug[0];
+
         }
       } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
         type = "manufacturer";
         if (slug[0].includes("m=")) {
           id = slug[0].split("=")[1];
-          // console.log(manufacturer_id);
+
         } else {
           id = slug[0];
         }
@@ -216,7 +215,8 @@ export async function getServerSideProps(context) {
           "&source_id=1&limit=50" +
           filter +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
-        console.log(link);
+          console.log("FFFFFFFFFFFFFF1111");
+          console.log(link);
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token
@@ -269,18 +269,16 @@ export async function getServerSideProps(context) {
         link =
           buildLink("filter", undefined, undefined, site_host) +
            path + 
-          slug[0].split("=")[1] +
+          id +
           filter + 
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
-          console.log("FFFFFFFFFFFFFF");
-          console.log(link);
 
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token
           }
         });
-        console.log(response.data);
+
         if (response.data.success == false) {
           return {
             notFound: true
@@ -300,10 +298,8 @@ export async function getServerSideProps(context) {
         type,
         host,
         config,
-        // page,
         hovered: false,
         isLoading: "false",
-        //  link,
         p
       }
     };

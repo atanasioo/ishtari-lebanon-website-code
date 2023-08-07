@@ -1,88 +1,110 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { axiosServer } from "@/axiosServer";
 import { useRouter } from "next/router";
 function Pos() {
   const [result, setResult] = useState();
   const [update, setUpdate] = useState(false);
   const [total, setTotal] = useState(false);
+  const qtyRef = useRef("");
 
   const router = useRouter();
 
+  const [showModel, setShowModel] = useState(false);
+
+  const [isOnline, setIsOnline] = useState(true);
+
+  useEffect(() => {
+    const handleOnlineStatusChange = () => {
+      setIsOnline(window.navigator.onLine);
+    };
+
+    // Add event listener to check network status changes
+    window.addEventListener("online", handleOnlineStatusChange);
+    window.addEventListener("offline", handleOnlineStatusChange);
+
+    // Clean up event listeners on component unmount
+    return () => {
+      window.removeEventListener("online", handleOnlineStatusChange);
+      window.removeEventListener("offline", handleOnlineStatusChange);
+    };
+  });
+  function fetchById(db, objectStoreName, id) {
+    const transaction = db.transaction(objectStoreName, "readonly");
+    const objectStore = transaction.objectStore(objectStoreName);
+    const request = objectStore.get(id);
+
+    request.onsuccess = function (event) {
+      const data = event.target.result;
+      if (data) {
+        setResult(data);
+        // Data found
+        var total_cart = 0;
+        data?.cart?.map((t) => {
+          if (t.total) total_cart += Number(t.total);
+        });
+        setTotal(total_cart);
+        console.log("Data:", data);
+      } else {
+        // Data with the given ID not found
+        console.log("Data not found");
+      }
+    };
+
+    request.onerror = function (event) {
+      console.error("Error fetching data by ID: ", event.target.errorCode);
+    };
+  }
   function addNewTable() {
     console.log("omar");
     // Your logic to insert products to the cart goes here
-    const openRequest = indexedDB.open("posDB", 5);
+    const dbName = "posDB";
+    const dbVersion = 5;
+    const objectStoreName = "draft_cart";
 
+    // Open a connection to a database or create it if it doesn't exist.
+    const request = indexedDB.open(dbName, dbVersion);
+    console.log("request" + request);
 
-    // console.log("event");
-    openRequest.onupgradeneeded = (event) => {
-      console.log("omar" + event);
-
-      // console.log("ddddddd" + event);
-      // const openRequest = indexedDB.open(dbName, 2);
+    request.onupgradeneeded = (event) => {
+      console.log("event");
       const db = event.target.result;
-
-      // Create the second object store
-      if (!db.objectStoreNames.contains("carts")) {
-        db.createObjectStore("carts", {
+      console.log(db);
+      // Check if the object store already exists
+      if (!db.objectStoreNames.contains(objectStoreName)) {
+        // Create a new object store with an auto-incrementing key
+        const objectStore = db.createObjectStore(objectStoreName, {
           keyPath: "id",
-          // autoIncrement: true
-
+          autoIncrement: false
         });
-        // You can add indexes for faster searching if needed
+
+        // // You can create indexes on the object store for faster querying
+        // objectStore.createIndex('nameIndex', 'name', { unique: false });
+        // objectStore.createIndex('ageIndex', 'age', { unique: false });
+        // Add more indexes as needed for your use case.
       }
     };
-    openRequest.onsuccess = (event) => {
-      // Database opened successfully, you can start using i
-      console.log(event);
-      console.log("cart insert completed");
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      console.log("success");
+      // Now, you can interact with the database using 'db' object.
+    };
+
+    request.onerror = (event) => {
+      console.error("Error opening or creating database:", event.target.error);
     };
   }
   useEffect(() => {
-    // Open the database
-    const request = indexedDB.open("posDB", 5);
+    const request = indexedDB.open("posDB", 7);
 
-    // Event handler for successful database open
-    request.onsuccess = function (event) {
-      const db = event.target.result;
-
-      // Start a transaction and access the object store (table)
-      const transaction = db.transaction("cart", "readonly");
-      const objectStore = transaction.objectStore("cart");
-
-      // Use a cursor to read all data in the object store
-      const getAllRequest = objectStore.getAll();
-
-      getAllRequest.onsuccess = function (event) {
-        const data = event.target.result;
-
-        if (data && data.length > 0) {
-          // 'data' contains an array with all the records in the object store
-          setResult(data);
-          var total_cart = 0;
-          data.map((t) => {
-            if (t[0].total) total_cart += Number(t[0].total);
-          });
-          setTotal(total_cart);
-          console.log("All data in the object store:", data);
-        } else {
-          console.log("No data found in the object store.");
-        }
-      };
-
-      transaction.oncomplete = function () {
-        console.log("Transaction completed.");
-      };
-
-      transaction.onerror = function (event) {
-        console.error("Transaction error:", event.target.error);
-      };
+    request.onerror = function (event) {
+      console.error("Database error: ", event.target.errorCode);
     };
 
-    // Event handler for any errors during database open
-    request.onerror = function (event) {
-      console.error("Error opening database:", event.target.error);
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+      fetchById(db, "draft_cart", 1); // Call your function to fetch data by ID
     };
   }, [router, update]);
 
@@ -103,74 +125,54 @@ function Pos() {
   // search product bay barcode, sku and model
   function queryProductsByBarcodeAndOption(dbName, objectStoreName, search) {
     return new Promise((resolve, reject) => {
-      const openRequest = indexedDB.open(dbName);
+      const openRequest = indexedDB.open(dbName, 7);
 
       openRequest.onsuccess = (event) => {
         const db = event.target.result;
-        const transaction = db.transaction(["products", "cart"], "readonly");
-
+        const transaction = db.transaction(
+          ["products", "draft_cart"],
+          "readonly"
+        );
+        const objectIdToUpdate = 1;
         // Check if a value exists in table1
-        const table1Store = transaction.objectStore("cart");
+        const table1Store = transaction.objectStore("draft_cart");
 
-        const request1 = table1Store.openCursor();
+        const request1 = table1Store.get(objectIdToUpdate);
 
         request1.onsuccess = (event) => {
-          const result = event.target.result;
-          const cart = result.value;
-          // console.log(cart)
+          const result = event.target.result.cart;
 
-          console.log(cart[0]?.option_value?.barcode);
-          console.log(search);
-          const check = cart[0]?.option_value?.barcode === search && cart.id;
-          // find(
-          //   (opt) =>
-          //     opt.barcode === search ||
-          //     cart.sku === search ||
-          //     cart.model === search
-          // );
+          const cart = result != null && result;
+
+          const check = findDataCart(cart, search);
+
+          // console.log(check);
           if (check) {
             console.log(`${search} exists in table1.`);
 
             updateQuantity(check, search);
           } else {
-            console.log(`${search} does not exist in table1.`);
+            // console.log(`${search} does not exist in table1.`);
 
             // const transaction = db.transaction(objectStoreName, "readonly");
-            const objectStore = transaction.objectStore(objectStoreName);
+            const objectStore = transaction.objectStore("products");
 
             const products = [];
-            const request = objectStore.openCursor();
-
+            const request = objectStore.getAll();
+            console.log(request);
             request.onsuccess = (event) => {
+              console.log(event);
               const cursor = event.target.result;
               console.log(cursor);
               if (cursor) {
-                const product = cursor.value;
-                // Check if the desired option value exists in the product's options
+                const product = cursor;
 
-                console.log("products");
-                const matchingOption =
-                  product.product_options[0]?.option_value?.map(
-                    (opt) =>
-                      (opt.barcode === search ||
-                        product.sku === search ||
-                        product.model === search) &&
-                      true
-                  );
-                console.log(product.product_options[0]?.option_value);
+                const matchingOption = findData(product, search);
+
+                console.log(matchingOption);
                 if (matchingOption) {
-                  console.log("products");
-
-                  products.push({
-                    name: product.name,
-                    price: product.price,
-                    sku: product.sku,
-                    optin_name: product?.product_options[0]?.name,
-                    option_value: matchingOption,
-                    quantity: 1,
-                    total: product.price
-                  });
-                  console.log(products);
+                  products.push(matchingOption);
+                  // console.log(products);
                   insertToCart(products);
                   return;
                 }
@@ -193,67 +195,103 @@ function Pos() {
     });
   }
 
+  // Recursive function to find data in an object of objects
+  function findData(obj, search) {
+    for (const key in obj) {
+      if (obj[key].data.sku === search) {
+        return obj[key];
+      }
+      var option = obj[key].data.product_options[0]?.option_value;
+      for (const id in option) {
+        if (option[id].barcode === search) {
+          return {
+            name: obj[key].data.name,
+            price: obj[key].data.price,
+            sku: obj[key].data.sku,
+            option_name: obj[key]?.data.product_options[0]?.name,
+            option_value: option[id],
+            quantity: 1,
+            total: obj[key].data.price
+          };
+        }
+      }
+    }
+    return null; // Data not found
+  }
+
+  function findDataCart(obj, search) {
+    console.log("oobj" + obj);
+    for (const key in obj) {
+      console.log(obj[key]);
+      if (
+        obj[key].option_value?.barcode === search ||
+        obj[key].sku === search ||
+        obj[key].model === search
+      ) {
+        return key;
+      }
+    }
+    return null; // Data not found
+  }
+
   //insert in cart
   function insertToCart(products) {
-    // console.log(products);
     setUpdate(false);
-    // Your logic to insert products to the cart goes here
-    const openRequest = indexedDB.open("posDB", 5);
-    // console.log("event");
+    const openRequest = indexedDB.open("posDB", 7);
+    console.log("event");
+
     openRequest.onupgradeneeded = (event) => {
-      // console.log("ddddddd" + event);
-      // const openRequest = indexedDB.open(dbName, 2);
+      console.log(event);
       const db = event.target.result;
 
-      // Create the second object store
-      if (!db.objectStoreNames.contains("carts")) {
-        const objectStore2 = db.createObjectStore("carts", {
+      if (!db.objectStoreNames.contains("draft_cart")) {
+        const objectStore2 = db.createObjectStore("draft_cart", {
           keyPath: "id"
         });
         // You can add indexes for faster searching if needed
       }
     };
     openRequest.onsuccess = (event) => {
-      // Database opened successfully, you can start using it
-      // console.log("event+ 333");
       const db = event.target.result;
-      const transaction = db.transaction("cart", "readwrite");
-      const objectStore = transaction.objectStore("cart");
 
-      // Function to insert the next object in the dataArray
+      const transaction = db.transaction("draft_cart", "readwrite");
 
-      const request = objectStore.add(products);
+      const objectStore = transaction.objectStore("draft_cart");
 
-      request.onsuccess = () => {
-        console.log("Data inserted successfully");
+      const objectIdToUpdate = 1; // Provide the ID of the object you want to update
 
-        const objectIdToUpdate = 8; // Provide the ID of the object you want to update
+      const request = objectStore.get(objectIdToUpdate);
 
-        // Step 4: Retrieve the object from the object store
-        const getRequest = objectStore.get(objectIdToUpdate);
+      request.onsuccess = (event) => {
+        const existingObject = event.target.result;
 
-        getRequest.onsuccess = function (event) {
-          const existingObject = event.target.result;
-          console.log(existingObject);
-          // Check if the object with the provided ID exists
-          if (existingObject) {
-            // Step 5: Modify the object by adding the new array to the existing table array
-            const newArrayToAdd = products;
-            existingObject.push(newArrayToAdd);
+        if (!existingObject.cart || !Array.isArray(existingObject.cart)) {
+          existingObject.cart = [];
+        }
+        // Check if the object with the provided ID exists
+        if (existingObject) {
+          // console.log(existing)
+          const newArrayToAdd = products;
 
-            // Update the modified object back into the object store
-            const updateRequest = objectStore.put(existingObject);
+          existingObject.cart.push(newArrayToAdd[0]);
 
-            updateRequest.onsuccess = function (event) {
-              console.log("Object updated successfully!");
-            };
+          // Update the modified object back into the object store
+          const updateRequest = objectStore.put(existingObject);
+
+          updateRequest.onsuccess = function (event) {
+            console.log("Object updated successfully!");
+            setUpdate(true);
+          };
 
             updateRequest.onerror = function (event) {
-              console.error("Error updating object:", event.target.error);
-            };
-          }
-        };
-        // Successfully inserted, move to the next object
+            objectStore.add({ id: objectIdToUpdate, cart: products });
+            setUpdate(true);
+            console.error("Error updating object:", event.target.error);
+            // setUpdate(true);
+          };
+        } else {
+          objectStore.add({ id: objectIdToUpdate, cart: products });
+        }
       };
 
       request.onerror = (event) => {
@@ -265,227 +303,328 @@ function Pos() {
     // Start inserting from index 0
   }
 
-  function updateQuantity(check, search) {
-    return new Promise((resolve, reject) => {
-      const openRequest = indexedDB.open("posDB");
+  function updateQuantity(d, search) {
+    const productIdToUpdate = 1; // Provide the ID of the product you want to update
+    const newQuantity = 5; // Provide the new quantity value
 
-      openRequest.onsuccess = (event) => {
-        const db = event.target.result;
-        const transaction = db.transaction("cart", "readonly");
-        const objectStore = transaction.objectStore("cart");
+    const dbName = "posDB";
+    const objectStoreName = "draft_cart";
 
-        const products = [];
-        const request = objectStore.openCursor();
+    // Open the IndexedDB database
+    const openRequest = indexedDB.open(dbName, 7);
 
-        request.onsuccess = (event) => {
-          const cursor = event.target.result;
-          if (cursor) {
-            var products = [];
-            const product = cursor.value;
-            // Check if the desired option value exists in the product's options
-            console.log(product);
-            const matchingOption =
-              product &&
-              product[0]?.option_value.barcode === search &&
-              product[0];
+    openRequest.onsuccess = (event) => {
+      const db = event.target.result;
+      const transaction = db.transaction(objectStoreName, "readwrite");
+      const objectStore = transaction.objectStore(objectStoreName);
 
-            console.log(product.id);
-            if (matchingOption) {
-              console.log(matchingOption);
-              products.push({
-                name: matchingOption.name,
-                price: matchingOption.price,
-                sku: matchingOption.sku,
-                option_name: matchingOption?.option_name,
-                option_value: matchingOption.option_value
-              });
+      // Retrieve the main object from the object store
+      const getRequest = objectStore.get(productIdToUpdate);
 
-              console.log(products);
-              updateQuantitys(matchingOption, product.id);
+      getRequest.onsuccess = (event) => {
+        const mainObject = event.target.result;
+        console.log(mainObject);
+
+        if (mainObject) {
+          // Check if the product with the specified ID exists in the main object
+          if (mainObject.cart && mainObject.cart.length > 0) {
+            const productToUpdate = mainObject.cart.find(
+              (product) => product.option_value?.barcode === search
+            );
+
+            if (productToUpdate) {
+              // Update the quantity of the nested object within the main object
+              productToUpdate.quantity = productToUpdate.quantity + 1;
+              productToUpdate.total =
+                productToUpdate.quantity * productToUpdate.price;
+            } else {
+              console.error(
+                "Product with specified ID not found in the main object."
+              );
+              return;
             }
-            // cursor.continue();
           } else {
-            resolve(products);
+            console.error(
+              "Main object does not have a cart property or the cart is empty."
+            );
+            return;
           }
-        };
 
-        request.onerror = (event) => {
-          reject(event.target.error);
-        };
-      };
+          // Update the modified main object back into the object store
+          const updateRequest = objectStore.put(mainObject);
 
-      openRequest.onerror = (event) => {
-        reject(event.target.error);
-      };
-    });
-    // Open the database
-  }
-
-  function updateQuantitys(product, key) {
-    const request = indexedDB.open("posDB", 5);
-    console.log(product, key);
-    // Event handler for database creation or version change
-    request.onupgradeneeded = function (event) {
-      const db = event.target.result;
-
-      // Create an object store (table) with an auto-incrementing key
-      const objectStore = db.createObjectStore("cart", {
-        keyPath: "id",
-        autoIncrement: true
-      });
-
-      // Define the columns (properties) you want to store
-      // objectStore.createIndex("name", "name", { unique: false });
-      // objectStore.createIndex("age", "age", { unique: false });
-    };
-
-    // Event handler for successful database open
-    request.onsuccess = function (event) {
-      const db = event.target.result;
-
-      // Start a transaction and access the object store (table)
-      const transaction = db.transaction("cart", "readwrite");
-      const objectStore = transaction.objectStore("cart");
-
-      // Retrieve the record you want to update using a key or index
-      const keyToFind = key; // Assuming the record's key is 1
-      const getRequest = objectStore.get(keyToFind);
-
-      getRequest.onsuccess = function (event) {
-        // Get the record from the request result
-        const record = event.target.result;
-        // setUpdate(false);
-        if (record) {
-          console.log(product.quantity);
-          // Modify the record properties (for example, update the 'name' property)
-          record[0].quantity = product.quantity + 1;
-          record[0].total = product.price * record[0].quantity;
-          // console.log("record = " + product.quantity);
-          // Use the 'put' method t o update the modified record
-          const updateRequest = objectStore.put(record);
-
-          updateRequest.onsuccess = function () {
-            setUpdate(true);
-
-            console.log("Record updated successfully!");
+          updateRequest.onsuccess = function (event) {
+            console.log("Main object updated successfully!");
           };
 
           updateRequest.onerror = function (event) {
-            console.error("Error updating record:", event.target.error);
+            console.error("Error updating main object:", event.target.error);
           };
         } else {
-          console.log("Record not found.");
+          console.error(
+            "Main object with the specified ID not found in the object store."
+          );
         }
       };
 
-      transaction.oncomplete = function () {
-        console.log("Transaction completed.");
-      };
-
-      transaction.onerror = function (event) {
-        console.error("Transaction error:", event.target.error);
-      };
-    };
-
-    // Event handler for any errors during database open
-    request.onerror = function (event) {
-      console.error("Error opening database:", event.target.error);
-    };
-  }
-
-  function deleteRowById(tableName, idToDelete) {
-    const openRequest = indexedDB.open("posDB", 5);
-    console.log("event");
-    var db;
-    openRequest.onupgradeneeded = (event) => {
-      // const openRequest = indexedDB.open(dbName, 2);
-      db = event.target.result;
-
-      // Create the second object store
-      if (!db.objectStoreNames.contains("cart")) {
-        const objectStore2 = db.createObjectStore("cart", {
-          keyPath: "id",
-          autoIncrement: true
-        });
-        // You can add indexes for faster searching if needed
-      }
-    };
-    openRequest.onsuccess = (event) => {
-      // Database opened successfully, you can start using it
-      setUpdate(false);
-
-      const db = event.target.result;
-      const transaction = db.transaction(tableName, "readwrite");
-      const objectStore = transaction.objectStore(tableName);
-
-      const request = objectStore.delete(idToDelete);
-
-      request.onsuccess = (event) => {
-        console.log(
-          `Row with ID ${idToDelete} deleted successfully from ${tableName}.`
-        );
-        setUpdate(true);
-      };
-
-      request.onerror = (event) => {
-        console.error(
-          `Error deleting row with ID ${idToDelete} from ${tableName}: ${event.target.error}`
-        );
+      getRequest.onerror = (event) => {
+        console.error("Error retrieving main object", event.target.error);
       };
     };
   }
 
-  function deleteTable() {
+  function deleteProduct(key) {
+    const objectIdToDelete = 1; // Provide the ID of the row (object) you want to delete
+
     const dbName = "posDB";
-    const objectStoreNameToDelete = "carts";
+    const objectStoreName = "draft_cart";
+    const openRequest = indexedDB.open(dbName, 7);
 
-    const request = indexedDB.open(dbName, 5);
-    console.log("yes de");
-    request.onerror = function (event) {
-      console.error("Error opening IndexedDB:", event.target.errorCode);
-    };
-
-    request.onsuccess = function (event) {
+    openRequest.onsuccess = (event) => {
       const db = event.target.result;
+      const transaction = db.transaction(objectStoreName, "readwrite");
+      const objectStore = transaction.objectStore(objectStoreName);
 
-      // Step 2: Check if the object store exists
-      if (db.objectStoreNames.contains(objectStoreNameToDelete)) {
-        // Step 3: Delete the object store from the database
-        const version = db.version;
+      // Retrieve the main object from the object store
+      const getRequest = objectStore.get(objectIdToDelete);
 
-        // Close the database connection to perform the delete operation
-        // db.close();
+      getRequest.onsuccess = (event) => {
+        const mainObject = event.target.result;
+        console.log(mainObject);
 
-        const requestDelete = indexedDB.open(dbName, version);
+        if (mainObject) {
+          // Check if the object with the specified ID exists in the main object
+          if (mainObject.cart && mainObject.cart.length > 0) {
+            // Find the index of the object to be deleted
+            const indexToDelete =
+              key ||
+              mainObject.cart.findIndex(
+                (product) => product.id === objectIdToDelete
+              );
 
-        requestDelete.onupgradeneeded = function (event) {
-          const dbToDelete = event.target.result;
+            if (indexToDelete !== -1) {
+              // Remove the object from the main object (array) using 'splice'
+              mainObject.cart.splice(indexToDelete, 1);
 
-          // Delete the object store from the database
-          dbToDelete.deleteObjectStore(objectStoreNameToDelete);
-        };
+              // Update the modified main object back into the object store
+              const updateRequest = objectStore.put(mainObject);
+setUpdate(true)
+              updateRequest.onsuccess = function (event) {
+                console.log("Object deleted successfully!");
+              };
 
-        requestDelete.onerror = function (event) {
-          console.error("Error deleting object store:", event.target.error);
-        };
+              updateRequest.onerror = function (event) {
+                console.error("Error deleting object:", event.target.error);
+              };
+            } else {
+              console.error(
+                "Object with specified ID not found in the main object."
+              );
+            }
+          } else {
+            console.error(
+              "Main object does not have a cart property or the cart is empty."
+            );
+          }
+        } else {
+          console.error(
+            "Main object with the specified ID not found in the object store."
+          );
+        }
+      };
 
-        requestDelete.onsuccess = function (event) {
-          console.log("Object store deleted successfully!");
-        };
-      } else {
-        console.error("Object store not found.");
-      }
+      getRequest.onerror = (event) => {
+        console.error("Error retrieving main object", event.target.error);
+      };
     };
+  }
 
-    request.onupgradeneeded = function (event) {
-      // This event will only be triggered if the database is not yet created
-      console.log("Database created successfully.");
+  function updateQuantityValue(index, value, type) {
+    setUpdate(false);
+    const productIdToUpdate = 1; // Provide the ID of the product you want to update
+    const newQuantity = 5; // Provide the new quantity value
+    const dbName = "posDB";
+    const objectStoreName = "draft_cart";
+
+    // Open the IndexedDB database
+    const openRequest = indexedDB.open(dbName, 7);
+
+    openRequest.onsuccess = (event) => {
+      const db = event.target.result;
+      const transaction = db.transaction(objectStoreName, "readwrite");
+      const objectStore = transaction.objectStore(objectStoreName);
+
+      // Retrieve the main object from the object store
+      const getRequest = objectStore.get(productIdToUpdate);
+
+      getRequest.onsuccess = (event) => {
+        const mainObject = event.target.result;
+        console.log(mainObject);
+
+        if (mainObject) {
+          // Check if the product with the specified ID exists in the main object
+          if (mainObject.cart && mainObject.cart.length > 0) {
+            const productToUpdate = mainObject.cart.find(
+              (product, key) => key === index
+            );
+
+            console.log("productToUpdate");
+            if (productToUpdate) {
+              // Update the quantity of the nested object within the main object
+              if (type === "plus") {
+                productToUpdate.quantity = Number(productToUpdate.quantity) + 1;
+                productToUpdate.total =
+                  productToUpdate.price * productToUpdate.quantity;
+              }
+
+              if (type === "minus") {
+
+                productToUpdate.quantity = Number(productToUpdate.quantity) - 1;
+                productToUpdate.total =
+                  productToUpdate.price * productToUpdate.quantity;
+              }
+
+              if (type === "value") {
+
+                productToUpdate.quantity = value;
+                productToUpdate.total =
+                  productToUpdate.price * productToUpdate.quantity;
+              }
+              document.getElementById("cart_"+index).value = productToUpdate.quantity
+
+              setUpdate(true)
+            } else {
+              console.error(
+                "Product with specified ID not found in the main object."
+              );
+              return;
+            }
+          } else {
+            console.error(
+              "Main object does not have a cart property or the cart is empty."
+            );
+            return;
+          }
+
+          // Update the modified main object back into the object store
+          const updateRequest = objectStore.put(mainObject);
+
+          updateRequest.onsuccess = function (event) {
+            setUpdate(true);
+            console.log("Main object updated successfully!");
+          };
+
+          updateRequest.onerror = function (event) {
+            console.error("Error updating main object:", event.target.error);
+          };
+        } else {
+          console.error(
+            "Main object with the specified ID not found in the object store."
+          );
+        }
+      };
+
+      getRequest.onerror = (event) => {
+        console.error("Error retrieving main object", event.target.error);
+      };
     };
+  }
+
+  function pay() {
+    setShowModel(true);
   }
 
   return (
-    <div className="fixed min-h-screen w-full top-0 bg-dlabelColor -ml-3">
+    <div className="fixed min-h-screen w-full z-30 top-0 bg-dgrey -ml-3">
       {/* Add your POS page content here */}
+      {showModel && (
+        <>
+          <div className="absolute z-10 w-full min-h-screen bg-dblack opacity-20 -ml-3 pointer-events-none"></div>
+          <div class="absolute w-1/2 top-5 left-1/4 z-50">
+            <div class="absolute top-0 z-50"></div>
+            <div class="w- p-5  mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+              {/* <button
+                onClick={() => {
+                  setShowModel(false);
+                }}
+                class=" absolute z-60  -top-2.5 -right-2.5 mb-2 md:mb-0 bg-white w-7 h-7 text-sm shadow-sm font-xl tracking-wider  text-gray-600  hover:shadow-lg rounded-full"
+              >
+               X
+              </button> */}
+              <div class="">
+                <div className="pr-semibold  text-xl w-full">
+                  {" "}
+                  Customer Info
+                </div>
+                <div className="grid grid-cols-2 space-y-1 px-2 pt-2">
+                  <div className="text-l  "> phone Number: </div>{" "}
+                  <div className="  text-xl ">
+                    {" "}
+                    <input className=" rounded border border-dlabelColo p-0.5" />
+                  </div>
+                  <div className="text-l"> First Name: </div>{" "}
+                  <div className="text-xl">
+                    {" "}
+                    <input className="rounded border border-dlabelColor p-0.5" />
+                  </div>
+                  <div className="text-l"> Last Name: </div>{" "}
+                  <div className="  text-xl">
+                    {" "}
+                    <input className="rounded border border-dlabelColor p-0.5" />
+                  </div>
+                </div>
+                <div className="pr-semibold  text-xl w-full py-2">
+                  {" "}
+                  Summary Order
+                </div>
+                <div className="grid grid-cols-2 space-y-1 ">
+                  <div className="text-l w-1/4"> Sub-Total: </div>{" "}
+                  <div className="pr-semibold  "> ${total}</div>
+                  <div className="text-l w-1/4 "> type: </div>{" "}
+                  <div className=" text-xl ">
+                    {" "}
+                    <input className="rounded border border-dlabelColor p-0.5" />
+                  </div>
+                  <div className="text-l w-1/4"> modification: </div>{" "}
+                  <div className=" text-xl">
+                    {" "}
+                    <input className="rounded border border-dlabelColor p-0.5" />
+                  </div>
+                  <div className="text-l w-1/4"> Remarq: </div>{" "}
+                  <div className="  text-xl">
+                    {" "}
+                    <input className="rounded border border-dlabelColor p-0.5" />
+                  </div>
+                  <div className="text-l w-1/4"> Total: </div>{" "}
+                  <div className="pr-semibold text-xl "> ${total}</div>
+                </div>
+                <div className="grid grid-cols-2 space-y-1  pt-2">
+                  <div className="text-l w-1/4"> Number: </div>{" "}
+                  <div className="text-xl">
+                    {" "}
+                    <input className="rounded border border-dlabelColor p-0.5" />
+                  </div>
+                  <div className="text-l w-1/4"> Change: </div>{" "}
+                  <div className="  text-xl">${total}</div>
+                </div>
+                <div class="p-3  mt-2 text-center space-x-4 md:block">
+                  <button
+                    onClick={() => {
+                      setShowModel(false);
+                    }}
+                    class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg"
+                  >
+                    Cancel
+                  </button>
+                  <button class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-dhotPink rounded-full hover:shadow-lg hover:bg-red-600">
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="flex">
         <div className="w-8/12 m-2">
@@ -498,57 +637,110 @@ function Pos() {
               onKeyUp={(e) => addToCart(e)}
             />
           </div>
-          <div onClick={() => deleteTable()}>delete</div>
-          <div onClick={() => addNewTable()}>Add</div>
+          {/* <div onClick={() => deleteTable()}>delete</div>
+          <div onClick={() => addNewTable()}>Add</div> */}
 
-          <div className=" overflow-y-auto h-2/3">
-            {result?.map((cart, key) => (
-              <div className="flex my-2 justify-between w-full px-5 pt-2  bg-white ">
-                <div className="w-1/12">{key}</div>
-                <div className="w-6/12 text-l ">
-                  {cart[0].name}
-                  <div className="flex ">
-                    <div className="flex justify-between text-dbase">
-                      {cart[0].optin_name || cart[0].option_name} :{" "}
-                      {cart[0].option_value.name}
+          <div className=" overflow-y-auto h-3/3 py-6">
+            {result?.cart.map((cart, key) => (
+                <div className="flex my-2 justify-between w-full px-5 pt-5  bg-white rounded-xl">
+                  <div className="w-1/12">{key}</div>
+                  <div className="w-5/12 text-l ">
+                    {cart.name}
+                    <div className="flex ">
+                      <div className="flex justify-between text-dbase">
+                        {cart.option_name || cart.option_name} :{" "}
+                        {cart.option_value?.name}
+                      </div>
+                      <div className="pl-6">{cart.sku}</div>
                     </div>
-                    <div className="pl-6">{cart[0].sku}</div>
                   </div>
-                </div>
 
-                <div className="flex w-5/12 justify-between">
-                  <div className="text-l mt-2 text-center pr-semibold px-6">
-                    {" "}
-                    ${cart[0].total ? cart[0].price : 0}
-                  </div>
-                  <input
+                  <div className="flex w-6/12 justify-between">
+                    <div className="text-l mt-1  pr-semibold   text-center w-1/3">
+                      {" "}
+                      ${cart.total ? cart.price : 0}
+                    </div>
+                    {/* <input
+                    onKeyDown={() =>
+                      updateQuantityValue(key, e.target.value, "value")
+                    }
                     className="px-2 border border-1 text-center w-20 h-10"
-                    value={cart[0].quantity}
-                  />
+                    value={cart.quantity}
+                  /> */}
 
-                  <div className="text-l mt-2 text-center pr-semibold px-6">
-                    {" "}
-                    ${cart[0].total ? cart[0].total : 0}
+                    <div className=" px-6 w-1/3 flex flex-col items-end text-dblack justify-center -mt-9">
+                      <span className=" font-semibold text-lg">
+                        {/* {item.total} */}
+                      </span>
+                      <div className="flex mt-4">
+                        <button
+                          className="w-10 h-10  text-2xl border border-dinputBorder rounded-tl rounded-bl cursor-pointer hover:shadow"
+                          onClick={() =>
+                            updateQuantityValue(key, cart?.quantity, "minus")
+                          }
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          id={`cart_${key}`}
+                        //  ref={qtyRef} 
+                          defaultValue={cart?.quantity}
+                          className="border border-dinputBorder w-12 h-10 border-r-0 border-l-0 text-center focus:outline-none"
+                          onKeyDown={(e) =>
+                            updateQuantityValue(key, e.target.value, "value")
+                          }
+                        />
+
+                        <button
+                          className="w-10 h-10  text-2xl border border-dinputBorder  rounded-tr rounded-br cursor-pointer hover:shadow"
+                          onClick={() =>
+                            updateQuantityValue(key, cart?.quantity, "plus")
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="text-l mt-1 text-center pr-semibold px-6 w-1/3">
+                      {" "}
+                      ${cart.total ? cart.total : 0}
+                    </div>
                   </div>
-                  <span
-                    className="text-xxl text-dbase pr-bold pb-2"
-                    onClick={() => deleteRowById("cart", cart.id)}
-                  >
-                    x
-                  </span>
+                  <div className="w-1/24">
+                    <button
+                      className="text-xxl text-dbase pr-bold align-middle -mt-3"
+                      onClick={() => deleteProduct(key)}
+                    >
+                      x
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+              .reverse()}
           </div>
         </div>
-      </div>
-      <div className="flex w-full justify-between  h-1/6 bg-white p-6 ">
-        <div className=" pr-semibold  text-2xl"> Total: ${total}</div>
+        <div className=" fixed flex w-full bottom-0 justify-between  h-1/12 bg-white p-6  ">
+          <div className="flex ">
+            You are {isOnline ? "online" : "offline"}{" "}
+            <span
+              className={` ml-2 mt-1.5 w-3 h-3 p-1  rounded-full ${
+                !isOnline ? " bg-dbase" : "bg-dgreen"
+              }`}
+            ></span>
+          </div>
 
-        <span className=" bg-Orangeflo px-12 text-white text-xxl w-1/3 text-center ">
-          {" "}
-          Pay
-        </span>
+          <div className="pr-semibold  text-2xl"> Total: ${total}</div>
+
+          <span
+            className=" bg-Orangeflo px-12 text-white text-xxl w-3/12  text-center"
+            onClick={pay}
+          >
+            {" "}
+            Pay
+          </span>
+        </div>
       </div>
     </div>
   );

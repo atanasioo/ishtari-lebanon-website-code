@@ -1,12 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { axiosServer } from "@/axiosServer";
+import ProgressBar from "@/components/ProgressBar";
+
 function Syncdata() {
   const [search, setSearch] = useState();
+  const [data, setData] = useState();
+  const [currentPage, setCurrentPage] = useState(0);
+  const [syncing, setSyncing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [tasks, setTasks] = useState();
+
+  const syncData = (totalTask) => {
+    const totalTasks = totalTask;
+    let completedTasks = 0;
+
+    setSyncing(true);
+    setProgress(0);
+
+    const intervalId = setInterval(() => {
+      completedTasks++;
+      const progress = (completedTasks / totalTasks) * 100;
+      setProgress(progress);
+
+      if (progress === 100) {
+        clearInterval(intervalId);
+        setSyncing(false);
+      }
+    }, 1000);
+  };
+
+  const completeTask = (taskId) => {
+    console.log(taskId);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, completed: true } : task
+      )
+    );
+  };
+
   const dbName = "posDB";
 
   const handleSaveIndexDb = async () => {
-    // const dbName = "posDB";
-    const openRequest = indexedDB.open(dbName, 2);
+    const openRequest = indexedDB.open(dbName, 7);
 
     openRequest.onupgradeneeded = (event) => {
       const db = event.target.result;
@@ -19,21 +54,11 @@ function Syncdata() {
         });
         // You can add indexes for faster searching if needed
       }
-
-      // Create the second object store
-      if (!db.objectStoreNames.contains("carts")) {
-        const objectStore2 = db.createObjectStore("carts", {
-          keyPath: "id",
-          autoIncrement: true
-        });
-        // You can add indexes for faster searching if needed
-      }
     };
 
     openRequest.onsuccess = (event) => {
       const db = event.target.result;
       getData(db);
-
       // Database opened successfully, you can start using it
     };
 
@@ -52,14 +77,16 @@ function Syncdata() {
         body: {}
       }
     );
-
-    // Assuming the response data has a property "data" containing the actual response
     const data = resp.data;
+    console.log(data);
     insertBatchData(data.products, db);
-    // setData(data.products);
+
     if (resp.data.total) {
-      //resp.data.total / resp.data.limit
-      for (var i = 2; i < 5; i++) {
+      completeTask(1);
+      console.log(tasks);
+      syncData(Math.ceil(resp.data.total / itemsPerPage) + 1);
+
+      for (var i = 2; i < Math.ceil(resp.data.total / 50) + 1; i++) {
         const resp = await axiosServer.post(
           "https://www.flo-lebanon.com/api/v2/?route=catalog/product/ListOfProductsPos&limit=50&page=" +
             i,
@@ -70,9 +97,11 @@ function Syncdata() {
             body: {}
           }
         );
+        // completeTask(i);
         if (resp.status == 200) {
+          completeTask(i);
           const newData = resp.data;
-          // setData((prevData) => [...prevData, ...newData.products]);
+
           insertBatchData(newData.products, db);
         }
       }
@@ -82,16 +111,17 @@ function Syncdata() {
   const insertBatchData = (dataArray, db) => {
     const transaction = db.transaction("products", "readwrite");
     const objectStore = transaction.objectStore("products");
+    console.log(dataArray);
 
-    // Function to insert the next object in the dataArray
     const insertNext = (index) => {
-      if (index < dataArray.length) {
-        const request = objectStore.add(dataArray[index]);
-
+      if (index < dataArray?.length) {
+        const request = objectStore.add({
+          id: Number(dataArray[index].product_id),
+          data: dataArray[index]
+        });
+        // completeTask(index)
         request.onsuccess = () => {
           console.log("Data inserted successfully");
-
-          // Successfully inserted, move to the next object
           insertNext(index + 1);
         };
 
@@ -103,74 +133,90 @@ function Syncdata() {
       }
     };
 
-    // Start inserting from index 0
     insertNext(0);
   };
 
-  useEffect(() => {
-    console.log(search);
-    queryProductsByBarcodeAndOption("posDB", "products", search)
-      .then((products) => {
-        console.log("Products matching the query:");
-        console.log(products);
-      })
-      .catch((error) => {
-        console.error("Error querying products:", error);
-      });
-  }, [search]);
-  function queryProductsByBarcodeAndOption(dbName, objectStoreName, barcode) {
+  function getDataFromObjectStore(db, objectStoreName, key) {
     return new Promise((resolve, reject) => {
-      const openRequest = indexedDB.open(dbName);
+      const transaction = db.transaction(objectStoreName, "readonly");
+      const objectStore = transaction.objectStore(objectStoreName);
+      const request = objectStore.getAll();
 
-      openRequest.onsuccess = (event) => {
-        const db = event.target.result;
-        const transaction = db.transaction(objectStoreName, "readonly");
-        const objectStore = transaction.objectStore(objectStoreName);
-
-        const products = [];
-        const request = objectStore.openCursor();
-
-        request.onsuccess = (event) => {
-          const cursor = event.target.result;
-          if (cursor) {
-            const product = cursor.value;
-            // Check if the desired option value exists in the product's options
-            const matchingOption =
-              product.product_options[0]?.option_value?.find(
-                (opt) => opt.barcode === search || product.sku === search
-              );
-            console.log(matchingOption);
-            if (matchingOption) {
-              products.push({
-                name: product.name,
-                price: product.price,
-                sku: product.sku,
-                optin_name: product?.product_options[0]?.name,
-                option_value: matchingOption
-              });
-              return;
-              console.log(products);
-            }
-            cursor.continue();
-          } else {
-            resolve(products);
-          }
-        };
-
-        request.onerror = (event) => {
-          reject(event.target.error);
-        };
+      transaction.oncomplete = () => {
+        resolve(request.result);
       };
 
-      openRequest.onerror = (event) => {
-        reject(event.target.error);
+      transaction.onerror = () => {
+        reject(transaction.error);
       };
     });
   }
+  function getAllProducts(tableName) {
+    // Usage example:
+
+    const dbName = "posDB";
+    const key = "id"; // Replace with the specific key you want to retrieve
+
+    const request = indexedDB.open(dbName);
+
+    request.onerror = (event) => {
+      console.error("Error opening the database", event);
+    };
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      getDataFromObjectStore(db, tableName, key)
+        .then((data) => {
+          if (data) {
+            console.log("Data:", data);
+            setData(data);
+            // Do something with the data
+          } else {
+            console.log("Data not found.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error getting data:", error);
+        });
+    };
+  }
+  useEffect(() => {
+    getAllProducts("products");
+
+    axiosServer
+      .post(
+        "https://www.flo-lebanon.com/api/v2/?route=catalog/product/ListOfProductsPos&limit=50&page=1",
+        {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: {}
+        }
+      )
+      .then((resp) => {
+        const taskList = [];
+
+        if (resp.data.total) {
+          for (
+            var i = 1;
+            i < Math.ceil(resp.data.total / itemsPerPage) + 1;
+            i++
+          ) {
+            taskList.push({
+              id: i,
+              description: "Task " + i,
+              completed: false
+            });
+            console.log(taskList);
+          }
+          setTasks(taskList);
+        }
+      });
+  }, []);
 
   function addNewTable() {
     // Your logic to insert products to the cart goes here
-    const openRequest = indexedDB.open("posDB", 4);
+    const openRequest = indexedDB.open("posDB", 7);
     console.log("event");
     openRequest.onupgradeneeded = (event) => {
       console.log(event);
@@ -186,11 +232,8 @@ function Syncdata() {
         objectStore.createIndex("tabIndex", "tab", { unique: false });
         objectStore.createIndex("statusIndex", "status", { unique: false });
 
-
-
         // You can add indexes for faster searching if needed
       }
-
     };
     openRequest.onsuccess = (event) => {
       // Database opened successfully, you can start using it
@@ -215,23 +258,124 @@ function Syncdata() {
       // console.log("cart insert completed");
     };
   }
+
+  const itemsPerPage = 50;
+  const offset = currentPage * itemsPerPage;
+  const currentPageData = data?.slice(offset, offset + itemsPerPage);
+
+  function createTable(tableName) {
+    // Open a connection to the IndexedDB database
+    const dbName = "posDB";
+    const dbVersion = 7;
+
+    let request = indexedDB.open(dbName, dbVersion);
+
+    request.onerror = function (event) {
+      console.error("Error opening database:", event.target.errorCode);
+    };
+
+    request.onupgradeneeded = function (event) {
+      const db = event.target.result;
+
+      // Create a new object store (table) if it doesn't exist
+      if (!db.objectStoreNames.contains(tableName)) {
+        db.createObjectStore(tableName, { keyPath: "id" });
+        // Replace "id" with your desired key for each record.
+        // Setting autoIncrement to true will automatically generate unique IDs for each record.
+      }
+
+      // Check if the object store (table) exists
+      if (db.objectStoreNames.contains("products")) {
+        // Delete the existing object store
+        db.deleteObjectStore("products");
+      }
+
+      // Recreate the object store without autoIncrement
+      const objectStore = db.createObjectStore("products", {
+        keyPath: "id"
+      });
+      // Replace "id" with your desired key for each record.
+    };
+
+    request.onsuccess = function (event) {
+      console.log("Database opened successfully!");
+      const db = event.target.result;
+      // You can start working with the database here
+    };
+
+    request.onblocked = function (event) {
+      console.error(
+        "Database connection blocked. Please close other tabs or applications using this database."
+      );
+    };
+  }
+
   return (
-    <div>
-      {/* Your component content */}
-
+    <div className="pr-5">
       <button onClick={handleSaveIndexDb} className="bg-dblue text-white p-2">
-        Save indexDb
+        Sync products all
       </button>
-
-      {/* <input
-        className="border"
-        onKeyUp={(e) => setSearch(e.target.value)}
-        placeholder="enter"
-      /> */}
 
       <button onClick={addNewTable} className="bg-dblue text-white p-2 mx-3">
         create new table
       </button>
+
+      <button
+        onClick={() => createTable("product")}
+        className="bg-dblue text-white p-2 mx-3"
+      >
+        create new table product
+      </button>
+
+      <div>
+        {syncing && (
+          <>
+            <br></br>
+            <ProgressBar progress={progress} />
+
+            <table class="table border-collapse border w-full mt-5">
+              <thead className=" text-left pr-bold bg-dlabelColor">
+                <tr class="border border-gray-400 p-2"> 
+                  <th class="border border-gray-400 p-2">#</th>
+                  <th class="border border-gray-400 p-2">sync</th>
+                  <th class="border border-gray-400 p-2">action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {tasks?.map((task, i) => (
+                  <tr key={i}>
+                    <td class="border border-gray-400 p-2">{task.id} </td>
+
+                    <td class="border border-gray-400 p-2">
+                      {" "}
+                      {task.completed ? (
+                        <span className="px-7 text-dgreen">Completed</span>
+                      ) : (
+                        <span className="px-7 text-dhotPink">
+                          Not Completed
+                        </span>
+                      )}
+                    </td>
+
+                    <td class="border border-gray-400 p-2">
+                      {" "}
+                      {!task.completed && (
+                        <button
+                          className="px-5 bg-dblue text-white"
+                          onClick={() => completeTask(task.id)}
+                        >
+                          Task
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
+      </div>
     </div>
   );
 }
