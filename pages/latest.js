@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cookie from "cookie";
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
@@ -6,6 +6,7 @@ import SingleProducts from "@/components/product/SingleProduct";
 import ReactPaginate from "react-paginate";
 import useDeviceSize from "@/components/useDeviceSize";
 import { useRouter } from "next/router";
+import { useMarketingData } from "@/contexts/MarketingContext";
 export default function latest(props) {
   const router = useRouter();
   const { limit, page } = router.query;
@@ -13,13 +14,13 @@ export default function latest(props) {
   const [showLimit, setShowLimit] = useState(false);
   //   const [pageNow, setpageNow] = useState(0);
   const [limitSetter, setLimitSetter] = useState(48);
-
   const [width, height] = useDeviceSize();
+  const { marketingData, setMarketingData } = useMarketingData();
 
+  console.log(data);
   //page
   const handlePageClick = (event) => {
     const new_page = parseInt(event.selected) + 1;
-    // alert(page)
 
     var now = "&page=" + new_page;
     if (page == undefined && limit === undefined) {
@@ -54,6 +55,28 @@ export default function latest(props) {
       setShowLimit(false);
     }
   };
+
+  useEffect(() => {
+    var social_data = data?.social_data;
+
+    if (
+      marketingData.source_type === "" ||
+      marketingData.source_type === null ||
+      typeof marketingData.source_type === "undefined"
+    ) {
+      social_data["ignore"] = true;
+    } else {
+      social_data["source_type"] = marketingData.source_type;
+      social_data["source_type_id"] = marketingData.source_type_id;
+      social_data["banner_image_id"] = marketingData.banner_image_id ? marketingData.banner_image_id : "";
+    }
+
+    axiosServer
+      .post(buildLink("pixel", undefined, window.innerWidth), social_data)
+      .then((response) => {
+      });
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between w-full p-3">
@@ -167,15 +190,15 @@ export async function getServerSideProps(context) {
     "&source_id=1" +
     `${limit != undefined ? "&limit=" + limit : ""}` +
     `${page != undefined ? "&page=" + page : ""}`;
-    console.log(link);
+  console.log(link);
   const response = await axiosServer.get(link, {
     headers: {
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   });
   if (!response.data.success) {
     return {
-      notFound: true
+      notFound: true,
     };
   }
 
@@ -183,7 +206,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      data
-    }
+      data,
+    },
   };
 }

@@ -125,20 +125,27 @@ export default function App({
     }
   }, []);
 
-
   return (
     <SessionProvider>
       <Head>
         <link rel="icon" href={favicon} />
         <title>{title}</title>
       </Head>
-      {host === "https://www.ishtari.com" || host === "ishtari" || (typeof window !== "undefined" && window.location.host === "www.ishtari.com") ? (
+      {host === "https://www.ishtari.com" ||
+      host === "ishtari" ||
+      (typeof window !== "undefined" &&
+        (window.location.host === "www.ishtari.com" ||
+          window.location.host === "next.ishtari.com")) ? (
         <Script
           id="tag"
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-991347483"
         />
-      ) : host === "https://www.ishtari.com.gh" || host === "ishtari-ghana" || (typeof window !== "undefined" && window.location.host === "www.ishtari.com.gh") ? (
+      ) : host === "https://www.ishtari.com.gh" ||
+        host === "ishtari-ghana" ||
+        (typeof window !== "undefined" &&
+          window.location.host === "www.ishtari.com.gh") ||
+        window.location.host === "next.ishtari.com.gh" ? (
         <Script
           id="tag"
           async
