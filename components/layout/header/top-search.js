@@ -6,7 +6,7 @@ import buildLink, { path } from "@/urls";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { BsSearch } from "react-icons/bs";
+import { BsFire, BsSearch } from "react-icons/bs";
 import { sanitizeHTML } from "@/components/Utils";
 
 // import {sellerImage}  from "/public/images/shop-svgrepo-com.svg";
@@ -23,10 +23,12 @@ function TopSearch() {
   const [loading, setLoading] = useState(false);
   const [stateAcc, dispatch] = useContext(AccountContext);
   const [message, setMessage] = useState();
+  const [trendingSearch, setTrendingSearch] = useState([]);
 
   function setShowSearchFunction() {
     setShowSearch(false);
-    setViewResults("");
+    setResults([]);
+    setViewResults(false);
   }
 
   useOutsideAlerter(wrapperRef);
@@ -55,6 +57,12 @@ function TopSearch() {
           if (ref.current && !ref.current.contains(event.target)) {
             setTimeout(() => setOverlay(false), 200);
             setTimeout(() => setViewResults(false), 200);
+            if (window.innerWidth > 1024) {
+              const input = document.getElementById("searchInput").value;
+              if (input.length === 0) {
+                setTimeout(() => setResults([]), 200);
+              }
+            }
           }
         }
         // Bind the event listener
@@ -85,14 +93,34 @@ function TopSearch() {
     }
   }
 
-
   function handleSearchResults() {
-    const input = document.getElementById("searchInput").value;
-    if (input === "") {
-      setViewResults(false);
-      setLoading(false);
-    } else {
+    if (window.innerWidth > 1024) {
+      const input = document.getElementById("searchInput").value;
+      // if (input === "") {
+      //   setViewResults(false);
+      //   setLoading(false);
+      // } else {
       setViewResults(true);
+      //}
+      if (trendingSearch.length === 0) {
+        axiosServer
+          .get(buildLink("trendingSearch", undefined, window.innerWidth))
+          .then((response) => {
+            console.log(response);
+            setTrendingSearch(response.data.data.topsearch);
+            setViewResults(true);
+          });
+      }
+    } else {
+      setShowSearch(true);
+      if (trendingSearch.length === 0) {
+        axiosServer
+          .get(buildLink("trendingSearch", undefined, window.innerWidth))
+          .then((response) => {
+            console.log(response);
+            setTrendingSearch(response.data.data.topsearch);
+          });
+      }
     }
   }
 
@@ -101,7 +129,8 @@ function TopSearch() {
     async function search() {
       setLoading(true);
       const res = await axiosServer.get(
-        buildLink("search", undefined, undefined, window.config['site-url']) + query
+        buildLink("search", undefined, undefined, window.config["site-url"]) +
+          query
       );
       try {
         setResults(!res?.data?.message && res?.data?.data);
@@ -175,10 +204,8 @@ function TopSearch() {
                         className="px-4 py-2 cursor-pointer hover:bg-dgrey flex border-b-2 border-dgrey  capitalize text-d14"
                         href={
                           isNaN(type)
-                            ?
-                              `${path}/search?keyword=${value}`
-                            : 
-                              `${path}/${value
+                            ? `${path}/search?keyword=${value}`
+                            : `${path}/${value
                                 .replaceAll("/", "-")
                                 .replaceAll("/", "-")
                                 .replaceAll("%", parseInt("%"))
@@ -236,6 +263,27 @@ function TopSearch() {
                       </Link>
                     ))}{" "}
               </div>
+            ) : results.length === 0 && trendingSearch.length > 0 ? (
+              <div>
+                {trendingSearch.length > 0 && (
+                  <div className="px-4 py-2">
+                    <div className="flex items-center gap-2 pr-semibold text-d18 py-2">
+                      Trending <BsFire className="text-dbase" />
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {trendingSearch.map((search, index) => (
+                        <Link
+                          href={`${path}/search?keyword=${search.keyphrase}`}
+                          key={index}
+                          className="bg-dsearchGrey px-2.5 py-1 cursor-pointer"
+                        >
+                          {search.keyphrase}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               <span className="text-dgrey1 space-y-0 font-light text-right m-2">
                 {message}{" "}
@@ -265,11 +313,11 @@ function TopSearch() {
           }}
         />
         <i
-          onClick={() => setShowSearch(true)}
+          onClick={() => handleSearchResults()}
           className="block lg:hidden icon icon-search text-dgreyBlack text-2xl"
         ></i>
         {/* Results */}
-        {results.length > 0 && viewResults && (
+        {results.length > 0 && viewResults ? (
           <div
             onClick={() => setOverlay(false)}
             className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
@@ -296,7 +344,7 @@ function TopSearch() {
                   }
                 >
                   <span className="flex w-full items-center align-middle  h-auto my-2 px-1 ">
-                    <span class="w-12 ">
+                    <span className="w-12 ">
                       {img.length > 0 ? (
                         <img
                           onError={(event) => (event.target.src = sq)}
@@ -341,6 +389,32 @@ function TopSearch() {
                 </Link>
               ))}
           </div>
+        ) : results.length === 0 && viewResults && trendingSearch.length > 0 ? (
+          <div
+            onClick={() => setOverlay(false)}
+            className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
+          >
+            {trendingSearch.length > 0 && (
+              <div className="px-4 py-2">
+                <div className="flex items-center gap-2 pr-semibold text-d18 py-2">
+                  Trending <BsFire className="text-dbase" />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {trendingSearch.map((search, index) => (
+                    <Link
+                      href={`${path}/search?keyword=${search.keyphrase}`}
+                      key={index}
+                      className="bg-dsearchGrey px-2.5 py-1 cursor-pointer"
+                    >
+                      {search.keyphrase}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <></>
         )}
       </div>
     </>
