@@ -120,9 +120,7 @@ export default function App({
       }
       gtag("js", new Date());
       gtag("config", "AW-10993907106");
-    } else {
-      document.getElementById("tag").src = "";
-    }
+    } 
   }, []);
 
   return (

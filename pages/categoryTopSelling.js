@@ -1,11 +1,53 @@
-import React from 'react'
+import { axiosServer } from "@/axiosServer";
+import buildLink from "@/urls";
+import cookie from "cookie";
 
-function categoryTopSelling() {
+function categoryTopSelling(props) {
+  const { data } = props;
+  console.log(data);
   return (
-    <div className='py-5'>
-        <div className='pr-semibold text-d20 text-dblack'>Top Sellings for category name</div>
+    <div className="py-5">
+      <div className="pr-semibold text-d20 text-dblack">
+        Top Sellings for category name
+      </div>
     </div>
-  )
+  );
 }
 
-export default categoryTopSelling
+export default categoryTopSelling;
+
+export async function getServerSideProps(context) {
+  const category_id = context.query.category_id;
+  const { req } = context;
+  const host = req.headers.host;
+
+  const cookies = req.headers.cookie;
+  const parsedCookies = cookie.parse(cookies);
+  const host_cookie = parsedCookies["site-local-name"];
+  const token = parsedCookies["api-token"];
+  let site_host = "";
+  if (host_cookie === undefined || typeof host_cookie === "undefined") {
+    site_host = host;
+  } else {
+    site_host = host_cookie;
+  }
+
+  const response = await axiosServer.get(
+    buildLink("getAllTopSellingbyCategoryid", undefined, undefined, site_host) +
+      "&category_id=" +
+      category_id,
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  const data = response.data;
+
+  return {
+    props: {
+      data
+    },
+  };
+}
