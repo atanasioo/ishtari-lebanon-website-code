@@ -1,14 +1,21 @@
 import { axiosServer } from "@/axiosServer";
+import SingleProduct from "@/components/product/SingleProduct";
+import { sanitizeHTML } from "@/components/Utils";
 import buildLink from "@/urls";
 import cookie from "cookie";
 
 function categoryTopSelling(props) {
   const { data } = props;
-  console.log(data);
   return (
-    <div className="py-5">
+    <div className="py-7 container">
       <div className="pr-semibold text-d20 text-dblack">
-        Top Sellings for category name
+        Top Sellings for {" "}
+        <span dangerouslySetInnerHTML={{__html: sanitizeHTML(data?.data?.category_name)}}></span>
+      </div>
+      <div className="product-grid-container grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-3 mt-7">
+        {data?.data?.products?.map((item) => (
+          <SingleProduct key={item.product_id} item = {item} />
+        ))}
       </div>
     </div>
   );

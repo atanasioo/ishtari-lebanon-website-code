@@ -120,14 +120,27 @@ export default function App({
       }
       gtag("js", new Date());
       gtag("config", "AW-10993907106");
-    } 
+    }
   }, []);
+
+  console.log(host);
 
   return (
     <SessionProvider>
       <Head>
         <link rel="icon" href={favicon} />
         <title>{title}</title>
+        {(host === "https://www.ishtari.com.gh" ||
+          host === "ishtari-ghana" ||
+          (typeof window !== "undefined" &&
+            (window.location.host === "www.ishtari.com.gh" ||
+              window.location.host === "next.ishtari.com.gh" || window.location.host === "localhost:3000"))) && (
+              <meta
+                id="csp"
+                http-equiv="Content-Security-Policy"
+                content="default-src 'self' data:; script-src 'self' 'unsafe-inline' https://www.ishtari.com/ https://www.ishtari.com.gh/ *.ishtari.com/ *.ishtari.com.gh/ 'unsafe-eval' https: ; style-src 'self' 'unsafe-inline' ; base-uri 'self' https://www.ishtari.com/ https://www.ishtari.com.gh/ *.ishtari.com/ *.ishtari.com.gh/ ; img-src 'self' https://www.ishtari.com/ https://www.ishtari.com.gh/ https://ishtari.com *.ishtari.com/ *.ishtari.com.gh/ *.sari3.com *.google.com/ *.google.com.lb/ *.facebook.com *.connect.facebook.net  data:; manifest-src 'self'; frame-src 'self' https://td.doubleclick.net/ *.facebook.com https://test-gateway.mastercard.com/ ; connect-src 'self' https:;"
+              />
+             )} 
       </Head>
       {host === "https://www.ishtari.com" ||
       host === "ishtari" ||
@@ -143,7 +156,7 @@ export default function App({
         host === "ishtari-ghana" ||
         (typeof window !== "undefined" &&
           (window.location.host === "www.ishtari.com.gh" ||
-          window.location.host === "next.ishtari.com.gh"))  ? (
+            window.location.host === "next.ishtari.com.gh")) ? (
         <Script
           id="tag"
           async

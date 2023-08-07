@@ -132,7 +132,7 @@ function SingleProduct(props) {
       onClick={handleLinkClick}
       href={`${path}/${item.name
         .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-        .replaceAll("%", parseInt(""))
+        .replaceAll("%", "")
         .replaceAll(/\s+/g, "-")
         .replaceAll("..", "")
         .replaceAll("/", "-")

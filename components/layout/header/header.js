@@ -174,14 +174,6 @@ function Header(props) {
                   priority={true}
                   style={{ width: "80%", height: "auto" }}
                 />
-
-                {/* <ImageFilter
-                  className="h-5 w-24 mr-5 mobile:hidden"
-                  image={"/images/logo/logo-white.png"}
-                  filter={"duotone"} // see docs beneath
-                  colorOne={[96, 96, 96]}
-                  colorTwo={[65, 69, 81]}
-                /> */}
                 <Image
                   className="mobile:hidden"
                   src="/images/logo/logo-dblack2.png"
@@ -203,14 +195,6 @@ function Header(props) {
                   priority={true}
                   style={{ width: "80%", height: "auto" }}
                 />
-
-                {/* <ImageFilter
-                  className="h-5 w-24 mr-5 mobile:hidden"
-                  image={"/images/logo/logo-white.png"}
-                  filter={"duotone"} // see docs beneath
-                  colorOne={[96, 96, 96]}
-                  colorTwo={[65, 69, 81]}
-                /> */}
                 <Image
                   className="mobile:hidden"
                   src="/images/logo/logo-dblack2
@@ -234,14 +218,6 @@ function Header(props) {
                   priority={true}
                   style={{ width: "80%", height: "auto" }}
                 />
-
-                {/* <ImageFilter
-                  className="h-5 w-24 mr-5 mobile:hidden"
-                  image={"/images/logo/logo-white.png"}
-                  filter={"duotone"} // see docs beneath
-                  colorOne={[96, 96, 96]}
-                  colorTwo={[65, 69, 81]}
-                /> */}
                 <Image
                   className="mobile:hidden"
                   src="/images/logo/logo-dblack2.png"

@@ -107,7 +107,6 @@ function DesktopMenuClientPopups(props) {
                     <div
                       key={category.category_id}
                       onMouseEnter={() =>
-                        // setSelectedTopCategory(category)
                         {
                           handleState("selectedTopCategory", category);
                         }

@@ -100,6 +100,7 @@ function DesktopMenuCategories(props) {
   useEffect(() => {
     setOverlay(false);
     setViewMenuCategories2(false);
+    setViewSubAllCategories2(false);
   }, [router]);
 
   function useTimeout(callback, delay) {
