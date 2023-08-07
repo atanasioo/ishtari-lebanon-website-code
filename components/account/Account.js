@@ -34,7 +34,7 @@ function Account() {
   const path = "";
   const handleFacebookLogin = async () => {
     const result = await signIn("facebook");
-    alert(result);
+    // alert(result);
     console.log(result);
     if (result?.error) {
       console.log("Facebook login error:", result.error);
