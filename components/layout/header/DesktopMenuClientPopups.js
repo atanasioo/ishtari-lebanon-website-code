@@ -93,7 +93,7 @@ function DesktopMenuClientPopups(props) {
 
       {viewSubAllCategories2 && (
         <div
-          className="relative"
+          className="relative container"
           onMouseEnter={() => {
             handleState("viewSubAllCategories2", true);
             handleState("overlay", true);
