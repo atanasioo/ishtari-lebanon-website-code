@@ -240,8 +240,6 @@ function DesktopMenuCategories(props) {
         viewSubAllCategories2={viewSubAllCategories2}
         selectedMenuCategory2={selectedMenuCategory2}
         allCategories={allCategories}
-        // setSelectedTopCategory={setSelectedTopCategory}
-        // setViewMenuCategories2={setViewMenuCategories2}
         handleState={handleState}
         selectedTopCategory={selectedTopCategory}
         viewMenuCategories2={viewMenuCategories2}

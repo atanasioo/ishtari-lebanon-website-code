@@ -6,12 +6,13 @@ import buildLink, { path } from "@/urls";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { BsFire, BsSearch } from "react-icons/bs";
+import { BsFire, BsSearch, BsTrash } from "react-icons/bs";
 import { sanitizeHTML } from "@/components/Utils";
 
 // import {sellerImage}  from "/public/images/shop-svgrepo-com.svg";
 // import {brandImage}  from "/public/images/brand-svgrepo-com.svg";
 import { AccountContext } from "@/contexts/AccountContext";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 function TopSearch() {
   const wrapperRef = useRef(null);
@@ -24,6 +25,8 @@ function TopSearch() {
   const [stateAcc, dispatch] = useContext(AccountContext);
   const [message, setMessage] = useState();
   const [trendingSearch, setTrendingSearch] = useState([]);
+  const [searchHistory, setSearchHistory] = useState([]);
+  const [trash, setTrash] = useState(true);
 
   function setShowSearchFunction() {
     setShowSearch(false);
@@ -48,19 +51,19 @@ function TopSearch() {
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
-
       if (overlay) {
         function handleClickOutside(event) {
           if (ref.current && !ref.current.contains(event.target)) {
-            setTimeout(() => setOverlay(false), 200);
-            setTimeout(() => setViewResults(false), 200);
-            if (window.innerWidth > 1024) {
-              const input = document.getElementById("searchInput").value;
-              if (input.length === 0) {
-                setTimeout(() => setResults([]), 200);
+            const isTrashIconClicked = event.target.closest(".trash-icon");
+            if (!isTrashIconClicked) {
+              setTimeout(() => setOverlay(false), 200);
+              setTimeout(() => setViewResults(false), 200);
+              if (window.innerWidth > 1024) {
+                const input = document.getElementById("searchInput").value;
+                if (input.length === 0) {
+                  setTimeout(() => setResults([]), 200);
+                }
+                setTimeout(() => setTrash(true), 200);
               }
             }
           }
@@ -79,12 +82,50 @@ function TopSearch() {
       const query = e.target.value;
       setQuery("");
       setLoading(false);
+      saveSearchHistory(query);
       router.push({
         pathname: "/search",
         search: "?keyword=" + query,
         state: location.pathname,
       });
     }
+  }
+
+  function saveSearchHistory(query) {
+    let searchHistory =
+      JSON.parse(localStorage.getItem("search_history")) || [];
+
+    searchHistory.unshift(query);
+
+    if (searchHistory.length > 10) {
+      searchHistory.pop();
+    }
+
+    setSearchHistory(searchHistory);
+
+    localStorage.setItem("search_history", JSON.stringify(searchHistory));
+  }
+
+  function deleteHistoryItem(e, index) {
+    e.preventDefault();
+    let searchHistory =
+      JSON.parse(localStorage.getItem("search_history")) || [];
+
+    searchHistory.splice(index, 1);
+
+    setSearchHistory(searchHistory);
+
+    localStorage.setItem("search_history", JSON.stringify(searchHistory));
+  }
+
+  function clearAllHistory(){
+    let searchHistory =
+    JSON.parse(localStorage.getItem("search_history")) || [];
+    searchHistory = [];
+    setSearchHistory(searchHistory);
+
+    localStorage.setItem("search_history", JSON.stringify(searchHistory));
+    setTrash(true)
   }
 
   function handleOverlay(e) {
@@ -125,7 +166,6 @@ function TopSearch() {
   }
 
   useEffect(() => {
-    // const source = axios.CancelToken.source();
     async function search() {
       setLoading(true);
       const res = await axiosServer.get(
@@ -154,6 +194,11 @@ function TopSearch() {
 
     // return () => source.cancel("Previous request is canceled");
   }, [query]);
+
+  useEffect(() => {
+    const history = JSON.parse(localStorage.getItem("search_history")) || [];
+    setSearchHistory(history);
+  }, []);
 
   return (
     <>
@@ -214,6 +259,7 @@ function TopSearch() {
                                 1
                               )}=${id}`
                         }
+                        onClick={() => saveSearchHistory(value)}
                       >
                         <span className="flex w-full align-middle items-center   h-auto my-2 px-1 ">
                           <span class="w-12 ">
@@ -223,7 +269,7 @@ function TopSearch() {
                                 width="24"
                                 height="24"
                                 src={`${window.config["site-url"]}/image/${img}`}
-                                alt=""
+                                alt="image"
                               />
                             ) : types[type] === "seller" ||
                               types[type] === "manufacturer" ? (
@@ -236,7 +282,7 @@ function TopSearch() {
                                     ? "/images/shop-svgrepo-com.svg"
                                     : "/images/brand-svgrepo-com.svg"
                                 }
-                                alt=""
+                                alt="catalog_image"
                               />
                             ) : (
                               <BsSearch />
@@ -342,6 +388,7 @@ function TopSearch() {
                           1
                         )}=${id}`
                   }
+                  onClick={() => saveSearchHistory(value)}
                 >
                   <span className="flex w-full items-center align-middle  h-auto my-2 px-1 ">
                     <span className="w-12 ">
@@ -364,7 +411,7 @@ function TopSearch() {
                               ? "/images/shop-svgrepo-com.svg"
                               : "/images/brand-svgrepo-com.svg"
                           }
-                          alt=""
+                          alt="catalog_image"
                         />
                       ) : (
                         <BsSearch />
@@ -389,11 +436,56 @@ function TopSearch() {
                 </Link>
               ))}
           </div>
-        ) : results.length === 0 && viewResults && trendingSearch.length > 0 ? (
-          <div
-            onClick={() => setOverlay(false)}
-            className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
-          >
+        ) : results.length === 0 &&
+          viewResults &&
+          (trendingSearch.length > 0 || searchHistory.length > 0) ? (
+          <div className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none">
+            {searchHistory.length > 0 && (
+              <div className="px-4 py-2 trash-icon">
+                <div className="flex items-center justify-between gap-2 py-2 ">
+                  <div className="pr-semibold text-d18">Recently Searched</div>
+
+                  {trash ? (
+                    <BsTrash
+                      className="w-4 h-4 text-dgrey1 cursor-pointer "
+                      onClick={() => setTrash(false)}
+                    />
+                  ) : (
+                    <div className="flex items-center text-sm gap-4 pr-light">
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => clearAllHistory()}
+                      >
+                        Clear All
+                      </div>
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => setTrash(true)}
+                      >
+                        Done
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {searchHistory.map((history, index) => (
+                    <Link
+                      href={`${path}/search?keyword=${history}`}
+                      key={index}
+                      className="bg-dsearchGrey px-2.5 py-1 cursor-pointer relative"
+                    >
+                      <div onClick={() => setOverlay(false)}>{history}</div>
+                      {!trash && (
+                        <AiFillCloseCircle
+                          onClick={(e) => deleteHistoryItem(e, index)}
+                          className="absolute text-dgreyQtyProduct w-5 h-4 -top-1 -right-1"
+                        />
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
             {trendingSearch.length > 0 && (
               <div className="px-4 py-2">
                 <div className="flex items-center gap-2 pr-semibold text-d18 py-2">
