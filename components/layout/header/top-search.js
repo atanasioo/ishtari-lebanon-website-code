@@ -25,6 +25,7 @@ function TopSearch() {
   const [stateAcc, dispatch] = useContext(AccountContext);
   const [message, setMessage] = useState();
   const [trendingSearch, setTrendingSearch] = useState([]);
+  const [trendingLoading, setTrendingLoading] = useState(true);
   const [searchHistory, setSearchHistory] = useState([]);
   const [trash, setTrash] = useState(true);
 
@@ -118,14 +119,14 @@ function TopSearch() {
     localStorage.setItem("search_history", JSON.stringify(searchHistory));
   }
 
-  function clearAllHistory(){
+  function clearAllHistory() {
     let searchHistory =
-    JSON.parse(localStorage.getItem("search_history")) || [];
+      JSON.parse(localStorage.getItem("search_history")) || [];
     searchHistory = [];
     setSearchHistory(searchHistory);
 
     localStorage.setItem("search_history", JSON.stringify(searchHistory));
-    setTrash(true)
+    setTrash(true);
   }
 
   function handleOverlay(e) {
@@ -147,9 +148,9 @@ function TopSearch() {
         axiosServer
           .get(buildLink("trendingSearch", undefined, window.innerWidth))
           .then((response) => {
-            console.log(response);
             setTrendingSearch(response.data.data.topsearch);
             setViewResults(true);
+            setTrendingLoading(false);
           });
       }
     } else {
@@ -158,8 +159,8 @@ function TopSearch() {
         axiosServer
           .get(buildLink("trendingSearch", undefined, window.innerWidth))
           .then((response) => {
-            console.log(response);
             setTrendingSearch(response.data.data.topsearch);
+            setTrendingLoading(false);
           });
       }
     }
@@ -486,7 +487,8 @@ function TopSearch() {
                 </div>
               </div>
             )}
-            {trendingSearch.length > 0 && (
+
+            {trendingSearch.length > 0 && !trendingLoading ? (
               <div className="px-4 py-2">
                 <div className="flex items-center gap-2 pr-semibold text-d18 py-2">
                   Trending <BsFire className="text-dbase" />
@@ -501,6 +503,24 @@ function TopSearch() {
                       {search.keyphrase}
                     </Link>
                   ))}
+                </div>
+              </div>
+            ) : (
+              <div className="px-4 py-2">
+                <div className="flex items-center gap-2 pr-semibold text-d18 py-2">
+                  Trending <BsFire className="text-dbase" />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
+                  <div className="bg-dsearchGrey px-7 py-4 cursor-pointer"></div>
                 </div>
               </div>
             )}
