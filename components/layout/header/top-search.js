@@ -312,6 +312,55 @@ function TopSearch() {
               </div>
             ) : results.length === 0 && trendingSearch.length > 0 ? (
               <div>
+                {searchHistory.length > 0 && (
+                  <div className="px-4 py-2 trash-icon">
+                    <div className="flex items-center justify-between gap-2 py-2 ">
+                      <div className="pr-semibold text-d18">
+                        Recently Searched
+                      </div>
+
+                      {trash ? (
+                        <BsTrash
+                          className="w-4 h-4 text-dgrey1 cursor-pointer "
+                          onClick={() => setTrash(false)}
+                        />
+                      ) : (
+                        <div className="flex items-center text-sm gap-4 pr-light">
+                          <div
+                            className="cursor-pointer"
+                            onClick={() => clearAllHistory()}
+                          >
+                            Clear All
+                          </div>
+                          <div
+                            className="cursor-pointer"
+                            onClick={() => setTrash(true)}
+                          >
+                            Done
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {searchHistory.map((history, index) => (
+                        <Link
+                          href={`${path}/search?keyword=${history}`}
+                          key={index}
+                          className="bg-dsearchGrey px-2.5 py-1 cursor-pointer relative"
+                        >
+                          <div onClick={() => setOverlay(false)}>{history}</div>
+                          {!trash && (
+                            <AiFillCloseCircle
+                              onClick={(e) => deleteHistoryItem(e, index)}
+                              className="absolute text-dgreyQtyProduct w-5 h-4 -top-1 -right-1"
+                            />
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {trendingSearch.length > 0 && (
                   <div className="px-4 py-2">
                     <div className="flex items-center gap-2 pr-semibold text-d18 py-2">
