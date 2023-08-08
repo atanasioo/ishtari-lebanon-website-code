@@ -27,7 +27,7 @@ function Pos() {
   const couponRef = useRef("");
 
   useEffect(() => {
-    addNewTable()
+    addNewTable();
     const handleOnlineStatusChange = () => {
       setIsOnline(window.navigator.onLine);
     };
@@ -80,13 +80,12 @@ function Pos() {
     console.log("request" + request);
 
     request.onupgradeneeded = (event) => {
-     
       const db = event.target.result;
 
       // Check if the object store already exists
       if (!db.objectStoreNames.contains("draft_cart")) {
         // Create a new object store with an auto-incrementing key
-       db.createObjectStore("draft_cart", {
+        db.createObjectStore("draft_cart", {
           keyPath: "id",
           autoIncrement: false
         });
@@ -94,20 +93,19 @@ function Pos() {
 
       if (!db.objectStoreNames.contains("products")) {
         // Create a new object store with an auto-incrementing key
-       db.createObjectStore("products", {
+        db.createObjectStore("products", {
           keyPath: "id",
           autoIncrement: false
-        })
+        });
       }
 
       if (!db.objectStoreNames.contains("orders")) {
         // Create a new object store with an auto-incrementing key
-       db.createObjectStore("orders", {
+        db.createObjectStore("orders", {
           keyPath: "id",
           autoIncrement: false
-        })
+        });
       }
-
     };
 
     request.onsuccess = (event) => {
@@ -573,7 +571,7 @@ function Pos() {
     window.open(url, "_blank", windowFeatures);
   }
   function manual(confirm) {
-    saveOrderLocal()
+    saveOrderLocal();
     let body = {};
     console.log(result);
     let temp = [];
@@ -609,7 +607,7 @@ function Pos() {
         lastname: lnameRef?.current?.value || "Local Customer",
         email: "",
         address_1: "store",
-         telephone:"96100000000",
+        telephone: "96100000000",
         address_2: "store store",
         city: "",
         shipping_method: "Delivery ( 1-4 days )",
@@ -630,10 +628,20 @@ function Pos() {
         source_id: 1,
         coupon: couponRef.current.value || "",
         code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
-        total:  amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+        total: amountRef.current.value
+          ? total -
+            (typeRef.current.value == "amount"
+              ? amountRef.current.value
+              : (total * amountRef.current.value) / 100)
+          : total,
         sub_total: total,
-        user_id: 1069, 
-        order_total: amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+        user_id: 1069,
+        order_total: amountRef.current.value
+          ? total -
+            (typeRef.current.value == "amount"
+              ? amountRef.current.value
+              : (total * amountRef.current.value) / 100)
+          : total
       };
     } else {
       body = {
@@ -643,7 +651,7 @@ function Pos() {
         lastname: lnameRef?.current?.value || "Local Customer",
         email: "",
         address_1: "store",
-        telephone:  "96100000000",
+        telephone: "96100000000",
         address_2: "store store",
         city: "",
         shipping_method: "Delivery ( 1-4 days )",
@@ -658,10 +666,20 @@ function Pos() {
         modification: amountRef.current.value,
         modification_remarque: remarqueRef.current.value,
         currency_code: "USD",
-        total:  amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+        total: amountRef.current.value
+          ? total -
+            (typeRef.current.value == "amount"
+              ? amountRef.current.value
+              : (total * amountRef.current.value) / 100)
+          : total,
         sub_total: total,
         user_id: 1069, //Cookies.get("salsMan") ? Cookies.get("salsMan") : "",
-        order_total: amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+        order_total: amountRef.current.value
+          ? total -
+            (typeRef.current.value == "amount"
+              ? amountRef.current.value
+              : (total * amountRef.current.value) / 100)
+          : total,
         town_id: "",
         town: "",
         is_web: true,
@@ -690,8 +708,9 @@ function Pos() {
               // setError(response?.data?.errors);
               setManualResponse(response?.data?.data);
               if (
-                response?.data?.errors.length === 1 && confirm  &&
-                (response?.data.message === "OUT OF STOCK" || 
+                response?.data?.errors.length === 1 &&
+                confirm &&
+                (response?.data.message === "OUT OF STOCK" ||
                   response?.data?.message?.includes("STOCK") ||
                   response?.data.message.includes("stock") ||
                   response?.data.message.includes("Stock"))
@@ -708,7 +727,6 @@ function Pos() {
                 paymentForm(confirm, "cod");
                 handlePrintOrder();
                 localStorage.setItem("print_order", response?.data?.data);
-
               }
             }
           })
@@ -716,40 +734,36 @@ function Pos() {
   }
   // save order
   function saveOrderLocal() {
-    const dbName = 'posDB';
+    const dbName = "posDB";
     const dbVersion = 8;
-    
+
     const request = indexedDB.open(dbName, dbVersion);
-    
+
     // Handle database upgrade or creation
-    request.onupgradeneeded = function(event) {
+    request.onupgradeneeded = function (event) {
       const db = event.target.result;
-    
+
       // Create an object store (table) in the database
-      if (!db.objectStoreNames.contains('orders')) {
-        const objectStore = db.createObjectStore('orders', { keyPath: 'order_id', autoIncrement: false });
+      if (!db.objectStoreNames.contains("orders")) {
+        const objectStore = db.createObjectStore("orders", {
+          keyPath: "order_id",
+          autoIncrement: false
+        });
       }
     };
-    
+
     // Handle successful database opening
-    request.onsuccess = function(event) {
+    request.onsuccess = function (event) {
       const db = event.target.result;
-      console.log('Database opened successfully.');
-    
+      console.log("Database opened successfully.");
+
       // Now you can perform CRUD operations on the object store.
     };
-    
+
     // Handle database opening error
-    request.onerror = function(event) {
-      console.error('Error opening database:', event.target.error);
+    request.onerror = function (event) {
+      console.error("Error opening database:", event.target.error);
     };
-  
-    
-    
-    
-    
-
-
   }
   function paymentForm(confirm, p_m) {
     axiosServer
@@ -805,7 +819,7 @@ function Pos() {
         // setShowCalculate(false);
         // setOpacity(true);
         addToLocalStorage(data?.data?.orderDetails?.order_id);
-        saveOrderLocal()
+        saveOrderLocal();
       } else {
         // addToLocalStorageError(data);
         // localStorage.setItem("print_Order", data);
@@ -849,7 +863,7 @@ function Pos() {
     <div className="fixed min-h-screen w-full z-30 top-0 bg-dgrey -ml-3">
       {/* Add your POS page content here */}
       {showModel && (
-        <> 
+        <>
           <div className="absolute z-10 w-full min-h-screen bg-dblack opacity-20 -ml-3 pointer-events-none flex justify-center "></div>
           <div class="absolute w-1/2  left-1/4 top-5  z-50">
             <div class="absolute top-0 z-50"></div>
@@ -971,18 +985,17 @@ function Pos() {
                       )
                   )
                 ) : (
-                  <div className="w-1/2">
-                    <div className="flex">
+                  <div className="">
+                    <div className="flex items-center justify-between mb-1 text-dblack w-1/2">
                       <div className=" w-1/4"> Sub-Total: </div>{" "}
                       <div className="  "> ${total}</div>
                     </div>
-                    <div className="flex">
+                    <div className="flex items-center justify-between mb-1 text-dblack w-1/2">
                       <div className=""> Total: </div>{" "}
                       <div className=" "> ${total}</div>
                     </div>
                   </div>
                 )}
-                
                 {/* <div className="grid grid-cols-2 space-y-1  pt-2">
                   <div className="text-l w-1/4"> Number: </div>{" "}
                   <div className="text-xl">
@@ -1002,7 +1015,9 @@ function Pos() {
                     Cancel
                   </button>
                   <button
-                    onClick={() =>{ manual(true)}}
+                    onClick={() => {
+                      manual(true);
+                    }}
                     class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-dhotPink rounded-full hover:shadow-lg hover:bg-red-600"
                   >
                     Save
@@ -1111,8 +1126,18 @@ function Pos() {
           </div>
         </div>
         <div className="w-4/12 pt-5 ">
-          <Link href="/postest/posTest1?tab=2"  className="w-full p-3 bg-dblue text-white m-5">New Order In Tab 2</Link>
-          <Link href="/postest/posTest1?tab=3"  className="w-full p-3 bg-dblue text-white m-5">New Order In Tab 3</Link>
+          <Link
+            href="/postest/posTest1?tab=2"
+            className="w-full p-3 bg-dblue text-white m-5"
+          >
+            New Order In Tab 2
+          </Link>
+          <Link
+            href="/postest/posTest1?tab=3"
+            className="w-full p-3 bg-dblue text-white m-5"
+          >
+            New Order In Tab 3
+          </Link>
         </div>
         <div className=" fixed flex w-full bottom-0 justify-between  h-1/12 bg-white p-6  ">
           <div className="flex ">
