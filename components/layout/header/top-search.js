@@ -41,6 +41,7 @@ function TopSearch() {
     setResults([]);
     setViewResults(false);
     setShowSearch(false);
+    setTrash(true);
   }, [router]);
 
   const types = {
