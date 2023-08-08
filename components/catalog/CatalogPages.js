@@ -1106,7 +1106,7 @@ function CatalogPage(props) {
           </div>
 
           <div className="flex  mobile:hidden">
-            <div className="w-screen bg-white -mx-4 mt-3">
+            <div className="w-full  bg-white  mt-3">
               <div className="grid grid-cols-2 divide-x divide-dinputBorder bg-white py-2 rounded">
                 <button
                   onClick={() => setShowMobileFilter(true)}
@@ -2238,7 +2238,7 @@ function CatalogPage(props) {
       </div>
 
       {filters && showMobileFilter && (
-        <div className="bg-white fixed w-full z-30 top-0  h-screen py-3 ">
+        <div className="bg-white absolute w-full z-50 top-0  h-screen py-3 ">
           <div className="flex justify-between pl-2 pr-7">
             <div className="text-d22">Filters</div>{" "}
             <div
@@ -2248,7 +2248,7 @@ function CatalogPage(props) {
               <AiOutlineClose />
             </div>
           </div>
-          <div className=" w-full h-screen pl-2 pr-7 overflow-y-auto">
+          <div className=" w-full h-screen pl-2 pr-7 pb-12 overflow-y-auto bg-white">
             {Object.keys(filters).map((key) => (
               <div className="py-2">
                 {filters[key].items.length > 0 && (

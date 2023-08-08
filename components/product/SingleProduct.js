@@ -215,7 +215,7 @@ function SingleProduct(props) {
                   props?.item?.option_color_count > 1 ? (
                     <div className="flex items-center flex-col ">
                       <div
-                        className="text-d12 absolute bottom-0 z-50 font-semibold mb-2 px-3 overflow-hidden whitespace-nowrap overflow-ellipsis w-auto bg-dprimarybg"
+                        className="text-d12 absolute bottom-0 z-30 font-semibold mb-2 px-3 overflow-hidden whitespace-nowrap overflow-ellipsis w-auto bg-dprimarybg"
                         style={{
                           borderRadius: "30px",
                           // background: "rgb(239, 243, 253)",

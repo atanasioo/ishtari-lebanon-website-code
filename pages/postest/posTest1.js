@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import { axiosServer } from "@/axiosServer";
 import { useRouter } from "next/router";
+import buildLink from "@/urls";
+import Link from "next/link";
 function Pos() {
   const [result, setResult] = useState();
   const [update, setUpdate] = useState(false);
   const [total, setTotal] = useState(false);
-  const qtyRef = useRef("");
 
   const router = useRouter();
 
@@ -14,7 +15,19 @@ function Pos() {
 
   const [isOnline, setIsOnline] = useState(true);
 
+  const [modificationError, setModificationError] = useState({});
+
+  const [manualResponse, setManualResponse] = useState({});
+
+  const fnameRef = useRef();
+  const lnameRef = useRef();
+  const typeRef = useRef("");
+  const amountRef = useRef("");
+  const remarqueRef = useRef("");
+  const couponRef = useRef("");
+
   useEffect(() => {
+    addNewTable()
     const handleOnlineStatusChange = () => {
       setIsOnline(window.navigator.onLine);
     };
@@ -59,7 +72,7 @@ function Pos() {
     console.log("omar");
     // Your logic to insert products to the cart goes here
     const dbName = "posDB";
-    const dbVersion = 5;
+    const dbVersion = 8;
     const objectStoreName = "draft_cart";
 
     // Open a connection to a database or create it if it doesn't exist.
@@ -67,22 +80,34 @@ function Pos() {
     console.log("request" + request);
 
     request.onupgradeneeded = (event) => {
-      console.log("event");
+     
       const db = event.target.result;
-      console.log(db);
+
       // Check if the object store already exists
-      if (!db.objectStoreNames.contains(objectStoreName)) {
+      if (!db.objectStoreNames.contains("draft_cart")) {
         // Create a new object store with an auto-incrementing key
-        const objectStore = db.createObjectStore(objectStoreName, {
+       db.createObjectStore("draft_cart", {
           keyPath: "id",
           autoIncrement: false
         });
-
-        // // You can create indexes on the object store for faster querying
-        // objectStore.createIndex('nameIndex', 'name', { unique: false });
-        // objectStore.createIndex('ageIndex', 'age', { unique: false });
-        // Add more indexes as needed for your use case.
       }
+
+      if (!db.objectStoreNames.contains("products")) {
+        // Create a new object store with an auto-incrementing key
+       db.createObjectStore("products", {
+          keyPath: "id",
+          autoIncrement: false
+        })
+      }
+
+      if (!db.objectStoreNames.contains("orders")) {
+        // Create a new object store with an auto-incrementing key
+       db.createObjectStore("orders", {
+          keyPath: "id",
+          autoIncrement: false
+        })
+      }
+
     };
 
     request.onsuccess = (event) => {
@@ -96,7 +121,7 @@ function Pos() {
     };
   }
   useEffect(() => {
-    const request = indexedDB.open("posDB", 7);
+    const request = indexedDB.open("posDB", 8);
 
     request.onerror = function (event) {
       console.error("Database error: ", event.target.errorCode);
@@ -125,7 +150,7 @@ function Pos() {
   // search product bay barcode, sku and model
   function queryProductsByBarcodeAndOption(dbName, objectStoreName, search) {
     return new Promise((resolve, reject) => {
-      const openRequest = indexedDB.open(dbName, 7);
+      const openRequest = indexedDB.open(dbName, 8);
 
       openRequest.onsuccess = (event) => {
         const db = event.target.result;
@@ -140,7 +165,7 @@ function Pos() {
         const request1 = table1Store.get(objectIdToUpdate);
 
         request1.onsuccess = (event) => {
-          const result = event.target.result.cart;
+          const result = event.target.result && event.target.result.cart;
 
           const cart = result != null && result;
 
@@ -205,11 +230,14 @@ function Pos() {
       for (const id in option) {
         if (option[id].barcode === search) {
           return {
+            product_id: obj[key].data?.product_id,
             name: obj[key].data.name,
             price: obj[key].data.price,
             sku: obj[key].data.sku,
             option_name: obj[key]?.data.product_options[0]?.name,
             option_value: option[id],
+            product_option_id:
+              obj[key]?.data.product_options[0]?.product_option_id,
             quantity: 1,
             total: obj[key].data.price
           };
@@ -237,7 +265,7 @@ function Pos() {
   //insert in cart
   function insertToCart(products) {
     setUpdate(false);
-    const openRequest = indexedDB.open("posDB", 7);
+    const openRequest = indexedDB.open("posDB", 8);
     console.log("event");
 
     openRequest.onupgradeneeded = (event) => {
@@ -265,7 +293,10 @@ function Pos() {
       request.onsuccess = (event) => {
         const existingObject = event.target.result;
 
-        if (!existingObject.cart || !Array.isArray(existingObject.cart)) {
+        if (
+          existingObject &&
+          (!existingObject?.cart || !Array.isArray(existingObject?.cart))
+        ) {
           existingObject.cart = [];
         }
         // Check if the object with the provided ID exists
@@ -283,7 +314,7 @@ function Pos() {
             setUpdate(true);
           };
 
-            updateRequest.onerror = function (event) {
+          updateRequest.onerror = function (event) {
             objectStore.add({ id: objectIdToUpdate, cart: products });
             setUpdate(true);
             console.error("Error updating object:", event.target.error);
@@ -311,7 +342,7 @@ function Pos() {
     const objectStoreName = "draft_cart";
 
     // Open the IndexedDB database
-    const openRequest = indexedDB.open(dbName, 7);
+    const openRequest = indexedDB.open(dbName, 8);
 
     openRequest.onsuccess = (event) => {
       const db = event.target.result;
@@ -378,7 +409,7 @@ function Pos() {
 
     const dbName = "posDB";
     const objectStoreName = "draft_cart";
-    const openRequest = indexedDB.open(dbName, 7);
+    const openRequest = indexedDB.open(dbName, 8);
 
     openRequest.onsuccess = (event) => {
       const db = event.target.result;
@@ -408,7 +439,7 @@ function Pos() {
 
               // Update the modified main object back into the object store
               const updateRequest = objectStore.put(mainObject);
-setUpdate(true)
+              setUpdate(true);
               updateRequest.onsuccess = function (event) {
                 console.log("Object deleted successfully!");
               };
@@ -447,7 +478,7 @@ setUpdate(true)
     const objectStoreName = "draft_cart";
 
     // Open the IndexedDB database
-    const openRequest = indexedDB.open(dbName, 7);
+    const openRequest = indexedDB.open(dbName, 8);
 
     openRequest.onsuccess = (event) => {
       const db = event.target.result;
@@ -478,21 +509,20 @@ setUpdate(true)
               }
 
               if (type === "minus") {
-
                 productToUpdate.quantity = Number(productToUpdate.quantity) - 1;
                 productToUpdate.total =
                   productToUpdate.price * productToUpdate.quantity;
               }
 
               if (type === "value") {
-
                 productToUpdate.quantity = value;
                 productToUpdate.total =
                   productToUpdate.price * productToUpdate.quantity;
               }
-              document.getElementById("cart_"+index).value = productToUpdate.quantity
+              document.getElementById("cart_" + index).value =
+                productToUpdate.quantity;
 
-              setUpdate(true)
+              setUpdate(true);
             } else {
               console.error(
                 "Product with specified ID not found in the main object."
@@ -534,13 +564,294 @@ setUpdate(true)
     setShowModel(true);
   }
 
+  function handlePrintOrder() {
+    const url = "/postest/hold/";
+
+    const windowFeatures =
+      " toolbar=no, location=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=302.36220472441, height=250";
+
+    window.open(url, "_blank", windowFeatures);
+  }
+  function manual(confirm) {
+    saveOrderLocal()
+    let body = {};
+    console.log(result);
+    let temp = [];
+    const dt = result.cart;
+    for (let index = 0; index < dt?.length; index++) {
+      let new_product = {};
+      let product_option = {};
+      new_product.product_id = dt[index]["product_id"];
+      new_product.name = dt[index]["name"];
+      new_product.sku = dt[index]["sku"];
+      new_product.model = dt[index]["model"];
+      new_product.quantity = dt[index]["quantity"];
+      new_product.unit_price = dt[index]["unit_price"];
+      new_product.price = dt[index]["price"];
+      if (dt[index]["option_value"].length !== 0) {
+        product_option["type"] = "radio";
+        product_option["product_option_id"] = dt[index]["product_option_id"];
+        product_option["name"] = dt[index]["option_value"]["name"];
+        product_option["value"] = dt[index]["option_value"]["value"];
+        product_option["product_option_value_id"] =
+          dt[index]["option_value"]["product_option_value_id"];
+
+        new_product.order_option = [product_option];
+      }
+      temp.push(new_product);
+    }
+    console.log("manual-2");
+    console.log(temp);
+    if (!typeRef.current.value && !amountRef.current.value) {
+      body = {
+        order_product: temp,
+        firstname: fnameRef?.current?.value,
+        lastname: lnameRef?.current?.value || "Local Customer",
+        email: "",
+        address_1: "store",
+         telephone:"96100000000",
+        address_2: "store store",
+        city: "",
+        shipping_method: "Delivery ( 1-4 days )",
+        shipping_code: "ultimate_shipping.ultimate_shipping_0",
+        payment_method: "Cash On Delivery",
+        payment_code: "cod",
+        comment: "",
+        country_id: window.config["zone"],
+        zone_id: 3995,
+        modification_type: typeRef.current.value || "",
+        modification: amountRef.current.value || "",
+        modification_remarque: remarqueRef.current.value || "",
+        zone: "Store",
+        town_id: "",
+        town: "",
+        is_web: true,
+        payment_session: false,
+        source_id: 1,
+        coupon: couponRef.current.value || "",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+        total:  amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+        sub_total: total,
+        user_id: 1069, 
+        order_total: amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+      };
+    } else {
+      body = {
+        order_product: temp,
+        // customer_id: customerId,
+        firstname: fnameRef?.current?.value,
+        lastname: lnameRef?.current?.value || "Local Customer",
+        email: "",
+        address_1: "store",
+        telephone:  "96100000000",
+        address_2: "store store",
+        city: "",
+        shipping_method: "Delivery ( 1-4 days )",
+        shipping_code: "ultimate_shipping.ultimate_shipping_0",
+        payment_method: "Cash On Delivery",
+        payment_code: "cod",
+        comment: "",
+        country_id: window.config["zone"],
+        zone: "Store",
+        zone_id: 3995,
+        modification_type: typeRef.current.value,
+        modification: amountRef.current.value,
+        modification_remarque: remarqueRef.current.value,
+        currency_code: "USD",
+        total:  amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+        sub_total: total,
+        user_id: 1069, //Cookies.get("salsMan") ? Cookies.get("salsMan") : "",
+        order_total: amountRef.current.value ? total - (typeRef.current.value == "amount" ? amountRef.current.value : total*amountRef.current.value/100) : total,
+        town_id: "",
+        town: "",
+        is_web: true,
+        payment_session: false,
+        source_id: 1,
+        coupon: couponRef.current.value || "",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
+      };
+    }
+    // console.log(body);
+    // handlePrintOrder();
+    localStorage.setItem("print_order", JSON.stringify(body));
+    isOnline
+      ? axiosServer
+          .post(
+            buildLink(
+              "manual",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            ),
+            body
+          )
+          .then((response) => {
+            if (response?.data?.success === false) {
+              // setError(response?.data?.errors);
+              setManualResponse(response?.data?.data);
+              if (
+                response?.data?.errors.length === 1 && confirm  &&
+                (response?.data.message === "OUT OF STOCK" || 
+                  response?.data?.message?.includes("STOCK") ||
+                  response?.data.message.includes("stock") ||
+                  response?.data.message.includes("Stock"))
+              ) {
+                // setSuccess(true);
+                body.hold_reason = response?.data.message;
+                body.totals = response?.data?.data?.order_total;
+
+                handlePrintOrder();
+              }
+            } else {
+              setManualResponse(response?.data?.data);
+              if (confirm == true) {
+                paymentForm(confirm, "cod");
+                handlePrintOrder();
+                localStorage.setItem("print_order", response?.data?.data);
+
+              }
+            }
+          })
+      : saveOrderLocal();
+  }
+  // save order
+  function saveOrderLocal() {
+    const dbName = 'posDB';
+    const dbVersion = 8;
+    
+    const request = indexedDB.open(dbName, dbVersion);
+    
+    // Handle database upgrade or creation
+    request.onupgradeneeded = function(event) {
+      const db = event.target.result;
+    
+      // Create an object store (table) in the database
+      if (!db.objectStoreNames.contains('orders')) {
+        const objectStore = db.createObjectStore('orders', { keyPath: 'order_id', autoIncrement: false });
+      }
+    };
+    
+    // Handle successful database opening
+    request.onsuccess = function(event) {
+      const db = event.target.result;
+      console.log('Database opened successfully.');
+    
+      // Now you can perform CRUD operations on the object store.
+    };
+    
+    // Handle database opening error
+    request.onerror = function(event) {
+      console.error('Error opening database:', event.target.error);
+    };
+  
+    
+    
+    
+    
+
+
+  }
+  function paymentForm(confirm, p_m) {
+    axiosServer
+      .post(
+        buildLink(
+          "payment_form",
+          undefined,
+          undefined,
+          window.config["site-url"]
+        ),
+        { payment_method: p_m }
+      )
+      .then((response) => {
+        const data = response.data;
+        try {
+          document.getElementById("simp-id").outerHTML = "";
+        } catch (e) {}
+        const script = document.createElement("script");
+        script.src = "https://www.simplify.com/commerce/simplify.pay.js";
+        script.async = false;
+        script.id = "simp-id";
+        document.body.appendChild(script);
+
+        if (data.success) {
+          setId(data.order_id);
+
+          if (p_m === "cod" && confirm) {
+            confirmOrder(data.confirm_url, data.success_url);
+          }
+        } else {
+          localStorage.setItem("payment_error-2", data);
+        }
+      });
+  }
+  function confirmOrder(c_url, s_url) {
+    axiosServer.post(c_url).then((response) => {
+      const data = response.data;
+      if (data.success) {
+        successOrder(s_url);
+        setSuccess(true);
+      } else {
+        localStorage.setItem("successOrder_error", data);
+      }
+    });
+  }
+
+  function successOrder(url) {
+    axiosServer.get(url).then((response) => {
+      const data = response.data;
+
+      if (data.success) {
+        // setOrderSuccess(true);
+        // setShowCalculate(false);
+        // setOpacity(true);
+        addToLocalStorage(data?.data?.orderDetails?.order_id);
+        saveOrderLocal()
+      } else {
+        // addToLocalStorageError(data);
+        // localStorage.setItem("print_Order", data);
+      }
+    });
+  }
+
+  function handleCouponChange() {
+    if (couponRef.current.value.length < 1) {
+      couponRef.current.value = "";
+    }
+  }
+
+  function setCoupon() {
+    if (couponRef.current.value.length > 1) {
+      manual(false, false, true);
+    } else {
+    }
+  }
+
+  function modification() {
+    alert(1);
+    setModificationError({});
+    //  console.log(amountRef.current.value )
+    if (remarqueRef.current.value === "" && amountRef.current.value === "") {
+      setModificationError({
+        remarque: "remarque is required",
+        amount: "modifiction number is required"
+      });
+    } else if (amountRef.current.value === "") {
+      setModificationError({ amount: "modifiction number is required" });
+    } else if (remarqueRef.current.value === "") {
+      setModificationError({
+        remarque: "remarque is required"
+      });
+    } else {
+      manual(false, false, true);
+    }
+  }
   return (
     <div className="fixed min-h-screen w-full z-30 top-0 bg-dgrey -ml-3">
       {/* Add your POS page content here */}
       {showModel && (
-        <>
-          <div className="absolute z-10 w-full min-h-screen bg-dblack opacity-20 -ml-3 pointer-events-none"></div>
-          <div class="absolute w-1/2 top-5 left-1/4 z-50">
+        <> 
+          <div className="absolute z-10 w-full min-h-screen bg-dblack opacity-20 -ml-3 pointer-events-none flex justify-center "></div>
+          <div class="absolute w-1/2  left-1/4 top-5  z-50">
             <div class="absolute top-0 z-50"></div>
             <div class="w- p-5  mx-auto my-auto rounded-xl shadow-lg  bg-white ">
               {/* <button
@@ -556,49 +867,123 @@ setUpdate(true)
                   {" "}
                   Customer Info
                 </div>
-                <div className="grid grid-cols-2 space-y-1 px-2 pt-2">
-                  <div className="text-l  "> phone Number: </div>{" "}
-                  <div className="  text-xl ">
-                    {" "}
-                    <input className=" rounded border border-dlabelColo p-0.5" />
+                <div className="flex  px-2 pt-2">
+                  <div>
+                    <div className="text-l"> phone Number: </div>{" "}
+                    <div className=" text-xl ">
+                      {" "}
+                      <input className=" rounded border border-dlabelColor p-0.5" />
+                    </div>
                   </div>
-                  <div className="text-l"> First Name: </div>{" "}
-                  <div className="text-xl">
-                    {" "}
-                    <input className="rounded border border-dlabelColor p-0.5" />
+                  <div className="px-2">
+                    <div className="text-l"> First Name: </div>{" "}
+                    <div className="text-xl">
+                      {" "}
+                      <input
+                        className="rounded border border-dlabelColor p-0.5"
+                        ref={fnameRef}
+                      />
+                    </div>
                   </div>
-                  <div className="text-l"> Last Name: </div>{" "}
-                  <div className="  text-xl">
-                    {" "}
-                    <input className="rounded border border-dlabelColor p-0.5" />
+                  <div>
+                    <div className="text-l"> Last Name: </div>{" "}
+                    <div className="  text-xl">
+                      {" "}
+                      <input
+                        className="rounded border border-dlabelColor p-0.5"
+                        ref={lnameRef}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="pr-semibold  text-xl w-full py-2">
+                <div className="pr-semibold  text-xl w-full py-5">
                   {" "}
                   Summary Order
                 </div>
-                <div className="grid grid-cols-2 space-y-1 ">
-                  <div className="text-l w-1/4"> Sub-Total: </div>{" "}
-                  <div className="pr-semibold  "> ${total}</div>
-                  <div className="text-l w-1/4 "> type: </div>{" "}
-                  <div className=" text-xl ">
-                    {" "}
-                    <input className="rounded border border-dlabelColor p-0.5" />
+                <div className="flex pb-8  ">
+                  <div className="pt-3 pr-2"></div>
+                  <input
+                    style={{ borderColor: "rgb(230, 230, 230)" }}
+                    type="text"
+                    className="border flex-grow rounded-tl rounded-bl border-dlabelColor  h-10 px-5"
+                    placeholder="Coupon Code or Gift Card"
+                    ref={couponRef}
+                    onChange={() => handleCouponChange()}
+                  />
+                  <div
+                    onClick={() => setCoupon()}
+                    className="bg-dblue text-white px-3 h-10 rounded-tr rounded-br text-sm"
+                  >
+                    <p className="text-center mt-3">APPLY</p>
+                  </div>{" "}
+                </div>{" "}
+                <div className="flex px-2">
+                  <div className="w-1/3">
+                    <div className="text-l w-1/4 "> type: </div>{" "}
+                    <div className=" text-xl ">
+                      <select
+                        style={{ borderColor: "rgb(230, 230, 230)" }}
+                        className="bg-white relative px-5 h-9 border text-sm font-semibold border-dlabelColor cursor-pointer rounded"
+                        ref={typeRef}
+                      >
+                        <option value="amount"> Amount</option>
+                        <option value="discount"> % percentage</option>
+                      </select>
+                    </div>
                   </div>
-                  <div className="text-l w-1/4"> modification: </div>{" "}
-                  <div className=" text-xl">
-                    {" "}
-                    <input className="rounded border border-dlabelColor p-0.5" />
+                  <div className="px-2">
+                    <div className="text-l w-1/4"> modification: </div>{" "}
+                    <div className=" text-xl">
+                      {" "}
+                      <input
+                        className="rounded border border-dlabelColor p-0.5"
+                        ref={amountRef}
+                      />
+                    </div>
                   </div>
-                  <div className="text-l w-1/4"> Remarq: </div>{" "}
-                  <div className="  text-xl">
-                    {" "}
-                    <input className="rounded border border-dlabelColor p-0.5" />
+                  <div>
+                    <div className="text-l w-1/4"> Remarq: </div>{" "}
+                    <div className="  text-xl">
+                      {" "}
+                      <input
+                        className="rounded border border-dlabelColor p-0.5"
+                        ref={remarqueRef}
+                      />
+                    </div>
                   </div>
-                  <div className="text-l w-1/4"> Total: </div>{" "}
-                  <div className="pr-semibold text-xl "> ${total}</div>
                 </div>
-                <div className="grid grid-cols-2 space-y-1  pt-2">
+                <div className="flex  text-xl justify-end px-2">
+                  <button
+                    onClick={modification}
+                    className="m-2 w-auto md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider bg-dblue text-white rounded-full hover:shadow-lg hover:bg-red-600"
+                  >
+                    apply
+                  </button>
+                </div>
+                {manualResponse?.order_total?.length > 0 ? (
+                  manualResponse?.order_total?.map(
+                    (total) =>
+                      total.title !== "Store" && (
+                        <div className="flex items-center justify-between mb-1 text-dblack w-1/2">
+                          <span>{total.title}</span>
+                          <span>{total.text}</span>
+                        </div>
+                      )
+                  )
+                ) : (
+                  <div className="w-1/2">
+                    <div className="flex">
+                      <div className=" w-1/4"> Sub-Total: </div>{" "}
+                      <div className="  "> ${total}</div>
+                    </div>
+                    <div className="flex">
+                      <div className=""> Total: </div>{" "}
+                      <div className=" "> ${total}</div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* <div className="grid grid-cols-2 space-y-1  pt-2">
                   <div className="text-l w-1/4"> Number: </div>{" "}
                   <div className="text-xl">
                     {" "}
@@ -606,7 +991,7 @@ setUpdate(true)
                   </div>
                   <div className="text-l w-1/4"> Change: </div>{" "}
                   <div className="  text-xl">${total}</div>
-                </div>
+                </div> */}
                 <div class="p-3  mt-2 text-center space-x-4 md:block">
                   <button
                     onClick={() => {
@@ -616,7 +1001,10 @@ setUpdate(true)
                   >
                     Cancel
                   </button>
-                  <button class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-dhotPink rounded-full hover:shadow-lg hover:bg-red-600">
+                  <button
+                    onClick={() =>{ manual(true)}}
+                    class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-dhotPink rounded-full hover:shadow-lg hover:bg-red-600"
+                  >
                     Save
                   </button>
                 </div>
@@ -641,7 +1029,8 @@ setUpdate(true)
           <div onClick={() => addNewTable()}>Add</div> */}
 
           <div className=" overflow-y-auto h-3/3 py-6">
-            {result?.cart.map((cart, key) => (
+            {result?.cart
+              .map((cart, key) => (
                 <div className="flex my-2 justify-between w-full px-5 pt-5  bg-white rounded-xl">
                   <div className="w-1/12">{key}</div>
                   <div className="w-5/12 text-l ">
@@ -684,7 +1073,7 @@ setUpdate(true)
                         <input
                           type="number"
                           id={`cart_${key}`}
-                        //  ref={qtyRef} 
+                          //  ref={qtyRef}
                           defaultValue={cart?.quantity}
                           className="border border-dinputBorder w-12 h-10 border-r-0 border-l-0 text-center focus:outline-none"
                           onKeyDown={(e) =>
@@ -720,6 +1109,10 @@ setUpdate(true)
               ))
               .reverse()}
           </div>
+        </div>
+        <div className="w-4/12 pt-5 ">
+          <Link href="/postest/posTest1?tab=2"  className="w-full p-3 bg-dblue text-white m-5">New Order In Tab 2</Link>
+          <Link href="/postest/posTest1?tab=3"  className="w-full p-3 bg-dblue text-white m-5">New Order In Tab 3</Link>
         </div>
         <div className=" fixed flex w-full bottom-0 justify-between  h-1/12 bg-white p-6  ">
           <div className="flex ">

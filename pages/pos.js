@@ -703,7 +703,8 @@ export default function Pos() {
             // setManualResponse(response?.data?.data);
             localStorage.setItem("print-order", JSON.stringify(body));
             // handlePrintHolder("print");
-            handlePrintHolder("print")
+            // handlePrintHolder("print")
+            
           }
         }
 
