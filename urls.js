@@ -176,7 +176,8 @@ if (typeof window !== "undefined") {
     Cookies.get("site-local-name") === "ishtari" ||
     host === "www.ishtari.com" ||
     host === "www.sari3.com" ||
-    host === "ishtari.com" 
+    host === "ishtari.com"  || 
+    host === "next.ishtari.com"
   ) {
     pixelID = "668318187192045";
     host = "https://www.ishtari.com/";
