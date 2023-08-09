@@ -121,7 +121,7 @@ function ProductZoomModal(props) {
   return (
     <div className="fixed bg-white md:bg-dblackOverlay top-0 lef-0 right-0 bottom-0 w-full h-full z-30 overflow-hidden">
       <div className="modal_zoom_div relative z-40 h-full mx-auto text-center box-border">
-        <div   className="modal_zoom_div absolute w-full m-auto h-full lg:h-fit z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
+        <div   className="modal_zoom_div absolute w-full m-auto h-full  z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
           <div className=" m-0 p-0 md:min-h-full modal_zoom_div md:h-full bg-dblackOverlay3 lg:bg-white" id="popup_modal">
             <CgClose
               className="absolute top-2 right-4 p-0.5 md:m-3 w-9 h-9 z-10 md:w-9 md:h-9 cursor-pointer text-darrowZoom  lg:text-dblack"

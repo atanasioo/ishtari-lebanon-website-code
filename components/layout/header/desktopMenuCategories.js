@@ -27,12 +27,12 @@ function DesktopMenuCategories(props) {
 
   const router = useRouter();
 
-  const DesktopMenuClientPopups = dynamic(
-    () => import("./DesktopMenuClientPopups"),
-    {
-      ssr: false, // Disable server-side rendering
-    }
-  );
+  // const DesktopMenuClientPopups = dynamic(
+  //   () => import("./DesktopMenuClientPopups"),
+  //   {
+  //     ssr: false, // Disable server-side rendering
+  //   }
+  // );
 
   function handleState(state, value) {
     if (state === "selectedTopCategory") {

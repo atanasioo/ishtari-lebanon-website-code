@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "@/components/Utils";
@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { HostContext } from "@/contexts/HostContext";
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -24,6 +25,10 @@ function DesktopMenuClientPopups(props) {
     overlay,
   } = props;
 
+  const host = useContext(HostContext);
+
+  console.log(host);
+
   const types = {
     1: "product",
     2: "category",
@@ -31,8 +36,6 @@ function DesktopMenuClientPopups(props) {
     4: "seller",
   };
 
-  const slidesPerRow = 3; // Display 3 products per row
-  const slideWidth = 66.66; // Adjust the slide width based on your design
 
   const settings = {
     slidesPerRow: 3,
@@ -285,7 +288,7 @@ function DesktopMenuClientPopups(props) {
                         }
                       >
                         <Image
-                          src={`${window.config["site-url"]}/image/${banner.image}`}
+                          src={`${host.host}/image/${banner.image}`}
                           width={600}
                           height={400}
                           alt={banner.image.name}

@@ -710,8 +710,8 @@ function ProductPart2(props) {
                               </div>
                             </div>
                             <div className="images flex flex-wrap gap-1 my-4">
-                              {r?.images.map((img) => (
-                                <div className="mr-2">
+                              {r?.images.map((img, i) => (
+                                <div className="mr-2" key={i}>
                                   <img
                                     src={img}
                                     alt={img}
@@ -958,8 +958,8 @@ function ProductPart2(props) {
                               </div>
                             </div>
                             <div className="images flex flex-wrap gap-1 my-4">
-                              {r?.images.map((img) => (
-                                <div className="mr-2">
+                              {r?.images.map((img, i) => (
+                                <div className="mr-2" key={i}>
                                   <img
                                     src={img}
                                     alt={img}
@@ -1210,7 +1210,7 @@ function ProductPart2(props) {
                   <div className="same-category-slider">
                     <Slider {...moreSettings} className="relative ">
                       {productData2?.smallest_cat_products?.map((item) => (
-                        <SingleProduct item={item} host={host}></SingleProduct>
+                        <SingleProduct key={item.product_id} item={item} host={host}></SingleProduct>
                       ))}
                     </Slider>
                   </div>

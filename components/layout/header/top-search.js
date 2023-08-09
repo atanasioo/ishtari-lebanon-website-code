@@ -27,7 +27,11 @@ function TopSearch() {
   const [trendingSearch, setTrendingSearch] = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
   const [searchHistory, setSearchHistory] = useState([]);
+  const [topSearch, setTopSearch] = useState([]);
+  const [currentPlaceholder, setCurrentPlaceholder] = useState("");
+  const currentIndexRef = useRef(0);
   const [trash, setTrash] = useState(true);
+  let placeholderInterval;
 
   function setShowSearchFunction() {
     setShowSearch(false);
@@ -200,7 +204,26 @@ function TopSearch() {
   useEffect(() => {
     const history = JSON.parse(localStorage.getItem("search_history")) || [];
     setSearchHistory(history);
+
+    axiosServer.get(buildLink("historySearch", undefined, window.innerWidth))
+    .then((response) => {
+      console.log(response.data.data);
+      setTopSearch(response.data?.data?.topsearch);
+      startPlaceholderLoop(response.data.data.topsearch);
+    })
+    return () => {
+      clearInterval(placeholderInterval);
+    };
   }, []);
+
+  const startPlaceholderLoop = (searchArray) => {
+     placeholderInterval = setInterval(() => {
+      const currentIndex = currentIndexRef.current; 
+      setCurrentPlaceholder(searchArray[currentIndex]["keyphrase"]);
+      currentIndexRef.current = (currentIndex + 1) % searchArray.length; // Update the ref value
+    }, 1500);
+  };
+
 
   return (
     <>
@@ -230,7 +253,8 @@ function TopSearch() {
                 autoFocus
                 className="block flex-grow mx-2 h-12 outline-none px-4 text-dblack"
                 type="text"
-                placeholder="What are you looking for? "
+                // placeholder="What are you looking for? "
+                placeholder={topSearch.length > 0 ? currentPlaceholder : "What are you looking for?"}
               />
               <i className="icon icon-search text-2xl text-dgrey1"></i>
             </div>
@@ -391,7 +415,8 @@ function TopSearch() {
 
         <input
           type={"text"}
-          placeholder={"What are you looking for?"}
+          // placeholder={"What are you looking for?"}
+          placeholder={topSearch.length > 0 ? currentPlaceholder : "What are you looking for?"}
           autoComplete="off"
           className="hidden lg:block rounded-sm h-11  w-4/5  outline-none p-4 bg-dsearchGrey "
           id="searchInput"
