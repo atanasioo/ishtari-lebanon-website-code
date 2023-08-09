@@ -25,6 +25,8 @@ function ProductZoom(props) {
   const [hovered, setHovered] = useState(props.hovered);
   const imageSlider = useRef(null);
   const SmallImageSlider = useRef(null);
+  const activeImageRef = useRef(null); // Ref to the currently active image element
+  const smallMobileSliderRef= useRef(null);
   const router = useRouter();
 
   const [width, height] = useDeviceSize();
@@ -39,6 +41,7 @@ function ProductZoom(props) {
     autoplay: false,
     vertical: true,
     ref: SmallImageSlider,
+    currentSlide: activeSlide,
     prevArrow: <SmallArrows direction={"u"} />,
     nextArrow: <SmallArrows direction={"d"} />,
   };
@@ -51,6 +54,7 @@ function ProductZoom(props) {
     slidesToScroll: 1,
     swipeToSlide: true,
     autoplay: false,
+    ref: smallMobileSliderRef,
   };
 
   const singleSetting = {
@@ -63,7 +67,6 @@ function ProductZoom(props) {
     ref: imageSlider,
     swipe: width > 768 ? false : true,
     afterChange: (currentSlide) => handleSingleMobileChange(currentSlide),
-    // touchMove: true, // Enable touchMove when isSlidingEnabled is true
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
@@ -137,6 +140,7 @@ function ProductZoom(props) {
     if (width < 768) {
       setActiveImage(images[currentSlide])
       setActiveSlide(currentSlide);
+      smallMobileSliderRef.current.slickGoTo(currentSlide);
     }
   }
 
@@ -321,11 +325,16 @@ function ProductZoom(props) {
                   </div>
                 ))}
               </Slider>
-              {/* <Slider {...mobileSetting} className=" md:hidden"> */}
-              <div className="md:hidden flex overflow-x-auto pb-2.5">
+              <Slider {...mobileSetting} className=" md:hidden">
+          
                 {images?.map((i, index) => (
                   <div
                     key={i["thumb"]}
+                    ref={(el) => {
+                      if (activeImage && activeImage["popup"] === i["popup"]) {
+                        activeImageRef.current = el;
+                      }
+                    }}
                     className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
                   >
                     <Image
@@ -346,9 +355,9 @@ function ProductZoom(props) {
                     />
                   </div>
                 ))}
-              </div>
+             
 
-              {/* </Slider> */}
+              </Slider>
             </div>
           </div>
           <div className="w-full md:w-10/12 relative flex items-center ">

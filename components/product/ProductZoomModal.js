@@ -59,8 +59,8 @@ function ProductZoomModal(props) {
     autoplay: false,
     currentSlide: currentSlide,
     ref: slider2,
-    prevArrow: <div><BsChevronLeft className="w-8 h-8 text-darrowZoom"/></div>, // or null
-    nextArrow: <div><BsChevronRight className="w-8 h-8 text-darrowZoom"/></div>, // or null
+    prevArrow: <div><BsChevronLeft className="w-8 h-8 -ml-2.5 text-darrowZoom"/></div>, // or null
+    nextArrow: <div><BsChevronRight className="w-8 h-8 ml-4 text-darrowZoom"/></div>, // or null
   };
 
   useEffect(()=>{
@@ -124,16 +124,16 @@ function ProductZoomModal(props) {
         <div   className="modal_zoom_div absolute w-full m-auto h-full  z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
           <div className=" m-0 p-0 md:min-h-full modal_zoom_div md:h-full bg-dblackOverlay3 lg:bg-white" id="popup_modal">
             <CgClose
-              className="absolute top-2 right-4 p-0.5 md:m-3 w-9 h-9 z-10 md:w-9 md:h-9 cursor-pointer text-darrowZoom  lg:text-dblack"
+              className="absolute top-2 right-1 p-0.5 md:m-3 w-9 h-9 z-10 md:w-9 md:h-9 cursor-pointer text-darrowZoom  lg:text-dblack"
               onClick={() => closeModal()}
               onTouchStart={() => closeModal()}
             />
-            <div className={`flex flex-col justify-start ${width < 768 ? "items-center" : ""} md:justify-center modal_zoom_div  lg:h-unset`}>
-              <div  className="flex flex-col w-86% md:w-unset h-full lg:h-full md:my-8  justify-start gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
+            <div className={`flex flex-col justify-center ${width < 768 ? "items-center" : ""} md:justify-center modal_zoom_div  lg:h-unset`}>
+              <div  className="flex flex-col w-86% md:w-unset  lg:h-full md:my-8  justify-start gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
                 <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-5/12 flex flex-col  lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
-                    className="w-11/12   hidden lg:block"
+                    className="w-11/12 hidden lg:block"
                   >
                     {images?.map((i) => (
                       <PrismaZoom
