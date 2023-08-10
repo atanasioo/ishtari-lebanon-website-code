@@ -4,13 +4,10 @@ import buildLink from "@/urls";
 import SiteHeaders from "./site-headers";
 import Image from "next/image";
 import Link from "next/link";
-import { AiOutlineShopping, AiOutlineUser } from "react-icons/ai";
-import { FiChevronDown, FiMenu } from "react-icons/fi";
 import { HiMenu } from "react-icons/hi";
 import TopSearch from "./top-search";
 import useDeviceSize from "@/components/useDeviceSize";
 import dynamic from "next/dynamic";
-import ImageFilter from "react-image-filter/lib/ImageFilter";
 import Cookies from "js-cookie";
 import { axiosServer } from "@/axiosServer";
 import DesktopMenuCategories from "./desktopMenuCategories";
@@ -24,6 +21,7 @@ import { useRouter } from "next/router";
 import CountryDropdown from "./CountryDropdown";
 import { HostContext } from "@/contexts/HostContext";
 import LogoClient from "@/components/LogoClient";
+import MobileMenu from "./MobileMenu";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -103,9 +101,9 @@ function Header(props) {
   }, []);
 
 
-  const MobileMenu = dynamic(() => import("./MobileMenu"), {
-    ssr: false, // Disable server-side rendering
-  });
+  // const MobileMenu = dynamic(() => import("./MobileMenu"), {
+  //   ssr: false, // Disable server-side rendering
+  // });
   const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
     ssr: false, // Disable server-side rendering
   });

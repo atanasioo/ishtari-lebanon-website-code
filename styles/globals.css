@@ -2166,15 +2166,17 @@ input:checked + .slider_swicth:before {
     overflow-y: hidden !important;
     position: fixed;
     width: 100%;
+    height: 100vh;
   }
 }
 
 .modal_zoom_div{
   height: 100%; /* Fallback */
   height: -moz-available;
-  height: -webkit-fill-available !important;
+  height: -webkit-fill-available;
   /* height: fill-available; */
   height: stretch; /* Latest specification */
+ 
 }
 
 /* styles/styles.module.css */

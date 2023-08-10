@@ -27,7 +27,6 @@ function DesktopMenuClientPopups(props) {
 
   const host = useContext(HostContext);
 
-  console.log(host);
 
   const types = {
     1: "product",

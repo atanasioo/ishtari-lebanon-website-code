@@ -15,12 +15,14 @@ import buildLink from "@/urls";
 import { signOut } from "next-auth/react";
 import SingleProduct from "@/components/product/SingleProduct";
 import Slider from "react-slick";
+import { HostContext } from "@/contexts/HostContext";
 function MobileMenu(props) {
   const { viewMenu, categories, closeMobileMenu } = props;
   const router = useRouter();
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
   const [activeCategory, setActiveCategory] = useState({});
+  const { host, config } = useContext(HostContext);
 
   function handleScroll() {
     var myDiv = document.getElementById("scrollDiv");
@@ -120,11 +122,10 @@ function MobileMenu(props) {
       <div className="flex flex-col py-3 border-b border-dgrey px-4 ">
         <div className="flex items-center justify-between">
           {Cookies.get("site-local-name") === "flo" ||
-          (window !== undefined &&
-            window.location.host === "flo-lebanon.com") ? (
+          (host === "https://www.flo-lebanon.com") ? (
             <img
               src={LogofloOrange}
-              alt={window.config["short-name"]}
+              alt={config["short-name"]}
               className="h-8"
             />
           ) : (
@@ -139,7 +140,7 @@ function MobileMenu(props) {
           </button>
         </div>
         <p className=" font-semibold pt-2.5">
-          Hi, We Are {window !== undefined && window.config["short-name"]}
+          Hi, We Are {config["short-name"]}
         </p>
       </div>
       <div className="relative">
@@ -289,9 +290,8 @@ function MobileMenu(props) {
                       {activeCategory?.Top_Selling_Products?.products
                         ?.slice(0, 10)
                         .map((item) => (
-                          <div onClick={() => closeMobileMenu()}>
+                          <div key={item.product_id} onClick={() => closeMobileMenu()}>
                             <SingleProduct
-                              key={item.product_id}
                               item={item}
                               topSelling={true}
                             />
@@ -300,9 +300,8 @@ function MobileMenu(props) {
                       {activeCategory?.Top_Selling_Products?.products
                         ?.slice(10)
                         .map((item) => (
-                          <div onClick={() => closeMobileMenu()}>
+                          <div key={item.product_id} onClick={() => closeMobileMenu()}>
                             <SingleProduct
-                              key={item.product_id}
                               item={item}
                               topSelling={true}
                             />
