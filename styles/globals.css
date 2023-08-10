@@ -2242,6 +2242,15 @@ div.widget_text p{
   margin-block-end: 1em;
 }
 
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-images{
+  animation: spin-slow 2.3s linear infinite;
+}
+
 
 
 

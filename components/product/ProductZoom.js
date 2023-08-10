@@ -12,6 +12,7 @@ import {
 } from "react-share";
 import ShareSocial from "./ShareSocial";
 import { useRouter } from "next/router";
+import { BiLoaderCircle } from "react-icons/bi";
 
 function ProductZoom(props) {
   const { productData, activeOption } = props;
@@ -23,13 +24,14 @@ function ProductZoom(props) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [showShare, setShowShare] = useState(false);
   const [hovered, setHovered] = useState(props.hovered);
+  // const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const imageSlider = useRef(null);
   const SmallImageSlider = useRef(null);
   const activeImageRef = useRef(null); // Ref to the currently active image element
-  const smallMobileSliderRef= useRef(null);
+  const smallMobileSliderRef = useRef(null);
   const router = useRouter();
 
-  const [width, height] = useDeviceSize();
+  const [width] = useDeviceSize();
 
   const setting = {
     dots: false,
@@ -110,6 +112,8 @@ function ProductZoom(props) {
     setActiveSlide(0);
     imageSlider?.current?.slickGoTo(0);
     SmallImageSlider?.current?.slickGoTo(0);
+    smallMobileSliderRef?.current?.slickGoTo(0);
+    // setAllImagesLoaded(false);
   }, [images]);
 
   useEffect(() => {
@@ -138,12 +142,11 @@ function ProductZoom(props) {
 
   function handleSingleMobileChange(currentSlide) {
     if (width < 768) {
-      setActiveImage(images[currentSlide])
+      setActiveImage(images[currentSlide]);
       setActiveSlide(currentSlide);
       smallMobileSliderRef.current.slickGoTo(currentSlide);
     }
   }
-
 
   function imageZoom(imgID, resultID) {
     var img, lens, result, cx, cy;
@@ -282,6 +285,23 @@ function ProductZoom(props) {
     };
   }, [router.events]);
 
+  // useEffect(() => {
+  //   const imagePromises = images.map((i) => {
+  //     return new Promise((resolve) => {
+  //       const img = new window.Image();
+  //       img.src = i["popup"];
+  //       img.onload = () => {
+  //         resolve();
+  //       };
+  //     });
+  //   });
+
+  //   Promise.all(imagePromises).then(() => {
+  //     console.log("All images have loaded");
+  //     setAllImagesLoaded(true);
+  //   });
+  // }, [images]);
+
   return (
     <div>
       {showModal && (
@@ -325,8 +345,9 @@ function ProductZoom(props) {
                   </div>
                 ))}
               </Slider>
-              <Slider {...mobileSetting} className=" md:hidden">
-          
+              <Slider 
+              {...mobileSetting} 
+              className={`md:hidden`}>
                 {images?.map((i, index) => (
                   <div
                     key={i["thumb"]}
@@ -344,9 +365,9 @@ function ProductZoom(props) {
                       height={120}
                       onClick={() => changeImage(i)}
                       className={`cursor-pointer border-2 ${
-                        (activeImage && activeImage["popup"] === i["popup"]) 
-                        //  activeSlide === index
-                          ? "border-dblue"
+                        activeImage && activeImage["popup"] === i["popup"]
+                          ? //  activeSlide === index
+                            "border-dblue"
                           : "border-dgreyZoom"
                       }`}
                       placeholder={"blur"}
@@ -355,8 +376,6 @@ function ProductZoom(props) {
                     />
                   </div>
                 ))}
-             
-
               </Slider>
             </div>
           </div>
@@ -404,6 +423,15 @@ function ProductZoom(props) {
                   ))}
                 </Slider>
               </div>
+
+              {/* {!allImagesLoaded && (
+                <div className="loader-images absolute z-20 w-full h-full top-0 left-0 right-0 bottom-0 m-auto flex items-center justify-center opacity-60">
+                  <div className="bg-white rounded-full p-4">
+                    <BiLoaderCircle className=" w-9 h-9" />
+                  </div>
+                </div>
+              )} */}
+
               <div
                 className={`${showModal ? "hidden" : ""}`}
                 onClick={() => setShowShare(true)}
