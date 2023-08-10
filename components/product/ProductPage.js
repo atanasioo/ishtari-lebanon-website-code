@@ -120,6 +120,8 @@ function ProductPage(props) {
   useEffect(() => {
     // to force re-render when navigating using client side
     setLoader(true);
+    setQuantity(1);
+    setToggleQty(false);
   }, [router]);
 
   useEffect(() => {
@@ -880,6 +882,27 @@ function ProductPage(props) {
     }
   };
 
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      if (toggleQty) {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setTimeout(() => setToggleQty(false), 200);
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }
+    }, [ref, toggleQty]);
+  }
+
   return (
     <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
       <div className="">
@@ -1131,6 +1154,7 @@ function ProductPage(props) {
                           <div
                             className="overflow-y-scroll w-full"
                             style={{ maxHeight: "200px" }}
+                            ref={wrapperRef}
                           >
                             {Array.from(
                               { length: data.quantity },

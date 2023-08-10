@@ -17,7 +17,6 @@ export default function latest(props) {
   const [width, height] = useDeviceSize();
   const { marketingData, setMarketingData } = useMarketingData();
 
-  console.log(data);
   //page
   const handlePageClick = (event) => {
     const new_page = parseInt(event.selected) + 1;
@@ -141,8 +140,7 @@ export default function latest(props) {
           <SingleProducts
             key={product.product_id}
             item={product}
-            // isSlider={true}
-            //
+           
           ></SingleProducts>
         ))}
       </div>

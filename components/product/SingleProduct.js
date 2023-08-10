@@ -200,7 +200,7 @@ function SingleProduct(props) {
                   src={item.thumb}
                   width={!topSelling ? 200 : 150}
                   height={!topSelling ? 300 : 200}
-                  priority={true}
+                  // priority={true}
                   className="max-w-full max-h-full"
                 />
               ) : (

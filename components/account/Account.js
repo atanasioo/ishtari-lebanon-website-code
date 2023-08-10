@@ -9,7 +9,11 @@ import { useSession } from "next-auth/react";
 import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
-import { BsFillCartCheckFill, BsFillHeartFill, BsStarFill } from "react-icons/bs";
+import {
+  BsFillCartCheckFill,
+  BsFillHeartFill,
+  BsStarFill,
+} from "react-icons/bs";
 import { MdAvTimer, MdFeedback } from "react-icons/md";
 import { FaFacebookF, FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
@@ -65,10 +69,6 @@ function Account() {
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
-    // const obj= {
-    //     email: loginEmail.current.value,
-    //   password: loginPassword.current.value,
-    // }
     const response = await signIn("login", {
       email: loginEmail.current.value,
       password: loginPassword.current.value,
@@ -82,20 +82,6 @@ function Account() {
       setShowLoginError(true);
       setLoginError(response.error);
     }
-
-    // console.log(response);
-    // const hostname = "https://www.ishtari.com/";
-    // const response = await axiosServer.post(
-    //     buildLink("login", undefined, undefined, hostname),
-    //     // {
-    //     //   headers: {
-    //     //     Authorization: "Bearer " + token,
-    //     //   },
-    //     // },
-    //     obj
-    //   );
-
-    // console.log(response);
   }
 
   // Check login
@@ -149,7 +135,6 @@ function Account() {
     setSignupLoading(false);
   }
 
-  // console.log(state);
   // Forget Password
   async function handleForgetPassword() {
     if (loginEmail.current.value) {
@@ -192,7 +177,6 @@ function Account() {
   }
 
   useEffect(() => {
-
     dispatch({ type: "setAdminLoading", payload: true });
     // 70 91 1870
 
@@ -240,6 +224,27 @@ function Account() {
         }
       });
   }, [dispatch]);
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      if (showUserMenu) {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setTimeout(() => setShowUserMenu(false), 200);
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }
+    }, [ref, showUserMenu]);
+  }
 
   return (
     <div className="relative">
@@ -515,7 +520,7 @@ function Account() {
             </div>
 
             {showUserMenu && (
-              <div className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1">
+              <div className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1" ref={wrapperRef}>
                 <Link
                   href={`${path}/account/profile`}
                   onClick={() => setShowUserMenu(!showUserMenu)}

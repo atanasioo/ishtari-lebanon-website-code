@@ -150,7 +150,7 @@ mySwiper .swiper-button-next {
   text-align: center !important;
 }
 
-.sliderSwiper .swiper-pagination-bullet {
+/* .sliderSwiper .swiper-pagination-bullet {
   width: 22px;
   height: 3px;
   box-shadow: rgb(204 204 204) 0px 0px 1px;
@@ -159,11 +159,11 @@ mySwiper .swiper-button-next {
   background: rgb(226, 229, 241);
   opacity: 1;
   bottom: 0px;
-}
+} */
 
-.sliderSwiper .swiper-pagination-bullet-active {
+/* .sliderSwiper .swiper-pagination-bullet-active {
   background-color: rgba(191, 27, 38, 1);
-}
+} */
 
 .sliderSwiper .swiper-button-prev {
   height: 100%;
@@ -2172,7 +2172,7 @@ input:checked + .slider_swicth:before {
 .modal_zoom_div{
   height: 100%; /* Fallback */
   height: -moz-available;
-  height: -webkit-fill-available;
+  height: -webkit-fill-available !important;
   /* height: fill-available; */
   height: stretch; /* Latest specification */
 }
@@ -2190,6 +2190,54 @@ input:checked + .slider_swicth:before {
 .progress-bar {
   height: 100%;
   background-color: #4caf50;
+}
+
+/* @keyframes slideDownFade {
+  0% {
+    opacity: 1;
+    transform: translateY(-13px);
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(13px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+
+.input-container {
+  position: relative;
+  display: inline-block;
+}
+
+.placeholder-wrapper {
+  position: absolute;
+  top: 0;
+  width: 80%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  padding-left: 1rem;
+  pointer-events: none;
+}
+
+.placeholder {
+  width: 100%;
+  animation: slideDownFade 2s ease infinite; 
+}
+
+.placeholder .with-transition  {
+  opacity: 1;
+} */
+
+div.widget_text p{
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
 
 

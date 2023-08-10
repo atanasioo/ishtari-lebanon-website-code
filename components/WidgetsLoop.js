@@ -20,9 +20,9 @@ import SingleProductTest from "./product/SingleProductTest.js";
 import { useRouter } from "next/router.js";
 import { useMarketingData } from "@/contexts/MarketingContext.js";
 import { HostContext } from "@/contexts/HostContext.js";
+import { sanitizeHTML } from "./Utils.js";
 
 function WidgetsLoop({ widget, likedData, initialLoading }) {
-  const ImageClient = dynamic(() => import("./ImageClient.js"), { ssr: false });
 
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);
@@ -520,6 +520,16 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
             </div>
           )}
         </div>
+      )}
+
+      {/* text */}
+      {widget.type === "text" && (
+        <div
+          className="w-full widget_text"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHTML(widget.html_content)
+          }}
+        />
       )}
 
       {/* Slider  */}
@@ -1110,7 +1120,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                     }
                     className="w-full"
                   >
-                    
+                  
                     <Image
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
