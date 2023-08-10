@@ -114,6 +114,7 @@ function ProductZoom(props) {
     SmallImageSlider?.current?.slickGoTo(0);
     smallMobileSliderRef?.current?.slickGoTo(0);
     // setAllImagesLoaded(false);
+    setHovered(false);
   }, [images]);
 
   useEffect(() => {
@@ -124,7 +125,7 @@ function ProductZoom(props) {
     //   // Hide the lens when not hovering over the image
     //   hideLens();
     // }
-  }, [hoverZoom]);
+  }, [hoverZoom, hovered]);
 
   function changeImage(imgSrc) {
     var selectedImgIndex = 0;
@@ -302,6 +303,9 @@ function ProductZoom(props) {
   //   });
   // }, [images]);
 
+  console.log("hovered is " +hovered);
+  console.log("hover zoom is " +hoverZoom);
+
   return (
     <div>
       {showModal && (
@@ -398,8 +402,14 @@ function ProductZoom(props) {
                 }}
                 onMouseLeave={() => {
                   setHoverZoom(false);
-                  setHovered(true);
+                  // setHovered(true);
                   setLensClass("hidden");
+                }}
+                onMouseMoveCapture={() => {
+                  if(!hovered){
+                    setHovered(true)
+                    setHoverZoom(true);
+                  }
                 }}
               >
                 <Slider

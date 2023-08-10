@@ -473,7 +473,10 @@ function ProductPage(props) {
         window.dataLayer.push(arguments);
       }
 
-      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
+      if (
+        window.location.host === "www.ishtari.com" ||
+        window.location.host === "next.ishtari.com"
+      ) {
         var price = 10;
         if (data.special_net_value) {
           price = data.special_net_value;
@@ -486,7 +489,10 @@ function ProductPage(props) {
           value: price,
           currency: "USD",
         });
-      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
+      } else if (
+        window.location.host === "www.ishtari.com.gh" ||
+        window.location.host === "next.ishtari.com.gh"
+      ) {
         var price = 10;
         if (data.special_net_value) {
           price = data.special_net_value;
@@ -516,7 +522,7 @@ function ProductPage(props) {
         price = data.price_net_value;
       }
       if (
-        window.location.host === "www.ishtari.com" || 
+        window.location.host === "www.ishtari.com" ||
         window.location.host === "next.ishtari.com"
       ) {
         var callback = addToCart(obj);
@@ -675,6 +681,7 @@ function ProductPage(props) {
             // setCountDown(false)
             setAddingToCart(false);
           }, 3000);
+          setQuantity(1);
         }
       });
   }
@@ -1107,71 +1114,65 @@ function ProductPage(props) {
                       data["quantity"] <= 5 ? "mt-1" : "mt-4"
                     }`}
                   >
-                    {/* <input
-                      onChange={(e) => setQuantity(e.target.value)}
-                      type="number"
-                      value={quantity}
-                      className={`${productData["quantity"] === "0" && "hidden"}
-                                            border
-                                            w-16
-                                            h-12
-                                            rounded
-                                            text-dblack text-center
-                                            border-dgrey1
-                                            text-xl
-                                            `}
-                    /> */}
+                    {accountState.admin ? (
+                      <input
+                        onChange={(e) => setQuantity(e.target.value)}
+                        type="number"
+                        value={quantity}
+                        className={`${ data["quantity"] === "0" ? "hidden" : ""}border w-16 h-12 rounded text-dblack text-center border-dgrey1 text-xl `}
+                      />
+                    ) : (
+                      <div
+                        className="qty-picker font-semibold cursor-pointer"
+                        onClick={() => setToggleQty(!toggleQty)}
+                      >
+                        <div className="relative box-border">
+                          <div className="flex items-center justify-center border border-dgreyQtyProduct rounded-md relative h-12 py-2 px-1.5">
+                            <div className="mx-3">{quantity}</div>
+                            <div className="flex items-center">
+                              <div
+                                style={{ width: "1px" }}
+                                className="dividor h-7 bg-dgreyQtyProduct "
+                              ></div>
+                              <div className="px-1">
+                                <FiChevronDown
+                                  className="text-dgreyQtyProduct h-6 w-6"
+                                  style={{
+                                    // transform: toggleQty ? "rotate(-180deg)" : "",
+                                    transition: "transform 0.2s ease",
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
 
-                    <div
-                      className="qty-picker font-semibold cursor-pointer"
-                      onClick={() => setToggleQty(!toggleQty)}
-                    >
-                      <div className="relative box-border">
-                        <div className="flex items-center justify-center border border-dgreyQtyProduct rounded-md relative h-12 py-2 px-1.5">
-                          <div className="mx-3">{quantity}</div>
-                          <div className="flex items-center">
+                          <div
+                            className={`${
+                              toggleQty ? "" : "hidden"
+                            } absolute bg-white flex flex-col items-center z-10 justify-center rounded-md border border-dgreyQtyProduct mt-1.5 w-full`}
+                          >
                             <div
-                              style={{ width: "1px" }}
-                              className="dividor h-7 bg-dgreyQtyProduct "
-                            ></div>
-                            <div className="px-1">
-                              <FiChevronDown
-                                className="text-dgreyQtyProduct h-6 w-6"
-                                style={{
-                                  // transform: toggleQty ? "rotate(-180deg)" : "",
-                                  transition: "transform 0.2s ease",
-                                }}
-                              />
+                              className="overflow-y-scroll w-full"
+                              style={{ maxHeight: "200px" }}
+                              ref={wrapperRef}
+                            >
+                              {Array.from(
+                                { length: data.quantity },
+                                (_, index) => index + 1
+                              ).map((value) => (
+                                <div
+                                  key={value}
+                                  onClick={() => setQuantity(value)}
+                                  className={`py-1  hover:bg-dblue hover:text-white w-full text-center`}
+                                >
+                                  {value}
+                                </div>
+                              ))}
                             </div>
                           </div>
                         </div>
-
-                        <div
-                          className={`${
-                            toggleQty ? "" : "hidden"
-                          } absolute bg-white flex flex-col items-center z-10 justify-center rounded-md border border-dgreyQtyProduct mt-1.5 w-full`}
-                        >
-                          <div
-                            className="overflow-y-scroll w-full"
-                            style={{ maxHeight: "200px" }}
-                            ref={wrapperRef}
-                          >
-                            {Array.from(
-                              { length: data.quantity },
-                              (_, index) => index + 1
-                            ).map((value) => (
-                              <div
-                                key={value}
-                                onClick={() => setQuantity(value)}
-                                className={`py-1  hover:bg-dblue hover:text-white w-full text-center`}
-                              >
-                                {value}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <button
                       className={` text-white flex-grow h-12 relative rounded  ml-1  ${
