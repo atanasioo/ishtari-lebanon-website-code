@@ -208,7 +208,6 @@ function TopSearch() {
     axiosServer
       .get(buildLink("historySearch", undefined, window.innerWidth))
       .then((response) => {
-        console.log(response.data.data);
         setTopSearch(response.data?.data?.topsearch);
         startPlaceholderLoop(response.data.data.topsearch);
       });
@@ -230,8 +229,6 @@ function TopSearch() {
     }
   };
 
-  console.log(query);
-  console.log(query.length);
 
   return (
     <>
