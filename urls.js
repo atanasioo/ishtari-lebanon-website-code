@@ -47,6 +47,8 @@ var urls = {
   editcustomerfeedback: "v2/index.php?route=account/feedback/editCustomerFeedback",
   getTopSellingByCategoryId: "v2/index.php?route=cronjob/sold_item/getTopSellingByCategoryid",
   getAllTopSellingbyCategoryid: "v2/index.php?route=cronjob/sold_item/getAllTopSellingbyCategoryid",
+  getBalance: "v2/index.php?route=account/wallet/getBalance",
+  getTransactionHistory: "v2/index.php?route=account/wallet/getTransactionHistory",
   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
   category: "v2/index.php?route=catalog/category&path=",
   manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",

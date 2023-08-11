@@ -2,7 +2,7 @@ import { path } from "../../urls";
 import {BsFillCartCheckFill, BsFillHeartFill, BsStarFill} from 'react-icons/bs'
 import {MdAvTimer, MdFeedback} from 'react-icons/md'
 import Link from "next/link";
-import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
+import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 function UserSidebarMobile(props) {
   return (
@@ -31,6 +31,19 @@ function UserSidebarMobile(props) {
             <FaMoneyBillWave className="text-d20 my-1 " />
           </div>
           <span className="text-center text-d11">Orders</span>
+        </div>
+      </Link>
+      <Link
+        href={`${path}/account/wallet`}
+        className={`py-2 flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
+          props.active === "wallet" && "bg-white text-dbase"
+        }`}
+      >
+        <div className="flex flex-col justify-between items-center h-full w-14">
+          <div className="text-center">
+            <FaWallet className="text-d20 my-1 " />
+          </div>
+          <span className="text-center text-d11">Wallet</span>
         </div>
       </Link>
       <Link

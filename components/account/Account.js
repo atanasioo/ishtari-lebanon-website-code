@@ -15,7 +15,7 @@ import {
   BsStarFill,
 } from "react-icons/bs";
 import { MdAvTimer, MdFeedback } from "react-icons/md";
-import { FaFacebookF, FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
+import { FaFacebookF, FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 function Account() {
   const [message, setMessage] = useState(false);
@@ -536,6 +536,14 @@ function Account() {
                 >
                   <FaMoneyBillWave className=" text-d16 " />
                   <span className="ml-4">Orders</span>
+                </Link>
+                <Link
+                  href={`${path}/account/wallet`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 px-3"
+                >
+                  <FaWallet className=" text-d16 " />
+                  <span className="ml-4">Wallet</span>
                 </Link>
                 <Link
                   href={`${path}/account/buyagain`}

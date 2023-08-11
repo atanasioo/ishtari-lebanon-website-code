@@ -8,7 +8,7 @@ import {
 } from "react-icons/bs";
 import { MdAvTimer, MdFeedback } from "react-icons/md";
 import Link from "next/link";
-import { FaMoneyBillWave, FaUserAlt } from "react-icons/fa";
+import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 
 function UserSidebar(props) {
@@ -21,10 +21,10 @@ function UserSidebar(props) {
   const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
   const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
   const [showFeedbackArrow, setShowFeedbackArrow] = useState(false);
-
+  const [showWalletArrow, setShowWalletArrow] = useState(false);
   const [showProfileArrow, setShowProfileArrow] = useState(false);
 
-  return true ? (
+  return (
     <aside
       className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
       style={{
@@ -90,6 +90,39 @@ function UserSidebar(props) {
               Orders
             </span>
             {showOrderArrow && (
+              <img
+                className="-mr-1"
+                src={"/images/arrow-right.svg"}
+                alt="arrow"
+              />
+            )}{" "}
+          </Link>
+        </li>
+        <li
+          onMouseEnter={() => {
+            setShowWalletArrow(true);
+          }}
+          onMouseLeave={() => {
+            setShowWalletArrow(false);
+          }}
+        >
+          <Link
+            href={`${path}/account/wallet`}
+            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            style={{ color: "rgb(126,133,155)" }}
+          >
+            <FaWallet className="text-d16 text-dbase" />
+            <span
+              className={`flex-1 ml-3 ${
+                props.active === "wallet" && "font-semibold underline"
+              }`}
+              style={{
+                color: props.active === "wallet" ? "rgb(64,69,83)" : "",
+              }}
+            >
+              Wallet
+            </span>
+            {showWalletArrow && (
               <img
                 className="-mr-1"
                 src={"/images/arrow-right.svg"}
@@ -296,8 +329,6 @@ function UserSidebar(props) {
         </li>
       </ul>
     </aside>
-  ) : (
-    <div></div>
   );
 }
 

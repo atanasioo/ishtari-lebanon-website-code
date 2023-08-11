@@ -223,12 +223,13 @@ function TopSearch() {
 
       placeholderInterval = setInterval(() => {
         const currentIndex = currentIndexRef.current;
-        setCurrentPlaceholder(searchArray[currentIndex]["keyphrase"]);
-        currentIndexRef.current = (currentIndex + 1) % searchArray.length;
+        if (currentIndex < searchArray.length) {
+          setCurrentPlaceholder(searchArray[currentIndex]["keyphrase"]);
+          currentIndexRef.current = (currentIndex + 1) % searchArray.length;
+        }
       }, 5000);
     }
   };
-
 
   return (
     <>
