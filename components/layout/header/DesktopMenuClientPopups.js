@@ -103,8 +103,8 @@ function DesktopMenuClientPopups(props) {
         .then((response) => {
           if (response.data.success) {
             setTopSelling(response.data.data.products);
-            setLoading(false);
           }
+          setLoading(false);
         });
     }
   }, [selectedTopCategory]);
