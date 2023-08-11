@@ -16,12 +16,15 @@ import { signOut } from "next-auth/react";
 import SingleProduct from "@/components/product/SingleProduct";
 import Slider from "react-slick";
 import { HostContext } from "@/contexts/HostContext";
+import PointsLoader from "@/components/PointsLoader";
 function MobileMenu(props) {
   const { viewMenu, categories, closeMobileMenu } = props;
   const router = useRouter();
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
   const [activeCategory, setActiveCategory] = useState({});
+  const [topSelling, setTopSelling] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { host, config } = useContext(HostContext);
 
   function handleScroll() {
@@ -116,13 +119,29 @@ function MobileMenu(props) {
     );
   }
 
+  function getTopSelling(category_id) {
+    setLoading(true);
+    axiosServer
+      .get(
+        buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
+          "&category_id=" +
+          category_id
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setTopSelling(response.data.data.products);
+          setLoading(false);
+        }
+      });
+  }
+
   return (
     <div className={`text-dblack overflow-x-hidden h-full`}>
       {/* Logo */}
       <div className="flex flex-col py-3 border-b border-dgrey px-4 ">
         <div className="flex items-center justify-between">
           {Cookies.get("site-local-name") === "flo" ||
-          (host === "https://www.flo-lebanon.com") ? (
+          host === "https://www.flo-lebanon.com" ? (
             <img
               src={LogofloOrange}
               alt={config["short-name"]}
@@ -277,7 +296,9 @@ function MobileMenu(props) {
                   </div>
                 ))}
 
-              {activeCategory?.Top_Selling_Products?.products?.length > 0 && (
+              {loading ? (
+                <PointsLoader />
+              ) : (
                 <div>
                   <div className="flex items-center mt-4 text-dblack">
                     <div className="pr-semibold cursor-pointer hover:text-dblue">
@@ -287,26 +308,22 @@ function MobileMenu(props) {
                   </div>
                   <div className="w-full">
                     <Slider {...settings}>
-                      {activeCategory?.Top_Selling_Products?.products
-                        ?.slice(0, 10)
-                        .map((item) => (
-                          <div key={item.product_id} onClick={() => closeMobileMenu()}>
-                            <SingleProduct
-                              item={item}
-                              topSelling={true}
-                            />
-                          </div>
-                        ))}
-                      {activeCategory?.Top_Selling_Products?.products
-                        ?.slice(10)
-                        .map((item) => (
-                          <div key={item.product_id} onClick={() => closeMobileMenu()}>
-                            <SingleProduct
-                              item={item}
-                              topSelling={true}
-                            />
-                          </div>
-                        ))}
+                      {topSelling?.slice(0, 10).map((item) => (
+                        <div
+                          key={item.product_id}
+                          onClick={() => closeMobileMenu()}
+                        >
+                          <SingleProduct item={item} topSelling={true} />
+                        </div>
+                      ))}
+                      {topSelling?.slice(10).map((item) => (
+                        <div
+                          key={item.product_id}
+                          onClick={() => closeMobileMenu()}
+                        >
+                          <SingleProduct item={item} topSelling={true} />
+                        </div>
+                      ))}
                     </Slider>
                   </div>
                 </div>
@@ -354,7 +371,7 @@ function MobileMenu(props) {
 
                       // handleActiveCategory(category);
                       setActiveCategory(category);
-
+                      getTopSelling(category.category_id);
                       handleScroll();
                     }}
                   >

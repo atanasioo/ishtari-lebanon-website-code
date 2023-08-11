@@ -1,9 +1,9 @@
 import { axiosServer } from "@/axiosServer";
+import PointsLoader from "@/components/PointsLoader";
 import SingleProductFlashSale from "@/components/product/SingleProductFlashSale";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import cookie from "cookie";
-import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
 import { IoIosAlert } from "react-icons/io";
 
@@ -18,9 +18,6 @@ function flashSale(props) {
   const [errReminder, setErrReminder] = useState("");
   const [nosale, setNoSale] = useState(false);
 
-  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
 
   useEffect(() => {
     setProductsTab(data[activeTab].products);

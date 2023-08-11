@@ -3,12 +3,12 @@ import { axiosServer } from "@/axiosServer";
 import { AccountContext } from "@/contexts/AccountContext";
 import { useRouter } from "next/router";
 import useDeviceSize from "@/components/useDeviceSize";
-import dynamic from "next/dynamic";
 import buildLink from "@/urls";
 import StarRatings from "react-star-ratings";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
+import PointsLoader from "@/components/PointsLoader";
 
 
 export async function getServerSideProps(context){
@@ -41,10 +41,6 @@ export default function OrderReviews(props) {
   const [reviews, setReviews] = useState([]);
   const router = useRouter();
   let id = router.query["order-review-id"];
-
-  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
 
   let commentErr = " ";
 

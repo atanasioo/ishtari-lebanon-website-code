@@ -1,14 +1,12 @@
 import { axiosServer } from "@/axiosServer";
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
+import PointsLoader from "@/components/PointsLoader";
 import SingleProduct from "@/components/product/SingleProduct";
 import useDeviceSize from "@/components/useDeviceSize";
 import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
 import buildLink from "@/urls";
-import dynamic from "next/dynamic";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsClockFill, BsStarFill } from "react-icons/bs";
 
@@ -18,10 +16,6 @@ function reviewCenter() {
   const [loading, setLoading] = useState(true);
   const [awaitingReview, setAwaitingReview] = useState(true);
   const { reviewCenterData, setReviewCenterData } = useReviewCenterData();
-
-  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
 
   useEffect(() => {
     setLoading(true);

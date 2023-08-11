@@ -8,7 +8,6 @@ import { BsTrash } from "react-icons/bs";
 import useDeviceSize from "@/components/useDeviceSize";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import buildLink from "@/urls";
 
 const EditProduct = () => {

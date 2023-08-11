@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import StarRatings from "react-star-ratings";
 import Image from "next/image";
 import useDeviceSize from "@/components/useDeviceSize";
@@ -17,6 +16,7 @@ import { FaTrash } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
+import PointsLoader from "../PointsLoader";
 
 function ProductPart2(props) {
   const { titleRef, loader, productData2, data, host, product_id } = props; //data is for product part one data
@@ -41,10 +41,6 @@ function ProductPart2(props) {
   useEffect(() => {
     setReviews(props.reviews);
   }, [props.reviews]);
-
-  const PointsLoader = dynamic(() => import("../PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
 
   const color = {
     a: "#FFEBCD	",

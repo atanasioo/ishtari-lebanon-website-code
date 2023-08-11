@@ -14,7 +14,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import ImageClient from "./imageClient";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import useDeviceSize from "./useDeviceSize.js";
 import SingleProductTest from "./product/SingleProductTest.js";
 import { useRouter } from "next/router.js";

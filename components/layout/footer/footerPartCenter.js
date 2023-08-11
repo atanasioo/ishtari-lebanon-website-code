@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import DOMPurify from "dompurify";
-import dynamic from "next/dynamic";
 
 export default function FooterPartCenter(props) {
   const data = props?.data;

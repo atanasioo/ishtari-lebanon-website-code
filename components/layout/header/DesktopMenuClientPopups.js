@@ -13,6 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { HostContext } from "@/contexts/HostContext";
+import PointsLoader from "@/components/PointsLoader";
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -25,8 +26,10 @@ function DesktopMenuClientPopups(props) {
     overlay,
   } = props;
 
-  const host = useContext(HostContext);
+  const [loading, setLoading] = useState(true);
+  const [topSelling, setTopSelling] = useState([]);
 
+  const host = useContext(HostContext);
 
   const types = {
     1: "product",
@@ -34,7 +37,6 @@ function DesktopMenuClientPopups(props) {
     3: "manufacturer",
     4: "seller",
   };
-
 
   const settings = {
     slidesPerRow: 3,
@@ -89,6 +91,22 @@ function DesktopMenuClientPopups(props) {
   const { setMarketingData } = useMarketingData();
   const path = "";
 
+  function getTopSelling(category_id) {
+    setLoading(true);
+    axiosServer
+      .get(
+        buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
+          "&category_id=" +
+          category_id
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setTopSelling(response.data.data.products);
+          setLoading(false);
+        }
+      });
+  }
+
   return (
     <div>
       {/* Subcategories' menu */}
@@ -108,11 +126,10 @@ function DesktopMenuClientPopups(props) {
                   {allCategories?.map((category) => (
                     <div
                       key={category.category_id}
-                      onMouseEnter={() =>
-                        {
-                          handleState("selectedTopCategory", category);
-                        }
-                      }
+                      onMouseEnter={() => {
+                        handleState("selectedTopCategory", category);
+                        getTopSelling(category.category_id);
+                      }}
                     >
                       <Link
                         href={`/${slugify(category.name)}/c=${
@@ -177,8 +194,9 @@ function DesktopMenuClientPopups(props) {
                       </Link>
                     ))}
 
-                  {selectedTopCategory?.Top_Selling_Products?.products?.length >
-                    0 && (
+                  {loading ? (
+                    <PointsLoader />
+                  ) : (
                     <div>
                       <div className="flex items-center mt-4 text-dblack">
                         <Link
@@ -196,20 +214,16 @@ function DesktopMenuClientPopups(props) {
                       </div>
                       <div className="w-full">
                         <Slider {...settings}>
-                          {selectedTopCategory?.Top_Selling_Products?.products
-                            ?.slice(0, 10)
-                            .map((item) => (
-                              <div key={item.product_id}>
-                                <SingleProduct item={item} topSelling={true} />
-                              </div>
-                            ))}
-                          {selectedTopCategory?.Top_Selling_Products?.products
-                            ?.slice(10)
-                            .map((item) => (
-                              <div key={item.product_id}>
-                                <SingleProduct item={item} topSelling={true} />
-                              </div>
-                            ))}
+                          {topSelling?.slice(0, 10).map((item) => (
+                            <div key={item.product_id}>
+                              <SingleProduct item={item} topSelling={true} />
+                            </div>
+                          ))}
+                          {topSelling?.slice(10).map((item) => (
+                            <div key={item.product_id}>
+                              <SingleProduct item={item} topSelling={true} />
+                            </div>
+                          ))}
                         </Slider>
                       </div>
                     </div>

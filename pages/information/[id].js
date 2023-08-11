@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import buildLink from "@/urls";
-import dynamic from "next/dynamic";
 import { axiosServer } from "@/axiosServer";
 import cookie from "cookie";
 import { sanitizeHTML } from "@/components/Utils";
@@ -42,10 +41,6 @@ function unescapeHTML(str) {
 }
 function Information(props) {
   const { data } = props;
-
-  //   const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-  //     ssr: false, // Disable server-side rendering
-  //   });
 
   return (
     <div>

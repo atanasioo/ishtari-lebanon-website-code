@@ -4,7 +4,6 @@ import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { AiOutlinePlus } from "react-icons/ai";
 import { sanitizeHTML } from "../Utils";
-import dynamic from "next/dynamic";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useContext, useRef, useState, useEffect } from "react";
 import useDeviceSize from "../useDeviceSize";

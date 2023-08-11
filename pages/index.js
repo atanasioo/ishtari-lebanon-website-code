@@ -3,7 +3,6 @@ import { axiosServer } from "@/axiosServer";
 import WidgetsLoop from "@/components/WidgetsLoop";
 import { useEffect, useRef, useState, useCallback, useMemo, useContext } from "react";
 import Head from "next/head";
-import dynamic from "next/dynamic";
 import useDeviceSize from "@/components/useDeviceSize";
 import ScrollToTop from "react-scroll-to-top";
 import { useCookie } from "next-cookie";
@@ -11,20 +10,11 @@ import cookie from "cookie";
 import { getHost } from "@/functions";
 import DownloadAppImg from "@/components/DownloadAppImg";
 import { AccountContext } from "@/contexts/AccountContext";
-
-// import PointsLoader from "@/components/PointsLoader";
+import PointsLoader from "@/components/PointsLoader";
 
 export default function Home(props) {
-  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
-  // const DownloadAppImg = dynamic(() => import("@/components/DownloadAppImg"), {
-  //   ssr: false, // Disable server-side rendering
-  // });
 
   const host_url = props.host;
-
-  console.log(host_url);
 
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);

@@ -1,9 +1,9 @@
 import { axiosServer } from "@/axiosServer";
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
+import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import buildLink from "@/urls";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -20,10 +20,6 @@ function feedback() {
   const [activeService, setActiveService] = useState(0);
   const [showSubmitBtn, setShowSubmitBtn] = useState(false);
   const [feedbacks, setFeedbacks] = useState([]);
-
-  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
 
   useEffect(() => {
     axiosServer

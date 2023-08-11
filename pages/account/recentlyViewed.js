@@ -1,11 +1,11 @@
 import { axiosServer } from "@/axiosServer";
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
+import PointsLoader from "@/components/PointsLoader";
 import SingleProduct from "@/components/product/SingleProduct";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
@@ -22,10 +22,6 @@ function recentlyViewed() {
   const [state, dispatch] = useContext(AccountContext);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
-  const PointsLoader = dynamic(() => import("@/components/PointsLoader"), {
-    ssr: false, // Disable server-side rendering
-  });
 
   function pageSetter(page) {
     setPage(page["selected"] + 1);

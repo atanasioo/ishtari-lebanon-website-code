@@ -5,7 +5,6 @@ import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
@@ -17,12 +16,6 @@ function Adresses() {
   const [loading, setLoading] = useState([]);
   const path= "";
 
-  const PointsLoader = dynamic(
-    () => import("../../../components/PointsLoader"),
-    {
-      ssr: false, // Disable server-side rendering
-    }
-  );
 
   useEffect(() => {
     axiosServer
