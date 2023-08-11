@@ -77,7 +77,7 @@ function MagicZoom(props) {
   // }, [activeOption, router]);
 
   useEffect(() => {
-    console.log("hello can you hear me");
+ 
     setImages(props.images);
     try {
       document.getElementById("mag-z-id").outerHTML = "";
@@ -104,7 +104,6 @@ function MagicZoom(props) {
           if (i.product_option_value_id === props.activeOption) {
             setActiveImage(i);
             setActiveImageIndex(index);
-            console.log("hello there");
           }
         });
       })

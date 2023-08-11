@@ -63,7 +63,6 @@ function AddAddressPage(props) {
     return p1 + "-" + p2 + "-" + p3;
   };
 
-  console.log(telephone);
 
   useEffect(() => {
     setKey((prevKey) => prevKey + 1);

@@ -37,8 +37,7 @@ function CatalogPage(props) {
   const [width] = useDeviceSize();
   const { marketingData, setMarketingData } = useMarketingData();
 
-  console.log(marketingData);
-  console.log(props.type);
+
   const SwiperComponent = dynamic(() => import("./SwiperComponent"), {
     ssr: false,
   });
@@ -198,10 +197,9 @@ function CatalogPage(props) {
     order,
     limit,
   } = router.query;
-  console.log("id is " + slug);
+
   const clearFilter = (filter) => {
-    console.log("router");
-    console.log(router);
+   
 
     setTopFilter({
       show: false,
@@ -223,7 +221,7 @@ function CatalogPage(props) {
     } else if (filter.id === "filter_price") {
       params && params.delete("filter_price");
     }
-    console.log(params);
+
     if (
       params &&
       (typeof params === "string" || params instanceof String) &&

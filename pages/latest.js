@@ -188,7 +188,6 @@ export async function getServerSideProps(context) {
     "&source_id=1" +
     `${limit != undefined ? "&limit=" + limit : ""}` +
     `${page != undefined ? "&page=" + page : ""}`;
-  console.log(link);
   const response = await axiosServer.get(link, {
     headers: {
       Authorization: "Bearer " + token,

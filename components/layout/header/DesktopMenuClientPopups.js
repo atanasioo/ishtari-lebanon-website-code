@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "@/components/Utils";
@@ -26,7 +26,7 @@ function DesktopMenuClientPopups(props) {
     overlay,
   } = props;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [topSelling, setTopSelling] = useState([]);
 
   const host = useContext(HostContext);
@@ -91,21 +91,40 @@ function DesktopMenuClientPopups(props) {
   const { setMarketingData } = useMarketingData();
   const path = "";
 
-  function getTopSelling(category_id) {
-    setLoading(true);
-    axiosServer
-      .get(
-        buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
-          "&category_id=" +
-          category_id
-      )
-      .then((response) => {
-        if (response.data.success) {
-          setTopSelling(response.data.data.products);
-          setLoading(false);
-        }
-      });
-  }
+  useEffect(() => {
+    if (window.innerWidth > 1024) {
+      setLoading(true);
+      axiosServer
+        .get(
+          buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
+            "&category_id=" +
+            selectedTopCategory.category_id
+        )
+        .then((response) => {
+          if (response.data.success) {
+            setTopSelling(response.data.data.products);
+            setLoading(false);
+          }
+        });
+    }
+  }, [selectedTopCategory]);
+
+
+  // function getTopSelling(category_id) {
+  //   setLoading(true);
+  //   axiosServer
+  //     .get(
+  //       buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
+  //         "&category_id=" +
+  //         category_id
+  //     )
+  //     .then((response) => {
+  //       if (response.data.success) {
+  //         setTopSelling(response.data.data.products);
+  //         setLoading(false);
+  //       }
+  //     });
+  // }
 
   return (
     <div>
@@ -128,7 +147,7 @@ function DesktopMenuClientPopups(props) {
                       key={category.category_id}
                       onMouseEnter={() => {
                         handleState("selectedTopCategory", category);
-                        getTopSelling(category.category_id);
+                        // getTopSelling(category.category_id);
                       }}
                     >
                       <Link

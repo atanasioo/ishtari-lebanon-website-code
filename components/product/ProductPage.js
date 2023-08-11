@@ -130,7 +130,7 @@ function ProductPage(props) {
         reviewCenterData.scrollToReview &&
         reviewCenterData.product_id === product_id
       ) {
-        console.log("here");
+
         await getProductPart2();
 
         // if (titleRef.current !== null) {

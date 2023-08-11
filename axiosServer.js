@@ -15,9 +15,6 @@ const getToken = async (site_host) => {
     Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw==",
   };
 
-  // console.log( "*********************");
-  console.log("site_host-1");
-  // console.log( "*********************");
   const response = await axios.post(
     buildLink("token", undefined, undefined, site_host),
     requestBody,
