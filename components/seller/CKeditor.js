@@ -4,7 +4,6 @@ function Editor({ onChange, editorLoaded, name, value }) {
   const editorRef = useRef();
   const { ClassicEditor } = editorRef.current || {};
 
-  console.log("hello");
 
   useEffect(() => {
     editorRef.current = {

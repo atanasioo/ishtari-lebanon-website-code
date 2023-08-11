@@ -27,7 +27,6 @@ const SellerHeader = ({ toggleMenuu, showMenu, image, sellerName }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(name);
     if (width > 768 && name === undefined && showDropdown) {
       axiosServer
         .get(

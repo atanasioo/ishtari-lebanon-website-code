@@ -8,7 +8,6 @@ import { useContext, useEffect, useState } from "react";
 import { IoIosAlert } from "react-icons/io";
 
 function flashSale(props) {
-  console.log(props.data);
   const { data } = props;
   const [activeTab, setActiveTab] = useState(0);
   const [accountState, dispatchAccount] = useContext(AccountContext);
@@ -33,7 +32,6 @@ function flashSale(props) {
       axiosServer
         .post(buildLink("addReminderForFlashSale", undefined, undefined), obj)
         .then((response) => {
-          console.log(response);
           if(response.data.success){
             setSuccessReminder("Reminder set successfully");
             setTimeout(()=>{
@@ -41,7 +39,6 @@ function flashSale(props) {
             },3000)
             setErrReminder("");
           }else{
-            console.log(response.data.message);
             setErrReminder(response.data.message);
             setTimeout(()=>{
               setErrReminder("");
@@ -65,7 +62,6 @@ function flashSale(props) {
         buildLink("getFlashSale", undefined, undefined) + data[index].date_start
       )
       .then((response) => {
-        console.log(response);
         if(response.data.success){
           setProductsTab(response.data.data[0].products);
         }else{
@@ -154,8 +150,6 @@ export async function getServerSideProps(context) {
   );
 
   data = response.data.data;
-
-  console.log(response);
 
   return {
     props: {

@@ -303,8 +303,6 @@ function ProductZoom(props) {
   //   });
   // }, [images]);
 
-  console.log("hovered is " +hovered);
-  console.log("hover zoom is " +hoverZoom);
 
   return (
     <div>
