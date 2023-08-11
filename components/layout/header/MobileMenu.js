@@ -299,34 +299,36 @@ function MobileMenu(props) {
               {loading ? (
                 <PointsLoader />
               ) : (
-                <div>
-                  <div className="flex items-center mt-4 text-dblack">
-                    <div className="pr-semibold cursor-pointer hover:text-dblue">
-                      Explore Top Selling Products
+                topSelling.length > 0 && (
+                  <div>
+                    <div className="flex items-center mt-4 text-dblack">
+                      <div className="pr-semibold cursor-pointer hover:text-dblue">
+                        Explore Top Selling Products
+                      </div>
+                      <i className="icon icon-angle-right"></i>
                     </div>
-                    <i className="icon icon-angle-right"></i>
+                    <div className="w-full">
+                      <Slider {...settings}>
+                        {topSelling?.slice(0, 10).map((item) => (
+                          <div
+                            key={item.product_id}
+                            onClick={() => closeMobileMenu()}
+                          >
+                            <SingleProduct item={item} topSelling={true} />
+                          </div>
+                        ))}
+                        {topSelling?.slice(10).map((item) => (
+                          <div
+                            key={item.product_id}
+                            onClick={() => closeMobileMenu()}
+                          >
+                            <SingleProduct item={item} topSelling={true} />
+                          </div>
+                        ))}
+                      </Slider>
+                    </div>
                   </div>
-                  <div className="w-full">
-                    <Slider {...settings}>
-                      {topSelling?.slice(0, 10).map((item) => (
-                        <div
-                          key={item.product_id}
-                          onClick={() => closeMobileMenu()}
-                        >
-                          <SingleProduct item={item} topSelling={true} />
-                        </div>
-                      ))}
-                      {topSelling?.slice(10).map((item) => (
-                        <div
-                          key={item.product_id}
-                          onClick={() => closeMobileMenu()}
-                        >
-                          <SingleProduct item={item} topSelling={true} />
-                        </div>
-                      ))}
-                    </Slider>
-                  </div>
-                </div>
+                )
               )}
             </div>
           </div>
