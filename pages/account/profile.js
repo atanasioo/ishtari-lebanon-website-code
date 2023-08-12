@@ -8,6 +8,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
 function profile() {
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
@@ -418,3 +420,20 @@ function profile() {
 }
 
 export default profile;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

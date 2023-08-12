@@ -5,10 +5,12 @@ import SingleProduct from "@/components/product/SingleProduct";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 function buyagain() {
   const router = useRouter();
@@ -238,3 +240,20 @@ function buyagain() {
 }
 
 export default buyagain;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

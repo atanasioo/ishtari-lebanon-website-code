@@ -3,8 +3,10 @@ import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import buildLink from "@/urls";
 import Cookies from "js-cookie";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -185,3 +187,20 @@ function Orders() {
 }
 
 export default Orders;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

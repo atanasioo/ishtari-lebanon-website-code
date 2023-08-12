@@ -3,7 +3,9 @@ import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import buildLink from "@/urls";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -312,3 +314,20 @@ function OrderDetails() {
 }
 
 export default OrderDetails;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

@@ -17,6 +17,8 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { WishlistContext } from "@/contexts/WishlistContext";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
   const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
@@ -516,3 +518,20 @@ function wishlist() {
 }
 
 export default wishlist;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

@@ -6,9 +6,11 @@ import SingleProduct from "@/components/product/SingleProduct";
 import useDeviceSize from "@/components/useDeviceSize";
 import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
 import buildLink from "@/urls";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { BsClockFill, BsStarFill } from "react-icons/bs";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 function reviewCenter() {
   const [width] = useDeviceSize();
@@ -114,3 +116,20 @@ function reviewCenter() {
 }
 
 export default reviewCenter;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

@@ -92,7 +92,7 @@ function DesktopMenuClientPopups(props) {
   const path = "";
 
   useEffect(() => {
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth > 1024 && typeof selectedTopCategory.category_id !== "undefined") {
       setLoading(true);
       axiosServer
         .get(

@@ -6,10 +6,12 @@ import SingleProduct from "@/components/product/SingleProduct";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 function recentlyViewed() {
   const [width, height] = useDeviceSize();
@@ -244,3 +246,20 @@ function recentlyViewed() {
 }
 
 export default recentlyViewed;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

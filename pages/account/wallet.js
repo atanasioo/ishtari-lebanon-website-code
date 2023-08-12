@@ -5,12 +5,14 @@ import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
+import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaWallet } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 function wallet() {
   const [width] = useDeviceSize();
@@ -79,14 +81,14 @@ function wallet() {
               <PointsLoader />
             </div>
           ) : (
-            <div className="w-full md:container">
+            <div className="w-full md:mx-auto">
               <div
                 className="w-full h-56 md:h-44 flex flex-col gap-3 md:gap-0 md:flex-row justify-between items-start md:items-center p-5"
                 style={{ backgroundColor: "#59acf4" }}
               >
                 <div className="flex flex-col">
                   <div
-                    className="rounded-full p-5 pr-semibold"
+                    className="rounded-full w-max p-5 pr-semibold"
                     style={{ backgroundColor: "#a8e8ff" }}
                   >
                     {session?.user?.firstname
@@ -201,3 +203,20 @@ function wallet() {
 }
 
 export default wallet;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

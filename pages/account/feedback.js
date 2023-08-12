@@ -4,12 +4,14 @@ import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import buildLink from "@/urls";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import StarRatings from "react-star-ratings";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 function feedback() {
   const [width] = useDeviceSize();
@@ -280,3 +282,20 @@ function feedback() {
 }
 
 export default feedback;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

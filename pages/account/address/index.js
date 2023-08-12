@@ -4,7 +4,9 @@ import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import buildLink from "@/urls";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
@@ -14,8 +16,7 @@ function Adresses() {
   const [state, dispatch] = useContext(AccountContext);
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState([]);
-  const path= "";
-
+  const path = "";
 
   useEffect(() => {
     axiosServer
@@ -74,7 +75,10 @@ function Adresses() {
                     across our marketplaces
                   </p>
                 </div>
-                <Link href={"/account/address/add"} className="new-addr-btn rounded-md px-8 py-3.5 uppercase relative pr-bold  bg-dblueHover text-white">
+                <Link
+                  href={"/account/address/add"}
+                  className="new-addr-btn rounded-md px-8 py-3.5 uppercase relative pr-bold  bg-dblueHover text-white"
+                >
                   ADD NEW ADDRESS
                 </Link>
               </div>
@@ -85,7 +89,10 @@ function Adresses() {
                 <div>No Addresses</div>
               ) : (
                 addresses?.map((address) => (
-                  <div className="p-8 mobile:flex mobile:justify-between bg-white mt-10" key={address.address_id}>
+                  <div
+                    className="p-8 mobile:flex mobile:justify-between bg-white mt-10"
+                    key={address.address_id}
+                  >
                     <div>
                       <div className="flex gap-4 mb-5">
                         <div className="text-d18 capitalize pr-bold ">
@@ -134,7 +141,10 @@ function Adresses() {
                           >
                             Delete
                           </button>
-                          <Link href={`${path}/account/address/${address.address_id}/edit`} className="text-dgreyAddress underline cursor-pointer">
+                          <Link
+                            href={`${path}/account/address/${address.address_id}/edit`}
+                            className="text-dgreyAddress underline cursor-pointer"
+                          >
                             Edit
                           </Link>
                         </div>
@@ -148,7 +158,10 @@ function Adresses() {
                         >
                           Delete
                         </button>
-                        <Link href={`${path}/account/address/${address.address_id}/edit`} className="text-dgreyAddress underline cursor-pointer">
+                        <Link
+                          href={`${path}/account/address/${address.address_id}/edit`}
+                          className="text-dgreyAddress underline cursor-pointer"
+                        >
                           Edit
                         </Link>
                       </div>
@@ -165,3 +178,20 @@ function Adresses() {
 }
 
 export default Adresses;
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permant: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
