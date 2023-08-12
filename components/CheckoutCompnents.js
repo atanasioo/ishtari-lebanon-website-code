@@ -76,7 +76,7 @@ function CheckoutCompnents() {
   const address_2 = useRef("");
   const telephone = useRef("");
   const coupon = useRef("");
-  const balanceAmount = useRef("");
+  // const balanceAmount = useRef("");
   const termCondition = useRef("");
 
   const email = useRef("");
@@ -314,21 +314,21 @@ function CheckoutCompnents() {
     }
   }
 
-  function applyBalance() {
-    const obj = {
-      name: zone.current.name,
-      value: zone.current.id,
-    };
-    if (balanceAmount.current.value.length > 1) {
-      manual(manualCart, obj, activePaymentMethod, false);
-    }
-  }
+  // function applyBalance() {
+  //   const obj = {
+  //     name: zone.current.name,
+  //     value: zone.current.id,
+  //   };
+  //   if (balanceAmount.current.value.length > 1) {
+  //     manual(manualCart, obj, activePaymentMethod, false);
+  //   }
+  // }
 
-  function handleBalanceAmountChance() {
-    if (balanceAmount.current.value.length < 1) {
-      manualErrors.current = "";
-    }
-  }
+  // function handleBalanceAmountChance() {
+  //   if (balanceAmount.current.value.length < 1) {
+  //     manualErrors.current = "";
+  //   }
+  // }
 
   function closeCellulantPopup() {
     setCellulantPopup(false);
@@ -434,7 +434,6 @@ function CheckoutCompnents() {
     }
   }, [state]);
 
-  console.log(balanceAmount.current.value);
 
   // Manual Request
 
@@ -473,7 +472,7 @@ function CheckoutCompnents() {
         source_id: 1,
         coupon: "",
         code_version: width > 600 ? "web_desktop" : "web_mobile",
-        customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
+        // customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
       };
     } else {
       body = {
@@ -505,7 +504,7 @@ function CheckoutCompnents() {
         source_id: 1,
         coupon: coupon.current?.value || "",
         code_version: width > 600 ? "web_desktop" : "web_mobile",
-        customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
+        // customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -2375,7 +2374,7 @@ function CheckoutCompnents() {
                 </div>
 
                 {/* customer wallet */}
-                <div className="p-5 rounded top-7 border border-dgrey1 border-opacity-20 mt-6">
+                {/* <div className="p-5 rounded top-7 border border-dgrey1 border-opacity-20 mt-6">
                   {loading && (
                     <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
                       <Loader styles="h-9 w-9 text-dblue ml-4" />
@@ -2407,7 +2406,7 @@ function CheckoutCompnents() {
                       <p className="text-center mt-3">APPLY</p>
                     </div>{" "}
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>{" "}
           </form>

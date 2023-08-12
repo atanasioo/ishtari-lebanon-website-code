@@ -101,29 +101,16 @@ function DesktopMenuClientPopups(props) {
             selectedTopCategory.category_id
         )
         .then((response) => {
-          if (response.data.success) {
+          if (typeof response.data.data.products !== "undefined" && response.data.data.products.length > 0 ) {
             setTopSelling(response.data.data.products);
+          }else{
+            setTopSelling([]);
           }
           setLoading(false);
         });
     }
   }, [selectedTopCategory]);
 
-  // function getTopSelling(category_id) {
-  //   setLoading(true);
-  //   axiosServer
-  //     .get(
-  //       buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
-  //         "&category_id=" +
-  //         category_id
-  //     )
-  //     .then((response) => {
-  //       if (response.data.success) {
-  //         setTopSelling(response.data.data.products);
-  //         setLoading(false);
-  //       }
-  //     });
-  // }
 
   return (
     <div>
