@@ -14,6 +14,7 @@ import Slider from "react-slick";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
+import Cookies from "js-cookie";
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -94,7 +95,8 @@ function DesktopMenuClientPopups(props) {
   useEffect(() => {
     if (
       (window.location.host === "www.ishtari.com" ||
-        window.location.host === "next.ishtari.com") &&
+        window.location.host === "next.ishtari.com" ||
+        Cookies.get("site-local-name") === "ishtari") &&
       window.innerWidth > 1024 &&
       typeof selectedTopCategory.category_id !== "undefined"
     ) {
