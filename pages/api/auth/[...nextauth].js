@@ -116,13 +116,6 @@ export const authOptions = {
 
       return token;
     },
-    async signIn({ user }) {
-      console.log(user);
-
-      if (user) return true;
-
-      return false;
-    },
     async session({ session, token }) {
       session.user.isLoggedIn = true;
       session.user.customer_id = token.customer_id;
@@ -130,6 +123,13 @@ export const authOptions = {
       session.user.lastname = token.lastname;
       session.user.telephone = token.telephone;
       return session;
+    },
+    async signIn({ user }) {
+      console.log(user);
+
+      if (user) return true;
+
+      return false;
     },
     async signOut({ callbackUrl, req, res }) {
       return "/";
