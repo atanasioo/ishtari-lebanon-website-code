@@ -23,7 +23,7 @@ function CheckoutCompnents() {
   const [cartState, dispatch] = useContext(CartContext);
   const curr = useContext(CurrencyContext);
   console.log(curr);
-  const [width]  = useDeviceSize();
+  const [width] = useDeviceSize();
   // Is Phone Number Valid ?
   const [isValid, setIsValid] = useState(true);
   const [error, setError] = useState(false);
@@ -32,8 +32,9 @@ function CheckoutCompnents() {
   const [cellulantPopup, setCellulantPopup] = useState(false);
   const [cellulantCheckoutObj, setCellulantCheckoutObj] = useState({});
   const [cellulantData, setCellulantData] = useState([]);
-  const { setMarketingData } = useMarketingData()
+  const { setMarketingData } = useMarketingData();
   const [loginShow, setLoginShow] = useState(false);
+  const [walletBalance, setWalletBalance] = useState(0);
 
   const [err, setErr] = useState("");
   const router = useRouter();
@@ -46,11 +47,11 @@ function CheckoutCompnents() {
   const [firstAttemp, setFirstAttemp] = useState(true);
   const zone = useRef({
     id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name
+    name: window.config["initial-zone"].name,
   });
   const town = useRef({
     id: 0,
-    name: ""
+    name: "",
   });
   // Cart states
   const [emptyCart, setEmptyCart] = useState(false);
@@ -75,6 +76,7 @@ function CheckoutCompnents() {
   const address_2 = useRef("");
   const telephone = useRef("");
   const coupon = useRef("");
+  const balanceAmount = useRef("");
   const termCondition = useRef("");
 
   const email = useRef("");
@@ -92,11 +94,8 @@ function CheckoutCompnents() {
     if (firstAttemp) {
       const fname = document.getElementById("firstname");
       fname?.focus();
-
-      
     }
   });
-
 
   useEffect(() => {
     // This effect runs on component mount and whenever router.pathname changes
@@ -111,7 +110,7 @@ function CheckoutCompnents() {
   const CellulantCheckoutPopup = dynamic(
     () => import("./CellulantCheckoutPopup"),
     {
-      ssr: false // Disable server-side rendering
+      ssr: false, // Disable server-side rendering
     }
   );
 
@@ -122,21 +121,27 @@ function CheckoutCompnents() {
       function gtag() {
         window.dataLayer.push(arguments);
       }
-      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
+      if (
+        window.location.host === "www.ishtari.com" ||
+        window.location.host === "next.ishtari.com"
+      ) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/EUVMCKj7nI8YEJuG29gD",
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product
+          items: manualResponse?.order_product,
         });
-      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
+      } else if (
+        window.location.host === "www.ishtari.com.gh" ||
+        window.location.host === "next.ishtari.com.gh"
+      ) {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/lOeeCOi6kZEYEKLrpvoo",
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product
+          items: manualResponse?.order_product,
         });
       }
     }
@@ -149,12 +154,12 @@ function CheckoutCompnents() {
         fn: manualResponse?.social_data?.firstname,
         ln: manualResponse?.social_data?.lastname,
         external_id: manualResponse?.social_data?.external_id,
-        country: manualResponse?.social_data?.country_code
+        country: manualResponse?.social_data?.country_code,
       };
 
       ReactPixel.init(pixelID, advancedMatching, {
         debug: true,
-        autoConfig: false
+        autoConfig: false,
       });
       ReactPixel.pageView();
       ReactPixel.fbq("track", "PageView");
@@ -175,7 +180,7 @@ function CheckoutCompnents() {
           content_type: "product",
           content_ids: productArray,
           num_items: manualResponse?.order_product?.length,
-          currency: manualResponse?.social_data?.currency
+          currency: manualResponse?.social_data?.currency,
         },
         { eventID: manualResponse?.social_data?.event_id }
       );
@@ -193,17 +198,14 @@ function CheckoutCompnents() {
   }, [window.location.href]);
 
   const cid = Cookies.get("cid");
-useEffect(()=>{
-
-  if(loginShow){
-  dispatchAccount({ type: "setShowOver", payload: true });
-  dispatchAccount({ type: "setShowLogin", payload: true });
-}
-}, [loginShow])
-
+  useEffect(() => {
+    if (loginShow) {
+      dispatchAccount({ type: "setShowOver", payload: true });
+      dispatchAccount({ type: "setShowLogin", payload: true });
+    }
+  }, [loginShow]);
 
   useEffect(() => {
-
     axiosServer
       .get(
         buildLink(
@@ -219,14 +221,12 @@ useEffect(()=>{
           setloged(false);
           // alert(2)
           getCart();
-         
-          if (!state.loged ){
+
+          if (!state.loged) {
             if (!state.admin && !loginShow) {
-              
-              setLoginShow(true)
+              setLoginShow(true);
             }
-        
-        }
+          }
         } else {
           setloged(true);
           axiosServer
@@ -255,7 +255,7 @@ useEffect(()=>{
               if (!response.data.success) {
                 router.push({
                   pathname: "/account/address/add",
-                  search: "from-checkout=true"
+                  search: "from-checkout=true",
                 });
               } else {
                 zone.current.name = response.data.data[0].city;
@@ -271,8 +271,6 @@ useEffect(()=>{
         }
       });
     // End account check
-
-
   }, [window.location]);
 
   // set active address from address list
@@ -281,7 +279,7 @@ useEffect(()=>{
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id
+      value: address.zone_id,
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -302,7 +300,7 @@ useEffect(()=>{
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id
+      value: zone.current.id,
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false);
@@ -312,6 +310,22 @@ useEffect(()=>{
 
   function handleCouponChange() {
     if (coupon.current.value.length < 1) {
+      manualErrors.current = "";
+    }
+  }
+
+  function applyBalance() {
+    const obj = {
+      name: zone.current.name,
+      value: zone.current.id,
+    };
+    if (balanceAmount.current.value.length > 1) {
+      manual(manualCart, obj, activePaymentMethod, false);
+    }
+  }
+
+  function handleBalanceAmountChance() {
+    if (balanceAmount.current.value.length < 1) {
       manualErrors.current = "";
     }
   }
@@ -360,21 +374,21 @@ useEffect(()=>{
           payload:
             response.data?.data?.products?.length > 0
               ? response.data.data.products
-              : []
+              : [],
         });
         dispatch({
           type: "setTotals",
           payload:
             response.data?.data?.totals?.length > 0
               ? response.data.data.totals
-              : 0
+              : 0,
         });
         dispatch({
           type: "setProductsCount",
           payload:
             response?.data?.data?.total_product_count > 0
               ? response.data.data.total_product_count
-              : 0
+              : 0,
         });
       });
     // End cart check
@@ -406,6 +420,21 @@ useEffect(()=>{
         });
     }
   }, []);
+
+  //get wallet balance
+  useEffect(() => {
+    if (state.loged) {
+      axiosServer
+        .get(buildLink("getBalance", undefined, window.innerWidth))
+        .then((response) => {
+          if (response.data.success) {
+            setWalletBalance(response.data.data.balance);
+          }
+        });
+    }
+  }, [state]);
+
+  console.log(balanceAmount.current.value);
 
   // Manual Request
 
@@ -443,7 +472,8 @@ useEffect(()=>{
         //     : true,
         source_id: 1,
         coupon: "",
-        code_version: width > 600 ? "web_desktop" : "web_mobile"
+        code_version: width > 600 ? "web_desktop" : "web_mobile",
+        customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
       };
     } else {
       body = {
@@ -473,8 +503,9 @@ useEffect(()=>{
         //   : true,
         payment_session: manualResponse.payment_session,
         source_id: 1,
-        coupon: coupon.current.value || "",
-        code_version: width > 600 ? "web_desktop" : "web_mobile"
+        coupon: coupon.current?.value || "",
+        code_version: width > 600 ? "web_desktop" : "web_mobile",
+        customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -630,7 +661,7 @@ useEffect(()=>{
     setTownes("");
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value
+      value: sel.value,
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
@@ -663,7 +694,7 @@ useEffect(()=>{
     town.current.name = sel.options[sel.selectedIndex].text;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value
+      value: sel.value,
     };
     manual(manualCart, "", activePaymentMethod, false);
     dispatchAccount({ type: "setShowOver", payload: false });
@@ -716,7 +747,7 @@ useEffect(()=>{
         service_code: paymentData?.service_code,
         success_redirect_url: paymentData?.success_redirect_url,
         fail_redirect_url: paymentData?.failed_url,
-        language_code: "en"
+        language_code: "en",
       };
       axiosServer
         .post(
@@ -847,7 +878,7 @@ useEffect(()=>{
               request_description:
                 "ishtariLTD payment for order ID: " + manualResponse.order_id,
               service_code: data.service_code,
-              success_redirect_url: data.success_redirect_url
+              success_redirect_url: data.success_redirect_url,
             });
 
             setCellulantData(data);
@@ -944,12 +975,12 @@ useEffect(()=>{
             fn: data?.data?.social_data?.firstname,
             ln: data?.data?.social_data?.lastname,
             external_id: data?.data?.social_data?.external_id,
-            country: data?.data?.social_data?.country_code
+            country: data?.data?.social_data?.country_code,
           };
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
             autoConfig: false,
-            country: data?.data?.social_data?.country_code
+            country: data?.data?.social_data?.country_code,
           });
 
           ReactPixel.pageView();
@@ -963,7 +994,7 @@ useEffect(()=>{
                 content_ids: data?.data?.social_data?.content_ids,
                 value: data?.data?.social_data?.value,
                 num_items: data?.data?.social_data?.num_items,
-                currency: data?.data?.social_data?.currency
+                currency: data?.data?.social_data?.currency,
               },
               { eventID: data?.data?.social_data?.event_id }
             );
@@ -988,12 +1019,12 @@ useEffect(()=>{
         if (firstPath === "bey") {
           router.push({
             pathname: "/bey/success/",
-            state: { data: response.data.data }
+            state: { data: response.data.data },
           });
         } else {
           router.push({
             pathname: "/success/",
-            state: { data: response.data.data }
+            state: { data: response.data.data },
           });
         }
       }
@@ -1024,7 +1055,7 @@ useEffect(()=>{
       zone.current.id = obj.zone;
       const data = {
         name: obj.city,
-        value: obj.zone
+        value: obj.zone,
       };
       manual(manualCart, data, activePaymentMethod, false);
     }
@@ -1047,7 +1078,7 @@ useEffect(()=>{
     amount: 0,
     confirm_url: "0",
     success_url: "0",
-    order_id: 0
+    order_id: 0,
   });
 
   function setPaymentMethod(pm) {
@@ -1061,7 +1092,7 @@ useEffect(()=>{
     Cookies.set("change", true);
 
     var obj = {
-      currency: currency
+      currency: currency,
     };
     axiosServer
       .post(
@@ -1090,15 +1121,15 @@ useEffect(()=>{
         if (!loged) {
           dispatchAccount({
             type: "setShowOver",
-            payload: true
+            payload: true,
           });
           dispatchAccount({
             type: "setShowLogin",
-            payload: true
+            payload: true,
           });
           dispatchAccount({
             type: "setShowSignup",
-            payload: false
+            payload: false,
           });
         } else {
           setPaymentMethod(payment_code);
@@ -1828,7 +1859,7 @@ useEffect(()=>{
                               ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                               ?.replace(/\s+/g, "-")
                               .replace("/", "-")}/p=${product.product_id}`}
-                              onClick={() => setMarketingData({})}
+                            onClick={() => setMarketingData({})}
                             key={product.product_id}
                           >
                             <img
@@ -1853,7 +1884,7 @@ useEffect(()=>{
                             <p
                               className=" text-sm font-semibold"
                               dangerouslySetInnerHTML={{
-                                __html: DOMPurify.sanitize(product.name)
+                                __html: DOMPurify.sanitize(product.name),
                               }}
                             />{" "}
                             {product.option.length > 0 && (
@@ -2019,7 +2050,9 @@ useEffect(()=>{
               >
                 <div
                   className={`${
-                    state.admin && width > 650  &&"fixed w-full md:w-4/12 md:pr-6 mr-24 z-40 bg-dprimarybg "
+                    state.admin &&
+                    width > 650 &&
+                    "fixed w-full md:w-4/12 md:pr-6 mr-24 z-40 bg-dprimarybg "
                   } `}
                 >
                   <div
@@ -2127,15 +2160,15 @@ useEffect(()=>{
                         onClick={() => {
                           dispatchAccount({
                             type: "setShowOver",
-                            payload: true
+                            payload: true,
                           });
                           dispatchAccount({
                             type: "setShowLogin",
-                            payload: true
+                            payload: true,
                           });
                           dispatchAccount({
                             type: "setShowSignup",
-                            payload: false
+                            payload: false,
                           });
                         }}
                       >
@@ -2339,6 +2372,41 @@ useEffect(()=>{
                       </div>
                     </div>
                   )}
+                </div>
+
+                {/* customer wallet */}
+                <div className="p-5 rounded top-7 border border-dgrey1 border-opacity-20 mt-6">
+                  {loading && (
+                    <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
+                      <Loader styles="h-9 w-9 text-dblue ml-4" />
+                    </div>
+                  )}
+                  <div className="flex justify-between">
+                    <h1 className="pr-bold text-xll text-dblack mb-4 leading-26">
+                      Customer Balance
+                    </h1>
+                    <div className="pr-semibold">{walletBalance}</div>
+                  </div>
+
+                  <div className="text-sm">
+                    You can utilize your entire balance or a specific amount to
+                    deduct from the total amount of your order.
+                  </div>
+                  <div className="mt-4 flex ">
+                    <input
+                      type="text"
+                      className="border border-dinputBorder flex-grow rounded-tl rounded-bl border-r-0 h-10 px-5"
+                      placeholder="Enter an amount"
+                      ref={balanceAmount}
+                      onChange={() => handleBalanceAmountChance()}
+                    />
+                    <div
+                      onClick={() => applyBalance()}
+                      className="bg-dblue text-white px-3 h-10 rounded-tr rounded-br text-sm cursor-pointer"
+                    >
+                      <p className="text-center mt-3">APPLY</p>
+                    </div>{" "}
+                  </div>
                 </div>
               </div>
             </div>{" "}
