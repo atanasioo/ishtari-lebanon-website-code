@@ -526,7 +526,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         destination: "/",
-        permant: false,
+        permanent: false,
       },
     };
   }
