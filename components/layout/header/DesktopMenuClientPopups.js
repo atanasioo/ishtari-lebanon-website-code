@@ -29,7 +29,7 @@ function DesktopMenuClientPopups(props) {
   const [loading, setLoading] = useState(false);
   const [topSelling, setTopSelling] = useState([]);
 
-  const host = useContext(HostContext);
+  const { host } = useContext(HostContext);
 
   const types = {
     1: "product",
@@ -92,7 +92,12 @@ function DesktopMenuClientPopups(props) {
   const path = "";
 
   useEffect(() => {
-    if (window.innerWidth > 1024 && typeof selectedTopCategory.category_id !== "undefined") {
+    if (
+      (window.location.host === "www.ishtari.com" ||
+        window.location.host === "next.ishtari.com") &&
+      window.innerWidth > 1024 &&
+      typeof selectedTopCategory.category_id !== "undefined"
+    ) {
       setLoading(true);
       axiosServer
         .get(
@@ -101,16 +106,18 @@ function DesktopMenuClientPopups(props) {
             selectedTopCategory.category_id
         )
         .then((response) => {
-          if (typeof response.data.data.products !== "undefined" && response.data.data.products.length > 0 ) {
+          if (
+            typeof response.data.data.products !== "undefined" &&
+            response.data.data.products.length > 0
+          ) {
             setTopSelling(response.data.data.products);
-          }else{
+          } else {
             setTopSelling([]);
           }
           setLoading(false);
         });
     }
   }, [selectedTopCategory]);
-
 
   return (
     <div>
@@ -308,7 +315,7 @@ function DesktopMenuClientPopups(props) {
                         }
                       >
                         <Image
-                          src={`${host.host}/image/${banner.image}`}
+                          src={`${host}/image/${banner.image}`}
                           width={600}
                           height={400}
                           alt={banner.image.name}
