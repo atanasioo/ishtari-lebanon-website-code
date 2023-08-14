@@ -32,11 +32,9 @@ function CatalogPage(props) {
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [state] = useContext(AccountContext);
 
-
   const [productDisplay, setProductDisplay] = useState("grid");
   const [width] = useDeviceSize();
   const { marketingData, setMarketingData } = useMarketingData();
-
 
   const SwiperComponent = dynamic(() => import("./SwiperComponent"), {
     ssr: false,
@@ -199,8 +197,6 @@ function CatalogPage(props) {
   } = router.query;
 
   const clearFilter = (filter) => {
-   
-
     setTopFilter({
       show: false,
       name: "",
@@ -697,33 +693,35 @@ function CatalogPage(props) {
 
   useEffect(() => {
     var dataSocial = data?.social_data;
-    dataSocial["fbp"] = Cookies.get("_fbp");
-    dataSocial["fbc"] = Cookies.get("_fbc");
-    dataSocial["ttp"] = Cookies.get("_ttp");
-    dataSocial["link"] = window.location.href;
-    dataSocial["view_type"] = props.type;
-    dataSocial["view_type_id"] = catalog_id;
-    if (
-      marketingData.source_type === "" ||
-      marketingData.source_type === null ||
-      typeof marketingData.source_type === "undefined"
-    ) {
-      dataSocial["ignore"] = true;
-    } else {
-      dataSocial["source_type"] = marketingData.source_type;
-      dataSocial["source_type_id"] = marketingData.source_type_id;
-      dataSocial["banner_image_id"] = marketingData.banner_image_id
-        ? marketingData.banner_image_id
-        : "";
-    }
+    if (typeof dataSocial !== "undefined") {
+      dataSocial["fbp"] = Cookies.get("_fbp");
+      dataSocial["fbc"] = Cookies.get("_fbc");
+      dataSocial["ttp"] = Cookies.get("_ttp");
+      dataSocial["link"] = window.location.href;
+      dataSocial["view_type"] = props.type;
+      dataSocial["view_type_id"] = catalog_id;
+      if (
+        marketingData.source_type === "" ||
+        marketingData.source_type === null ||
+        typeof marketingData.source_type === "undefined"
+      ) {
+        dataSocial["ignore"] = true;
+      } else {
+        dataSocial["source_type"] = marketingData.source_type;
+        dataSocial["source_type_id"] = marketingData.source_type_id;
+        dataSocial["banner_image_id"] = marketingData.banner_image_id
+          ? marketingData.banner_image_id
+          : "";
+      }
 
-    axiosServer
-      .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
-      .then((response) => {
-        const data = response.data;
-        if (data.success === true) {
-        }
-      });
+      axiosServer
+        .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+        .then((response) => {
+          const data = response.data;
+          if (data.success === true) {
+          }
+        });
+    }
   }, [router]);
 
   //page view conversion for google ads
@@ -733,12 +731,18 @@ function CatalogPage(props) {
       function gtag() {
         window.dataLayer.push(arguments);
       }
-      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
+      if (
+        window.location.host === "www.ishtari.com" ||
+        window.location.host === "next.ishtari.com"
+      ) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
           ids: data?.social_data?.content_ids,
         });
-      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
+      } else if (
+        window.location.host === "www.ishtari.com.gh" ||
+        window.location.host === "next.ishtari.com.gh"
+      ) {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
           ids: data?.social_data?.content_ids,
