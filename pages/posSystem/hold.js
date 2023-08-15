@@ -26,11 +26,14 @@ export default function Hold() {
   }, [router.asPath]);
 
   useEffect(() => {
-    // if (hold?.order_product?.length > 0) {
-    //   window.print();
-    //   window.close();
-    // }
-  }, [hold]);
+    if (
+      result?.order_product?.length > 0 ||
+      result?.data?.order_product?.length > 0
+    ) {
+      // window.print();
+      // window.close();
+    }
+  }, [result]);
   // if(!props){
   // window.print()
   // window.close()
@@ -49,8 +52,13 @@ export default function Hold() {
         <span className="w-4/12 font-semibold">Customer : </span>{" "}
         <span className="">
           {" "}
-          {result?.firstname + "  "}{" "}
-          {result?.lastname !== "Local Customer" && result?.lastname!="0" && result?.lastname   }
+          {(result?.firstname || result?.data.social_data?.firstname) +
+            "  "}{" "}
+          {result?.lastname !== "Local Customer" &&
+            result?.lastname != "0" &&
+            result?.lastname}{" "}
+          {result?.data?.social_data?.lastname !== "Local Customer" &&
+            result?.data?.social_data?.lastname}
         </span>
       </div>
       <div className="flex w-full text-4xxl">
@@ -65,6 +73,13 @@ export default function Hold() {
               ?.replace("961", "")
               ?.replace("0961", "")
               ?.replaceAll("0000000", "")}
+          {result?.data?.social_data?.telephone !== "0961" &&
+            result?.data?.social_data?.telephone !== "0000000" &&
+            result?.data?.social_data?.telephone
+              ?.replaceAll("96100000000", "")
+              ?.replace("961", "")
+              ?.replace("0961", "")
+              ?.replaceAll("0", "")}
         </span>
       </div>
       <div className="flex w-full  pt-3 border-b pb-2  text-4xxl">
@@ -96,14 +111,14 @@ export default function Hold() {
           </tr>
         </thead>
         <tbody>
-          {/* {result?.order_product?.map((p) => (
+          {result?.data?.order_product?.map((p) => (
             <tr>
               <td className="w-5/12 ">{p.name}</td>
               <td className={"text-center text-2/12"}>{p.quantity}</td>
               <td className="w-2/12 text-center">{p.total}</td>
               <td className="w-3/12 text-center">{p.total}</td>
             </tr>
-          ))} */}
+          ))}
           {result?.order_product?.map((p) => (
             <tr>
               <td className="w-5/12 ">{p.name}</td>
@@ -114,36 +129,74 @@ export default function Hold() {
           ))}
         </tbody>
       </table>
-      {result && (
+      {result?.data?.order_total ? (
         <div className="flex  w-full text-4xxl mb-8">
           <div className="w-7/12 font-bold">
-            Total Items {result?.order_product?.length}
+            Total Items {result?.data.order_product?.length}
           </div>
-
           <div className="w-5/12 ">
-            {result.order_total && (
-              <div className="w-full flex  mb-1">
-                <div className="w-3/4">{"Sub Total"}</div>
-                <div className="text-right ">{result.order_total}</div>
-              </div>
-            )}
-
-            {result.modification && (
-              <div className="w-full flex  mb-1">
-                <div className="w-3/4">{result.modification_remarque}</div>
-                <div className="text-right ">{result.modification}</div>
-              </div>
-            )}
-
-            {result.order_total && (
-              <div className="w-full flex  mb-1">
-                <div className="w-3/4">{"Total"}</div>
-                <div className="text-right ">
-                  {result.order_total - result.modification}
-                </div>
-              </div>
+            {result?.data?.order_total?.map(
+              (total) =>
+                total.title !== "Store" && (
+                  <div className="w-full flex  mb-1">
+                    <div className="w-3/4">{total.title}</div>
+                    <div className="text-right ">{total.text}</div>
+                  </div>
+                )
             )}
           </div>
+        </div>
+      ) : (
+        <div>
+          {result?.totals ? (
+            <div className="flex  w-full text-4xxl mb-8">
+              <div className="w-7/12 font-bold">
+                Total Items {result?.order_product?.length}
+              </div>
+              <div className="w-5/12 ">
+                {result?.totals?.map(
+                  (total) =>
+                    total.title !== "Store" && (
+                      <div className="w-full flex  mb-1">
+                        <div className="w-3/4">{total.title}</div>
+                        <div className="text-right ">{total.text}</div>
+                      </div>
+                    )
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex  w-full text-4xxl mb-8">
+              <div className="w-7/12 font-bold">
+                Total Items {result?.order_product?.length}
+              </div>
+
+              <div className="w-5/12 ">
+                {result?.order_total && (
+                  <div className="w-full flex  mb-1">
+                    <div className="w-3/4">{"Sub Total"}</div>
+                    <div className="text-right ">{result.order_total}</div>
+                  </div>
+                )}
+
+                {result?.modification && (
+                  <div className="w-full flex  mb-1">
+                    <div className="w-3/4">{result.modification_remarque}</div>
+                    <div className="text-right ">{result.modification}</div>
+                  </div>
+                )}
+
+                {result?.order_total && (
+                  <div className="w-full flex  mb-1">
+                    <div className="w-3/4">{"Total"}</div>
+                    <div className="text-right ">
+                      {result.order_total - result.modification}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

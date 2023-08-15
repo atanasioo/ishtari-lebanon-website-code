@@ -75,6 +75,7 @@ export default function Pos() {
     } else {
     }
   }
+  
   function neworder() {
     document.getElementById("code")?.focus();
     setCart("");

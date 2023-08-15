@@ -186,7 +186,11 @@ export default function App({
                               width="110"
                             />
                           </div>
-                        )}
+                        )} 
+
+                     
+                        {router.asPath.indexOf("posSystem") < 0 ? 
+                        
                         <Layout
                           header_categories={header_categories}
                           footer_categories={footer_categories}
@@ -194,12 +198,23 @@ export default function App({
                           host={host}
                         >
                           <div className="bg-dprimarybg min-h-screen">
-                            <div className="md:container ">
+                            <div className="md:container ">   
                               <Component {...pageProps} />
                             </div>
                           </div>
                         </Layout>
+                        :  
+                        
+                        <div className="bg-dprimarybg min-h-screen">
+                        <div className="md:container ">
+                          <Component {...pageProps} />
+                        </div>
                       </div>
+                        
+                        
+                        }
+                      </div>
+
                       <div className="text-xs text-dgrey1">
                         {"V" + packageJson.version}
                         {"."}

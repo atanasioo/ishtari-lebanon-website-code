@@ -255,7 +255,6 @@ export default function PosOrders() {
   function detailsHoldShow(value) {
     setDetails("");
     setShowDetails(value);
-    // console.lof(value)
     setHoldDetails(holdArray[value]);
   }
   function filterDate(e) {

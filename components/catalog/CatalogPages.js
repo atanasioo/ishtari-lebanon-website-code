@@ -2240,7 +2240,7 @@ function CatalogPage(props) {
       </div>
 
       {filters && showMobileFilter && (
-        <div className="bg-white absolute w-full z-50 top-0  h-screen py-3 ">
+        <div className="bg-white fixed w-full z-50 top-0  h-screen py-3 pb-12">
           <div className="flex justify-between pl-2 pr-7">
             <div className="text-d22">Filters</div>{" "}
             <div

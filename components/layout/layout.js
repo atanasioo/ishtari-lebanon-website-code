@@ -30,9 +30,9 @@ function Layout({
 
   return (
     <div>
-      {router.pathname.indexOf("print") > -1 ? (
+      {router.pathname.indexOf("print") > -1  &&  router.pathname.indexOf("pos") > 0? (
         <></>
-      ) : !router.pathname.startsWith("/seller_report") ? (
+      ) : !router.pathname.startsWith("/seller_report")   ? (
         //other user case
         <Header header_categories={header_categories} host={host} />
       ) : (

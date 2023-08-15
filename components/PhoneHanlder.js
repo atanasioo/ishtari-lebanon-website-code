@@ -4,7 +4,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import buildLink from "../urls";
 
 function HandlePhoneModel(props) {
-  const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, fromContact } = props;
+  const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, fromContact , pos } = props;
   const [state, dispatch] = useContext(AccountContext);
   const [valid, setValid] = useState(true);
   const [data, setData] = useState();
@@ -131,7 +131,7 @@ function HandlePhoneModel(props) {
     
 
   return (
-    <div className={`flex-end ${!fromContact ? "ml-5" : ""} `}>
+    <div className={`flex-end ${(!fromContact && !pos) ? "ml-5" : ""}  `} >
       <div>
         {state.admin ? (
           <input
@@ -141,7 +141,7 @@ function HandlePhoneModel(props) {
             required
             ref={phone}
             defaultValue={parentData?.telephone}
-            className={`text-d14 font-light ${fromContact && "border border-dplaceHolder text-d16 w-full h-14 mb-2.5 px-5 outline-none rounded-sm"} ${!valid && `${red}  !important`}`}
+            className={`text-d14 font-light ${fromContact && "border border-dplaceHolder text-d16 w-full h-14 mb-2.5 px-5 outline-none rounded-sm"} ${pos && "border border-dlabelColor text-xl w-full py-0.5 px-2 outline-none rounded"} ${!valid && `${red}  !important`}`}
             minLength={7}
             maxLength={15}
             placeholder={fromContact ? "Telephone" : ""}
@@ -174,7 +174,7 @@ function HandlePhoneModel(props) {
           />
         )}
         <div className={show ? "relative" : "hidden"}>
-          <div className="absolute  top-16 bg-white w-full h-80 atTheTop rounded-lg overflow-scroll border border-dblue shadow-lg">
+          <div className={`absolute   bg-white w-full z-40 h-80 atTheTop rounded-lg overflow-scroll border border-dblue shadow-lg ${!pos && "top-16"}`}>
             {data?.data?.length > 0 &&
               data?.data?.map((number, index) => {
                 return index % 2 === 0 ? (

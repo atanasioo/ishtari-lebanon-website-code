@@ -41,7 +41,7 @@ function Syncdata() {
   const dbName = "posDB";
 
   const handleSaveIndexDb = async () => {
-    const openRequest = indexedDB.open(dbName, 7);
+    const openRequest = indexedDB.open(dbName, 8);
 
     openRequest.onupgradeneeded = (event) => {
       const db = event.target.result;
@@ -216,7 +216,7 @@ function Syncdata() {
 
   function addNewTable() {
     // Your logic to insert products to the cart goes here
-    const openRequest = indexedDB.open("posDB", 7);
+    const openRequest = indexedDB.open("posDB", 8);
     console.log("event");
     openRequest.onupgradeneeded = (event) => {
       console.log(event);
@@ -266,7 +266,7 @@ function Syncdata() {
   function createTable(tableName) {
     // Open a connection to the IndexedDB database
     const dbName = "posDB";
-    const dbVersion = 7;
+    const dbVersion = 8;
 
     let request = indexedDB.open(dbName, dbVersion);
 
@@ -311,7 +311,7 @@ function Syncdata() {
   }
 
   return (
-    <div className="pr-5">
+    <div className="fixed top-0 left-0  p-5 bg-white z-30 w-full min-h-screen ">
       <button onClick={handleSaveIndexDb} className="bg-dblue text-white p-2">
         Sync products all
       </button>

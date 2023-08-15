@@ -55,10 +55,10 @@ function AdminTopHeader() {
               window.location.host === "www.flo-lebanon.com") && (
               <>
                 {" "}
-                <a target="_blank" rel="noreferrer" href={"/pos"}>
+                <a target="_blank" rel="noreferrer" href={"/posSystem/pos"}>
                   Pos
                 </a>
-                <a target="_blank" rel="noreferrer" href={"/orders"}>
+                <a target="_blank" rel="noreferrer" href={"//orders"}>
                   orders list
                 </a>
               </>
