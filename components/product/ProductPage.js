@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { BsChevronLeft, BsChevronRight, BsFillHeartFill } from "react-icons/bs";
+import {
+  BsChevronLeft,
+  BsChevronRight,
+  BsFillAwardFill,
+  BsFillHeartFill,
+} from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaBus } from "react-icons/fa";
@@ -72,6 +77,7 @@ function ProductPage(props) {
   const [checked, setChecked] = useState(["0"]);
   const [showModel, setShowModel] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [additionalData, setAdditionalData] = useState([]);
 
   const [value, setValue] = useState(0);
   const [result, setResult] = useState();
@@ -130,7 +136,6 @@ function ProductPage(props) {
         reviewCenterData.scrollToReview &&
         reviewCenterData.product_id === product_id
       ) {
-
         await getProductPart2();
 
         // if (titleRef.current !== null) {
@@ -299,6 +304,21 @@ function ProductPage(props) {
     }
   }, [router]);
 
+  useEffect(() => {
+    //product additional data
+
+    axiosServer
+      .get(
+        buildLink("getProductAdditionalData", undefined, window.innerWidth) +
+          "&product_id=" +
+          product_id
+      )
+      .then((response) => {
+        console.log(response);
+        setAdditionalData(response.data.data);
+      });
+  }, [router, stateW]);
+
   function unescapeHTML(str) {
     if (!str) {
       return;
@@ -432,6 +452,8 @@ function ProductPage(props) {
   function setOption(option) {
     const option_id = option["product_option_value_id"];
 
+    console.log("option_id" + option_id);
+
     var count = 0;
     var i = 0;
 
@@ -450,7 +472,6 @@ function ProductPage(props) {
       for (const key in images) {
         if (Object.hasOwnProperty.call(images, key)) {
           const element = images[key];
-
           if (element["product_option_value_id"] === option_id) {
             setActiveOption(option);
             setImageActiveOption(option);
@@ -690,6 +711,7 @@ function ProductPage(props) {
     setSuccessAdded(bool);
   }
 
+  console.log(data);
   function addGroup() {
     setResult("");
 
@@ -963,6 +985,7 @@ function ProductPage(props) {
                   images={data.images}
                   hovered={hovered}
                   productData={data}
+                  additionalData={additionalData}
                 />
                 {/* {data.images?.length > 0 && (
                   <MagicZoom
@@ -973,6 +996,41 @@ function ProductPage(props) {
                 )} */}
               </div>
               <div className="product-info w-full md:w-6/12 px-4">
+                {/* TOP SELLING */}
+
+                {typeof additionalData?.product_rank !== "undefined" && (
+                  <Link
+                    href={{
+                      pathname: "/categoryTopSelling",
+                      query: {
+                        category_id: `${additionalData?.product_rank?.category_id}`,
+                      },
+                    }}
+                    className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 rounded-full"
+                    style={{ backgroundColor: "#ffeced" }}
+                  >
+                    <div className="relative">
+                      <BsFillAwardFill className="text-dyellow w-6 h-6" />
+                      <div className="absolute top-0 left-0 right-0 bottom-0 m-auto flex justify-center items-center mb-1 text-white">{additionalData?.product_rank?.index}</div>
+                    </div>
+                    <div className="text-xs">
+                      {" "}
+                      Top Selling in{" "}
+                      <span
+                        className="pr-semibold"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHTML(
+                            additionalData?.product_rank?.category_name
+                          ),
+                        }}
+                      ></span>
+                    </div>
+                    <div className="text-xs">
+                      <BsChevronRight />
+                    </div>
+                  </Link>
+                )}
+
                 {/* BRAND NAME */}
                 {data?.manufacturer.length > 0 && (
                   <Link
@@ -1119,7 +1177,9 @@ function ProductPage(props) {
                         onChange={(e) => setQuantity(e.target.value)}
                         type="number"
                         value={quantity}
-                        className={`${ data["quantity"] === "0" ? "hidden" : ""}border w-16 h-12 rounded text-dblack text-center border-dgrey1 text-xl `}
+                        className={`${
+                          data["quantity"] === "0" ? "hidden" : ""
+                        }border w-16 h-12 rounded text-dblack text-center border-dgrey1 text-xl `}
                       />
                     ) : (
                       <div
@@ -1222,30 +1282,34 @@ function ProductPage(props) {
                     </button>
 
                     {accountState.loged && (
-                      <button
-                        style={{
-                          border: "1px solid rgba(0, 0, 0, 0.1)",
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.1) 0px 0px 15px 1px inset",
-                          transition: "all 0.3s ease-in-out 0s",
-                        }}
-                        className={`h-12 w-12 flex items-center justify-center bg-dgrey rounded-full ml-3`}
-                        onClick={() => {
-                          stateW.pIds.filter((i) => i === product_id).length > 1
-                            ? setShowGroup(true)
-                            : stateW.pIds.indexOf(product_id) > -1
-                            ? deleteItemFromAllGroup()
-                            : setShowGroup(true);
-                        }}
-                      >
-                        <BsFillHeartFill
-                          className={
-                            isWishlist
-                              ? " text-dbase text-xl"
-                              : " text-dgrey1 text-xl"
-                          }
-                        />
-                      </button>
+                      <div className="flex flex-col items-center justify-center ml-3 text-xs text-dgreyProduct">
+                        <button
+                          style={{
+                            border: "1px solid rgba(0, 0, 0, 0.1)",
+                            boxShadow:
+                              "rgba(0, 0, 0, 0.1) 0px 0px 15px 1px inset",
+                            transition: "all 0.3s ease-in-out 0s",
+                          }}
+                          className={`h-12 w-12 flex items-center justify-center bg-dgrey rounded-full `}
+                          onClick={() => {
+                            stateW.pIds.filter((i) => i === product_id).length >
+                            1
+                              ? setShowGroup(true)
+                              : stateW.pIds.indexOf(product_id) > -1
+                              ? deleteItemFromAllGroup()
+                              : setShowGroup(true);
+                          }}
+                        >
+                          <BsFillHeartFill
+                            className={
+                              isWishlist
+                                ? " text-dbase text-xl"
+                                : " text-dgrey1 text-xl"
+                            }
+                          />
+                        </button>
+                        <div>{additionalData?.wishlist?.total}</div>
+                      </div>
                     )}
                   </div>
                   <div>

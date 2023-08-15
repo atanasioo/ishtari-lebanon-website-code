@@ -13,9 +13,10 @@ import {
 import ShareSocial from "./ShareSocial";
 import { useRouter } from "next/router";
 import { BiLoaderCircle } from "react-icons/bi";
+import { FaUserCircle } from "react-icons/fa";
 
 function ProductZoom(props) {
-  const { productData, activeOption } = props;
+  const { productData, activeOption, additionalData } = props;
   const [activeImage, setActiveImage] = useState([]);
   const [images, setImages] = useState([]);
   const [hoverZoom, setHoverZoom] = useState(false);
@@ -24,6 +25,7 @@ function ProductZoom(props) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [showShare, setShowShare] = useState(false);
   const [hovered, setHovered] = useState(props.hovered);
+  const [additionalArr, setAdditionalArr] = useState([]);
   // const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const imageSlider = useRef(null);
   const SmallImageSlider = useRef(null);
@@ -100,12 +102,7 @@ function ProductZoom(props) {
     };
   }, [props.activeOption, props.images]);
 
-  // function hideLens() {
-  //   const lensElement = document.querySelector(".img-zoom-lens");
-  //   if (lensElement) {
-  //     lensElement.remove();
-  //   }
-  // }
+
 
   useEffect(() => {
     setActiveImage(images[0]);
@@ -116,6 +113,101 @@ function ProductZoom(props) {
     // setAllImagesLoaded(false);
     setHovered(false);
   }, [images]);
+
+  useEffect(() => {
+    let currentIndex = 0;
+
+    const addDataToAdditionalArr = () => {
+      if (typeof additionalData.analytics !== "undefined") {
+        const arr= additionalArr;
+        if (currentIndex < additionalData.analytics.length - 1) {
+          const currentIdx = currentIndex; // Create a local copy of currentIndex
+
+          if (additionalData.analytics[currentIdx].trim() !== "") {
+            setAdditionalArr((prevArr) => {
+              if (prevArr.length >= 2) {
+                prevArr.shift();
+              }
+              return [...prevArr, additionalData.analytics[currentIdx]];
+            });
+          }
+
+          currentIndex++;
+        
+            setTimeout(addDataToAdditionalArr, 3500);
+         
+        } else {
+          currentIndex = 0; // Reset to the first element        
+            setTimeout(addDataToAdditionalArr, 3500);
+          
+        }
+      }
+    };
+
+    addDataToAdditionalArr();
+  }, [additionalData]);
+
+
+  // useEffect(() => {
+  //   let currentIndex = 0;
+  
+  //   const addDataToAdditionalArr = () => {
+  //     if (typeof additionalData.analytics !== "undefined") {
+  //       const currentIdx = currentIndex;
+  
+  //       if (additionalData.analytics[currentIdx]?.trim() !== "") {
+  //         setAdditionalArr((prevArr) => {
+  //           if (prevArr.length >= 2) {
+  //             prevArr.shift();
+  //           }
+  //           return [...prevArr, additionalData.analytics[currentIdx]];
+  //         });
+  //       }
+  
+  //       currentIndex = (currentIndex + 1) % additionalData.analytics.length;
+  //       setTimeout(addDataToAdditionalArr, 3500);
+  //     }
+  //   };
+  
+  //   addDataToAdditionalArr();
+  // }, [additionalData]);
+
+  // useEffect(() => {
+  //   let currentIndex = 0;
+  //   const transitionDelay = 500; // 0.5 seconds
+  
+  //   const addDataToAdditionalArr = () => {
+  //     if (typeof additionalData.analytics !== "undefined") {
+  //       const currentIdx = currentIndex;
+  
+  //       if (additionalData.analytics[currentIdx]?.trim() !== "") {
+  //         setAdditionalArr((prevArr) => {
+  //           if (prevArr.length >= 2) {
+  //             prevArr.shift();
+  //           }
+  //           return [...prevArr, additionalData.analytics[currentIdx]];
+  //         });
+  //       }
+  
+  //       currentIndex = (currentIndex + 1) % additionalData.analytics.length;
+  //       setTimeout(addDataToAdditionalArr, 3500);
+  
+  //       if (currentIndex === 0) {
+  //         // Delay the removal of the first element
+  //         setTimeout(() => {
+  //           setAdditionalArr((prevArr) => prevArr.slice(1));
+  //         }, transitionDelay);
+  //       }
+  //     }
+  //   };
+  
+  //   addDataToAdditionalArr();
+  // }, [additionalData]);
+  
+
+
+  console.log(additionalArr);
+  
 
   useEffect(() => {
     if (hoverZoom && width > 768) {
@@ -303,7 +395,6 @@ function ProductZoom(props) {
   //   });
   // }, [images]);
 
-
   return (
     <div>
       {showModal && (
@@ -347,9 +438,7 @@ function ProductZoom(props) {
                   </div>
                 ))}
               </Slider>
-              <Slider 
-              {...mobileSetting} 
-              className={`md:hidden`}>
+              <Slider {...mobileSetting} className={`md:hidden`}>
                 {images?.map((i, index) => (
                   <div
                     key={i["thumb"]}
@@ -404,8 +493,8 @@ function ProductZoom(props) {
                   setLensClass("hidden");
                 }}
                 onMouseMoveCapture={() => {
-                  if(!hovered){
-                    setHovered(true)
+                  if (!hovered) {
+                    setHovered(true);
                     setHoverZoom(true);
                   }
                 }}
@@ -450,6 +539,26 @@ function ProductZoom(props) {
                   wrapperRef={wrapperRef}
                   name={productData.name}
                 />
+              </div>
+
+              {/* additional data */}
+
+              <div className="absolute z-10 bottom-0 left-0 text-xs additional-data-div">
+                {additionalArr?.map((list, index) => (
+                  <div
+                    key={index}
+                    className={`w-fit flex items-center px-3 gap-1 rounded-full py-1 mb-2.5 additional-data-div-div`}
+                    style={{
+                      background: "hsla(0,0%,100%,.8)",
+                      boxShadow: "0 0 0.1rem 0 rgba(0,0,0,.07)",
+                    }}
+                  >
+                    <div>
+                      <FaUserCircle className="text-dgreyProduct w-6 h-6" />
+                    </div>
+                    <div className="">{list}</div>
+                  </div>
+                ))}
               </div>
             </div>
 

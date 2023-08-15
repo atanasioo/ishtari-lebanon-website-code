@@ -1,21 +1,29 @@
 import { axiosServer } from "@/axiosServer";
 import SingleProduct from "@/components/product/SingleProduct";
+import SingleProductTopSelling from "@/components/product/SingleProductTopSelling";
 import { sanitizeHTML } from "@/components/Utils";
 import buildLink from "@/urls";
 import cookie from "cookie";
 
 function categoryTopSelling(props) {
   const { data } = props;
-  console.log(data);
   return (
     <div className="py-7 container">
       <div className="pr-semibold text-d20 text-dblack">
-        Top Sellings for {" "}
-        <span dangerouslySetInnerHTML={{__html: sanitizeHTML(data?.data?.category_name)}}></span>
+        Top Selling for{" "}
+        <span
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHTML(data?.data?.category_name),
+          }}
+        ></span>
       </div>
-      <div className="product-grid-container grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-3 mt-7">
-        {data?.data?.products?.map((item) => (
-          <SingleProduct key={item.product_id} item = {item} />
+      <div className="product-grid-container grid grid-cols-1 md:grid-cols-2  gap-3 mt-7">
+        {data?.data?.products?.map((item, index) => (
+          <SingleProductTopSelling
+            key={item.product_id}
+            item={item}
+            index={index}
+          />
         ))}
       </div>
     </div>
@@ -40,8 +48,11 @@ export async function getServerSideProps(context) {
     site_host = host_cookie;
   }
 
-  console.log(buildLink("getAllTopSellingbyCategoryid", undefined, undefined, site_host) +"&category_id=" +
-  category_id);
+  console.log(
+    buildLink("getAllTopSellingbyCategoryid", undefined, undefined, site_host) +
+      "&category_id=" +
+      category_id
+  );
 
   const response = await axiosServer.get(
     buildLink("getAllTopSellingbyCategoryid", undefined, undefined, site_host) +
@@ -58,7 +69,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      data
+      data,
     },
   };
 }
