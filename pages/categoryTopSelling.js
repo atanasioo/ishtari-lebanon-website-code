@@ -7,6 +7,7 @@ import cookie from "cookie";
 
 function categoryTopSelling(props) {
   const { data } = props;
+  console.log(data);
   return (
     <div className="py-7 container">
       <div className="pr-semibold text-d20 text-dblack">

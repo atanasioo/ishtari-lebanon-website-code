@@ -711,7 +711,6 @@ function ProductPage(props) {
     setSuccessAdded(bool);
   }
 
-  console.log(data);
   function addGroup() {
     setResult("");
 

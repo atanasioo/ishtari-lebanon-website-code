@@ -32,6 +32,7 @@ function ProductZoom(props) {
   const activeImageRef = useRef(null); // Ref to the currently active image element
   const smallMobileSliderRef = useRef(null);
   const router = useRouter();
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   const [width] = useDeviceSize();
 
@@ -102,8 +103,6 @@ function ProductZoom(props) {
     };
   }, [props.activeOption, props.images]);
 
-
-
   useEffect(() => {
     setActiveImage(images[0]);
     setActiveSlide(0);
@@ -114,47 +113,91 @@ function ProductZoom(props) {
     setHovered(false);
   }, [images]);
 
+  const maxComments = 2; // Number of comments to display at once
+  const commentDuration = 3500; // Time each comment is shown
+  const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
+  const commentRef = useRef(null);
+
   useEffect(() => {
-    let currentIndex = 0;
+    if (typeof additionalData.analytics !== "undefined") {
+      const newComment = additionalData.analytics[currentCommentIndex].trim();
+      const timer = setInterval(
+        () => {
+          setAdditionalArr((prevComments) => {
+            const newComments = [...prevComments];
+            const newComment =
+              additionalData.analytics[currentCommentIndex].trim();
+            if (newComment !== "") {
+              // Skip empty strings
+              newComments.push(additionalData.analytics[currentCommentIndex]);
+              if (newComments.length > maxComments) {
+                setIsFadingOut(true);
+                setTimeout(() => {
+                  newComments.shift(); // Remove the oldest comment
+                  newComments.shift(); // Remove the oldest comment
+                }, 10);
 
-    const addDataToAdditionalArr = () => {
-      if (typeof additionalData.analytics !== "undefined") {
-        const arr= additionalArr;
-        if (currentIndex < additionalData.analytics.length - 1) {
-          const currentIdx = currentIndex; // Create a local copy of currentIndex
+                setIsFadingOut(false);
 
-          if (additionalData.analytics[currentIdx].trim() !== "") {
-            setAdditionalArr((prevArr) => {
-              if (prevArr.length >= 2) {
-                prevArr.shift();
               }
-              return [...prevArr, additionalData.analytics[currentIdx]];
-            });
-          }
+            }
+            return newComments;
+          });
+          setCurrentCommentIndex((prevIndex) => {
+            return (prevIndex + 1) % additionalData.analytics.length;
+          });
 
-          currentIndex++;
-        
-            setTimeout(addDataToAdditionalArr, 3500);
-         
-        } else {
-          currentIndex = 0; // Reset to the first element        
-            setTimeout(addDataToAdditionalArr, 3500);
-          
-        }
-      }
-    };
+        },
+        newComment !== "" ? commentDuration : 1000
+      );
 
-    addDataToAdditionalArr();
-  }, [additionalData]);
+      // Clear interval on component unmount
+      return () => clearInterval(timer);
+    }
+  }, [additionalData.analytics, currentCommentIndex]);
 
+  //used one
 
   // useEffect(() => {
   //   let currentIndex = 0;
-  
+
+  //   const addDataToAdditionalArr = () => {
+  //     if (typeof additionalData.analytics !== "undefined") {
+  //       const arr= additionalArr;
+  //       if (currentIndex < additionalData.analytics.length - 1) {
+  //         const currentIdx = currentIndex; // Create a local copy of currentIndex
+
+  //         if (additionalData.analytics[currentIdx].trim() !== "") {
+  //           setAdditionalArr((prevArr) => {
+  //             if (prevArr.length >= 2) {
+  //               prevArr.shift();
+  //             }
+  //             return [...prevArr, additionalData.analytics[currentIdx]];
+  //           });
+  //         }
+
+  //         currentIndex++;
+
+  //           setTimeout(addDataToAdditionalArr, 3500);
+
+  //       } else {
+  //         currentIndex = 0; // Reset to the first element
+  //           setTimeout(addDataToAdditionalArr, 3500);
+
+  //       }
+  //     }
+  //   };
+
+  //   addDataToAdditionalArr();
+  // }, [additionalData]);
+
+  // useEffect(() => {
+  //   let currentIndex = 0;
+
   //   const addDataToAdditionalArr = () => {
   //     if (typeof additionalData.analytics !== "undefined") {
   //       const currentIdx = currentIndex;
-  
+
   //       if (additionalData.analytics[currentIdx]?.trim() !== "") {
   //         setAdditionalArr((prevArr) => {
   //           if (prevArr.length >= 2) {
@@ -163,51 +206,16 @@ function ProductZoom(props) {
   //           return [...prevArr, additionalData.analytics[currentIdx]];
   //         });
   //       }
-  
+
   //       currentIndex = (currentIndex + 1) % additionalData.analytics.length;
   //       setTimeout(addDataToAdditionalArr, 3500);
   //     }
   //   };
-  
+
   //   addDataToAdditionalArr();
   // }, [additionalData]);
-
-  // useEffect(() => {
-  //   let currentIndex = 0;
-  //   const transitionDelay = 500; // 0.5 seconds
-  
-  //   const addDataToAdditionalArr = () => {
-  //     if (typeof additionalData.analytics !== "undefined") {
-  //       const currentIdx = currentIndex;
-  
-  //       if (additionalData.analytics[currentIdx]?.trim() !== "") {
-  //         setAdditionalArr((prevArr) => {
-  //           if (prevArr.length >= 2) {
-  //             prevArr.shift();
-  //           }
-  //           return [...prevArr, additionalData.analytics[currentIdx]];
-  //         });
-  //       }
-  
-  //       currentIndex = (currentIndex + 1) % additionalData.analytics.length;
-  //       setTimeout(addDataToAdditionalArr, 3500);
-  
-  //       if (currentIndex === 0) {
-  //         // Delay the removal of the first element
-  //         setTimeout(() => {
-  //           setAdditionalArr((prevArr) => prevArr.slice(1));
-  //         }, transitionDelay);
-  //       }
-  //     }
-  //   };
-  
-  //   addDataToAdditionalArr();
-  // }, [additionalData]);
-  
-
 
   console.log(additionalArr);
-  
 
   useEffect(() => {
     if (hoverZoom && width > 768) {
@@ -543,7 +551,7 @@ function ProductZoom(props) {
 
               {/* additional data */}
 
-              <div className="absolute z-10 bottom-0 left-0 text-xs additional-data-div">
+              {/* <div className="absolute z-10 bottom-0 left-0 text-xs additional-data-div">
                 {additionalArr?.map((list, index) => (
                   <div
                     key={index}
@@ -559,6 +567,29 @@ function ProductZoom(props) {
                     <div className="">{list}</div>
                   </div>
                 ))}
+              </div> */}
+              <div className="additional-data-div absolute z-10 bottom-0 left-0 text-xs">
+                <div className="live-comments-container">
+                  {additionalArr.map((comment, index) => (
+                    <div
+                      key={index}
+                      className={`live-comment w-fit flex items-center px-3 gap-1 rounded-full py-1 mb-2.5 additional-data-div-div ${
+                        isFadingOut ? "" : ""
+                      }`}
+                      style={{
+                        background: "hsla(0,0%,100%,.8)",
+                        boxShadow: "0 0 0.1rem 0 rgba(0,0,0,.07)",
+                        animationDelay: `${index * 0.2}s`, // Delay each comment's animation
+                      }}
+                      ref={commentRef}
+                    >
+                      <div>
+                        <FaUserCircle className="text-dgreyProduct w-6 h-6" />
+                      </div>
+                      <div className="">{comment}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

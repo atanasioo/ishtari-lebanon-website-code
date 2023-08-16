@@ -22,12 +22,12 @@ function flashSale(props) {
     setProductsTab(data[activeTab].products);
   }, []);
 
-  function handleReminder(event, product_id, date_start) {
+  function handleReminder(event, product_id, flash_sale_event_id) {
     event.preventDefault();
     if (accountState.loged) {
       const obj = {
         product_id: product_id,
-        date_start: date_start,
+        flash_sale_event_id: flash_sale_event_id,
       };
       axiosServer
         .post(buildLink("addReminderForFlashSale", undefined, undefined), obj)
@@ -59,7 +59,7 @@ function flashSale(props) {
     setActiveTab(index);
     axiosServer
       .get(
-        buildLink("getFlashSale", undefined, undefined) + data[index].date_start
+        buildLink("getFlashSale", undefined, undefined) + data[index].flash_sale_event_id
       )
       .then((response) => {
         if(response.data.success){
@@ -81,7 +81,7 @@ function flashSale(props) {
           <div
             onClick={() => handleTabClick(i)}
             className={`text-center h-full flex flex-col justify-center cursor-pointer  ${
-              activeTab === i ? "border-b-2 border-dgrey1" : ""
+              activeTab === i ? "border-b-2 border-dgrey1 " : "opacity-40"
             }`}
             style={{ width: `calc(100% / ${data.length})` }}
             key={i}
@@ -150,6 +150,8 @@ export async function getServerSideProps(context) {
   );
 
   data = response.data.data;
+
+  console.log(response.data);
 
   return {
     props: {

@@ -2262,7 +2262,7 @@ div.widget_text p{
 
 @keyframes fadeUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(16px);
     opacity: 0;
   }
   to {
@@ -2271,10 +2271,38 @@ div.widget_text p{
   }
 }
 
+@-webkit-keyframes fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+  
+@keyframes fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 .additional-data-div-div {
-  animation: fadeUp 0.5s ease-in-out ;
+  animation: fadeUp 1s ease-in-out ;
   animation-fill-mode: both;
 }
+
+.live-comments-container {
+  transition: height 0.3s ease-in-out; /* Apply transition to the height property */
+}
+
+/* .live-comment-fadeout{
+  -webkit-animation: fadeout .3s linear forwards;
+  animation: fadeout .3s linear forwards;
+} */
+
+
+
+
+
+
+
+
+
 
 
 

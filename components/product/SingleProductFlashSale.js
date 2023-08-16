@@ -69,7 +69,7 @@ function SingleProductFlashSale(props) {
                 <div
                   className="flex justify-center gap-2 items-center w-full border border-b-dblackk py-2 text-d18"
                   onClick={(e) =>
-                    handleReminder(e, item.product_id, data.date_start)
+                    handleReminder(e, item.product_id, data.flash_sale_event_id)
                   }
                 >
                   <BsBell />
