@@ -65,12 +65,12 @@ function Pos() {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
@@ -100,21 +100,17 @@ function Pos() {
     });
   };
 
- 
-
   useEffect(() => {
-
     addNewTable();
     const handleOnlineStatusChange = () => {
-       setIsOnline(!window.navigator.onLine);
+      setIsOnline(!window.navigator.onLine);
       setIsOnline(window.navigator.onLine);
     };
 
     const handleOnlineStatusChangeoff = () => {
       setIsOnline(!window.navigator.onLine);
-     setIsOnline(window.navigator.onLine);
-   };
-
+      setIsOnline(window.navigator.onLine);
+    };
 
     // Add event listener to check network status changes
     window.addEventListener("online", handleOnlineStatusChange);
@@ -126,8 +122,6 @@ function Pos() {
       window.removeEventListener("offline", handleOnlineStatusChangeoff);
     };
   }, []);
-
-
 
   function fetchById(db, objectStoreName, id) {
     setResult("");
@@ -230,7 +224,6 @@ function Pos() {
   }, [router, update, tabValue]);
 
   function addToCart(e) {
-
     const searchKeyWord = e.target.value;
     if (e.target.value.trim() !== "" && e.key === "Enter") {
       queryProductsByBarcodeAndOption("posDB", "products", searchKeyWord)
@@ -239,21 +232,19 @@ function Pos() {
           console.log(products);
           // Assuming you have scanned a value and now want to clear the input field
           clearInputAfterScan();
-
         })
         .catch((error) => {
           console.error("Error querying products:", error);
         });
     }
-
   }
   function clearInputAfterScan() {
     var codeElement = document.getElementById("code");
     if (codeElement) {
-        codeElement.value = ""; // Clear the value of the input field
-        codeElement.focus();    // Optionally set focus back to the input field
+      codeElement.value = ""; // Clear the value of the input field
+      codeElement.focus(); // Optionally set focus back to the input field
     }
-}
+  }
 
   // search product bay barcode, sku and model
   function queryProductsByBarcodeAndOption(dbName, objectStoreName, search) {
@@ -377,7 +368,6 @@ function Pos() {
 
   //insert in cart
   function insertToCart(products) {
-
     setUpdate(false);
     const openRequest = indexedDB.open("posDB", 8);
     console.log("event");
@@ -445,7 +435,6 @@ function Pos() {
             console.error("Error updating object:", event.target.error);
             // setUpdate(true);
           };
-          
         } else {
           setUpdate(true);
           objectStore.add({ id: objectIdToUpdate, cart: products });
@@ -826,6 +815,9 @@ function Pos() {
           body
         )
         .then((response) => {
+
+          if (response.status == 200) {
+
           setManualResponse(response?.data?.data);
 
           if (response?.data?.success === false) {
@@ -856,11 +848,11 @@ function Pos() {
           } else {
             if (confirm == true) {
               const res = response?.data?.data;
-              res.date = formattedDateTime;
+              res.date  = formattedDateTime;
               paymentForm(confirm, "cod", res);
 
               body.totals = response?.data?.data?.order_total;
-              body.date = formattedDateTime;
+              body.date   = formattedDateTime;
               localStorage.setItem("print_order", JSON.stringify(body));
 
               handlePrintOrder();
@@ -876,6 +868,30 @@ function Pos() {
               }
             }
           }
+        }else{
+          body.date = date + " " + time;
+
+          localStorage.setItem("print_order", JSON.stringify(body));
+    
+          if (calculate) {
+            if (fnameRef.current.value) {
+              setShowCalculate(true);
+              setChange(total);
+            } else {
+              setError({ firstName: "First Name is requird" });
+            }
+          }
+          if (confirm) {
+            body.hold_reason = "offline";
+            addOrder("hold_orders", body);
+            setShowCalculate(false);
+            setShowModel(false);
+            handlePrintOrder();
+            deleteRow("draft_cart", tabValue);
+          }
+
+          
+        }
         });
     } else {
       body.date = date + " " + time;
@@ -1151,18 +1167,33 @@ function Pos() {
         buildLink("manual", undefined, undefined, window.config["site-url"]),
         body
       )
-      .then((response) => {});
+      .then((response) => {
+        if (response.status == 200) {
+          setIsOnline(true);
+        } else {
+          setIsOnline(false);
+        }
+      });
     document.getElementById("code").focus();
   }
 
   return (
     <div className="fixed min-h-screen w-full z-30 top-0 bg-dgrey -ml-3">
-
-<div className="flex justify-start bg-white px-5 py-2 mb-2">
-        <a target="_blank" className="text-dblue text-xl" rel="noreferrer" href={"/posSystem/pos"}>
+      <div className="flex justify-start bg-white px-5 py-2 mb-2">
+        <a
+          target="_blank"
+          className="text-dblue text-xl"
+          rel="noreferrer"
+          href={"/posSystem/pos"}
+        >
           Pos
         </a>
-        <a target="_blank" className="px-6 text-dblue text-xl" rel="noreferrer" href={"/posSystem/orders"}>
+        <a
+          target="_blank"
+          className="px-6 text-dblue text-xl"
+          rel="noreferrer"
+          href={"/posSystem/orders"}
+        >
           orders list
         </a>
       </div>
