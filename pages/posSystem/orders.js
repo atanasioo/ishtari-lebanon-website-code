@@ -30,10 +30,71 @@ export default function orders() {
   }, [date, orderID, update]);
 
   useEffect(() => {
+    addNewTable()
     setHolds([]);
     getData("hold_orders");
   }, []);
 
+
+
+  function addNewTable() {
+    console.log("omar");
+    // Your logic to insert products to the cart goes here
+    const dbName = "posDB";
+    const dbVersion = 8;
+    const objectStoreName = "draft_cart";
+
+    // Open a connection to a database or create it if it doesn't exist.
+    const request = indexedDB.open(dbName, dbVersion);
+    console.log("request" + request);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+
+      // Check if the object store already exists
+      if (!db.objectStoreNames.contains("draft_cart")) {
+        // Create a new object store with an auto-incrementing key
+        db.createObjectStore("draft_cart", {
+          keyPath: "id",
+          autoIncrement: false
+        });
+      }
+
+      if (!db.objectStoreNames.contains("products")) {
+        // Create a new object store with an auto-incrementing key
+        db.createObjectStore("products", {
+          keyPath: "id",
+          autoIncrement: false
+        });
+      }
+
+      if (!db.objectStoreNames.contains("orders")) {
+        // Create a new object store with an auto-incrementing key
+        db.createObjectStore("orders", {
+          keyPath: "id",
+          autoIncrement: false
+        });
+      }
+
+      if (!db.objectStoreNames.contains("hold_orders")) {
+        // Create a new object store with an auto-incrementing key
+        db.createObjectStore("hold_orders", {
+          keyPath: "id",
+          autoIncrement: true
+        });
+      }
+    };
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      console.log("success");
+      // Now, you can interact with the database using 'db' object.
+    };
+
+    request.onerror = (event) => {
+      console.error("Error opening or creating database:", event.target.error);
+    };
+  }
   function filter(e) {
     setOrders([]);
 

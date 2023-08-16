@@ -175,23 +175,23 @@ export default function Hold() {
                 {result?.order_total && (
                   <div className="w-full flex  mb-1">
                     <div className="w-3/4">{"Sub Total"}</div>
-                    <div className="text-right ">{result.order_total}</div>
+                    <div className="text-right ">${result.sub_total}</div>
                   </div>
                 )}
 
                 {result?.modification && (
                   <div className="w-full flex  mb-1">
-                    <div className="w-3/4">{result.modification_remarque}</div>
-                    <div className="text-right ">{result.modification}</div>
+                    <div className="w-3/4">Discount: </div>
+                    <div className="text-right ">{result.modification_type ==="amount" && "$"}{result.modification}{result.modification_type != "amount" && "%"}</div>
+
                   </div>
                 )}
 
                 {result?.order_total && (
                   <div className="w-full flex  mb-1">
                     <div className="w-3/4">{"Total"}</div>
-                    <div className="text-right ">
-                      {result.order_total - result.modification}
-                    </div>
+                    <div className="text-right"> ${result.modification_type ? (result.modification_type == "discount" ? result.total - result.total*result.modification/100 : result.total - result.modification ) : (  result.total)}</div>
+
                   </div>
                 )}
               </div>

@@ -11,6 +11,9 @@ function Pos() {
   const [update, setUpdate] = useState(false);
   const [total, setTotal] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
+  const [totalOffline, setTotalOffline] = useState(0);
+
+  const [modif, setModif] = useState(0);
 
   const dbName = "posDB";
 
@@ -323,12 +326,38 @@ function Pos() {
   // Recursive function to find data in an object of objects
   function findData(obj, search) {
     for (const key in obj) {
-      if (obj[key].data.sku === search) {
+      var firstValue;
+      var secondValue;
+      if (search.indexOf("-") > -1) {
+        const valuesArray = search.split("-");
+        firstValue = valuesArray[0];
+        secondValue = valuesArray[1];
+      }
+      if (obj[key].data.sku === search || obj[key].data.model === search) {
         return obj[key];
       }
+
       var option = obj[key].data.product_options[0]?.option_value;
       for (const id in option) {
         if (option[id].barcode === search) {
+          return {
+            product_id: obj[key].data?.product_id,
+            name: obj[key].data.name,
+            price: obj[key].data.price
+              ? obj[key].data.special
+              : obj[key].data.price,
+            sku: obj[key].data?.sku,
+            option_name: obj[key]?.data?.product_options[0]?.name,
+            option_value: option[id],
+            product_option_id:
+              obj[key]?.data?.product_options[0]?.product_option_id,
+            quantity: 1,
+            total: obj[key]?.data?.price
+              ? obj[key]?.data?.special
+              : obj[key]?.data?.price
+          };
+        }
+        if (secondValue && option[id].product_option_value_id === secondValue) {
           return {
             product_id: obj[key].data?.product_id,
             name: obj[key].data.name,
@@ -339,7 +368,7 @@ function Pos() {
             option_name: obj[key]?.data.product_options[0]?.name,
             option_value: option[id],
             product_option_id:
-              obj[key]?.data.product_options[0]?.product_option_id,
+              obj[key]?.data?.product_options[0]?.product_option_id,
             quantity: 1,
             total: obj[key].data.price
               ? obj[key].data.special
@@ -362,7 +391,19 @@ function Pos() {
       ) {
         return key;
       }
+      var firstValue;
+      var secondValue;
+      if (search.indexOf("-") > -1) {
+        const valuesArray = search.split("-");
+        firstValue = valuesArray[0];
+        secondValue = valuesArray[1];
+      }
+
+      if (obj[key]?.option_value?.product_option_value_id === secondValue) {
+        return key;
+      }
     }
+
     return null; // Data not found
   }
 
@@ -475,9 +516,23 @@ function Pos() {
 
         if (mainObject) {
           // Check if the product with the specified ID exists in the main object
+          var firstValue;
+          var secondValue;
+
+          if (search?.indexOf("-") > -1) {
+            const valuesArray = search.split("-");
+            firstValue = valuesArray[0];
+            secondValue = valuesArray[1];
+          }
+
           if (mainObject.cart && mainObject.cart.length > 0) {
             const productToUpdate = mainObject.cart.find(
-              (product) => product.option_value?.barcode === search
+              (product) =>
+                product.option_value?.barcode === search ||
+                (firstValue &&
+                  secondValue &&
+                  firstValue === product.product_id &&
+                  secondValue === product.option_value.product_option_value_id)
             );
 
             if (productToUpdate) {
@@ -802,7 +857,7 @@ function Pos() {
         code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
       };
     }
-
+console.log(body)
     if (isOnline) {
       axiosServer
         .post(
@@ -815,93 +870,96 @@ function Pos() {
           body
         )
         .then((response) => {
-
           if (response.status == 200) {
+            setManualResponse(response?.data?.data);
 
-          setManualResponse(response?.data?.data);
-
-          if (response?.data?.success === false) {
-            if (
-              response?.data?.errors.length === 1 &&
-              (response?.data.message === "OUT OF STOCK" ||
-                response?.data?.message?.includes("STOCK") ||
-                response?.data.message.includes("stock") ||
-                response?.data.message.includes("Stock"))
-            ) {
-              if (calculate) {
-                setShowCalculate(true);
-                setTotal(response?.data?.data.total);
-                setChange(response?.data?.data.total);
+            if (response?.data?.success === false) {
+              if (
+                response?.data?.errors.length === 1 &&
+                (response?.data.message === "OUT OF STOCK" ||
+                  response?.data?.message?.includes("STOCK") ||
+                  response?.data.message.includes("stock") ||
+                  response?.data.message.includes("Stock"))
+              ) {
+                if (calculate) {
+                  setShowCalculate(true);
+                  setTotal(response?.data?.data.total);
+                  setChange(response?.data?.data.total);
+                }
+                if (confirm) {
+                  body.hold_reason = response?.data.message;
+                  body.totals = response?.data?.data?.order_total;
+                  body.date = formattedDateTime;
+                  localStorage.setItem("print_order", JSON.stringify(body));
+                  handlePrintOrder();
+                  addOrder("hold_orders", body);
+                  setShowModel(false);
+                  setShowCalculate(false);
+                  setSuccess(true);
+                }
               }
-              if (confirm) {
-                body.hold_reason = response?.data.message;
+            } else {
+              if (confirm == true) {
+                const res = response?.data?.data;
+                res.date = formattedDateTime;
+                paymentForm(confirm, "cod", res);
+
                 body.totals = response?.data?.data?.order_total;
                 body.date = formattedDateTime;
                 localStorage.setItem("print_order", JSON.stringify(body));
+
                 handlePrintOrder();
-                addOrder("hold_orders", body);
                 setShowModel(false);
                 setShowCalculate(false);
                 setSuccess(true);
+              } else {
+                if (calculate === true) {
+                  setShowCalculate(true);
+                  // setShowModel(false);
+                  setTotal(response?.data?.data.total);
+                  setChange(response?.data?.data.total);
+                }
               }
             }
           } else {
-            if (confirm == true) {
-              const res = response?.data?.data;
-              res.date  = formattedDateTime;
-              paymentForm(confirm, "cod", res);
+            body.date = formattedDateTime;
 
-              body.totals = response?.data?.data?.order_total;
-              body.date   = formattedDateTime;
-              localStorage.setItem("print_order", JSON.stringify(body));
+            localStorage.setItem("print_order", JSON.stringify(body));
 
-              handlePrintOrder();
-              setShowModel(false);
-              setShowCalculate(false);
-              setSuccess(true);
-            } else {
-              if (calculate === true) {
+            if (calculate) {
+              if (fnameRef.current.value) {
                 setShowCalculate(true);
-                // setShowModel(false);
-                setTotal(response?.data?.data.total);
-                setChange(response?.data?.data.total);
+              } else {
+                setError({ firstName: "First Name is requird" });
               }
             }
-          }
-        }else{
-          body.date = date + " " + time;
-
-          localStorage.setItem("print_order", JSON.stringify(body));
-    
-          if (calculate) {
-            if (fnameRef.current.value) {
-              setShowCalculate(true);
-              setChange(total);
-            } else {
-              setError({ firstName: "First Name is requird" });
+            if (confirm) {
+              body.hold_reason = "offline";
+              addOrder("hold_orders", body);
+              setShowCalculate(false);
+              setShowModel(false);
+              handlePrintOrder();
+              deleteRow("draft_cart", tabValue);
             }
           }
-          if (confirm) {
-            body.hold_reason = "offline";
-            addOrder("hold_orders", body);
-            setShowCalculate(false);
-            setShowModel(false);
-            handlePrintOrder();
-            deleteRow("draft_cart", tabValue);
-          }
-
-          
-        }
         });
     } else {
-      body.date = date + " " + time;
+      if(amountRef?.current?.value)
+
+      var val = (typeRef.current.value === "discount") ?  total - (total*amountRef?.current?.value /100) : total - amountRef?.current?.value
+      // setModif(typeRef.current.value === "discount"    ?   amountRef?.current?.value + "%"  : "$" + amountRef?.current?.value )  
+      // setTotal( val)  
+      // body.date = date + " " + time;
 
       localStorage.setItem("print_order", JSON.stringify(body));
 
       if (calculate) {
-        if (fnameRef.current.value) {
-          setShowCalculate(true);
-          setChange(total);
+        if (fnameRef?.current?.value || firstName) {
+           setShowCalculate(true);
+           setChange(amountRef.current.value  ? (typeRef.current.value == "discount" ? subTotal - subTotal*amountRef.current.value/100 : subTotal - amountRef.current.value ) : ( subTotal) );
+           setTotalOffline(amountRef.current.value  ? (typeRef.current.value == "discount" ? subTotal - subTotal*amountRef.current.value/100 : subTotal - amountRef.current.value ) : ( subTotal) );
+
+          // setChange(total);
         } else {
           setError({ firstName: "First Name is requird" });
         }
@@ -916,45 +974,21 @@ function Pos() {
       }
     }
   }
-  // save order
-  // function saveOrderLocal() {
-  //   const dbName = "posDB";
-  //   const dbVersion = 8;
-
-  //   const request = indexedDB.open(dbName, dbVersion);
-
-  //   // Handle database upgrade or creation
-  //   request.onupgradeneeded = function (event) {
-  //     const db = event.target.result;
-
-  //     // Create an object store (table) in the database
-  //     if (!db.objectStoreNames.contains("orders")) {
-  //       const objectStore = db.createObjectStore("orders", {
-  //         keyPath: "order_id",
-  //         autoIncrement: false
-  //       });
-  //     }
-  //   };
-
-  //   // Handle successful database opening
-  //   request.onsuccess = function (event) {
-  //     const db = event.target.result;
-  //     console.log("Database opened successfully.");
-
-  //     // Now you can perform CRUD operations on the object store.
-  //   };
-
-  //   // Handle database opening error
-  //   request.onerror = function (event) {
-  //     console.error("Error opening database:", event.target.error);
-  //   };
-  // }
 
   function changeResult(value) {
-    setChange(total);
+   
+    if(totalOffline){
+      setChange(totalOffline);
+      if (value !== "") {
+        setChange(totalOffline - value);
+      }
+    }else{
+      setChange(total);
     if (value !== "") {
       setChange(total - value);
     }
+
+  }
   }
   function addOrder(type, data) {
     const dbName = "posDB";
@@ -1290,17 +1324,32 @@ function Pos() {
                   Customer Info
                 </div>
                 <div className="flex  px-2 pt-2">
-                  <div>
-                    <div className="text-l"> telephone: </div>{" "}
-                    <div className="w-full">
-                      <HandlePhoneModel
-                        phone={telephone}
-                        phoneHanlder={phoneHanlder}
-                        pos={true}
-                        AdminPhoneHandler={AdminPhoneHandler}
-                      />{" "}
+                  {isOnline ? (
+                    <div>
+                      <div className="text-l"> telephone: </div>{" "}
+                      <div className="w-full">
+                        <HandlePhoneModel
+                          phone={telephone}
+                          phoneHanlder={phoneHanlder}
+                          pos={true}
+                          AdminPhoneHandler={AdminPhoneHandler}
+                        />{" "}
+                      </div>
                     </div>
-                  </div>{" "}
+                  ) : (
+                    <div className="px-2">
+                      <div className="text-l"> telephone: </div>{" "}
+                      <div className="text-xl flex-col">
+                        {" "}
+                        <input
+                          className="rounded border border-dlabelColor py-0.5 px-2 w-full"
+                          ref={telephone}
+                         
+                        />
+                     
+                      </div>
+                    </div>
+                  )}{" "}
                   <div className="px-2">
                     <div className="text-l"> First Name: </div>{" "}
                     <div className="text-xl flex-col">
@@ -1413,9 +1462,14 @@ function Pos() {
                       <div className=" w-1/4"> Sub-Total: </div>{" "}
                       <div className="  "> ${total}</div>
                     </div>
+
+                    {( amountRef?.current?.value > 0)  && <div className="flex items-center justify-between mb-1 text-dblack w-1/2">
+                      <div className=" w-1/4"> Discount: </div>{" "}
+                      <div className=""> {typeRef.current.value == "amount" && "$"}{amountRef.current.value}{typeRef.current.value == "discount" && "%"} </div> 
+                    </div>}
                     <div className="flex items-center justify-between mb-1 text-dblack w-1/2">
                       <div className=""> Total: </div>{" "}
-                      <div className=" "> ${total}</div>
+                      <div className=" "> ${amountRef?.current?.value  ? (typeRef?.current?.value == "discount" ? total - total*amountRef.current.value/100 : total - amountRef.current.value ) : ( total)}</div>
                     </div>
                   </div>
                 )}
