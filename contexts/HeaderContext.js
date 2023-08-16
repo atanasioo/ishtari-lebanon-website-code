@@ -4,13 +4,13 @@ const { createContext, useState, useContext } = require("react");
 const HeaderContext = createContext();
 
 export const HeaderProvider = ({ children }) => {
-    const [headerData, setHeaderData] = useState({});
+    const [headerColor, setHeaderColor] = useState({});
 
     return(
-        <HeaderContext.Provider value={{ headerData, setHeaderData }}>
+        <HeaderContext.Provider value={{ headerColor, setHeaderColor }}>
             { children }
         </HeaderContext.Provider>
     );
 }
 
-export const useHeaderData= () => useContext(HeaderContext);
+export const useHeaderColor= () => useContext(HeaderContext);

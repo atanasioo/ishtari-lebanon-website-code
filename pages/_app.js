@@ -29,6 +29,7 @@ import { MarketingProvider } from "@/contexts/MarketingContext";
 import { ReviewCenterProvider } from "@/contexts/ReviewCenterContext";
 import Script from "next/script";
 import Cookies from "js-cookie";
+import { HeaderProvider } from "@/contexts/HeaderContext";
 
 export default function App({
   Component,
@@ -135,12 +136,12 @@ export default function App({
           (typeof window !== "undefined" &&
             (window.location.host === "www.ishtari.com.gh" ||
               window.location.host === "next.ishtari.com.gh"))) && (
-              <meta
-                id="csp"
-                http-equiv="Content-Security-Policy"
-                content="default-src 'self' data:; script-src 'self' 'unsafe-inline' https://www.ishtari.com/ https://www.ishtari.com.gh/ *.ishtari.com/ *.ishtari.com.gh/ 'unsafe-eval' https: ; style-src 'self' 'unsafe-inline' ; base-uri 'self' https://www.ishtari.com/ https://www.ishtari.com.gh/ *.ishtari.com/ *.ishtari.com.gh/ ; img-src 'self' https://www.ishtari.com/ https://www.ishtari.com.gh/ https://ishtari.com *.ishtari.com/ *.ishtari.com.gh/ *.sari3.com *.google.com/ *.google.com.lb/ *.facebook.com *.connect.facebook.net  data:; manifest-src 'self'; frame-src 'self' https://td.doubleclick.net/ *.facebook.com https://test-gateway.mastercard.com/ ; connect-src 'self' https:;"
-              />
-             )} 
+          <meta
+            id="csp"
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self' data:; script-src 'self' 'unsafe-inline' https://www.ishtari.com/ https://www.ishtari.com.gh/ *.ishtari.com/ *.ishtari.com.gh/ 'unsafe-eval' https: ; style-src 'self' 'unsafe-inline' ; base-uri 'self' https://www.ishtari.com/ https://www.ishtari.com.gh/ *.ishtari.com/ *.ishtari.com.gh/ ; img-src 'self' https://www.ishtari.com/ https://www.ishtari.com.gh/ https://ishtari.com *.ishtari.com/ *.ishtari.com.gh/ *.sari3.com *.google.com/ *.google.com.lb/ *.facebook.com *.connect.facebook.net  data:; manifest-src 'self'; frame-src 'self' https://td.doubleclick.net/ *.facebook.com https://test-gateway.mastercard.com/ ; connect-src 'self' https:;"
+          />
+        )}
       </Head>
       {host === "https://www.ishtari.com" ||
       host === "ishtari" ||
@@ -174,54 +175,51 @@ export default function App({
                 <HostProvider>
                   <MarketingProvider>
                     <ReviewCenterProvider>
-                      <div className="" ref={topRef}>
-                        {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
+                      <HeaderProvider>
+                        <div className="" ref={topRef}>
+                          {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
 
-                        {loading && (
-                          <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
-                            <img
-                              src={"/images/loader.gif"}
-                              alt="loader-gif"
-                              heigh="110"
-                              width="110"
-                            />
-                          </div>
-                        )} 
-
-                     
-                        {router.asPath.indexOf("posSystem") < 0 ? 
-                        
-                        <Layout
-                          header_categories={header_categories}
-                          footer_categories={footer_categories}
-                          information_data={information_data}
-                          host={host}
-                        >
-                          <div className="bg-dprimarybg min-h-screen">
-                            <div className="md:container ">   
-                              <Component {...pageProps} />
+                          {loading && (
+                            <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+                              <img
+                                src={"/images/loader.gif"}
+                                alt="loader-gif"
+                                heigh="110"
+                                width="110"
+                              />
                             </div>
-                          </div>
-                        </Layout>
-                        :  
-                        
-                        <div className="bg-dprimarybg min-h-screen">
-                        <div className="md:container ">
-                          <Component {...pageProps} />
-                        </div>
-                      </div>
-                        
-                        
-                        }
-                      </div>
+                          )}
 
-                      <div className="text-xs text-dgrey1">
-                        {"V" + packageJson.version}
-                        {"."}
-                        {buildTimestamp} {"("}
-                        {formattedDate}
-                        {")"}
-                      </div>
+                          {router.asPath.indexOf("posSystem") < 0 ? (
+                            <Layout
+                              header_categories={header_categories}
+                              footer_categories={footer_categories}
+                              information_data={information_data}
+                              host={host}
+                            >
+                              <div className="bg-dprimarybg min-h-screen">
+                                <div className="md:container ">
+                                  <Component {...pageProps} />
+                                </div>
+                              </div>
+                            </Layout>
+                          ) : (
+                            <div className="bg-dprimarybg min-h-screen">
+                              <div className="md:container ">
+                                <Component {...pageProps} />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="text-xs text-dgrey1">
+                          {"V" + packageJson.version}
+                          {"."}
+                          {buildTimestamp} {"("}
+                          {formattedDate}
+                          {")"}
+                        </div>
+                      </HeaderProvider>
                     </ReviewCenterProvider>
                   </MarketingProvider>
                 </HostProvider>

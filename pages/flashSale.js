@@ -16,7 +16,12 @@ function flashSale(props) {
   const [successReminder, setSuccessReminder] = useState("");
   const [errReminder, setErrReminder] = useState("");
   const [nosale, setNoSale] = useState(false);
+  const [reminder, setReminder] = useState({
+    product_id: 0,
+    state: false,
+  });
 
+  console.log("data", data);
 
   useEffect(() => {
     setProductsTab(data[activeTab].products);
@@ -25,6 +30,10 @@ function flashSale(props) {
   function handleReminder(event, product_id, flash_sale_event_id) {
     event.preventDefault();
     if (accountState.loged) {
+      setReminder({
+        product_id: product_id,
+        state: true,
+      });
       const obj = {
         product_id: product_id,
         flash_sale_event_id: flash_sale_event_id,
@@ -32,17 +41,37 @@ function flashSale(props) {
       axiosServer
         .post(buildLink("addReminderForFlashSale", undefined, undefined), obj)
         .then((response) => {
-          if(response.data.success){
-            setSuccessReminder("Reminder set successfully");
-            setTimeout(()=>{
-              setSuccessReminder("");
-            },3000)
-            setErrReminder("");
-          }else{
+          if (response.data.success) {
+            axiosServer
+              .get(
+                buildLink("getFlashSale", undefined, undefined) +
+                  data[activeTab].flash_sale_event_id
+              )
+              .then((resp) => {
+                if (resp.data.success) {
+                  setProductsTab(resp.data.data[0].products);
+                } else {
+                  setNoSale(true);
+                }
+                setSuccessReminder("Reminder set successfully");
+                setTimeout(() => {
+                  setSuccessReminder("");
+                  setReminder({
+                    product_id: 0,
+                    state: false,
+                  });
+                }, 3000);
+                setErrReminder("");
+              });
+          } else {
             setErrReminder(response.data.message);
-            setTimeout(()=>{
+            setTimeout(() => {
               setErrReminder("");
-            },3000)
+              setReminder({
+                product_id: 0,
+                state: false,
+              });
+            }, 3000);
             setSuccessReminder("");
           }
         });
@@ -59,12 +88,13 @@ function flashSale(props) {
     setActiveTab(index);
     axiosServer
       .get(
-        buildLink("getFlashSale", undefined, undefined) + data[index].flash_sale_event_id
+        buildLink("getFlashSale", undefined, undefined) +
+          data[index].flash_sale_event_id
       )
       .then((response) => {
-        if(response.data.success){
+        if (response.data.success) {
           setProductsTab(response.data.data[0].products);
-        }else{
+        } else {
           setNoSale(true);
         }
         setLoading(false);
@@ -101,10 +131,12 @@ function flashSale(props) {
         <PointsLoader />
       ) : nosale ? (
         <div className="flex flex-col justify-center items-center mt-20 gap-2">
-         <div className="text-d25 pr-semibold ">There is currently no ongoing sale. </div>
-         <div>
-          <IoIosAlert className="w-11 h-11" />
-         </div>
+          <div className="text-d25 pr-semibold ">
+            There is currently no ongoing sale.{" "}
+          </div>
+          <div>
+            <IoIosAlert className="w-11 h-11" />
+          </div>
         </div>
       ) : (
         <div className="products-wrapper pb-5 mt-5 grid grid-cols-4 gap-3">
@@ -116,6 +148,7 @@ function flashSale(props) {
               handleReminder={handleReminder}
               successReminder={successReminder}
               errReminder={errReminder}
+              reminder={reminder}
             />
           ))}
         </div>
