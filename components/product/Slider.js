@@ -17,7 +17,7 @@ function ImageSlider(props){
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplaySpeed: 200,
+    autoplaySpeed: 1000,
     // autoplay: false, // We'll control this from the parent component
     // pauseOnHover: false,
   };
