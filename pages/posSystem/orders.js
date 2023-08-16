@@ -892,7 +892,7 @@ export default function orders() {
               holds?.map((h, key) => (
                 <tr className="text-dbase opacity-70 border border-dbase">
                   <td className="border border-gray-400 p-2">{"Hold"}</td>
-                  <td className="border border-gray-400 p-2">{h.firstname}</td>
+                  <td className="border border-gray-400 p-2">{h?.firstname}</td>
                   <td className="border border-gray-400 p-2">{h?.telephone}</td>
                   <td className="border border-gray-400 p-2">{h?.date}</td>
                   <td className="border border-gray-400 p-2">
