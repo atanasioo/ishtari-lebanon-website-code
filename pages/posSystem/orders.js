@@ -512,7 +512,7 @@ export default function orders() {
               </div>
 
               <div>
-                <table className="min-w-full text-left text-sm font-light">
+                <table className="min-w-full text-left text-sm font-light pb-24">
                   <thead className="border font-medium border-DarkGrey">
                     <tr>
                       <th scope="col" className="px-2 py-4">
@@ -929,11 +929,11 @@ export default function orders() {
             <div className=""></div>
             <div className="text-dbase">
               {" "}
-              Total Hold ${total.hold > 0 ? total.hold : 0}
+              Total Hold ${total.hold > 0 ? total.hold.toFixed(2) : 0}
             </div>{" "}
             <div className="">
               {" "}
-              Total ${total?.order > 0 ? total?.order : 0}
+              Total ${total?.order > 0 ? total?.order.toFixed(2) : 0}
             </div>{" "}
           </div>
         </div>

@@ -58,7 +58,7 @@ function AdminTopHeader() {
                 <a target="_blank" rel="noreferrer" href={"/posSystem/pos"}>
                   Pos
                 </a>
-                <a target="_blank" rel="noreferrer" href={"//orders"}>
+                <a target="_blank" rel="noreferrer" href={"/posSystem/orders"}>
                   orders list
                 </a>
               </>
@@ -66,14 +66,14 @@ function AdminTopHeader() {
           </div>
         ) : (
           <div className="w-full">
-            <a rel="noreferrer" classname="font-extrabold" href={"/pos"}>
+            <a rel="noreferrer" classname="font-extrabold" href={"/posSystem/pos"}>
               Pos
             </a>
             <a
               target="_blank"
               rel="noreferrer"
               className="float-right"
-              href={"/orders"}
+              href={"/posSystem/orders"}
             >
               orders list
             </a>
