@@ -243,9 +243,9 @@ export default function PosOrdersPrint() {
           <div className=""></div>
           <div className="">
       
-            Total Hold: ${total.hold > 0 ? total.hold : 0}
+            Total Hold: ${total.hold > 0 ? total.hold.toFixed(2) : 0}
           </div>
-          <div className=""> Total: ${total.order > 0 ? total.order : 0}</div>{" "}
+          <div className=""> Total: ${total.order > 0 ? total.order.toFixed(2) : 0}</div>{" "}
         </div>
       </div>
     </div>
