@@ -119,52 +119,52 @@ function ProductZoom(props) {
   const commentRef = useRef(null);
 
   useEffect(() => {
-    if (typeof additionalData.analytics !== "undefined") {
-      const newComment = additionalData.analytics[currentCommentIndex].trim();
-      const timer = setInterval(
-        () => {
-          setAdditionalArr((prevComments) => {
-            const newComments = [...prevComments];
-            const newComment =
-              additionalData.analytics[currentCommentIndex].trim();
-            if (newComment !== "") {
-              // Skip empty strings
-              newComments.push(additionalData.analytics[currentCommentIndex]);
-              if (newComments.length > maxComments) {
-                
-                setTimeout(() => {
-                  newComments.shift(); // Remove the oldest comment
-                  newComments.shift(); // Remove the oldest comment
-                }, 10);
+    if (Object.keys(additionalData).length > 0) {
+      if (typeof additionalData?.analytics !== "undefined") {
+        const newComment = additionalData.analytics[currentCommentIndex].trim();
+        const timer = setInterval(
+          () => {
+            setAdditionalArr((prevComments) => {
+              const newComments = [...prevComments];
+              const newComment =
+                additionalData.analytics[currentCommentIndex].trim();
+              if (newComment !== "") {
+                // Skip empty strings
+                newComments.push(additionalData.analytics[currentCommentIndex]);
+                if (newComments.length > maxComments) {
+                  setTimeout(() => {
+                    newComments.shift(); // Remove the oldest comment
+                    newComments.shift(); // Remove the oldest comment
+                  }, 10);
+                }
               }
-            }
-            return newComments;
-          });
-          // setCurrentCommentIndex((prevIndex) => {
-          //   return (prevIndex + 1) % additionalData.analytics.length;
-          // });
-          setCurrentCommentIndex((prevIndex) => {
-            if (prevIndex === 0) {
-              setIsFadingOut(true);
-              
-              setTimeout(() => {
-                setAdditionalArr([]); // Empty the array when index resets
-               setIsFadingOut(false); 
-              }, 1000);
-              
-            }
-            return (prevIndex + 1) % additionalData.analytics.length;
-          });
-    
+              return newComments;
+            });
+            // setCurrentCommentIndex((prevIndex) => {
+            //   return (prevIndex + 1) % additionalData.analytics.length;
+            // });
+            setCurrentCommentIndex((prevIndex) => {
+              if (prevIndex === 0) {
+                setTimeout(() => {
+                  setIsFadingOut(true);
 
-        },
-        newComment !== "" ? commentDuration : 1000
-      );
+                  setTimeout(() => {
+                    setAdditionalArr([]); // Empty the array when index resets
+                    setIsFadingOut(false);
+                  }, 1000);
+                }, 1000);
+              }
+              return (prevIndex + 1) % additionalData.analytics.length;
+            });
+          },
+          newComment !== "" ? commentDuration : 1000
+        );
 
-      // Clear interval on component unmount
-      return () => clearInterval(timer);
+        // Clear interval on component unmount.
+        return () => clearInterval(timer);
+      }
     }
-  }, [additionalData.analytics, currentCommentIndex]);
+  }, [additionalData, currentCommentIndex]);
 
   //used one
 

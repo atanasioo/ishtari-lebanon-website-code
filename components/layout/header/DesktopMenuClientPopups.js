@@ -109,7 +109,7 @@ function DesktopMenuClientPopups(props) {
         )
         .then((response) => {
           if (
-            typeof response.data.data.products !== "undefined" &&
+            typeof response.data.data?.products !== "undefined" &&
             response.data.data.products.length > 0
           ) {
             setTopSelling(response.data.data.products);

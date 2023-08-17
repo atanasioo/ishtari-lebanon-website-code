@@ -77,7 +77,7 @@ function ProductPage(props) {
   const [checked, setChecked] = useState(["0"]);
   const [showModel, setShowModel] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [additionalData, setAdditionalData] = useState([]);
+  const [additionalData, setAdditionalData] = useState({});
 
   const [value, setValue] = useState(0);
   const [result, setResult] = useState();
@@ -306,7 +306,10 @@ function ProductPage(props) {
 
   useEffect(() => {
     //product additional data
+    fetchAdditionalData();
+  }, [router]);
 
+  function fetchAdditionalData() {
     axiosServer
       .get(
         buildLink("getProductAdditionalData", undefined, window.innerWidth) +
@@ -317,7 +320,7 @@ function ProductPage(props) {
         console.log(response);
         setAdditionalData(response.data.data);
       });
-  }, [router, stateW]);
+  }
 
   function unescapeHTML(str) {
     if (!str) {
@@ -821,6 +824,8 @@ function ProductPage(props) {
           });
 
         setShowGroup(false);
+        //update wishlist count
+        fetchAdditionalData();
       });
   }
   useEffect(() => {
@@ -866,6 +871,7 @@ function ProductPage(props) {
             });
         }
         setShowGroup(false);
+        fetchAdditionalData();
       });
   }
 
@@ -997,38 +1003,41 @@ function ProductPage(props) {
               <div className="product-info w-full md:w-6/12 px-4">
                 {/* TOP SELLING */}
 
-                {typeof additionalData?.product_rank !== "undefined" && (
-                  <Link
-                    href={{
-                      pathname: "/categoryTopSelling",
-                      query: {
-                        category_id: `${additionalData?.product_rank?.category_id}`,
-                      },
-                    }}
-                    className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 rounded-full"
-                    style={{ backgroundColor: "#ffeced" }}
-                  >
-                    <div className="relative">
-                      <BsFillAwardFill className="text-dyellow w-6 h-6" />
-                      <div className="absolute pr-semibold top-0 left-0 right-0 bottom-0 m-auto text-d11 flex justify-center items-center mb-1 text-white">{additionalData?.product_rank?.index}</div>
-                    </div>
-                    <div className="text-xs">
-                      {" "}
-                      Top Selling in{" "}
-                      <span
-                        className="pr-semibold"
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(
-                            additionalData?.product_rank?.category_name
-                          ),
-                        }}
-                      ></span>
-                    </div>
-                    <div className="text-xs">
-                      <BsChevronRight />
-                    </div>
-                  </Link>
-                )}
+                {typeof additionalData?.product_rank !== "undefined" &&
+                  Object.keys(additionalData?.product_rank).length > 0 && (
+                    <Link
+                      href={{
+                        pathname: "/categoryTopSelling",
+                        query: {
+                          category_id: `${additionalData?.product_rank?.category_id}`,
+                        },
+                      }}
+                      className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 rounded-full"
+                      style={{ backgroundColor: "#ffeced" }}
+                    >
+                      <div className="relative">
+                        <BsFillAwardFill className="text-dyellow w-6 h-6" />
+                        <div className="absolute pr-semibold top-0 left-0 right-0 bottom-0 m-auto text-d11 flex justify-center items-center mb-1 text-white">
+                          {additionalData?.product_rank?.index}
+                        </div>
+                      </div>
+                      <div className="text-xs">
+                        {" "}
+                        Top Selling in{" "}
+                        <span
+                          className="pr-semibold"
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeHTML(
+                              additionalData?.product_rank?.category_name
+                            ),
+                          }}
+                        ></span>
+                      </div>
+                      <div className="text-xs">
+                        <BsChevronRight />
+                      </div>
+                    </Link>
+                  )}
 
                 {/* BRAND NAME */}
                 {data?.manufacturer.length > 0 && (
