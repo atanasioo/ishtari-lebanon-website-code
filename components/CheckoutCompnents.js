@@ -434,7 +434,6 @@ function CheckoutCompnents() {
     }
   }, [state]);
 
-
   // Manual Request
 
   function manual(manualCartProducts, _zone, paymentcode, confirm) {
@@ -1015,15 +1014,15 @@ function CheckoutCompnents() {
             if (data.success === true) {
             }
           });
+
+        setMarketingData(response.data.data);
         if (firstPath === "bey") {
           router.push({
             pathname: "/bey/success/",
-            state: { data: response.data.data },
           });
         } else {
           router.push({
             pathname: "/success/",
-            state: { data: response.data.data },
           });
         }
       }
@@ -1623,16 +1622,16 @@ function CheckoutCompnents() {
                           </span>{" "}
                         </p>{" "}
                         <Link
-                        href={
+                          href={
                             "/account/address/" +
                             activeAddress.address_id +
                             "/edit?&checkout=true"
-                        }
-                        className="text-white bg-dblue px-2 py-1 mt-1 inline-block"
-                      >
-                        <span> Edit address </span>{" "}
-                        <i className="icon icon-edit ml-1"> </i>{" "}
-                      </Link>{" "}
+                          }
+                          className="text-white bg-dblue px-2 py-1 mt-1 inline-block"
+                        >
+                          <span> Edit address </span>{" "}
+                          <i className="icon icon-edit ml-1"> </i>{" "}
+                        </Link>{" "}
                         {/*Addresses*/} {/* +96103006964 */}
                         {showAddresses && (
                           <div

@@ -3,10 +3,11 @@ import { useEffect, useContext } from "react";
 import { pixelID } from "../urls";
 import { AccountContext } from "../contexts/AccountContext";
 import { useRouter } from "next/router";
+import { useMarketingData } from "@/contexts/MarketingContext";
 
 function Success(props) {
-  // const location = useLocation();
-  // const data = location.state.data;
+
+  const {marketingData, setMarketingData} = useMarketingData();
   const [accountState] = useContext(AccountContext);
   const  router = useRouter()
 
@@ -21,16 +22,16 @@ function Success(props) {
       if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com") {
         gtag("event", "conversion", {
           send_to: "AW-991347483/CZZzCOys3YwYEJuG29gD",
-          value: data?.total,
+          value: marketingData?.total,
           currency: "USD",
-          transaction_id: data?.orderDetails?.order_id,
+          transaction_id: marketingData?.orderDetails?.order_id,
         });
       } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/ZuLdCKWOl5EYEKLrpvoo",
-          value: data?.total,
+          value: marketingData?.total,
           currency: "USD",
-          transaction_id: data?.orderDetails?.order_id,
+          transaction_id: marketingData?.orderDetails?.order_id,
         });
       }
     }
