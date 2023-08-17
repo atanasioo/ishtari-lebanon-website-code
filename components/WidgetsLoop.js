@@ -102,7 +102,6 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
 
   const handleOnItemClick = useCallback(
     (e) => {
-      console.log(dragging);
       if (dragging) {
         // e.stopPropagation()
         e.preventDefault();
