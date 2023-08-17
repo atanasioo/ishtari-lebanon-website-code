@@ -121,19 +121,19 @@ function ProductZoomModal(props) {
   return (
     <div className="fixed bg-white md:bg-dblackOverlay top-0 lef-0 right-0 bottom-0 w-full h-full z-30 overflow-hidden">
       <div className="modal_zoom_div relative z-40 h-full mx-auto text-center box-border">
-        <div   className="modal_zoom_div absolute w-full m-auto h-full  z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
+        <div   className="modal_zoom_div absolute w-full lg:w-11/12 m-auto h-full  z-50 bg-white top-0 left-0 right-0 bottom-0 lg:max-h-90%">
           <div className=" m-0 p-0 md:min-h-full modal_zoom_div md:h-full bg-dblackOverlay3 lg:bg-white" id="popup_modal">
             <CgClose
-              className="absolute top-2 right-1 p-0.5 md:m-3 w-9 h-9 z-10 md:w-9 md:h-9 cursor-pointer text-darrowZoom  lg:text-dblack"
+              className="absolute top-1.5 right-1.5 p-0.5  w-9 h-9 z-10 md:w-9 md:h-9 cursor-pointer text-darrowZoom  lg:text-dblack"
               onClick={() => closeModal()}
               onTouchStart={() => closeModal()}
             />
             <div className={`flex flex-col justify-center ${width < 768 ? "items-center" : ""} md:justify-center modal_zoom_div  lg:h-unset mb-5`}>
               <div  className="flex flex-col w-86% md:w-unset  lg:h-full md:my-8  justify-start gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
-                <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-5/12 flex flex-col  lg:h-5/6 justify-center items-center ">
+                <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-8/12 flex flex-col  lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
-                    className="w-11/12 hidden lg:block"
+                    className="w-8/12 hidden lg:block"
                   >
                     {images?.map((i) => (
                       <PrismaZoom
@@ -191,7 +191,7 @@ function ProductZoomModal(props) {
                   </Slider>
                 </div>
                 <div
-                  className="product-info md:ml-10 lg:w-7/12 "
+                  className="product-info md:ml-10 lg:w-4/12 "
                 >
                   <div className="flex flex-col  text-left place-content-center">
                     <div
@@ -205,11 +205,11 @@ function ProductZoomModal(props) {
                     </div>
                     {/* selector-div */}
 
-                    <div className={`hidden lg:grid grid-cols-6 mt-7`}>
+                    <div className={`hidden lg:grid lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 mt-7 overflow-y-scroll lg:max-h-245px xl:max-h-410px`}>
                       {images?.map((i) => (
                         <div
                           key={i["thumb"]}
-                          className={`mt-3 w-20 cursor-pointer border-2 rounded-md ${
+                          className={`mt-3 w-max cursor-pointer border-2 rounded-md ${
                             activeImage["popup"] === i["popup"]
                               ? "border-dblue"
                               : "border-dgreyZoom"
@@ -217,8 +217,8 @@ function ProductZoomModal(props) {
                         >
                           <Image
                             src={i["thumb"]}
-                            width={ images.length >12 ? 63 : 76}
-                            height={images.length >12 ? 90 : 103}
+                            width={ images.length >12 ? 63 : 63}
+                            height={images.length >12 ? 90 : 90}
                             alt="product-image"
                             onClick={() => changeImage(i)}
                             className={`cursor-pointer rounded-md `}

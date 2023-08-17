@@ -22,7 +22,7 @@ function LogoClient(props) {
         <>
           <Image
             className="hidden mobile:block"
-            src="/images/logo/logo-red.png"
+            src="/images/logo/logo-redd.png"
             width={130}
             height={130}
             alt="ishtari-logo"
@@ -51,7 +51,7 @@ function LogoClient(props) {
         <>
           <Image
             className="hidden mobile:block"
-            src="/images/logo/logo-red.png"
+            src="/images/logo/logo-redd.png"
             width={130}
             height={130}
             alt="ishtari-logo"

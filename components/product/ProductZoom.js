@@ -131,21 +131,31 @@ function ProductZoom(props) {
               // Skip empty strings
               newComments.push(additionalData.analytics[currentCommentIndex]);
               if (newComments.length > maxComments) {
-                setIsFadingOut(true);
+                
                 setTimeout(() => {
                   newComments.shift(); // Remove the oldest comment
                   newComments.shift(); // Remove the oldest comment
                 }, 10);
-
-                setIsFadingOut(false);
-
               }
             }
             return newComments;
           });
+          // setCurrentCommentIndex((prevIndex) => {
+          //   return (prevIndex + 1) % additionalData.analytics.length;
+          // });
           setCurrentCommentIndex((prevIndex) => {
+            if (prevIndex === 0) {
+              setIsFadingOut(true);
+              
+              setTimeout(() => {
+                setAdditionalArr([]); // Empty the array when index resets
+               setIsFadingOut(false); 
+              }, 1000);
+              
+            }
             return (prevIndex + 1) % additionalData.analytics.length;
           });
+    
 
         },
         newComment !== "" ? commentDuration : 1000
@@ -574,7 +584,7 @@ function ProductZoom(props) {
                     <div
                       key={index}
                       className={`live-comment w-fit flex items-center px-3 gap-1 rounded-full py-1 mb-2.5 additional-data-div-div ${
-                        isFadingOut ? "" : ""
+                        isFadingOut ? "live-comment-fadeout" : ""
                       }`}
                       style={{
                         background: "hsla(0,0%,100%,.8)",

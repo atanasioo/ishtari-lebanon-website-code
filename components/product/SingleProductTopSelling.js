@@ -8,7 +8,8 @@ import { sanitizeHTML } from "../Utils";
 function SingleProductTopSelling(props) {
   const { item, index } = props;
   const path = "";
-  console.log(item);
+  console.log(item.name);
+  console.log(item.full_name);
   return (
     <Link
       className="rounded-lg p-4 bg-white relative"

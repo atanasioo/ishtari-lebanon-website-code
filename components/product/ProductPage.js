@@ -1010,7 +1010,7 @@ function ProductPage(props) {
                   >
                     <div className="relative">
                       <BsFillAwardFill className="text-dyellow w-6 h-6" />
-                      <div className="absolute top-0 left-0 right-0 bottom-0 m-auto flex justify-center items-center mb-1 text-white">{additionalData?.product_rank?.index}</div>
+                      <div className="absolute pr-semibold top-0 left-0 right-0 bottom-0 m-auto text-d11 flex justify-center items-center mb-1 text-white">{additionalData?.product_rank?.index}</div>
                     </div>
                     <div className="text-xs">
                       {" "}

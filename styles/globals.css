@@ -2290,10 +2290,10 @@ div.widget_text p{
   transition: height 0.3s ease-in-out; /* Apply transition to the height property */
 }
 
-/* .live-comment-fadeout{
+.live-comment-fadeout{
   -webkit-animation: fadeout .3s linear forwards;
   animation: fadeout .3s linear forwards;
-} */
+}
 
 
 

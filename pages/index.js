@@ -11,6 +11,7 @@ import { getHost } from "@/functions";
 import DownloadAppImg from "@/components/DownloadAppImg";
 import { AccountContext } from "@/contexts/AccountContext";
 import PointsLoader from "@/components/PointsLoader";
+import { useHeaderColor } from "@/contexts/HeaderContext";
 
 export default function Home(props) {
 
@@ -23,6 +24,7 @@ export default function Home(props) {
   const [width] = useDeviceSize();
   const sentinelRef = useRef(null);
   const observer = useRef(null);
+  const {headerColor, setHeaderColor} = useHeaderColor();
 
   const lastElementRef = useCallback(
     (node) => {
@@ -72,6 +74,12 @@ export default function Home(props) {
           ...dataRef.current,
           ...response?.data?.data?.widgets,
         ];
+
+         if(page === 1 && response?.data?.data?.widgets[0].cover_header === "1"){
+          //setHeaderColor("#0000FF");
+           setHeaderColor(response?.data?.data?.widgets[0].background_color)
+        }
+
 
         // setTimeout(() => {
         //   setInitialLoading(false)

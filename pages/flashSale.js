@@ -21,8 +21,6 @@ function flashSale(props) {
     state: false,
   });
 
-  console.log("data", data);
-
   useEffect(() => {
     setProductsTab(data[activeTab].products);
   }, []);
@@ -183,8 +181,6 @@ export async function getServerSideProps(context) {
   );
 
   data = response.data.data;
-
-  console.log(response.data);
 
   return {
     props: {

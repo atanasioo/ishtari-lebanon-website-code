@@ -20,7 +20,7 @@ import ScrollToTop from "react-scroll-to-top";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { axiosServer } from "@/axiosServer";
 import Cookies from "js-cookie";
-import buildLink from "@/urls";
+import buildLink, { pixelID } from "@/urls";
 import { AccountContext } from "@/contexts/AccountContext";
 
 function CatalogPage(props) {
@@ -689,7 +689,15 @@ function CatalogPage(props) {
     }
   }
 
+  async function initializeReactPixel() {
+    return import("react-facebook-pixel").then((module) => module.default);
+  }
+
   //marketing analytics
+
+  console.log(data);
+
+  let productArray = [];
 
   useEffect(() => {
     var dataSocial = data?.social_data;
@@ -712,6 +720,49 @@ function CatalogPage(props) {
         dataSocial["banner_image_id"] = marketingData.banner_image_id
           ? marketingData.banner_image_id
           : "";
+      }
+
+      if (typeof window !== "undefined" && !state.admin) {
+        const productDetails = [];
+        data?.products?.map((p) => {
+          productArray.push(p.product_id);
+          productDetails.push({ id: p.product_id, quantity: p.quantity });
+        });
+
+        let ReactPixel;
+
+        // ---> Facebook PIXEL <---
+
+        const advancedMatching = {
+          em: data?.social_data?.email,
+          fn: data?.social_data?.firstname,
+          ln: data?.social_data?.lastname,
+          external_id: data?.social_data?.external_id,
+          country: data?.social_data?.country_code,
+          fbp: Cookies.get("_fbp"),
+        };
+
+        initializeReactPixel().then((reactPixelModule) => {
+          ReactPixel = reactPixelModule; // Assign the default export to the variable
+          ReactPixel.init(pixelID, advancedMatching, {
+            debug: true,
+            autoConfig: false,
+          });
+          ReactPixel.pageView();
+          ReactPixel.fbq("track", "PageView");
+
+          window.fbq(
+            "track",
+            "ViewContent",
+            {
+              content_type: "product",
+              content_ids: productArray,
+              contents: productDetails,
+              content_name: data?.social_data?.name,
+            },
+            { eventID: data?.social_data?.event_id }
+          );
+        });
       }
 
       axiosServer

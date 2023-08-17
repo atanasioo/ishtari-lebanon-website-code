@@ -10,6 +10,9 @@ module.exports = {
     extend: {
       maxHeight:{
         '90%': "90%",
+        "245px": "245px",
+        "350px": "350px",
+        "410px": "410px",
         "450px": "450px",
         "700px": "700px",
       },
@@ -34,6 +37,7 @@ module.exports = {
       },
       height:{
         5.5: "22px",
+        "22": "85px",
         "unset": "unset",
         "90%": "90%",
         "100svh": "100svh",

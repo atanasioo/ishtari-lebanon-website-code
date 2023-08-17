@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import { sanitizeHTML } from "@/components/Utils";
 import { axiosServer } from "@/axiosServer";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { useHeaderColor } from "@/contexts/HeaderContext";
 
 function DesktopMenuCategories(props) {
   const { header_categories, local } = props;
@@ -24,6 +25,7 @@ function DesktopMenuCategories(props) {
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
   const [clearHover, setClearHover] = useState(false);
   const { setMarketingData } = useMarketingData();
+  const { headerColor, setHeaderColor } = useHeaderColor();
 
   const router = useRouter();
 
@@ -155,7 +157,7 @@ function DesktopMenuCategories(props) {
       {router.asPath.indexOf("pos") < 0 &&
         router.asPath.indexOf("orders") < 0 && (
           <div
-            className="hidden lg:block bg-white container w-full shadow-md shadow-dbeigeRed  text-d16 "
+            className="hidden lg:block  container w-full shadow-md shadow-dbeigeRed  text-d16 "
             onClick={() => {
               setOverlay(false);
               setClearHover(true);
@@ -168,6 +170,7 @@ function DesktopMenuCategories(props) {
               setViewSubAllCategories2(false);
               setViewMenuCategories2(false);
             }}
+            style={{backgroundColor: headerColor.length === 0 ? "white" : headerColor}}
           >
             <div>
               <div

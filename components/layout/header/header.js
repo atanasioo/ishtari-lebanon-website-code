@@ -22,6 +22,7 @@ import CountryDropdown from "./CountryDropdown";
 import { HostContext } from "@/contexts/HostContext";
 import LogoClient from "@/components/LogoClient";
 import MobileMenu from "./MobileMenu";
+import { useHeaderColor } from "@/contexts/HeaderContext";
 
 function Header(props) {
   const [local, setLocal] = useState(false);
@@ -35,6 +36,9 @@ function Header(props) {
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
   const host = useContext(HostContext);
+  const { headerColor, setHeaderColor } = useHeaderColor();
+
+  console.log(headerColor);
 
   const serverSideDomain = props.host;
 
@@ -70,14 +74,13 @@ function Header(props) {
   useEffect(() => {
     if (window !== undefined) {
       if (window.location.host === "localhost:3000") {
-        setLocal(true);
+        // setLocal(true);
       }
     }
 
     function checkCookies() {
       const adminToken = Cookies.get("ATDetails");
       if (typeof adminToken != "undefined") {
-      
         // setToken(adminToken);
       }
     }
@@ -100,14 +103,12 @@ function Header(props) {
     }
   }, []);
 
-
   // const MobileMenu = dynamic(() => import("./MobileMenu"), {
   //   ssr: false, // Disable server-side rendering
   // });
   const AdminTopHeader = dynamic(() => import("./AdminTopHeader"), {
     ssr: false, // Disable server-side rendering
   });
-
 
   function closeMobileMenu() {
     setViewMenu(false);
@@ -133,127 +134,134 @@ function Header(props) {
 
       <AdminTopHeader />
 
-      <div className="flex items-center justify-between my-4 h-14 container">
-        <div className="flex items-center">
-          <button className="lg:hidden" onClick={() => setViewMenu(true)}>
-            <HiMenu
-              className={` w-6 h-6 text-dblack mr-1 `}
-              // style={{color: "e3535e"}}
-            ></HiMenu>
-          </button>
-          <Link
-            href="/"
-            className="header-logo flex justify-start md:justify-center lg:justify-start"
-            onClick={(e) => {
-              // to prevent the unsmooth behavior when clicking on the logo when you're already in the homepage
-              if (router.pathname === "/") {
-                e.preventDefault();
-              }
-            }}
-          >
-            {serverSideDomain.indexOf("flo") > -1 ? (
-              <Image
-                src={LogofloOrange}
-                width={width > 768 ? 130 : 100}
-                height={width > 768 ? 130 : 100}
-                alt="ishtari-logo"
-                priority={true}
-                style={{ width: "80%", height: "auto" }}
-              />
-            ) : serverSideDomain.indexOf("ishtari") > -1 ||
-              serverSideDomain.indexOf("next") > -1 ? (
-              <>
+      <div>
+        <div
+          className="flex items-center justify-between py-4 h-22 container"
+          style={{
+            backgroundColor: headerColor.length === 0 ? "white" : headerColor,
+          }}
+        >
+          <div className="flex items-center">
+            <button className="lg:hidden" onClick={() => setViewMenu(true)}>
+              <HiMenu
+                className={` w-6 h-6 text-dblack mr-1 `}
+                // style={{color: "e3535e"}}
+              ></HiMenu>
+            </button>
+            <Link
+              href="/"
+              className="header-logo flex justify-start md:justify-center lg:justify-start"
+              onClick={(e) => {
+                // to prevent the unsmooth behavior when clicking on the logo when you're already in the homepage
+                if (router.pathname === "/") {
+                  e.preventDefault();
+                }
+              }}
+            >
+              {serverSideDomain.indexOf("flo") > -1 ? (
                 <Image
-                  className="hidden mobile:block"
-                  src="/images/logo/logo-red.png"
-                  width={130}
-                  height={130}
+                  src={LogofloOrange}
+                  width={width > 768 ? 130 : 100}
+                  height={width > 768 ? 130 : 100}
                   alt="ishtari-logo"
                   priority={true}
                   style={{ width: "80%", height: "auto" }}
                 />
-                <Image
-                  className="mobile:hidden"
-                  src="/images/logo/logo-dblack2.png"
-                  width={96}
-                  height={20}
-                  alt="ishtari-logo"
-                  priority={true}
-                  style={{ width: "78%", height: "auto" }}
-                />
-              </>
-            ) : serverSideDomain.indexOf("energy") > -1 ? (
-              <>
-                <Image
-                  className="hidden mobile:block"
-                  src="/images/logo/logo-red.png"
-                  width={130}
-                  height={130}
-                  alt="ishtari-logo"
-                  priority={true}
-                  style={{ width: "80%", height: "auto" }}
-                />
-                <Image
-                  className="mobile:hidden"
-                  src="/images/logo/logo-dblack2
+              ) : serverSideDomain.indexOf("ishtari") > -1 ||
+                serverSideDomain.indexOf("next") > -1 ? (
+                <>
+                  <Image
+                    className="hidden mobile:block"
+                    src="/images/logo/logo-redd.png"
+                    width={130}
+                    height={130}
+                    alt="ishtari-logo"
+                    priority={true}
+                    style={{ width: "80%", height: "auto" }}
+                  />
+                  <Image
+                    className="mobile:hidden"
+                    src="/images/logo/logo-dblack2.png"
+                    width={96}
+                    height={20}
+                    alt="ishtari-logo"
+                    priority={true}
+                    style={{ width: "78%", height: "auto" }}
+                  />
+                </>
+              ) : serverSideDomain.indexOf("energy") > -1 ? (
+                <>
+                  <Image
+                    className="hidden mobile:block"
+                    src="/images/logo/logo-redd.png"
+                    width={130}
+                    height={130}
+                    alt="ishtari-logo"
+                    priority={true}
+                    style={{ width: "80%", height: "auto" }}
+                  />
+                  <Image
+                    className="mobile:hidden"
+                    src="/images/logo/logo-dblack2
                   .png"
-                  width={96}
-                  height={40}
-                  alt="ishtari-logo"
-                  priority={true}
-                  style={{ width: "78%", height: "auto" }}
-                />
-              </>
-            ) : Cookies.get("site-local-name") === "ishtari" ||
-              Cookies.get("site-local-name") === "ishtari-ghana" ? (
-              <>
-                <Image
-                  className="hidden mobile:block"
-                  src="/images/logo/logo-red.png"
-                  width={130}
-                  height={130}
-                  alt="ishtari-logo"
-                  priority={true}
-                  style={{ width: "80%", height: "auto" }}
-                />
-                <Image
-                  className="mobile:hidden"
-                  src="/images/logo/logo-dblack2.png"
-                  width={96}
-                  height={40}
-                  alt="ishtari-logo"
-                  priority={true}
-                  style={{ width: "78%", height: "auto" }}
-                />
-              </>
-            ) : (
-              <LogoClient host={host.host} />
-            )}
-          </Link>
-        </div>
+                    width={96}
+                    height={40}
+                    alt="ishtari-logo"
+                    priority={true}
+                    style={{ width: "78%", height: "auto" }}
+                  />
+                </>
+              ) : Cookies.get("site-local-name") === "ishtari" ||
+                Cookies.get("site-local-name") === "ishtari-ghana" ? (
+                <>
+                  <Image
+                    className="hidden mobile:block"
+                    src="/images/logo/logo-redd.png"
+                    width={130}
+                    height={130}
+                    alt="ishtari-logo"
+                    priority={true}
+                    style={{ width: "80%", height: "auto" }}
+                  />
+                  <Image
+                    className="mobile:hidden"
+                    src="/images/logo/logo-dblack2.png"
+                    width={96}
+                    height={40}
+                    alt="ishtari-logo"
+                    priority={true}
+                    style={{ width: "78%", height: "auto" }}
+                  />
+                </>
+              ) : (
+                <LogoClient host={host.host} />
+              )}
+            </Link>
+          </div>
 
-        <div className="flex justify-end items-center flex-1">
-          <TopSearch />
+          <div className="flex justify-end items-center flex-1">
+            <TopSearch />
 
-          <div className="flex  items-center">
-            <CountryDropdown host={host.host} />
+            <div className="flex  items-center">
+              <CountryDropdown host={host.host} />
 
-            {stateAcc.isSeller && (
-              <div>
-                <Link
-                  className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
-                  // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
-                  // href={`https://www.ishtari.com/seller_report/home`}
-                  href="/seller_report"
-                >
-                  seller dashboard
-                </Link>
-              </div>
-            )}
+              {stateAcc.isSeller && (
+                <div>
+                  <Link
+                    className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
+                    // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
+                    // href={`https://www.ishtari.com/seller_report/home`}
+                    href="/seller_report"
+                  >
+                    seller dashboard
+                  </Link>
+                </div>
+              )}
 
-            <Account />
-            {stateAcc.loged && <TopWishlist />}
-            <TopCart />
+              <Account />
+              {stateAcc.loged && <TopWishlist />}
+              <TopCart />
+            </div>
           </div>
         </div>
       </div>
