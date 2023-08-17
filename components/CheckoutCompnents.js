@@ -1622,19 +1622,18 @@ function CheckoutCompnents() {
                             {activeAddress.telephone}{" "}
                           </span>{" "}
                         </p>{" "}
-                        {/* <Link
-                        // href={{
-                        //   pathname:
-                        //     "/account/address/" +
-                        //     activeAddress.address_id +
-                        //     "/edit",
-                        //   search: "from-checkout=true"
-                        // }}
+                        <Link
+                        href={{
+                          pathname:
+                            "/account/address/" +
+                            activeAddress.address_id +
+                            "/edit"
+                        }}
                         className="text-white bg-dblue px-2 py-1 mt-1 inline-block"
                       >
                         <span> Edit address </span>{" "}
                         <i className="icon icon-edit ml-1"> </i>{" "}
-                      </Link>{" "} */}
+                      </Link>{" "}
                         {/*Addresses*/} {/* +96103006964 */}
                         {showAddresses && (
                           <div
