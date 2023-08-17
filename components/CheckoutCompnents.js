@@ -1623,12 +1623,11 @@ function CheckoutCompnents() {
                           </span>{" "}
                         </p>{" "}
                         <Link
-                        href={{
-                          pathname:
+                        href={
                             "/account/address/" +
                             activeAddress.address_id +
-                            "/edit"
-                        }}
+                            "/edit?&from-checkout=true"
+                        }
                         className="text-white bg-dblue px-2 py-1 mt-1 inline-block"
                       >
                         <span> Edit address </span>{" "}

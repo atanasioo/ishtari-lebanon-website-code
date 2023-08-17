@@ -18,6 +18,7 @@ import AddressHandlePhoneModel from "./AddressPhoneHandler";
 function AddAddressPage(props) {
   const { address_id } = props;
   const router = useRouter();
+  const checkoutParam = router.query.checkout; // This will be a string or undefined
   const [address_2, setAddress_2] = useState("");
   const [address_1, setAddress_1] = useState("");
   const [firstname, setFirstName] = useState("");
@@ -78,9 +79,9 @@ function AddAddressPage(props) {
   // console.log(isEdit);
 
   useEffect(() => {
-    // if (parsedQueryString["from-checkout"]) {
-    //   setFromCheckout(true);
-    // }
+    if (checkoutParam) {
+      setFromCheckout(true);
+    }
 
     window.scrollTo({
       top: 0,
@@ -307,10 +308,13 @@ function AddAddressPage(props) {
                   `&telephone=${window.config["countryCode"] + telephone}`
               )
               .then((res) => {
+
+                
                 redirect();
               });
-            if (fromCheckout) {
+            if (checkoutParam) {
               router.push("/checkout");
+              
             } else {
               // setTimeout(() => {
               //   history.push({
@@ -325,6 +329,8 @@ function AddAddressPage(props) {
     }
   }
 
+
+  
   function setZone(e) {
     setTownes("");
     const sel = e.target;
