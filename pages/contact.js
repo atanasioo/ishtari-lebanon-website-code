@@ -36,11 +36,10 @@ function Contact() {
       phone,
       message,
     });
-    console.log(obj);
+
     axiosServer.post(buildLink("contactUs"), obj).then((response) => {
       const data = response.data;
       if (data.success) {
-        console.log(data);
       }
       setSubmitLoading(false);
     });

@@ -124,7 +124,6 @@ export default function App({
     }
   }, []);
 
-  console.log(host);
 
   return (
     <SessionProvider>
@@ -277,9 +276,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
         const response = await getToken(host_url);
 
         const newToken = response.access_token;
-        console.log("new-token");
-        console.log(newToken);
-        console.log("new-token");
+
         if (newToken != undefined) {
           cook.set("api-token", newToken, options);
         }

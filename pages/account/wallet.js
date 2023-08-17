@@ -28,7 +28,6 @@ function wallet() {
     axiosServer
       .get(buildLink("getBalance", undefined, window.innerWidth))
       .then((response) => {
-        console.log("balance is ", response);
         if (response.data.success) {
           setBalance(response.data.data.balance);
         }
@@ -45,7 +44,6 @@ function wallet() {
           page
       )
       .then((response) => {
-        console.log(response.data.data);
         if (response.data.success) {
           setTransactionData(response.data.data);
           setLoading(false);

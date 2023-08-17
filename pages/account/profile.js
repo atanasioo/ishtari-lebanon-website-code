@@ -80,7 +80,6 @@ function profile() {
       email: data.email,
       //telephone: telephone.current.value !== "" ? window.config["countryCode"] + telephone.current.value : "",
     };
-    console.log(telephone.current.value);
     setAlert(true);
     axiosServer
       .put(buildLink("save_account", undefined, window.innerWidth), obj)

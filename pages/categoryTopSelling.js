@@ -7,7 +7,7 @@ import cookie from "cookie";
 
 function categoryTopSelling(props) {
   const { data } = props;
-  console.log(data);
+
   return (
     <div className="py-7 container">
       <div className="pr-semibold text-d20 text-dblack">
@@ -49,11 +49,6 @@ export async function getServerSideProps(context) {
     site_host = host_cookie;
   }
 
-  console.log(
-    buildLink("getAllTopSellingbyCategoryid", undefined, undefined, site_host) +
-      "&category_id=" +
-      category_id
-  );
 
   const response = await axiosServer.get(
     buildLink("getAllTopSellingbyCategoryid", undefined, undefined, site_host) +

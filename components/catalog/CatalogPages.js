@@ -499,7 +499,6 @@ function CatalogPage(props) {
         name === "jeans Size" ||
         name === "Socks")
     ) {
-      console.log("hello from the other side");
       if (filter_options.indexOf(filter["id"]) > -1) {
         return "border rounded text-dblue border-dblue p-2";
       } else {
@@ -695,7 +694,6 @@ function CatalogPage(props) {
 
   //marketing analytics
 
-  console.log(data);
 
   let productArray = [];
 

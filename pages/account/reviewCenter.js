@@ -30,7 +30,6 @@ function reviewCenter() {
           setLoading(false);
           const data = response.data.data;
           setData(data);
-          console.log(data);
         });
     } else {
       axiosServer
@@ -39,7 +38,6 @@ function reviewCenter() {
           setLoading(false);
           const data = response.data.data;
           setData(data);
-          console.log(data);
         });
     }
   }, [awaitingReview]);

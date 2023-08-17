@@ -38,13 +38,11 @@ function feedback() {
         }));
         setFeedbacks(feedbacksData);
         setLoading(false);
-        console.log(data);
       });
   }, []);
 
 
   function handleActiveService(operation) {
-    console.log(data.length);
     if (operation === "inc") {
       setActiveService(activeService + 1);
       if (activeService === data.length - 2) {
@@ -89,7 +87,6 @@ function feedback() {
           obj
         )
         .then((response) => {
-          console.log(response);
           if(response.data.success){
             setSucess(response.data.message);
           }
@@ -98,7 +95,6 @@ function feedback() {
   }
 
   function handleStarRatingChange(service_id, rating) {
-    console.log(service_id);
     const updatedFeedbacks = feedbacks.map((feedback) => {
       if (feedback.service_id === service_id) {
         return { ...feedback, rating };

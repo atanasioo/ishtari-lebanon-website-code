@@ -344,7 +344,6 @@ function CatalogPage(props) {
   function checkFilter(type, name, filter) {
     // console.log(router.asPath);
     //  console.log(type);
-     console.log(name);
     if (
       filter_options != undefined &&
       (name === "Color" || name === "Light Color")

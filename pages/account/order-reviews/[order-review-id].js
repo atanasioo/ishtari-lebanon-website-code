@@ -91,7 +91,6 @@ export default function OrderReviews(props) {
         .then((response) => {
           if (response.data.success) {
             setData(response.data.data);
-            console.log(response.data.data);
             setLoading(false);
             const reviewsData = response.data.data.products.map((product) => ({
               product_id: product.product_id,
@@ -112,7 +111,6 @@ export default function OrderReviews(props) {
     setRequired("");
     setErr("");
     const review = reviews.find((review) => review.product_id === product_id);
-    console.log(review);
     if (review.rating !== "0") {
       setRequired("");
       var formData = new FormData(); // Currently empty

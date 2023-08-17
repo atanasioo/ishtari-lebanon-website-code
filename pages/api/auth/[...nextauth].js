@@ -125,7 +125,6 @@ export const authOptions = {
       return session;
     },
     async signIn({ user }) {
-      console.log(user);
 
       if (user) return true;
 
