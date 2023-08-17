@@ -1626,7 +1626,7 @@ function CheckoutCompnents() {
                         href={
                             "/account/address/" +
                             activeAddress.address_id +
-                            "/edit?&from-checkout=true"
+                            "/edit?&checkout=true"
                         }
                         className="text-white bg-dblue px-2 py-1 mt-1 inline-block"
                       >
