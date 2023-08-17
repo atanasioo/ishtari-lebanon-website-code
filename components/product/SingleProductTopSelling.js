@@ -7,6 +7,7 @@ import { sanitizeHTML } from "../Utils";
 
 function SingleProductTopSelling(props) {
   const { item, index } = props;
+  const path= "";
 
   return (
     <Link
