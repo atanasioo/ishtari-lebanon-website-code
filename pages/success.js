@@ -35,6 +35,9 @@ function Success(props) {
         });
       }
     }
+    return () => {
+      setMarketingData({});
+    };
   }, [accountState.admin]);
 
 
