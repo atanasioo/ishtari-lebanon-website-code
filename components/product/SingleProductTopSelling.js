@@ -7,7 +7,7 @@ import { sanitizeHTML } from "../Utils";
 
 function SingleProductTopSelling(props) {
   const { item, index } = props;
-  const path= "";
+  const path = "";
 
   return (
     <Link
@@ -15,7 +15,7 @@ function SingleProductTopSelling(props) {
       style={{
         height: "170px",
         border: "solid 1px #e6e6e6",
-        boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.05)",
+        boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.05)"
       }}
       href={`${path}/${item.name
         .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -29,32 +29,44 @@ function SingleProductTopSelling(props) {
         .replaceAll("#", "")
         .replaceAll("/", "")}/p=${props.item.product_id}`}
     >
-      <div className="flex items-center gap-2">
-        <div className="image-container mr-3.5 relative flex justify-center items-center" style={{height:"138px", width: "92px"}}>
+      <div className="flex items-center gap-2 h-">
+        <div
+          className="image-container mr-3.5 relative flex justify-center items-center"
+          style={{ height: "138px", width: "92px" }}
+        >
           <div className="w-full flex justify-center">
-          <Image src={item.popup}  className="w-full" width={92} height={138} alt={item.name} />
+            <Image
+              src={item.popup}
+              className="w-full"
+              width={92}
+              height={138}
+              alt={item.name}
+            />
           </div>
-        
+
           <div className="rank-badge absolute z-10 top-1 left-1">
             <div className="relative">
-              <BsFillAwardFill className="text-dyellow w-8 h-8" />  
-              <div className="absolute top-0 left-0 bottom-0 right-0 pr-semibold text-white text-sm flex justify-center items-center mb-1.5">{index + 1}</div>
+              <BsFillAwardFill className="text-dyellow w-8 h-8" />
+              <div className="absolute top-0 left-0 bottom-0 right-0 pr-semibold text-white text-sm flex justify-center items-center mb-1.5">
+                {index + 1}
+              </div>
             </div>
           </div>
         </div>
         <div className="product-info-container w-3/4">
           <div className="text-d14">
             {" "}
-            <span
-              className={`text-dblack pr-semibold mb-1 h-10 pr-semibold`}
+          
+            <div
+              className={`text-dblack pr-semibold mb-1 h-5 pr-semibold `}
               dangerouslySetInnerHTML={{
-                __html: sanitizeHTML(props.item.manufacturer_name),
+                __html: sanitizeHTML(props.item.manufacturer_name)
               }}
             />{" "}
             <span
-              className={`text-dblack mb-1`}
+              className={`text-dblack mb-1 line-clamp-1`}
               dangerouslySetInnerHTML={{
-                __html: item.full_name,
+                __html: item.full_name
               }}
             />
           </div>
@@ -128,7 +140,7 @@ function SingleProductTopSelling(props) {
                             ? "rgb(110, 159, 0)"
                             : item?.rating < 4 && item?.rating >= 3.5
                             ? "rgb(243, 153, 22)"
-                            : "rgb(246,90,31)",
+                            : "rgb(246,90,31)"
                       }}
                     >
                       <div
@@ -137,9 +149,7 @@ function SingleProductTopSelling(props) {
                       >
                         {item?.rating || "0.0"}
                       </div>
-                      <HiStar
-                        className="pt-1 text-white text-bold text-d12"
-                      />{" "}
+                      <HiStar className="pt-1 text-white text-bold text-d12" />{" "}
                     </div>
 
                     <div className="font-light text-d11 pl-0.5">
