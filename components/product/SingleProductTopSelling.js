@@ -31,7 +31,10 @@ function SingleProductTopSelling(props) {
     >
       <div className="flex items-center gap-2">
         <div className="image-container mr-3.5 relative flex justify-center items-center" style={{height:"138px", width: "92px"}}>
-          <Image src={item.popup} width={92} height={138} alt={item.name} />
+          <div className="w-full flex justify-center">
+          <Image src={item.popup}  className="w-full" width={92} height={138} alt={item.name} />
+          </div>
+        
           <div className="rank-badge absolute z-10 top-1 left-1">
             <div className="relative">
               <BsFillAwardFill className="text-dyellow w-8 h-8" />  
@@ -39,7 +42,7 @@ function SingleProductTopSelling(props) {
             </div>
           </div>
         </div>
-        <div className="product-info-container">
+        <div className="product-info-container w-3/4">
           <div className="text-d14">
             {" "}
             <span
