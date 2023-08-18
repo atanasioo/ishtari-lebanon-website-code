@@ -2295,6 +2295,10 @@ div.widget_text p{
   animation: fadeout .3s linear forwards;
 }
 
+.link-span>span{
+  width: 100% !important;
+}
+
 
 
 

@@ -64,39 +64,10 @@ axiosServer.interceptors.request.use((config) => {
   return config;
 });
 
-// axiosServer.interceptors.response.use(
-//   function (response) {
-//     return response;
-//   },
-//   function (error) {
-//     if (
-//       typeof error.response !== "undefined" &&
-//       error?.response?.status === 401
-//     ) {
-//       let requestBody = {
-//         client_id: "shopping_oauth_client",
-//         client_secret: "shopping_oauth_secret",
-//         source_id: 1
-//       };
-//       let requestHeader = {
-//         Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw=="
-//       };
-//       axios
-//         .post(buildLink("token"), requestBody, {
-//           headers: requestHeader
-//         })
-//         .then((response) => {
-//           Cookies.set("api-token", response.data.access_token, { expires: 15 });
-//           // window.location.reload();
-//         });
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
 
 let isRefreshing = false;
 let refreshSubscribers = [];
+
 
 const subscribeTokenRefresh = (callback) => {
   refreshSubscribers.push(callback);
@@ -142,8 +113,9 @@ axiosServer.interceptors.response.use(
         // Trigger the onRefreshed callback to notify other requests
         onRefreshed(newToken);
         // Refresh the page
-        window.location.reload();
-
+        if(typeof window !== "undefined"){
+          window.location.reload();
+        }
         // Retry the original request with the new token
         error.config.headers.Authorization = `Bearer ${newToken}`;
         return axiosServer(error.config);

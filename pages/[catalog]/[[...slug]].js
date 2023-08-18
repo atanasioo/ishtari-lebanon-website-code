@@ -43,17 +43,33 @@ function SlugPage(props) {
             ? props.data?.name
             : props.data?.heading_title
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
-          {(props.data?.heading_title || props.data?.name) && (props?.type === "product"
-            ? props.data?.name.replaceAll("&amp;", "&").replaceAll("&quot;", "&")
-            : props.data?.heading_title && props.data?.heading_title.replaceAll("&amp;", "&").replaceAll("&quot;", "&") + " | ishtari"
-          ).replaceAll("<!-- -->", "")}
+          {(props.data?.heading_title || props.data?.name) &&
+            (props?.type === "product"
+              ? props.data?.name
+                  .replaceAll("&amp;", "&")
+                  .replaceAll("&quot;", "&")
+              : props.data?.heading_title &&
+                props.data?.heading_title
+                  .replaceAll("&amp;", "&")
+                  .replaceAll("&quot;", "&") + " | ishtari"
+            ).replaceAll("<!-- -->", "")}
         </title>
-        <meta
-          name="description"
-          content={`Shop the ${props.data?.name}. Enjoy easy online shopping.`}
-        ></meta>
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {props.type === "product" ? (
+          <meta
+            name="description"
+            content={`Shop the ${props.data?.name}. Enjoy easy online shopping at ishtari.`}
+          ></meta>
+        ) : (
+          <meta
+            name="description"
+            content={`Discover a wide range of quality ${props.data?.category_seo} products. Enjoy easy online shopping at ishtari.`}
+          ></meta>
+        )}
 
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
       </Head>
       {props.type === "product" ? (
         <>
@@ -65,7 +81,6 @@ function SlugPage(props) {
           />
         </>
       ) : (
-      
         <CatalogPages
           type={props.type}
           data={props.data}
@@ -93,7 +108,7 @@ export async function getServerSideProps(context) {
     sort,
     order,
     last,
-    limit
+    limit,
   } = context.query;
   const { req } = context;
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
@@ -126,7 +141,7 @@ export async function getServerSideProps(context) {
   }
 
   const config = await getConfig(site_host);
-   var path = "&path="
+  var path = "&path=";
   if (typeof slug !== "undefined") {
     if (catalog === "product" || slug[0].includes("p=")) {
       // get product id
@@ -148,13 +163,13 @@ export async function getServerSideProps(context) {
 
       const response = await axiosServer.get(link, {
         headers: {
-          Authorization: "Bearer " + token
-        }
+          Authorization: "Bearer " + token,
+        },
       });
       // console.log(response.data);
       if (!response.data.success) {
         return {
-          notFound: true
+          notFound: true,
         };
       }
       data = response?.data?.data;
@@ -168,25 +183,22 @@ export async function getServerSideProps(context) {
       slug[0].includes("s=")
     ) {
       let id = "";
-      console.log(slug)
+      console.log(slug);
       if (catalog === "category" || slug[0].includes("c=")) {
         type = "category";
         if (slug[0].includes("c=")) {
           id = slug[0].split("=")[1];
-
         } else {
           id = slug[0];
-
         }
       } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
         type = "manufacturer";
         if (slug[0].includes("m=")) {
           id = slug[0].split("=")[1];
-
         } else {
           id = slug[0];
         }
-        path = "&manufacturer_id="
+        path = "&manufacturer_id=";
       } else if (catalog === "seller" || slug[0].includes("s=")) {
         type = "seller";
         if (slug[0].includes("s=")) {
@@ -194,8 +206,7 @@ export async function getServerSideProps(context) {
         } else {
           id = slug[0];
         }
-        path = "&seller_id="
-
+        path = "&seller_id=";
       }
       var filter = "";
       if (!has_filter) {
@@ -215,16 +226,16 @@ export async function getServerSideProps(context) {
           "&source_id=1&limit=50" +
           filter +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
-          console.log("FFFFFFFFFFFFFF1111");
-          console.log(link);
+        console.log("FFFFFFFFFFFFFF1111");
+        console.log(link);
         const response = await axiosServer.get(link, {
           headers: {
-            Authorization: "Bearer " + token
-          }
+            Authorization: "Bearer " + token,
+          },
         });
         if (!response.data.success) {
           return {
-            notFound: true
+            notFound: true,
           };
         }
         data = response.data.data;
@@ -262,26 +273,26 @@ export async function getServerSideProps(context) {
 
         if (limit != undefined) {
           filter += "&limit=" + limit;
-        }else{
+        } else {
           filter += "&limit=50";
         }
 
         link =
           buildLink("filter", undefined, undefined, site_host) +
-           path + 
+          path +
           id +
-          filter + 
+          filter +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
 
         const response = await axiosServer.get(link, {
           headers: {
-            Authorization: "Bearer " + token
-          }
+            Authorization: "Bearer " + token,
+          },
         });
 
         if (response.data.success == false) {
           return {
-            notFound: true
+            notFound: true,
           };
         }
         data = response?.data?.data;
@@ -289,7 +300,7 @@ export async function getServerSideProps(context) {
     } else {
       //redirect to 404
       return {
-        notFound: true
+        notFound: true,
       };
     }
     return {
@@ -300,12 +311,12 @@ export async function getServerSideProps(context) {
         config,
         hovered: false,
         isLoading: "false",
-        p
-      }
+        p,
+      },
     };
   } else {
     return {
-      notFound: true
+      notFound: true,
     };
   }
 }

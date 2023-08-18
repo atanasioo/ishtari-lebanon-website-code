@@ -149,7 +149,7 @@ function MobileMenu(props) {
             />
           ) : (
             <img
-              src={"/images/logo/logo-red.png"}
+              src={"/images/logo/logo-redd.png"}
               alt={"logo"}
               className="h-8"
             />

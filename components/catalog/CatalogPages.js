@@ -694,6 +694,7 @@ function CatalogPage(props) {
 
   //marketing analytics
 
+  console.log(data);
 
   let productArray = [];
 
@@ -847,7 +848,7 @@ function CatalogPage(props) {
         <div className="hidden mobile:block mobile:w-1/5 mobile:px-5 ">
           {filters &&
             Object.keys(filters).map((key) => (
-              <div className="hidden mobile:block">
+              <div className="hidden mobile:block" key={key.id}>
                 {filters[key].items.length > 0 && (
                   <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
                     {filters[key].name}
@@ -1182,6 +1183,7 @@ function CatalogPage(props) {
                     {data?.sorts?.map((s) => (
                       <button
                         className="flex items-center justify-between  w-full"
+                        key={s.text}
                         onClick={() => sortSetter(s)}
                       >
                         <span
@@ -1229,6 +1231,7 @@ function CatalogPage(props) {
                             "/c=" +
                             category.id
                           }`}
+                          key={category.id}
                           onClick={() => handleLinkClick()}
                           className="inline-flex w-24 xl:w-28 lg:w-28 text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
                         >
@@ -1270,6 +1273,7 @@ function CatalogPage(props) {
                             category.id
                           }`
                         }
+                        key={category.id}
                         onClick={() => handleLinkClick()}
                         className="inline-flex text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
                       >
@@ -1300,7 +1304,7 @@ function CatalogPage(props) {
               (data?.category_widget_status === "1" ||
                 data?.desktop_widget_status === "1") &&
               data?.desktop_widgets?.map((widget) => (
-                <div className="px-3">
+                <div className="px-3" key={widget.mobile_widget_id}>
                   {" "}
                   <WidgetsLoop widget={widget} />{" "}
                 </div>
@@ -1314,7 +1318,7 @@ function CatalogPage(props) {
                 (data?.category_widget_status === "1" ||
                   data?.mobile_widget_status === "1") &&
                 data?.mobile_widgets?.map((widget) => (
-                  <div className="px-3">
+                  <div className="px-3" key={widget.mobile_widget_id}>
                     {" "}
                     <WidgetsLoop widget={widget} />
                   </div>
@@ -1324,7 +1328,7 @@ function CatalogPage(props) {
               (data?.category_widget_status === "1" ||
                 data?.mobile_widget_status === "1") &&
               data?.widgets?.map((widget) => (
-                <div className="px-3">
+                <div className="px-3" key={widget.mobile_widget_id}>
                   <WidgetsLoop widget={widget} />{" "}
                 </div>
               ))}
@@ -2047,7 +2051,7 @@ function CatalogPage(props) {
                               filter.id.replace('"', "").includes(item.id)
                             ) {
                               return (
-                                <div>
+                                <div key={item.id}>
                                   <button
                                     className="p-1 "
                                     onClick={() => parseFilter(filter.id, item)}
@@ -2089,7 +2093,7 @@ function CatalogPage(props) {
 
                                 if (temp && Number(item.count) === temp) {
                                   return (
-                                    <div>
+                                    <div key={item.id}>
                                       <button
                                         className="p-1 "
                                         onClick={() =>
@@ -2123,7 +2127,7 @@ function CatalogPage(props) {
                                 );
                                 if (temp && Number(item.count) === temp) {
                                   return (
-                                    <div>
+                                    <div key={item.id}>
                                       <button
                                         className="p-1"
                                         onClick={() =>
@@ -2157,7 +2161,7 @@ function CatalogPage(props) {
                                 );
                                 if (temp && Number(item.count) === temp) {
                                   return (
-                                    <div>
+                                    <div key={item.id}>
                                       <button
                                         className="p-1"
                                         onClick={() =>
@@ -2197,7 +2201,7 @@ function CatalogPage(props) {
                                   filter.items.length < 3
                                 ) {
                                   return (
-                                    <div>
+                                    <div key={item.id}>
                                       <button
                                         className="p-1"
                                         onClick={() =>
@@ -2259,7 +2263,7 @@ function CatalogPage(props) {
           >
             {" "}
             {data?.products?.map((item) => (
-              <div className="p-1">
+              <div className="p-1" key={item.product_id}>
                 <SingleProduct
                   item={item}
                   isSlider={true}
@@ -2301,7 +2305,7 @@ function CatalogPage(props) {
           </div>
           <div className=" w-full h-screen pl-2 pr-7 pb-12 overflow-y-auto bg-white">
             {Object.keys(filters).map((key) => (
-              <div className="py-2">
+              <div className="py-2" key={key.id}>
                 {filters[key].items.length > 0 && (
                   <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
                     {filters[key].name}

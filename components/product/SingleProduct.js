@@ -152,7 +152,7 @@ function SingleProduct(props) {
         } md:w-unset bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
-        style={{ height: props.isList && "260px" }}
+        style={{ height: props.isList ? "260px" :"unset" }}
       >
         <div
           className={`flex ${
@@ -199,7 +199,6 @@ function SingleProduct(props) {
                   src={item.thumb}
                   width={!topSelling ? 200 : 150}
                   height={!topSelling ? 300 : 200}
-                  // priority={true}
                   className="max-w-full max-h-full"
                 />
               ) : (
@@ -214,7 +213,7 @@ function SingleProduct(props) {
                   props?.item?.option_color_count > 1 ? (
                     <div className="flex items-center flex-col ">
                       <div
-                        className="text-d12 absolute bottom-0 z-30 font-semibold mb-2 px-3 overflow-hidden whitespace-nowrap overflow-ellipsis w-auto bg-dprimarybg"
+                        className="text-d12 absolute bottom-0 z-10 font-semibold mb-2 px-3 overflow-hidden whitespace-nowrap overflow-ellipsis w-auto bg-dprimarybg"
                         style={{
                           borderRadius: "30px",
                           // background: "rgb(239, 243, 253)",

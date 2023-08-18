@@ -317,7 +317,6 @@ function ProductPage(props) {
           product_id
       )
       .then((response) => {
-        console.log(response);
         setAdditionalData(response.data.data);
       });
   }
@@ -381,7 +380,6 @@ function ProductPage(props) {
       if (!loader) {
         return;
       }
-      // console.log("omar")
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (
@@ -445,17 +443,10 @@ function ProductPage(props) {
     });
   }
 
-  // useEffect(()=> {
-  //   if(reviewCenterData.scrollToReview){
-  //     console.log("hello scroll into view");
-  //     getProductPart2();
-  //   }
-  // },[])
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
 
-    console.log("option_id" + option_id);
 
     var count = 0;
     var i = 0;
@@ -889,11 +880,9 @@ function ProductPage(props) {
   }
 
   function addBundle(bundle) {
-    // console.log(bundle);
     if (
       bundle.products.filter((p) => p.product_options?.length > 0).length == 0
     ) {
-      // console.log("hello from the other sidee");
       bundle.products.map((p) => {
         const obj = {
           product_id: p.product_id,

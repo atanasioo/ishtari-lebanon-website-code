@@ -43,7 +43,7 @@ function DesktopMenuClientPopups(props) {
     slidesPerRow: 3,
     rows: 2,
     infinite: false,
-    speed: 500,
+    speed: 700,
     slidesToShow: 1,
     slidesToScroll: 1,
     responsive: [
