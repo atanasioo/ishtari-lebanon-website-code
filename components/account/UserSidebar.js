@@ -150,7 +150,8 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <BsFillCartCheckFill className="text-dbase text-d16" />
+             <div className="w-3"><BsFillCartCheckFill className="text-dbase text-d16" /></div>
+            
             <span
               className={`flex-1 ml-3 ${
                 props.active === "buyagain" && "font-semibold underline"
@@ -184,7 +185,8 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <MdAvTimer className="text-dbase text-d20" />
+            <div className="w-3"><MdAvTimer className="text-dbase text-d20" /></div>
+            
             <span
               className={`flex-1 ml-2 ${
                 props.active === "recentlyViewed" && "font-semibold underline"
