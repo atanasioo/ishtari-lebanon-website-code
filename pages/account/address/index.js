@@ -65,7 +65,8 @@ function Adresses() {
               <UserSidebarMobile active={"addresses"} />
             )}
           </div>
-          <div className="w-full">
+          <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">
+
             <div className="lg:p-6">
               <div className="address-header ">
                 <div className="header-content mb-8">

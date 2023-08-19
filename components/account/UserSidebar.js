@@ -4,7 +4,7 @@ import buildLink, { path } from "../../urls";
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
-  BsStarFill,
+  BsStarFill
 } from "react-icons/bs";
 import { MdAvTimer, MdFeedback } from "react-icons/md";
 import Link from "next/link";
@@ -28,7 +28,7 @@ function UserSidebar(props) {
     <aside
       className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
       style={{
-        flex: "0 0 auto",
+        flex: "0 0 auto"
       }}
     >
       <ul className="lg:py-3 py-1">
@@ -45,13 +45,15 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <FaUserAlt className="text-d16 text-dbase" />
+            <div className="">
+              <FaUserAlt className="text-d16 text-dbase" />
+            </div>
             <span
               className={`flex-1 ml-3 ${
                 props.active === "profile" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "profile" ? "rgb(64,69,83)" : "",
+                color: props.active === "profile" ? "rgb(64,69,83)" : ""
               }}
             >
               Profile
@@ -78,13 +80,16 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <FaMoneyBillWave className="text-d16 text-dbase" />
+            <div className="w-3">
+            
+              <FaMoneyBillWave className="text-d16 text-dbase " />
+            </div>
             <span
               className={`flex-1 ml-3 ${
                 props.active === "orders" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "orders" ? "rgb(64,69,83)" : "",
+                color: props.active === "orders" ? "rgb(64,69,83)" : ""
               }}
             >
               Orders
@@ -117,7 +122,7 @@ function UserSidebar(props) {
                 props.active === "wallet" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "wallet" ? "rgb(64,69,83)" : "",
+                color: props.active === "wallet" ? "rgb(64,69,83)" : ""
               }}
             >
               Wallet
@@ -151,7 +156,7 @@ function UserSidebar(props) {
                 props.active === "buyagain" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "buyagain" ? "rgb(64,69,83)" : "",
+                color: props.active === "buyagain" ? "rgb(64,69,83)" : ""
               }}
             >
               Buy Again
@@ -185,7 +190,7 @@ function UserSidebar(props) {
                 props.active === "recentlyViewed" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "recentlyViewed" ? "rgb(64,69,83)" : "",
+                color: props.active === "recentlyViewed" ? "rgb(64,69,83)" : ""
               }}
             >
               Recently Viewed
@@ -212,13 +217,15 @@ function UserSidebar(props) {
             className="px-16 md:px-0 md:pl-6 lg:px-8 xl:px-10 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <ImLocation className="text-d16 text-dbase" />
+            <div className="w-3">
+              <ImLocation className="text-d16 text-dbase" />
+            </div>
             <span
               className={`flex-1 ml-3 ${
                 props.active === "addresses" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "addresses" ? "rgb(64,69,83)" : "",
+                color: props.active === "addresses" ? "rgb(64,69,83)" : ""
               }}
             >
               Addresses
@@ -245,13 +252,15 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <BsFillHeartFill className="text-d16 text-dbase" />
+            <div className="w-3">
+              <BsFillHeartFill className="text-d16 text-dbase" />
+            </div>
             <span
               className={`flex-1 ml-3 ${
                 props.active === "wishlist" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "wishlist" ? "rgb(64,69,83)" : "",
+                color: props.active === "wishlist" ? "rgb(64,69,83)" : ""
               }}
             >
               WishList
@@ -274,13 +283,15 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <BsStarFill className="text-d16 text-dbase" />
+            <div className="w-3">
+              <BsStarFill className="text-d16 text-dbase" />
+            </div>
             <span
               className={`flex-1 ml-3 ${
                 props.active === "reviewCenter" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "reviewCenter" ? "rgb(64,69,83)" : "",
+                color: props.active === "reviewCenter" ? "rgb(64,69,83)" : ""
               }}
             >
               Review Center
@@ -307,13 +318,15 @@ function UserSidebar(props) {
             className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <MdFeedback className="text-d16 text-dbase" />
+            <div className="w-3">
+              <MdFeedback className="text-d16 text-dbase" />
+            </div>
             <span
               className={`flex-1 ml-3 ${
                 props.active === "feedback" && "font-semibold underline"
               }`}
               style={{
-                color: props.active === "feedback" ? "rgb(64,69,83)" : "",
+                color: props.active === "feedback" ? "rgb(64,69,83)" : ""
               }}
             >
               Feedback
