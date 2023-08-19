@@ -154,8 +154,7 @@ function DesktopMenuCategories(props) {
 
   return (
     <div>
-      {router.asPath.indexOf("pos") < 0 &&
-        router.asPath.indexOf("orders") < 0 && (
+      {router.asPath.indexOf("pos") < 0 && (
           <div
             className="hidden lg:block  container w-full shadow-md shadow-dbeigeRed  text-d16 "
             onClick={() => {
