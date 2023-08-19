@@ -18,7 +18,6 @@ import { AiOutlineShopping } from "react-icons/ai";
 import { slugify } from "@/components/Utils";
 import { useMarketingData } from "@/contexts/MarketingContext";
 
-
 function Cart(props) {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
@@ -36,34 +35,36 @@ function Cart(props) {
   const [accountState] = useContext(AccountContext);
   const [sel, setSel] = useState([]);
   const router = useRouter();
-  const route= useRouter()
+  const route = useRouter();
   const { setMarketingData } = useMarketingData();
   const PointsLoader = dynamic(() => import("../components/PointsLoader"), {
-    ssr: false // Disable server-side rendering
+    ssr: false, // Disable server-side rendering
   });
   useEffect(() => {
-    
     function getCart() {
       axiosServer
-        .get(buildLink("cart", undefined, undefined, window.config['site-url']) + "&source_id=1")
+        .get(
+          buildLink("cart", undefined, undefined, window.config["site-url"]) +
+            "&source_id=1"
+        )
         .then((response) => {
           if (response.data.success) {
             dispatch({
               type: "setProducts",
-              payload: response.data.data.products
+              payload: response.data.data.products,
             });
 
             dispatch({
               type: "setProductsCount",
-              payload: response.data.data.total_product_count
+              payload: response.data.data.total_product_count,
             });
             dispatch({
               type: "setTotals",
-              payload: response.data.data.totals
+              payload: response.data.data.totals,
             });
             dispatch({
               type: "loading",
-              payload: false
+              payload: false,
             });
           }
           setLoading(false);
@@ -75,7 +76,7 @@ function Cart(props) {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }, [router]);
 
@@ -95,38 +96,53 @@ function Cart(props) {
     setOpacity(true);
     dispatch({
       type: "loading",
-      payload: true
+      payload: true,
     });
     axiosServer
-      .put(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), obj)
+      .put(
+        buildLink(
+          "cart",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ),
+        obj
+      )
       .then(() => {
         axiosServer
-          .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
+          .get(
+            buildLink(
+              "cart",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            )
+          )
           .then((response) => {
             dispatch({
               type: "setProducts",
               payload:
                 response.data?.data?.products?.length > 0
                   ? response.data.data.products
-                  : []
+                  : [],
             });
             dispatch({
               type: "setTotals",
               payload:
                 response.data?.data?.totals?.length > 0
                   ? response.data.data.totals
-                  : 0
+                  : 0,
             });
             dispatch({
               type: "setProductsCount",
               payload:
                 response.data?.data?.total_product_count > 0
                   ? response.data.data.total_product_count
-                  : 0
+                  : 0,
             });
             dispatch({
               type: "loading",
-              payload: false
+              payload: false,
             });
             if (quantity === 0) {
               //   window.location.reload();
@@ -147,38 +163,53 @@ function Cart(props) {
       setOpacity(true);
       dispatch({
         type: "loading",
-        payload: true
+        payload: true,
       });
       axiosServer
-        .put(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), obj)
+        .put(
+          buildLink(
+            "cart",
+            undefined,
+            window.innerWidth,
+            window.config["site-url"]
+          ),
+          obj
+        )
         .then(() => {
           axiosServer
-            .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
+            .get(
+              buildLink(
+                "cart",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              )
+            )
             .then((response) => {
               dispatch({
                 type: "setProducts",
                 payload:
                   response.data?.data?.products?.length > 0
                     ? response.data.data.products
-                    : []
+                    : [],
               });
               dispatch({
                 type: "setTotals",
                 payload:
                   response.data?.data?.totals?.length > 0
                     ? response.data.data.totals
-                    : 0
+                    : 0,
               });
               dispatch({
                 type: "setProductsCount",
                 payload:
                   response?.data.data?.total_product_count > 0
                     ? response.data?.data?.total_product_count
-                    : 0
+                    : 0,
               });
               dispatch({
                 type: "loading",
-                payload: false
+                payload: false,
               });
             });
 
@@ -201,23 +232,35 @@ function Cart(props) {
   function remove(product_id) {
     axiosServer
       .delete(
-        buildLink("wishlist", undefined, window.innerWidth, window.config['site-url']) +
+        buildLink(
+          "wishlist",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ) +
           "/&id=" +
           product_id
       )
       .then(() => {
         axiosServer
-          .get(buildLink("wishlist", undefined, window.innerWidth, window.config['site-url']))
+          .get(
+            buildLink(
+              "wishlist",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            )
+          )
           .then((response) => {
             const data = response.data.data.products;
             setProducts(data);
             dispatchWishlist({
               type: "setProductsCount",
-              payload: response.data.data.total
+              payload: response.data.data.total,
             });
             dispatchWishlist({
               type: "setProducts",
-              payload: response.data.data.products
+              payload: response.data.data.products,
             });
           });
         window.location.reload();
@@ -228,46 +271,61 @@ function Cart(props) {
   function addToCart(product_id) {
     dispatch({
       type: "loading",
-      payload: true
+      payload: true,
     });
     let obj = {
       product_id,
-      quantity: 1
+      quantity: 1,
     };
     // console.log(obj);
     axiosServer
-      .post(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), obj)
+      .post(
+        buildLink(
+          "cart",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ),
+        obj
+      )
       .then((response) => {
         const data = response.data;
         if (!data.success) {
           route.push({
-            pathname: "/product/" + product_id
+            pathname: "/product/" + product_id,
           });
           // console.log(data);
         }
         // window.location.reload();
         dispatch({
           type: "loading",
-          payload: true
+          payload: true,
         });
         axiosServer
-          .get(buildLink("cart", undefined, window.innerWidth, window.config['site-url']))
+          .get(
+            buildLink(
+              "cart",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            )
+          )
           .then((response) => {
             dispatch({
               type: "setProducts",
-              payload: response.data.data.products
+              payload: response.data.data.products,
             });
             dispatch({
               type: "setProductsCount",
-              payload: response.data.total_product_count
+              payload: response.data.total_product_count,
             });
             dispatch({
               type: "setTotals",
-              payload: response.data.data.totals
+              payload: response.data.data.totals,
             });
             dispatch({
               type: "loading",
-              payload: false
+              payload: false,
             });
             setSuccess(true);
             setSuccessMessage("Product added to cart successfully");
@@ -305,21 +363,29 @@ function Cart(props) {
     if (selectProduct.length > 0) {
       var obj = { key: selectProduct };
       axiosServer
-        .delete(buildLink("cart", undefined, window.innerWidth, window.config['site-url']), { data: obj })
+        .delete(
+          buildLink(
+            "cart",
+            undefined,
+            window.innerWidth,
+            window.config["site-url"]
+          ),
+          { data: obj }
+        )
         .then((response) => {
           // router.reload();
           dispatch({
             type: "setProducts",
-            payload: response.data.data.products
+            payload: response.data.data.products,
           });
 
           dispatch({
             type: "setProductsCount",
-            payload: response.data.data.total_product_count || 0
+            payload: response.data.data.total_product_count || 0,
           });
           dispatch({
             type: "setTotals",
-            payload: response.data.data.totals
+            payload: response.data.data.totals,
           });
         });
     } else {
@@ -345,10 +411,18 @@ function Cart(props) {
       telephone: state.products.social_data?.telephone,
       user_agent: state.products.social_data?.user_agent,
       value: state.products.social_data?.value,
-      from: "checkout"
+      from: "checkout",
     };
     axiosServer
-      .post(buildLink("pixel", undefined, window.innerWidth, window.config['site-url']), obj)
+      .post(
+        buildLink(
+          "pixel",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ),
+        obj
+      )
       .then((response) => {
         const data = response.data;
         if (data.success === true) {
@@ -420,7 +494,7 @@ function Cart(props) {
                   </div>
 
                   {state.products.map((product, i) => (
-                    <div classname="">
+                    <div key={product.cart_id}>
                       {/* Desktop Design */}
                       <div
                         className={`hidden xl:flex lg:flex mb-2 px-4 py-2 rounded justify-center items-center ${
@@ -429,30 +503,32 @@ function Cart(props) {
                       >
                         {select && showSelect && (
                           <div className="">
-                          <input
-                            className="mx-1"
-                            type="checkbox"
-                            id={product.cart_id}
-                            onClick={() => change(product.cart_id)}
-                            checked={
-                              selectProduct.indexOf(product.cart_id) > -1
-                                ? "checked"
-                                : ""
-                            }
-                            name="chk"
-                          />
+                            <input
+                              className="mx-1"
+                              type="checkbox"
+                              id={product.cart_id}
+                              onClick={() => change(product.cart_id)}
+                              checked={
+                                selectProduct.indexOf(product.cart_id) > -1
+                                  ? "checked"
+                                  : ""
+                              }
+                              name="chk"
+                            />
                           </div>
                         )}
                         <img
-                          onClick={() =>
-                            {
-                              route.push(
-                                `${slugify(product.name)
-                                 }/p=${product.product_id}`
-                              )
-                            setMarketingData({})
-                          }
-                          }
+                          onClick={() => {
+                            route.push(
+                              `${slugify(product.name)}/p=${product.product_id}`
+                            );
+                            setMarketingData({
+                              ignore: false,
+                              banner_image_id: "",
+                              source_type: "cart",
+                              source_type_id: "",
+                            });
+                          }}
                           src={product.thumb}
                           className="w-24 cursor-pointer block rounded"
                           alt={product.name}
@@ -462,7 +538,7 @@ function Cart(props) {
                           <p
                             className=" text-sm font-semibold"
                             dangerouslySetInnerHTML={{
-                              __html: DOMPurify.sanitize(product.name)
+                              __html: DOMPurify.sanitize(product.name),
                             }}
                           ></p>
                           {product.option.length > 0 && (
@@ -534,33 +610,36 @@ function Cart(props) {
                         <div className="w-3/12 ">
                           <div className="flex justify-center items-center">
                             {select && showSelect && (
-                            <div className="">
-                            <input
-                              className="mx-1"
-                              type="checkbox"
-                              id={product.cart_id}
-                              onClick={() => change(product.cart_id)}
-                              checked={
-                                selectProduct.indexOf(product.cart_id) > -1
-                                  ? "checked"
-                                  : ""
-                              }
-                              name="chk"
-                            />
-                            </div>
+                              <div className="">
+                                <input
+                                  className="mx-1"
+                                  type="checkbox"
+                                  id={product.cart_id}
+                                  onClick={() => change(product.cart_id)}
+                                  checked={
+                                    selectProduct.indexOf(product.cart_id) > -1
+                                      ? "checked"
+                                      : ""
+                                  }
+                                  name="chk"
+                                />
+                              </div>
                             )}
                             <img
-                              onClick={() =>
-                                {
-                                  route.push(
+                              onClick={() => {
+                                route.push(
                                   `${product.name
                                     .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                     .replace(/\s+/g, "-")
                                     .replace("/", "-")}/p=${product.product_id}`
                                 );
-                                setMarketingData({})
-                              }
-                              }
+                                setMarketingData({
+                                  ignore: false,
+                                  banner_image_id: "",
+                                  source_type: "cart",
+                                  source_type_id: "",
+                                });
+                              }}
                               src={product.thumb}
                               className="w-full block cursor-pointer rounded"
                               alt={product.name}
@@ -616,7 +695,7 @@ function Cart(props) {
                           <p
                             className=" text-sm "
                             dangerouslySetInnerHTML={{
-                              __html: DOMPurify.sanitize(product.name)
+                              __html: DOMPurify.sanitize(product.name),
                             }}
                           ></p>
                           {product.option.length > 0 && (
@@ -661,11 +740,11 @@ function Cart(props) {
                         dispatchAccount({ type: "setShowOver", payload: true });
                         dispatchAccount({
                           type: "setShowLogin",
-                          payload: true
+                          payload: true,
                         });
                         dispatchAccount({
                           type: "setShowSignup",
-                          payload: false
+                          payload: false,
                         });
                       }}
                     >
@@ -738,6 +817,7 @@ function Cart(props) {
                   {state?.totals?.map((total) => (
                     <div
                       className={` flex items-center justify-between mb-1 text-dblack `}
+                      key={total.title}
                     >
                       <span>
                         {total.title}{" "}
@@ -756,11 +836,11 @@ function Cart(props) {
                       dispatchAccount({ type: "setShowOver", payload: true });
                       dispatchAccount({
                         type: "setShowLogin",
-                        payload: true
+                        payload: true,
                       });
                       dispatchAccount({
                         type: "setShowSignup",
-                        payload: false
+                        payload: false,
                       });
                     }}
                   >
@@ -814,6 +894,6 @@ export async function getServerSideProps(context) {
     data = true;
   }
   return {
-    props: { data: data }
+    props: { data: data },
   };
 }

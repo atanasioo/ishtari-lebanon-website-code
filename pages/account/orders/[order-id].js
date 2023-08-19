@@ -227,7 +227,12 @@ function OrderDetails() {
                   {data?.products?.map((data) => (
                     <tr className="border">
                       <td className="border  px-4">
-                        <Link href={`/product/${data.product_id}`} onClick={() => setMarketingData({})}>
+                        <Link href={`/product/${data.product_id}`} onClick={() => setMarketingData({
+                          ignore: false,
+                          banner_image_id: "",
+                          source_type: "order",
+                          source_type_id: id,
+                        })}>
                           <img
                             className="w-12"
                             src={data.image}

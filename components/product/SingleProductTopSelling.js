@@ -1,3 +1,4 @@
+import { useMarketingData } from "@/contexts/MarketingContext";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -7,6 +8,7 @@ import { sanitizeHTML } from "../Utils";
 
 function SingleProductTopSelling(props) {
   const { item, index } = props;
+  const { setMarketingData } = useMarketingData({});
   const path = "";
 
   return (
@@ -15,7 +17,7 @@ function SingleProductTopSelling(props) {
       style={{
         height: "170px",
         border: "solid 1px #e6e6e6",
-        boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.05)"
+        boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.05)",
       }}
       href={`${path}/${item.name
         .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -28,6 +30,14 @@ function SingleProductTopSelling(props) {
         .replaceAll("100%", "")
         .replaceAll("#", "")
         .replaceAll("/", "")}/p=${props.item.product_id}`}
+      onClick={() =>
+        setMarketingData({
+          ignore: false,
+          banner_image_id: "",
+          source_type: "categoryTopSelling",
+          source_type_id: "",
+        })
+      }
     >
       <div className="flex items-center gap-2 h-">
         <div
@@ -56,17 +66,16 @@ function SingleProductTopSelling(props) {
         <div className="product-info-container w-3/4">
           <div className="text-d14">
             {" "}
-          
             <div
               className={`text-dblack pr-semibold mb-1 h-5 pr-semibold `}
               dangerouslySetInnerHTML={{
-                __html: sanitizeHTML(props.item.manufacturer_name)
+                __html: sanitizeHTML(props.item.manufacturer_name),
               }}
             />{" "}
             <span
               className={`text-dblack mb-1 line-clamp-1`}
               dangerouslySetInnerHTML={{
-                __html: item.full_name
+                __html: item.full_name,
               }}
             />
           </div>
@@ -140,7 +149,7 @@ function SingleProductTopSelling(props) {
                             ? "rgb(110, 159, 0)"
                             : item?.rating < 4 && item?.rating >= 3.5
                             ? "rgb(243, 153, 22)"
-                            : "rgb(246,90,31)"
+                            : "rgb(246,90,31)",
                       }}
                     >
                       <div

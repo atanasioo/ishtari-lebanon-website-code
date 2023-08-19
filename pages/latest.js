@@ -63,7 +63,7 @@ export default function latest(props) {
       marketingData.source_type === null ||
       typeof marketingData.source_type === "undefined"
     ) {
-      social_data["ignore"] = true;
+      social_data["ignore"] = false;
     } else {
       social_data["source_type"] = marketingData.source_type;
       social_data["source_type_id"] = marketingData.source_type_id;

@@ -545,10 +545,12 @@ function CheckoutCompnents() {
         const data = response.data.data;
 
         var dataSocial = data?.social_data;
-        // dataSocial["link"] = router.asPath;
-        dataSocial["fbp"] = Cookies.get("_fbp");
-        dataSocial["fbc"] = Cookies.get("_fbc");
-        dataSocial["ttp"] = Cookies.get("_ttp");
+        if (typeof dataSocial !== "undefined") {
+          // dataSocial["link"] = router.asPath;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+        }
         if (isFirst) {
           setIsFirst(false);
 
@@ -1855,7 +1857,14 @@ function CheckoutCompnents() {
                               ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                               ?.replace(/\s+/g, "-")
                               .replace("/", "-")}/p=${product.product_id}`}
-                            onClick={() => setMarketingData({})}
+                            onClick={() =>
+                              setMarketingData({
+                                ignore: false,
+                                banner_image_id: "",
+                                source_type: "checkout",
+                                source_type_id: "",
+                              })
+                            }
                             key={product.product_id}
                           >
                             <img

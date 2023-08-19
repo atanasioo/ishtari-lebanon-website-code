@@ -19,9 +19,11 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
+import { useMarketingData } from "@/contexts/MarketingContext";
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
   const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
+  const {setMarketingData} = useMarketingData();
   const [width, height] = useDeviceSize();
 
   const [success, setSuccess] = useState(false);
@@ -301,10 +303,11 @@ function wishlist() {
                         setId(gs?.wishlist_group_id);
                         setPage(1);
                       }}
-                      className={`mx-3 cursor-pointer    whitespace-nowrap flex ${
+                      className={`mx-3 cursor-pointer whitespace-nowrap flex ${
                         id == gs?.wishlist_group_id &&
                         "text-dblue border-b-2 border-dblue "
                       }`}
+                      key={i}
                     >
                       {gs.name} <HiLockClosed className="m-1" />
                     </div>
@@ -316,6 +319,7 @@ function wishlist() {
                     className={`"cart w-full" my-3  ${
                       id != ps?.wishlist_group_id && "hidden"
                     }`}
+                    key={ps?.wishlist_group_id}
                   >
                     <div className="cart-header flex justify-between items-center ">
                       <span className="font-bold flex">
@@ -388,6 +392,12 @@ function wishlist() {
                       <Link
                         className="block"
                         href={`/product/${product?.product_id}`}
+                        onClick={() => setMarketingData({
+                          ignore: false,
+                          banner_image_id: "",
+                          source_type: "wishlist",
+                          source_type_id: "",
+                        })}
                       >
                         <img
                           src={product?.thumb}

@@ -29,6 +29,8 @@ function SingleProduct(props) {
   const [width] = useDeviceSize();
   const { setMarketingData } = useMarketingData();
 
+  console.log(router.asPath);
+
   const source_type =
     router.asPath === "/"
       ? "home"
@@ -41,6 +43,12 @@ function SingleProduct(props) {
       ? "manufacturer"
       : router.asPath.startsWith("/latest")
       ? "new_arrival"
+      : router.asPath.startsWith("/account/buyagain")
+      ? "buyAgain"
+      : router.asPath.startsWith("/account/recentlyViewed")
+      ? "recentlyViewed"
+      : topSelling 
+      ? "topSelling"
       : "";
 
   const source_type_id =
