@@ -128,6 +128,8 @@ function feedback() {
               <UserSidebarMobile active={"feedback"} />
             )}
           </div>
+          <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">
+
           {loading ? (
             <div className="flex justify-center w-full">
               <PointsLoader />
@@ -271,6 +273,7 @@ function feedback() {
               </div>
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>

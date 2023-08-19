@@ -233,7 +233,7 @@ export async function getServerSideProps(context) {
             Authorization: "Bearer " + token,
           },
         });
-        if (!response.data.success) {
+        if (response.data.success == false  || (response.data.data.products.length  < 1 &&   response.data.data.desktop_widgets.length < 1  && response.data.data.widgets.length < 1)) {
           return {
             notFound: true,
           };
@@ -290,7 +290,10 @@ export async function getServerSideProps(context) {
           },
         });
 
-        if (response.data.success == false) {
+
+
+
+        if (response.data.success == false  || (response.data.data.products.length  < 1 &&   response.data.data.desktop_widgets.length < 1  && response.data.data.widgets.length < 1)) {
           return {
             notFound: true,
           };

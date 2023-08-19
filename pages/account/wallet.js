@@ -73,6 +73,7 @@ function wallet() {
               <UserSidebarMobile active={"wallet"} />
             )}
           </div>
+          <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">
 
           {loading ? (
             <div className="flex justify-center w-full">
@@ -194,6 +195,7 @@ function wallet() {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>
