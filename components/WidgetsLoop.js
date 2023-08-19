@@ -391,7 +391,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
         <div className="flex items-center justify-between  mb-3">
           {widget.view_title !== "0" && (
             <h1
-              className="pr-semibold p-2 text-d16"
+              className="pr-semibold p-2 text-xl"
               dangerouslySetInnerHTML={{
                 __html: widget.title,
               }}
@@ -565,7 +565,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
       {widget?.display === "slider" &&
         widget.type !== "text" &&
         (widget.items.length > 1 ? (
-          <div className="-mx-4 py-2">
+          <div className="-mx-4">
             {/* <div className="sliderSwiper">
               <div
               className="swiper-button-next"
@@ -911,7 +911,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                 key={item.banner_image_id}
                 style={{
                   padding: "1px",
-                  width: `calc(100% / ${widget.column_number}) `,
+                  width: widget.column_number === "1" ? "unset" : `calc(100% / ${widget.column_number}) `,
                 }}
               >
                 <Link

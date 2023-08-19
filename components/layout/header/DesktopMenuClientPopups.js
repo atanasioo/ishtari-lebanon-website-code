@@ -79,7 +79,7 @@ function DesktopMenuClientPopups(props) {
       <div
         style={{ ...style, padding: "2px 15px", marginRight: " 15px" }}
         onClick={onClick}
-        className="mySwiper "
+        className="mySwiper"
       >
         <div className="swiper-button-next flex justify-center items-center cursor-pointer">
           <BsChevronRight className="text-dblack" />

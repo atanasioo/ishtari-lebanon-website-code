@@ -177,7 +177,7 @@ function SingleProduct(props) {
                   className={
                     width > 650
                       ? "absolute z-20 text-dbase w-full text-center  bottom-0"
-                      : "absolute z-20 text-dbase  w-full text-center  bottom-0 "
+                      : "absolute z-20 text-dbase w-full text-center bottom-0"
                   }
                 >
                   Out Of Stock

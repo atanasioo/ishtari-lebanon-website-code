@@ -166,67 +166,6 @@ function ProductZoom(props) {
     }
   }, [additionalData, currentCommentIndex]);
 
-  //used one
-
-  // useEffect(() => {
-  //   let currentIndex = 0;
-
-  //   const addDataToAdditionalArr = () => {
-  //     if (typeof additionalData.analytics !== "undefined") {
-  //       const arr= additionalArr;
-  //       if (currentIndex < additionalData.analytics.length - 1) {
-  //         const currentIdx = currentIndex; // Create a local copy of currentIndex
-
-  //         if (additionalData.analytics[currentIdx].trim() !== "") {
-  //           setAdditionalArr((prevArr) => {
-  //             if (prevArr.length >= 2) {
-  //               prevArr.shift();
-  //             }
-  //             return [...prevArr, additionalData.analytics[currentIdx]];
-  //           });
-  //         }
-
-  //         currentIndex++;
-
-  //           setTimeout(addDataToAdditionalArr, 3500);
-
-  //       } else {
-  //         currentIndex = 0; // Reset to the first element
-  //           setTimeout(addDataToAdditionalArr, 3500);
-
-  //       }
-  //     }
-  //   };
-
-  //   addDataToAdditionalArr();
-  // }, [additionalData]);
-
-  // useEffect(() => {
-  //   let currentIndex = 0;
-
-  //   const addDataToAdditionalArr = () => {
-  //     if (typeof additionalData.analytics !== "undefined") {
-  //       const currentIdx = currentIndex;
-
-  //       if (additionalData.analytics[currentIdx]?.trim() !== "") {
-  //         setAdditionalArr((prevArr) => {
-  //           if (prevArr.length >= 2) {
-  //             prevArr.shift();
-  //           }
-  //           return [...prevArr, additionalData.analytics[currentIdx]];
-  //         });
-  //       }
-
-  //       currentIndex = (currentIndex + 1) % additionalData.analytics.length;
-  //       setTimeout(addDataToAdditionalArr, 3500);
-  //     }
-  //   };
-
-  //   addDataToAdditionalArr();
-  // }, [additionalData]);
-
-  console.log(additionalArr);
-
   useEffect(() => {
     if (hoverZoom && width > 768) {
       imageZoom("myimage" + activeSlide, "myresult");
@@ -286,12 +225,17 @@ function ProductZoom(props) {
     result.style.backgroundImage = "url('" + img?.src + "')";
     result.style.backgroundSize =
       img?.width * cx + "px " + img?.height * cy + "px";
-    /*execute a function when someone moves the cursor over the image, or the lens:*/
-    lens.addEventListener("mousemove", moveLens);
-    img?.addEventListener("mousemove", moveLens);
-    /*and also for touch screens:*/
-    lens.addEventListener("touchmove", moveLens);
-    img?.addEventListener("touchmove", moveLens);
+
+    if (width > 768) {
+      /*execute a function when someone moves the cursor over the image, or the lens:*/
+      lens.addEventListener("mousemove", moveLens);
+      img?.addEventListener("mousemove", moveLens);
+    } else {
+      /*and also for touch screens:*/
+      lens.addEventListener("touchmove", moveLens);
+      img?.addEventListener("touchmove", moveLens);
+    }
+
     function moveLens(e) {
       var pos, x, y;
       /*prevent any other actions that may occur when moving over the imagee:*/
