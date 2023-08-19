@@ -306,6 +306,7 @@ function ProductPage(props) {
 
   useEffect(() => {
     //product additional data
+    setAdditionalData([]);
     fetchAdditionalData();
   }, [router]);
 

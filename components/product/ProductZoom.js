@@ -113,16 +113,17 @@ function ProductZoom(props) {
     setHovered(false);
   }, [images]);
 
-  const maxComments = 2; // Number of comments to display at once
-  const commentDuration = 3500; // Time each comment is shown
+  const maxComments = 2; 
+  const commentDuration = 3500;
   const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
   const commentRef = useRef(null);
+  let timer; 
 
   useEffect(() => {
     if (Object.keys(additionalData).length > 0) {
       if (typeof additionalData?.analytics !== "undefined") {
         const newComment = additionalData.analytics[currentCommentIndex].trim();
-        const timer = setInterval(
+         timer = setInterval(
           () => {
             setAdditionalArr((prevComments) => {
               const newComments = [...prevComments];
@@ -140,9 +141,6 @@ function ProductZoom(props) {
               }
               return newComments;
             });
-            // setCurrentCommentIndex((prevIndex) => {
-            //   return (prevIndex + 1) % additionalData.analytics.length;
-            // });
             setCurrentCommentIndex((prevIndex) => {
               if (prevIndex === 0) {
                 setTimeout(() => {
@@ -165,6 +163,24 @@ function ProductZoom(props) {
       }
     }
   }, [additionalData, currentCommentIndex]);
+
+  //cleanup useeffect
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Clear interval and reset comment-related states
+      clearInterval(timer);
+      setAdditionalArr([]);
+      setCurrentCommentIndex(0);
+      setIsFadingOut(false);
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+      clearInterval(timer);
+    };
+  }, []);
 
   useEffect(() => {
     if (hoverZoom && width > 768) {

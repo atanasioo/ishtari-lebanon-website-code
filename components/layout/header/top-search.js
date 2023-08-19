@@ -209,7 +209,7 @@ function TopSearch() {
       .get(buildLink("historySearch", undefined, window.innerWidth))
       .then((response) => {
         setTopSearch(response.data?.data?.topsearch);
-        startPlaceholderLoop(response.data.data.topsearch);
+        startPlaceholderLoop(response.data.data?.topsearch);
       });
     return () => {
       clearInterval(placeholderInterval);
@@ -261,7 +261,7 @@ function TopSearch() {
                 type="text"
                 // placeholder="What are you looking for? "
                 placeholder={
-                  topSearch.length > 0
+                  topSearch?.length > 0
                     ? currentPlaceholder
                     : "What are you looking for?"
                 }
@@ -426,7 +426,7 @@ function TopSearch() {
         <input
           type={"text"}
           placeholder={
-            topSearch.length > 0
+            topSearch?.length > 0
               ? currentPlaceholder
               : "What are you looking for?"
           }

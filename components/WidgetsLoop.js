@@ -355,7 +355,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
       <div
-        style={{ ...style, padding: "2px 5px", marginLeft: "15px" }}
+        style={{ ...style, padding: "2px 5px"}}
         onClick={onClick}
         className="mySwiper "
       >
