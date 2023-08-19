@@ -375,6 +375,8 @@ function AddAddressPage(props) {
             <UserSidebarMobile active={"addresses"} />
           )}
         </div>
+        <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">
+
         <div
           className={`w-full md:p-6 ${
             (googleLocation || isEdit) && "overflow-y-auto"
@@ -704,6 +706,7 @@ function AddAddressPage(props) {
             />
           )}
         </div>
+      </div>
       </div>
     </div>
   );
