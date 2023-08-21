@@ -162,7 +162,6 @@ export default function Home(props) {
         return (
           <div className="" key={widget.mobile_widget_id}>
             <WidgetsLoop widget={widget} />{" "}
-            {/* <WidgetsLoop widget={widget} />{" "} */}
           </div>
         );
       }

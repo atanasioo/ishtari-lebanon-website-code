@@ -576,9 +576,9 @@ function TopSearch() {
                     <Link
                       href={`${path}/search?keyword=${history}`}
                       key={index}
-                      className="bg-dsearchGrey px-2.5 py-1 cursor-pointer relative"
+                      className="bg-dsearchGrey  cursor-pointer relative"
                     >
-                      <div onClick={() => setOverlay(false)}>{history}</div>
+                      <div className="px-2.5 py-1" onClick={() => setOverlay(false)}>{history}</div>
                       {!trash && (
                         <AiFillCloseCircle
                           onClick={(e) => deleteHistoryItem(e, index)}
