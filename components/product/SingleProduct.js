@@ -29,7 +29,6 @@ function SingleProduct(props) {
   const [width] = useDeviceSize();
   const { setMarketingData } = useMarketingData();
 
-  console.log(router.asPath);
 
   const source_type =
     router.asPath === "/"
