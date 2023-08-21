@@ -6,7 +6,7 @@ import { MdLocationOn } from "react-icons/md";
 import Geocode from "react-geocode";
 
 function GoogleMap(props) {
-  const { position, handlePosition, countryCorrect, handleProps } = props;
+  const { position, handlePosition, countryCorrect, handleProps, fromCheckout } = props;
   const [showError, setShowError] = useState(false);
   const [err, setErr] = useState(false);
   const [key, setKey]= useState(0);
@@ -15,13 +15,6 @@ function GoogleMap(props) {
   const AnyReactComponent = () => (
     <div
       className="text-2xl text-dbase"
-      // style={{
-      //   width: "50px",
-      //   height: "50px",
-      //   position: "relative",
-      //   top: "-50px",
-      //   left: "-25px",
-      // }}
     >
       <MdLocationOn />
     </div>
@@ -31,19 +24,20 @@ function GoogleMap(props) {
     setKey((prev) => prev +1);
   },[onChange])
 
-  // const AnyReactComponent = ({ text }) => <div>hii</div>;
 
   const defaultProps = {
     center: {
       lat:
-        // window.location.host === "www.ishtari.com.gh" ||
-        // window.location.host === "ishtari.com.gh" ||
+        window.location.host === "www.ishtari.com.gh" ||
+        window.location.host === "next.ishtari.com.gh" ||
+        window.location.host === "ishtari.com.gh" ||
         Cookies.get("site-local-name") === "ishtari-ghana"
           ? 7.8159465
           : 33.8547,
       lng:
-        // window.location.host === "www.ishtari.com.gh" ||
-        // window.location.host === "ishtari.com.gh" ||
+        window.location.host === "www.ishtari.com.gh" ||
+        window.location.host === "next.ishtari.com.gh" ||
+        window.location.host === "ishtari.com.gh" ||
         Cookies.get("site-local-name") === "ishtari-ghana"
           ? -1.189375
           : 35.8623,
@@ -52,7 +46,6 @@ function GoogleMap(props) {
   };
 
   const getMapOptions = (maps) => {
-    // console.log(maps);
     return {
       streetViewControl: false,
       scaleControl: true,
@@ -158,7 +151,7 @@ function GoogleMap(props) {
 
 
   return (
-    <div className="my-4 relative h-full">
+    <div className={`my-4 h-full ${!fromCheckout ? " relative" : "absolute z-10 top-0 left-0 w-full"}`}>
       <div className="relative" style={{ height: "500px", width: "100%" }}>
         <GoogleMapReact
           bootstrapURLKeys={{
@@ -201,6 +194,7 @@ function GoogleMap(props) {
             onClick={() => {
               getLocation();
             }}
+            type="button"
           >
             Confirm location
           </button>
@@ -241,6 +235,7 @@ function GoogleMap(props) {
             onClick={() => {
               locateMe();
             }}
+            type="button"
           >
             <span className="flex justify-center items-center gap-1">
               <ImLocation />
