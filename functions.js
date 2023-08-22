@@ -20,6 +20,7 @@ const getHost = async (host) => {
     host === "https://next.ishtari.com/" ||
     host === "https://ishtari-mobile.com/" ||
     host === "https://ishtari-mobile.com" ||
+    host === "ishtari-mobile.com" ||
     host === "https://www.next.ishtari.com/" ||
     host === "http://next.ishtari.com" ||
     host === "www.next.ishtari.com" ||
