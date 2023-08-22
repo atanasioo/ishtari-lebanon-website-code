@@ -180,7 +180,8 @@ if (typeof window !== "undefined") {
     host === "www.ishtari.com" ||
     host === "www.sari3.com" ||
     host === "ishtari.com"  || 
-    host === "next.ishtari.com"
+    host === "next.ishtari.com" ||
+    host === "ishtari-mobile.com"
   ) {
     pixelID = "668318187192045";
     host = "https://www.ishtari.com/";
@@ -344,8 +345,9 @@ function buildLink(link, payload, width, hostServer) {
     hostServer === "https://www.next.ishtari.com/" ||
     hostServer === "http://next.ishtari.com" ||
     hostServer === "www.next.ishtari.com"||
-    hostServer === "next.ishtari.com"
-
+    hostServer === "next.ishtari.com" ||
+    hostServer === "ishtari-mobile.com" ||
+    hostServer === "https://ishtari-mobile.com/" 
   ) {
     host = "https://www.ishtari.com/";
     path1 = "motor/";

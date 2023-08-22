@@ -12,6 +12,7 @@ if (typeof window !== "undefined") {
     host === "www.sari3.com" || 
     host === "www.cloudgoup.com" || 
     host === "www.next.ishtari.com" ||
+    host === "ishtari-mobile.com" ||
     host === "next.ishtari.com" 
   ) {
     config = {

@@ -96,6 +96,7 @@ function DesktopMenuClientPopups(props) {
     if (
       (window.location.host === "www.ishtari.com" ||
         window.location.host === "next.ishtari.com" ||
+        window.location.host === "ishtari-mobile.com" ||
         Cookies.get("site-local-name") === "ishtari") &&
       window.innerWidth > 1024 &&
       typeof selectedTopCategory.category_id !== "undefined"

@@ -135,7 +135,8 @@ function CheckoutCompnents() {
       }
       if (
         window.location.host === "www.ishtari.com" ||
-        window.location.host === "next.ishtari.com"
+        window.location.host === "next.ishtari.com" ||
+        window.location.host === "ishtari-mobile.com"
       ) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/EUVMCKj7nI8YEJuG29gD",

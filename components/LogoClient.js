@@ -18,7 +18,9 @@ function LogoClient(props) {
         props.host === "https://www.ishtari.com.gh" ||
         props.host === "ishtari" ||
         props.host === "ishtari-ghana" ||
-        props.host === "next.ishtari.com" ? (
+        props.host === "next.ishtari.com" ||
+        props.host === "ishtari-mobile.com"
+         ? (
         <>
           <Image
             className="hidden mobile:block"

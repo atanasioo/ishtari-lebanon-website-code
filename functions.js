@@ -18,6 +18,8 @@ const getHost = async (host) => {
     host === "http://cloudgoup.com" ||
     host === "www.cloudgoup.com" ||
     host === "https://next.ishtari.com/" ||
+    host === "https://ishtari-mobile.com/" ||
+    host === "https://ishtari-mobile.com" ||
     host === "https://www.next.ishtari.com/" ||
     host === "http://next.ishtari.com" ||
     host === "www.next.ishtari.com" ||
@@ -79,8 +81,10 @@ const getConfig = async (host) => {
     host === "www.ishtari.com" ||
     host === "https://www.ishtari.com" ||
     host === "http://next.ishtari.com" ||
+    host === "https://ishtari-mobile.com" ||
     host === "www.next.ishtari.com" ||
-    host === "next.ishtari.com"
+    host === "next.ishtari.com" ||
+    host === "ishtari-mobile.com"
   ) {
     config = {
       "short-name": "ishtari",

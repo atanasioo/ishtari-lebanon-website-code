@@ -491,7 +491,8 @@ function ProductPage(props) {
 
       if (
         window.location.host === "www.ishtari.com" ||
-        window.location.host === "next.ishtari.com"
+        window.location.host === "next.ishtari.com" ||
+        window.location.host === "ishtari-mobile.com" 
       ) {
         var price = 10;
         if (data.special_net_value) {
@@ -539,7 +540,8 @@ function ProductPage(props) {
       }
       if (
         window.location.host === "www.ishtari.com" ||
-        window.location.host === "next.ishtari.com"
+        window.location.host === "next.ishtari.com" ||
+        window.location.host === "ishtari-mobile.com" 
       ) {
         var callback = addToCart(obj);
         gtag("event", "conversion", {

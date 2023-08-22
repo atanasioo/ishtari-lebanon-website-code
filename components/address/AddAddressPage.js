@@ -419,6 +419,7 @@ function AddAddressPage(props) {
                         src={
                           window.location.host === "www.ishtari.com" ||
                           window.location.host === "next.ishtari.com" ||
+                          window.location.host === "ishtari-mobile.com" ||
                           Cookies.get("site-local-name") === "ishtari"
                             ? "/images/flags/lebanon.svg"
                             : "/images/flags/ghana.svg"

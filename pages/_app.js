@@ -102,7 +102,8 @@ export default function App({
     if (
       Cookies.get("site-local-name") === "ishtari" ||
       window.location.host === "www.ishtari.com" ||
-      window.location.host === "next.ishtari.com"
+      window.location.host === "next.ishtari.com" ||
+      window.location.host === "ishtari-mobile.com" 
     ) {
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -146,7 +147,9 @@ export default function App({
       host === "ishtari" ||
       (typeof window !== "undefined" &&
         (window.location.host === "www.ishtari.com" ||
-          window.location.host === "next.ishtari.com")) ? (
+          window.location.host === "next.ishtari.com" ||
+          window.location.host === "ishtari-mobile.com" 
+          )) ? (
         <Script
           id="tag"
           async
