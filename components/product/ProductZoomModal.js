@@ -41,10 +41,9 @@ function ProductZoomModal(props) {
     speed: 200,
     slidesToShow: 1,
     slidesToScroll: 1,
-    swipeToSlide: true,
+    swipeToSlide: false,
     autoplay: false,
     currentSlide: currentSlide,
-    swipe:true,
     ref: slider3,
     fade: true, 
     cssEase: 'linear', 
@@ -119,7 +118,7 @@ function ProductZoomModal(props) {
               onTouchStart={() => closeModal()}
             />
             <div className={`flex flex-col justify-center ${width < 768 ? "items-center" : ""} md:justify-center modal_zoom_div  lg:h-unset mb-5`}>
-              <div  className="flex flex-col w-86% md:w-unset  lg:h-full md:my-8  justify-start gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
+              <div  className="flex flex-col browser-height  md:w-unset  lg:h-full md:my-8  justify-start gap-3  lg:justify-between lg:flex-row lg:mx-8 py-2 md:py-0">
                 <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-8/12 flex flex-col  lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}

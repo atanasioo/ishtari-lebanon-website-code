@@ -842,6 +842,12 @@ mySwiper .swiper-button-next {
   }
 }
 
+@media (max-width: 768px){
+  .selectors .slick-slide{
+    width: 87px !important
+  }
+}
+
 .img-zoom-result {
   /* border: 1px solid #d4d4d4; */
   /*set the size of the result div:*/
@@ -907,6 +913,20 @@ mySwiper .swiper-button-next {
   }
 }
 
+
+/* Styles specific to Safari */
+@supports (-webkit-touch-callout: none) {
+  .browser-height {
+    width: 86%;
+  }
+}
+
+/* Styles specific to other browsers */
+@supports not (-webkit-touch-callout: none) {
+  .browser-height {
+    width: 100%;
+  }
+}
 .shareList {
   animation-name: showup;
   animation-duration: 500ms;
