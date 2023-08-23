@@ -44,7 +44,10 @@ function ProductZoomModal(props) {
     swipeToSlide: true,
     autoplay: false,
     currentSlide: currentSlide,
+    swipe:true,
     ref: slider3,
+    fade: true, 
+    cssEase: 'linear', 
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
@@ -87,19 +90,6 @@ function ProductZoomModal(props) {
 
     zoomRef.current.reset();
 
-    // const popup = document.getElementById("popup_modal");
-    // const backgroundImageUrl = activeImage["popup"];
-
-    // const overlayColor = "rgba(0, 0, 0, 0.6)";
-
-    // // Create a new style element
-    // const style = document.createElement("style");
-    // style.type = "text/css";
-    // // Add a CSS rule for the #popup_modal::before pseudo-element
-    // const css = `#popup_modal::before { background-image: linear-gradient(${overlayColor}, ${overlayColor}), url(${backgroundImageUrl}); }`;
-    // style.appendChild(document.createTextNode(css));
-    // // Add the style element to the head of the document
-    // document.head.appendChild(style);
   };
 
   function changeImage(imgSrc) {

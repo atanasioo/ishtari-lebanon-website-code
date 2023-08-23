@@ -333,7 +333,7 @@ function buildLink(link, payload, width, hostServer) {
   // if (typeof window !== "undefined" &&  hostServer !== "https://cloudgoup.com/" && hostServer !== "https://www.cloudgoup.com/" && hostServer !== "http://cloudgoup.com" && hostServer !== "www.cloudgoup.com" && hostServer !== "www.ishtari.com"){
   //  return host + path1 + urls[link] + extra_params;
   // }else{
-
+///
   if (
     hostServer === "ishtari" ||
     hostServer === "https://www.ishtari.com" ||

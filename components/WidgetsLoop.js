@@ -69,15 +69,13 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
       backgroundColor:
         widget?.background_color !== "#000000" && widget?.background_color,
       paddingLeft: widget.padding_left !== "-1" && widget.padding_left + "%",
-      paddingRight:
-        widget.padding_right !== "-1" && widget.padding_right + "%",
+      paddingRight: widget.padding_right !== "-1" && widget.padding_right + "%",
       paddingBottom:
         widget.padding_bottom !== "-1" && widget.padding_bottom + "%",
       paddingTop: widget.padding_top !== "-1" && widget.padding_top + "%",
       marginLeft: widget.margin_left !== "-1" ? widget.margin_left + "%" : "",
       marginRight: widget.margin_right !== "-1" && widget.margin_right + "%",
-      marginBottom:
-        widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
+      marginBottom: widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
       marginTop: widget.margin_top !== "-1" && widget.margin_top + "%",
     };
     setAppliedStyles(styles);
@@ -355,7 +353,7 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
       <div
-        style={{ ...style, padding: "2px 5px"}}
+        style={{ ...style, padding: "2px 5px" }}
         onClick={onClick}
         className="mySwiper "
       >
@@ -384,7 +382,13 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
     <div
       key={widget?.mobile_widget_id}
       style={appliedStyles}
-      className={widget.padding_left > -1 ? "-mx-3" : ""}
+      className={
+        widget.padding_left > -1
+          ? "-mx-3"
+          : widget.display === "grid" && widget?.background_color !== "#000000"
+          ? "-mx-4 md:mx-0"
+          : ""
+      }
     >
       {/* view all button */}
       {widget?.display === "carousel" && widget?.view_title !== "0" && (
@@ -911,7 +915,10 @@ function WidgetsLoop({ widget, likedData, initialLoading }) {
                 key={item.banner_image_id}
                 style={{
                   padding: "1px",
-                  width: widget.column_number === "1" ? "unset" : `calc(100% / ${widget.column_number}) `,
+                  width:
+                    widget.column_number === "1"
+                      ? "unset"
+                      : `calc(100% / ${widget.column_number}) `,
                 }}
               >
                 <Link

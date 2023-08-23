@@ -71,6 +71,8 @@ function ProductZoom(props) {
     autoplay: false,
     ref: imageSlider,
     swipe: width > 768 ? false : true,
+    fade: true, // Use the fade effect
+    cssEase: 'linear', // Linear CSS easing for the fade effect
     afterChange: (currentSlide) => handleSingleMobileChange(currentSlide),
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
