@@ -45,8 +45,8 @@ function ProductZoomModal(props) {
     autoplay: false,
     currentSlide: currentSlide,
     ref: slider3,
-    fade: true, 
-    cssEase: 'linear', 
+    // fade: true, 
+    // cssEase: 'linear', 
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };

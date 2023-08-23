@@ -2214,6 +2214,7 @@ input:checked + .slider_swicth:before {
   background-color: #4caf50;
 }
 
+
 /* @keyframes slideDownFade {
   0% {
     opacity: 1;
@@ -2318,6 +2319,7 @@ div.widget_text p{
 .link-span>span{
   width: 100% !important;
 }
+ .slick-slider { touch-action: inherit !important; }
 
 
 
