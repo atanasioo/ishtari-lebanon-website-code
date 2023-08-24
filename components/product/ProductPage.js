@@ -580,7 +580,6 @@ function ProductPage(props) {
     }
   }
 
-  console.log(data);
 
   function addToCart(bundle) {
     setCountDownPointer(true);
@@ -946,7 +945,6 @@ function ProductPage(props) {
       }
     }, [ref, toggleQty]);
 
-    console.log(warrantyPlan);
   }
 
   return (
