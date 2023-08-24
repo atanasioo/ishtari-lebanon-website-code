@@ -69,7 +69,7 @@ function SingleProductBundle(props) {
     >
       {
         <div
-          className={`bg-white h-full ${fetching && "animate-pulse"}`}
+          className={`bg-white h-full `}
           style={{
             width: props.carousel ? "40vw" : "100%",
             marginRight: props.carousel ? "7.5px" : "0",
@@ -99,10 +99,7 @@ function SingleProductBundle(props) {
               <div className="w-full content-center	justify-center	">
                 <Image
                   alt={props.item.name}
-                  src={
-                    fetching
-                      ? ""
-                      : props.item.thumb
+                  src={props?.item?.thumb
                   }
                   width="100"
                   height="100"
