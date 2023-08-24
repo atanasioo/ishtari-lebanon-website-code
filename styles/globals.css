@@ -73,6 +73,10 @@
   font-family: 'PR-light';  
   /* font-size: 14px; line-height: 19.6px; */
 }
+.pr-normal{
+  font-family: 'PR';  
+  /* font-size: 14px; line-height: 19.6px; */
+}
 .font-light{
   font-family: 'PR-light' !important;   
 
@@ -2320,7 +2324,6 @@ div.widget_text p{
   width: 100% !important;
 }
  .slick-slider { touch-action: inherit !important; }
-
 
 
 

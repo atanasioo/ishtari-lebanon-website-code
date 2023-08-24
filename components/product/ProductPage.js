@@ -33,6 +33,7 @@ import WhatsappBtn from "./WhatsappBtn";
 import MagicZoom from "./MagicZoom";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
+import WarrantyPopup from "./WarrantyPopup";
 
 function ProductPage(props) {
   //Server props
@@ -78,6 +79,8 @@ function ProductPage(props) {
   const [showModel, setShowModel] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [additionalData, setAdditionalData] = useState({});
+  const [warrantyPlan, setWarrantyPlan] = useState({});
+  const [warrantyPopup, setWarrantyPopup] = useState(false);
 
   const [value, setValue] = useState(0);
   const [result, setResult] = useState();
@@ -196,6 +199,14 @@ function ProductPage(props) {
         </div>
       </div>
     );
+  }
+
+  function handleWarranty(state) {
+    if (state === "close") {
+      setWarrantyPopup(false);
+    } else {
+      setWarrantyPlan(state);
+    }
   }
 
   useEffect(() => {
@@ -444,10 +455,8 @@ function ProductPage(props) {
     });
   }
 
-
   function setOption(option) {
     const option_id = option["product_option_value_id"];
-
 
     var count = 0;
     var i = 0;
@@ -492,7 +501,7 @@ function ProductPage(props) {
       if (
         window.location.host === "www.ishtari.com" ||
         window.location.host === "next.ishtari.com" ||
-        window.location.host === "ishtari-mobile.com" 
+        window.location.host === "ishtari-mobile.com"
       ) {
         var price = 10;
         if (data.special_net_value) {
@@ -541,7 +550,7 @@ function ProductPage(props) {
       if (
         window.location.host === "www.ishtari.com" ||
         window.location.host === "next.ishtari.com" ||
-        window.location.host === "ishtari-mobile.com" 
+        window.location.host === "ishtari-mobile.com"
       ) {
         var callback = addToCart(obj);
         gtag("event", "conversion", {
@@ -571,6 +580,8 @@ function ProductPage(props) {
     }
   }
 
+  console.log(data);
+
   function addToCart(bundle) {
     setCountDownPointer(true);
 
@@ -586,6 +597,13 @@ function ProductPage(props) {
       o[op] = activeOption["product_option_value_id"];
       obj["option"] = o;
     }
+
+    if(Object.keys(warrantyPlan).length > 0){
+      let w = {};
+      w["warranty_option_id"] = warrantyPlan.warranty_option_id;
+      obj["warranty"]= w;
+    }
+
     let error = "";
     axiosServer
       .post(
@@ -927,6 +945,8 @@ function ProductPage(props) {
         };
       }
     }, [ref, toggleQty]);
+
+    console.log(warrantyPlan);
   }
 
   return (
@@ -1521,6 +1541,54 @@ function ProductPage(props) {
                     )}
                   </div>
                 </div>
+
+                {/* Warranties */}
+                <div className="my-1 md:my-4">
+                  {data?.warranties && data?.warranties?.length > 0 && (
+                    <div>
+                      <h3
+                        className="text-sm"
+                        style={{ color: "rgb(126, 133, 155)" }}
+                      >
+                        Warranty
+                      </h3>
+                      <div className="flex flex-wrap items-center justify-start">
+                        <div
+                          className={`py-1.5 px-3 border mr-2 my-2 cursor-pointer hover:shadow rounded-sm ${
+                            Object.keys(warrantyPlan).length === 0
+                              ? "border-dblue border-2"
+                              : "border-dgreyQtyProduct"
+                          }`}
+                          onClick={() => setWarrantyPlan({})}
+                        >
+                          None
+                        </div>
+                        <div
+                          onClick={() => setWarrantyPopup(true)}
+                          className={`py-1.5 px-3 border mr-2 my-2 cursor-pointer hover:shadow rounded-sm ${
+                            Object.keys(warrantyPlan).length > 0
+                              ? "border-dblue border-2"
+                              : "border-dgreyQtyProduct"
+                          }`}
+                        >
+                          {Object.keys(warrantyPlan).length === 0
+                            ? "Select a plan ..."
+                            : <div>{warrantyPlan.warranty_titles + " / "} <span>${warrantyPlan.warranty_fees }</span>...</div> }
+                         
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* warranty popup */}
+                {warrantyPopup && (
+                  <WarrantyPopup
+                    warranties={data?.warranties}
+                    warrantyPlan={warrantyPlan}
+                    handleWarranty={handleWarranty}
+                  />
+                )}
 
                 {/* TIMER */}
                 {/* {data?.special_end !== 0 &&
