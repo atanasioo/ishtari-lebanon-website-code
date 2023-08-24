@@ -18,6 +18,8 @@ function ImageSlider(props){
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplaySpeed: 1000,
+    centerMode: true, 
+    centerPadding: '-1', 
     // autoplay: false, // We'll control this from the parent component
     // pauseOnHover: false,
   };
