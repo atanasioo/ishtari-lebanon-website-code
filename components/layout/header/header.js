@@ -38,7 +38,6 @@ function Header(props) {
   const host = useContext(HostContext);
   const { headerColor, setHeaderColor } = useHeaderColor();
 
-  console.log(headerColor);
 
   const serverSideDomain = props.host;
 
@@ -53,6 +52,14 @@ function Header(props) {
         setState(response.data.data);
       });
   }, []);
+
+  useEffect(() => {
+    if (router.asPath !== '/') {
+      setHeaderColor('white');
+    } else {
+      setHeaderColor('headerColor'); 
+    }
+  }, [router.asPath]);
 
   useEffect(() => {
     if (window.innerWidth < 1024) {
@@ -114,6 +121,7 @@ function Header(props) {
     setViewMenu(false);
   }
 
+
   return (
     <div>
       {local && <SiteHeaders local={local} />}
@@ -138,7 +146,7 @@ function Header(props) {
         <div
           className="flex items-center justify-between py-4 h-22 container"
           style={{
-            backgroundColor: headerColor.length === 0 ? "white" : headerColor,
+            backgroundColor: headerColor || "white" ,
           }}
         >
           <div className="flex items-center">
