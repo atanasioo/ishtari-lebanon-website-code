@@ -2325,9 +2325,14 @@ div.widget_text p{
 }
  .slick-slider { touch-action: inherit !important; }
 
- .single-product-img-slider .slick-slide.slick-active { z-index: 999; }
- .mobile-modal-single-product-img-slider .slick-slide.slick-active { z-index: 999; }
- .modal-single-product-img-slider .slick-slide.slick-active { z-index: 999; }
+ .single-product-img-slider .slick-slide { pointer-events: none; }
+ .single-product-img-slider .slick-active { pointer-events: auto; }
+
+ .mobile-modal-single-product-img-slider .slick-slide { pointer-events: none; }
+ .mobile-modal-single-product-img-slider .slick-active { pointer-events: auto; }
+ 
+ .modal-single-product-img-slider .slick-slide { pointer-events: none; }
+ .modal-single-product-img-slider .slick-active { pointer-events: auto; }
 
 
 
