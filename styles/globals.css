@@ -2325,6 +2325,9 @@ div.widget_text p{
 }
  .slick-slider { touch-action: inherit !important; }
 
+ .single-product-img-slider .slick-slide.slick-active { z-index: 999; }
+ .mobile-modal-single-product-img-slider .slick-slide.slick-active { z-index: 999; }
+ .modal-single-product-img-slider .slick-slide.slick-active { z-index: 999; }
 
 
 

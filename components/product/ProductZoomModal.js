@@ -30,6 +30,8 @@ function ProductZoomModal(props) {
     autoplay: false,
     swipe: false,
     ref: slider1,
+    fade: true, 
+    cssEase: 'linear', 
     currentSlide: currentSlide,
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
@@ -45,8 +47,8 @@ function ProductZoomModal(props) {
     autoplay: false,
     currentSlide: currentSlide,
     ref: slider3,
-    // fade: true, 
-    // cssEase: 'linear', 
+    fade: true, 
+    cssEase: 'linear', 
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
@@ -122,7 +124,7 @@ function ProductZoomModal(props) {
                 <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-8/12 flex flex-col  lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
-                    className="w-8/12 hidden lg:block"
+                    className="w-8/12 hidden lg:block modal-single-product-img-slider"
                   >
                     {images?.map((i) => (
                       <PrismaZoom
@@ -152,7 +154,7 @@ function ProductZoomModal(props) {
                   <Slider
                     {...mobileSingleSetting}
                     afterChange={handleFirstSliderChange}
-                    className="w-11/12 lg:hidden"
+                    className="w-11/12 lg:hidden mobile-modal-single-product-img-slider"
                   >
                     {images?.map((i) => (
                       <PrismaZoom

@@ -71,6 +71,9 @@ function ProductZoom(props) {
     autoplay: false,
     ref: imageSlider,
     swipe: width > 768 ? false : true,
+    fade: true, 
+    cssEase: 'linear',
+    touchThreshold: 100,
     afterChange: (currentSlide) => handleSingleMobileChange(currentSlide),
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null

@@ -549,6 +549,16 @@ function Cart(props) {
                                 ")"}
                             </p>
                           )}
+                          {product.warranty.length > 0 && (
+                            <p className="text-dgreen text-sm">
+                              {product.warranty[0].warranty_name +
+                                " ( " +
+                                product.warranty[0].warranty_titles +
+                                " / " +
+                                product.warranty[0].warranty_days +
+                                " )"}{" "}
+                            </p>
+                          )}
                           <button
                             className="cursor-pointer text-dgrey1 text-xs"
                             onClick={() => updateQuantity(product.cart_id, 0)}
