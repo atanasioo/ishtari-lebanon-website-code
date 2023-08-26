@@ -13,6 +13,7 @@ import { FaWallet } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import { authOptions } from "../api/auth/[...nextauth]";
+import { useRouter } from "next/router";
 
 function wallet() {
   const [width] = useDeviceSize();
@@ -23,13 +24,18 @@ function wallet() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const limit = 10;
-
+  const router = useRouter()
   useEffect(() => {
     axiosServer
       .get(buildLink("getBalance", undefined, window.innerWidth))
       .then((response) => {
         if (response.data.success) {
           setBalance(response.data.data.balance);
+        }else{
+          
+        }
+        if (!state.loged) {
+          router.push("/");
         }
       });
   }, []);
@@ -47,6 +53,10 @@ function wallet() {
         if (response.data.success) {
           setTransactionData(response.data.data);
           setLoading(false);
+         
+        }else{}
+        if (!state.loged) {
+          router.push("/");
         }
       });
   }, [page]);
