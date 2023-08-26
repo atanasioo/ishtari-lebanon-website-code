@@ -1,7 +1,14 @@
 import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
 import WidgetsLoop from "@/components/WidgetsLoop";
-import { useEffect, useRef, useState, useCallback, useMemo, useContext } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+  useContext,
+} from "react";
 import Head from "next/head";
 import useDeviceSize from "@/components/useDeviceSize";
 import ScrollToTop from "react-scroll-to-top";
@@ -12,9 +19,9 @@ import DownloadAppImg from "@/components/DownloadAppImg";
 import { AccountContext } from "@/contexts/AccountContext";
 import PointsLoader from "@/components/PointsLoader";
 import { useHeaderColor } from "@/contexts/HeaderContext";
+import { useMarketingData } from "@/contexts/MarketingContext";
 
 export default function Home(props) {
-
   const host_url = props.host;
 
   const [hasMore, setIsHasMore] = useState(true);
@@ -24,7 +31,9 @@ export default function Home(props) {
   const [width] = useDeviceSize();
   const sentinelRef = useRef(null);
   const observer = useRef(null);
-  const {headerColor, setHeaderColor} = useHeaderColor();
+  const { headerColor, setHeaderColor } = useHeaderColor();
+  const { marketingStats, setMarketingStats, showStats } = useMarketingData();
+  const [bannerStats, setBannerStats] = useState([]);
 
   const lastElementRef = useCallback(
     (node) => {
@@ -75,11 +84,13 @@ export default function Home(props) {
           ...response?.data?.data?.widgets,
         ];
 
-         if(page === 1 && response?.data?.data?.widgets[0].cover_header === "1"){
+        if (
+          page === 1 &&
+          response?.data?.data?.widgets[0].cover_header === "1"
+        ) {
           //setHeaderColor("#0000FF");
-           setHeaderColor(response?.data?.data?.widgets[0].background_color)
+          setHeaderColor(response?.data?.data?.widgets[0].background_color);
         }
-
 
         // setTimeout(() => {
         //   setInitialLoading(false)
@@ -96,55 +107,6 @@ export default function Home(props) {
     // setIsLoading(false);
   }, [page]);
 
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver((entries) => {
-  //     const sentinel = entries[0];
-  //     if (sentinel.isIntersecting) {
-  //       setPage(page + 1);
-
-  //       // loadMoreData();
-  //     }
-  //   });
-
-  //   observer.observe(sentinelRef.current);
-
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, []);
-
-  // useEffect(() =>{
-  //   console.log(window.config);
-  // },[])
-
-  // Memoized WidgetsList component
-  // const WidgetsList = memo(({ widgets }) => {
-  //   return(
-  //     widgets?.map((widget, index) => {
-
-  //       if (widgets.length === index + 1) {
-  //         return (
-  //           <div
-  //             className="theHome "
-  //             ref={lastElementRef}
-  //             key={widget.mobile_widget_id}
-  //           >
-  //             {" "}
-  //             <WidgetsLoop widget={widget} />{" "}
-  //           </div>
-  //         );
-  //       } else {
-  //         return (
-  //           <div className="" key={widget.mobile_widget_id}>
-  //             <WidgetsLoop widget={widget} />{" "}
-  //             {/* <WidgetsLoop widget={widget} />{" "} */}
-  //           </div>
-  //         );
-  //       }
-  //     })
-  //   )
-  // });
-
   const WidgetsList = useMemo(() => {
     return dataRef.current.map((widget, index) => {
       if (dataRef.current.length === index + 1) {
@@ -155,18 +117,18 @@ export default function Home(props) {
             key={widget.mobile_widget_id}
           >
             {" "}
-            <WidgetsLoop widget={widget} />{" "}
+            <WidgetsLoop widget={widget} bannerStats={bannerStats} />{" "}
           </div>
         );
       } else {
         return (
           <div className="" key={widget.mobile_widget_id}>
-            <WidgetsLoop widget={widget} />{" "}
+            <WidgetsLoop widget={widget} bannerStats={bannerStats} />{" "}
           </div>
         );
       }
     });
-  }, [lastElementRef]);
+  }, [lastElementRef, bannerStats]);
 
   //page view conversion google ads
   useEffect(() => {
@@ -176,17 +138,50 @@ export default function Home(props) {
         window.dataLayer.push(arguments);
       }
 
-      if (window.location.host === "www.ishtari.com" || window.location.host === "next.ishtari.com" || window.location.host === "ishtari-mobile.com") {
+      if (
+        window.location.host === "www.ishtari.com" ||
+        window.location.host === "next.ishtari.com" ||
+        window.location.host === "ishtari-mobile.com"
+      ) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
         });
-      } else if (window.location.host === "www.ishtari.com.gh" || window.location.host === "next.ishtari.com.gh") {
+      } else if (
+        window.location.host === "www.ishtari.com.gh" ||
+        window.location.host === "next.ishtari.com.gh"
+      ) {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
         });
       }
     }
   }, []);
+
+
+  //banner click statistics
+  useEffect(() => {
+    if (state.admin && showStats) {
+      const banner_image_ids = [];
+      dataRef.current.map((widget) => {
+        if (widget.display === "grid" || widget.display === "slider") {
+          widget.items.map((item) => {
+            banner_image_ids.push(item.banner_image_id);
+          });
+        }
+      });
+
+      const obj = {
+        source_type: "home",
+        banner_image_ids: banner_image_ids.join(',') ,
+      };
+
+      axiosServer.post(buildLink("banner_stats"),  obj).then((response) => {
+        console.log(response.data);
+        setBannerStats(response.data.data);
+      });
+    }
+  }, [state.admin, showStats, dataRef.current]);
+
 
   return (
     <div>
@@ -303,81 +298,3 @@ export async function getServerSideProps(context) {
   }
 }
 
-// export async function getServerSideProps(context) {
-//   // Fetch the corresponding API endpoint based on the page type
-//   const { req } = context;
-//   const cook = useCookie(context);
-//   let data = null;
-//   let host_url = "";
-//   const userAgent = context.req.headers["user-agent"];
-//   // console.log({ userAgent });
-//   // console.log("userAgent");
-//   const screenWidth = parseScreenWidth(userAgent);
-//   // console.log("width=" + screenWidth);
-//   const host = req.headers.host;
-//   const cookies = req.headers.cookie;
-//   if (typeof cookies !== "undefined") {
-//     const parsedCookies = cookie.parse(cookies);
-
-//     const host_cookie = parsedCookies["site-local-name"];
-//     const token = parsedCookies["api-token"];
-
-//     let site_host = "";
-//     if ((host_cookie === undefined || typeof host_cookie === "undefined") && host !== "localhost:3000" && host !== "localhost:3001") {
-//       site_host = host;
-//     }else if((host_cookie === undefined || typeof host_cookie === "undefined") && (host === "localhost:3000" || host === "localhost:3001")){
-//       cook.set("site-local-name", "ishtari");
-//       site_host= "ishtari";
-//     } else {
-//       site_host = host_cookie;
-//     }
-
-//     var obj = {
-//       view: screenWidth == "mobile" ? "web_mobile" : "web_desktop",
-//       limit: 10,
-//       page: 1,
-//     };
-//   //  console.log(obj);
-//     //fetch product data
-//     let link = buildLink("home", undefined, undefined, site_host) + "&source_id=1";
-//      console.log(link)
-//      console.log(site_host)
-//     const response = await axiosServer.post(link, obj, {
-//       headers: {
-//         Authorization: "Bearer " + token,
-//       },
-//     });
-//     if (!response.data.success) {
-//       return {
-//         notFound: true,
-//       };
-//     }
-
-//     data = response.data.data;
-
-//     return {
-//       props: { data, screentype: screenWidth },
-//     };
-//   } else {
-//     return {
-//       props: {},
-//     };
-//   }
-// }
-
-function parseScreenWidth(userAgent) {
-  // var screenWidth
-  // console.log(match)
-  // if (userAgent) {
-  //   const match = userAgent.match(/(?:^|\s)(\d+)x(\d+)(?:\s|$)/);
-  //   if (match && match.length >= 3) {
-  //     screenWidth = parseInt(match[1], 10);
-  //   }
-  // }
-  //console.log(userAgent);
-  if (userAgent.includes("Mobile") && !userAgent.includes("iPad")) {
-    return "mobile";
-  }
-  // Return a default width if the extraction fails
-  return "desktop"; // Default width of 1920 pixels
-}

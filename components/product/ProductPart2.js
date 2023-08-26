@@ -237,7 +237,7 @@ function ProductPart2(props) {
     setExceedSizeLimitErr(false);
     //if (validateImagesSize()) {
       if (ratingCustomer > 0) {
-        var formData = new FormData(); // Currently empty
+        var formData = new FormData(); 
 
         formData.append("product_id", product_id);
         formData.append("rating", ratingCustomer);
@@ -260,7 +260,7 @@ function ProductPart2(props) {
           )
           .then((response) => {
             // console.log(response);
-            // window.location.reload();
+            window.location.reload();
           });
       } else {
         setRequired("Please provide a rating");

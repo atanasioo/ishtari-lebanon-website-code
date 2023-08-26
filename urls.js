@@ -36,6 +36,7 @@ var urls = {
   trendingSearch: "v2/index.php?route=catalog/search/topSearch",
   historySearch: "v2/index.php?route=catalog/search/TopSearchByCustomer",
   home: "v2/index.php?route=common/widgets",
+  banner_stats: "v2/index.php?route=analytics/banner/fetchStats",
   //home: "v2/index.php?route=common/widgets_preview",
   product: "v2/index.php?route=catalog/product&product_id=",
   recentlyViewed: "v2/index.php?route=catalog/recently_viewed",

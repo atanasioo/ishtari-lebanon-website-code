@@ -1601,9 +1601,11 @@ function ProductPage(props) {
                 {/*banner */}
                 {hasBannerEvent && hasBannerEvent.thumb && (
                   <div className="mt-5">
-                    <img
+                    <Image
                       src={hasBannerEvent.thumb}
                       alt={hasBannerEvent.name}
+                      width={483}
+                      height={64}
                       className="w-full"
                     />
                   </div>
