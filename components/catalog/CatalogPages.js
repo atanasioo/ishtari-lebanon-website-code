@@ -30,6 +30,8 @@ function CatalogPage(props) {
   const [showSort, setShowSort] = useState(false);
   const [showMobileSort, setShowMobileSort] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const { showStats } = useMarketingData();
+  const [bannerStats, setBannerStats] = useState([]);
   const [state] = useContext(AccountContext);
 
   const [productDisplay, setProductDisplay] = useState("grid");
@@ -784,7 +786,7 @@ function CatalogPage(props) {
       if (
         window.location.host === "www.ishtari.com" ||
         window.location.host === "next.ishtari.com" ||
-        window.location.host === "ishtari-mobile.com" 
+        window.location.host === "ishtari-mobile.com"
       ) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
@@ -801,6 +803,62 @@ function CatalogPage(props) {
       }
     }
   }, [data, state.admin]);
+
+  function fetchBannerStats(widgets) {
+    const banner_image_ids = [];
+
+    widgets.forEach((widget) => {
+      if (widget.display === "grid" || widget.display === "slider") {
+        widget.items.forEach((item) => {
+          banner_image_ids.push(item.banner_image_id);
+        });
+      }
+    });
+
+    return banner_image_ids.join(",");
+  }
+
+  useEffect(() => {
+    console.log("hello");
+    if (
+      state.admin &&
+      showStats &&
+      (data?.category_widget_status === "1" ||
+        data?.desktop_widget_status === "1" ||
+        data?.mobile_widget_status === "1")
+    ) {
+      console.log("hello");
+      let widgets = [];
+      if (width > 650 && data?.desktop_widgets?.length > 0) {
+        widgets = data.desktop_widgets;
+      } else if (width < 650 && data?.mobile_widgets?.length > 0) {
+        widgets = data.mobile_widgets;
+      } else if (width < 650 && data?.widgets?.length > 0) {
+        widgets = data.widgets;
+      }
+
+      console.log(widgets);
+      console.log("width" + width);
+      console.log();
+
+      if (widgets.length > 0) {
+        const banner_image_ids = fetchBannerStats(widgets);
+
+        const obj = {
+          source_type: props.type,
+          source_type_id: catalog_id,
+          banner_image_ids,
+        };
+
+        axiosServer.post(buildLink("banner_stats"), obj).then((response) => {
+          console.log(response.data);
+          setBannerStats(response.data.data);
+        });
+      }
+    }
+  }, [state.admin, showStats, data]);
+
+  console.log(props.type);
 
   return (
     <div className="overflow-x-hidden">
@@ -1307,30 +1365,26 @@ function CatalogPage(props) {
               data?.desktop_widgets?.map((widget) => (
                 <div className="px-3" key={widget.mobile_widget_id}>
                   {" "}
-                  <WidgetsLoop widget={widget} />{" "}
+                  <WidgetsLoop widget={widget} bannerStats={bannerStats} />{" "}
                 </div>
               ))}
           </div>
           <div className="mobile:hidden">
-            {
-              //  page === undefined ||
-              //   page < 2 &&
-              (page === undefined || page < 2) &&
-                (data?.category_widget_status === "1" ||
-                  data?.mobile_widget_status === "1") &&
-                data?.mobile_widgets?.map((widget) => (
-                  <div className="px-3" key={widget.mobile_widget_id}>
-                    {" "}
-                    <WidgetsLoop widget={widget} />
-                  </div>
-                ))
-            }
+            {(page === undefined || page < 2) &&
+              (data?.category_widget_status === "1" ||
+                data?.mobile_widget_status === "1") &&
+              data?.mobile_widgets?.map((widget) => (
+                <div className="px-3" key={widget.mobile_widget_id}>
+                  {" "}
+                  <WidgetsLoop widget={widget} bannerStats={bannerStats} />
+                </div>
+              ))}
             {(page === undefined || page < 2) &&
               (data?.category_widget_status === "1" ||
                 data?.mobile_widget_status === "1") &&
               data?.widgets?.map((widget) => (
                 <div className="px-3" key={widget.mobile_widget_id}>
-                  <WidgetsLoop widget={widget} />{" "}
+                  <WidgetsLoop widget={widget} bannerStats={bannerStats} />{" "}
                 </div>
               ))}
           </div>

@@ -32,7 +32,7 @@ export default function Home(props) {
   const sentinelRef = useRef(null);
   const observer = useRef(null);
   const { headerColor, setHeaderColor } = useHeaderColor();
-  const { marketingStats, setMarketingStats, showStats } = useMarketingData();
+  const { showStats } = useMarketingData();
   const [bannerStats, setBannerStats] = useState([]);
 
   const lastElementRef = useCallback(

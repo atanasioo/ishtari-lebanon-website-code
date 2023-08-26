@@ -4,7 +4,6 @@ const MarketingContext = createContext();
 
 export const MarketingProvider = ({ children }) => {
   const [marketingData, setMarketingData] = useState({});
-  const [marketingStats, setMarketingStats] = useState({});
   const [showStats, setShowStats] = useState(false);
 
   return (
@@ -12,8 +11,6 @@ export const MarketingProvider = ({ children }) => {
       value={{
         marketingData,
         setMarketingData,
-        marketingStats,
-        setMarketingStats,
         showStats,
         setShowStats,
       }}
