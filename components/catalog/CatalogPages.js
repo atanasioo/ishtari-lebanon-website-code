@@ -837,10 +837,6 @@ function CatalogPage(props) {
         widgets = data.widgets;
       }
 
-      console.log(widgets);
-      console.log("width" + width);
-      console.log();
-
       if (widgets.length > 0) {
         const banner_image_ids = fetchBannerStats(widgets);
 
