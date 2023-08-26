@@ -28,6 +28,9 @@ function Orders() {
         if (response.data.success) {
           setData(response.data.data);
           setLoading(false);
+          if (!state.loged) {
+            router.push("/");
+          }
         } else {
           setLoading(false);
           dispatch({ type: "setLoading", payload: false });

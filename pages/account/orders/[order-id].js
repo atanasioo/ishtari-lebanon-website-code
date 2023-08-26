@@ -23,9 +23,7 @@ function OrderDetails() {
   const [width, height] = useDeviceSize();
   const [loading, setLoading] = useState(true);
   const [state, dispatch] = useContext(AccountContext);
-  const [success, setSuccess] = useState(false);
   const { setMarketingData } = useMarketingData();
-
   //   useEffect(() => {
   //     if (!state.loged) {
   //       dispatch({ type: "setShowOver", payload: true });
@@ -47,8 +45,9 @@ function OrderDetails() {
       .then((response) => {
         setEmail(response?.data?.data?.email);
         setLoading(false);
-        if (response.data.success) {
-          setSuccess(true);
+     
+        if (!response.data.success) {
+          router.push("/")
         }
       });
     axiosServer
@@ -57,7 +56,6 @@ function OrderDetails() {
         if (response.data.success) {
           setData(response?.data.data);
           setLoading(false);
-          setSuccess(true);
         }
       });
   }, [id]);

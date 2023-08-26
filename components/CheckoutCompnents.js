@@ -36,6 +36,8 @@ function CheckoutCompnents() {
   const { setMarketingData } = useMarketingData();
   const [loginShow, setLoginShow] = useState(false);
   const [walletBalance, setWalletBalance] = useState(0);
+  const [blocked, showBlock] = useState(false);
+  const [blockedMessage, setBlockedMessage] = useState("");
 
   //google map
   const [confirmedLocation, setConfirmedLocation] = useState("");
@@ -59,11 +61,11 @@ function CheckoutCompnents() {
   const [firstAttemp, setFirstAttemp] = useState(true);
   const zone = useRef({
     id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name,
+    name: window.config["initial-zone"].name
   });
   const town = useRef({
     id: 0,
-    name: "",
+    name: ""
   });
   // Cart states
   const [emptyCart, setEmptyCart] = useState(false);
@@ -122,7 +124,7 @@ function CheckoutCompnents() {
   const CellulantCheckoutPopup = dynamic(
     () => import("./CellulantCheckoutPopup"),
     {
-      ssr: false, // Disable server-side rendering
+      ssr: false // Disable server-side rendering
     }
   );
 
@@ -143,7 +145,7 @@ function CheckoutCompnents() {
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product,
+          items: manualResponse?.order_product
         });
       } else if (
         window.location.host === "www.ishtari.com.gh" ||
@@ -154,7 +156,7 @@ function CheckoutCompnents() {
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product,
+          items: manualResponse?.order_product
         });
       }
     }
@@ -167,12 +169,12 @@ function CheckoutCompnents() {
         fn: manualResponse?.social_data?.firstname,
         ln: manualResponse?.social_data?.lastname,
         external_id: manualResponse?.social_data?.external_id,
-        country: manualResponse?.social_data?.country_code,
+        country: manualResponse?.social_data?.country_code
       };
 
       ReactPixel.init(pixelID, advancedMatching, {
         debug: true,
-        autoConfig: false,
+        autoConfig: false
       });
       ReactPixel.pageView();
       ReactPixel.fbq("track", "PageView");
@@ -193,7 +195,7 @@ function CheckoutCompnents() {
           content_type: "product",
           content_ids: productArray,
           num_items: manualResponse?.order_product?.length,
-          currency: manualResponse?.social_data?.currency,
+          currency: manualResponse?.social_data?.currency
         },
         { eventID: manualResponse?.social_data?.event_id }
       );
@@ -219,15 +221,39 @@ function CheckoutCompnents() {
   }, [loginShow]);
 
   useEffect(() => {
+    // axiosServer
+    //   .get(
+    //     buildLink(
+    //       "get_account",
+    //       undefined,
+    //       undefined,
+    //       window.config["site-url"]
+    //     )
+    //   )
+    //   .then((response) => {
+    //     const data = response.data;
+    //     if (!data.success) {
+    //       setloged(false);
+    //       // alert(2)
+    //       getCart();
+
+    //       if (!state.loged) {
+    //         if (!state.admin && !loginShow) {
+    //           setLoginShow(true);
+    //         }
+    //       }
+    //       if (response?.data?.errors[0].errorCode.indexOf("blocked") > -1) {
+
+    //         showBlock(true);
+
+    //         setTimeout(() => {
+    //           window.location.href = "/";
+    //         }, 3000);
+    //       }
+    //     } else {
+ 
     axiosServer
-      .get(
-        buildLink(
-          "get_account",
-          undefined,
-          undefined,
-          window.config["site-url"]
-        )
-      )
+      .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
         if (!data.success) {
@@ -240,49 +266,47 @@ function CheckoutCompnents() {
               setLoginShow(true);
             }
           }
+          if (response?.data?.errors && response?.data?.errors[0].errorCode.indexOf("blocked") > -1) {
+            showBlock(true);
+            setBlockedMessage(response?.data?.errors[0].message)
+
+            // setTimeout(() => {
+            //   window.location.href = "/";
+            // }, 3000);
+          }
         } else {
           setloged(true);
-          axiosServer
-            .get(
-              buildLink(
-                "login",
-                undefined,
-                undefined,
-                window.config["site-url"]
-              )
-            )
-            .then((response) => {
-              setCustomerId(response.data.customer_id);
-              // localStorage.setItem("cid", response.data.customer_id);
+          setCustomerId(response.data.customer_id);
+        
+          
+        // localStorage.setItem("cid", response.data.customer_id);
+        axiosServer
+        .get(
+          buildLink("address", undefined, undefined, window.config["site-url"])
+        )
+        .then((response) => {
+          if (!response.data.success) {
+            router.push({
+              pathname: "/account/address/add",
+              search: "from-checkout=true"
             });
-          axiosServer
-            .get(
-              buildLink(
-                "address",
-                undefined,
-                undefined,
-                window.config["site-url"]
-              )
-            )
-            .then((response) => {
-              if (!response.data.success) {
-                router.push({
-                  pathname: "/account/address/add",
-                  search: "from-checkout=true",
-                });
-              } else {
-                zone.current.name = response.data.data[0].city;
-                zone.current.id = response.data.data[0].zone_id;
-                town.current.id = response.data.data[0].town_id;
-                town.current.name = response.data.data[0].town_name;
-                setAddresses(response.data.data);
-                changeAddress(response.data.data[0], false);
-                getCart();
-                // alert(1);
-              }
-            });
-        }
+          } else {
+            zone.current.name = response.data.data[0].city;
+            zone.current.id = response.data.data[0].zone_id;
+            town.current.id = response.data.data[0].town_id;
+            town.current.name = response.data.data[0].town_name;
+            setAddresses(response.data.data);
+            changeAddress(response.data.data[0], false);
+            getCart();
+            // alert(1);
+          }
+        });
+      }
       });
+      
+   
+    //   }
+    // });
     // End account check
   }, [window.location]);
 
@@ -292,7 +316,7 @@ function CheckoutCompnents() {
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id,
+      value: address.zone_id
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -313,7 +337,7 @@ function CheckoutCompnents() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id,
+      value: zone.current.id
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false);
@@ -394,21 +418,21 @@ function CheckoutCompnents() {
           payload:
             response.data?.data?.products?.length > 0
               ? response.data.data.products
-              : [],
+              : []
         });
         dispatch({
           type: "setTotals",
           payload:
             response.data?.data?.totals?.length > 0
               ? response.data.data.totals
-              : 0,
+              : 0
         });
         dispatch({
           type: "setProductsCount",
           payload:
             response?.data?.data?.total_product_count > 0
               ? response.data.data.total_product_count
-              : 0,
+              : 0
         });
       });
     // End cart check
@@ -685,7 +709,7 @@ function CheckoutCompnents() {
     setTownes("");
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value,
+      value: sel.value
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
@@ -718,7 +742,7 @@ function CheckoutCompnents() {
     town.current.name = sel.options[sel.selectedIndex].text;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value,
+      value: sel.value
     };
     manual(manualCart, "", activePaymentMethod, false);
     dispatchAccount({ type: "setShowOver", payload: false });
@@ -771,7 +795,7 @@ function CheckoutCompnents() {
         service_code: paymentData?.service_code,
         success_redirect_url: paymentData?.success_redirect_url,
         fail_redirect_url: paymentData?.failed_url,
-        language_code: "en",
+        language_code: "en"
       };
       axiosServer
         .post(
@@ -902,7 +926,7 @@ function CheckoutCompnents() {
               request_description:
                 "ishtariLTD payment for order ID: " + manualResponse.order_id,
               service_code: data.service_code,
-              success_redirect_url: data.success_redirect_url,
+              success_redirect_url: data.success_redirect_url
             });
 
             setCellulantData(data);
@@ -999,12 +1023,12 @@ function CheckoutCompnents() {
             fn: data?.data?.social_data?.firstname,
             ln: data?.data?.social_data?.lastname,
             external_id: data?.data?.social_data?.external_id,
-            country: data?.data?.social_data?.country_code,
+            country: data?.data?.social_data?.country_code
           };
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
             autoConfig: false,
-            country: data?.data?.social_data?.country_code,
+            country: data?.data?.social_data?.country_code
           });
 
           ReactPixel.pageView();
@@ -1018,7 +1042,7 @@ function CheckoutCompnents() {
                 content_ids: data?.data?.social_data?.content_ids,
                 value: data?.data?.social_data?.value,
                 num_items: data?.data?.social_data?.num_items,
-                currency: data?.data?.social_data?.currency,
+                currency: data?.data?.social_data?.currency
               },
               { eventID: data?.data?.social_data?.event_id }
             );
@@ -1044,11 +1068,11 @@ function CheckoutCompnents() {
         setMarketingData(response.data.data);
         if (firstPath === "bey") {
           router.push({
-            pathname: "/bey/success/",
+            pathname: "/bey/success/"
           });
         } else {
           router.push({
-            pathname: "/success/",
+            pathname: "/success/"
           });
         }
       }
@@ -1079,7 +1103,7 @@ function CheckoutCompnents() {
       zone.current.id = obj.zone;
       const data = {
         name: obj.city,
-        value: obj.zone,
+        value: obj.zone
       };
       manual(manualCart, data, activePaymentMethod, false);
     }
@@ -1102,7 +1126,7 @@ function CheckoutCompnents() {
     amount: 0,
     confirm_url: "0",
     success_url: "0",
-    order_id: 0,
+    order_id: 0
   });
 
   function setPaymentMethod(pm) {
@@ -1116,7 +1140,7 @@ function CheckoutCompnents() {
     Cookies.set("change", true);
 
     var obj = {
-      currency: currency,
+      currency: currency
     };
     axiosServer
       .post(
@@ -1145,15 +1169,15 @@ function CheckoutCompnents() {
         if (!loged) {
           dispatchAccount({
             type: "setShowOver",
-            payload: true,
+            payload: true
           });
           dispatchAccount({
             type: "setShowLogin",
-            payload: true,
+            payload: true
           });
           dispatchAccount({
             type: "setShowSignup",
-            payload: false,
+            payload: false
           });
         } else {
           setPaymentMethod(payment_code);
@@ -1181,6 +1205,19 @@ function CheckoutCompnents() {
 
   return (
     <div>
+      {blocked && (
+        <div className="fixed z-40 flex justify-center bg-dTransparentWhite w-full min-h-screen top-0 left-0">
+          <div class="absolute z-50 bg-white p-6 rounded shadow-md  max-w-md top-1/3">
+            <h2 class="text-xl  mb-2 text-dbase font-bold">Account Blocked</h2>
+            <p class=" mb-4">
+             {blockedMessage}
+            </p>
+            <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded w-full">
+              Contact Support
+            </button>
+          </div>
+        </div>
+      )}
       {window.config["site-url"] === "https://www.ishtari.com" ||
       Cookies.get("site-local-name") === "ishtari" ? (
         <div>
@@ -2009,7 +2046,7 @@ function CheckoutCompnents() {
                             <p
                               className=" text-sm font-semibold"
                               dangerouslySetInnerHTML={{
-                                __html: DOMPurify.sanitize(product.name),
+                                __html: DOMPurify.sanitize(product.name)
                               }}
                             />{" "}
                             {product.option.length > 0 && (
@@ -2188,7 +2225,7 @@ function CheckoutCompnents() {
                   className={`${
                     state.admin &&
                     width > 650 &&
-                    "fixed w-full md:w-4/12 md:pr-6 mr-24 z-40 bg-dprimarybg "
+                    "fixed w-full md:w-4/12 md:pr-6 mr-24 z-30 bg-dprimarybg "
                   } `}
                 >
                   <div
@@ -2296,15 +2333,15 @@ function CheckoutCompnents() {
                         onClick={() => {
                           dispatchAccount({
                             type: "setShowOver",
-                            payload: true,
+                            payload: true
                           });
                           dispatchAccount({
                             type: "setShowLogin",
-                            payload: true,
+                            payload: true
                           });
                           dispatchAccount({
                             type: "setShowSignup",
-                            payload: false,
+                            payload: false
                           });
                         }}
                       >

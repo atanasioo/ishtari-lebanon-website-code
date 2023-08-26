@@ -3,6 +3,7 @@ import { useMarketingData } from "@/contexts/MarketingContext";
 import Cookies from "js-cookie";
 import React, { useContext, useState } from "react";
 
+
 function AdminTopHeader() {
   const [state, dispatch] = useContext(AccountContext);
   const [showMessage, setShowMessage] = useState(false);
@@ -53,8 +54,8 @@ function AdminTopHeader() {
             >
               Orders
             </a>
-            {(localStorage.getItem("site-local-name") === "flo" ||
-              localStorage.getItem("site-local-name") === "flo-bey" ||
+            {(Cookies.get("site-local-name") === "flo" ||
+              Cookies.get("site-local-name") === "flo-bey" ||
               window.location.host === "www.flo-lebanon.com") && (
               <>
                 {" "}

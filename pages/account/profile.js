@@ -51,6 +51,9 @@ function profile() {
         } else {
           setData(response.data.data);
           setLoading(false);
+          if (!state.loged) {
+            router.push("/")
+           }
         }
       });
 

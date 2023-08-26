@@ -9,6 +9,7 @@ import buildLink from "@/urls";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 
 function Adresses() {
@@ -17,7 +18,7 @@ function Adresses() {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState([]);
   const path = "";
-
+const router = useRouter()
   useEffect(() => {
     axiosServer
       .get(buildLink("address", undefined, window.innerWidth))
@@ -25,16 +26,21 @@ function Adresses() {
         if (response.status) {
           setAddresses(response.data.data);
           setLoading(false);
+          if (!state.loged) {
+            router.push({
+              pathname: "/",
+            });
+          }
         } else {
           dispatch({ type: "setLoading", payload: false });
           if (!state.loading && !state.loged) {
-            history.push({
+            router.push({
               pathname: "/",
             });
           }
         }
       });
-  }, [dispatch, state.loged]);
+  }, [dispatch, state.loged, router]);
 
   //delete address
   function deleteAddress(address_id) {

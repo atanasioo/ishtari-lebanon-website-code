@@ -1,4 +1,6 @@
 import { axiosServer } from "@/axiosServer";
+import { AccountContext } from "@/contexts/AccountContext";
+
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import PointsLoader from "@/components/PointsLoader";
@@ -25,6 +27,7 @@ function wishlist() {
   const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
   const {setMarketingData} = useMarketingData();
   const [width, height] = useDeviceSize();
+  const [AccountState] = useContext(AccountContext);
 
   const [success, setSuccess] = useState(false);
   const [successGroup, setSuccessGroup] = useState(false);
@@ -54,7 +57,11 @@ function wishlist() {
           const data = response.data.data;
           setGroups(data);
         }
+        if(!AccountState.loged){
+          router.push("/")
+        }
       });
+
   }, [successGroup]);
 
   useEffect(() => {

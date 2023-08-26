@@ -78,6 +78,7 @@ function SlugPage(props) {
             host={props.host}
             hovered={props.hovered}
             config={props.config}
+            additionalData={props.additionalData}
           />
         </>
       ) : (
@@ -119,7 +120,7 @@ export async function getServerSideProps(context) {
   if (page !== undefined) {
     p = page;
   }
-
+ var additionalData ={}
   const host = req.headers.host;
   var link;
   const cookies = req.headers.cookie;
@@ -166,6 +167,21 @@ export async function getServerSideProps(context) {
           Authorization: "Bearer " + token,
         },
       });
+
+      const response1 = await axiosServer.get(
+        buildLink("getProductAdditionalData", undefined, undefined, site_host) +
+          "&product_id=" +
+          product_id , {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+      )
+       additionalData = response1.data.data;
+       console.log(additionalData)
+
+  
+
       // console.log(response.data);
       if (!response.data.success) {
         return {
@@ -173,6 +189,7 @@ export async function getServerSideProps(context) {
         };
       }
       data = response?.data?.data;
+      
       type = "product";
     } else if (
       catalog === "category" ||
@@ -315,6 +332,7 @@ export async function getServerSideProps(context) {
         hovered: false,
         isLoading: "false",
         p,
+        additionalData
       },
     };
   } else {

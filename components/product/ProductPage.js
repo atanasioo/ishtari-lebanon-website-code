@@ -37,7 +37,7 @@ import WarrantyPopup from "./WarrantyPopup";
 
 function ProductPage(props) {
   //Server props
-  const { data, host, hovered, config } = props; //instead of productData
+  const { data, host, hovered, config, additionalData } = props; //instead of productData
   //contexts
   const [accountState, dispatchAccount] = useContext(AccountContext);
   const [state, dispatch] = useContext(CartContext);
@@ -78,10 +78,12 @@ function ProductPage(props) {
   const [checked, setChecked] = useState(["0"]);
   const [showModel, setShowModel] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [additionalData, setAdditionalData] = useState({});
+  // const [additionalData, setAdditionalData] = useState({});
   const [warrantyPlan, setWarrantyPlan] = useState({});
   const [warrantyPopup, setWarrantyPopup] = useState(false);
 
+  // const [additionalData, setAdditionalData] = useState({});
+  const [additional, setAdditional]  =  useState()
   const [value, setValue] = useState(0);
   const [result, setResult] = useState();
   const [nameValue, setName] = useState("");
@@ -128,6 +130,7 @@ function ProductPage(props) {
 
   useEffect(() => {
     // to force re-render when navigating using client side
+    setAdditional(false)
     setLoader(true);
     setQuantity(1);
     setToggleQty(false);
@@ -317,8 +320,8 @@ function ProductPage(props) {
 
   useEffect(() => {
     //product additional data
-    setAdditionalData([]);
-    fetchAdditionalData();
+    // setAdditionalData([]);
+    // fetchAdditionalData();
   }, [router]);
 
   function fetchAdditionalData() {
@@ -329,7 +332,7 @@ function ProductPage(props) {
           product_id
       )
       .then((response) => {
-        setAdditionalData(response.data.data);
+        setAdditional(response.data.data);
       });
   }
 
@@ -1326,7 +1329,7 @@ function ProductPage(props) {
                             }
                           />
                         </button>
-                        <div>{additionalData?.wishlist?.total}</div>
+                        <div>{additional ? additional?.wishlist?.total :additionalData?.wishlist?.total}</div>
                       </div>
                     )}
                   </div>

@@ -33,7 +33,6 @@ function ProductZoom(props) {
   const smallMobileSliderRef = useRef(null);
   const router = useRouter();
   const [isFadingOut, setIsFadingOut] = useState(false);
-
   const [width] = useDeviceSize();
 
   const setting = {

@@ -46,6 +46,9 @@ function buyagain() {
           setData(data);
           setTotal(data?.length);
           setLoading(false);
+          if (!state.loged) {
+            router.push("/");
+          }
         } else {
           setLoading(false);
           if (!state.loading && !state.loged) {

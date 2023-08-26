@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { axiosServer } from "@/axiosServer";
+import { AccountContext } from "@/contexts/AccountContext";
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import PointsLoader from "@/components/PointsLoader";
@@ -11,14 +13,16 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { BsClockFill, BsStarFill } from "react-icons/bs";
 import { authOptions } from "../api/auth/[...nextauth]";
+import { useRouter } from "next/router";
 
 function reviewCenter() {
+  const [state, dispatch] = useContext(AccountContext);
   const [width] = useDeviceSize();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [awaitingReview, setAwaitingReview] = useState(true);
   const { reviewCenterData, setReviewCenterData } = useReviewCenterData();
-
+  const router = useRouter()
   useEffect(() => {
     setLoading(true);
     if (awaitingReview) {
@@ -30,6 +34,9 @@ function reviewCenter() {
           setLoading(false);
           const data = response.data.data;
           setData(data);
+          if (!state.loged) {
+            router.push("/");
+          }
         });
     } else {
       axiosServer
@@ -38,6 +45,9 @@ function reviewCenter() {
           setLoading(false);
           const data = response.data.data;
           setData(data);
+          if ( !state.loged) {
+            router.push("/");
+          }
         });
     }
   }, [awaitingReview]);

@@ -1,4 +1,6 @@
 import { axiosServer } from "@/axiosServer";
+import { AccountContext } from "@/contexts/AccountContext";
+
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import PointsLoader from "@/components/PointsLoader";
@@ -22,6 +24,7 @@ function feedback() {
   const [activeService, setActiveService] = useState(0);
   const [showSubmitBtn, setShowSubmitBtn] = useState(false);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [state, dispatch] = useContext(AccountContext);
 
   useEffect(() => {
     axiosServer
@@ -38,6 +41,9 @@ function feedback() {
         }));
         setFeedbacks(feedbacksData);
         setLoading(false);
+        if (!state.loged) {
+          router.push("/");
+        }
       });
   }, []);
 
