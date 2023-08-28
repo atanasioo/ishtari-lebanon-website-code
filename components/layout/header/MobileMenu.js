@@ -18,6 +18,7 @@ import Slider from "react-slick";
 import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
 import Image from "next/image";
+import { useMarketingData } from "@/contexts/MarketingContext";
 function MobileMenu(props) {
   const { viewMenu, categories, closeMobileMenu } = props;
   const router = useRouter();
@@ -27,6 +28,7 @@ function MobileMenu(props) {
   const [topSelling, setTopSelling] = useState([]);
   const [loading, setLoading] = useState(true);
   const { host, config } = useContext(HostContext);
+  const { setMarketingData } = useMarketingData();
 
   function handleScroll() {
     var myDiv = document.getElementById("scrollDiv");
@@ -272,6 +274,12 @@ function MobileMenu(props) {
                 activeCategory?.categories?.map((category) => (
                   <div
                     onClick={() => {
+                      setMarketingData({
+                        ignore: false,
+                        banner_image_id: "",
+                        source_type: "categories",
+                        source_type_id: "",
+                      });
                       router.push(
                         `${
                           // state.admin
@@ -348,6 +356,12 @@ function MobileMenu(props) {
                 >
                   <div
                     onClick={() => {
+                      setMarketingData({
+                        ignore: false,
+                        banner_image_id: "",
+                        source_type: "categories",
+                        source_type_id: "",
+                      });
                       router.push(
                         `${
                           // state.admin

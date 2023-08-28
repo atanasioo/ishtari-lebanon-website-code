@@ -150,7 +150,12 @@ function DesktopMenuClientPopups(props) {
                         href={`/${slugify(category.name)}/c=${
                           category.category_id
                         }`}
-                        onClick={() => setMarketingData({})}
+                        onClick={() => setMarketingData({
+                          ignore: false,
+                          banner_image_id: "",
+                          source_type: "categories",
+                          source_type_id: "",
+                        })}
                         className="flex items-center py-1 hover:text-dblue px-4"
                       >
                         <Image
@@ -197,7 +202,12 @@ function DesktopMenuClientPopups(props) {
                         key={Math.random()}
                         href={`/category/${sub_category.category_id}`}
                         className=" flex items-center py-1 hover:bg-dsearchGrey"
-                        onClick={() => setMarketingData({})}
+                        onClick={() => setMarketingData({
+                          ignore: false,
+                          banner_image_id: "",
+                          source_type: "categories",
+                          source_type_id: "",
+                        })}
                       >
                         <Image
                           alt={sub_category.name}
