@@ -155,89 +155,98 @@ function DesktopMenuCategories(props) {
   return (
     <div>
       {router.asPath.indexOf("pos") < 0 && (
-          <div
-            className="hidden lg:block  container w-full shadow-md shadow-dbeigeRed  text-d16 "
-            onClick={() => {
-              setOverlay(false);
-              setClearHover(true);
-              setViewMenuCategories2(false);
-              setViewSubAllCategories2(false);
-            }}
-            onMouseLeave={() => {
-              setOverlay(false);
-              setClearHover(true);
-              setViewSubAllCategories2(false);
-              setViewMenuCategories2(false);
-            }}
-            style={{backgroundColor: headerColor.length === 0 ? "white" : headerColor}}
-          >
-            <div>
-              <div
-                className={` hidden  lg:flex items-center text-base`}
-                style={{ minHeight: "48px" }}
-              >
-                <div>
+        <div
+          className="hidden lg:block  container w-full shadow-md shadow-dbeigeRed  text-d16 "
+          onClick={() => {
+            setOverlay(false);
+            setClearHover(true);
+            setViewMenuCategories2(false);
+            setViewSubAllCategories2(false);
+          }}
+          onMouseLeave={() => {
+            setOverlay(false);
+            setClearHover(true);
+            setViewSubAllCategories2(false);
+            setViewMenuCategories2(false);
+          }}
+          style={{
+            backgroundColor: headerColor.length === 0 ? "white" : headerColor,
+          }}
+        >
+          <div>
+            <div
+              className={` hidden  lg:flex items-center text-base`}
+              style={{ minHeight: "48px" }}
+            >
+              <div>
+                <div
+                  onMouseEnter={() => {
+                    setOverlay(true);
+                    setViewSubAllCategories2(true);
+                    setViewMenuCategories2(false);
+                  }}
+                  className="flex items-center border-r px-4 border-dplaceHolder hover:text-dbase cursor-pointer "
+                >
+                  <div>All Categories</div>
+                  <FiChevronDown className="w-5 h-5 mr-4" />
+                </div>
+
+                {/* Overlay */}
+                {overlay && (
                   <div
                     onMouseEnter={() => {
-                      setOverlay(true);
-                      setViewSubAllCategories2(true);
+                      setClearHover(true);
+                      setOverlay(false);
+                      setViewSubAllCategories2(false);
                       setViewMenuCategories2(false);
                     }}
-                    className="flex items-center border-r px-4 border-dplaceHolder hover:text-dbase cursor-pointer "
                   >
-                    <div>All Categories</div>
-                    <FiChevronDown className="w-5 h-5 mr-4" />
+                    <HeaderOverlay local={local} />
                   </div>
+                )}
+              </div>
 
-                  {/* Overlay */}
-                  {overlay && (
-                    <div
-                      onMouseEnter={() => {
-                        setClearHover(true);
-                        setOverlay(false);
-                        setViewSubAllCategories2(false);
-                        setViewMenuCategories2(false);
+              {header_categories?.length > 1 &&
+                header_categories.map((category) => (
+                  <div
+                    key={category["top-category"].category_id}
+                    className="border-r border-dplaceHolder px-4 hover:text-dbase cursor-pointer"
+                    onMouseEnter={() => {
+                      setClearHover(false);
+                      setViewSubAllCategories2(false);
+                      setSelectedMenuCategory2(category);
+                    }}
+                    onMouseLeave={() => {
+                      setClearHover(true);
+                    }}
+                  >
+                    <Link
+                      href={`/${slugify(category["title"].title)}/c=${
+                        category["title"].mobile_type_id
+                      }`}
+                      onClick={() =>
+                        setMarketingData({
+                          ignore: false,
+                          banner_image_id: "",
+                          source_type: "default",
+                          source_type_id: "",
+                        })
+                      }
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHTML(category["title"].title),
                       }}
-                    >
-                      <HeaderOverlay local={local} />
-                    </div>
-                  )}
-                </div>
-
-                {header_categories?.length > 1 &&
-                  header_categories.map((category) => (
-                    <div
-                      key={category["top-category"].category_id}
-                      className="border-r border-dplaceHolder px-4 hover:text-dbase cursor-pointer"
-                      onMouseEnter={() => {
-                        setClearHover(false);
-                        setViewSubAllCategories2(false);
-                        setSelectedMenuCategory2(category);
-                      }}
-                      onMouseLeave={() => {
-                        setClearHover(true);
-                      }}
-                    >
-                      <Link
-                        href={`/${slugify(category["title"].title)}/c=${
-                          category["title"].mobile_type_id
-                        }`}
-                        onClick={() => setMarketingData({})}
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(category["title"].title),
-                        }}
-                      ></Link>
-                    </div>
-                  ))}
-                <div className="px-4 hover:text-dbase cursor-pointer">
-                  <Link href={`/latest`} onClick={() => setMarketingData({})}>
-                    New Arrivals
-                  </Link>
-                </div>
+                    ></Link>
+                  </div>
+                ))}
+              <div className="px-4 hover:text-dbase cursor-pointer">
+                <Link href={`/latest`} onClick={() => setMarketingData({})}>
+                  New Arrivals
+                </Link>
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
       <DesktopMenuClientPopups
         viewSubAllCategories2={viewSubAllCategories2}
         selectedMenuCategory2={selectedMenuCategory2}

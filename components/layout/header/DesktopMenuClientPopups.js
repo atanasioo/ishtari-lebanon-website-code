@@ -180,7 +180,12 @@ function DesktopMenuClientPopups(props) {
                     <Link
                       className="text-dblue text-sm"
                       href={`/category/${selectedTopCategory.category_id}`}
-                      onClick={() => setMarketingData({})}
+                      onClick={() => setMarketingData({
+                          ignore: false,
+                          banner_image_id: "",
+                          source_type: "categories",
+                          source_type_id: "",
+                      })}
                     >
                       <span>View All </span>
                       <i className="icon icon-angle-right"></i>
