@@ -17,6 +17,7 @@ import SingleProduct from "@/components/product/SingleProduct";
 import Slider from "react-slick";
 import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
+import Image from "next/image";
 function MobileMenu(props) {
   const { viewMenu, categories, closeMobileMenu } = props;
   const router = useRouter();
@@ -142,16 +143,20 @@ function MobileMenu(props) {
         <div className="flex items-center justify-between">
           {Cookies.get("site-local-name") === "flo" ||
           host === "https://www.flo-lebanon.com" ? (
-            <img
+            <Image
               src={LogofloOrange}
               alt={config["short-name"]}
-              className="h-8"
+              // className="h-8"
+              width={130}
+              height={130}
             />
           ) : (
-            <img
+            <Image
               src={"/images/logo/logo-redd.png"}
               alt={"logo"}
-              className="h-8"
+              width={130}
+              height={130}
+              // className="h-8"
             />
           )}
           <button onClick={() => closeMobileMenu()}>

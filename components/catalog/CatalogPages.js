@@ -251,7 +251,7 @@ function CatalogPage(props) {
     text: "50",
   });
 
-  // console.log(checkFilter("filter_sellers", "Blue", filter));
+
 
   const limitRef = useRef(null);
   useOutsideLimit(limitRef);
@@ -409,23 +409,12 @@ function CatalogPage(props) {
     }
     var count = 0;
     filter.items?.map((item) => {
-      // console.log("###################### ")
-      // console.log("Param1:", filter_categories);
-      // console.log("Param2:", filter_manufacturers);
-      // console.log("Param3:", filter_sellers);
-      // console.log("Param4:", filter_options);
-      // console.log("Param5:", page);
-      // console.log(item.id)
-      // console.log(filter_id)
-      // console.log(filter.id)
-      // console.log(filter_manufacturers )
-      // console.log("###################### ")
+
       if ([filter_id]?.includes(item.id)) {
         count++;
       }
     });
-    //   }
-    // });
+
     if (count > 0) {
       return "catalog-top-filter-selected bg-white";
     } else {
@@ -483,8 +472,7 @@ function CatalogPage(props) {
   };
 
   function checkFilter(type, name, filter) {
-    // console.log(router.asPath);
-    // console.log(type);
+
     if (
       filter_options != undefined &&
       (name === "Color" || name === "Light color")
@@ -696,7 +684,6 @@ function CatalogPage(props) {
 
   //marketing analytics
 
-  console.log(data);
 
   let productArray = [];
 
@@ -819,7 +806,6 @@ function CatalogPage(props) {
   }
 
   useEffect(() => {
-    console.log("hello");
     if (
       state.admin &&
       showStats &&
@@ -827,7 +813,6 @@ function CatalogPage(props) {
         data?.desktop_widget_status === "1" ||
         data?.mobile_widget_status === "1")
     ) {
-      console.log("hello");
       let widgets = [];
       if (width > 650 && data?.desktop_widgets?.length > 0) {
         widgets = data.desktop_widgets;
@@ -847,14 +832,12 @@ function CatalogPage(props) {
         };
 
         axiosServer.post(buildLink("banner_stats"), obj).then((response) => {
-          console.log(response.data);
           setBannerStats(response.data.data);
         });
       }
     }
   }, [state.admin, showStats, data]);
 
-  console.log(props.type);
 
   return (
     <div className="overflow-x-hidden">

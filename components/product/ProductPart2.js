@@ -161,20 +161,6 @@ function ProductPart2(props) {
     return imageCompression(imageFile, options);
   }
 
-  //   const requestBody= JSON.stringify({
-  //     "charge_msisdn": "233549455903",
-  //     "charge_amount": 84,
-  //     "country_code": "GHA",
-  //     "currency_code": "GHS",
-  //     "merchant_transaction_id": 53872,
-  //     "service_code": "ISHTARI_GHANA_LIMITE",
-  //     "payment_mode_code": "STK_PUSH",
-  //     "payment_option_code": "MTNGHS"
-  //   });
-
-  //   const contentLength = Buffer.byteLength(requestBody, 'utf8');
-  // console.log(contentLength);
-
   const productSetting = {
     speed: 200,
     slidesToShow: 7,
@@ -327,6 +313,7 @@ function ProductPart2(props) {
     }
   }
 
+  console.log(productData2);
 
   function validateImagesSize() {
     const files = ReviewImages;
@@ -1157,7 +1144,7 @@ function ProductPart2(props) {
         )}
 
       {productData2?.product_categories &&
-        // !loader &&
+      
         productData2?.product_categories?.length > 0 && (
           <div className="w-full md:px-6 my-2 bg-white  ">
             <div className="container pb-2 md:pb-8">
@@ -1275,8 +1262,7 @@ function ProductPart2(props) {
           </div>
         )}
 
-      {/* {!loading &&
-       */}
+      
       {stateAccount?.loged &&
         productData2?.product_recentlyViewed &&
         productData2?.product_recentlyViewed?.length > 0 && (
@@ -1286,15 +1272,6 @@ function ProductPart2(props) {
                 Recently Viewed
               </p>
               {width < 650 ? (
-                // <Slider {...productMobile}>
-                //   {productData2?.product_recentlyViewed?.map((item) => {
-                //     return (
-                //       <div className="pr-2" key={item.product_id}>
-                //         <SingleProduct item={item} host={host} />
-                //       </div>
-                //     );
-                //   })}
-                // </Slider>
 
                 <div className="flex overflow-x-auto space-x-2 ">
                   {productData2?.product_recentlyViewed?.map((item) => {
@@ -1310,6 +1287,7 @@ function ProductPart2(props) {
                   })}
                 </div>
               ) : (
+                <>
                 <Slider {...productSetting}>
                   {productData2?.product_recentlyViewed?.map((item) => {
                     return (
@@ -1319,6 +1297,8 @@ function ProductPart2(props) {
                     );
                   })}
                 </Slider>
+                </>
+                
               )}
             </div>
           </div>

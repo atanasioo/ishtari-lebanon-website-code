@@ -4,12 +4,8 @@ import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { AiOutlinePlus } from "react-icons/ai";
 import { sanitizeHTML } from "../Utils";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { useContext, useRef, useState, useEffect } from "react";
 import useDeviceSize from "../useDeviceSize";
-// import "swiper/modules/pagination/pagination.min.css";
-// import "swiper/modules/navigation/navigation.min.css";
-import { Pagination, Autoplay } from "swiper";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
 import NewImage from "./NewImage";
@@ -22,10 +18,7 @@ function SingleProduct(props) {
   const [copied, setCopied] = useState(false);
   const router = useRouter();
   const path = "";
-  const swiperRef = useRef(null);
-  const onInit = (Swiper) => {
-    swiperRef.current = Swiper;
-  };
+ 
   const [width] = useDeviceSize();
   const { setMarketingData } = useMarketingData();
 
@@ -70,32 +63,6 @@ function SingleProduct(props) {
     });
   };
 
-  // const NewImage = dynamic(() => import("./NewImage"), {
-  //   ssr: false, // Disable server-side rendering
-  // });
-
-  const handleMouseEnter = () => {
-    if (swiperRef.current !== null) {
-      swiperRef?.current?.autoplay?.start();
-      if (
-        swiperRef.current.params !== null &&
-        swiperRef.current.params !== undefined
-      ) {
-        swiperRef.current.params.autoplay.delay = 1000;
-      }
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (
-      swiperRef.current !== null &&
-      swiperRef.current.autoplay !== undefined
-    ) {
-      swiperRef.current.autoplay.stop();
-      swiperRef.current.slideTo(1);
-    }
-  };
-
   function copyContent(e, sku) {
     e.preventDefault();
     e.stopPropagation();
@@ -111,27 +78,17 @@ function SingleProduct(props) {
   }
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const images = [
-    "image-url-1.jpg",
-    "image-url-2.jpg",
-    "image-url-3.jpg",
-    // Add more image URLs here
-  ];
 
-  const handleImageHover = (index) => {
-    setHoveredIndex(index);
-  };
-
-  useEffect(() => {
-    const sliderRef = sliderRef?.current;
-    if (sliderRef) {
-      if (hoveredIndex !== null) {
-        sliderRef.slickPause();
-      } else {
-        sliderRef.slickPlay();
-      }
-    }
-  }, [hoveredIndex]);
+  // useEffect(() => {
+  //   const sliderRef = sliderRef?.current;
+  //   if (sliderRef) {
+  //     if (hoveredIndex !== null) {
+  //       sliderRef.slickPause();
+  //     } else {
+  //       sliderRef.slickPlay();
+  //     }
+  //   }
+  // }, [hoveredIndex]);
 
   return (
     <Link
@@ -176,8 +133,8 @@ function SingleProduct(props) {
                 props.isList &&
                 "flex-shrink-0 flex-grow-0 w-40 -my-4 -ml-4 mr-4"
               }`}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              // onMouseEnter={handleMouseEnter}
+              // onMouseLeave={handleMouseLeave}
             >
               {props.item.quantity === "0" && (
                 <div
@@ -286,7 +243,6 @@ function SingleProduct(props) {
                     />
                   )}
                 </div>
-                {/* <span>{item.name}</span> */}
               </div>
               <div className="">
                 <div>
