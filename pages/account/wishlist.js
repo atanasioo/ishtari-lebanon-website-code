@@ -223,16 +223,23 @@ function wishlist() {
       )
       .then(() => {
         axiosServer
-          .get(buildLink("wishlist", undefined, window.innerWidth))
-          .then((response) => {
-            const data = response.data.data.products;
+        .get(
+          buildLink("whishlistProducts", undefined, window.innerWidth) +
+            "&id=" +
+            id +
+            "&page=" +
+            page +
+            "&limit=" +
+            limit
+        ).then((response) => {
+            const data = response.data.data;
             setProducts(data);
             dispatchWishlist({
               type: "setProductsCount",
               payload: response.data.data.total,
             });
           });
-        window.location.reload();
+        // window.location.reload();
       });
   }
 

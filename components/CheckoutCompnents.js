@@ -256,7 +256,9 @@ function CheckoutCompnents() {
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
-        if (!data.success) {
+        console.log(data)
+        if (!data.customer_id ) {
+
           setloged(false);
           // alert(2)
           getCart();
@@ -268,14 +270,14 @@ function CheckoutCompnents() {
           }
           if (response?.data?.errors && response?.data?.errors[0].errorCode.indexOf("blocked") > -1) {
             showBlock(true);
-            setBlockedMessage(response?.data?.errors[0].message)
-
+            setBlockedMessage(response?.data?.message)
+            setloged(true);
             // setTimeout(() => {
             //   window.location.href = "/";
             // }, 3000);
           }
         } else {
-          setloged(true);
+          if(!loged)  setloged(true);
           setCustomerId(response.data.customer_id);
         
           
@@ -308,7 +310,7 @@ function CheckoutCompnents() {
     //   }
     // });
     // End account check
-  }, [window.location]);
+  }, []);
 
   // set active address from address list
   function changeAddress(address, _manual) {

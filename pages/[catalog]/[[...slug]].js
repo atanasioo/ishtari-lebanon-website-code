@@ -243,7 +243,8 @@ export async function getServerSideProps(context) {
           "&source_id=1&limit=50" +
           filter +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
- 
+        console.log("FFFFFFFFFFFFFF1111");
+        console.log(link);
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,

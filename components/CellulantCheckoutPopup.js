@@ -63,7 +63,7 @@ function CellulantCheckoutPopup(props) {
         )
         .then((res) => {
           if (res.data.status.status_code === 200) {
-            console.log(res);
+            // console.log(res);
             setChargeData(res.data.results);
             SetAfterCharge(true);
           }

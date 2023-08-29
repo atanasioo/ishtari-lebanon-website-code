@@ -42,14 +42,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/profile`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <div className="">
+            <div className="w-2/12">
               <FaUserAlt className="text-d16 text-dbase" />
             </div>
             <span
-              className={`flex-1 ml-3 ${
+              className={`flex-1 w-4/12 ${
                 props.active === "profile" && "font-semibold underline"
               }`}
               style={{
@@ -59,11 +59,14 @@ function UserSidebar(props) {
               Profile
             </span>
             {showProfileArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+              <div className="w-2/12">
+                <img
+                  className=""
+                  src={"/images/arrow-right.svg"}
+                  alt="arrow"
+                />
+              
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -77,15 +80,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/orders`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <div className="w-3">
-            
+            <div className="w-2/12">
               <FaMoneyBillWave className="text-d16 text-dbase " />
             </div>
             <span
-              className={`flex-1 ml-3 ${
+              className={`flex-1 w-4/12 ${
                 props.active === "orders" && "font-semibold underline"
               }`}
               style={{
@@ -95,11 +97,13 @@ function UserSidebar(props) {
               Orders
             </span>
             {showOrderArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+              <div className="w-2/12">
+                <img
+                  className="-mr-1"
+                  src={"/images/arrow-right.svg"}
+                  alt="arrow"
+                />
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -113,12 +117,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/wallet`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex  items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <FaWallet className="text-d16 text-dbase" />
-            <span
-              className={`flex-1 ml-3 ${
+            <div className="w-2/12">
+              <FaWallet className="text-d16 text-dbase" />
+            </div>
+            <div
+              className={`flex-1 w-4/12 ${
                 props.active === "wallet" && "font-semibold underline"
               }`}
               style={{
@@ -126,13 +132,15 @@ function UserSidebar(props) {
               }}
             >
               Wallet
-            </span>
+            </div>
             {showWalletArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+              <div className="w-2/12">
+                <img
+                  className="-mr-1"
+                  src={"/images/arrow-right.svg"}
+                  alt="arrow"
+                />
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -147,13 +155,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/buyagain`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex  items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-             <div className="w-3"><BsFillCartCheckFill className="text-dbase text-d16" /></div>
-            
+            <div className="w-2/12">
+              <BsFillCartCheckFill className="text-dbase text-d16" />
+            </div>
             <span
-              className={`flex-1 ml-3 ${
+              className={`flex-1 w-4/12 ${
                 props.active === "buyagain" && "font-semibold underline"
               }`}
               style={{
@@ -163,11 +172,9 @@ function UserSidebar(props) {
               Buy Again
             </span>
             {showBuyArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+              <div className="w-2/12">
+                <img className="" src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -182,13 +189,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/recentlyViewed`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="ml-9 flex  items-center h-12  hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <div className="w-3"><MdAvTimer className="text-dbase text-d20" /></div>
-            
-            <span
-              className={`flex-1 ml-2 ${
+            <div className="w-2/12">
+              <MdAvTimer className="text-dbase text-d20" />
+            </div>
+            <div
+              className={`flex-1  w-4/12 ${
                 props.active === "recentlyViewed" && "font-semibold underline"
               }`}
               style={{
@@ -196,13 +204,11 @@ function UserSidebar(props) {
               }}
             >
               Recently Viewed
-            </span>
+            </div>
             {showRecentlyViewedArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+              <div className=" w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -216,14 +222,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/address`}
-            className="px-16 md:px-0 md:pl-6 lg:px-8 xl:px-10 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <div className="w-3">
+            <div className="w-2/12">
               <ImLocation className="text-d16 text-dbase" />
             </div>
             <span
-              className={`flex-1 ml-3 ${
+              className={`flex-1 w-4/12${
                 props.active === "addresses" && "font-semibold underline"
               }`}
               style={{
@@ -233,11 +239,9 @@ function UserSidebar(props) {
               Addresses
             </span>
             {showAddArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+               <div className="w-2/12">
+               <img src={"/images/arrow-right.svg"} alt="arrow" />
+             </div>
             )}{" "}
           </Link>
         </li>
@@ -251,14 +255,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/wishlist`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <div className="w-3">
+            <div className="w-2/12">
               <BsFillHeartFill className="text-d16 text-dbase" />
             </div>
             <span
-              className={`flex-1 ml-3 ${
+              className={`flex-1 w-4/12 ${
                 props.active === "wishlist" && "font-semibold underline"
               }`}
               style={{
@@ -268,7 +272,9 @@ function UserSidebar(props) {
               WishList
             </span>
             {showWishArrow && (
-              <img className="-mr-1" src={"/images/arrow-right.svg"} alt="" />
+             <div className=" w-2/12">
+             <img src={"/images/arrow-right.svg"} alt="arrow" />
+           </div>
             )}{" "}
           </Link>
         </li>
@@ -282,14 +288,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/reviewCenter`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <div className="w-3">
+            <div className="w-2/12">
               <BsStarFill className="text-d16 text-dbase" />
             </div>
             <span
-              className={`flex-1 ml-3 ${
+              className={`flex-1 w-4/12 ${
                 props.active === "reviewCenter" && "font-semibold underline"
               }`}
               style={{
@@ -299,11 +305,9 @@ function UserSidebar(props) {
               Review Center
             </span>
             {showReviewCenterArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+               <div className=" w-2/12">
+               <img src={"/images/arrow-right.svg"} alt="arrow" />
+             </div>
             )}{" "}
           </Link>
         </li>
@@ -317,14 +321,14 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/feedback`}
-            className="xl:px-10 lg:px-8 md:px-6 px-16 flex gap-4 items-center h-12 w-full hover:text-dblackk"
+            className="pl-9 flex  items-center h-12 w-full hover:text-dblackk"
             style={{ color: "rgb(126,133,155)" }}
           >
-            <div className="w-3">
+            <div className="w-2/12">
               <MdFeedback className="text-d16 text-dbase" />
             </div>
-            <span
-              className={`flex-1 ml-3 ${
+            <div
+              className={`flex-1 w-4/12 ${
                 props.active === "feedback" && "font-semibold underline"
               }`}
               style={{
@@ -332,13 +336,11 @@ function UserSidebar(props) {
               }}
             >
               Feedback
-            </span>
+            </div>
             {showFeedbackArrow && (
-              <img
-                className="-mr-1"
-                src={"/images/arrow-right.svg"}
-                alt="arrow"
-              />
+               <div className="w-2/12">
+               <img src={"/images/arrow-right.svg"} alt="arrow" />
+             </div>
             )}{" "}
           </Link>
         </li>

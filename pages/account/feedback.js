@@ -1,6 +1,6 @@
 import { axiosServer } from "@/axiosServer";
 import { AccountContext } from "@/contexts/AccountContext";
-
+import { useContext } from "react";
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import PointsLoader from "@/components/PointsLoader";
@@ -14,7 +14,7 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import StarRatings from "react-star-ratings";
 import { authOptions } from "../api/auth/[...nextauth]";
-
+import { useRouter } from "next/router";
 function feedback() {
   const [width] = useDeviceSize();
   const [data, setData] = useState([]);
@@ -25,6 +25,7 @@ function feedback() {
   const [showSubmitBtn, setShowSubmitBtn] = useState(false);
   const [feedbacks, setFeedbacks] = useState([]);
   const [state, dispatch] = useContext(AccountContext);
+  const router = useRouter()
 
   useEffect(() => {
     axiosServer
