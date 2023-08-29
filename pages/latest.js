@@ -173,6 +173,7 @@ export async function getServerSideProps(context) {
   const cookies = req.headers.cookie;
   const parsedCookies = cookie.parse(cookies);
   // console.log(page)
+  
   // console.log("page")
   const host_cookie = parsedCookies["site-local-name"];
   const token = parsedCookies["api-token"];
