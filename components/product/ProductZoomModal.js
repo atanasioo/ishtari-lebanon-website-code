@@ -13,7 +13,7 @@ function ProductZoomModal(props) {
   const [cursor, setCursor] = useState(false);
   const [activeImage, setActiveImage] = useState("");
   const [currentSlide, setCurrentSlide] = useState(currentSlideIndex);
-  const [width, height] = useDeviceSize();
+  const [width] = useDeviceSize();
   const [overlay, setOverlay]= useState(false);
 
   const slider1 = useRef(null);
@@ -21,12 +21,16 @@ function ProductZoomModal(props) {
   const slider3 = useRef(null);
   const zoomRef = useRef(null);
 
+  console.log("current slide index " +currentSlideIndex);
+  console.log("current slide" +currentSlide);
+
   const singleSetting = {
     dots: false,
     infinite: false,
     speed: 200,
     slidesToShow: 1,
     slidesToScroll: 1,
+    swipeToSlide:true,
     autoplay: false,
     swipe: false,
     ref: slider1,
@@ -49,6 +53,7 @@ function ProductZoomModal(props) {
     ref: slider3,
     fade: true, 
     cssEase: 'linear', 
+    touchThreshold:100,
     prevArrow: <></>, // or null
     nextArrow: <></>, // or null
   };
@@ -85,6 +90,7 @@ function ProductZoomModal(props) {
   },[selectedImage])
 
   const handleFirstSliderChange = (index) => {
+    console.log("index afetr swipe" + index);
     setCurrentSlide(index);
     slider2.current.slickGoTo(index);
     setActiveImage(images[index]);

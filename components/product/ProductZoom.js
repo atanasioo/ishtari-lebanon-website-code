@@ -56,7 +56,7 @@ function ProductZoom(props) {
     speed: 100,
     slidesToShow: 3.5,
     slidesToScroll: 1,
-    swipeToSlide: true,
+    // swipeToSlide: true,
     autoplay: false,
     ref: smallMobileSliderRef,
   };
@@ -94,6 +94,7 @@ function ProductZoom(props) {
       if (i.product_option_value_id === activeOption) {
         setActiveImage(i);
         imageSlider?.current?.slickGoTo(index);
+        // SmallImageSlider?.current?.slickGoTo(index);
         setActiveSlide(index);
       }
     });
