@@ -53,6 +53,10 @@ function SingleProduct(props) {
         : router?.query?.slug && router?.query?.slug[0]
       : "";
 
+  const fromSearch = router.asPath.startsWith("/search");
+
+  const linkQuery = fromSearch ? { fromSearch: 1 } : {};
+
   const handleLinkClick = () => {
     //for marketing
     setMarketingData({
@@ -93,7 +97,9 @@ function SingleProduct(props) {
   return (
     <Link
       onClick={handleLinkClick}
-      href={`${path}/${item.name
+      href={{
+        pathname:
+        `${path}/${item.name
         .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
         .replaceAll("%", "")
         .replaceAll(/\s+/g, "-")
@@ -103,7 +109,9 @@ function SingleProduct(props) {
         .replaceAll("--", "-")
         .replaceAll("100%", "")
         .replaceAll("#", "")
-        .replaceAll("/", "")}/p=${props.item.product_id}`}
+        .replaceAll("/", "")}/p=${props.item.product_id}`,
+        query: linkQuery
+      }}
    
       onClickCapture={props.click}
  

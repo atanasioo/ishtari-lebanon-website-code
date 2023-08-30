@@ -26,6 +26,7 @@ function ProductZoom(props) {
   const [showShare, setShowShare] = useState(false);
   const [hovered, setHovered] = useState(props.hovered);
   const [additionalArr, setAdditionalArr] = useState([]);
+  const [firstTime, setFirstTime]= useState(true);
   // const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const imageSlider = useRef(null);
   const SmallImageSlider = useRef(null);
@@ -126,12 +127,12 @@ function ProductZoom(props) {
     if (Object.keys(additionalData).length > 0) {
       if (typeof additionalData?.analytics !== "undefined") {
         const newComment = additionalData.analytics[currentCommentIndex].trim();
+        const nonEmptyCount = additionalData.analytics.filter(comment => comment.trim() !== "").length;
+
          timer = setInterval(
           () => {
             setAdditionalArr((prevComments) => {
               const newComments = [...prevComments];
-              const newComment =
-                additionalData.analytics[currentCommentIndex].trim();
               if (newComment !== "") {
                 // Skip empty strings
                 newComments.push(additionalData.analytics[currentCommentIndex]);
@@ -153,7 +154,7 @@ function ProductZoom(props) {
                     setAdditionalArr([]); // Empty the array when index resets
                     setIsFadingOut(false);
                   }, 1000);
-                }, 1000);
+                }, nonEmptyCount !== 1 ? 1000 : 3000);
               }
               return (prevIndex + 1) % additionalData.analytics.length;
             });

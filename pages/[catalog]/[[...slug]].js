@@ -110,6 +110,7 @@ export async function getServerSideProps(context) {
     order,
     last,
     limit,
+    fromSearch
   } = context.query;
   const { req } = context;
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
@@ -160,7 +161,7 @@ export async function getServerSideProps(context) {
         "&source_id=1&part_one" +
         (AdminToken !== undefined || typeof AdminToken !== "undefined"
           ? "&employer=true"
-          : "");
+          : "") + (fromSearch ? "&from_search=1" : "") ;
 
       const response = await axiosServer.get(link, {
         headers: {
