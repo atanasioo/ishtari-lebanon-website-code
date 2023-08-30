@@ -201,6 +201,7 @@ export default function Home(props) {
               name="description"
               content="Discover ishtari- Ghana best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery."
             ></meta>
+            <meta name="google-site-verification" content="JrQwV0UHq3vKvlz2hPTgo3ZgucjuLNK1LhZ1gvVOp4M" />
           </>
         )}
       </Head>
