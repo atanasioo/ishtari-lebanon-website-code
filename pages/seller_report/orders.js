@@ -15,6 +15,7 @@ import "bootstrap-daterangepicker/daterangepicker.css";
 import { MdSelectAll } from "react-icons/md";
 import Cookies from "js-cookie";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 
 const OrdersSeller = () => {
   const [ width ] = useDeviceSize();
@@ -120,13 +121,14 @@ const OrdersSeller = () => {
       })
     );
 
-    _axios
+  axiosServer
       .get(
         buildLink("seller_orders")
         + `&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}`
         // `https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}`
       )
       .then((response) => {
+        
         setData(response.data.data);
         setTotal(response?.data?.data?.total);
         setLoading(false);
@@ -146,7 +148,7 @@ const OrdersSeller = () => {
       top: 0,
       behavior: "smooth",
     });
-    _axios
+  axiosServer
       .get(
         buildLink("seller_orders")
         + `&limit=10&page=1`
