@@ -378,7 +378,7 @@ function ProductZoom(props) {
   // }, [images]);
 
   return (
-    <div>
+    <div className="h-full">
       {showModal && (
         <ProductZoomModal
           selectedImage={activeImage}
@@ -390,7 +390,7 @@ function ProductZoom(props) {
         />
       )}
       {images.length > 0 && (
-        <div className="flex flex-col-reverse md:flex-row ">
+        <div className="flex flex-col-reverse md:flex-row sticky top-0 z-10">
           <div
             id="selector_div"
             className="selector_div w-full my-2 md:w-2/12 md:pr-2"
@@ -571,7 +571,7 @@ function ProductZoom(props) {
               <div
                 id="myresult"
                 style={{ transition: "opacity 0.3s ease" }}
-                className={`img-zoom-result absolute   top-3 ml-4  z-10  ${
+                className={`img-zoom-result absolute  rounded-lg top-3 ml-4  z-10  ${
                   hoverZoom && hovered && width > 650 ? "" : " hidden"
                 }`}
               ></div>

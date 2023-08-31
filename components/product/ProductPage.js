@@ -953,7 +953,7 @@ function ProductPage(props) {
   }
 
   return (
-    <div style={{ backgroundColor: "#f8f8f9" }} className="overflow-x-hidden">
+    <div style={{ backgroundColor: "#f8f8f9" }} className="product-page-wrapper">
       <div className="">
         <CartSideModal
           successAdded={successAdded}
@@ -997,8 +997,8 @@ function ProductPage(props) {
             </div>
           </div>
           <div className="product-div flex items-stretch bg-white w-full md:px-2">
-            <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
-              <div className="product-zoom w-full md:w-6/12">
+            <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4" >
+              <div className="product-zoom w-full md:w-6/12 ">
                 {/* <Image width={380} height={518} src={data.popup} /> */}
                 <ProductZoom
                   activeOption={activeImageOption.product_option_value_id}
@@ -1190,6 +1190,7 @@ function ProductPage(props) {
                     )}
                   </div>
 
+                  {/* div l overflow */}
                   <div
                     className={`flex items-center mt-4 mb-4 ${
                       data["quantity"] <= 5 ? "mt-1" : "mt-4"
@@ -1947,7 +1948,7 @@ function ProductPage(props) {
             </div>
           </div>
           <div ref={descriptionRef}></div>
-          <ProductPart2
+          {/* <ProductPart2
             titleRef={titleRef}
             loader={loader}
             productData2={productData2}
@@ -1955,7 +1956,7 @@ function ProductPage(props) {
             reviews={reviews}
             host={host}
             product_id={product_id}
-          />
+          /> */}
         </div>
       </div>
 

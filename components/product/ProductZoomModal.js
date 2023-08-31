@@ -130,7 +130,7 @@ function ProductZoomModal(props) {
                 <div className="product-big-img lg:ml-4 lg:mr-3 w-full md:w-4/5 md:mx-auto lg:mx-0 lg:w-8/12 flex flex-col  lg:h-5/6 justify-center items-center ">
                   <Slider
                     {...singleSetting}
-                    className="w-8/12 hidden lg:block modal-single-product-img-slider"
+                    className="w-3/5 hidden lg:block modal-single-product-img-slider"
                   >
                     {images?.map((i) => (
                       <PrismaZoom
