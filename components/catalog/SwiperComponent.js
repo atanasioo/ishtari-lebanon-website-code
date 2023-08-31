@@ -94,13 +94,9 @@ export default function SwiperComponent(props) {
               >
                 <button className="p-1 " id={filter.name}>
                   <div
-                    className={`text-d14 px-3 py-1 flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl ${checkMainFilter(
+                    className={`text-d14 px-3  flex-nowrap bg-dgreyRate flex justify-between items-center rounded-2xl py-[5px] ${checkMainFilter(
                       filter
                     )}`}
-                    style={{
-                      paddingTop: "5px",
-                      paddingBottom: "5px"
-                    }}
                   >
                     <span className="w-max">
                       {filter.name.charAt(0).toUpperCase() +
@@ -131,11 +127,7 @@ export default function SwiperComponent(props) {
                       onClick={() => parseFilter(filter.id, item)}
                     >
                       <div
-                        className={`text-d14 bg-dgreyRate px-3 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
-                        style={{
-                          paddingTop: "6px",
-                          paddingBottom: "6px"
-                        }}
+                        className={`text-d14 bg-dgreyRate px-3 py-1.5 flex-nowrap flex justify-between items-center rounded-2xl catalog-top-filter-selected`}
                       >
                         <span className="w-max">{item.name}</span>
                         <span className="ml-2">
@@ -183,10 +175,7 @@ export default function SwiperComponent(props) {
                         >
                           <div
                             className={`text-d14 px-3 py-1 overflow-hidden flex-nowrap flex justify-between items-center bg-dgreyRate rounded-2xl `}
-                            // style={{
-                            //   paddingTop: "6px",
-                            //   paddingBottom: "6px"
-                            // }}
+
                           >
                             <span className="w-max">
                               <span className="font-bold mr-1">Seller:</span>
@@ -275,10 +264,6 @@ export default function SwiperComponent(props) {
                         >
                           <div
                             className={`text-d14 px-3 flex-nowrap flex justify-between items-center rounded-2xl bg-dgreyRate catalog-top-filter-not-selected`}
-                            // style={{
-                            //   paddingTop: "6px",
-                            //   paddingBottom: "6px"
-                            // }}
                           >
                             <span className="w-max">
                               <span className="font-bold mr-1">

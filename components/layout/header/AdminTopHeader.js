@@ -33,7 +33,6 @@ function AdminTopHeader() {
               "bg-Energyplus text-dblackk"
             }`
       }
-      //style={{ background: "#555" }}
     >
       <div className="container flex justify-between  items-center">
         {window !== undefined &&

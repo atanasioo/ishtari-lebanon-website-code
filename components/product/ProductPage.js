@@ -1948,7 +1948,7 @@ function ProductPage(props) {
             </div>
           </div>
           <div ref={descriptionRef}></div>
-          {/* <ProductPart2
+          <ProductPart2
             titleRef={titleRef}
             loader={loader}
             productData2={productData2}
@@ -1956,7 +1956,7 @@ function ProductPage(props) {
             reviews={reviews}
             host={host}
             product_id={product_id}
-          /> */}
+          />
         </div>
       </div>
 

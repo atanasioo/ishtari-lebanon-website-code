@@ -140,8 +140,7 @@ const EditProduct = () => {
             <span className="seller-dot  p-2"></span>
             <Link
               href={`/seller_report/products`}
-              className="font-medium text-sm"
-              style={{ color: "#959cb6" }}
+              className="font-medium text-sm text-dgreySeller"
             >
               Products
             </Link>
@@ -209,7 +208,7 @@ const EditProduct = () => {
                                       >
                                         *
                                       </span>
-                                      <span style={{ color: "#959cb6" }}>
+                                      <span className="text-dgreySeller">
                                         Name:
                                       </span>
                                     </label>
@@ -260,7 +259,7 @@ const EditProduct = () => {
                                           : "justify-start gap-1 pb-1"
                                       } items-center`}
                                     >
-                                      <span style={{ color: "#959cb6" }}>
+                                      <span className="text-dgreySeller">
                                         Description:
                                       </span>
                                     </label>
@@ -339,7 +338,7 @@ const EditProduct = () => {
                                       >
                                         *
                                       </span>
-                                      <span style={{ color: "#959cb6" }}>
+                                      <span className="text-dgreySeller">
                                         Model:
                                       </span>
                                     </label>
@@ -390,7 +389,7 @@ const EditProduct = () => {
                                           : "justify-start gap-1 pb-1"
                                       } items-center`}
                                     >
-                                      <span style={{ color: "#959cb6" }}>
+                                      <span className="text-dgreySeller">
                                         Price:
                                       </span>
                                     </label>
@@ -441,7 +440,7 @@ const EditProduct = () => {
                                           : "justify-start gap-1 pb-1"
                                       } items-center`}
                                     >
-                                      <span style={{ color: "#959cb6" }}>
+                                      <span className="text-dgreySeller">
                                         Quantity:
                                       </span>
                                     </label>
@@ -492,11 +491,7 @@ const EditProduct = () => {
                                           width > 768
                                             ? "text-right py-1 px-4"
                                             : "text-left"
-                                        } font-light w-full`}
-                                        style={{
-                                          color: "#959cb6",
-                                          // maxWidth: "25%",
-                                        }}
+                                        } font-light w-full text-dgreySeller`}
                                       >
                                         Image:
                                       </label>

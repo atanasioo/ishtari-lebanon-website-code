@@ -153,8 +153,14 @@ module.exports = {
       dgrey: {
         DEFAULT: "#f7f7fa"
       },
+      dgrey1: {
+        DEFAULT: "#7e859b"
+      },
       dgreyRate: {
         DEFAULT: "#f2f2f2"
+      },
+      dgreySeller: {
+        DEFAULT: "#959cb6"
       },
       dRate: {
         DEFAULT: "#F2994A"
@@ -167,9 +173,6 @@ module.exports = {
       },
       dblack: {
         DEFAULT: "#404553"
-      },
-      dgrey1: {
-        DEFAULT: "#7e859b"
       },
       dgreen: {
         DEFAULT: "#38ae04"
@@ -294,6 +297,12 @@ module.exports = {
       dborderAddress:{
         DEFAULT: "#DADCE3"
       },
+      dgreyAccount:{
+        DEFAULT: "rgb(126,133,155)"
+      },
+      dgreyAccountActive:{
+        DEFAULT: "rgb(64,69,83)"
+      }
     },
 
   },

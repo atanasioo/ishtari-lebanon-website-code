@@ -139,9 +139,8 @@ export default function FooterPart2(props) {
                 i.status === "1" && (
                   <Link
                     key={i.id}
-                    className="text-d14"
+                    className="text-d14 text-dblack"
                     href={`/information/${i.id}`}
-                    style={{ color: "#404553" }}
                   >
                     {i.title}
                   </Link>
@@ -149,9 +148,8 @@ export default function FooterPart2(props) {
               );
             })}
             <Link
-              className="text-d14 "
+              className="text-d14 text-dblack"
               href={`/contact`}
-              style={{ color: "#404553" }}
             >
               Contact Us
             </Link>

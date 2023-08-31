@@ -42,8 +42,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/profile`}
-            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <FaUserAlt className="text-d16 text-dbase" />
@@ -51,10 +50,8 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "profile" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "profile" ? "rgb(64,69,83)" : ""
-              }}
+              } ${ props.active === "profile" ? "text-dgreyAccountActive" : ""}`}
+
             >
               Profile
             </span>
@@ -80,8 +77,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/orders`}
-            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <FaMoneyBillWave className="text-d16 text-dbase " />
@@ -89,10 +85,8 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "orders" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "orders" ? "rgb(64,69,83)" : ""
-              }}
+              } ${ props.active === "orders" ? "text-dgreyAccountActive" : ""} `}
+              
             >
               Orders
             </span>
@@ -117,8 +111,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/wallet`}
-            className="pl-9 flex  items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex  items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <FaWallet className="text-d16 text-dbase" />
@@ -126,10 +119,7 @@ function UserSidebar(props) {
             <div
               className={`flex-1 w-4/12 ${
                 props.active === "wallet" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "wallet" ? "rgb(64,69,83)" : ""
-              }}
+              } ${ props.active === "wallet" ? "text-dgreyAccountActive" : ""} `}
             >
               Wallet
             </div>
@@ -155,8 +145,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/buyagain`}
-            className="pl-9 flex  items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex  items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <BsFillCartCheckFill className="text-dbase text-d16" />
@@ -164,10 +153,7 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "buyagain" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "buyagain" ? "rgb(64,69,83)" : ""
-              }}
+              } ${ props.active === "buyagain" ? "text-dgreyAccountActive" : ""}`}
             >
               Buy Again
             </span>
@@ -189,8 +175,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/recentlyViewed`}
-            className="ml-9 flex  items-center h-12  hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="ml-9 flex  items-center h-12 text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <MdAvTimer className="text-dbase text-d20" />
@@ -198,10 +183,7 @@ function UserSidebar(props) {
             <div
               className={`flex-1  w-4/12 ${
                 props.active === "recentlyViewed" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "recentlyViewed" ? "rgb(64,69,83)" : ""
-              }}
+              }${ props.active === "recentlyViewed" ? "text-dgreyAccountActive" : ""}`}
             >
               Recently Viewed
             </div>
@@ -222,8 +204,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/address`}
-            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <ImLocation className="text-d16 text-dbase" />
@@ -231,10 +212,7 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12${
                 props.active === "addresses" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "addresses" ? "rgb(64,69,83)" : ""
-              }}
+              }${ props.active === "addresses" ? "text-dgreyAccountActive" : ""}`}
             >
               Addresses
             </span>
@@ -255,8 +233,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/wishlist`}
-            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <BsFillHeartFill className="text-d16 text-dbase" />
@@ -264,10 +241,7 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "wishlist" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "wishlist" ? "rgb(64,69,83)" : ""
-              }}
+              }${ props.active === "wishlist" ? "text-dgreyAccountActive" : ""}`}
             >
               WishList
             </span>
@@ -288,8 +262,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/reviewCenter`}
-            className="pl-9 flex items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <BsStarFill className="text-d16 text-dbase" />
@@ -297,10 +270,7 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "reviewCenter" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "reviewCenter" ? "rgb(64,69,83)" : ""
-              }}
+              } ${ props.active === "reviewCenter" ? "text-dgreyAccountActive" : ""}`}
             >
               Review Center
             </span>
@@ -321,8 +291,7 @@ function UserSidebar(props) {
         >
           <Link
             href={`${path}/account/feedback`}
-            className="pl-9 flex  items-center h-12 w-full hover:text-dblackk"
-            style={{ color: "rgb(126,133,155)" }}
+            className="pl-9 flex  items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
               <MdFeedback className="text-d16 text-dbase" />
@@ -330,10 +299,7 @@ function UserSidebar(props) {
             <div
               className={`flex-1 w-4/12 ${
                 props.active === "feedback" && "font-semibold underline"
-              }`}
-              style={{
-                color: props.active === "feedback" ? "rgb(64,69,83)" : ""
-              }}
+              }${ props.active === "feedback" ? "text-dgreyAccountActive" : ""}`}
             >
               Feedback
             </div>
