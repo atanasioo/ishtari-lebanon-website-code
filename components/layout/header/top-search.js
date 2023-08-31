@@ -97,19 +97,21 @@ function TopSearch() {
     }
   }
 
-  function saveSearchHistory(query) {
-    let searchHistory =
-      JSON.parse(localStorage.getItem("search_history")) || [];
+  function saveSearchHistory(query, type = "") {
+    if (type !== "product") {
+      let searchHistory =
+        JSON.parse(localStorage.getItem("search_history")) || [];
 
-    searchHistory.unshift(query);
+      searchHistory.unshift(query);
 
-    if (searchHistory.length > 10) {
-      searchHistory.pop();
+      if (searchHistory.length > 10) {
+        searchHistory.pop();
+      }
+
+      setSearchHistory(searchHistory);
+
+      localStorage.setItem("search_history", JSON.stringify(searchHistory));
     }
-
-    setSearchHistory(searchHistory);
-
-    localStorage.setItem("search_history", JSON.stringify(searchHistory));
   }
 
   function deleteHistoryItem(e, index) {
@@ -295,7 +297,7 @@ function TopSearch() {
                                 1
                               )}=${id}`
                         }
-                        onClick={() => saveSearchHistory(value)}
+                        onClick={() => saveSearchHistory(value, types[type])}
                       >
                         <span className="flex w-full align-middle items-center   h-auto my-2 px-1 ">
                           <span class="w-12 ">
@@ -492,7 +494,7 @@ function TopSearch() {
                           1
                         )}=${id}`
                   }
-                  onClick={() => saveSearchHistory(value)}
+                  onClick={() => saveSearchHistory(value, types[type])}
                 >
                   <span className="flex w-full items-center align-middle  h-auto my-2 px-1 ">
                     <span className="w-12 ">
@@ -578,7 +580,11 @@ function TopSearch() {
                       key={index}
                       className="bg-dsearchGrey  cursor-pointer relative"
                     >
-                      <div className="px-2.5 py-1" onClick={() => setOverlay(false)}>{history}</div>
+                      <div
+                        className="px-2.5 py-1"
+                        dangerouslySetInnerHTML={{ __html: history }}
+                        onClick={() => setOverlay(false)}
+                      ></div>
                       {!trash && (
                         <AiFillCloseCircle
                           onClick={(e) => deleteHistoryItem(e, index)}

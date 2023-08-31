@@ -99,6 +99,13 @@ function flashSale(props) {
       });
   }
 
+  useEffect(() =>{
+    if(data.length >0 && !data[0].on_sale_now && data[0].products.length === 0){
+      setActiveTab(1);
+      handleTabClick(1);
+    }
+  },[])
+
   return (
     <div className="">
       <div
@@ -108,9 +115,9 @@ function flashSale(props) {
         {data?.map((sale_tab, i) => (
           <div
             onClick={() => handleTabClick(i)}
-            className={`text-center h-full flex flex-col justify-center cursor-pointer  ${
-              activeTab === i ? "border-b-2 border-dgrey1 " : "opacity-40"
-            }`}
+            className={`text-center h-full flex flex-col justify-center cursor-pointer ${
+              sale_tab.products.length === 0 && i === 0 ? "hidden" : ""
+            }  ${activeTab === i ? "border-b-2 border-dgrey1 " : "opacity-40"}`}
             style={{ width: `calc(100% / ${data.length})` }}
             key={i}
           >
@@ -181,6 +188,8 @@ export async function getServerSideProps(context) {
   );
 
   data = response.data.data;
+
+  console.log(response.data);
 
   return {
     props: {

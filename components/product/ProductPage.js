@@ -98,6 +98,8 @@ function ProductPage(props) {
     return import("react-facebook-pixel").then((module) => module.default);
   }
 
+  console.log(data);
+
   const [width, height] = useDeviceSize();
   const Timer = dynamic(() => import("./Timer"), {
     ssr: false, // Disable server-side rendering
@@ -1238,7 +1240,7 @@ function ProductPage(props) {
                               ref={wrapperRef}
                             >
                               {Array.from(
-                                { length: data.quantity },
+                                { length: data?.maximum === 0 ? data.quantity : data?.maximum },
                                 (_, index) => index + 1
                               ).map((value) => (
                                 <div

@@ -37,6 +37,7 @@ function Cart(props) {
   const router = useRouter();
   const route = useRouter();
   const { setMarketingData } = useMarketingData();
+  const [maxQtyErr, setMaxQtyErr] = useState(0);
   const PointsLoader = dynamic(() => import("../components/PointsLoader"), {
     ssr: false, // Disable server-side rendering
   });
@@ -83,8 +84,19 @@ function Cart(props) {
   function updateQuantity(key, quantity, i, type) {
     if (type === "d") {
       if (document.getElementById("p-quantity" + i)) {
-        document.getElementById("p-quantity" + i).value = quantity;
-        document.getElementById("p-quantitym" + i).value = quantity;
+        if (
+          (state?.products[i]?.maximum !== "0" &&
+            parseInt(quantity) <= parseInt(state?.products[i]?.maximum)) ||
+          state?.products[i]?.maximum === "0"
+        ) {
+          document.getElementById("p-quantity" + i).value = quantity;
+          document.getElementById("p-quantitym" + i).value = quantity;
+          if (maxQtyErr !== 0) {
+            setMaxQtyErr(0);
+          }
+        } else {
+          setMaxQtyErr(state?.products[i]?.maximum);
+        }
       }
     } else {
       if (document.getElementById("p-quantitym" + i)) {
@@ -92,64 +104,73 @@ function Cart(props) {
         document.getElementById("p-quantity" + i).value = quantity;
       }
     }
-    const obj = { key, quantity };
-    setOpacity(true);
-    dispatch({
-      type: "loading",
-      payload: true,
-    });
-    axiosServer
-      .put(
-        buildLink(
-          "cart",
-          undefined,
-          window.innerWidth,
-          window.config["site-url"]
-        ),
-        obj
-      )
-      .then(() => {
-        axiosServer
-          .get(
-            buildLink(
-              "cart",
-              undefined,
-              window.innerWidth,
-              window.config["site-url"]
-            )
-          )
-          .then((response) => {
-            dispatch({
-              type: "setProducts",
-              payload:
-                response.data?.data?.products?.length > 0
-                  ? response.data.data.products
-                  : [],
-            });
-            dispatch({
-              type: "setTotals",
-              payload:
-                response.data?.data?.totals?.length > 0
-                  ? response.data.data.totals
-                  : 0,
-            });
-            dispatch({
-              type: "setProductsCount",
-              payload:
-                response.data?.data?.total_product_count > 0
-                  ? response.data.data.total_product_count
-                  : 0,
-            });
-            dispatch({
-              type: "loading",
-              payload: false,
-            });
-            if (quantity === 0) {
-              //   window.location.reload();
-            }
-          });
-        setOpacity(false);
+
+    if (
+      (state?.products[i]?.maximum !== "0" &&
+        parseInt(quantity) <= parseInt(state?.products[i]?.maximum)) ||
+      state?.products[i]?.maximum === "0" ||
+      typeof i === "undefined"
+    ) {
+      console.log("herereer");
+      const obj = { key, quantity };
+      setOpacity(true);
+      dispatch({
+        type: "loading",
+        payload: true,
       });
+      axiosServer
+        .put(
+          buildLink(
+            "cart",
+            undefined,
+            window.innerWidth,
+            window.config["site-url"]
+          ),
+          obj
+        )
+        .then(() => {
+          axiosServer
+            .get(
+              buildLink(
+                "cart",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              )
+            )
+            .then((response) => {
+              dispatch({
+                type: "setProducts",
+                payload:
+                  response.data?.data?.products?.length > 0
+                    ? response.data.data.products
+                    : [],
+              });
+              dispatch({
+                type: "setTotals",
+                payload:
+                  response.data?.data?.totals?.length > 0
+                    ? response.data.data.totals
+                    : 0,
+              });
+              dispatch({
+                type: "setProductsCount",
+                payload:
+                  response.data?.data?.total_product_count > 0
+                    ? response.data.data.total_product_count
+                    : 0,
+              });
+              dispatch({
+                type: "loading",
+                payload: false,
+              });
+              if (quantity === 0) {
+                //   window.location.reload();
+              }
+            });
+          setOpacity(false);
+        });
+    }
   }
 
   function handleChangeQuantity(e, key, i) {
@@ -430,6 +451,8 @@ function Cart(props) {
       });
   }
 
+  console.log(state);
+
   return (
     <div className="min-h-screen">
       <div className="container pb-8" style={{}}>
@@ -460,6 +483,12 @@ function Cart(props) {
                   {state?.productsCount > 1 ? "items" : "item"})
                 </h1>
               </div>
+              {maxQtyErr !== 0 && (
+                <div className="pt-3 pb-1 text-dbase">
+                  Maximum allowed quantity for this product is{" "}
+                  <span className="pr-bold">{maxQtyErr}</span>
+                </div>
+              )}
               <div className="block xl:flex lg:flex">
                 <div className="inline-block w-full  relative">
                   {opacity && (

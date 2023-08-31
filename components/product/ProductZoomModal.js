@@ -61,7 +61,7 @@ function ProductZoomModal(props) {
   const mobileSetting = {
     dots: false,
     infinite: false,
-    speed: 200,
+    speed: 400,
     slidesToShow: 6,
     slidesToScroll: 2,
     swipeToSlide: true,
