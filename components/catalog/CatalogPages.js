@@ -886,7 +886,7 @@ function CatalogPage(props) {
 <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 ">
 
         <div className="sticky top-0 ">
-          <div className="overflow-y-auto h-screen pb-5 mobile:px-5 scrollbar">
+          <div className="hover:overflow-y-auto h-screen pb-5 mobile:px-5 scrollbar">
           {filters &&
             Object.keys(filters).map((key) => (
               <div className="hidden mobile:block" key={key.id}>
