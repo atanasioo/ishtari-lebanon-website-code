@@ -840,7 +840,7 @@ function CatalogPage(props) {
 
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="h-full">
       {width < 650 && (
         <ScrollToTop
           smooth
@@ -882,8 +882,11 @@ function CatalogPage(props) {
         </div>
       </div>
 
-      <div className="flex">
-        <div className="hidden mobile:block mobile:w-1/5 mobile:px-5 ">
+<div class="container flex h-full">
+<div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 ">
+
+        <div className="sticky top-0 ">
+          <div className="overflow-y-auto h-screen pb-5 mobile:px-5 scrollbar">
           {filters &&
             Object.keys(filters).map((key) => (
               <div className="hidden mobile:block" key={key.id}>
@@ -1050,8 +1053,10 @@ function CatalogPage(props) {
                 </div>
               </div>
             ))}
+          </div>
         </div>
-        <div className="w-full mobile:w-4/5 leading-dtight">
+        </div>
+        <div className="w-full mobile:w-4/5 leading-dtight mobile:pl-5">
           <div className="flex justify-between">
             {/* Results found */}
             <div className="flex mx-1 mobile:w-4/12 pt-2 mobile:pt-1 ">
