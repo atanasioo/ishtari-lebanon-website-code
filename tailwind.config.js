@@ -33,6 +33,7 @@ module.exports = {
         5.5: "22px",
         "150px": "150px",
         "284px" : "284px",
+        "1057px" : "1057px",
         "unset": "unset",
       },
       height:{
@@ -40,6 +41,7 @@ module.exports = {
         "22": "85px",
         "unset": "unset",
         "90%": "90%",
+        "90vh": "90vh",
         "100svh": "100svh",
         "100lvh": "100lvh",
         "100dvh": "100dvh",

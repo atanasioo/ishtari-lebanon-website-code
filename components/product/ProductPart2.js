@@ -18,18 +18,19 @@ import { IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import PointsLoader from "../PointsLoader";
 import imageCompression from "browser-image-compression";
-
-
+import ReviewImagesModal from "./ReviewImagesModal";
 
 function ProductPart2(props) {
   const { titleRef, loader, productData2, data, host, product_id } = props; //data is for product part one data
-  const [width, height] = useDeviceSize();
+  const [width] = useDeviceSize();
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
   const [ratingCustomer, setRatingCustomer] = useState(0);
   const [isDetails, setIsDetails] = useState(false);
-  const [showGroup, setShowGroup] = useState(false);
-  const [exceededSizeLimit, setExceedSizeLimit] = useState(false);
+  const [selectedReviewImg, setSelectedReviewImg] = useState("");
+  const [selectedReviewImgIndex, setSelectedReviewImgIndex] = useState(0);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [selectedReview, setSelectedReview] = useState([]);
   const [exceededSizeLimitErr, setExceedSizeLimitErr] = useState(false);
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
   const [reviews, setReviews] = useState(props.reviews);
@@ -40,7 +41,6 @@ function ProductPart2(props) {
   const textRef = useRef();
   const [required, setRequired] = useState();
   const path = "";
-
 
   useEffect(() => {
     setReviews(props.reviews);
@@ -222,35 +222,35 @@ function ProductPart2(props) {
   function addReview() {
     setExceedSizeLimitErr(false);
     //if (validateImagesSize()) {
-      if (ratingCustomer > 0) {
-        var formData = new FormData(); 
+    if (ratingCustomer > 0) {
+      var formData = new FormData();
 
-        formData.append("product_id", product_id);
-        formData.append("rating", ratingCustomer);
-        formData.append("comment", textRef.current.value);
-        formData.append("source_id", 1);
+      formData.append("product_id", product_id);
+      formData.append("rating", ratingCustomer);
+      formData.append("comment", textRef.current.value);
+      formData.append("source_id", 1);
 
-        ReviewImages.slice(0, 5).map((image) => {
-          formData.append("images[]", image);
+      ReviewImages.slice(0, 5).map((image) => {
+        formData.append("images[]", image);
+      });
+
+      axiosServer
+        .post(
+          buildLink(
+            "reviews",
+            undefined,
+            window.innerWidth,
+            window.config["site-url"]
+          ),
+          formData
+        )
+        .then((response) => {
+          // console.log(response);
+          window.location.reload();
         });
-
-        axiosServer
-          .post(
-            buildLink(
-              "reviews",
-              undefined,
-              window.innerWidth,
-              window.config["site-url"]
-            ),
-            formData
-          )
-          .then((response) => {
-            // console.log(response);
-            window.location.reload();
-          });
-      } else {
-        setRequired("Please provide a rating");
-      }
+    } else {
+      setRequired("Please provide a rating");
+    }
     // } else {
     //   setExceedSizeLimitErr(true);
     //   setTimeout(() => {
@@ -284,14 +284,17 @@ function ProductPart2(props) {
       for (let i = 0; i < 5; i++) {
         try {
           const compressedImageFile = await compressFile(event.target.files[i]);
-          var file = new File([compressedImageFile], event.target.files[i].name);
+          var file = new File(
+            [compressedImageFile],
+            event.target.files[i].name
+          );
           compressedImages.push(file);
         } catch (error) {
           console.error("Error compressing image:", error);
         }
       }
       // ReviewImages.push(event.target.files[i]);
-      setReviewImages(compressedImages)
+      setReviewImages(compressedImages);
       setExceededMaxNb(true);
       setTimeout(() => {
         setExceededMaxNb(false);
@@ -330,6 +333,17 @@ function ProductPart2(props) {
     } else {
       return false;
     }
+  }
+
+  function handleReviewsModal(img, index, review) {
+    setSelectedReviewImg(img);
+    setSelectedReviewImgIndex(index);
+    setShowReviewModal(true);
+    setSelectedReview(review);
+  }
+
+  function closeModal(){
+    setShowReviewModal(false)
   }
 
   return (
@@ -747,10 +761,18 @@ function ProductPart2(props) {
                               </div>
                               <div className="images flex flex-wrap gap-1 my-4">
                                 {r?.images.map((img, i) => (
-                                  <div className="mr-2" key={i}>
-                                    <img
+                                  <div
+                                    className="mr-2 cursor-pointer"
+                                    key={i}
+                                    onClick={() =>
+                                      handleReviewsModal(img, i, r)
+                                    }
+                                  >
+                                    <Image
                                       src={img}
                                       alt={img}
+                                      width={56}
+                                      height={56}
                                       className="w-14 h-14 sm:w-20 sm:h-20"
                                     />
                                   </div>
@@ -1144,7 +1166,6 @@ function ProductPart2(props) {
         )}
 
       {productData2?.product_categories &&
-      
         productData2?.product_categories?.length > 0 && (
           <div className="w-full md:px-6 my-2 bg-white  ">
             <div className="container pb-2 md:pb-8">
@@ -1262,7 +1283,6 @@ function ProductPart2(props) {
           </div>
         )}
 
-      
       {stateAccount?.loged &&
         productData2?.product_recentlyViewed &&
         productData2?.product_recentlyViewed?.length > 0 && (
@@ -1272,7 +1292,6 @@ function ProductPart2(props) {
                 Recently Viewed
               </p>
               {width < 650 ? (
-
                 <div className="flex overflow-x-auto space-x-2 ">
                   {productData2?.product_recentlyViewed?.map((item) => {
                     return (
@@ -1288,21 +1307,30 @@ function ProductPart2(props) {
                 </div>
               ) : (
                 <>
-                <Slider {...productSetting}>
-                  {productData2?.product_recentlyViewed?.map((item) => {
-                    return (
-                      <div className="pr-2" key={item.product_id}>
-                        <SingleProduct item={item} host={host} />
-                      </div>
-                    );
-                  })}
-                </Slider>
+                  <Slider {...productSetting}>
+                    {productData2?.product_recentlyViewed?.map((item) => {
+                      return (
+                        <div className="pr-2" key={item.product_id}>
+                          <SingleProduct item={item} host={host} />
+                        </div>
+                      );
+                    })}
+                  </Slider>
                 </>
-                
               )}
             </div>
           </div>
         )}
+
+      {/* review images modal */}
+      {showReviewModal && (
+        <ReviewImagesModal
+          selectedReviewImg={selectedReviewImg}
+          selectedIndex={selectedReviewImgIndex}
+          review={selectedReview}
+          closeModal={closeModal}
+        />
+      )}
     </div>
   );
 }
