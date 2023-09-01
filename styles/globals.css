@@ -866,37 +866,45 @@ mySwiper .swiper-button-next {
   animation-fill-mode: forwards;
 }
 
+
 @layer utilities {
- 
-  .scrollbar::-webkit-scrollbar {
-    width: 5px;
-    height:5px;
-    
+
+  .test {
+    padding-right: 0.93rem; /* 14px */
+  
   }
+
+  .scrollbar:has(-webkit-scrollbar ) {
+    background-color: red; /* Change the background color of the parent when the button is clicked */
+  }
+  .scrollbar::-webkit-scrollbar {
+    width:5px;
+
+   .test {
+      padding-right: 0.93rem; /* 14px */
+    
+    }
+
+  }
+
 
   .scrollbar::-webkit-scrollbar-track {
     border-radius: 100vh;
-    /* background: #f7f4ed; */
-    
+ 
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
     background: #b6b6b6;
-    /* border-radius: 100vh; */
-    /* border: 3px solid #b6b6b6; */
+  
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #b6b6b6; 
-    width: 5px;
-    height:5px;
-  
+    opacity: 1;
+    display:block
   }
 
-  .scrollbar:not(:hover) .scroll-content::-webkit-scrollbar-thumb {
-    background-color: transparent;
-  }
-  
+
 }
 @keyframes showup {
   0% {

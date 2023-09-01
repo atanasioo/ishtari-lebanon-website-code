@@ -39,13 +39,13 @@ function CatalogPage(props) {
   const { marketingData, setMarketingData } = useMarketingData();
 
   const SwiperComponent = dynamic(() => import("./SwiperComponent"), {
-    ssr: false,
+    ssr: false
   });
   const productSetting = {
     speed: 200,
     slidesToShow: 8,
     slidesToScroll: 3,
-    infinite: false,
+    infinite: false
     // prevArrow: <CustomPrevArrows direction={"l"} />,
     // nextArrow: <CustomNextArrows direction={"r"} />
   };
@@ -54,7 +54,7 @@ function CatalogPage(props) {
     speed: 200,
     slidesToShow: 3.5,
     slidesToScroll: 3,
-    infinite: false,
+    infinite: false
   };
 
   const sliderRef = useRef(null);
@@ -65,7 +65,7 @@ function CatalogPage(props) {
       ignore: false,
       banner_image_id: "",
       source_type: props.type,
-      source_type_id: catalog_id,
+      source_type_id: catalog_id
     });
   };
 
@@ -195,14 +195,14 @@ function CatalogPage(props) {
     page,
     sort,
     order,
-    limit,
+    limit
   } = router.query;
 
   const clearFilter = (filter) => {
     setTopFilter({
       show: false,
       name: "",
-      offset: 0,
+      offset: 0
     });
 
     let params = new URLSearchParams(location.search);
@@ -236,22 +236,20 @@ function CatalogPage(props) {
   const sortRef = useRef(null);
   const [sortValue, setSort] = useState({
     value: "p2co.sort_order-ASC",
-    text: "Default",
+    text: "Default"
   });
   const [topFilter, setTopFilter] = useState({
     show: false,
     name: "",
-    offset: 0,
+    offset: 0
   });
 
   const [showLimit, setShowLimit] = useState(false);
 
   const [limitValue, setLimit] = useState({
     value: "50",
-    text: "50",
+    text: "50"
   });
-
-
 
   const limitRef = useRef(null);
   useOutsideLimit(limitRef);
@@ -323,7 +321,7 @@ function CatalogPage(props) {
             setTopFilter({
               show: false,
               name: topFilter.name,
-              offset: topFilter.offset,
+              offset: topFilter.offset
             });
           }
         }
@@ -365,7 +363,7 @@ function CatalogPage(props) {
 
     setLimit({
       value: limitData.value,
-      text: limitData.text,
+      text: limitData.text
     });
     // alert(now);
     var now = "&limit=" + limitData.value;
@@ -409,7 +407,6 @@ function CatalogPage(props) {
     }
     var count = 0;
     filter.items?.map((item) => {
-
       if ([filter_id]?.includes(item.id)) {
         count++;
       }
@@ -430,26 +427,26 @@ function CatalogPage(props) {
         setTopFilter({
           show: false,
           name: name,
-          offset: topFilter.offset,
+          offset: topFilter.offset
         });
       } else if (topFilter.name !== name && topFilter.show === true) {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off,
+          offset: off > 531 ? 531 : off
         });
       } else {
         setTopFilter({
           show: true,
           name: name,
-          offset: off > 531 ? 531 : off,
+          offset: off > 531 ? 531 : off
         });
       }
     } else {
       setTopFilter({
         show: true,
         name: name,
-        offset: off > 531 ? 531 : off,
+        offset: off > 531 ? 531 : off
       });
     }
   };
@@ -472,7 +469,6 @@ function CatalogPage(props) {
   };
 
   function checkFilter(type, name, filter) {
-
     if (
       filter_options != undefined &&
       (name === "Color" || name === "Light color")
@@ -684,7 +680,6 @@ function CatalogPage(props) {
 
   //marketing analytics
 
-
   let productArray = [];
 
   useEffect(() => {
@@ -727,14 +722,14 @@ function CatalogPage(props) {
           ln: data?.social_data?.lastname,
           external_id: data?.social_data?.external_id,
           country: data?.social_data?.country_code,
-          fbp: Cookies.get("_fbp"),
+          fbp: Cookies.get("_fbp")
         };
 
         initializeReactPixel().then((reactPixelModule) => {
           ReactPixel = reactPixelModule; // Assign the default export to the variable
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
-            autoConfig: false,
+            autoConfig: false
           });
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
@@ -746,7 +741,7 @@ function CatalogPage(props) {
               content_type: "product",
               content_ids: productArray,
               contents: productDetails,
-              content_name: data?.social_data?.name,
+              content_name: data?.social_data?.name
             },
             { eventID: data?.social_data?.event_id }
           );
@@ -777,7 +772,7 @@ function CatalogPage(props) {
       ) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
-          ids: data?.social_data?.content_ids,
+          ids: data?.social_data?.content_ids
         });
       } else if (
         window.location.host === "www.ishtari.com.gh" ||
@@ -785,7 +780,7 @@ function CatalogPage(props) {
       ) {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
-          ids: data?.social_data?.content_ids,
+          ids: data?.social_data?.content_ids
         });
       }
     }
@@ -828,7 +823,7 @@ function CatalogPage(props) {
         const obj = {
           source_type: props.type,
           source_type_id: catalog_id,
-          banner_image_ids,
+          banner_image_ids
         };
 
         axiosServer.post(buildLink("banner_stats"), obj).then((response) => {
@@ -837,7 +832,6 @@ function CatalogPage(props) {
       }
     }
   }, [state.admin, showStats, data]);
-
 
   return (
     <div className="h-full">
@@ -869,7 +863,7 @@ function CatalogPage(props) {
               href="/"
               className="hidden md:block text-dblack font-light truncate text-d12 md:text-tiny mr-2 hover:text-dblue"
               dangerouslySetInnerHTML={{
-                __html: "Home",
+                __html: "Home"
               }}
             />{" "}
             <span className="text-d11 mt-1">{" >"}</span>
@@ -882,179 +876,186 @@ function CatalogPage(props) {
         </div>
       </div>
 
-<div class="container flex h-full">
-<div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 ">
-
-        <div className="sticky top-0 ">
-          <div className="hover:overflow-y-auto h-screen pb-5 mobile:px-5 scrollbar">
-          {filters &&
-            Object.keys(filters).map((key) => (
-              <div className="hidden mobile:block" key={key.id}>
-                {filters[key].items.length > 0 && (
-                  <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
-                    {filters[key].name}
-                  </div>
-                )}
-                <div style={{ display: "block" }}>
-                  {key ? (
-                    <div>
-                      {filters[key].items.slice(0, 5).map((filter) => (
-                        <div key={Math.random()}>
-                          {filters[key].name === "Light color" ||
-                          filters[key].name === "Color" ? (
-                            <div
-                              className="my-2 flex items-center cursor-pointer hover:text-dblue"
-                              key={filter.name}
-                              onClick={() =>
-                                parseFilter(filters[key].id, filter.id)
-                              }
-                            >
-                              <span className="flex w-10/12">
-                                <span
-                                  className={`flex w-7 h-7 ${checkFilter(
-                                    filters[key]?.id,
-                                    filters[key].name,
-                                    filter
-                                  )}`}
-                                >
-                                  <img
-                                    src={filter.image}
-                                    style={{
-                                      padding: `1px`,
-                                    }}
-                                    className={`w-12/12 rounded-full border border-dgreyRate`}
-                                    alt="Not Found"
-                                  />
-                                </span>
-                                <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
-                                  {" "}
-                                  {filter.name}
-                                </p>
-                              </span>
-                              <span className="flex w-1/12"></span>
-                              <span className="text-d14 text-right font-light opacity-70">
-                                ({filter.count})
-                              </span>
-                            </div>
-                          ) : (
-                            <div>
-                              <p
-                                className="my-2 flex  items-center cursor-pointer hover:text-dblue "
-                                key={filter.name}
-                                onClick={() =>
-                                  parseFilter(filters[key].id, filter.id)
-                                }
-                              >
-                                <i>
-                                  {checkFilter(
-                                    filters[key].id,
-                                    filter.name,
-                                    filter
-                                  )}
-                                </i>
-                                <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
-                                  {filter.name}
-                                </span>
-
-                                <span className="text-d14 text-right font-light opacity-70">
-                                  ({filter.count})
-                                </span>
-                              </p>
-                            </div>
-                          )}
+      <div class="container flex h-full">
+        <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 ">
+          <div className="sticky top-0 ">
+            <div className="overflow-auto hover:overflow-scroll h-screen pb-5  mobile:pr-5 mobile:pl-5 hover:scrollbar  hover:test">
+              <div className=" ">
+                {filters &&
+                  Object.keys(filters).map((key) => (
+                    <div className="hidden mobile:block" key={key.id}>
+                      {filters[key].items.length > 0 && (
+                        <div className="text-dcf pr-semibold leading-lfc font-bold capitalize ">
+                          {filters[key].name}
                         </div>
-                      ))}
-                      <div>
-                        <label
-                          className={
-                            filters[key].items.length > 5
-                              ? `text-dblue text-xs cursor-pointer`
-                              : "hidden"
-                          }
-                          onClick={(e) => toggleFilters(e.target)}
-                        >
-                          See All
-                        </label>
-                      </div>
-                      <div style={{ display: "none" }}>
-                        {filters[key].items
-                          .slice(5, filters[key].items.length)
-                          .map((filter) => (
-                            <div key={Math.random()}>
-                              {filters[key].name === "Light color" ||
-                              filters[key].name === "Color" ? (
-                                <div
-                                  className="my-2 flex items-center cursor-pointer hover:text-dblue"
-                                  key={filter.name}
-                                  onClick={() =>
-                                    parseFilter(filters[key].id, filter.id)
-                                  }
-                                >
-                                  <span className="flex w-10/12">
-                                    <span
-                                      className={`flex w-7 h-7 ${checkFilter(
-                                        filters[key].id,
-                                        filters[key].name,
-                                        filter
-                                      )}`}
-                                    >
-                                      <img
-                                        src={filter.image}
-                                        style={{
-                                          padding: `1px`,
-                                        }}
-                                        className={`w-12/12 rounded-full border border-dgreyRate`}
-                                        alt="Not Found"
-                                      />
-                                    </span>
-                                    <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
-                                      {" "}
-                                      {filter.name}
-                                    </p>
-                                  </span>
-                                  <span className="flex w-1/12"></span>
-                                  <span className="text-d14 text-right font-light opacity-70">
-                                    ({filter.count})
-                                  </span>
-                                </div>
-                              ) : (
-                                <div>
-                                  <p
-                                    className="my-2 flex float items-center cursor-pointer hover:text-dblue "
+                      )}
+                      <div style={{ display: "block" }}>
+                        {key ? (
+                          <div>
+                            {filters[key].items.slice(0, 5).map((filter) => (
+                              <div key={Math.random()}>
+                                {filters[key].name === "Light color" ||
+                                filters[key].name === "Color" ? (
+                                  <div
+                                    className="my-2 flex items-center cursor-pointer hover:text-dblue"
                                     key={filter.name}
                                     onClick={() =>
                                       parseFilter(filters[key].id, filter.id)
                                     }
                                   >
-                                    <i>
-                                      {checkFilter(
-                                        filters[key].id,
-                                        filter.name,
-                                        filter
-                                      )}
-                                    </i>
-                                    <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
-                                      {filter.name}
+                                    <span className="flex w-10/12">
+                                      <span
+                                        className={`flex w-7 h-7 ${checkFilter(
+                                          filters[key]?.id,
+                                          filters[key].name,
+                                          filter
+                                        )}`}
+                                      >
+                                        <img
+                                          src={filter.image}
+                                          style={{
+                                            padding: `1px`
+                                          }}
+                                          className={`w-12/12 rounded-full border border-dgreyRate`}
+                                          alt="Not Found"
+                                        />
+                                      </span>
+                                      <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                        {" "}
+                                        {filter.name}
+                                      </p>
                                     </span>
-
+                                    <span className="flex w-1/12"></span>
                                     <span className="text-d14 text-right font-light opacity-70">
                                       ({filter.count})
                                     </span>
-                                  </p>
-                                </div>
-                              )}
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <p
+                                      className="my-2 flex  items-center cursor-pointer hover:text-dblue "
+                                      key={filter.name}
+                                      onClick={() =>
+                                        parseFilter(filters[key].id, filter.id)
+                                      }
+                                    >
+                                      <i>
+                                        {checkFilter(
+                                          filters[key].id,
+                                          filter.name,
+                                          filter
+                                        )}
+                                      </i>
+                                      <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                        {filter.name}
+                                      </span>
+
+                                      <span className="text-d14 text-right font-light opacity-70">
+                                        ({filter.count})
+                                      </span>
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                            <div>
+                              <label
+                                className={
+                                  filters[key].items.length > 5
+                                    ? `text-dblue text-xs cursor-pointer`
+                                    : "hidden"
+                                }
+                                onClick={(e) => toggleFilters(e.target)}
+                              >
+                                See All
+                              </label>
                             </div>
-                          ))}
+                            <div style={{ display: "none" }}>
+                              {filters[key].items
+                                .slice(5, filters[key].items.length)
+                                .map((filter) => (
+                                  <div key={Math.random()}>
+                                    {filters[key].name === "Light color" ||
+                                    filters[key].name === "Color" ? (
+                                      <div
+                                        className="my-2 flex items-center cursor-pointer hover:text-dblue"
+                                        key={filter.name}
+                                        onClick={() =>
+                                          parseFilter(
+                                            filters[key].id,
+                                            filter.id
+                                          )
+                                        }
+                                      >
+                                        <span className="flex w-10/12">
+                                          <span
+                                            className={`flex w-7 h-7 ${checkFilter(
+                                              filters[key].id,
+                                              filters[key].name,
+                                              filter
+                                            )}`}
+                                          >
+                                            <img
+                                              src={filter.image}
+                                              style={{
+                                                padding: `1px`
+                                              }}
+                                              className={`w-12/12 rounded-full border border-dgreyRate`}
+                                              alt="Not Found"
+                                            />
+                                          </span>
+                                          <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
+                                            {" "}
+                                            {filter.name}
+                                          </p>
+                                        </span>
+                                        <span className="flex w-1/12"></span>
+                                        <span className="text-d14 text-right font-light opacity-70">
+                                          ({filter.count})
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <div>
+                                        <p
+                                          className="my-2 flex float items-center cursor-pointer hover:text-dblue "
+                                          key={filter.name}
+                                          onClick={() =>
+                                            parseFilter(
+                                              filters[key].id,
+                                              filter.id
+                                            )
+                                          }
+                                        >
+                                          <i>
+                                            {checkFilter(
+                                              filters[key].id,
+                                              filter.name,
+                                              filter
+                                            )}
+                                          </i>
+                                          <span className="mx-2 text-d14 font-light w-full leading-dtight mb-1">
+                                            {filter.name}
+                                          </span>
+
+                                          <span className="text-d14 text-right font-light opacity-70">
+                                            ({filter.count})
+                                          </span>
+                                        </p>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                  ))}
               </div>
-            ))}
+            </div>
           </div>
-        </div>
         </div>
         <div className="w-full mobile:w-4/5 leading-dtight mobile:pl-5">
           <div className="flex justify-between">
@@ -1067,7 +1068,7 @@ function CatalogPage(props) {
               <h1
                 className="font-semibold capitalize text-d16"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.heading_title),
+                  __html: sanitizeHTML(data.heading_title)
                 }}
               />
               {data.heading_title && '"'}
@@ -1091,7 +1092,7 @@ function CatalogPage(props) {
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(sortValue?.text),
+                          __html: sanitizeHTML(sortValue?.text)
                         }}
                       />
                       <span
@@ -1116,7 +1117,7 @@ function CatalogPage(props) {
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={sort.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(sort.text),
+                              __html: sanitizeHTML(sort.text)
                             }}
                           ></span>
                         ))}
@@ -1140,7 +1141,7 @@ function CatalogPage(props) {
                       <span
                         className=" uppercase text-d12 leading-tight font-bold mt-0.5"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(limitValue.text + " PER PAGE"),
+                          __html: sanitizeHTML(limitValue.text + " PER PAGE")
                         }}
                       />
                       {/* {!showLimit ? (
@@ -1169,7 +1170,7 @@ function CatalogPage(props) {
                             className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                             key={limit.value}
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(limit.text),
+                              __html: sanitizeHTML(limit.text)
                             }}
                           ></span>
                         ))}
@@ -1233,7 +1234,7 @@ function CatalogPage(props) {
                           className=" block text-sm font-light px-4 py-2 cursor-pointer hover:bg-dblue hover:text-white"
                           key={s.value}
                           dangerouslySetInnerHTML={{
-                            __html: s.text,
+                            __html: s.text
                           }}
                         ></span>
 
@@ -1288,7 +1289,7 @@ function CatalogPage(props) {
                           />
                           <h2
                             dangerouslySetInnerHTML={{
-                              __html: sanitizeHTML(category.name),
+                              __html: sanitizeHTML(category.name)
                             }}
                             className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                           ></h2>
@@ -1331,7 +1332,7 @@ function CatalogPage(props) {
 
                         <h2
                           dangerouslySetInnerHTML={{
-                            __html: sanitizeHTML(category.name),
+                            __html: sanitizeHTML(category.name)
                           }}
                           className="text-xs xl:text-xs lg:text-xs w-full font-medium xl:font-semibold lg:font-semibold mt-2 line-clamp-2"
                         ></h2>
@@ -1465,7 +1466,7 @@ function CatalogPage(props) {
                                           <img
                                             src={filter.image}
                                             style={{
-                                              padding: `2px`,
+                                              padding: `2px`
                                             }}
                                             className={`w-7 h-7 rounded-full  mr-1 
                                             ${checkFilter(
@@ -1616,7 +1617,7 @@ function CatalogPage(props) {
                         setTopFilter({
                           show: false,
                           name: topFilter.name,
-                          offset: 0,
+                          offset: 0
                         })
                       }
                     ></div>
@@ -1631,7 +1632,7 @@ function CatalogPage(props) {
                           setTopFilter({
                             show: false,
                             name: topFilter.name,
-                            offset: 0,
+                            offset: 0
                           })
                         }
                       ></div>
@@ -1713,7 +1714,7 @@ function CatalogPage(props) {
                                         <img
                                           src={filter.image}
                                           style={{
-                                            padding: `2px`,
+                                            padding: `2px`
                                           }}
                                           className={`w-7 h-7 rounded-full 
                                           ${checkFilter(
@@ -2375,7 +2376,7 @@ function CatalogPage(props) {
                                   <img
                                     src={filter.image}
                                     style={{
-                                      padding: `1px`,
+                                      padding: `1px`
                                     }}
                                     className={`w-12/12 rounded-full border border-dgreyRate`}
                                     alt="Not Found"
@@ -2454,7 +2455,7 @@ function CatalogPage(props) {
                                       <img
                                         src={filter.image}
                                         style={{
-                                          padding: `1px`,
+                                          padding: `1px`
                                         }}
                                         className={`w-12/12 rounded-full border border-dgreyRate`}
                                         alt="Not Found"
