@@ -19,6 +19,7 @@ import ReactPaginate from "react-paginate";
 import PointsLoader from "../PointsLoader";
 import imageCompression from "browser-image-compression";
 import ReviewImagesModal from "./ReviewImagesModal";
+import { useRouter } from "next/router";
 
 function ProductPart2(props) {
   const { titleRef, loader, productData2, data, host, product_id } = props; //data is for product part one data
@@ -40,6 +41,7 @@ function ProductPart2(props) {
   const commentRef = useRef();
   const textRef = useRef();
   const [required, setRequired] = useState();
+  const router = useRouter();
   const path = "";
 
   useEffect(() => {
@@ -340,11 +342,38 @@ function ProductPart2(props) {
     setSelectedReviewImgIndex(index);
     setShowReviewModal(true);
     setSelectedReview(review);
+    const htmlElement = document.querySelector("html");
+    const bodyElement = document.querySelector("body");
+
+    // Add a CSS class to remove the overflow-y
+    htmlElement.classList.add("popup-open");
+    bodyElement.classList.add("popup-open");
   }
 
-  function closeModal(){
-    setShowReviewModal(false)
+  function closeModal() {
+    setShowReviewModal(false);
+    const htmlElement = document.querySelector("html");
+    htmlElement.classList.remove("popup-open");
+    const bodyElement = document.querySelector("body");
+    bodyElement.classList.remove("popup-open");
   }
+
+  // Function to remove popup-open class when the user starts navigating to a new route
+  const handleRouteChangeStart = () => {
+    const htmlElement = document.querySelector("html");
+    htmlElement.classList.remove("popup-open");
+    const bodyElement = document.querySelector("body");
+    bodyElement.classList.remove("popup-open");
+  };
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", handleRouteChangeStart);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+    };
+  }, [router.events]);
 
   return (
     <div className="">
