@@ -669,7 +669,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
         ))}
 
       {/* Grid */}
-      {widget?.display === "grid" && widget.column_number < 7 && (
+      {widget?.display === "grid" && widget.type !== "text" && widget.column_number < 7 && (
         <div className="flex -mx-4 flex-wrap justify-between">
           {widget.items.map((item) => {
             const bool = widget.items.length > 0;
@@ -678,7 +678,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
               <div
                 className={`  ${
                   !bool && "w-full"
-                } cursor-pointer flex justify-center p-[1px] hover:opacity-80`}
+                } cursor-pointer flex justify-center p-[1px] hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                 key={item.banner_image_id}
                 style={{
                   width:
