@@ -360,22 +360,6 @@ function ProductZoom(props) {
     };
   }, [router.events]);
 
-  // useEffect(() => {
-  //   const imagePromises = images.map((i) => {
-  //     return new Promise((resolve) => {
-  //       const img = new window.Image();
-  //       img.src = i["popup"];
-  //       img.onload = () => {
-  //         resolve();
-  //       };
-  //     });
-  //   });
-
-  //   Promise.all(imagePromises).then(() => {
-  //     console.log("All images have loaded");
-  //     setAllImagesLoaded(true);
-  //   });
-  // }, [images]);
 
   return (
     <div className="h-full">
