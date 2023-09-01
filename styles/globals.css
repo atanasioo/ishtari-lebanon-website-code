@@ -869,10 +869,12 @@ mySwiper .swiper-button-next {
 
 @layer utilities {
 
-
-  .scrollbar:has(-webkit-scrollbar ) {
-    background-color: red; /* Change the background color of the parent when the button is clicked */
+  .test {
+    padding-right: 0.93rem; /* 14px */
+  
   }
+
+
   .scrollbar::-webkit-scrollbar {
     width:5px;
 
