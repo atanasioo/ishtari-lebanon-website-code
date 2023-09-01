@@ -55,12 +55,18 @@ function ProductZoom(props) {
     dots: false,
     infinite: false,
     speed: 400,
-    slidesToShow: 3.75,
+    slidesToShow: width > 375 ? 4 : width > 300 ? 3 : 2,
     slidesToScroll: 2,
+    // slidesToShow: 3.75,
+    // slidesToScroll: 2,
     // swipeToSlide: true,
     autoplay: false,
     ref: smallMobileSliderRef,
+    variableWidth: true,
+    className: "slider variable-width",
   };
+
+  console.log(width > 375 ? 4 : width > 300 ? 3.75 : 2);
 
   const singleSetting = {
     dots: false,
@@ -404,7 +410,7 @@ function ProductZoom(props) {
                   </div>
                 ))}
               </Slider>
-              <Slider {...mobileSetting} className={`md:hidden`}>
+              <Slider {...mobileSetting} className={`md:hidden `}>
                 {images?.map((i, index) => (
                   <div
                     key={i["thumb"]}

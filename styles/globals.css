@@ -851,6 +851,11 @@ mySwiper .swiper-button-next {
     width: 87px !important
   }
 }
+@media (max-width: 300px){
+  .selectors .slick-slide{
+    width: 77px !important
+  }
+}
 
 .img-zoom-result {
   /* border: 1px solid #d4d4d4; */
