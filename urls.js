@@ -347,6 +347,7 @@ function buildLink(link, payload, width, hostServer) {
     hostServer === "http://next.ishtari.com" ||
     hostServer === "www.next.ishtari.com"||
     hostServer === "next.ishtari.com" ||
+    hostServer === "www.ishtari.com" ||
     hostServer === "ishtari-mobile.com" ||
     hostServer === "https://ishtari-mobile.com/" 
   ) {
