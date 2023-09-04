@@ -94,7 +94,7 @@ if (typeof window !== "undefined") {
       appleStore: "https://www.ishtari.com.gh/app",
       googlePlay: "https://www.ishtari.com.gh/app",
       "fb-meta": "jfr4rwyl2sxv2z7lfx9e34a7qd70yq",
-      appId: "130719880936639",
+      appId: "1413247969115195",
       facebook: "https://www.facebook.com/ishtari.ghana",
       instagram: "https://www.instagram.com/ishtari.ghana/",
       youtube: "",
