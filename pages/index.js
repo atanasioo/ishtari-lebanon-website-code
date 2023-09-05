@@ -20,9 +20,11 @@ import { AccountContext } from "@/contexts/AccountContext";
 import PointsLoader from "@/components/PointsLoader";
 import { useHeaderColor } from "@/contexts/HeaderContext";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { useSession } from "next-auth/react";
 
 export default function Home(props) {
   const host_url = props.host;
+  const { data: session } = useSession();
 
   const [hasMore, setIsHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -155,6 +157,27 @@ export default function Home(props) {
         });
       }
     }
+
+
+    // try {
+    //   // alert(buildLink("social"))
+    //   const obj = {
+    //      provider: "facebook",
+    //      social_access_token: session.accessToken,
+    //      id: session.user.id,
+    //     //  name: session.user.name,
+    //      email: session.user.email  ? session.user.email : session.user.id + "@ishtari-mobile.com",
+       
+    //   };
+
+    //   axiosServer.post(buildLink("social"), obj).then(() => {
+    //     checkLogin();
+    //     // window.location.reload();
+    //   });
+    //   console.log("User data saved successfully");
+    // } catch (error) {
+    //   console.log("Error saving user data:", error);
+    // }
   }, []);
 
 
