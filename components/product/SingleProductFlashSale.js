@@ -24,7 +24,7 @@ function SingleProductFlashSale(props) {
         </div>
       </div>
       <div>
-        <Image
+        <img
           src={item.thumb_sdesktop}
           width={303}
           height={403}

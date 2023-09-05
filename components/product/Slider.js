@@ -58,7 +58,7 @@ function ImageSlider(props){
   >
     <Slider {...settings} ref={sliderRef}>
         <div key={"2"}>
-          <Image 
+          <img 
           src={primary} 
           alt={`Image`}   
           width={200}  
@@ -69,7 +69,7 @@ function ImageSlider(props){
         </div>
       {images.map((image, index) => (
         <div key={index}>
-          <Image 
+          <img 
           src={image.thumb} 
           alt={`Image ${index + 1}`}   
           width={200}  

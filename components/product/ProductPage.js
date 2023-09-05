@@ -30,7 +30,6 @@ import SingleProductBundle from "./SingleProductBundle";
 import Slider from "react-slick";
 import ProductOptionModal from "./ProductOptionModal";
 import WhatsappBtn from "./WhatsappBtn";
-import MagicZoom from "./MagicZoom";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
 import WarrantyPopup from "./WarrantyPopup";
@@ -998,7 +997,7 @@ function ProductPage(props) {
           <div className="product-div flex items-stretch bg-white w-full md:px-2">
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4" >
               <div className="product-zoom w-full md:w-6/12 ">
-                {/* <Image width={380} height={518} src={data.popup} /> */}
+                {/* <img width={380} height={518} src={data.popup} /> */}
                 <ProductZoom
                   activeOption={activeImageOption.product_option_value_id}
                   images={data.images}
@@ -1062,7 +1061,7 @@ function ProductPage(props) {
                     className="text-dgrey1 hover:text-dblue"
                   >
                     {data?.manufacturer_image ? (
-                      <Image
+                      <img
                         src={data.manufacturer_image}
                         alt={data.manufacturer_id}
                         className="w-24"
@@ -1474,7 +1473,7 @@ function ProductPage(props) {
                                 </div>
                               </div>
                             )}
-                            <Image
+                            <img
                               src={option["image"]}
                               key={option.image}
                               alt={"Option"}
@@ -1526,7 +1525,7 @@ function ProductPage(props) {
                             >
                               <div>
                                 {sizeGuide && (
-                                  <Image
+                                  <img
                                     src={data["options"]["0"]["size_guide"]}
                                     className={`${
                                       width < 650 ? "pb-24" : "pb-1 "
@@ -1606,7 +1605,7 @@ function ProductPage(props) {
                 {/*banner */}
                 {hasBannerEvent && hasBannerEvent.thumb && (
                   <div className="mt-5">
-                    <Image
+                    <img
                       src={hasBannerEvent.thumb}
                       alt={hasBannerEvent.name}
                       width={483}
@@ -1633,7 +1632,7 @@ function ProductPage(props) {
                                 : "border-dgrey"
                             }`}
                           >
-                            <Image
+                            <img
                               src={product.product_main_image}
                               alt={product.product_name}
                               className="w-full"
@@ -1887,7 +1886,7 @@ function ProductPage(props) {
               )}
               {data?.market === "0" && (
                 <div className="hidden md:flex-row w-1/2 md:w-full md:flex md:items-center text-dblack py-6">
-                  <Image
+                  <img
                     src={"/images/express.png"}
                     className="w-16"
                     alt="express"

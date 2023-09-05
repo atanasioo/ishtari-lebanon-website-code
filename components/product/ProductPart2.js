@@ -470,7 +470,7 @@ function ProductPart2(props) {
                         <div className="p-1 py-2">
                           <div className="flex">
                             <div className="">
-                              <Image
+                              <img
                                 src={"/images/review.png"}
                                 alt={"reviewimg"}
                                 className="w-5 rounded-xl"
@@ -491,7 +491,7 @@ function ProductPart2(props) {
                         <div className="p-1 py-2 ">
                           <div className="flex ">
                             <div className="">
-                              <Image
+                              <img
                                 src={"/images/review-1.png"}
                                 alt={"reviewimg1"}
                                 width="10"
@@ -606,7 +606,7 @@ function ProductPart2(props) {
                                             className="relative ml-2"
                                             key={Math.random()}
                                           >
-                                            <Image
+                                            <img
                                               src={URL.createObjectURL(img)}
                                               width={80}
                                               height={80}
@@ -797,7 +797,7 @@ function ProductPart2(props) {
                                       handleReviewsModal(img, i, r)
                                     }
                                   >
-                                    <Image
+                                    <img
                                       src={img}
                                       alt={img}
                                       width={56}
@@ -1210,7 +1210,7 @@ function ProductPart2(props) {
                       href={`${path}/category/${category.category_id}`}
                       className="cursor-pointer hover:opacity-80 min-w-max mr-4"
                     >
-                      <Image
+                      <img
                         src={category.image}
                         alt={category.name}
                         width={128}
@@ -1244,7 +1244,7 @@ function ProductPart2(props) {
                         }`}
                         className="cursor-pointer hover:opacity-80  mr-4"
                       >
-                        <Image
+                        <img
                           src={category.image}
                           alt={category.name}
                           width={128}

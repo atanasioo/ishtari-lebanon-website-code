@@ -166,7 +166,7 @@ function SingleProduct(props) {
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
                 !item?.images ? (
-                <Image
+                <img
                   alt={item.name}
                   src={item.thumb}
                   width={!topSelling ? 200 : 150}
@@ -303,7 +303,7 @@ function SingleProduct(props) {
               >
                 <div className="express w-6/12 -mt-1">
                   {props.item.market === "0" ? (
-                    <Image
+                    <img
                       width={64}
                       height={24}
                       src={"/images/express.png"}
@@ -312,7 +312,7 @@ function SingleProduct(props) {
                       priority={true}
                     />
                   ) : (
-                    <Image
+                    <img
                       width={64}
                       height={24}
                       src={"/images/market.svg"}

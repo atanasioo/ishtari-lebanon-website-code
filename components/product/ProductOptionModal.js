@@ -160,7 +160,7 @@ const ProductOptionModal = ({ setShowOptionModal, bundle, addCart }) => {
                                           </div>
                                         )}
 
-                                        <Image
+                                        <img
                                           src={option["image"]}
                                           key={option.image}
                                           width={40}

@@ -69,7 +69,7 @@ function BannerLink(props) {
       }
       className={`relative ${sliderSingleBanner ? "w-full link-span" : ""}`}
     >
-      <Image
+      <img
         alt={item?.name}
         src={host + "/image/" + item.image}
         width={widget?.banner_width}

@@ -158,7 +158,7 @@ function DesktopMenuClientPopups(props) {
                         })}
                         className="flex items-center py-1 hover:text-dblue px-4"
                       >
-                        <Image
+                        <img
                           alt={category.name}
                           src={category.image}
                           width={40}
@@ -209,7 +209,7 @@ function DesktopMenuClientPopups(props) {
                           source_type_id: "",
                         })}
                       >
-                        <Image
+                        <img
                           alt={sub_category.name}
                           src={sub_category.image}
                           width={35}
@@ -332,7 +332,7 @@ function DesktopMenuClientPopups(props) {
                           )
                         }
                       >
-                        <Image
+                        <img
                           src={`${host}/image/${banner.image}`}
                           width={600}
                           height={400}

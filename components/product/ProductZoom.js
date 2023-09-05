@@ -392,7 +392,7 @@ function ProductZoom(props) {
                     key={i["thumb"]}
                     className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
                   >
-                    <Image
+                    <img
                       src={i["thumb"]}
                       alt="product image"
                       width={80}
@@ -421,7 +421,7 @@ function ProductZoom(props) {
                     }}
                     className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
                   >
-                    <Image
+                    <img
                       src={i["thumb"]}
                       alt="product image"
                       width={80}
@@ -476,7 +476,7 @@ function ProductZoom(props) {
                   className="single-product-img-slider"
                 >
                   {images?.map((i, index) => (
-                    <Image
+                    <img
                       key={i["thumb"]}
                       id={`myimage${index}`}
                       src={i["popup"]}

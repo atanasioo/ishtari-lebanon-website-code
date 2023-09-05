@@ -81,7 +81,7 @@ export default function App({
     };
   }, []);
 
-  var favicon = "favicon-1.ico";
+  var favicon = "/favicon-1.ico";
   var title = "ishtari | online Shopping in lebanon";
   if (host?.indexOf("flo") > -1) {
     favicon = "images/logo/favicon-flo.ico";
@@ -127,7 +127,7 @@ export default function App({
 
 
   return (
-    <SessionProvider  session={pageProps.session}>
+    <SessionProvider>
       <Head>
         <link rel="icon" href={favicon} />
         <title>{title}</title>

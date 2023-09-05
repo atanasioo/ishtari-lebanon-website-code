@@ -4,7 +4,7 @@ import "../config";
 export default function ImageClient(props) {
   return (
     typeof window !== "undefined" && (
-      <Image
+      <img
         alt={props.alt}
         src={
           `${

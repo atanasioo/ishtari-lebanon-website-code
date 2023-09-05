@@ -145,7 +145,7 @@ function feedback() {
             <div className="w-full flex flex-col gap-10">
               <div className="relative flex justify-center">
                 <div className="banner-image w-full flex justify-center">
-                  <Image
+                  <img
                     src={"/images/feedback-website.png"}
                     width={1100}
                     height={200}
@@ -153,7 +153,7 @@ function feedback() {
                     className="w-full hidden md:block"
                     alt="feedback_banner"
                   />
-                  <Image
+                  <img
                     src={"/images/feedback.png"}
                     width={1100}
                     height={200}

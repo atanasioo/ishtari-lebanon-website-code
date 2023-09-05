@@ -45,7 +45,7 @@ function SingleProductTopSelling(props) {
           style={{ height: "138px", width: "92px" }}
         >
           <div className="w-full flex justify-center">
-            <Image
+            <img
               src={item.popup}
               className="w-full"
               width={92}
@@ -118,7 +118,7 @@ function SingleProductTopSelling(props) {
               >
                 <div className="express  -mt-1">
                   {props.item.market === "0" ? (
-                    <Image
+                    <img
                       width={64}
                       height={24}
                       src={"/images/express.png"}
@@ -127,7 +127,7 @@ function SingleProductTopSelling(props) {
                       priority={true}
                     />
                   ) : (
-                    <Image
+                    <img
                       width={64}
                       height={24}
                       src={"/images/market.svg"}

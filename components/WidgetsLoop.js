@@ -580,7 +580,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       key={`sliderM` + index}
                       className="relative"
                     >
-                      <Image
+                      <img
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
                         className="w-full"
@@ -604,7 +604,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       key={`sliderM` + index}
                       className="relative"
                     >
-                      <Image
+                      <img
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
                         className="w-full"
@@ -647,7 +647,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    <Image
+                    <img
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
@@ -701,7 +701,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   href={"/latest"}
                   className="relative"
                 >
-                  <Image
+                  <img
                     alt={item?.name}
                     src={host.host + "/image/" + item.image}
                     width={widget.banner_width}
@@ -740,7 +740,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                 className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                 key={item.banner_image_id}
               >
-                <Image
+                <img
                   alt={item?.name}
                   src={host.host + "/image/" + item.image}
                   width={widget.banner_width}
@@ -790,7 +790,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     href={"/latest"}
                     className="relative"
                   >
-                    <Image
+                    <img
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
@@ -831,7 +831,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    <Image
+                    <img
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
                       width={widget.banner_width}

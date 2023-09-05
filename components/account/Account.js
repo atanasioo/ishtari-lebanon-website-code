@@ -1,21 +1,26 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { IoMdClose } from "react-icons/io";
 import { axiosServer } from "@/axiosServer";
 import { AccountContext } from "../../contexts/AccountContext";
 import buildLink from "@/urls";
 import { AiOutlineUser } from "react-icons/ai";
-import { useSession } from "next-auth/react";
 import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import Link from "next/link";
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
-  BsStarFill,
+  BsStarFill
 } from "react-icons/bs";
 import { MdAvTimer, MdFeedback } from "react-icons/md";
-import { FaFacebookF, FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaMoneyBillWave,
+  FaUserAlt,
+  FaWallet
+} from "react-icons/fa";
+import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
 function Account() {
   const [message, setMessage] = useState(false);
@@ -36,43 +41,109 @@ function Account() {
   const signupFirst = useRef("");
   const signupLast = useRef("");
   const path = "";
-  const handleFacebookLogin = async () => {
+  const router = useRouter();
+
+  // if (session) {
+  //   // The user is logged in
+  //   const obj = {
+  //     provider: "facebook",
+  //     social_access_token: session.accessToken,
+  //     id: session.user.id,
+  //     email: session.user.email
+  //       ? session.user.email
+  //       : session.user.id + "@ishtari-mobile.com"
+  //   };
+  //   const response = axiosServer.post(buildLink("social"), obj);
+  //   if (response.customer_id) checkLogin();
+  //   // window.location.reload();
+
+  // } else {
+  //   // The user is not logged in
+  //   // return <p>Please log in with Facebook.</p>
+  // }
+  useEffect(() => {
+    // if () {
+    // alert(session.user.email);
+
+    if (!state.loged && status === "authenticated") {
+      if(session){
+      log();}
+    }
+
+    async function log() {
+      console.log(session)
+      const obj = {
+        provider: "facebook",
+        social_access_token: session.accessToken,
+        id: session.user.id,
+        email: session.user.email
+          ? session.user.email
+          : session.user.id + "@ishtari-mobile.com"
+      };
+      const response = await axiosServer.post(buildLink("social"), obj);
+      console.log(response)
+      if (response?.data?.data?.customer_id) checkLogin();
+      // window.location.reload();
+    }
+  }, [session]);
+
+  async function handleFacebookLogin(e) {
+    e.preventDefault();
     const result = await signIn("facebook");
-    // alert(result);
-    console.log(result);
-    if (result?.error) {
-      console.log("Facebook login error:", result.error);
+
+  }
+
+  async function social() {
+    console.log("start-1");
+    const result = await signIn("facebook");
+    if (result) {
+      return result;
+      const results = await log();
+    } else {
       return;
     }
+    if (result?.error) {
+      alert("Facebook login error:", result.error);
+      return;
+    }
+  }
 
+  async function log() {
     if (session) {
-      try {
-        const obj = {
-          provider: "facebook",
-          social_access_token: response.accessToken,
-          email: response?.email
-            ? response?.email
-            : response.id + "@ishtari-mobile.com",
-          id: response.id,
-        };
-
-        _axios.post(buildLink("social"), obj).then(() => {
-          checkLogin();
-          window.location.reload();
-        });
-        console.log("User data saved successfully");
-      } catch (error) {
-        console.log("Error saving user data:", error);
+      const obj = {
+        provider: "facebook",
+        social_access_token: session.accessToken,
+        id: session.user.id,
+        //  name: session.user.name,
+        email: session.user.email
+          ? session.user.email
+          : session.user.id + "@ishtari-mobile.com"
+      };
+      const response = await axiosServer.post(buildLink("social"), obj);
+      if (response) {
+        checkLogin();
       }
     }
-  };
+  }
+
+  // const handleFacebookLogin = async (e) => {
+  //   e.preventDefault();
+
+  //   const result = await signIn("facebook");
+  //   // alert(result);
+  //   alert(result);
+  //   if (result?.error) {
+  //     alert("Facebook login error:", result.error);
+  //     return;
+  //   }
+  // };
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
     const response = await signIn("login", {
       email: loginEmail.current.value,
       password: loginPassword.current.value,
-      redirect: false,
+      redirect: false
     });
 
     if (response.status === 200) {
@@ -103,13 +174,15 @@ function Account() {
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
           // ) {
-          //   window.location.reload();
+          // window.location.reload();
           // }
         } else {
           dispatch({ type: "setLoged", payload: false });
         }
         dispatch({ type: "setLoading", payload: false });
       });
+
+    // window.location.reload();
   }
 
   // Signup
@@ -123,7 +196,7 @@ function Account() {
       confirm: signupPassword.current.value,
       firstname: signupFirst.current.value,
       lastname: signupLast.current.value,
-      redirect: false,
+      redirect: false
     });
 
     if (response.status === 200) {
@@ -146,7 +219,7 @@ function Account() {
           window.config["site-url"]
         ),
         {
-          email: loginEmail.current.value,
+          email: loginEmail.current.value
         }
       );
       if (new_password.data.errors) {
@@ -187,7 +260,7 @@ function Account() {
       window.location.host === "localhost:3001"
     ) {
       adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
-      Cookies.set("ATDetails", adminToken)
+      Cookies.set("ATDetails", adminToken);
     }
 
     if (typeof adminToken != typeof undefined) {
@@ -359,12 +432,11 @@ function Account() {
               )}
             /> */}
               </form>
-              <button
-                onClick={handleFacebookLogin}
-                className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al"
-              >
-                <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
-              </button>
+              <form onClick={(e) => handleFacebookLogin(e)}>
+                <button className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al">
+                  <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
+                </button>
+              </form>
             </div>
           )}
           {state.showSignup && (
@@ -474,7 +546,7 @@ function Account() {
           </div>
         )} */}
         {/* If not logged */}
-        {!state.loged  && (
+        {!state.loged && (
           <div
             onClick={() => {
               dispatch({ type: "setShowOver", payload: true });
@@ -520,7 +592,10 @@ function Account() {
             </div>
 
             {showUserMenu && (
-              <div className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1" ref={wrapperRef}>
+              <div
+                className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1"
+                ref={wrapperRef}
+              >
                 <Link
                   href={`${path}/account/profile`}
                   onClick={() => setShowUserMenu(!showUserMenu)}

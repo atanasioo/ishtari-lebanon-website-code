@@ -6,7 +6,7 @@ function LogoClient(props) {
   return (
     <div>
       {props.host === "https://www.flo-lebanon.com" ? (
-        <Image
+        <img
           src={"/images/logo-flo-orange.png"}
           width={130}
           height={130}
@@ -22,7 +22,7 @@ function LogoClient(props) {
         props.host === "ishtari-mobile.com"
          ? (
         <>
-          <Image
+          <img
             className="hidden mobile:block"
             src="/images/logo/logo-redd.png"
             width={130}
@@ -39,7 +39,7 @@ function LogoClient(props) {
             colorOne={[96, 96, 96]}
             colorTwo={[65, 69, 81]}
           /> */}
-          <Image
+          <img
             className="mobile:hidden"
             src="/images/logo/logo-dblack2.png"
             width={96}
@@ -51,7 +51,7 @@ function LogoClient(props) {
         </>
       ) : (
         <>
-          <Image
+          <img
             className="hidden mobile:block"
             src="/images/logo/logo-redd.png"
             width={130}
@@ -68,7 +68,7 @@ function LogoClient(props) {
             colorOne={[96, 96, 96]}
             colorTwo={[65, 69, 81]}
           /> */}
-          <Image
+          <img
             className="mobile:hidden"
             src="/images/logo/logo-dblack2.png"
             width={96}

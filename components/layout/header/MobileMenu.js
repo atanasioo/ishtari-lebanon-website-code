@@ -145,7 +145,7 @@ function MobileMenu(props) {
         <div className="flex items-center justify-between">
           {Cookies.get("site-local-name") === "flo" ||
           host === "https://www.flo-lebanon.com" ? (
-            <Image
+            <img
               src={LogofloOrange}
               alt={config["short-name"]}
               // className="h-8"
@@ -153,7 +153,7 @@ function MobileMenu(props) {
               height={130}
             />
           ) : (
-            <Image
+            <img
               src={"/images/logo/logo-redd.png"}
               alt={"logo"}
               width={130}

@@ -97,7 +97,7 @@ function SingleProductBundle(props) {
               />
             ) : (
               <div className="w-full content-center	justify-center	">
-                <Image
+                <img
                   alt={props.item.name}
                   src={props?.item?.thumb
                   }

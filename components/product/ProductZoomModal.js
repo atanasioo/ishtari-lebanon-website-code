@@ -139,7 +139,7 @@ function ProductZoomModal(props) {
                         onZoomChange={() => setCursor(!cursor)}
                         key={i["thumb"]}
                       >
-                        <Image
+                        <img
                           id="myimage"
                           src={i["popup"]}
                           width={800}
@@ -170,7 +170,7 @@ function ProductZoomModal(props) {
                         onZoomChange={() => setCursor(!cursor)}
                         key={i["thumb"]}
                       >
-                        <Image
+                        <img
                           id="myimage"
                           width={390}
                           height={450}
@@ -212,7 +212,7 @@ function ProductZoomModal(props) {
                               : "border-dgreyZoom"
                           } outline-none`}
                         >
-                          <Image
+                          <img
                             src={i["thumb"]}
                             width={ images.length >12 ? 63 : 63}
                             height={images.length >12 ? 90 : 90}

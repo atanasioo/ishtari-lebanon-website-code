@@ -127,7 +127,7 @@ function SingleProductTest(props) {
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
                 !item?.images ? (
-                <Image
+                <img
                   alt={item.name}
                   src={item.thumb}
                   width={200}
@@ -238,7 +238,7 @@ function SingleProductTest(props) {
               >
                 <div className="express w-6/12 -mt-1">
                   {props.item.market === "0" ? (
-                    <Image
+                    <img
                       width={64}
                       height={24}
                       src={"/images/express.png"}
@@ -246,7 +246,7 @@ function SingleProductTest(props) {
                       alt="Express delivery"
                     />
                   ) : (
-                    <Image
+                    <img
                       width={64}
                       height={24}
                       src={"/images/market.svg"}

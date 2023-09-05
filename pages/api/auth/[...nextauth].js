@@ -7,8 +7,10 @@ import FacebookProvider from "next-auth/providers/facebook";
 import { signOut } from "next-auth/react";
 
 export const authOptions = {
+  
   providers: [
     CredentialsProvider({
+
       id: "login",
       async authorize(credentials, req) {
         let site_host = "";
@@ -94,9 +96,9 @@ export const authOptions = {
       }
     }),
     FacebookProvider({
-      clientId:    "130719880936639",
-      clientSecret: "4619d8d5d7e5ac00d59e5ffbbb7bf475",
-     callbackUrl: 'http://localhost:3000/api/auth/callback/facebook'
+      clientId:    '130719880936639',
+      clientSecret: '4619d8d5d7e5ac00d59e5ffbbb7bf475',
+     callbackUrl: 'https://www.ishtari.com/api/auth/callback/facebook'
 
     })
   ],
@@ -113,23 +115,28 @@ export const authOptions = {
         token.facebookUserId = user.id;
         token.name = profile.name;
         token.username = profile.username;
+        token.accessToken = account.access_token;
+
+
       }
 
 
       return token;
     },
     async session({ session, token }) {
+      console.log(session, token)
+      console.log("testtttt")
       session.user.isLoggedIn = true;
-      session.user.customer_id = token.customer_id;
-      session.user.firstname = token.firstname;
-      session.user.lastname = token.lastname;
-      session.user.telephone = token.telephone;
+      // session.user.customer_id = token.customer_id;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.id = token.facebookUserId;
+      session.accessToken = token.accessToken;
+
       return session;
     },
     async signIn({ user }) {
-
       if (user) return true;
-
       return false;
     },
     async signOut({ callbackUrl, req, res }) {

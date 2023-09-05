@@ -167,48 +167,48 @@ function Header(props) {
               }}
             >
               {serverSideDomain.indexOf("flo") > -1 ? (
-                <Image
+                <img
                   src={LogofloOrange}
                   width={width > 768 ? 130 : 100}
                   height={width > 768 ? 130 : 100}
                   alt="ishtari-logo"
                   priority={true}
-                  style={{ width: "80%", height: "auto" }}
+                  // style={{ width: "80%", height: "auto" }}
                 />
               ) : serverSideDomain.indexOf("ishtari") > -1 ||
                 serverSideDomain.indexOf("next") > -1 ? (
                 <>
-                  <Image
+                  <img
                     className="hidden mobile:block"
                     src="/images/logo/logo-redd.png"
-                    width={130}
-                    height={130}
+                    width={150}
+                    height={32}
                     alt="ishtari-logo"
                     priority={true}
-                    style={{ width: "80%", height: "auto" }}
+                    // style={{ width: "80%", height: "auto" }}
                   />
-                  <Image
+                  <img
                     className="mobile:hidden"
                     src="/images/logo/logo-dblack2.png"
                     width={96}
                     height={20}
                     alt="ishtari-logo"
                     priority={true}
-                    style={{ width: "78%", height: "auto" }}
+                    // style={{ width: "78%", height: "auto" }}
                   />
                 </>
               ) : serverSideDomain.indexOf("energy") > -1 ? (
                 <>
-                  <Image
+                  <img
                     className="hidden mobile:block"
                     src="/images/logo/logo-redd.png"
                     width={130}
                     height={130}
                     alt="ishtari-logo"
                     priority={true}
-                    style={{ width: "80%", height: "auto" }}
+                    // style={{ width: "80%", height: "auto" }}
                   />
-                  <Image
+                  <img
                     className="mobile:hidden"
                     src="/images/logo/logo-dblack2
                   .png"
@@ -216,29 +216,29 @@ function Header(props) {
                     height={40}
                     alt="ishtari-logo"
                     priority={true}
-                    style={{ width: "78%", height: "auto" }}
+                    // style={{ width: "78%", height: "auto" }}
                   />
                 </>
               ) : Cookies.get("site-local-name") === "ishtari" ||
                 Cookies.get("site-local-name") === "ishtari-ghana" ? (
                 <>
-                  <Image
+                  <img
                     className="hidden mobile:block"
                     src="/images/logo/logo-redd.png"
                     width={130}
                     height={130}
                     alt="ishtari-logo"
                     priority={true}
-                    style={{ width: "80%", height: "auto" }}
+                    // style={{ width: "80%", height: "auto" }}
                   />
-                  <Image
+                  <img
                     className="mobile:hidden"
                     src="/images/logo/logo-dblack2.png"
                     width={96}
                     height={40}
                     alt="ishtari-logo"
                     priority={true}
-                    style={{ width: "78%", height: "auto" }}
+                    // style={{ width: "78%", height: "auto" }}
                   />
                 </>
               ) : (

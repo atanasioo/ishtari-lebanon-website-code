@@ -976,7 +976,7 @@ function CatalogPage(props) {
                           }`}
                           className="inline-flex w-24 xl:w-28 lg:w-28 text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
                         >
-                          <Image
+                          <img
                             alt={category.name}
                             src={category.thumb}
                             className="h-20"
@@ -1016,7 +1016,7 @@ function CatalogPage(props) {
                         }
                         className="inline-flex text-center  items-center justify-center flex-col p-2 mx-2 hover:opacity-80 mb-1"
                       >
-                        <Image
+                        <img
                           alt={category.name}
                           src={category.thumb}
                           width={110}

@@ -56,7 +56,7 @@ function ReviewImagesModal(props) {
               <Slider {...settings} className="w-86% lg:w-3/5" afterChange={(index) => setActiveIndex(index)}>
                 {review.images.map((img) => (
                   <div className="flex justify-center">
-                    <Image
+                    <img
                       src={img}
                       alt="review image"
                       width={width > 1024 ? 402 : 370}
@@ -90,7 +90,7 @@ function ReviewImagesModal(props) {
               </div>
               <div className="hidden lg:grid grid-cols-3">
                 {review.images.map((img, i) => (
-                  <Image
+                  <img
                     src={img}
                     alt={img}
                     width={63}
