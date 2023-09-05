@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @import url("../public/font/stylesheet.css");
-@import url("magiczoom.css");
 @import url("fontello.css");
 
  @font-face {
