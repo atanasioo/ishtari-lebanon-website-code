@@ -52,7 +52,7 @@ function Information(props) {
 
       <div
         dangerouslySetInnerHTML={{
-          __html: sanitizeHTML(unescapeHTML(data.description)),
+          __html: sanitizeHTML(unescapeHTML(data?.description)),
         }}
       />
     </div>
