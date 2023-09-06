@@ -202,8 +202,8 @@ function Header(props) {
                   <img
                     className="hidden mobile:block"
                     src="/images/logo/logo-redd.png"
-                    width={130}
-                    height={130}
+                    width={150}
+                    height={32}
                     alt="ishtari-logo"
                     priority={true}
                     // style={{ width: "80%", height: "auto" }}
@@ -225,8 +225,8 @@ function Header(props) {
                   <img
                     className="hidden mobile:block"
                     src="/images/logo/logo-redd.png"
-                    width={130}
-                    height={130}
+                    width={150}
+                    height={32}
                     alt="ishtari-logo"
                     priority={true}
                     // style={{ width: "80%", height: "auto" }}

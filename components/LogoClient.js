@@ -8,11 +8,11 @@ function LogoClient(props) {
       {props.host === "https://www.flo-lebanon.com" ? (
         <img
           src={"/images/logo-flo-orange.png"}
-          width={130}
-          height={130}
+          width={150}
+          height={32}
           alt="ishtari-logo"
-          priority={true}
-          style={{ width: "70%", height: "auto" }}
+          // priority={true}
+          // style={{ width: "70%", height: "auto" }}
         />
       ) : props.host === "https://www.ishtari.com" ||
         props.host === "https://www.ishtari.com.gh" ||
@@ -25,11 +25,11 @@ function LogoClient(props) {
           <img
             className="hidden mobile:block"
             src="/images/logo/logo-redd.png"
-            width={130}
-            height={130}
+            width={150}
+            height={32}
             alt="ishtari-logo"
-            priority={true}
-            style={{ width: "80%", height: "auto" }}
+            // priority={true}
+            // style={{ width: "80%", height: "auto" }}
           />
 
           {/* <ImageFilter
@@ -42,11 +42,11 @@ function LogoClient(props) {
           <img
             className="mobile:hidden"
             src="/images/logo/logo-dblack2.png"
-            width={96}
-            height={40}
+            width={150}
+            height={32}
             alt="ishtari-logo"
-            priority={true}
-            style={{ width: "78%", height: "auto" }}
+            // priority={true}
+            // style={{ width: "78%", height: "auto" }}
           />
         </>
       ) : (
@@ -54,28 +54,20 @@ function LogoClient(props) {
           <img
             className="hidden mobile:block"
             src="/images/logo/logo-redd.png"
-            width={130}
-            height={130}
+            width={150}
+            height={32}
             alt="ishtari-logo"
-            priority={true}
-            style={{ width: "80%", height: "auto" }}
+            // priority={true}
+            // style={{ width: "80%", height: "auto" }}
           />
-
-          {/* <ImageFilter
-            className="h-5 w-24 mr-5 mobile:hidden"
-            image={"/images/logo/logo-white.png"}
-            filter={"duotone"}
-            colorOne={[96, 96, 96]}
-            colorTwo={[65, 69, 81]}
-          /> */}
           <img
             className="mobile:hidden"
             src="/images/logo/logo-dblack2.png"
-            width={96}
-            height={40}
+            width={150}
+            height={32}
             alt="ishtari-logo"
-            priority={true}
-            style={{ width: "78%", height: "auto" }}
+            // priority={true}
+            // style={{ width: "78%", height: "auto" }}
           />
         </>
       )}
