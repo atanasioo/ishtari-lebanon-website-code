@@ -168,10 +168,10 @@ function Header(props) {
             >
               {serverSideDomain.indexOf("flo") > -1 ? (
                 <img
-                  src={LogofloOrange}
-                  width={width > 768 ? 130 : 100}
-                  height={width > 768 ? 130 : 100}
-                  alt="ishtari-logo"
+                  src={"/images/logo-flo-orange.png"}
+                  width={110}
+                  height={32}
+                  alt="flo-logo"
                   priority={true}
                   // style={{ width: "80%", height: "auto" }}
                 />

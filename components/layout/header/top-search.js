@@ -155,9 +155,11 @@ function TopSearch() {
         axiosServer
           .get(buildLink("trendingSearch", undefined, window.innerWidth))
           .then((response) => {
-            setTrendingSearch(response.data.data.topsearch);
-            setViewResults(true);
-            setTrendingLoading(false);
+            if (response.data.success) {
+              setTrendingSearch(response.data.data.topsearch);
+              setViewResults(true);
+              setTrendingLoading(false);
+            }
           });
       }
     } else {
