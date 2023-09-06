@@ -48,7 +48,6 @@ function CheckoutCompnents() {
   });
   const [countryCorrect, setCountryCorrect] = useState(true);
 
-  console.log(googleLocation);
 
   const [err, setErr] = useState("");
   const router = useRouter();
@@ -112,14 +111,7 @@ function CheckoutCompnents() {
   });
 
   useEffect(() => {
-    // This effect runs on component mount and whenever router.pathname changes
-    console.log(router.pathname);
   }, [router.pathname]);
-  // dynamic
-
-  // const HandlePhoneModel = dynamic(() => import("./PhoneHanlder"), {
-  //   ssr: false // Disable server-side rendering
-  // });
 
   const CellulantCheckoutPopup = dynamic(
     () => import("./CellulantCheckoutPopup"),
@@ -256,7 +248,6 @@ function CheckoutCompnents() {
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
-        console.log(data)
         if (!data.customer_id ) {
 
           setloged(false);

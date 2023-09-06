@@ -101,7 +101,6 @@ const EditProduct = () => {
       quantity: quantity,
       model: model,
     };
-    console.log(formData);
     _axios
       .post(
         buildLink("seller_edit_product")
@@ -110,7 +109,6 @@ const EditProduct = () => {
       )
       .then((response) => {
         router.push("/seller_report/products");
-        console.log(response.data);
       });
   }
 

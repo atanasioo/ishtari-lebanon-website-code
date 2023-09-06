@@ -35,7 +35,6 @@ function ReviewImagesModal(props) {
   }
 
 
-  console.log(review);
   return (
     <div className="fixed bg-dblackk lg:bg-dblackOverlay top-0 left-0 right-0 bottom-0 w-full h-full z-30 overflow-hidden">
       <div className="relative w-full h-full">

@@ -105,7 +105,6 @@ const ReturnOrdersSeller = () => {
     _axios
       .get(buildLink("seller_return_orders") + `&limit=10&page=1`)
       .then((response) => {
-        console.log(response);
         setData(response.data.data);
         setTotal(response.data.data.total);
         setLoading(false);
