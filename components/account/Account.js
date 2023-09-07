@@ -90,7 +90,7 @@ function Account() {
   async function handleFacebookLogin(e) {
     e.preventDefault();
     const result = await signIn("facebook");
-
+    console.log("fb result" ,result);
   }
 
   async function social() {

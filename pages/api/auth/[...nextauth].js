@@ -102,6 +102,7 @@ export const authOptions = {
 
     })
   ],
+  debug:true,
   callbacks: {
     async jwt({ token, user , account, profile, isNewUser}) {
       if (user) {
@@ -116,20 +117,20 @@ export const authOptions = {
         token.name = profile.name;
         token.username = profile.username;
         token.accessToken = account.access_token;
-
-
       }
-
-
       return token;
     },
     async session({ session, token }) {
       console.log(session, token)
       console.log("testtttt")
       session.user.isLoggedIn = true;
-      // session.user.customer_id = token.customer_id;
+      session.user.customer_id = token.customer_id;
+      session.user.firstname = token.firstname;
+      session.user.lastname = token.lastname;
+      session.user.telephone = token.telephone;
       session.user.name = token.name;
       session.user.email = token.email;
+      
       session.user.id = token.facebookUserId;
       session.accessToken = token.accessToken;
 

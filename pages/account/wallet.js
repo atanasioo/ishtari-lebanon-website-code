@@ -70,7 +70,7 @@ function wallet() {
   }
 
   return (
-    <div className="container text-dblack">
+    <div className="text-dblack">
       <Head>
         <title>My Account | ishtari</title>
       </Head>
@@ -83,7 +83,7 @@ function wallet() {
               <UserSidebarMobile active={"wallet"} />
             )}
           </div>
-          <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">
+          <div className="w-full md:w-4/5 px-2 md:px-0  mb-5">
 
           {loading ? (
             <div className="flex justify-center w-full">
@@ -126,7 +126,7 @@ function wallet() {
                 </div>
               </div>
 
-              <div className="py-4">
+              <div className="py-4 md:pl-6">
                 {transactionData?.data_transactions?.map((data) => (
                   <div
                     key={data.transaction_id}
