@@ -71,7 +71,7 @@ function Account() {
     }
 
     async function log() {
-      console.log(session)
+      // console.log(session)
       const obj = {
         provider: "facebook",
         social_access_token: session.accessToken,
@@ -81,7 +81,7 @@ function Account() {
           : session.user.id + "@ishtari-mobile.com"
       };
       const response = await axiosServer.post(buildLink("social"), obj);
-      console.log(response)
+      // console.log(response)
       if (response?.data?.data?.customer_id) checkLogin();
       // window.location.reload();
     }
@@ -90,11 +90,10 @@ function Account() {
   async function handleFacebookLogin(e) {
     e.preventDefault();
     const result = await signIn("facebook");
-    console.log("fb result" ,result);
   }
 
   async function social() {
-    console.log("start-1");
+    // console.log("start-1");
     const result = await signIn("facebook");
     if (result) {
       return result;
