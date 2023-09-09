@@ -22,12 +22,14 @@ function HeaderOverlay(props) {
   );
 }
 
-function FullOverlay(props) {
-  const z = props.z ? props.z : 10;
+function FullOverlay({children, z}) {
+  const zIndex = z ? z : 10;
   return (
     <div
-      className={`fixed z-${z} w-full h-screen left-0 bottom-0 top-0 bg-dblackOverlay `}
-    ></div>
+      className={`fixed z-${zIndex} w-full h-screen left-0 bottom-0 top-0 bg-dblackOverlay `}
+    >
+      {children}
+    </div>
   );
 }
 

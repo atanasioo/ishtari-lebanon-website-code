@@ -1,4 +1,5 @@
 import { axiosServer } from "@/axiosServer";
+import ReturnModal from "@/components/account/ReturnModal";
 import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
@@ -24,6 +25,9 @@ function OrderDetails() {
   const [loading, setLoading] = useState(true);
   const [state, dispatch] = useContext(AccountContext);
   const { setMarketingData } = useMarketingData();
+  const [returnItem, setReturnItem] = useState(0);
+  const [showReturnModal, setShowReturnModal] = useState(false);
+  const [orderComplete, setOrderComplete] = useState(false);
   //   useEffect(() => {
   //     if (!state.loged) {
   //       dispatch({ type: "setShowOver", payload: true });
@@ -45,9 +49,9 @@ function OrderDetails() {
       .then((response) => {
         setEmail(response?.data?.data?.email);
         setLoading(false);
-     
+
         if (!response.data.success) {
-          router.push("/")
+          router.push("/");
         }
       });
     axiosServer
@@ -56,9 +60,18 @@ function OrderDetails() {
         if (response.data.success) {
           setData(response?.data.data);
           setLoading(false);
+          if (response.data.data.order_status_id === "155") {
+            setOrderComplete(true);
+          }
         }
       });
   }, [id]);
+
+  const closeModal = () => {
+    setShowReturnModal(false);
+  };
+
+  console.log("order complete" + orderComplete);
 
   return (
     <div>
@@ -221,39 +234,72 @@ function OrderDetails() {
                     <th className="px-2 border-l md:px-4  py-1 text-sm">
                       Total
                     </th>
+                    {orderComplete && (
+                      <th className="px-2 border-l md:px-4  py-1 text-sm">
+                        Action
+                      </th>
+                    )}
                   </thead>
-                  {data?.products?.map((data) => (
-                    <tr className="border">
-                      <td className="border  px-4">
-                        <Link href={`/product/${data.product_id}`} onClick={() => setMarketingData({
-                          ignore: false,
-                          banner_image_id: "",
-                          source_type: "order",
-                          source_type_id: id,
-                        })}>
-                          <img
-                            className="w-12"
-                            src={data.image}
-                            alt={data.name}
-                          />
-                        </Link>
-                      </td>
-                      <td className="px-4 text-sm">
-                        <span
-                          dangerouslySetInnerHTML={{ __html: data.name }}
-                        ></span>
-                        <span className="font-semibold">
-                          {" "}
-                          {data?.option[0]?.name &&
-                            "( " + data?.option[0]?.value + " )"}{" "}
-                        </span>{" "}
-                      </td>
+                  {data?.products?.map((data, i) => (
+                    <tbody>
+                      <tr className="border">
+                        <td className="border  px-4">
+                          <Link
+                            href={`/product/${data.product_id}`}
+                            onClick={() =>
+                              setMarketingData({
+                                ignore: false,
+                                banner_image_id: "",
+                                source_type: "order",
+                                source_type_id: id,
+                              })
+                            }
+                          >
+                            <img
+                              className="w-12"
+                              src={data.image}
+                              alt={data.name}
+                            />
+                          </Link>
+                        </td>
+                        <td className="px-4 text-sm">
+                          <span
+                            dangerouslySetInnerHTML={{ __html: data.name }}
+                          ></span>
+                          <span className="font-semibold">
+                            {" "}
+                            {data?.option[0]?.name &&
+                              "( " + data?.option[0]?.value + " )"}{" "}
+                          </span>{" "}
+                        </td>
 
-                      <td className="border   px-4 text-sm">{data.model}</td>
-                      <td className="border  px-4 text-sm">{data.quantity}</td>
-                      <td className="border  px-4 text-sm">{data.price}</td>
-                      <td className="border  px-4 text-sm"> {data.total}</td>
-                    </tr>
+                        <td className="border   px-4 text-sm">{data.model}</td>
+                        <td className="border  px-4 text-sm">
+                          {data.quantity}
+                        </td>
+                        <td className="border  px-4 text-sm whitespace-nowrap">
+                          {data.price}
+                        </td>
+                        <td className="border  px-4 text-sm whitespace-nowrap">
+                          {" "}
+                          {data.total}
+                        </td>
+                        {/* only show return button when order is complete */}
+                        {orderComplete && (
+                          <td className="border  px-4 text-sm">
+                            <div
+                              className="px-3 py-2 mx-2 bg-dmenusep rounded-full text-white cursor-pointer whitespace-nowrap"
+                              onClick={() => {
+                                setReturnItem(i);
+                                setShowReturnModal(true);
+                              }}
+                            >
+                              Request a Return
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    </tbody>
                   ))}
                 </table>
               ) : (
@@ -268,31 +314,49 @@ function OrderDetails() {
                     <th className="border-l px-2  py-1  text-sm">Quantity</th>
                     <th className="border-l px-2  py-1  text-sm">Price</th>
                     <th className="border-l px-2  py-1 text-sm">Total</th>
+                    {orderComplete && (
+                      <th className="border-l px-2  py-1 text-sm">Action</th>
+                    )}
                   </thead>
-                  {data?.products.map((data) => (
-                    <tr className="border">
-                      <div className="hidden md:flex-wrap">
-                        {" "}
-                        <td className="border  px-4">
-                          <img className="w-12" src={data.image} alt="" />
+                  {data?.products.map((data, i) => (
+                    <tbody>
+                      <tr className="border">
+                        <div className="hidden md:flex-wrap">
+                          {" "}
+                          <td className="border  px-4">
+                            <img className="w-12" src={data.image} alt="" />
+                          </td>
+                        </div>
+                        <td className=" px-2 md:px-4 text-sm line-clamp-3 md:line-clamp-none">
+                          {data.name}
                         </td>
-                      </div>
-                      <td className=" px-2 md:px-4 text-sm line-clamp-3 md:line-clamp-none">
-                        {data.name}
-                      </td>
-                      <td className="border  px-2 md:px-4 text-sm">
-                        {data.model}
-                      </td>
-                      <td className="border px-2 md:px-4 text-sm">
-                        {data.quantity}
-                      </td>
-                      <td className="border px-2 md:px-4 text-sm">
-                        {data.price}
-                      </td>
-                      <td className="border px-2 md:px-4 text-sm">
-                        {data.total}
-                      </td>
-                    </tr>
+                        <td className="border  px-2 md:px-4 text-sm">
+                          {data.model}
+                        </td>
+                        <td className="border px-2 md:px-4 text-sm">
+                          {data.quantity}
+                        </td>
+                        <td className="border px-2 md:px-4 text-sm">
+                          {data.price}
+                        </td>
+                        <td className="border px-2 md:px-4 text-sm">
+                          {data.total}
+                        </td>
+                        {orderComplete && (
+                          <td className="border px-2 md:px-4 text-sm">
+                            <div
+                              className="px-3 py-2 mx-2 bg-dmenusep rounded-full text-white cursor-pointer whitespace-nowrap"
+                              onClick={() => {
+                                setReturnItem(i);
+                                setShowReturnModal(true);
+                              }}
+                            >
+                              Request a Return
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    </tbody>
                   ))}
                 </table>
               )}
@@ -309,6 +373,18 @@ function OrderDetails() {
                 </div>
               ))}
             </div>
+
+            {/* return modal */}
+            {/* {showReturnModal && ( */}
+            <div>
+              <ReturnModal
+                data={data}
+                index={returnItem}
+                closeModal={closeModal}
+                showReturnModal={showReturnModal}
+              />
+            </div>
+            {/* )} */}
           </div>
         )
       )}

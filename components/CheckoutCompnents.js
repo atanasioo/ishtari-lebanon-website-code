@@ -20,6 +20,7 @@ import HandlePhoneModel from "./PhoneHanlder";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { HiLocationMarker } from "react-icons/hi";
 import GoogleMap from "./address/GoogleMap";
+import { BiChevronDown } from "react-icons/bi";
 function CheckoutCompnents() {
   const [state, dispatchAccount] = useContext(AccountContext);
   const [cartState, dispatch] = useContext(CartContext);
@@ -38,6 +39,13 @@ function CheckoutCompnents() {
   const [walletBalance, setWalletBalance] = useState(0);
   const [blocked, showBlock] = useState(false);
   const [blockedMessage, setBlockedMessage] = useState("");
+  const [pointsDropdown, setPointsDropdown] = useState(false);
+  // const [pointsInfo, setPointsInfo] = useState({});
+  const pointsInfo = useRef({
+    point: "",
+    type: "",
+    value: "",
+  });
 
   //google map
   const [confirmedLocation, setConfirmedLocation] = useState("");
@@ -47,7 +55,6 @@ function CheckoutCompnents() {
     lng: 0,
   });
   const [countryCorrect, setCountryCorrect] = useState(true);
-
 
   const [err, setErr] = useState("");
   const router = useRouter();
@@ -60,11 +67,11 @@ function CheckoutCompnents() {
   const [firstAttemp, setFirstAttemp] = useState(true);
   const zone = useRef({
     id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name
+    name: window.config["initial-zone"].name,
   });
   const town = useRef({
     id: 0,
-    name: ""
+    name: "",
   });
   // Cart states
   const [emptyCart, setEmptyCart] = useState(false);
@@ -89,7 +96,7 @@ function CheckoutCompnents() {
   const address_2 = useRef("");
   const telephone = useRef("");
   const coupon = useRef("");
-  // const balanceAmount = useRef("");
+  const balanceAmount = useRef("");
   const termCondition = useRef("");
 
   const email = useRef("");
@@ -110,13 +117,12 @@ function CheckoutCompnents() {
     }
   });
 
-  useEffect(() => {
-  }, [router.pathname]);
+  useEffect(() => {}, [router.pathname]);
 
   const CellulantCheckoutPopup = dynamic(
     () => import("./CellulantCheckoutPopup"),
     {
-      ssr: false // Disable server-side rendering
+      ssr: false, // Disable server-side rendering
     }
   );
 
@@ -137,7 +143,7 @@ function CheckoutCompnents() {
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product
+          items: manualResponse?.order_product,
         });
       } else if (
         window.location.host === "www.ishtari.com.gh" ||
@@ -148,7 +154,7 @@ function CheckoutCompnents() {
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product
+          items: manualResponse?.order_product,
         });
       }
     }
@@ -161,12 +167,12 @@ function CheckoutCompnents() {
         fn: manualResponse?.social_data?.firstname,
         ln: manualResponse?.social_data?.lastname,
         external_id: manualResponse?.social_data?.external_id,
-        country: manualResponse?.social_data?.country_code
+        country: manualResponse?.social_data?.country_code,
       };
 
       ReactPixel.init(pixelID, advancedMatching, {
         debug: true,
-        autoConfig: false
+        autoConfig: false,
       });
       ReactPixel.pageView();
       ReactPixel.fbq("track", "PageView");
@@ -187,7 +193,7 @@ function CheckoutCompnents() {
           content_type: "product",
           content_ids: productArray,
           num_items: manualResponse?.order_product?.length,
-          currency: manualResponse?.social_data?.currency
+          currency: manualResponse?.social_data?.currency,
         },
         { eventID: manualResponse?.social_data?.event_id }
       );
@@ -243,13 +249,12 @@ function CheckoutCompnents() {
     //         }, 3000);
     //       }
     //     } else {
- 
+
     axiosServer
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
-        if (!data.customer_id ) {
-
+        if (!data.customer_id) {
           setloged(false);
           // alert(2)
           getCart();
@@ -259,45 +264,51 @@ function CheckoutCompnents() {
               setLoginShow(true);
             }
           }
-          if (response?.data?.errors && response?.data?.errors[0].errorCode.indexOf("blocked") > -1) {
+          if (
+            response?.data?.errors &&
+            response?.data?.errors[0].errorCode.indexOf("blocked") > -1
+          ) {
             showBlock(true);
-            setBlockedMessage(response?.data?.message)
+            setBlockedMessage(response?.data?.message);
             setloged(true);
             // setTimeout(() => {
             //   window.location.href = "/";
             // }, 3000);
           }
         } else {
-          if(!loged)  setloged(true);
+          if (!loged) setloged(true);
           setCustomerId(response.data.customer_id);
-        
-          
-        // localStorage.setItem("cid", response.data.customer_id);
-        axiosServer
-        .get(
-          buildLink("address", undefined, undefined, window.config["site-url"])
-        )
-        .then((response) => {
-          if (!response.data.success) {
-            router.push({
-              pathname: "/account/address/add",
-              search: "from-checkout=true"
+
+          // localStorage.setItem("cid", response.data.customer_id);
+          axiosServer
+            .get(
+              buildLink(
+                "address",
+                undefined,
+                undefined,
+                window.config["site-url"]
+              )
+            )
+            .then((response) => {
+              if (!response.data.success) {
+                router.push({
+                  pathname: "/account/address/add",
+                  search: "from-checkout=true",
+                });
+              } else {
+                zone.current.name = response.data.data[0].city;
+                zone.current.id = response.data.data[0].zone_id;
+                town.current.id = response.data.data[0].town_id;
+                town.current.name = response.data.data[0].town_name;
+                setAddresses(response.data.data);
+                changeAddress(response.data.data[0], false);
+                getCart();
+                // alert(1);
+              }
             });
-          } else {
-            zone.current.name = response.data.data[0].city;
-            zone.current.id = response.data.data[0].zone_id;
-            town.current.id = response.data.data[0].town_id;
-            town.current.name = response.data.data[0].town_name;
-            setAddresses(response.data.data);
-            changeAddress(response.data.data[0], false);
-            getCart();
-            // alert(1);
-          }
-        });
-      }
+        }
       });
-      
-   
+
     //   }
     // });
     // End account check
@@ -309,7 +320,7 @@ function CheckoutCompnents() {
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id
+      value: address.zone_id,
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -330,7 +341,7 @@ function CheckoutCompnents() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id
+      value: zone.current.id,
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false);
@@ -344,21 +355,40 @@ function CheckoutCompnents() {
     }
   }
 
-  // function applyBalance() {
-  //   const obj = {
-  //     name: zone.current.name,
-  //     value: zone.current.id,
-  //   };
-  //   if (balanceAmount.current.value.length > 1) {
-  //     manual(manualCart, obj, activePaymentMethod, false);
-  //   }
-  // }
+  function applyBalance() {
+    const obj = {
+      name: zone.current.name,
+      value: zone.current.id,
+    };
+    if (balanceAmount.current.value.length > 1) {
+      manual(manualCart, obj, activePaymentMethod, false);
+    }
+  }
 
-  // function handleBalanceAmountChance() {
-  //   if (balanceAmount.current.value.length < 1) {
-  //     manualErrors.current = "";
-  //   }
-  // }
+  function handleBalanceAmountChance() {
+    if (balanceAmount.current.value.length < 1) {
+      manualErrors.current = "";
+    }
+  }
+
+  function applyPoints(p_o) {
+    setPointsDropdown(false);
+    const obj = {
+      name: zone.current.name,
+      value: zone.current.id,
+    };
+
+    // setPointsInfo({
+    //   point: p_o.point,
+    //   type: p_o.type,
+    //   value: p_o.value,
+    // });
+    pointsInfo.current.point = p_o.point;
+    pointsInfo.current.type = p_o.type;
+    pointsInfo.current.value = p_o.value;
+
+    manual(manualCart, obj, activePaymentMethod, false);
+  }
 
   function closeCellulantPopup() {
     setCellulantPopup(false);
@@ -411,21 +441,21 @@ function CheckoutCompnents() {
           payload:
             response.data?.data?.products?.length > 0
               ? response.data.data.products
-              : []
+              : [],
         });
         dispatch({
           type: "setTotals",
           payload:
             response.data?.data?.totals?.length > 0
               ? response.data.data.totals
-              : 0
+              : 0,
         });
         dispatch({
           type: "setProductsCount",
           payload:
             response?.data?.data?.total_product_count > 0
               ? response.data.data.total_product_count
-              : 0
+              : 0,
         });
       });
     // End cart check
@@ -457,6 +487,7 @@ function CheckoutCompnents() {
         });
     }
   }, []);
+
 
   //get wallet balance
   useEffect(() => {
@@ -510,7 +541,13 @@ function CheckoutCompnents() {
         code_version: width > 600 ? "web_desktop" : "web_mobile",
         latitude: position.lat,
         longitude: position.lng,
-        // customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
+        customer_credit_amount:
+          balanceAmount.current?.value !== ""
+            ? balanceAmount.current?.value
+            : "",
+        product_points_value: "",
+        product_points: "",
+        product_points_type: "",
       };
     } else {
       body = {
@@ -538,13 +575,19 @@ function CheckoutCompnents() {
         // Cookies.get("change") === "false" || Cookies.get("change") === false
         //   ? false
         //   : true,
-        payment_session: manualResponse.payment_session,
+        payment_session: manualResponse?.payment_session,
         source_id: 1,
         coupon: coupon.current?.value || "",
         code_version: width > 600 ? "web_desktop" : "web_mobile",
         latitude: position.lat,
         longitude: position.lng,
-        // customer_credit_amount: balanceAmount.current?.value !== "" ? balanceAmount.current?.value : ""
+        customer_credit_amount:
+          balanceAmount.current?.value !== ""
+            ? balanceAmount.current?.value
+            : "",
+        product_points_value: pointsInfo.current.value,
+        product_points: pointsInfo.current.point,
+        product_points_type: pointsInfo.current.type,
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -554,6 +597,7 @@ function CheckoutCompnents() {
     axiosServer
       .post(
         buildLink("manual", undefined, undefined, window.config["site-url"]),
+        // +"&testrimn=true&test"
         body
       )
       .then((response) => {
@@ -702,7 +746,7 @@ function CheckoutCompnents() {
     setTownes("");
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value
+      value: sel.value,
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
@@ -735,7 +779,7 @@ function CheckoutCompnents() {
     town.current.name = sel.options[sel.selectedIndex].text;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value
+      value: sel.value,
     };
     manual(manualCart, "", activePaymentMethod, false);
     dispatchAccount({ type: "setShowOver", payload: false });
@@ -788,7 +832,7 @@ function CheckoutCompnents() {
         service_code: paymentData?.service_code,
         success_redirect_url: paymentData?.success_redirect_url,
         fail_redirect_url: paymentData?.failed_url,
-        language_code: "en"
+        language_code: "en",
       };
       axiosServer
         .post(
@@ -919,7 +963,7 @@ function CheckoutCompnents() {
               request_description:
                 "ishtariLTD payment for order ID: " + manualResponse.order_id,
               service_code: data.service_code,
-              success_redirect_url: data.success_redirect_url
+              success_redirect_url: data.success_redirect_url,
             });
 
             setCellulantData(data);
@@ -1016,12 +1060,12 @@ function CheckoutCompnents() {
             fn: data?.data?.social_data?.firstname,
             ln: data?.data?.social_data?.lastname,
             external_id: data?.data?.social_data?.external_id,
-            country: data?.data?.social_data?.country_code
+            country: data?.data?.social_data?.country_code,
           };
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
             autoConfig: false,
-            country: data?.data?.social_data?.country_code
+            country: data?.data?.social_data?.country_code,
           });
 
           ReactPixel.pageView();
@@ -1035,7 +1079,7 @@ function CheckoutCompnents() {
                 content_ids: data?.data?.social_data?.content_ids,
                 value: data?.data?.social_data?.value,
                 num_items: data?.data?.social_data?.num_items,
-                currency: data?.data?.social_data?.currency
+                currency: data?.data?.social_data?.currency,
               },
               { eventID: data?.data?.social_data?.event_id }
             );
@@ -1061,11 +1105,11 @@ function CheckoutCompnents() {
         setMarketingData(response.data.data);
         if (firstPath === "bey") {
           router.push({
-            pathname: "/bey/success/"
+            pathname: "/bey/success/",
           });
         } else {
           router.push({
-            pathname: "/success/"
+            pathname: "/success/",
           });
         }
       }
@@ -1096,7 +1140,7 @@ function CheckoutCompnents() {
       zone.current.id = obj.zone;
       const data = {
         name: obj.city,
-        value: obj.zone
+        value: obj.zone,
       };
       manual(manualCart, data, activePaymentMethod, false);
     }
@@ -1119,7 +1163,7 @@ function CheckoutCompnents() {
     amount: 0,
     confirm_url: "0",
     success_url: "0",
-    order_id: 0
+    order_id: 0,
   });
 
   function setPaymentMethod(pm) {
@@ -1133,7 +1177,7 @@ function CheckoutCompnents() {
     Cookies.set("change", true);
 
     var obj = {
-      currency: currency
+      currency: currency,
     };
     axiosServer
       .post(
@@ -1162,15 +1206,15 @@ function CheckoutCompnents() {
         if (!loged) {
           dispatchAccount({
             type: "setShowOver",
-            payload: true
+            payload: true,
           });
           dispatchAccount({
             type: "setShowLogin",
-            payload: true
+            payload: true,
           });
           dispatchAccount({
             type: "setShowSignup",
-            payload: false
+            payload: false,
           });
         } else {
           setPaymentMethod(payment_code);
@@ -1202,9 +1246,7 @@ function CheckoutCompnents() {
         <div className="fixed z-40 flex justify-center bg-dTransparentWhite w-full min-h-screen top-0 left-0">
           <div class="absolute z-50 bg-white p-6 rounded shadow-md  max-w-md top-1/3">
             <h2 class="text-xl  mb-2 text-dbase font-bold">Account Blocked</h2>
-            <p class=" mb-4">
-             {blockedMessage}
-            </p>
+            <p class=" mb-4">{blockedMessage}</p>
             <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded w-full">
               Contact Support
             </button>
@@ -1995,132 +2037,29 @@ function CheckoutCompnents() {
                     {manualResponse?.order_product?.length > 0 &&
                       manualResponse?.order_product.map((product) => (
                         // Desktop Design
-                        <div
-                          className={`hidden xl:flex lg:flex mb-2  py-2 rounded ${
-                            product.stock
-                              ? "bg-white "
-                              : "bg-dbase bg-opacity-10"
-                          }`}
-                        >
-                          <Link
-                            href={`${product?.name
-                              ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                              ?.replace(/\s+/g, "-")
-                              .replace("/", "-")}/p=${product.product_id}`}
-                            onClick={() =>
-                              setMarketingData({
-                                ignore: false,
-                                banner_image_id: "",
-                                source_type: "checkout",
-                                source_type_id: "",
-                              })
-                            }
-                            key={product.product_id}
-                          >
-                            <img
-                              onClick={() =>
-                                router.push(
-                                  `${product.name
-                                    .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                    .replace(/\s+/g, "-")
-                                    .replace("/", "-")}/p=${product.product_id}`
-                                )
-                              }
-                              src={product.image}
-                              className="w-24 block rounded ml-2"
-                              alt={product.name}
-                            />{" "}
-                          </Link>{" "}
-                          <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow ">
-                            <p className="text-d13 text-dgrey1">
-                              {" "}
-                              {product.sku}{" "}
-                            </p>{" "}
-                            <p
-                              className=" text-sm font-semibold"
-                              dangerouslySetInnerHTML={{
-                                __html: DOMPurify.sanitize(product.name)
-                              }}
-                            />{" "}
-                            {product.option.length > 0 && (
-                              <p className="text-dgreen text-sm">
-                                {" "}
-                                {product.option[0].name +
-                                  " (" +
-                                  product.option[0].value +
-                                  ")"}{" "}
-                              </p>
-                            )}{" "}
-                            {product.warranty.length > 0 && (
-                              <p className="text-dgreen text-sm">
-                                {" "}
-                                {product.warranty[0].warranty_name +
-                                  " ( " +
-                                  product.warranty[0].warranty_titles +
-                                  " / " +
-                                  product.warranty[0].warranty_days +
-                                  " )"}{" "}
-                              </p>
-                            )}{" "}
-                            <button
-                              type="button"
-                              className="cursor-pointer text-dgrey1 text-xs text-center"
-                              onClick={(e) => updateQuantity(e, product.key, 0)}
-                            >
-                              <span> Remove </span>{" "}
-                              <i className="icon icon-trash ml-1" />
-                            </button>{" "}
-                          </div>
-                          <div className="py-2 px-6 w-48 flex flex-col items-end text-dblack justify-center">
-                            <span className=" font-semibold text-lg">
-                              {" "}
-                              {product.price_formatted}{" "}
-                            </span>{" "}
-                            <div className="flex mt-4">
-                              <button
-                                type="button"
-                                onClick={(e) =>
-                                  updateQuantity(
-                                    e,
-                                    product.key,
-                                    Number(product.quantity) - 1
-                                  )
-                                }
-                                className="text-center w-10 h-10  text-2xl border border-dinputBorder rounded-tl rounded-bl cursor-pointer hover:shadow"
-                              >
-                                -
-                              </button>{" "}
-                              <input
-                                type="number"
-                                className="border border-dinputBorder w-20 h-10 border-r-0 border-l-0 text-center"
-                                value={product.quantity}
-                                onChange={() => {}}
-                              />{" "}
-                              <button
-                                type="button"
-                                onClick={(e) =>
-                                  updateQuantity(
-                                    e,
-                                    product.key,
-                                    Number(product.quantity) + 1
-                                  )
-                                }
-                                className="text-center w-10 h-10  text-2xl border border-dinputBorder  rounded-tr rounded-br cursor-pointer hover:shadow"
-                              >
-                                +
-                              </button>{" "}
-                            </div>{" "}
-                          </div>{" "}
-                          {/* Mobile design */}{" "}
-                          {/* <Link
-                            // href={`${product.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g,"-").replace(/\s+/g,'-').replace('/','-')}/p=${product.product_id}`}
-                            className={`flex xl:hidden lg:hidden mb-2 -mx-2 py-2 rounded ${
+                        <div>
+                          <div
+                            className={`hidden xl:flex lg:flex mb-2  py-2 rounded ${
                               product.stock
                                 ? "bg-white "
                                 : "bg-dbase bg-opacity-10"
                             }`}
                           >
-                            <div className="w-3/12">
+                            <Link
+                              href={`${product?.name
+                                ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                ?.replace(/\s+/g, "-")
+                                .replace("/", "-")}/p=${product.product_id}`}
+                              onClick={() =>
+                                setMarketingData({
+                                  ignore: false,
+                                  banner_image_id: "",
+                                  source_type: "checkout",
+                                  source_type_id: "",
+                                })
+                              }
+                              key={product.product_id}
+                            >
                               <img
                                 onClick={() =>
                                   router.push(
@@ -2133,54 +2072,21 @@ function CheckoutCompnents() {
                                   )
                                 }
                                 src={product.image}
-                                className="w-full block rounded"
+                                className="w-24 block rounded ml-2"
                                 alt={product.name}
                               />{" "}
-                              <div className="flex flex-col items-end text-dblack justify-center">
-                                <div className="flex mt-2">
-                                  <button
-                                    onClick={(e) =>
-                                      updateQuantity(
-                                        e,
-                                        product.key,
-                                        Number(product.quantity) - 1
-                                      )
-                                    }
-                                    className="w-1/3 h-10 text-2xl border border-dinputBorder rounded-tl rounded-bl cursor-pointer hover:shadow"
-                                  >
-                                    -
-                                  </button>{" "}
-                                  <input
-                                    type="number"
-                                    className="border border-dinputBorder w-1/3 h-10 border-r-0 border-l-0 text-center"
-                                    value={product.quantity}
-                                  />{" "}
-                                  <button
-                                    onClick={(e) =>
-                                      updateQuantity(
-                                        e,
-                                        product.key,
-                                        Number(product.quantity) + 1
-                                      )
-                                    }
-                                    className="w-1/3 h-10 text-2xl border border-dinputBorder  rounded-tr rounded-br cursor-pointer hover:shadow"
-                                  >
-                                    +
-                                  </button>{" "}
-                                </div>{" "}
-                              </div>{" "}
-                            </div>{" "}
-                            <div className="w-9/12 flex flex-col justify-between items-start pl-6 text-dblack py-2 flex-grow ">
+                            </Link>{" "}
+                            <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow ">
                               <p className="text-d13 text-dgrey1">
                                 {" "}
                                 {product.sku}{" "}
                               </p>{" "}
                               <p
-                                className=" text-sm "
+                                className=" text-sm font-semibold"
                                 dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(product.name)
+                                  __html: DOMPurify.sanitize(product.name),
                                 }}
-                              ></p>{" "}
+                              />{" "}
                               {product.option.length > 0 && (
                                 <p className="text-dgreen text-sm">
                                   {" "}
@@ -2190,21 +2096,165 @@ function CheckoutCompnents() {
                                     ")"}{" "}
                                 </p>
                               )}{" "}
-                              <span className=" font-semibold text-lg">
-                                {" "}
-                                {product.price_formatted}{" "}
-                              </span>
+                              {product.warranty.length > 0 && (
+                                <p className="text-dgreen text-sm">
+                                  {" "}
+                                  {product.warranty[0].warranty_name +
+                                    " ( " +
+                                    product.warranty[0].warranty_titles +
+                                    " / " +
+                                    product.warranty[0].warranty_days +
+                                    " )"}{" "}
+                                </p>
+                              )}{" "}
                               <button
-                                className="cursor-pointer text-dgrey1 text-xs"
+                                type="button"
+                                className="cursor-pointer text-dgrey1 text-xs text-center"
                                 onClick={(e) =>
                                   updateQuantity(e, product.key, 0)
                                 }
                               >
                                 <span> Remove </span>{" "}
-                                <i className="icon icon-trash ml-1"> </i>{" "}
+                                <i className="icon icon-trash ml-1" />
                               </button>{" "}
+                            </div>
+                            <div className="py-2 px-6 w-48 flex flex-col items-end text-dblack justify-center">
+                              <span className=" font-semibold text-lg">
+                                {" "}
+                                {product.price_formatted}{" "}
+                              </span>{" "}
+                              <div className="flex mt-4">
+                                <button
+                                  type="button"
+                                  onClick={(e) =>
+                                    updateQuantity(
+                                      e,
+                                      product.key,
+                                      Number(product.quantity) - 1
+                                    )
+                                  }
+                                  className="text-center w-10 h-10  text-2xl border border-dinputBorder rounded-tl rounded-bl cursor-pointer hover:shadow"
+                                >
+                                  -
+                                </button>{" "}
+                                <input
+                                  type="number"
+                                  className="border border-dinputBorder w-20 h-10 border-r-0 border-l-0 text-center"
+                                  value={product.quantity}
+                                  onChange={() => {}}
+                                />{" "}
+                                <button
+                                  type="button"
+                                  onClick={(e) =>
+                                    updateQuantity(
+                                      e,
+                                      product.key,
+                                      Number(product.quantity) + 1
+                                    )
+                                  }
+                                  className="text-center w-10 h-10  text-2xl border border-dinputBorder  rounded-tr rounded-br cursor-pointer hover:shadow"
+                                >
+                                  +
+                                </button>{" "}
+                              </div>{" "}
                             </div>{" "}
-                          </Link> */}
+                          </div>
+                          {/* Mobile design */}{" "}
+                          <div>
+                            <Link
+                              href={`${product.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g,"-").replace(/\s+/g,'-').replace('/','-')}/p=${product.product_id}`}
+                              className={`flex xl:hidden lg:hidden mb-2 -mx-2 py-2 rounded ${
+                                product.stock
+                                  ? "bg-white "
+                                  : "bg-dbase bg-opacity-10"
+                              }`}
+                            >
+                              <div className="w-3/12">
+                                <img
+                                  onClick={() =>
+                                    router.push(
+                                      `${product.name
+                                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                        .replace(/\s+/g, "-")
+                                        .replace("/", "-")}/p=${
+                                        product.product_id
+                                      }`
+                                    )
+                                  }
+                                  src={product.image}
+                                  className="w-full block rounded"
+                                  alt={product.name}
+                                />{" "}
+                                <div className="flex flex-col items-end text-dblack justify-center">
+                                  <div className="flex mt-2">
+                                    <button
+                                      onClick={(e) =>
+                                        updateQuantity(
+                                          e,
+                                          product.key,
+                                          Number(product.quantity) - 1
+                                        )
+                                      }
+                                      className="w-1/3 h-10 text-2xl border border-dinputBorder rounded-tl rounded-bl cursor-pointer hover:shadow"
+                                    >
+                                      -
+                                    </button>{" "}
+                                    <input
+                                      type="number"
+                                      className="border border-dinputBorder w-1/3 h-10 border-r-0 border-l-0 text-center"
+                                      value={product.quantity}
+                                    />{" "}
+                                    <button
+                                      onClick={(e) =>
+                                        updateQuantity(
+                                          e,
+                                          product.key,
+                                          Number(product.quantity) + 1
+                                        )
+                                      }
+                                      className="w-1/3 h-10 text-2xl border border-dinputBorder  rounded-tr rounded-br cursor-pointer hover:shadow"
+                                    >
+                                      +
+                                    </button>{" "}
+                                  </div>{" "}
+                                </div>{" "}
+                              </div>{" "}
+                              <div className="w-9/12 flex flex-col justify-between items-start pl-6 text-dblack py-2 flex-grow ">
+                                <p className="text-d13 text-dgrey1">
+                                  {" "}
+                                  {product.sku}{" "}
+                                </p>{" "}
+                                <p
+                                  className=" text-sm "
+                                  dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(product.name),
+                                  }}
+                                ></p>{" "}
+                                {product.option.length > 0 && (
+                                  <p className="text-dgreen text-sm">
+                                    {" "}
+                                    {product.option[0].name +
+                                      " (" +
+                                      product.option[0].value +
+                                      ")"}{" "}
+                                  </p>
+                                )}{" "}
+                                <span className=" font-semibold text-lg">
+                                  {" "}
+                                  {product.price_formatted}{" "}
+                                </span>
+                                <button
+                                  className="cursor-pointer text-dgrey1 text-xs"
+                                  onClick={(e) =>
+                                    updateQuantity(e, product.key, 0)
+                                  }
+                                >
+                                  <span> Remove </span>{" "}
+                                  <i className="icon icon-trash ml-1"> </i>{" "}
+                                </button>{" "}
+                              </div>{" "}
+                            </Link>
+                          </div>
                         </div>
                       ))}
                   </div>
@@ -2225,7 +2275,13 @@ function CheckoutCompnents() {
                     className={` p-6 rounded  sticky top-7  border border-dgrey1 border-opacity-20 `}
                   >
                     {loading && (
-                      <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
+                      <div
+                        className={`absolute ${
+                          manualResponse?.points_option?.length > 0
+                            ? "top-4"
+                            : "top-0"
+                        }  left-0 w-full h-full bg-dblack bg-opacity-10 flex items-center justify-center`}
+                      >
                         <Loader styles="h-9 w-9 text-dblue ml-4" />
                       </div>
                     )}
@@ -2260,6 +2316,49 @@ function CheckoutCompnents() {
                         <p className="text-center mt-3">APPLY</p>
                       </div>{" "}
                     </div>{" "}
+                    {/* customer points */}
+                    {state.loged &&
+                      typeof manualResponse?.customer_point !== "undefined" &&
+                      manualResponse?.customer_point !== "" && (
+                        <div className="mb-6">
+                          <p className="pr-light pb-2">Customer points:</p>
+                          <div className="relative">
+                            <div
+                              onClick={() => setPointsDropdown(!pointsDropdown)}
+                              className={`bg-white p-2  cursor-pointer flex items-center justify-between ${
+                                !pointsDropdown
+                                  ? "rounded"
+                                  : "rounded-tl rounded-tr"
+                              }`}
+                            >
+                              <div>
+                                {pointsInfo.current.value.length === 0
+                                  ? "Select a point option:"
+                                  : `${pointsInfo.current.point} points, ${pointsInfo.current.value} ${pointsInfo.current.type}`}
+                              </div>
+                              <BiChevronDown />
+                            </div>
+                            {pointsDropdown && (
+                              <div className="absolute z-10 bg-white  rounded w-full">
+                                {manualResponse?.points_option?.map(
+                                  (p_o, i) => (
+                                    <div
+                                      className={`hover:bg-dblue hover:text-white p-2 cursor-pointer ${
+                                        i === 0
+                                          ? "rounded-bl rounded-br"
+                                          : "rounded"
+                                      } `}
+                                      onClick={() => applyPoints(p_o)}
+                                    >
+                                      {p_o.point} points, {p_o.value} {p_o.type}
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     {/* <div className="flex justify-between items-center text-dgrey1 font-light mt-1">
                       <p>
                         {" "}
@@ -2326,15 +2425,15 @@ function CheckoutCompnents() {
                         onClick={() => {
                           dispatchAccount({
                             type: "setShowOver",
-                            payload: true
+                            payload: true,
                           });
                           dispatchAccount({
                             type: "setShowLogin",
-                            payload: true
+                            payload: true,
                           });
                           dispatchAccount({
                             type: "setShowSignup",
-                            payload: false
+                            payload: false,
                           });
                         }}
                       >
@@ -2541,7 +2640,7 @@ function CheckoutCompnents() {
                 </div>
 
                 {/* customer wallet */}
-                {/* <div className="p-5 rounded top-7 border border-dgrey1 border-opacity-20 mt-6">
+                <div className="p-5 rounded top-7 border border-dgrey1 border-opacity-20 mt-6">
                   {loading && (
                     <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
                       <Loader styles="h-9 w-9 text-dblue ml-4" />
@@ -2573,7 +2672,7 @@ function CheckoutCompnents() {
                       <p className="text-center mt-3">APPLY</p>
                     </div>{" "}
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>{" "}
           </form>
