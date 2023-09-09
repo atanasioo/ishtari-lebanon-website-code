@@ -121,8 +121,6 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log(session, token)
-      console.log("testtttt")
       session.user.isLoggedIn = true;
       session.user.customer_id = token.customer_id;
       session.user.firstname = token.firstname;
