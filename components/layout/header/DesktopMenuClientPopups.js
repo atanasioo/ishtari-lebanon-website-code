@@ -339,7 +339,6 @@ function DesktopMenuClientPopups(props) {
                           alt={banner.image.name}
                           title={banner.image.name}
                           style={{ width: "100%", height: "350px" }}
-                          priority="true"
                         />
                       </div>
                     ))}

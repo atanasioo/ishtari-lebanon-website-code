@@ -13,7 +13,7 @@ function categoryTopSelling(props) {
     <div className="py-6 container">
       <div className="w-full">
         <img src="/images/top-hits-web.png" width={1440} height={100} className="hidden mobile:block rounded-md" />
-        <img src="/images/top-selling-mobile.png" width={351} height={207} priority={true} className="mobile:hidden w-full" />
+        <img src="/images/top-selling-mobile.png" width={351} height={207} className="mobile:hidden w-full" />
       </div>
       <div className="pr-semibold text-d20 text-dblack my-6">
         Top Selling for{" "}

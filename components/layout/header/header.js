@@ -172,7 +172,6 @@ function Header(props) {
                   width={110}
                   height={32}
                   alt="flo-logo"
-                  priority={true}
                   // style={{ width: "80%", height: "auto" }}
                 />
               ) : serverSideDomain.indexOf("ishtari") > -1 ||
@@ -184,7 +183,6 @@ function Header(props) {
                     width={150}
                     height={32}
                     alt="ishtari-logo"
-                    priority={true}
                     // style={{ width: "80%", height: "auto" }}
                   />
                   <img
@@ -193,7 +191,6 @@ function Header(props) {
                     width={96}
                     height={20}
                     alt="ishtari-logo"
-                    priority={true}
                     // style={{ width: "78%", height: "auto" }}
                   />
                 </>
@@ -205,7 +202,6 @@ function Header(props) {
                     width={150}
                     height={32}
                     alt="ishtari-logo"
-                    priority={true}
                     // style={{ width: "80%", height: "auto" }}
                   />
                   <img
@@ -215,7 +211,6 @@ function Header(props) {
                     width={96}
                     height={40}
                     alt="ishtari-logo"
-                    priority={true}
                     // style={{ width: "78%", height: "auto" }}
                   />
                 </>
@@ -228,7 +223,6 @@ function Header(props) {
                     width={150}
                     height={32}
                     alt="ishtari-logo"
-                    priority={true}
                     // style={{ width: "80%", height: "auto" }}
                   />
                   <img
@@ -237,7 +231,6 @@ function Header(props) {
                     width={96}
                     height={40}
                     alt="ishtari-logo"
-                    priority={true}
                     // style={{ width: "78%", height: "auto" }}
                   />
                 </>

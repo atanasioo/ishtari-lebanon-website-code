@@ -149,7 +149,6 @@ function feedback() {
                     src={"/images/feedback-website.png"}
                     width={1100}
                     height={200}
-                    priority={true}
                     className="w-full hidden md:block"
                     alt="feedback_banner"
                   />
@@ -157,7 +156,6 @@ function feedback() {
                     src={"/images/feedback.png"}
                     width={1100}
                     height={200}
-                    priority={true}
                     className="w-full md:hidden"
                     alt="feedback_banner_mobile"
                   />
