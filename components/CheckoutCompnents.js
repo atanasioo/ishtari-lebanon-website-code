@@ -596,8 +596,8 @@ function CheckoutCompnents() {
     }
     axiosServer
       .post(
-        buildLink("manual", undefined, undefined, window.config["site-url"]),
-        // +"&testrimn=true&test"
+        buildLink("manual", undefined, undefined, window.config["site-url"])
+        +"&testrimn=true&test",
         body
       )
       .then((response) => {
@@ -2321,7 +2321,11 @@ function CheckoutCompnents() {
                       typeof manualResponse?.customer_point !== "undefined" &&
                       manualResponse?.customer_point !== "" && (
                         <div className="mb-6">
-                          <p className="pr-light pb-2">Customer points:</p>
+                          <div className="flex items-center justify-between">
+                            <p className="pr-light pb-2">Customer points: </p>
+                            <p className="text-dgreen pr-semibold">{manualResponse?.customer_point} pts</p>
+                          </div>
+                          
                           <div className="relative">
                             <div
                               onClick={() => setPointsDropdown(!pointsDropdown)}
@@ -2650,7 +2654,7 @@ function CheckoutCompnents() {
                     <h1 className="pr-bold text-xll text-dblack mb-4 leading-26">
                       Customer Balance
                     </h1>
-                    <div className="pr-semibold">{walletBalance}</div>
+                    <div className="pr-semibold">{manualResponse?.balance}</div>
                   </div>
 
                   <div className="text-sm">

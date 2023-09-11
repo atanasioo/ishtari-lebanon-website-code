@@ -2378,6 +2378,12 @@ div.widget_text p{
       overflow-x: hidden;
     }
   }
+
+  .lazy-load-image-background{
+    /* object-fit: cover;  */
+    width: 100% !important;
+    height: 100% !important;
+  }
  
 
 

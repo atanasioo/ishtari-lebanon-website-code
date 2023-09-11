@@ -11,6 +11,7 @@ import { AccountContext } from "@/contexts/AccountContext";
 import NewImage from "./NewImage";
 import Slider from "./Slider";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function SingleProduct(props) {
   const { item, host, addToCart, topSelling } = props;
@@ -166,12 +167,13 @@ function SingleProduct(props) {
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
                 !item?.images ? (
-                <img
+                <LazyLoadImage
                   alt={item.name}
                   src={item.thumb}
                   width={!topSelling ? 200 : 150}
-                  height={!topSelling ? 300 : 200}
+                  height={!topSelling ? 200 : 300}
                   className="max-w-full max-h-full"
+                  placeholderSrc="/images/product_placeholder.png"
                 />
               ) : (
                

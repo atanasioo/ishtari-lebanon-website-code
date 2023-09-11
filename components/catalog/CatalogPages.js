@@ -1057,7 +1057,7 @@ function CatalogPage(props) {
             </div>
           </div>
         </div>
-        <div className="w-full mobile:w-4/5 leading-dtight mobile:pl-5">
+        <div className="w-full mobile:w-4/5 leading-dtight mobile:pl-5 overflow-x-hidden">
           <div className="flex justify-between">
             {/* Results found */}
             <div className="flex mx-1 mobile:w-4/12 pt-2 mobile:pt-1 ">
