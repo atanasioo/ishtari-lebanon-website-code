@@ -63,6 +63,8 @@ function CartSideModal(props) {
                 <img
                   src={data.thumb}
                   alt={data.name}
+                  height={200}
+                  width={100}
                   className=" w-4/12 rounded"
                 />
                 <div className="mt-2 pl-4 py-2">
