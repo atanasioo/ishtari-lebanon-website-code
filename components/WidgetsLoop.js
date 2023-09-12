@@ -1223,7 +1223,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       id="content"
                       style={{
                         animation: `scroll ${
-                          widget.duration > 0 ? 500/55 : 25
+                          widget.duration > 0 ? 10 : 25
                         }s linear infinite `
                       }}
                     >
