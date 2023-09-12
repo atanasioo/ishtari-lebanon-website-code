@@ -2408,6 +2408,7 @@ display: inline-block;
   animation-timing-function: 10s linear; /* Use linear timing function for consistent speed */
   animation-delay: 1s; /* No delay */
   /* animation-duration: 10s, 35s, 230ms; */
+  scroll-behavior: smooth;
 
 
 }
