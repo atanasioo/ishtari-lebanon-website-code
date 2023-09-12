@@ -789,16 +789,18 @@ mySwiper .swiper-button-next {
   display: none;
 }
 
-.selector_div .slick-list{
-  height: 439px !important;
-  
+@media (min-width: 1028px){
+  .selector_div .slick-list{
+    height: 439px !important;
+  }
 }
+
+
 @media (max-width: 650px){
 .selector_div  .slick-list{
   height: unset !important;   
-  
 }
-.selector_div .slick-slide{}
+
 }
   .selector_div {
     min-height: 550px;
@@ -2223,6 +2225,18 @@ input:checked + .slider_swicth:before {
   touch-action: pan-y !important;
 }
 
+@media (max-width: 768px){
+  .single-product-img-slider .slick-track{
+    display: flex !important;
+  }
+  .single-product-img-slider .slick-slide{
+    height: inherit !important;
+  }
+  .single-product-img-slider .slick-slide>div{
+    height: 100% !important;
+  }
+}
+
 @media (max-width: 840px){
   .popup-open {
     overflow-y: hidden !important;
@@ -2383,6 +2397,10 @@ div.widget_text p{
     /* object-fit: cover;  */
     width: 100% !important;
     height: 100% !important;
+  }
+  .black-gradient{
+    background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%),
+     radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
   }
  
 

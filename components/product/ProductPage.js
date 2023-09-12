@@ -65,6 +65,7 @@ function ProductPage(props) {
   const [viewColor, setViewColor] = useState();
   const [activeOption, setActiveOption] = useState({});
   const [optionParent, setOptionParent] = useState("");
+  const [sellerData, setSellerData] = useState({});
   const [sizeGuide, setSizeGuide] = useState();
   const [colorSelected, setColorSelected] = useState();
   const [reviews, setReviews] = useState();
@@ -315,13 +316,21 @@ function ProductPage(props) {
           });
       }
     }
+
+    //seller recommendations (excluding ishtari)
+    if (data?.seller_id > 0 && data.seller !== "" && data.seller_id !== "168") {
+      const link =
+        buildLink("seller", undefined, undefined) +
+        data.seller_id +
+        "&source_id=1&limit=5";
+        axiosServer.get(link)
+        .then((response) => {
+          setSellerData(response.data.data);
+        })
+    }
+
   }, [router]);
 
-  useEffect(() => {
-    //product additional data
-    // setAdditionalData([]);
-    // fetchAdditionalData();
-  }, [router]);
 
   function fetchAdditionalData() {
     axiosServer
@@ -334,6 +343,7 @@ function ProductPage(props) {
         setAdditional(response.data.data);
       });
   }
+
 
   function unescapeHTML(str) {
     if (!str) {
@@ -1002,6 +1012,7 @@ function ProductPage(props) {
                   hovered={hovered}
                   productData={data}
                   additionalData={additionalData}
+                  sellerData={sellerData}
                 />
                 {/* {data.images?.length > 0 && (
                   <MagicZoom
@@ -1161,7 +1172,7 @@ function ProductPage(props) {
                       {/* missing span */}
 
                       {data.special !== "0" && (
-                        <div className="flex items-center">
+                        <div className="flex items-center mb-3">
                           <div className="mr-9 text-d14 text-dblack">
                             Saving:
                           </div>
@@ -1179,6 +1190,22 @@ function ProductPage(props) {
                         </div>
                       )}
                     </div>
+
+                    {/* product points */}
+                    {data.points !== ""  && data.points !== "0" && (
+                      <div className="flex items-center">
+                        <div className="mr-9 text-d14 text-dblack">Points:</div>
+                        <div className={`text-dblack `} >
+                          <span
+                            className={
+                              "pl-2 pr-1"
+                            }
+                          >
+                            {data.points}
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   {/* Add to cart */}
 
@@ -1191,7 +1218,6 @@ function ProductPage(props) {
                     )}
                   </div>
 
-                  {/* div l overflow */}
                   <div
                     className={`flex items-center mt-4 mb-4 ${
                       data["quantity"] <= 5 ? "mt-1" : "mt-4"
@@ -1246,7 +1272,7 @@ function ProductPage(props) {
                                   length:
                                     data?.maximum === 0
                                       ? data.quantity
-                                      : data?.maximum
+                                      : data?.maximum,
                                 },
                                 (_, index) => index + 1
                               ).map((value) => (
@@ -2062,6 +2088,7 @@ function ProductPage(props) {
             reviews={reviews}
             host={host}
             product_id={product_id}
+            sellerData={sellerData}
           />
         </div>
       </div>

@@ -202,7 +202,7 @@ function ProductZoomModal(props) {
                     </div>
                     {/* selector-div */}
 
-                    <div className={`hidden lg:grid lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 mt-7 overflow-y-scroll lg:max-h-245px xl:max-h-410px`}>
+                    <div className={`hidden lg:grid lg:grid-cols-3  xl:grid-cols-4 2xl:grid-cols-5 mt-7 overflow-y-scroll lg:max-h-245px 2xl:max-h-410px`}>
                       {images?.map((i) => (
                         <div
                           key={i["thumb"]}

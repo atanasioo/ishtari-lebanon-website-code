@@ -243,7 +243,7 @@ export async function getServerSideProps(context) {
           id +
           "&source_id=1&limit=50" +
           filter +
-          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); // don't forget itt fatimaa
+          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); 
         console.log("FFFFFFFFFFFFFF1111");
         console.log(link);
         const response = await axiosServer.get(link, {

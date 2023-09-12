@@ -4,19 +4,16 @@ import Slider from "react-slick";
 import useDeviceSize from "../useDeviceSize";
 import ProductZoomModal from "./ProductZoomModal";
 import SmallArrows from "./SmallArrows";
-import {
-  EmailShareButton,
-  FacebookShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-} from "react-share";
 import ShareSocial from "./ShareSocial";
 import { useRouter } from "next/router";
-import { BiLoaderCircle } from "react-icons/bi";
+import { BiLoaderCircle, BiRightArrowCircle } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import Link from "next/link";
+import { slugify } from "../Utils";
 
 function ProductZoom(props) {
-  const { productData, activeOption, additionalData } = props;
+  const { productData, activeOption, additionalData, sellerData } = props;
   const [activeImage, setActiveImage] = useState([]);
   const [images, setImages] = useState([]);
   const [hoverZoom, setHoverZoom] = useState(false);
@@ -26,7 +23,7 @@ function ProductZoom(props) {
   const [showShare, setShowShare] = useState(false);
   const [hovered, setHovered] = useState(props.hovered);
   const [additionalArr, setAdditionalArr] = useState([]);
-  const [firstTime, setFirstTime]= useState(true);
+  const [sellerSlide, setSellerSlide] = useState(false);
   // const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const imageSlider = useRef(null);
   const SmallImageSlider = useRef(null);
@@ -40,7 +37,7 @@ function ProductZoom(props) {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 3.80,
+    slidesToShow: 3.8,
     slidesToScroll: 3,
     swipeToSlide: false,
     autoplay: false,
@@ -66,7 +63,6 @@ function ProductZoom(props) {
     className: "slider variable-width",
   };
 
-  console.log(width > 375 ? 4 : width > 300 ? 3.75 : 2);
 
   const singleSetting = {
     dots: false,
@@ -77,8 +73,8 @@ function ProductZoom(props) {
     autoplay: false,
     ref: imageSlider,
     swipe: width > 768 ? false : true,
-    fade: true, 
-    cssEase: 'linear',
+    fade: true,
+    cssEase: "linear",
     touchThreshold: 100,
     afterChange: (currentSlide) => handleSingleMobileChange(currentSlide),
     prevArrow: <></>, // or null
@@ -121,21 +117,34 @@ function ProductZoom(props) {
     smallMobileSliderRef?.current?.slickGoTo(0);
     // setAllImagesLoaded(false);
     setHovered(false);
+    
   }, [images]);
 
-  const maxComments = 2; 
+  useEffect(() => {
+    imageSlider?.current?.slickGoTo(0);
+    SmallImageSlider?.current?.slickGoTo(0);
+    smallMobileSliderRef?.current?.slickGoTo(0);
+    setSellerSlide(false);
+  },[router])
+
+  // console.log(activeSlide);
+  // console.log(activeImage);
+
+  const maxComments = 2;
   const commentDuration = 3500;
   const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
   const commentRef = useRef(null);
-  let timer; 
+  let timer;
 
   useEffect(() => {
     if (Object.keys(additionalData).length > 0) {
       if (typeof additionalData?.analytics !== "undefined") {
         const newComment = additionalData.analytics[currentCommentIndex].trim();
-        const nonEmptyCount = additionalData.analytics.filter(comment => comment.trim() !== "").length;
+        const nonEmptyCount = additionalData.analytics.filter(
+          (comment) => comment.trim() !== ""
+        ).length;
 
-         timer = setInterval(
+        timer = setInterval(
           () => {
             setAdditionalArr((prevComments) => {
               const newComments = [...prevComments];
@@ -153,14 +162,17 @@ function ProductZoom(props) {
             });
             setCurrentCommentIndex((prevIndex) => {
               if (prevIndex === 0) {
-                setTimeout(() => {
-                  setIsFadingOut(true);
+                setTimeout(
+                  () => {
+                    setIsFadingOut(true);
 
-                  setTimeout(() => {
-                    setAdditionalArr([]); // Empty the array when index resets
-                    setIsFadingOut(false);
-                  }, 1000);
-                }, nonEmptyCount !== 1 ? 1000 : 3000);
+                    setTimeout(() => {
+                      setAdditionalArr([]); // Empty the array when index resets
+                      setIsFadingOut(false);
+                    }, 1000);
+                  },
+                  nonEmptyCount !== 1 ? 1000 : 3000
+                );
               }
               return (prevIndex + 1) % additionalData.analytics.length;
             });
@@ -218,9 +230,19 @@ function ProductZoom(props) {
 
   function handleSingleMobileChange(currentSlide) {
     if (width < 768) {
+      console.log("where i shouldnt be");
+      console.log("current slide" + currentSlide);
       setActiveImage(images[currentSlide]);
       setActiveSlide(currentSlide);
       smallMobileSliderRef.current.slickGoTo(currentSlide);
+      if (
+        currentSlide === images.length &&
+        Object.keys(sellerData).length > 0
+      ) {
+        setSellerSlide(true);
+      } else {
+        setSellerSlide(false);
+      }
     }
   }
 
@@ -366,7 +388,6 @@ function ProductZoom(props) {
     };
   }, [router.events]);
 
-
   return (
     <div className="h-full">
       {showModal && (
@@ -385,7 +406,7 @@ function ProductZoom(props) {
             id="selector_div"
             className="selector_div w-full my-2 md:w-2/12 md:pr-2"
           >
-            <div className="selectors overflow-hidden overflow-y-hidden h-full  whitespace-pre md:whitespace-normal ">
+            <div className="selectors overflow-hidden overflow-y-hidden h-full  whitespace-pre md:whitespace-normal">
               <Slider {...setting} className="hidden md:block">
                 {images?.map((i) => (
                   <div
@@ -410,7 +431,7 @@ function ProductZoom(props) {
                   </div>
                 ))}
               </Slider>
-              <Slider {...mobileSetting} className={`md:hidden `}>
+              <Slider {...mobileSetting} className={`md:hidden`}>
                 {images?.map((i, index) => (
                   <div
                     key={i["thumb"]}
@@ -439,6 +460,21 @@ function ProductZoom(props) {
                     />
                   </div>
                 ))}
+                {Object.keys(sellerData).length > 0 && width < 768 && (
+                  <div
+                    className={`flex justify-center h-[107px] items-center mt-2 mr-4 text-d28 pr-bold transition-all ease-in-out outline-none cursor-pointer border-2 ${
+                      sellerSlide ? "border-dblue" : "border-dgreyZoom"
+                    } text-dblue rounded`}
+                    onClick={() => {
+                      setSellerSlide(true);
+                      setActiveSlide(images.length);
+                      imageSlider.current.slickGoTo(images.length);
+                      
+                    }}
+                  >
+                    ...
+                  </div>
+                )}
               </Slider>
             </div>
           </div>
@@ -451,8 +487,8 @@ function ProductZoom(props) {
             >
               <div
                 onClick={() => {
-                  htmlOverflow();
-                  setShowModal(true);
+                  !sellerSlide && htmlOverflow();
+                  !sellerSlide && setShowModal(true);
                   //props.hideFixedCartMenu(true);
                 }}
                 onMouseEnter={() => {
@@ -490,6 +526,49 @@ function ProductZoom(props) {
                       blurDataURL="data:image/png;base64,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"
                     />
                   ))}
+                  {Object.keys(sellerData).length > 0 && width < 768 && (
+                    <div className="black-gradient h-full flex flex-col justify-center items-start p-2">
+                      <div className="pr-semibold text-white pb-2">
+                        Seller Recommendations
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        {sellerData.products.map((product) => (
+                          <Link
+                            href={`/${slugify(product.name)}/p=${
+                              product.product_id
+                            }`}
+                            className="rounded-xl bg-white p-2"
+                          >
+                            <div className="rounded-b-xl border-b border-dgreyRate">
+                              <LazyLoadImage
+                                src={product.thumb}
+                                alt={product.name}
+                                width={120}
+                                height={100}
+                                placeholderSrc="/images/product_placeholder.png"
+                              />
+                            </div>
+                            <div className="text-center pt-3 pb-1 pr-semibold">
+                              {product.special !== ""
+                                ? product.special
+                                : product.price}
+                            </div>
+                          </Link>
+                        ))}
+                        <Link
+                          href={`/${slugify(productData.seller)}/s=${
+                            productData.seller_id
+                          }`}
+                          className="rounded-xl bg-white p-2 flex justify-center items-center"
+                        >
+                          <div className="flex flex-col text-dblue items-center gap-2">
+                            <BiRightArrowCircle className="w-11 h-11" />
+                            <div className="text-sm">Discover More</div>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </Slider>
               </div>
 

@@ -2,9 +2,14 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import StarRatings from "react-star-ratings";
 import Image from "next/image";
 import useDeviceSize from "@/components/useDeviceSize";
-import { BsChevronLeft, BsChevronRight, BsPlusLg } from "react-icons/bs";
+import {
+  BsArrowRightCircle,
+  BsChevronLeft,
+  BsChevronRight,
+  BsPlusLg,
+} from "react-icons/bs";
 import SingleProduct from "./SingleProduct";
-import { sanitizeHTML } from "../Utils";
+import { sanitizeHTML, slugify } from "../Utils";
 import Slider from "react-slick";
 import Link from "next/link";
 import "slick-carousel/slick/slick.css";
@@ -20,13 +25,17 @@ import PointsLoader from "../PointsLoader";
 import imageCompression from "browser-image-compression";
 import ReviewImagesModal from "./ReviewImagesModal";
 import { useRouter } from "next/router";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { BiRightArrowCircle } from "react-icons/bi";
 
 function ProductPart2(props) {
-  const { titleRef, loader, productData2, data, host, product_id } = props; //data is for product part one data
+  const { titleRef, loader, productData2, data, host, product_id, sellerData } =
+    props; //data is for product part one data
   const [width] = useDeviceSize();
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
   const [ratingCustomer, setRatingCustomer] = useState(0);
+  // const [isDetails, setIsDetails] = useState(false);
   const [selectedReviewImg, setSelectedReviewImg] = useState("");
   const [selectedReviewImgIndex, setSelectedReviewImgIndex] = useState(0);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -46,6 +55,7 @@ function ProductPart2(props) {
   useEffect(() => {
     setReviews(props.reviews);
   }, [props.reviews]);
+
 
   //image size compressor
   const defaultOptions = {
@@ -317,7 +327,6 @@ function ProductPart2(props) {
     }
   }
 
-  console.log(productData2);
 
   function validateImagesSize() {
     const files = ReviewImages;
@@ -1121,6 +1130,68 @@ function ProductPart2(props) {
           </div>
         </div>
       </div>
+      {/* Poduct Details for Mobile :) */}
+      {/* <div className="my-2 container bg-white mobile:hidden">
+        <div
+          className="flex justify-between items-center"
+          onClick={() => setIsDetails((prev) => !prev)}
+        >
+          <p className="font-semibold text-xl py-2 text-dblack mb-1">
+            Product Details
+          </p>
+          <i
+            className={
+              !isDetails
+                ? "icon icon-angle-right text-dgrey1 text-2xl transition-all"
+                : "icon icon-angle-down text-dgrey1 text-2xl transition-all"
+            }
+          ></i>
+        </div>
+        <div
+          className={!isDetails ? "hidden" : "block"}
+          id="desc"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHTML(data.description),
+          }}
+        />
+      </div> */}
+
+      {/* seller recommendations desktop */}
+
+      {Object.keys(sellerData).length > 0 && width > 768 && (
+        <div className="w-full md:px-6 my-2  pt-1 bg-white">
+          <div className="container pb-2 md:pb-8">
+            <p className="pr-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
+              Seller Recommendations
+            </p>
+            <div className="flex gap-3">
+              {sellerData.products.map((product) => (
+                <Link href={`/${slugify(product.name)}/p=${product.product_id}`} className="bg-white rounded-xl p-2 border border-dgreyRate hover:shadow-md">
+                  <div className="rounded-b-xl border-b border-dgreyRate">
+                    <LazyLoadImage
+                      src={product.thumb}
+                      alt={product.name}
+                      width={150}
+                      height={200}
+                      placeholderSrc="/images/product_placeholder.png"
+                    />
+                  </div>
+                  <div className="text-center pt-3 pb-1 pr-semibold">
+                    {product.special !== "" ? product.special : product.price}
+                  </div>
+                </Link>
+              ))}
+              <Link href={`/${slugify(data.seller)}/s=${data.seller_id}`} className="bg-white rounded-xl p-2 flex justify-center items-center w-44 border border-dgreyRate hover:shadow-md">
+                <div className="flex flex-col text-dblue items-center gap-2">
+                  <BiRightArrowCircle className="w-11 h-11" />
+                  <div>Discover More</div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Related Product */}
       {productData2?.product_related &&
         productData2?.product_related?.length > 0 && (
