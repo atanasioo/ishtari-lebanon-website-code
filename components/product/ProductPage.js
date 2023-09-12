@@ -3,12 +3,12 @@ import {
   BsChevronLeft,
   BsChevronRight,
   BsFillAwardFill,
-  BsFillHeartFill,
+  BsFillHeartFill
 } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaBus } from "react-icons/fa";
-import { AiOutlineShop } from "react-icons/ai";
+import { AiOutlineShop, AiFillStar } from "react-icons/ai";
 import Image from "next/image";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
@@ -33,6 +33,7 @@ import WhatsappBtn from "./WhatsappBtn";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
 import WarrantyPopup from "./WarrantyPopup";
+import Timer from "./Timer";
 
 function ProductPage(props) {
   //Server props
@@ -80,9 +81,10 @@ function ProductPage(props) {
   // const [additionalData, setAdditionalData] = useState({});
   const [warrantyPlan, setWarrantyPlan] = useState({});
   const [warrantyPopup, setWarrantyPopup] = useState(false);
+  const [isDetails, setIsDetails] = useState(false);
 
   // const [additionalData, setAdditionalData] = useState({});
-  const [additional, setAdditional]  =  useState()
+  const [additional, setAdditional] = useState();
   const [value, setValue] = useState(0);
   const [result, setResult] = useState();
   const [nameValue, setName] = useState("");
@@ -90,20 +92,17 @@ function ProductPage(props) {
   const descriptionRef = useRef();
   const [showOptionModal, setShowOptionModal] = useState({
     show: false,
-    bundle: null,
+    bundle: null
   });
 
   async function initializeReactPixel() {
     return import("react-facebook-pixel").then((module) => module.default);
   }
 
-
   const [width, height] = useDeviceSize();
-  const Timer = dynamic(() => import("./Timer"), {
-    ssr: false, // Disable server-side rendering
-  });
+
   const SellerImage = dynamic(() => import("./SellerImage"), {
-    ssr: false, // Disable server-side rendering
+    ssr: false // Disable server-side rendering
   });
 
   const router = useRouter();
@@ -117,7 +116,7 @@ function ProductPage(props) {
     slidesToScroll: 1,
     infinite: false,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />
   };
   const productMobileBundlesSetting = {
     speed: 200,
@@ -125,12 +124,12 @@ function ProductPage(props) {
     slidesToScroll: 1,
     infinite: false,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />
   };
 
   useEffect(() => {
     // to force re-render when navigating using client side
-    setAdditional(false)
+    setAdditional(false);
     setLoader(true);
     setQuantity(1);
     setToggleQty(false);
@@ -239,7 +238,7 @@ function ProductPage(props) {
     if (!includesImage) {
       data?.images.unshift({
         popup: data.popup,
-        thumb: data.thumb,
+        thumb: data.thumb
       });
     }
 
@@ -251,7 +250,7 @@ function ProductPage(props) {
         ln: data?.social_data?.lastname,
         external_id: data?.social_data?.external_id,
         country: data?.social_data?.country_code,
-        fbp: Cookies.get("_fbp"),
+        fbp: Cookies.get("_fbp")
       };
       if (typeof window !== "undefined") {
         let ReactPixel; // Define a variable to hold the reference to ReactPixel
@@ -260,7 +259,7 @@ function ProductPage(props) {
           ReactPixel = reactPixelModule; // Assign the default export to the variable
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
-            autoConfig: false,
+            autoConfig: false
           });
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
@@ -273,7 +272,7 @@ function ProductPage(props) {
               content_ids: [product_id],
               content_name: data?.social_data?.name,
               value: data?.social_data?.value,
-              currency: data?.social_data?.currency,
+              currency: data?.social_data?.currency
             },
             { eventID: data?.social_data?.event_id }
           );
@@ -369,7 +368,7 @@ function ProductPage(props) {
     gt: ">",
     quot: '"',
     amp: "&",
-    apos: "'",
+    apos: "'"
   };
 
   function handleReturnPolicy() {
@@ -484,7 +483,7 @@ function ProductPage(props) {
             setImageActiveOption(option);
             setActiveImage({
               popup: element["popup"],
-              thumb: element["thumb"],
+              thumb: element["thumb"]
             });
           }
         }
@@ -516,7 +515,7 @@ function ProductPage(props) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
           value: price,
-          currency: "USD",
+          currency: "USD"
         });
       } else if (
         window.location.host === "www.ishtari.com.gh" ||
@@ -532,7 +531,7 @@ function ProductPage(props) {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
           value: price,
-          currency: "USD",
+          currency: "USD"
         });
       }
     }
@@ -560,7 +559,7 @@ function ProductPage(props) {
           send_to: "AW-991347483/FGk5CJ3V3owYEJuG29gD",
           value: price,
           currency: "USD",
-          event_callback: callback,
+          event_callback: callback
         });
         return false;
       } else if (
@@ -572,7 +571,7 @@ function ProductPage(props) {
           send_to: "AW-10993907106/6Y9jCLfUipEYEKLrpvoo",
           value: price,
           currency: "USD",
-          event_callback: callback,
+          event_callback: callback
         });
         return false;
       } else {
@@ -583,7 +582,6 @@ function ProductPage(props) {
     }
   }
 
-
   function addToCart(bundle) {
     setCountDownPointer(true);
 
@@ -591,7 +589,7 @@ function ProductPage(props) {
     setAddingToCart(true);
     let obj = {
       product_id,
-      quantity,
+      quantity
     };
     if (hasOption) {
       let o = {};
@@ -600,10 +598,10 @@ function ProductPage(props) {
       obj["option"] = o;
     }
 
-    if(Object.keys(warrantyPlan).length > 0){
+    if (Object.keys(warrantyPlan).length > 0) {
       let w = {};
       w["warranty_option_id"] = warrantyPlan.warranty_option_id;
-      obj["warranty"]= w;
+      obj["warranty"] = w;
     }
 
     let error = "";
@@ -641,7 +639,7 @@ function ProductPage(props) {
           }, 3000);
           dispatch({
             type: "loading",
-            payload: true,
+            payload: true
           });
           axiosServer
             .get(
@@ -655,20 +653,20 @@ function ProductPage(props) {
             .then((response_data) => {
               dispatch({
                 type: "setProducts",
-                payload: response_data.data?.data?.products,
+                payload: response_data.data?.data?.products
               });
 
               dispatch({
                 type: "setProductsCount",
-                payload: response_data?.data?.data?.total_product_count,
+                payload: response_data?.data?.data?.total_product_count
               });
               dispatch({
                 type: "setTotals",
-                payload: response_data.data?.data?.totals,
+                payload: response_data.data?.data?.totals
               });
               dispatch({
                 type: "loading",
-                payload: false,
+                payload: false
               });
             });
 
@@ -736,7 +734,7 @@ function ProductPage(props) {
 
     obj = {
       name: nameValue,
-      description: descriptionValue,
+      description: descriptionValue
     };
     axiosServer
       .post(
@@ -802,7 +800,7 @@ function ProductPage(props) {
   function addToWishList() {
     const obj = {
       id: checked,
-      product_id: product_id,
+      product_id: product_id
     };
     axiosServer
       .post(
@@ -828,11 +826,11 @@ function ProductPage(props) {
             if (response.data.success) {
               dispatchW({
                 type: "setProductsCount",
-                payload: response.data.data.total,
+                payload: response.data.data.total
               });
               dispatchW({
                 type: "setProductIds",
-                payload: response.data.data.products,
+                payload: response.data.data.products
               });
             }
           });
@@ -875,11 +873,11 @@ function ProductPage(props) {
               if (response.data.success) {
                 dispatchW({
                   type: "setProductsCount",
-                  payload: response.data.data.total,
+                  payload: response.data.data.total
                 });
                 dispatchW({
                   type: "setProductIds",
-                  payload: response.data.data.products,
+                  payload: response.data.data.products
                 });
               }
             });
@@ -909,7 +907,7 @@ function ProductPage(props) {
       bundle.products.map((p) => {
         const obj = {
           product_id: p.product_id,
-          quantity: Number(p.required_quantity),
+          quantity: Number(p.required_quantity)
         };
         gtag_report_conversion(obj);
       });
@@ -947,11 +945,13 @@ function ProductPage(props) {
         };
       }
     }, [ref, toggleQty]);
-
   }
 
   return (
-    <div style={{ backgroundColor: "#f8f8f9" }} className="product-page-wrapper">
+    <div
+      style={{ backgroundColor: "#f8f8f9" }}
+      className="product-page-wrapper"
+    >
       <div className="">
         <CartSideModal
           successAdded={successAdded}
@@ -985,9 +985,7 @@ function ProductPage(props) {
                     href={`/category/${data?.breadcrumbs?.category[0]?.category_id}`}
                     className="hidden md:block text-dblack font-light truncate text-d11 md:text-sm mx-2"
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHTML(
-                        data?.breadcrumbs?.category[0]?.name
-                      ),
+                      __html: sanitizeHTML(data?.breadcrumbs?.category[0]?.name)
                     }}
                   />
                 </div>
@@ -995,7 +993,7 @@ function ProductPage(props) {
             </div>
           </div>
           <div className="product-div flex items-stretch bg-white w-full md:px-2">
-            <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4" >
+            <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
               <div className="product-zoom w-full md:w-6/12 ">
                 {/* <img width={380} height={518} src={data.popup} /> */}
                 <ProductZoom
@@ -1022,8 +1020,8 @@ function ProductPage(props) {
                       href={{
                         pathname: "/categoryTopSelling",
                         query: {
-                          category_id: `${additionalData?.product_rank?.category_id}`,
-                        },
+                          category_id: `${additionalData?.product_rank?.category_id}`
+                        }
                       }}
                       className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 rounded-full"
                       style={{ backgroundColor: "#ffeced" }}
@@ -1042,7 +1040,7 @@ function ProductPage(props) {
                           dangerouslySetInnerHTML={{
                             __html: sanitizeHTML(
                               additionalData?.product_rank?.category_name
-                            ),
+                            )
                           }}
                         ></span>
                       </div>
@@ -1077,7 +1075,7 @@ function ProductPage(props) {
                 <h1
                   className="text-dblack font-semibold text-d22 mb-3 leading-pn"
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeHTML(data.name),
+                    __html: sanitizeHTML(data.name)
                   }}
                 ></h1>
                 <div className="mb-3 product-info">
@@ -1091,23 +1089,28 @@ function ProductPage(props) {
                       )}
                       <div className="product-rating">
                         {data?.rating > 0 && (
-                          <div className="flex" onClick={handleClick}>
+                          <div
+                            className="flex items-center"
+                            onClick={handleClick}
+                          >
                             <div
-                              className="flex justify-center rounded-full px-1 space-x-0.5 h-5 ml-3 mt-0.5   cursor-pointer"
+                              className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 -mt-1 cursor-pointer"
                               style={{ backgroundColor: "rgb(130, 174, 4" }}
                             >
-                              <div className="text-d13 font-bold text-white">
+                              <div className=" font-bold text-white text-d14 ">
                                 {data?.rating || "0.0"}
                               </div>
-                              <StarRatings
-                                containerClassName="mb-0.5 text-white text-bold"
+
+                              <AiFillStar className="text-white text-d12" />
+                              {/* <StarRatings
+                                containerClassName=" text-white text-bold"
                                 starEmptyColor="#FFFFFF"
                                 numberOfStars={1}
-                                starDimension="12px"
+                                starDimension="13px"
                                 isReadOnly="true"
-                              />{" "}
+                              />{" "} */}
                             </div>
-                            <p className=" flex text-dgrey1 text-d15 mb-1 md:mb-3 font-light  ml-2 underline_effect cursor-pointer">
+                            <p className=" flex text-dgrey1 text-d15  md:mb-3 font-light  ml-2 underline_effect cursor-pointer">
                               {data.nb_of_reviews} Rating
                               {data.nb_of_reviews > 1 ? "s" : ""}
                             </p>
@@ -1221,7 +1224,7 @@ function ProductPage(props) {
                                   className="text-dgreyQtyProduct h-6 w-6"
                                   style={{
                                     // transform: toggleQty ? "rotate(-180deg)" : "",
-                                    transition: "transform 0.2s ease",
+                                    transition: "transform 0.2s ease"
                                   }}
                                 />
                               </div>
@@ -1239,7 +1242,12 @@ function ProductPage(props) {
                               ref={wrapperRef}
                             >
                               {Array.from(
-                                { length: data?.maximum === 0 ? data.quantity : data?.maximum },
+                                {
+                                  length:
+                                    data?.maximum === 0
+                                      ? data.quantity
+                                      : data?.maximum
+                                },
                                 (_, index) => index + 1
                               ).map((value) => (
                                 <div
@@ -1310,7 +1318,7 @@ function ProductPage(props) {
                             border: "1px solid rgba(0, 0, 0, 0.1)",
                             boxShadow:
                               "rgba(0, 0, 0, 0.1) 0px 0px 15px 1px inset",
-                            transition: "all 0.3s ease-in-out 0s",
+                            transition: "all 0.3s ease-in-out 0s"
                           }}
                           className={`h-12 w-12 flex items-center justify-center bg-dgrey rounded-full `}
                           onClick={() => {
@@ -1330,7 +1338,11 @@ function ProductPage(props) {
                             }
                           />
                         </button>
-                        <div>{additional ? additional?.wishlist?.total :additionalData?.wishlist?.total}</div>
+                        <div>
+                          {additional
+                            ? additional?.wishlist?.total
+                            : additionalData?.wishlist?.total}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1573,10 +1585,14 @@ function ProductPage(props) {
                               : "border-dgreyQtyProduct"
                           }`}
                         >
-                          {Object.keys(warrantyPlan).length === 0
-                            ? "Select a plan ..."
-                            : <div>{warrantyPlan.warranty_titles + " / "} <span>${warrantyPlan.warranty_fees }</span>...</div> }
-                         
+                          {Object.keys(warrantyPlan).length === 0 ? (
+                            "Select a plan ..."
+                          ) : (
+                            <div>
+                              {warrantyPlan.warranty_titles + " / "}{" "}
+                              <span>${warrantyPlan.warranty_fees}</span>...
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1593,15 +1609,9 @@ function ProductPage(props) {
                 )}
 
                 {/* TIMER */}
-                {/* {data?.special_end !== 0 &&
+                {data?.special_end !== 0 &&
                   typeof data?.special_end !== typeof null &&
-                  data?.special_end !== "0" &&
-                   (
-                    <Timer
-                     
-                      data={data}
-                    />
-                  )} */}
+                  data?.special_end !== "0" && <Timer data={data} />}
                 {/*banner */}
                 {hasBannerEvent && hasBannerEvent.thumb && (
                   <div className="mt-5">
@@ -1747,7 +1757,7 @@ function ProductPage(props) {
                     <span
                       className={`text-2xl`}
                       style={{
-                        color: data.quantity > 5 ? "black" : "red",
+                        color: data.quantity > 5 ? "black" : "red"
                       }}
                     >
                       {data.quantity}
@@ -1855,7 +1865,7 @@ function ProductPage(props) {
                             dangerouslySetInnerHTML={{
                               __html: unescapeHTML(
                                 sanitizeHTML(returnPolicy?.description)
-                              ),
+                              )
                             }}
                           ></div>
                         </div>
@@ -1912,7 +1922,11 @@ function ProductPage(props) {
               </div>
             </div>
           </div>
-
+          {/* <div class="scroll-container">
+  <div class="scroll-content flex  animate-500">
+   Your content goes here If you want to create an auto-scrolling effect for a where it    jkwerkgwekjrgwekrhkejfhsdkjfsdkfgskdfgskdfgsdhjfgshjfgshdfghdsfghdghdgdhsghsdfghdfgjdfgdhjsfghjdsgf
+  </div>
+</div> */}
           {/* Product Description */}
 
           <div className="my-4 container block mobile:hidden">
@@ -1924,25 +1938,119 @@ function ProductPage(props) {
             className="border-t-8 border-dinputBorder bg-dinputBorder"
             onScroll={() => setScroll(!scroll && true)}
           ></div>
-          <div className="hidden mobile:block w-full bg-white">
-            <div className="my-1 bg-white mb-4 container px-6 my-content">
-              <div className="flex border-b border-dinputBorder space-x-10 px-6">
-                <p
-                  onClick={() => setShowReview(false)}
-                  className={`${
-                    !showReview &&
-                    "border-b-4 border-dblue scale-110 transform ease-in-out duration-300"
-                  }  font-semibold text-xl text-dblack cursor-pointer py-4`}
-                >
-                  Product Description
+          <div className="hidden mobile:block w-full bg-white"></div>
+
+          <div className="flex  px-5 mobile:px-12 bg-white">
+            <p
+              onClick={() => setShowReview(false)}
+              className={`${
+                !showReview &&
+                "border-b-4 border-dblue scale-110 transform ease-in-out duration-300"
+              } hidden : mobile:block font-semibold text-xl text-dblack cursor-pointer py-4`}
+            >
+              Product Information
+            </p>
+          </div>
+          <div className=" hidden mobile:flex mobile:px-6 bg-white">
+            <div className={` ${ data?.attribute_groups.length > 0 ? "w-1/2": "w-full"}  bg-white mb-4  px-6 my-content  text-d14 pb-2 `}>
+              <div className="flex  space-x-10 text-d16 text-left w-full pt-5">
+                <p onClick={() => setShowReview(false)} className={`text-d20`}>
+                  Descriptions
                 </p>
               </div>
               <div
                 id="desc"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.description),
+                  __html: sanitizeHTML(data.description)
                 }}
               />{" "}
+            </div>
+            {data?.attribute_groups.length > 0 && (
+              <div className=" bg-white mb-4  w-full mobile:w-1/2 px-5 ">
+                <div className="px-5  flex  flex-col items-center justify-center align-middle pb-5 ">
+                  <div className="flex  space-x-10 text-d16 text-left w-full pt-5">
+                    <p
+                      onClick={() => setShowReview(false)}
+                      className={`text-d20`}
+                    >
+                      Features
+                    </p>
+                  </div>
+
+                  <div className="pt-5 mobile:pt-4 w-full">
+                    <table className="w-full text-d14 text-dgrey1">
+                      <tbody>
+                        {data?.attribute_groups?.map((grp, i) =>
+                          grp?.attribute?.map((attr) => (
+                            <tr class="bg-gray-100 even:bg-dgrey">
+                              <td className="px-2.5 w-1/2 py-1">{attr.name}</td>
+                              <td className="px-1">{attr.text}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div></div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="my-2 container bg-white mobile:hidden">
+            <div
+              className="flex justify-between items-center"
+              onClick={() => setIsDetails((prev) => !prev)}
+            >
+              <p className="font-semibold text-xl py-2 text-dblack mb-1">
+                Product Details
+              </p>
+              <i
+                className={
+                  !isDetails
+                    ? "icon icon-angle-right text-dgrey1 text-2xl transition-all"
+                    : "icon icon-angle-down text-dgrey1 text-2xl transition-all"
+                }
+              ></i>
+            </div>
+
+            <div className={!isDetails ? "hidden" : "block"}>
+              <div
+                id="desc"
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(data.description)
+                }}
+              />
+              {data?.attribute_groups.length > 0 && (
+                <div className="px-3  flex  flex-col items-center justify-center align-middle pb-5 ">
+                  <div className="flex   text-d16 text-left w-full pt-5">
+                    <p
+                      onClick={() => setShowReview(false)}
+                      className={`text-d20`}
+                    >
+                      Features
+                    </p>
+                  </div>
+
+                  <div className="pt-5 mobile:pt-4 w-full">
+                    <table className="w-full text-d14 text-dgrey1">
+                      <tbody>
+                        {data?.attribute_groups?.map((grp, i) =>
+                          grp?.attribute?.map((attr) => (
+                            <tr class="bg-gray-100 even:bg-dgrey">
+                              <td className="px-2.5 w-1/2 py-1">{attr.name}</td>
+                              <td className="px-1">{attr.text}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div></div>
+                </div>
+              )}
             </div>
           </div>
           <div ref={descriptionRef}></div>

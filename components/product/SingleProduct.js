@@ -2,7 +2,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiFillStar } from "react-icons/ai";
 import { sanitizeHTML } from "../Utils";
 import { useContext, useRef, useState, useEffect } from "react";
 import useDeviceSize from "../useDeviceSize";
@@ -323,9 +323,9 @@ function SingleProduct(props) {
                   )}
                 </div>
                 {item?.nb_of_reviews > 0 && (
-                  <div className=" flex ">
+                  <div className=" flex flex justify-center items-center">
                     <div
-                      className="flex rounded-full  place-content-end h-4  align-bottom pl-1"
+                      className="flex justify-center items-center rounded-full  place-content-end h-4  align-bottom pl-1 px-0.5 space-x-0.5"
                       style={{
                         backgroundColor:
                           item?.rating >= 4.5
@@ -338,17 +338,17 @@ function SingleProduct(props) {
                       }}
                     >
                       <div
-                        className="text-d11 font-bold text-white"
+                        className="text-d12 font-bold text-white"
                         style={{ paddingTop: "0.5px" }}
                       >
                         {item?.rating || "0.0"}
                       </div>
-                      <HiStar
-                        className="pt-1 text-white text-bold text-d12"
+                      <AiFillStar
+                        className=" text-white text-bold text-d11"
                         // emptyColor="#FFFFFF"
                       />{" "}
+                      
                     </div>
-
                     <div className="font-light text-d11 pl-0.5">
                       ({" "}
                       {props?.item?.reviews?.length < 1 &&
@@ -357,6 +357,7 @@ function SingleProduct(props) {
                         : item?.nb_of_reviews}{" "}
                       )
                     </div>
+                    
                   </div>
                 )}
               </div>

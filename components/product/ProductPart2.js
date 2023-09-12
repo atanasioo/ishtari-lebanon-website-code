@@ -27,7 +27,6 @@ function ProductPart2(props) {
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
   const [ratingCustomer, setRatingCustomer] = useState(0);
-  const [isDetails, setIsDetails] = useState(false);
   const [selectedReviewImg, setSelectedReviewImg] = useState("");
   const [selectedReviewImgIndex, setSelectedReviewImgIndex] = useState(0);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -377,6 +376,9 @@ function ProductPart2(props) {
 
   return (
     <div className="">
+    
+      {/* Poduct Details for Mobile :) */}
+  
       <div className="overflow-x-hidden">
         <div className="w-full bg-white pb-2">
           <div
@@ -389,12 +391,12 @@ function ProductPart2(props) {
               <>
                 {productData2?.product_reviews && (
                   <div ref={titleRef} className="container">
-                    <div className="flex space-x-10 px-6 ">
+                    <div className="flex space-x-10  mobile:px-5 ">
                       <p
                         className={`${
                           // showReview &&
-                          "border-b-4 border-dblue scale-110 transform ease-in-out duration-300"
-                        }  font-semibold cursor-pointer text-xl mx-2  py-4`}
+                          "mobile:border-b-4 border-dblue "
+                        }  font-semibold cursor-pointer text-xl text-dblack  py-4`}
                       >
                         Product Reviews
                       </p>
@@ -406,7 +408,7 @@ function ProductPart2(props) {
                     //     : "bg-white my-2 mx-1 container"
                     // }
                     >
-                      <div className="grid gap-4 lg:grid-cols-3 pt-4">
+                      <div className="grid gap-4 lg:grid-cols-3 pt-4 mobile:px-5">
                         <div className="flex p-1 md:border-r-2 md:border-dgreyRate">
                           <div className="flex ">
                             <div className="text-center">
@@ -1119,32 +1121,6 @@ function ProductPart2(props) {
           </div>
         </div>
       </div>
-      {/* Poduct Details for Mobile :) */}
-      <div className="my-2 container bg-white mobile:hidden">
-        <div
-          className="flex justify-between items-center"
-          onClick={() => setIsDetails((prev) => !prev)}
-        >
-          <p className="font-semibold text-xl py-2 text-dblack mb-1">
-            Product Details
-          </p>
-          <i
-            className={
-              !isDetails
-                ? "icon icon-angle-right text-dgrey1 text-2xl transition-all"
-                : "icon icon-angle-down text-dgrey1 text-2xl transition-all"
-            }
-          ></i>
-        </div>
-        <div
-          className={!isDetails ? "hidden" : "block"}
-          id="desc"
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHTML(data.description),
-          }}
-        />
-      </div>
-
       {/* Related Product */}
       {productData2?.product_related &&
         productData2?.product_related?.length > 0 && (
@@ -1315,7 +1291,7 @@ function ProductPart2(props) {
       {stateAccount?.loged &&
         productData2?.product_recentlyViewed &&
         productData2?.product_recentlyViewed?.length > 0 && (
-          <div className="w-full md:px-6 bg-white  ">
+          <div className="w-full md:px-6 bg-white  mt-2">
             <div className="container pb-2 md:pb-8">
               <p className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
                 Recently Viewed

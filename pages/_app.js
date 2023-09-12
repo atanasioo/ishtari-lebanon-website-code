@@ -127,7 +127,7 @@ export default function App({
 
 
   return (
-    <SessionProvider>
+    <SessionProvider >
       <Head>
         <link rel="icon" href={favicon} />
         <title>{title}</title>

@@ -1,39 +1,36 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-
 function Timer({ data }) {
-  const date =
-    (window.config["site-url"] === "https://www.ishtari.com.gh" ||
-      Cookies.get("site-local-name") === "ishtari-ghana") &&
-    data?.special_end === "2023-01-10"
-      ? "2022-12-19"
-      : data?.special_end;
+  const date = data?.special_end;
   const calculateTimeLeft = () => {
     const day = date?.slice(8, 10);
     const month = date?.slice(5, 7);
     const year = date?.slice(0, 4);
     let timer = {};
 
-    const difference = +new Date(`${month}/${day}/${year}`) - +new Date();
+    const difference = new Date(`${month}/${day}/${year}`) - +new Date();
     if (difference > 0) {
       timer = {
         DAYS: Math.floor(difference / (1000 * 60 * 60 * 24)),
         HOURS: Math.floor((difference / (1000 * 60 * 60)) % 24),
         MIN: Math.floor((difference / 1000 / 60) % 60),
-        SEC: Math.floor((difference / 1000) % 60),
+        SEC: Math.floor((difference / 1000) % 60)
       };
     }
     return timer;
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState([]);
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-    return () => clearTimeout(timer);
-  });
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [date, timeLeft]); // Include timeLeft as a dependency
 
   const timerComponents = [];
 

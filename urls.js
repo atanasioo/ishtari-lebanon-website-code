@@ -120,7 +120,8 @@ var urls = {
   seller_reports: "v2/index.php?route=seller_report/reports",
   seller_reports_sold_products:
     "v2/index.php?route=seller_report/reports/getSoldProduct",
-   
+    clearCache: "v2/index.php?route=catalog/search/clearKeyCache&term=",
+
     pos : "v2/index.php?route=checkout/cart/addToCartPos",
     getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
     searchProduct: "v2/index.php?route=stockapi/product&item=",

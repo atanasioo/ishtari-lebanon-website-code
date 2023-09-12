@@ -2388,7 +2388,40 @@ div.widget_text p{
 
 
 
+/* styles.css */
 
+
+.scroll-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+
+.content {
+  width: 270%;
+margin: 0;
+display: inline-block;
+
+  overflow: hidden;
+  animation: scroll  linear infinite ; /* Use "alternate" to reverse direction at the end */
+  animation-timing-function: 10s linear; /* Use linear timing function for consistent speed */
+  animation-delay: 1s; /* No delay */
+  /* animation-duration: 10s, 35s, 230ms; */
+
+
+}
+
+/* Define the animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+
+}
 
 
 

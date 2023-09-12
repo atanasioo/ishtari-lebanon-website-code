@@ -1,9 +1,13 @@
 import { AccountContext } from "@/contexts/AccountContext";
 import React, { useContext } from "react";
-
+import { useRouter } from "next/router";
 function ClearCacheLink(props) {
   const { successClear, clearCache } = props;
   const [state] = useContext(AccountContext);
+  const router = useRouter()
+  const keyword = router.query.keyword;
+  const encodedKeyword = encodeURIComponent(keyword);
+
   return (
     <span>
       {window.config["site-url"] === "https://www.ishtari.com" && (
@@ -22,7 +26,7 @@ function ClearCacheLink(props) {
               className="px-12 text-dblue pointer-events-auto"
               target="_blank"
             >
-              {encodedKeyword}
+              {encodedKeyword.replace("%20", " ")}
             </a>
           )}
         </>

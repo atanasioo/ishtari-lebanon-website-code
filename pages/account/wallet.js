@@ -100,12 +100,10 @@ function wallet() {
                     className="rounded-full w-max p-5 pr-semibold"
                     style={{ backgroundColor: "#a8e8ff" }}
                   >
-                    {session?.user?.firstname
-                      .replace(/\s+/g, "")
+                    {session?.user?.firstname?.replace(/\s+/g, "")
                       .charAt(0)
                       .toUpperCase()}{" "}
-                    {session?.user?.lastname
-                      .replace(/\s+/g, "")
+                    {session?.user?.lastname?.replace(/\s+/g, "")
                       .charAt(0)
                       .toUpperCase()}
                   </div>

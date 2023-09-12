@@ -98,13 +98,14 @@ export const authOptions = {
     FacebookProvider({
       clientId:    '130719880936639',
       clientSecret: '4619d8d5d7e5ac00d59e5ffbbb7bf475',
-     callbackUrl: 'https://next.ishtari.com/api/auth/callback/facebook'
+      callbackUrl: 'http://localhost:3000/api/auth/callback/facebook'
 
     })
   ],
   debug:true,
   callbacks: {
     async jwt({ token, user , account, profile, isNewUser}) {
+   
       if (user) {
         token.customer_id = user.customer_id;
         token.firstname = user.firstname;
