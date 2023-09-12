@@ -5,6 +5,7 @@ import { HostContext } from "@/contexts/HostContext";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { SlideshowPlaceholder, SquarePlaceholder } from "./Placeholders";
+import { useRouter } from "next/router";
 
 function BannerLink(props) {
   const {
@@ -23,6 +24,8 @@ function BannerLink(props) {
   } = props;
   const { showStats } = useMarketingData();
   const { host } = useContext(HostContext);
+
+
   return (
     <Link
       data-index={sliderBanner ? index : null}
@@ -86,9 +89,17 @@ function BannerLink(props) {
         `}
         placeholder={
           widget.column_number === "1" ? (
-            <SlideshowPlaceholder alt={item?.name} />
+            <SlideshowPlaceholder
+              alt={item?.name}
+              width={widget?.banner_width}
+              height={widget?.banner_height}
+            />
           ) : (
-            <SquarePlaceholder width={widget?.banner_width} height={widget?.banner_height} alt={item?.name} />
+            <SquarePlaceholder
+              width={widget?.banner_width}
+              height={widget?.banner_height}
+              alt={item?.name}
+            />
           )
         }
 
