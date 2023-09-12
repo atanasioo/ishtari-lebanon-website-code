@@ -15,6 +15,7 @@ import { sanitizeHTML } from "./Utils.js";
 import { AccountContext } from "@/contexts/AccountContext.js";
 import BannerLink from "./widgetsComponents/BannerLink.js";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { SlideshowPlaceholder, SquarePlaceholder } from "./widgetsComponents/Placeholders.js";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {
   const [showNext, setShowNext] = useState(false);
@@ -584,9 +585,15 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
                         className="w-full"
-                        height={widget.banner_height}
+                        // height={widget.banner_height}
                         width={widget.banner_width}
-                        placeholderSrc="/images/placeholder_slideshow.png"
+                        placeholder={
+                          widget.column_number === "1" ? (
+                            <SlideshowPlaceholder alt={item?.name} />
+                          ) : (
+                            <SquarePlaceholder width={widget?.banner_width} height={widget?.banner_height} alt={item?.name} />
+                          )
+                        }
                       />
                     </div>
                   ) : (
@@ -1197,6 +1204,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                               className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                               key={item.banner_image_id}
                             >
+                              {/* here */}
                               <BannerLink
                                 widget={widget}
                                 item={item}

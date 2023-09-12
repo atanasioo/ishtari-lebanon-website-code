@@ -4,6 +4,7 @@ import Image from "next/legacy/image";
 import { HostContext } from "@/contexts/HostContext";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { SlideshowPlaceholder, SquarePlaceholder } from "./Placeholders";
 
 function BannerLink(props) {
   const {
@@ -74,25 +75,28 @@ function BannerLink(props) {
         alt={item?.name}
         src={host + "/image/" + item.image}
         width={widget?.banner_width}
-        height={widget?.banner_height}
+        // height={widget?.banner_height}
         title={item?.name
           .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
           .replace("%", "")
           .replace(/\s+/g, "-")
           .replaceAll("/", "-")}
         className={`${!bool && "w-full"} max-w-full
-         ${
-          widget.display === "slider" ||
-          (widget.display === "carousel" && !item.product_id)
-            ? "h-max min-h-[120px]"
-            : ""
-        }
+       
         `}
-        placeholderSrc={
-          widget.column_number === "1"
-            ? "/images/placeholder_slideshow.png"
-            : "/images/product_placeholder_square.png"
+        placeholder={
+          widget.column_number === "1" ? (
+            <SlideshowPlaceholder alt={item?.name} />
+          ) : (
+            <SquarePlaceholder width={widget?.banner_width} height={widget?.banner_height} alt={item?.name} />
+          )
         }
+
+        // placeholderSrc={
+        //   widget.column_number === "1"
+        //     ? "/images/placeholder_slideshow.png"
+        //     : "/images/product_placeholder_square.png"
+        // }
       />
 
       {showStats &&
