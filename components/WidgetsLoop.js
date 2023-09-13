@@ -31,6 +31,15 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
   const { showStats } = useMarketingData();
   const [accountState] = useContext(AccountContext);
   const host = useContext(HostContext);
+  const catalog =
+  router.asPath.startsWith("/category") ||
+  router.asPath.includes("c=") ||
+  router.asPath.startsWith("/seller") ||
+  router.asPath.includes("s=") ||
+  router.asPath.startsWith("/manufacturer") ||
+  router.asPath.includes("m=")
+    ? true
+    : false;
   const source_type =
     router.asPath === "/"
       ? "home"
@@ -80,7 +89,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
       marginBottom: widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
       marginTop: widget.margin_top !== "-1" && widget.margin_top + "%"
     };
-    setAppliedStyles(styles);
+    // setAppliedStyles(styles);
   }, [widget]);
 
   const handleLinkClick = (banner_image_id) => {
@@ -170,7 +179,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
   };
   const productSetting = {
     speed: 200,
-    slidesToShow: widget?.items?.length < 7 ? widget?.items?.length : 7,
+    slidesToShow: widget?.items?.length < 7 ?( widget?.items?.length ): (catalog ? 6 : 7),
     slidesToScroll: 7,
     infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
@@ -892,148 +901,144 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
 
       {widget?.display === "carousel" && widget.type !== "text" && (
         <div>
+          {/* <AutoScroll     widget={widget}/> */}
           {widget?.items?.length < 7 ? (
             <div className="mobile:flex">
               {width > 650 ? (
-              <div className="hidden mobile:block px-6">
-                {widget.row_number === "2" ? (
-                  <Slider {...twoRowsSettings}>
-                    {widget.items?.slice(0, 12).map((item) => {
-                      if (item.product_id) {
-                        return (
-                          <div className="pr-2" key={item.product_id}>
-                            <SingleProduct
-                              likedData={likedData}
-                              item={item}
-                              click={handleOnItemClick}
-                              dragging={dragging}
-                              carousel={true}
-                            ></SingleProduct>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div
-                            className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
-                            key={item.banner_image_id}
-                          >
-                            <BannerLink
-                              widget={widget}
-                              item={item}
-                              bannerStats={bannerStats}
-                              handleLinkClick={handleLinkClick}
-                              handleOnItemClick={handleOnItemClick}
-                              types={types}
-                              carouselBanner={true}
-                            />
-                          </div>
-                        );
-                      }
-                    })}
-                    {widget.items?.slice(12, 24).map((item) => {
-                      if (item.product_id) {
-                        return (
-                          <div className="pr-2" key={item.product_id}>
-                            <SingleProduct
-                              likedData={likedData}
-                              item={item}
-                              click={handleOnItemClick}
-                              dragging={dragging}
-                              carousel={true}
-                            ></SingleProduct>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div
-                            className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
-                            key={item.banner_image_id}
-                          >
-                            <BannerLink
-                              widget={widget}
-                              item={item}
-                              bannerStats={bannerStats}
-                              handleLinkClick={handleLinkClick}
-                              handleOnItemClick={handleOnItemClick}
-                              types={types}
-                              carouselBanner={true}
-                            />
-                          </div>
-                        );
-                      }
-                    })}
-                  </Slider>
-                ) : (
-                  <Slider
-                    {...productSetting}
-                    beforeChange={handleBeforeChange}
-                    afterChange={handleAfterChange}
-                  >
-                    {widget.items?.map((item) => {
-                      if (item.product_id) {
-                        return (
-                          <div className="pr-2" key={item.product_id}>
-                            <SingleProduct
-                              likedData={likedData}
-                              item={item}
-                              click={handleOnItemClick}
-                              dragging={dragging}
-                              carousel={true}
-                            ></SingleProduct>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div
-                            className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
-                            key={item.banner_image_id}
-                          >
-                            <BannerLink
-                              widget={widget}
-                              item={item}
-                              bannerStats={bannerStats}
-                              handleLinkClick={handleLinkClick}
-                              handleOnItemClick={handleOnItemClick}
-                              types={types}
-                              carouselBanner={true}
-                            />
-                          </div>
-                        );
-                      }
-                    })}
-                  </Slider>
-                )}
-              </div>
-            ) : (
-           
+                <div className="hidden mobile:block px-6">
+                  {widget.row_number === "2" ? (
+                    <Slider {...twoRowsSettings}>
+                      {widget.items?.slice(0, 12).map((item) => {
+                        if (item.product_id) {
+                          return (
+                            <div className="pr-2" key={item.product_id}>
+                              <SingleProduct
+                                likedData={likedData}
+                                item={item}
+                                click={handleOnItemClick}
+                                dragging={dragging}
+                              ></SingleProduct>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                              key={item.banner_image_id}
+                            >
+                              <BannerLink
+                                widget={widget}
+                                item={item}
+                                bannerStats={bannerStats}
+                                handleLinkClick={handleLinkClick}
+                                handleOnItemClick={handleOnItemClick}
+                                types={types}
+                                carouselBanner={true}
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                      {widget.items?.slice(12, 24).map((item) => {
+                        if (item.product_id) {
+                          return (
+                            <div className="pr-2" key={item.product_id}>
+                              <SingleProduct
+                                likedData={likedData}
+                                item={item}
+                                click={handleOnItemClick}
+                                dragging={dragging}
+                              ></SingleProduct>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                              key={item.banner_image_id}
+                            >
+                              <BannerLink
+                                widget={widget}
+                                item={item}
+                                bannerStats={bannerStats}
+                                handleLinkClick={handleLinkClick}
+                                handleOnItemClick={handleOnItemClick}
+                                types={types}
+                                carouselBanner={true}
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </Slider>
+                  ) : (
+                    <Slider
+                      {...productSetting}
+                      beforeChange={handleBeforeChange}
+                      afterChange={handleAfterChange}
+                    >
+                      {widget.items?.map((item) => {
+                        if (item.product_id) {
+                          return (
+                            <div className="pr-2" key={item.product_id}>
+                              <SingleProduct
+                                likedData={likedData}
+                                item={item}
+                                click={handleOnItemClick}
+                                dragging={dragging}
+                              ></SingleProduct>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                              key={item.banner_image_id}
+                            >
+                              <BannerLink
+                                widget={widget}
+                                item={item}
+                                bannerStats={bannerStats}
+                                handleLinkClick={handleLinkClick}
+                                handleOnItemClick={handleOnItemClick}
+                                types={types}
+                                carouselBanner={true}
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </Slider>
+                  )}
+                </div>
+              ) : (
                 <div className="block mobile:hidden">
                   <div className="flex overflow-x-auto space-x-2 ">
                     {widget?.display === "carousel" &&
                       widget.type !== "text" &&
                       widget?.items[0]?.product_id &&
                       widget.items?.map((item) => {
-                        if(item.product_id){
-                        return (
-                          <div className="" key={item.product_id}>
-                            <SingleProduct
-                              scroll={true}
+                        if (item.product_id) {
+                          return (
+                            <div className="" key={item.product_id}>
+                              <SingleProduct
+                                scroll={true}
+                                item={item}
+                              ></SingleProduct>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <BannerLink
+                              widget={widget}
                               item={item}
-                              carousel={true}
-                            ></SingleProduct>
-                          </div>
-                        );
-                      }else{
-                        return (
-                          <BannerLink
-                          widget={widget}
-                          item={item}
-                          bannerStats={bannerStats}
-                          handleLinkClick={handleLinkClick}
-                          handleOnItemClick={handleOnItemClick}
-                          types={types}
-                          carouselBannerCap={true}
-                        />
-                        )
+                              bannerStats={bannerStats}
+                              handleLinkClick={handleLinkClick}
+                              handleOnItemClick={handleOnItemClick}
+                              types={types}
+                              carouselBannerCap={true}
+                            />
+                          );
                         }
                       })}
                   </div>
@@ -1041,7 +1046,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
               )}
             </div>
           ) : (
-            <div className="">
+          <div className="w-full ">
               {widget.row_number === "2" ? (
                 <div className="mobile:hidden">
                   <div className="flex flex-col overflow-x-auto">
@@ -1078,45 +1083,48 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   </div>
                 </div>
               ) : (
-                <div className="flex overflow-x-auto space-x-2 mobile:hidden">
+                <div className="">
+                   <div className="flex overflow-x-auto space-x-2 mobile:hidden overflow-hidden" >
                   {widget?.display === "carousel" &&
                     widget.type !== "text" &&
                     widget.items?.map((item) => {
-                     if(item?.product_id )
+                      if (item?.product_id)
+                        return (
+                          <div className="" key={item.product_id}>
+                            <SingleProductTest
+                              scroll={true}
+                              item={item}
+                            ></SingleProductTest>
+                          </div>
+                        );
 
-                      return (
-                        <div className="" key={item.product_id}>
-                          <SingleProductTest
-                            scroll={true}
-                            item={item}
-                          ></SingleProductTest>
-                        </div>
-                      );
+                       else
 
-                  //  else
-
-                  //     return (
-                  //       <div
-                  //       className={`p-1 min-w-max`}
-                  //       key={item.banner_image_id}
-                  //     >
-                  //       <BannerLink
-                  //         widget={widget}
-                  //         item={item}
-                  //         bannerStats={bannerStats}
-                  //         handleLinkClick={handleLinkClick}
-                  //         handleOnItemClick={handleOnItemClick}
-                  //         types={types}
-                  //         // carouselBannerCap={true}
-                  //       />
-                  // </div>
-                  //     );
+                          return (
+                            <div
+                            className={`p-1 min-w-max `}
+                        
+                            key={item.banner_image_id}
+                          >
+                       {!widget?.scrolling  &&   <BannerLink
+                              widget={widget}
+                              item={item}
+                              bannerStats={bannerStats}
+                              handleLinkClick={handleLinkClick}
+                              handleOnItemClick={handleOnItemClick}
+                              types={types}
+                              // carouselBannerCap={true}
+                            />}
+                      </div>
+                          );
                     })}
                 </div>
+                </div>
+               
               )}
 
               {/* kmn by3ml mshkle */}
-              {width > 650 && !widget?.scrolling  && (
+              {width > 650 && !widget?.scrolling && (
                 <div className=" hidden mobile:block">
                   {widget.row_number === "2" ? (
                     <Slider
@@ -1232,13 +1240,13 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
               {/* test */}
               {widget?.scrolling && (
                 <div className="">
-                  <div class="scroll-container">
+                  <div class="scroll-container" style={{ width: "1100%" }}>
                     <div
                       class="content flex "
                       id="content"
                       style={{
                         animation: `scroll ${
-                          widget.duration > 0 ? 10 : 25
+                          widget.duration > 0 ? widget.duration-350 : 200
                         }s linear infinite `
                       }}
                     >
@@ -1279,40 +1287,42 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         </div>
                       ) : (
                         <>
-                          {widget.items?.map((item) => {
-                            if (item.product_id) {
-                              return (
-                                <div
-                                  className="  mobile:pr-0   placeholder-dblackOverlay3"
-                                  key={item.product_id}
-                                >
-                                  <SingleProduct
-                                    scroll={width < 650 && true}
-                                    item={item}
-                                    click={handleOnItemClick}
-                                    dragging={dragging}
-                                  ></SingleProduct>
-                                </div>
-                              );
-                            } else {
-                              return (
-                                <div
-                                  className={` cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
-                                  key={item.banner_image_id}
-                                >
-                                  <BannerLink
-                                    widget={widget}
-                                    item={item}
-                                    bannerStats={bannerStats}
-                                    handleLinkClick={handleLinkClick}
-                                    handleOnItemClick={handleOnItemClick}
-                                    types={types}
-                                    carouselBannerCap={true}
-                                  />
-                                </div>
-                              );
-                            }
-                          })}
+                          {[1, 2, 3, 4, 5, 6, 7, 8]?.map((index) =>
+                            widget.items?.map((item) => {
+                              if (item.product_id) {
+                                return (
+                                  <div
+                                    className="min-w-max  mobile:pr-0  placeholder-dblackOverlay3"
+                                    key={item.product_id}
+                                  >
+                                    <SingleProduct
+                                      scroll={width < 650 && true}
+                                      item={item}
+                                      click={handleOnItemClick}
+                                      dragging={dragging}
+                                    ></SingleProduct>
+                                  </div>
+                                );
+                              } else {
+                                return (
+                                  <div
+                                    className={`min-w-max  cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                                    key={item.banner_image_id}
+                                  >
+                                    <BannerLink
+                                      widget={widget}
+                                      item={item}
+                                      bannerStats={bannerStats}
+                                      handleLinkClick={handleLinkClick}
+                                      handleOnItemClick={handleOnItemClick}
+                                      types={types}
+                                      carouselBannerCap={true}
+                                    />
+                                  </div>
+                                );
+                              }
+                            })
+                          )}
                           {widget.items?.map((item) => {
                             if (item.product_id) {
                               return (

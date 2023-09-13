@@ -331,7 +331,7 @@ function SingleProduct(props) {
                   )}
                 </div>
                 {item?.nb_of_reviews > 0 && (
-                  <div className=" flex flex justify-center items-center">
+                  <div className=" flex  justify-center items-center">
                     <div
                       className="flex justify-center items-center rounded-full  place-content-end h-4  align-bottom pl-1 px-0.5 space-x-0.5"
                       style={{

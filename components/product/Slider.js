@@ -62,8 +62,8 @@ function ImageSlider(props){
           <LazyLoadImage 
           src={primary} 
           alt={`Image`}   
-          width={200}  
-          height={300}
+          // width={200}  
+          height={200}
           placeholderSrc="/images/product_placeholder.png"
          
            />
@@ -73,8 +73,8 @@ function ImageSlider(props){
           <LazyLoadImage 
           src={image.thumb} 
           alt={`Image ${index + 1}`}   
-          width={200}  
-          height={300} 
+          // width={200}  
+          height={200} 
           placeholderSrc="/images/product_placeholder.png"
            />
         </div>
