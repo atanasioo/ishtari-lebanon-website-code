@@ -323,14 +323,11 @@ function ProductPage(props) {
         buildLink("seller", undefined, undefined) +
         data.seller_id +
         "&source_id=1&limit=5";
-        axiosServer.get(link)
-        .then((response) => {
-          setSellerData(response.data.data);
-        })
+      axiosServer.get(link).then((response) => {
+        setSellerData(response.data.data);
+      });
     }
-
   }, [router]);
-
 
   function fetchAdditionalData() {
     axiosServer
@@ -343,7 +340,6 @@ function ProductPage(props) {
         setAdditional(response.data.data);
       });
   }
-
 
   function unescapeHTML(str) {
     if (!str) {
@@ -1192,17 +1188,11 @@ function ProductPage(props) {
                     </div>
 
                     {/* product points */}
-                    {data.points !== ""  && data.points !== "0" && (
+                    {data.points !== "" && data.points !== "0" && (
                       <div className="flex items-center">
                         <div className="mr-9 text-d14 text-dblack">Points:</div>
-                        <div className={`text-dblack `} >
-                          <span
-                            className={
-                              "pl-2 pr-1"
-                            }
-                          >
-                            {data.points}
-                          </span>
+                        <div className={`text-dblack `}>
+                          <span className={"pl-2 pr-1"}>{data.points}</span>
                         </div>
                       </div>
                     )}
@@ -1272,7 +1262,7 @@ function ProductPage(props) {
                                   length:
                                     data?.maximum === 0
                                       ? data.quantity
-                                      : data?.maximum,
+                                      : data?.maximum
                                 },
                                 (_, index) => index + 1
                               ).map((value) => (
@@ -1978,7 +1968,11 @@ function ProductPage(props) {
             </p>
           </div>
           <div className=" hidden mobile:flex mobile:px-6 bg-white">
-            <div className={` ${ data?.attribute_groups.length > 0 ? "w-1/2": "w-full"}  bg-white mb-4  px-6 my-content  text-d14 pb-2 `}>
+            <div
+              className={` ${
+                data?.attribute_groups.length > 0 ? "w-1/2" : "w-full"
+              }  bg-white mb-4  px-6 my-content  text-d14 pb-2 `}
+            >
               <div className="flex  space-x-10 text-d16 text-left w-full pt-5">
                 <p onClick={() => setShowReview(false)} className={`text-d20`}>
                   Descriptions
@@ -2006,14 +2000,14 @@ function ProductPage(props) {
                   <div className="pt-5 mobile:pt-4 w-full">
                     <table className="w-full text-d14 text-dgrey1">
                       <tbody>
-                        {data?.attribute_groups?.map((grp, i) =>
-                          grp?.attribute?.map((attr) => (
-                            <tr class="bg-gray-100 even:bg-dgrey">
-                              <td className="px-2.5 w-1/2 py-1">{attr.name}</td>
-                              <td className="px-1">{attr.text}</td>
-                            </tr>
-                          ))
-                        )}
+                        {productData?.attribute_groups?.map((grp) => (
+                          <tr className="even:bg-dgrey">
+                            <td className="px-2.5 w-1/2 py-1">{grp.name}</td>
+                            <td className="px-1">
+                              {grp?.attribute?.map((attr) => attr.name)}
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -2062,14 +2056,14 @@ function ProductPage(props) {
                   <div className="pt-5 mobile:pt-4 w-full">
                     <table className="w-full text-d14 text-dgrey1">
                       <tbody>
-                        {data?.attribute_groups?.map((grp, i) =>
-                          grp?.attribute?.map((attr) => (
-                            <tr class="bg-gray-100 even:bg-dgrey">
-                              <td className="px-2.5 w-1/2 py-1">{attr.name}</td>
-                              <td className="px-1">{attr.text}</td>
-                            </tr>
-                          ))
-                        )}
+                        {data?.attribute_groups?.map((grp) => (
+                          <tr className="even:bg-dgrey">
+                            <td className="px-2.5 w-1/2 py-1">{grp.name}</td>
+                            <td className="px-1">
+                              {grp?.attribute?.map((attr) => attr.name)}
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
