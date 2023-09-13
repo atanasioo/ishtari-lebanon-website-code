@@ -13,6 +13,8 @@ import useDeviceSize from "../useDeviceSize";
 // import { Pagination, Autoplay } from "swiper";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
 
 function SingleProductTest(props) {
   const { item, host, addToCart } = props;
@@ -20,34 +22,32 @@ function SingleProductTest(props) {
   const [copied, setCopied] = useState(false);
   const router = useRouter();
   const path = "";
-//   const swiperRef = useRef(null);
-//   const onInit = (Swiper) => {
-//     swiperRef.current = Swiper;
-//   };
+  //   const swiperRef = useRef(null);
+  //   const onInit = (Swiper) => {
+  //     swiperRef.current = Swiper;
+  //   };
   const [width] = useDeviceSize();
 
   const NewImage = dynamic(() => import("./NewImage"), {
     ssr: false, // Disable server-side rendering
   });
 
-  
+  //   const handleMouseEnter = () => {
+  //     if (swiperRef.current !== null) {
+  //       swiperRef?.current?.autoplay?.start();
+  //       if(swiperRef.current.params !== null && swiperRef.current.params !== undefined){
+  //         swiperRef.current.params.autoplay.delay = 1000;
+  //       }
 
-//   const handleMouseEnter = () => {
-//     if (swiperRef.current !== null) {
-//       swiperRef?.current?.autoplay?.start();
-//       if(swiperRef.current.params !== null && swiperRef.current.params !== undefined){
-//         swiperRef.current.params.autoplay.delay = 1000;
-//       }
-      
-//     }
-//   };
+  //     }
+  //   };
 
-//   const handleMouseLeave = () => {
-//     if (swiperRef.current !== null && swiperRef.current.autoplay !== undefined) {
-//       swiperRef.current.autoplay.stop();
-//       swiperRef.current.slideTo(1);
-//     }
-//   };
+  //   const handleMouseLeave = () => {
+  //     if (swiperRef.current !== null && swiperRef.current.autoplay !== undefined) {
+  //       swiperRef.current.autoplay.stop();
+  //       swiperRef.current.slideTo(1);
+  //     }
+  //   };
 
   function copyContent(e, sku) {
     e.preventDefault();
@@ -76,14 +76,14 @@ function SingleProductTest(props) {
         .replaceAll("100%", "")
         .replaceAll("#", "")
         .replaceAll("/", "")}/p=${props.item.product_id}`}
-
       onClickCapture={props?.click}
-
       className={` cursor-pointer   ${props.isList && "mb-3"}`}
     >
       {props.item.new && <NewImage />}
       <div
-        className={`flex flex-col h-full ${props.scroll && "w-150px"} md:w-unset bg-white text-dblack p-2.5 relative ${
+        className={`flex flex-col h-full ${
+          props.scroll && "w-150px"
+        } md:w-unset bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
         style={{ height: props.isList && "260px" }}
@@ -103,8 +103,8 @@ function SingleProductTest(props) {
                 props.isList &&
                 "flex-shrink-0 flex-grow-0 w-40 -my-4 -ml-4 mr-4"
               }`}
-            //   onMouseEnter={handleMouseEnter}
-            //   onMouseLeave={handleMouseLeave}
+              //   onMouseEnter={handleMouseEnter}
+              //   onMouseLeave={handleMouseLeave}
             >
               {props.item.quantity === "0" && (
                 <div
@@ -127,19 +127,23 @@ function SingleProductTest(props) {
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
                 !item?.images ? (
-                <img
+                <LazyLoadImage
                   alt={item.name}
                   src={item.thumb}
                   width={200}
-                  height={300}
-                 
+                  height={width > 768 ? 300 : 195}
+                  placeholder={
+                    <ProductPlaceholder
+                      width={160}
+                      height={221}
+                      alt={item.name}
+                    />
+                  }
                   className="max-w-full max-h-full"
                 />
-                // <div></div>
               ) : (
-                <>
-                </>
-                
+                // <div></div>
+                <></>
               )}
             </div>
           </div>

@@ -404,7 +404,7 @@ function ProductZoom(props) {
         <div className="flex flex-col-reverse md:flex-row sticky top-0 z-10">
           <div
             id="selector_div"
-            className="selector_div w-full my-2 md:w-2/12 md:pr-2"
+            className="selector_div w-full my-2 md:w-[35%] lg:w-2/12 md:pr-2"
           >
             <div className="selectors overflow-hidden overflow-y-hidden h-full  whitespace-pre md:whitespace-normal">
               <Slider {...setting} className="hidden md:block">
@@ -478,7 +478,7 @@ function ProductZoom(props) {
               </Slider>
             </div>
           </div>
-          <div className="w-full md:w-10/12 relative flex items-center ">
+          <div className="w-full md:w-2/3 lg:w-10/12 relative flex items-center ">
             <div
               className="w-full md:w-11/12 md:hover:cursor-zoom-in relative"
               // onTouchStart={handleTouchStart}

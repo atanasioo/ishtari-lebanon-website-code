@@ -41,4 +41,12 @@ function SquarePlaceholder({ width, height, alt }) {
   );
 }
 
-export { SlideshowPlaceholder, SquarePlaceholder };
+function ProductPlaceholder({ width, height, alt }){
+  return(
+    <img src="/images/product_placeholder.png"  width={width ? width : 150}
+    height={height ? height : 300}
+    alt={alt} />
+  )
+}
+
+export { SlideshowPlaceholder, SquarePlaceholder, ProductPlaceholder };

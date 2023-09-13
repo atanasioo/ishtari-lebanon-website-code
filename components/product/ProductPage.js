@@ -97,7 +97,8 @@ function ProductPage(props) {
   });
 
   async function initializeReactPixel() {
-    return import("react-facebook-pixel").then((module) => module.default);
+    const module = await import("react-facebook-pixel");
+    return module.default;
   }
 
   const [width, height] = useDeviceSize();
@@ -256,8 +257,7 @@ function ProductPage(props) {
       if (typeof window !== "undefined") {
         let ReactPixel; // Define a variable to hold the reference to ReactPixel
 
-        initializeReactPixel().then((reactPixelModule) => {
-          ReactPixel = reactPixelModule; // Assign the default export to the variable
+        initializeReactPixel().then((ReactPixel) => {
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
             autoConfig: false

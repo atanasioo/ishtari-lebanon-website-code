@@ -25,7 +25,6 @@ function BannerLink(props) {
   const { showStats } = useMarketingData();
   const { host } = useContext(HostContext);
 
-
   return (
     <Link
       data-index={sliderBanner ? index : null}
@@ -74,41 +73,52 @@ function BannerLink(props) {
       }
       className={`relative ${sliderSingleBanner ? "w-full link-span" : ""}`}
     >
-      <LazyLoadImage
-        alt={item?.name}
-        src={host + "/image/" + item.image}
-        width={widget?.banner_width}
-        // height={widget?.banner_height}
-        title={item?.name
-          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-          .replace("%", "")
-          .replace(/\s+/g, "-")
-          .replaceAll("/", "-")}
-        className={`${!bool && "w-full"} max-w-full
+      {widget.display === "slider" || widget.display === "carousel" ? (
+        <img
+          alt={item?.name}
+          src={host + "/image/" + item.image}
+          width={widget?.banner_width}
+          height={widget?.banner_height}
+          title={item?.name
+            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+            .replace("%", "")
+            .replace(/\s+/g, "-")
+            .replaceAll("/", "-")}
+          className={`${!bool && "w-full"} max-w-full 
        
         `}
-        placeholder={
-          widget.column_number === "1" ? (
-            <SlideshowPlaceholder
-              alt={item?.name}
-              width={widget?.banner_width}
-              height={widget?.banner_height}
-            />
-          ) : (
-            <SquarePlaceholder
-              width={widget?.banner_width}
-              height={widget?.banner_height}
-              alt={item?.name}
-            />
-          )
-        }
-
-        // placeholderSrc={
-        //   widget.column_number === "1"
-        //     ? "/images/placeholder_slideshow.png"
-        //     : "/images/product_placeholder_square.png"
-        // }
-      />
+        />
+      ) : (
+        <LazyLoadImage
+          alt={item?.name}
+          src={host + "/image/" + item.image}
+          width={widget?.banner_width}
+          // height={widget?.banner_height}
+          title={item?.name
+            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+            .replace("%", "")
+            .replace(/\s+/g, "-")
+            .replaceAll("/", "-")}
+          className={`${!bool && "w-full"} max-w-full 
+       
+        `}
+          placeholder={
+            widget.column_number === "1" ? (
+              <SlideshowPlaceholder
+                alt={item?.name}
+                width={widget?.banner_width}
+                height={widget?.banner_height}
+              />
+            ) : (
+              <SquarePlaceholder
+                width={widget?.banner_width}
+                height={widget?.banner_height}
+                alt={item?.name}
+              />
+            )
+          }
+        />
+      )}
 
       {showStats &&
         typeof bannerStats !== "undefined" &&
