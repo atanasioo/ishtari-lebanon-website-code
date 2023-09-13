@@ -247,12 +247,12 @@ function DesktopMenuClientPopups(props) {
                           <Slider {...settings}>
                             {topSelling?.slice(0, 10).map((item) => (
                               <div key={item.product_id}>
-                                <SingleProduct item={item} topSelling={true} />
+                                <SingleProduct item={item} topSelling={true} carousel={true} />
                               </div>
                             ))}
                             {topSelling?.slice(10).map((item) => (
                               <div key={item.product_id}>
-                                <SingleProduct item={item} topSelling={true} />
+                                <SingleProduct item={item} topSelling={true} carousel={true} />
                               </div>
                             ))}
                           </Slider>

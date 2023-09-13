@@ -121,6 +121,7 @@ function ProductZoom(props) {
   }, [images]);
 
   useEffect(() => {
+    setActiveSlide(0);
     imageSlider?.current?.slickGoTo(0);
     SmallImageSlider?.current?.slickGoTo(0);
     smallMobileSliderRef?.current?.slickGoTo(0);

@@ -590,19 +590,13 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       key={`sliderM` + index}
                       className="relative"
                     >
-                      <LazyLoadImage
+                      <img
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
                         className="w-full"
-                        // height={widget.banner_height}
+                        height={widget.banner_height}
                         width={widget.banner_width}
-                        placeholder={
-                          widget.column_number === "1" ? (
-                            <SlideshowPlaceholder alt={item?.name} />
-                          ) : (
-                            <SquarePlaceholder width={widget?.banner_width} height={widget?.banner_height} alt={item?.name} />
-                          )
-                        }
+
                       />
                     </div>
                   ) : (
@@ -627,13 +621,12 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       key={`sliderM` + index}
                       className="relative"
                     >
-                      <LazyLoadImage
+                      <img
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-                        placeholderSrc="/images/placeholder_slideshow.png"
                       />
                     </div>
                   ) : (
