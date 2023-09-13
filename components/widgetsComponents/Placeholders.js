@@ -43,8 +43,8 @@ function SquarePlaceholder({ width, height, alt }) {
 
 function ProductPlaceholder({ width, height, alt }){
   return(
-    <img src="/images/product_placeholder.png"  width={width ? width : 150}
-    height={height ? height : 300}
+    <img src="/images/product_placeholder.png"  width={150}
+    height={300}
     alt={alt} />
   )
 }

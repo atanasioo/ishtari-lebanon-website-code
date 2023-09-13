@@ -15,15 +15,14 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
 
 function SingleProduct(props) {
-  const { item, host, addToCart, topSelling } = props;
+  const { item, host, addToCart, topSelling, carousel } = props;
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
   const router = useRouter();
   const path = "";
- 
+
   const [width] = useDeviceSize();
   const { setMarketingData } = useMarketingData();
-
 
   const source_type =
     router.asPath === "/"
@@ -41,16 +40,17 @@ function SingleProduct(props) {
       ? "buyAgain"
       : router.asPath.startsWith("/account/recentlyViewed")
       ? "recentlyViewed"
-      : topSelling 
+      : topSelling
       ? "topSelling"
       : "";
 
   const source_type_id =
     Object.keys(router.query).length > 0
-      ? router.query?.slug &&( router.query?.slug[0]?.includes("p=") ||
-        router.query?.slug[0]?.includes("s=") ||
-        router.query?.slug[0]?.includes("m=") ||
-        router.query?.slug[0]?.includes("c="))
+      ? router.query?.slug &&
+        (router.query?.slug[0]?.includes("p=") ||
+          router.query?.slug[0]?.includes("s=") ||
+          router.query?.slug[0]?.includes("m=") ||
+          router.query?.slug[0]?.includes("c="))
         ? router.query?.slug[0]?.split("=")[1]
         : router?.query?.slug && router?.query?.slug[0]
       : "";
@@ -84,7 +84,6 @@ function SingleProduct(props) {
   }
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-
   // useEffect(() => {
   //   const sliderRef = sliderRef?.current;
   //   if (sliderRef) {
@@ -100,23 +99,20 @@ function SingleProduct(props) {
     <Link
       onClick={handleLinkClick}
       href={{
-        pathname:
-        `${path}/${item.name
-        .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-        .replaceAll("%", "")
-        .replaceAll(/\s+/g, "-")
-        .replaceAll("..", "")
-        .replaceAll("/", "-")
-        .replaceAll("---", "-")
-        .replaceAll("--", "-")
-        .replaceAll("100%", "")
-        .replaceAll("#", "")
-        .replaceAll("/", "")}/p=${props.item.product_id}`,
-        query: linkQuery
+        pathname: `${path}/${item.name
+          .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+          .replaceAll("%", "")
+          .replaceAll(/\s+/g, "-")
+          .replaceAll("..", "")
+          .replaceAll("/", "-")
+          .replaceAll("---", "-")
+          .replaceAll("--", "-")
+          .replaceAll("100%", "")
+          .replaceAll("#", "")
+          .replaceAll("/", "")}/p=${props.item.product_id}`,
+        query: linkQuery,
       }}
-   
       onClickCapture={props.click}
- 
       className={` cursor-pointer   ${props.isList && "mb-3"}`}
     >
       {props.item.new && <NewImage />}
@@ -126,7 +122,7 @@ function SingleProduct(props) {
         } md:w-unset bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
-        style={{ height: props.isList ? "260px" :"unset" }}
+        style={{ height: props.isList ? "260px" : "unset" }}
       >
         <div
           className={`flex ${
@@ -163,11 +159,12 @@ function SingleProduct(props) {
                   filter={"duotone"} // see docs beneath
                   colorOne={[96, 96, 96]}
                   colorTwo={[255, 255, 255]}
-                  style={{height: !topSelling ? "246.4px" : "200px"}}
+                  style={{ height: !topSelling ? "246.4px" : "200px" }}
                 />
-              ) : !props?.isSlider ||
-                item?.images?.length === 0 ||
-                !item?.images ? (
+              ) : (!props?.isSlider ||
+                  item?.images?.length === 0 ||
+                  !item?.images) &&
+                !carousel ? (
                 <LazyLoadImage
                   alt={item.name}
                   src={item.thumb}
@@ -177,8 +174,18 @@ function SingleProduct(props) {
                   // placeholderSrc="/images/product_placeholder.png"
                   placeholder={<ProductPlaceholder alt={item.name} />}
                 />
+              ) : (!props?.isSlider ||
+                  item?.images?.length === 0 ||
+                  !item?.images) &&
+                carousel ? (
+                <img
+                  alt={item.name}
+                  src={item.thumb}
+                  width={!topSelling ? 200 : 150}
+                  height={!topSelling ? 200 : 300}
+                  className="max-w-full max-h-full"
+                />
               ) : (
-               
                 <div>
                   <Slider
                     images={props?.item?.images?.slice(0, 2)}
@@ -205,7 +212,6 @@ function SingleProduct(props) {
                   ) : (
                     ""
                   )}
-
                 </div>
               )}
             </div>
@@ -349,7 +355,6 @@ function SingleProduct(props) {
                         className=" text-white text-bold text-d11"
                         // emptyColor="#FFFFFF"
                       />{" "}
-                      
                     </div>
                     <div className="font-light text-d11 pl-0.5">
                       ({" "}
@@ -359,7 +364,6 @@ function SingleProduct(props) {
                         : item?.nb_of_reviews}{" "}
                       )
                     </div>
-                    
                   </div>
                 )}
               </div>

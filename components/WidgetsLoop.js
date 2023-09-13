@@ -907,6 +907,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                               item={item}
                               click={handleOnItemClick}
                               dragging={dragging}
+                              carousel={true}
                             ></SingleProduct>
                           </div>
                         );
@@ -938,6 +939,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                               item={item}
                               click={handleOnItemClick}
                               dragging={dragging}
+                              carousel={true}
                             ></SingleProduct>
                           </div>
                         );
@@ -976,6 +978,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                               item={item}
                               click={handleOnItemClick}
                               dragging={dragging}
+                              carousel={true}
                             ></SingleProduct>
                           </div>
                         );
@@ -1015,6 +1018,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                             <SingleProduct
                               scroll={true}
                               item={item}
+                              carousel={true}
                             ></SingleProduct>
                           </div>
                         );
@@ -1128,6 +1132,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 item={item}
                                 click={handleOnItemClick}
                                 dragging={dragging}
+                                carousel={true}
                               ></SingleProduct>
                             </div>
                           );
@@ -1158,6 +1163,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 item={item}
                                 click={handleOnItemClick}
                                 dragging={dragging}
+                                carousel={true}
                               ></SingleProduct>
                             </div>
                           );
@@ -1195,6 +1201,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 item={item}
                                 click={handleOnItemClick}
                                 dragging={dragging}
+                                carousel={true}
                               ></SingleProduct>
                             </div>
                           );
