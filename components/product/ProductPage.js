@@ -2000,7 +2000,7 @@ function ProductPage(props) {
                   <div className="pt-5 mobile:pt-4 w-full">
                     <table className="w-full text-d14 text-dgrey1">
                       <tbody>
-                        {productData?.attribute_groups?.map((grp) => (
+                        {data?.attribute_groups?.map((grp) => (
                           <tr className="even:bg-dgrey">
                             <td className="px-2.5 w-1/2 py-1">{grp.name}</td>
                             <td className="px-1">
@@ -2077,7 +2077,7 @@ function ProductPage(props) {
           <ProductPart2
             titleRef={titleRef}
             loader={loader}
-            productData2={productData2}
+            data2={productData2}
             data={data}
             reviews={reviews}
             host={host}
