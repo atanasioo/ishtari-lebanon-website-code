@@ -45,7 +45,7 @@ var urls = {
   getcustomerfeedback:"v2/index.php?route=account/feedback/getCustomerFeedback",
   getFlashSale: "v2/index.php?route=catalog/flash_sale&limit=20&page=1&flash_sale_event_id=",
   getProductAdditionalData: "v2/index.php?route=catalog/product/getProductAdditionalData",
-  getReturnReasons: "v2/index.php?route=checkout/return_order/getReturnReasons",
+  getReturnReasons: "v2/index.php?route=checkout/return_order/getReturnData",
   addReturnOrder: "v2/index.php?route=checkout/return_order/addReturnOrder",
   addReminderForFlashSale: "v2/index.php?route=catalog/flash_sale/remindMe",
   editcustomerfeedback: "v2/index.php?route=account/feedback/editCustomerFeedback",

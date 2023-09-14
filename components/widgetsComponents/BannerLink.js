@@ -73,7 +73,7 @@ function BannerLink(props) {
       }
       className={`relative ${sliderSingleBanner ? "w-full link-span" : ""}`}
     >
-      {widget.display === "slider" || widget.display === "carousel" ? (
+      {/* {widget.display === "slider" || widget.display === "carousel" ? ( */}
         <img
           alt={item?.name}
           src={host + "/image/" + item.image}
@@ -88,7 +88,7 @@ function BannerLink(props) {
        
         `}
         />
-      ) : (
+      {/* ) : (
         <LazyLoadImage
           alt={item?.name}
           src={host + "/image/" + item.image}
@@ -118,7 +118,7 @@ function BannerLink(props) {
             )
           }
         />
-      )}
+      )} */}
 
       {showStats &&
         typeof bannerStats !== "undefined" &&

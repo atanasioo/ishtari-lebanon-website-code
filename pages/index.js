@@ -41,7 +41,9 @@ export default function Home(props) {
     (node) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
+      
       observer.current = new IntersectionObserver((entries) => {
+        console.log("ratio" +entries[0].intersectionRatio);
         if (
           entries[0].isIntersecting &&
           entries[0].intersectionRatio > 0 &&

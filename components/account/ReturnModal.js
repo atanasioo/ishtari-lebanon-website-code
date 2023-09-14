@@ -15,8 +15,11 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
     id: 0,
   });
   const [reasonDropDown, setReasonDropDown] = useState(false);
+  const [actionDropDown, setActionDropDown] = useState(false);
   const [qtyDropDown, setQtyDropDown] = useState(false);
   const [reasons, setReasons] = useState([]);
+  const [actionReqs, setActionsReqs] = useState([]);
+  const [action, setAction] = useState("Action request:");
   const [comment, setComment] = useState("");
   const [returnImgs, setReturnImgs] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
@@ -33,13 +36,18 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
     maxSizeMB: 1,
   };
 
+  console.log(actionReqs);
+
   useEffect(() => {
-    axiosServer
-      .get(buildLink("getReturnReasons", undefined, undefined))
-      .then((response) => {
-        setReasons(response.data.data);
-      });
-  }, []);
+    if (showReturnModal && reasons.length === 0) {
+      axiosServer
+        .get(buildLink("getReturnReasons", undefined, undefined))
+        .then((response) => {
+          setReasons(response.data.data.reasons);
+          setActionsReqs(response.data.data.action_requests);
+        });
+    }
+  }, [showReturnModal]);
 
   const handleFileLimit = () => {
     if (returnImgs.length >= 5) {
@@ -207,6 +215,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
                   (_, index) => index + 1
                 ).map((value) => (
                   <div
+                  
                     onClick={() => {
                       setQuantity(value);
                       setQtyDropDown(false);
@@ -216,6 +225,37 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
                     {value}
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+          <div className="relative">
+            <div
+              onClick={() => setActionDropDown(!actionDropDown)}
+              className="border rounded-tl-3xl rounded-br-3xl rounded-tr-md rounded-bl-md p-1.5 px-3  flex justify-between cursor-pointer"
+            >
+              <div>{action}</div>
+              <BiChevronDown className="w-6 h-6" />
+            </div>
+            {actionDropDown && (
+              <div className="bg-white absolute z-10 w-full border rounded">
+                <div
+                  onClick={() => {
+                    setAction(refuned_money);
+                    setReasonDropDown(false);
+                  }}
+                  className=" px-2 py-1 hover:bg-dblue hover:text-white cursor-pointer"
+                >
+                  {actionReqs.refuned_money}
+                </div>
+                <div
+                  onClick={() => {
+                    setAction(send_to_customer);
+                    setReasonDropDown(false);
+                  }}
+                  className=" px-2 py-1 hover:bg-dblue hover:text-white cursor-pointer"
+                >
+                  {actionReqs.send_to_customer}
+                </div>
               </div>
             )}
           </div>
@@ -315,7 +355,9 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
             <div
               onClick={() => submitRequest()}
               className={` ${
-                success ? "bg-dgreen pointer-events-none" : "bg-dblue cursor-pointer"
+                success
+                  ? "bg-dgreen pointer-events-none"
+                  : "bg-dblue cursor-pointer"
               } rounded-full text-white py-1 px-8 pr-semibold text-center w-max text-d17 `}
             >
               {success ? "Request sent successfully" : "Save"}
