@@ -408,7 +408,8 @@ function ProductPart2(props) {
                           "mobile:border-b-4 border-dblue "
                         }  font-semibold cursor-pointer text-xl text-dblack  py-4`}
                       >
-                        Product Reviews
+                       Product Ratings & Reviews
+
                       </p>
                     </div>
                     <div
