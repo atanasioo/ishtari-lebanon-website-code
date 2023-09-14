@@ -383,9 +383,10 @@ function ProductPart2(props) {
     };
   }, [router.events]);
 
+  console.log("part 2 ", productData2);
+
   return (
     <div className="">
-    
       {/* Poduct Details for Mobile :) */}
   
       <div className="overflow-x-hidden">

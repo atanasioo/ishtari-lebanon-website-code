@@ -2077,7 +2077,7 @@ function ProductPage(props) {
           <ProductPart2
             titleRef={titleRef}
             loader={loader}
-            data2={productData2}
+            productData2={productData2}
             data={data}
             reviews={reviews}
             host={host}
