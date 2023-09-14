@@ -1975,7 +1975,7 @@ function ProductPage(props) {
             >
               <div className="flex  space-x-10 text-d16 text-left w-full pt-5">
                 <p onClick={() => setShowReview(false)} className={`text-d20`}>
-                  Descriptions
+                  Description
                 </p>
               </div>
               <div
