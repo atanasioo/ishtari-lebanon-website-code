@@ -83,6 +83,7 @@ function ProductPage(props) {
   const [warrantyPlan, setWarrantyPlan] = useState({});
   const [warrantyPopup, setWarrantyPopup] = useState(false);
   const [isDetails, setIsDetails] = useState(false);
+  const [viewSeriesVal, setViewSeriesVal] = useState();
 
   // const [additionalData, setAdditionalData] = useState({});
   const [additional, setAdditional] = useState();
@@ -129,6 +130,17 @@ function ProductPage(props) {
     nextArrow: <CustomNextArrows direction={"r"} />
   };
 
+
+  function handleHoveredSeries(key, name) {
+    const seriesOp_name = document.getElementById(key);
+    setViewSeriesVal(name);
+    seriesOp_name.textContent = name;
+  }
+  function handleLeavedSeries(key) {
+    const seriesOp_name = document.getElementById(key);
+    setViewSeriesVal();
+    seriesOp_name.textContent = "";
+  }
   useEffect(() => {
     // to force re-render when navigating using client side
     setAdditional(false);
@@ -1646,7 +1658,7 @@ function ProductPage(props) {
                   </div>
                 )}
                 {/* PDS */}
-                {data?.pds && data.pds.length > 0 && (
+                {data?.pds && data.pds.length > 0 && data["series_options"].length < 0 && (
                   <div className="my-2 md:my-4">
                     <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">
                       In the same series
@@ -1676,6 +1688,75 @@ function ProductPage(props) {
                     </div>
                   </div>
                 )}
+
+                {data["series_options"] &&
+                  // productData?.pds?.length === 0 &&
+                  data["series_options"]?.map(
+                    (series_option, key) =>
+                      series_option?.series_option_id !== null && (
+                        <div className="my-2 md:my-4">
+                          <div className="flex justify-between">
+                            <div className="flex justify-between items-center">
+                              <h3
+                                className="text-sm"
+                                style={{ color: "rgb(126, 133, 155)" }}
+                              >
+                                {`${series_option.series_option_name} ${":"}`}
+                              </h3>
+                              {series_option?.options?.map(
+                                (op_val) =>
+                                  op_val.product_id === product_id &&
+                                  !viewSeriesVal && (
+                                    <span className="flex ml-1 font-semibold text-sm w-28">
+                                      {op_val.name}
+                                    </span>
+                                  )
+                              )}
+                              <span
+                                id={key}
+                                className={`${
+                                  viewSeriesVal ? "block" : "hidden"
+                                } ml-1 font-semibold text-sm w-28`}
+                              >
+                                {" "}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex fkex-wrap">
+                            {series_option?.options?.map((option_val) => (
+                              <Link
+                                key={option_val?.product_id}
+                                href={
+                                    `${path}/product/` + option_val?.product_id
+                                }
+                                className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md
+                                ${
+                                  option_val.product_id === product_id ?
+                                  " border-dblue" : "border-dgrey"
+                                }
+                              `}
+                                // onClick={() =>
+                                //   setSeriesOpSelected(option_val.name)
+                                // }
+                                onMouseOver={() => {
+                                  handleHoveredSeries(key, option_val.name);
+                                }}
+                                onMouseLeave={() => handleLeavedSeries(key)}
+                              >
+                                <img
+                                  src={option_val?.image}
+                                  alt={option_val?.name}
+                                  className="w-full"
+                                  width={80}
+                                  height={80}
+                                  // placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
+                                />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                  )}
                 {bundles && (
                   <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8">
                     <p className="font-black pr-semibold text-sm mb-2 ml-2">

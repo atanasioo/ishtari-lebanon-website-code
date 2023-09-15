@@ -34,9 +34,9 @@ function Account() {
   const [state, dispatch] = useContext(AccountContext);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
-  const { data: session, status , update: sessionUpdate } = useSession();
-  const  [ stateLogin , setStateLogin] = useState({})
-  const  [ stateLoginResult , setStateLoginResult] = useState({})
+  const { data: session, status, update: sessionUpdate } = useSession();
+  const [stateLogin, setStateLogin] = useState({});
+  const [stateLoginResult, setStateLoginResult] = useState({});
 
   const loginEmail = useRef("");
   const loginPassword = useRef("");
@@ -70,8 +70,9 @@ function Account() {
     // alert(session.user.email);
 
     if (!state.loged && status === "authenticated") {
-      if(session){
-      log();}
+      if (session) {
+        log();
+      }
     }
 
     async function log() {
@@ -111,15 +112,16 @@ function Account() {
     }
   }
 
-
-  useEffect(()=>{
-    if(Object.keys(stateLogin).length >0 && Object.keys(stateLoginResult).length >0){
-      successFB(stateLogin, stateLoginResult)
+  useEffect(() => {
+    if (
+      Object.keys(stateLogin).length > 0 &&
+      Object.keys(stateLoginResult).length > 0
+    ) {
+      successFB(stateLogin, stateLoginResult);
     }
-
-  },[stateLogin, stateLoginResult])
-  function successFB(response1, response){
-    console.log(response)
+  }, [stateLogin, stateLoginResult]);
+  function successFB(response1, response) {
+    console.log(response);
     if (typeof response.email == "undefined" || response.email?.length === 0) {
       // console.log(response);
       // setShowLoginError(true);
@@ -136,11 +138,9 @@ function Account() {
     };
 
     axiosServer.post(buildLink("social"), obj).then(() => {
-      
       checkLogin();
       // window.location.reload();
     });
-
   }
   const responseFacebook = (response) => {
     if (typeof response.email == "undefined" || response.email?.length === 0) {
@@ -210,18 +210,16 @@ function Account() {
     }
   }
 
-
   // Check login
-   function checkLogin() {
+  function checkLogin() {
     dispatch({ type: "setLoading", payload: true });
     const hostname = window.location.host;
     axiosServer
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
-        console.log(data)
+        console.log(data);
 
-    
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -500,31 +498,31 @@ function Account() {
               </form> */}
 
               <FacebookLogin
-                  appId={window.config['appId']}
-                  fields="name,email"
-                  scope="public_profile,email"
-                  isMobile={false}
-                  onSuccess={(response) => {
-                    setStateLogin(response)
-                  }}
-                  onFail={(error) => {
-                    console.log('Login Failed!', error);
-                  }}
-                  onProfileSuccess={(response) => {
-                    setStateLoginResult(response)
-                  }}
-                //  redirectUri={window.location.href} 
-                  // callback={responseFacebook}
-                  render={(renderProps) => (
-                    <p
-                      onClick={() => renderProps.onClick()}
-                      className="py-4 text-dblue cursor-pointer hover:text-dbluedark"
-                    >
-                      <i className="icon icon-facebook mr-2"></i>
-                      <span>Login With Facebook</span>
-                    </p>
-                  )}
-                />
+                appId={window.config["appId"]}
+                fields="name,email"
+                scope="public_profile,email"
+                isMobile={false}
+                onSuccess={(response) => {
+                  setStateLogin(response);
+                }}
+                onFail={(error) => {
+                  console.log("Login Failed!", error);
+                }}
+                onProfileSuccess={(response) => {
+                  setStateLoginResult(response);
+                }}
+                //  redirectUri={window.location.href}
+                // callback={responseFacebook}
+                render={(renderProps) => (
+                  <p
+                    onClick={() => renderProps.onClick()}
+                    className="py-4 text-dblue cursor-pointer hover:text-dbluedark"
+                  >
+                    <i className="icon icon-facebook mr-2"></i>
+                    <span>Login With Facebook</span>
+                  </p>
+                )}
+              />
             </div>
           )}
           {state.showSignup && (
