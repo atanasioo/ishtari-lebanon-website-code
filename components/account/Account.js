@@ -9,6 +9,8 @@ import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
+import { getCsrfToken } from 'next-auth/react'
+
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -34,7 +36,10 @@ function Account() {
   const [state, dispatch] = useContext(AccountContext);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session, status , update: sessionUpdate } = useSession();
+  const  [ stateLogin , setStateLogin] = useState({})
+  const  [ stateLoginResult , setStateLoginResult] = useState({})
+
   const loginEmail = useRef("");
   const loginPassword = useRef("");
   const signupEmail = useRef("");
@@ -107,6 +112,38 @@ function Account() {
       return;
     }
   }
+
+
+  useEffect(()=>{
+    if(Object.keys(stateLogin).length >0 && Object.keys(stateLoginResult).length >0){
+      successFB(stateLogin, stateLoginResult)
+    }
+
+  },[stateLogin, stateLoginResult])
+  function successFB(response1, response){
+    console.log(response)
+    if (typeof response.email == "undefined" || response.email?.length === 0) {
+      // console.log(response);
+      // setShowLoginError(true);
+      // setLoginError(" Facebook account has no email address ");
+      // return;
+    }
+    const obj = {
+      provider: "facebook",
+      social_access_token: response1.accessToken,
+      email: response?.email
+        ? response?.email
+        : response.id + "@ishtari-mobile.com",
+      id: response.id
+    };
+
+    axiosServer.post(buildLink("social"), obj).then(() => {
+      
+      checkLogin();
+      // window.location.reload();
+    });
+
+  }
   const responseFacebook = (response) => {
     if (typeof response.email == "undefined" || response.email?.length === 0) {
       // console.log(response);
@@ -175,15 +212,54 @@ function Account() {
     }
   }
 
+
+  const updateSession = async (newSession) => {
+    await axiosServer(`.post/api/auth/session`, {
+  
+      body: JSON.stringify({
+        csrfToken: await getCsrfToken(),
+        data: newSession,
+      }),
+    })
+  }
+  async function test(obj){
+    console.log(obj)
+    try {
+      const res = await axiosServer.post('/api/auth/session', obj);
+      console.log(res)
+      if (res.data.success) {
+
+
+
+        // Profile data updated successfully
+        // You can redirect or perform any other actions here
+      }
+    } catch (error) {
+      // Handle error
+    }
+  }
+
   // Check login
-  function checkLogin() {
+   function checkLogin() {
     dispatch({ type: "setLoading", payload: true });
     const hostname = window.location.host;
     axiosServer
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
+        console.log(data)
 
+       var obj = {
+            "name": "user",
+            "email": data?.email,
+            "isLoggedIn": true,
+            "customer_id": "235672",
+            "firstname": data.firstname,
+            "lastname": data.lastname,
+            "telephone": data.telephone,
+        }
+
+         test(obj)
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -461,10 +537,19 @@ function Account() {
               </form>
 
               <FacebookLogin
-                  appId={window.config["appId"]}
+                  appId="614900577487464"
                   fields="name,email"
                   scope="public_profile,email"
                   isMobile={false}
+                  onSuccess={(response) => {
+                    setStateLogin(response)
+                  }}
+                  onFail={(error) => {
+                    console.log('Login Failed!', error);
+                  }}
+                  onProfileSuccess={(response) => {
+                    setStateLoginResult(response)
+                  }}
                 //  redirectUri={window.location.href} 
                   // callback={responseFacebook}
                   render={(renderProps) => (
