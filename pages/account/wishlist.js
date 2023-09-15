@@ -581,7 +581,7 @@ export async function getServerSideProps(context) {
         }
       );
       console.log(response.data);
-      if (response.data.data.customer_id === 0) {
+      if (response.data.customer_id === 0) {
         return {
           redirect: {
             destination: "/",

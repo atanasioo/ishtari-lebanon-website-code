@@ -473,7 +473,8 @@ function Account() {
                 </button>
                 <p className="pb-2 text-dgrey1">- OR -</p>
                 {/* <FacebookLogin
-              appId={window.config["appId"]}
+              appId={
+                .config["appId"]}
               fields="name,email"
               scope="public_profile,email"
               isMobile={false}

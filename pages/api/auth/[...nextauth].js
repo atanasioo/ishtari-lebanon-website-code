@@ -41,7 +41,7 @@ export const authOptions = {
 
           if (response.data.success) {
             return {
-              customer_id: response.data.data.customer_id,
+              customer_id: response.data.customer_id,
               name: "user",
               // username: response.data.data.username,
               // seller_logged: response.data.data.seller_logged,
