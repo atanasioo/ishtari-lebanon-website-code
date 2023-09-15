@@ -10,6 +10,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
+import cookie from "cookie";
+import { getHost } from "@/functions";
 function profile() {
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
@@ -425,14 +427,56 @@ export default profile;
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
+  const { req } = context;
 
   if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+    //check whether the user is logged using facebook login
+
+    var site_host = "";
+    let host_url = "";
+
+    const host = req.headers.host;
+
+    let token = "";
+
+    const cookies = req?.headers.cookie || "";
+    if (typeof cookies !== "undefined" && cookies !== "") {
+      const parsedCookies = cookie?.parse(cookies);
+      site_host = parsedCookies["site-local-name"];
+      token = parsedCookies["api-token"];
+
+      if (typeof site_host === "undefined") {
+        site_host = host;
+      }
+    }
+
+    host_url = await getHost(site_host);
+    try {
+      const response = await axiosServer.get(
+        buildLink("login", undefined, undefined, host_url),
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.data.data.customer_id === 0) {
+        return {
+          redirect: {
+            destination: "/",
+            permanent: false,
+          },
+        };
+      }
+    } catch(error) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
   }
 
   return {
