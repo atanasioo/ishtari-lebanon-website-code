@@ -471,10 +471,10 @@ export async function getServerSideProps(context) {
       }
     } catch(error) {
       return {
-        redirect: {
-          destination: "/",
-          permanent: false,
-        },
+        // redirect: {
+        //   destination: "/",
+        //   permanent: false,
+        // },
       };
     }
   }
