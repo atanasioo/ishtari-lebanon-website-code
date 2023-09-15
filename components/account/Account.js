@@ -9,8 +9,6 @@ import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
-import { getCsrfToken } from 'next-auth/react'
-
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -213,32 +211,6 @@ function Account() {
   }
 
 
-  const updateSession = async (newSession) => {
-    await axiosServer(`.post/api/auth/session`, {
-  
-      body: JSON.stringify({
-        csrfToken: await getCsrfToken(),
-        data: newSession,
-      }),
-    })
-  }
-  async function test(obj){
-    console.log(obj)
-    try {
-      const res = await axiosServer.post('/api/auth/session', obj);
-      console.log(res)
-      if (res.data.success) {
-
-
-
-        // Profile data updated successfully
-        // You can redirect or perform any other actions here
-      }
-    } catch (error) {
-      // Handle error
-    }
-  }
-
   // Check login
    function checkLogin() {
     dispatch({ type: "setLoading", payload: true });
@@ -249,17 +221,7 @@ function Account() {
         const data = response.data;
         console.log(data)
 
-       var obj = {
-            "name": "user",
-            "email": data?.email,
-            "isLoggedIn": true,
-            "customer_id": "235672",
-            "firstname": data.firstname,
-            "lastname": data.lastname,
-            "telephone": data.telephone,
-        }
-
-         test(obj)
+    
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -528,16 +490,16 @@ function Account() {
               )}
             /> */}
               </form>
-              <form onClick={(e) => handleFacebookLogin(e)}>
+              {/* <form onClick={(e) => handleFacebookLogin(e)}>
                 <button className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al">
                   <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
                 </button>
 
 
-              </form>
+              </form> */}
 
               <FacebookLogin
-                  appId="614900577487464"
+                  appId={window.config['appId']}
                   fields="name,email"
                   scope="public_profile,email"
                   isMobile={false}
