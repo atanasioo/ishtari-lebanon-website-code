@@ -191,6 +191,9 @@ function ProductPage(props) {
     );
   }
 
+  console.log("data" ,data);
+  console.log("addddata" ,additionalData);
+
   function CustomNextArrows({ direction, onClick, style, className }) {
     return (
       <div
@@ -324,7 +327,9 @@ function ProductPage(props) {
         data.seller_id +
         "&source_id=1&limit=5";
       axiosServer.get(link).then((response) => {
-        setSellerData(response.data.data);
+        if(response.data.success){
+          setSellerData(response.data.data);
+        }
       });
     }
   }, [router]);

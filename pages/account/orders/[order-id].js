@@ -246,7 +246,7 @@ function OrderDetails() {
               </div>
             </div>
 
-            {orderComplete && (
+            {/* {orderComplete && (
               <div className={`w-full flex ${returnErr.length >0 ? "justify-between" : "justify-end"}  pt-5`}>
                 {returnErr.length > 0 && (
                   <div className="text-dbase pr-semibold">{returnErr}</div>
@@ -263,7 +263,7 @@ function OrderDetails() {
                   Request a Return
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* TABLE */}
             <div className="mt-7 overflow-x-scroll">
@@ -383,9 +383,9 @@ function OrderDetails() {
                     <th className="border-l px-2  py-1  text-sm">Quantity</th>
                     <th className="border-l px-2  py-1  text-sm">Price</th>
                     <th className="border-l px-2  py-1 text-sm">Total</th>
-                    {orderComplete && (
+                    {/* {orderComplete && (
                       <th className="border-l px-2  py-1 text-sm">Action</th>
-                    )}
+                    )} */}
                   </thead>
                   {data?.products.map((data, i) => (
                     <tbody key={i}>
@@ -411,7 +411,7 @@ function OrderDetails() {
                         <td className="border px-2 md:px-4 text-sm">
                           {data.total}
                         </td>
-                        {orderComplete && (
+                        {/* {orderComplete && (
                           <td className="border px-2 md:px-4 text-sm">
                             <div
                               className="px-3 py-2 mx-2 bg-dmenusep rounded-full text-white cursor-pointer whitespace-nowrap"
@@ -423,7 +423,7 @@ function OrderDetails() {
                               Request a Return
                             </div>
                           </td>
-                        )}
+                        )} */}
                       </tr>
                     </tbody>
                   ))}
