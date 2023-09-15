@@ -279,7 +279,6 @@ function CheckoutCompnents() {
           if (!loged) setloged(true);
           setCustomerId(response.data.customer_id);
 
-          // localStorage.setItem("cid", response.data.customer_id);
           axiosServer
             .get(
               buildLink(

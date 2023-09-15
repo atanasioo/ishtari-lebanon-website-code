@@ -7,6 +7,7 @@ import buildLink from "@/urls";
 import { AiOutlineUser } from "react-icons/ai";
 import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import Link from "next/link";
 import {
   BsFillCartCheckFill,
@@ -106,7 +107,27 @@ function Account() {
       return;
     }
   }
+  const responseFacebook = (response) => {
+    if (typeof response.email == "undefined" || response.email?.length === 0) {
+      // console.log(response);
+      // setShowLoginError(true);
+      // setLoginError(" Facebook account has no email address ");
+      // return;
+    }
+    const obj = {
+      provider: "facebook",
+      social_access_token: response.accessToken,
+      email: response?.email
+        ? response?.email
+        : response.id + "@ishtari-mobile.com",
+      id: response.id
+    };
 
+    axiosServer.post(buildLink("social"), obj).then(() => {
+      checkLogin();
+      window.location.reload();
+    });
+  };
   async function log() {
     if (session) {
       const obj = {
@@ -435,7 +456,27 @@ function Account() {
                 <button className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al">
                   <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
                 </button>
+
+
               </form>
+
+              <FacebookLogin
+                  appId={window.config["appId"]}
+                  fields="name,email"
+                  scope="public_profile,email"
+                  isMobile={false}
+                  redirectUri={window.location.href}
+                  callback={responseFacebook}
+                  render={(renderProps) => (
+                    <p
+                      onClick={() => renderProps.onClick()}
+                      className="py-4 text-dblue cursor-pointer hover:text-dbluedark"
+                    >
+                      <i className="icon icon-facebook mr-2"></i>
+                      <span>Login With Facebook</span>
+                    </p>
+                  )}
+                />
             </div>
           )}
           {state.showSignup && (

@@ -31,6 +31,7 @@
     "react-bootstrap-daterangepicker": "^8.0.0",
     "react-date-range": "^1.4.0",
     "react-dom": "18.2.0",
+    "react-facebook-login": "^4.1.1",
     "react-facebook-pixel": "^1.0.4",
     "react-geocode": "^0.2.3",
     "react-icons": "^4.8.0",
