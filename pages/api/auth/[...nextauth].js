@@ -98,8 +98,8 @@ export const authOptions = {
     FacebookProvider({
       clientId:    '130719880936639',
       clientSecret: '4619d8d5d7e5ac00d59e5ffbbb7bf475',
-      callbackUrl: 'https://next.ishtari.com/api/auth/callback/facebook'
-
+      callbackUrl: 'https://next.ishtari.com/api/auth/callback/facebook',
+      idToken: true,
     })
   ],
   debug:true,

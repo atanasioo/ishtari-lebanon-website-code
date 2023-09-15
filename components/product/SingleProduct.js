@@ -161,23 +161,9 @@ function SingleProduct(props) {
                   colorTwo={[255, 255, 255]}
                   style={{ height: !topSelling ? "246.4px" : "200px" }}
                 />
-              ) : (!props?.isSlider ||
-                  item?.images?.length === 0 ||
-                  !item?.images) &&
-                !carousel ? (
-                <LazyLoadImage
-                  alt={item.name}
-                  src={item.thumb}
-                  width={!topSelling ? 200 : 150}
-                  // height={!topSelling ? 200 : 300}
-                  className="max-w-full max-h-full"
-                  // placeholderSrc="/images/product_placeholder.png"
-                  placeholder={<ProductPlaceholder alt={item.name} />}
-                />
-              ) : (!props?.isSlider ||
-                  item?.images?.length === 0 ||
-                  !item?.images) &&
-                carousel ? (
+              ) : !props?.isSlider ||
+                item?.images?.length === 0 ||
+                !item?.images ? (
                 <img
                   alt={item.name}
                   src={item.thumb}

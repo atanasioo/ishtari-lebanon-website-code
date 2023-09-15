@@ -28,15 +28,9 @@ function OrderDetails() {
   const [returnItem, setReturnItem] = useState(0);
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
-  //   useEffect(() => {
-  //     if (!state.loged) {
-  //       dispatch({ type: "setShowOver", payload: true });
-  //       dispatch({ type: "setShowLogin", payload: true });
-  //     } else {
-  //       dispatch({ type: "setShowOver", payload: false });
-  //       dispatch({ type: "setShowLogin", payload: false });
-  //     }
-  //   }, [state.loged, loading, success]);
+  const [returnProducts, setReturnProducts] = useState([]);
+  const [returnErr, setReturnErr] = useState("");
+
 
   useEffect(() => {
     window.scrollTo({
@@ -71,7 +65,43 @@ function OrderDetails() {
     setShowReturnModal(false);
   };
 
-  console.log("order complete" + orderComplete);
+  function addReturnProduct(product_id) {
+    if (returnProducts.includes(product_id)) {
+      setReturnProducts(returnProducts.filter((sel) => sel !== product_id));
+    } else {
+      setReturnProducts(returnProducts.concat(product_id));
+    }
+  }
+
+  console.log(returnProducts);
+
+  function SelectAll() {
+    const allProducts = [];
+    setReturnProducts([]);
+    if (!document.getElementById("check_all").checked) {
+      data?.products.map((product) => {
+        document.getElementById(`product${product.product_id}`).checked = false;
+      });
+    } else {
+      data?.products.map((product) => {
+        allProducts.push(product.product_id);
+        document.getElementById(`product${product.product_id}`).checked = true;
+      });
+    }
+
+    setReturnProducts(allProducts);
+  }
+
+  function validateReturn(){
+    if(returnProducts.length >0){
+      router.push(`/account/return/${id}?products=${returnProducts}`)
+    }else{
+      setReturnErr("Please select the products that you want to return");
+      setTimeout(() => {
+        setReturnErr("")
+      }, 5000);
+    }
+  }
 
   return (
     <div>
@@ -214,35 +244,72 @@ function OrderDetails() {
               </div>
             </div>
 
+            {orderComplete && (
+              <div className={`w-full flex ${returnErr.length >0 ? "justify-between" : "justify-end"}  pt-5`}>
+                {returnErr.length > 0 && (
+                  <div className="text-dbase pr-semibold">{returnErr}</div>
+                )}
+                <div
+                  href={`/account/return/${id}`}
+                  className="px-3 py-2 mx-2 bg-dmenusep rounded-full text-white cursor-pointer whitespace-nowrap"
+                  onClick={() => {
+                    // setReturnItem(i);
+                    // setShowReturnModal(true);
+                    validateReturn()
+                  }}
+                >
+                  Request a Return
+                </div>
+              </div>
+            )}
+
             {/* TABLE */}
             <div className="mt-7 overflow-x-scroll">
               {width > 650 ? (
                 <table className="w-full  text-left">
                   <thead className="border">
-                    <th className=" border-l  px-4  py-1 text-sm">#</th>
-                    <th className="border-l px-2 md:px-4 py-1  text-sm">
-                      Product
-                    </th>
+                    <tr>
+                      <th className="px-4">
+                        <input
+                          type="checkbox"
+                          id="check_all"
+                          onClick={() => SelectAll()}
+                        />
+                      </th>
+                      <th className=" border-l  px-4  py-1 text-sm">#</th>
+                      <th className="border-l px-2 md:px-4 py-1  text-sm">
+                        Product
+                      </th>
 
-                    <th className="border-l px-4 md:px-4 py-1  text-sm">SKU</th>
-                    <th className="border-l px-2 md:px-4 py-1  text-sm">
-                      Quantity
-                    </th>
-                    <th className="border-l px-2 md:px-4 py-1  text-sm">
-                      Price
-                    </th>
-                    <th className="px-2 border-l md:px-4  py-1 text-sm">
-                      Total
-                    </th>
-                    {orderComplete && (
+                      <th className="border-l px-4 md:px-4 py-1  text-sm">
+                        SKU
+                      </th>
+                      <th className="border-l px-2 md:px-4 py-1  text-sm">
+                        Quantity
+                      </th>
+                      <th className="border-l px-2 md:px-4 py-1  text-sm">
+                        Price
+                      </th>
+                      <th className="px-2 border-l md:px-4  py-1 text-sm">
+                        Total
+                      </th>
+                      {/* {orderComplete && (
                       <th className="px-2 border-l md:px-4  py-1 text-sm">
                         Action
                       </th>
-                    )}
+                    )} */}
+                    </tr>
                   </thead>
                   {data?.products?.map((data, i) => (
-                    <tbody>
+                    <tbody key={i}>
                       <tr className="border">
+                        <td className="px-4">
+                          <input
+                            type="checkbox"
+                            id={`product${data.product_id}`}
+                            onClick={() => addReturnProduct(data.product_id)}
+                          />
+                        </td>
                         <td className="border  px-4">
                           <Link
                             href={`/product/${data.product_id}`}
@@ -285,7 +352,7 @@ function OrderDetails() {
                           {data.total}
                         </td>
                         {/* only show return button when order is complete */}
-                        {orderComplete && (
+                        {/* {orderComplete && (
                           <td className="border  px-4 text-sm">
                             <div
                               className="px-3 py-2 mx-2 bg-dmenusep rounded-full text-white cursor-pointer whitespace-nowrap"
@@ -297,7 +364,7 @@ function OrderDetails() {
                               Request a Return
                             </div>
                           </td>
-                        )}
+                        )} */}
                       </tr>
                     </tbody>
                   ))}
@@ -319,7 +386,7 @@ function OrderDetails() {
                     )}
                   </thead>
                   {data?.products.map((data, i) => (
-                    <tbody>
+                    <tbody key={i}>
                       <tr className="border">
                         <div className="hidden md:flex-wrap">
                           {" "}
@@ -363,9 +430,9 @@ function OrderDetails() {
             </div>
             <div className="flex justify-between mt-5 md:mt-10 border-b border-dgrey1 pb-2 items-centre">
               {data?.totals?.map((data) => (
-                <div>
-                  <div className="flex-row  ">
-                    <p className="border-b border-dgrey1"> {data.title} </p>
+                <div key={data.order_total_id}>
+                  <div className="flex-row">
+                    <p className="border-b border-dgrey1"> {data.title}</p>
                   </div>
                   <div>
                     <p className="mt-4"> {data.text} </p>
@@ -376,14 +443,14 @@ function OrderDetails() {
 
             {/* return modal */}
             {/* {showReturnModal && ( */}
-            <div>
+            {/* <div>
               <ReturnModal
                 data={data}
                 index={returnItem}
                 closeModal={closeModal}
                 showReturnModal={showReturnModal}
               />
-            </div>
+            </div> */}
             {/* )} */}
           </div>
         )
