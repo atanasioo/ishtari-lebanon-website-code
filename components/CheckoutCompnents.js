@@ -596,7 +596,7 @@ function CheckoutCompnents() {
     axiosServer
       .post(
         buildLink("manual", undefined, undefined, window.config["site-url"])
-        +"&testrimn=true&test",
+        +"&testrimn=true",
         body
       )
       .then((response) => {

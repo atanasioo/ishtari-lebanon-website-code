@@ -125,6 +125,7 @@ export const authOptions = {
       session.user.isLoggedIn = true;
       session.user.customer_id = token.customer_id;
       session.user.firstname = token.firstname;
+      
       session.user.lastname = token.lastname;
       session.user.telephone = token.telephone;
       session.user.name = token.name;
