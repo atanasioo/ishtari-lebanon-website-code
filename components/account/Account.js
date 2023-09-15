@@ -7,7 +7,7 @@ import buildLink from "@/urls";
 import { AiOutlineUser } from "react-icons/ai";
 import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
 import {
   BsFillCartCheckFill,
@@ -465,8 +465,8 @@ function Account() {
                   fields="name,email"
                   scope="public_profile,email"
                   isMobile={false}
-                  redirectUri={window.location.href}
-                  callback={responseFacebook}
+                //  redirectUri={window.location.href} 
+                  // callback={responseFacebook}
                   render={(renderProps) => (
                     <p
                       onClick={() => renderProps.onClick()}

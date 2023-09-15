@@ -84,6 +84,133 @@ function SingleProduct(props) {
   }
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
+
+  function addProductToCart() {
+  
+    let obj = {
+      product_id,
+      quantity
+    };
+    if (hasOption) {
+      let o = {};
+      const op = optionParent.toString();
+      o[op] = activeOption["product_option_value_id"];
+      obj["option"] = o;
+    }
+
+    if (Object.keys(warrantyPlan).length > 0) {
+      let w = {};
+      w["warranty_option_id"] = warrantyPlan.warranty_option_id;
+      obj["warranty"] = w;
+    }
+
+    let error = "";
+    axiosServer
+      .post(
+        buildLink(
+          "cart",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ) + "&source_id=1",
+        bundle === undefined ? obj : bundle
+      )
+      .then((response) => {
+        const data = response.data;
+        if (data.success !== true) {
+          // There is an error
+          // setHasAddToCartError(true);
+          if (!hasOption) {
+            error = data?.errors[0]?.errorMsg;
+          } else {
+            error = data?.errors[0]?.errorMsg;
+          }
+          // alert(error)
+          // setAddToCartError(error);
+          // setAddingToCart(false);
+        } else {
+         
+          dispatch({
+            type: "loading",
+            payload: true
+          });
+          axiosServer
+            .get(
+              buildLink(
+                "cart",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              )
+            )
+            .then((response_data) => {
+              dispatch({
+                type: "setProducts",
+                payload: response_data.data?.data?.products
+              });
+
+              dispatch({
+                type: "setProductsCount",
+                payload: response_data?.data?.data?.total_product_count
+              });
+              dispatch({
+                type: "setTotals",
+                payload: response_data.data?.data?.totals
+              });
+              dispatch({
+                type: "loading",
+                payload: false
+              });
+            });
+
+          if (data) {
+            const data = response?.data?.data?.social_data;
+
+            // ReactPixel.fbq(
+            //   "track",
+            //   "AddToCart",
+            //   {
+            //     content_type: "product",
+            //     content_ids: data?.content_ids,
+            //     content_name: data?.name,
+            //     value: data?.value,
+            //     content_category: data?.breadcrumbs?.category[0]?.name,
+            //     currency: data?.currency,
+            //     fbp: Cookies.get("_fbp"),
+            //   },
+            //   { eventID: data?.event_id }
+            // );
+          }
+          // }
+
+          var dataSocial = response?.data?.data?.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+
+          axiosServer
+            .post(
+              buildLink(
+                "pixel",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              ),
+              dataSocial
+            )
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
+
+         
+         
+        }
+      });
+  }
+
   // useEffect(() => {
   //   const sliderRef = sliderRef?.current;
   //   if (sliderRef) {
