@@ -1,7 +1,7 @@
 // Slider.js
 import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import Slider from "react-slick";
 import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
 
@@ -20,7 +20,7 @@ function ImageSlider(props) {
     slidesToScroll: 1,
     autoplaySpeed: 1000,
     centerMode: true,
-    centerPadding: "-1",
+    centerPadding: "-1"
     // autoplay: false, // We'll control this from the parent component
     // pauseOnHover: false,
   };
@@ -62,7 +62,15 @@ function ImageSlider(props) {
             src={primary}
             alt={`Image`}
             width={200}
-            height={200}
+            height={"300"}
+            style={{
+              backgroundImage: `url(${"/images/product_placeholder.png"})`,
+              height: "autoc", // Set the desired height
+              width: "100%", // Set the desired width
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center"
+            }}
           />
         </div>
         {images.map((image, index) => (

@@ -11,7 +11,7 @@ import { AccountContext } from "@/contexts/AccountContext";
 import NewImage from "./NewImage";
 import Slider from "./Slider";
 import { useMarketingData } from "@/contexts/MarketingContext";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
 
 function SingleProduct(props) {
