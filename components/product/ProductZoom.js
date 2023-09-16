@@ -8,7 +8,7 @@ import ShareSocial from "./ShareSocial";
 import { useRouter } from "next/router";
 import { BiLoaderCircle, BiRightArrowCircle } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
 import { slugify } from "../Utils";
 
@@ -545,12 +545,12 @@ function ProductZoom(props) {
                             className="rounded-xl bg-white p-2"
                           >
                             <div className="rounded-b-xl border-b border-dgreyRate">
-                              <LazyLoadImage
+                              <img
                                 src={product.thumb}
                                 alt={product.name}
                                 width={120}
                                 height={100}
-                                placeholderSrc="/images/product_placeholder.png"
+                                // placeholderSrc="/images/product_placeholder.png"
                               />
                             </div>
                             <div className="text-center pt-3 pb-1 pr-semibold">

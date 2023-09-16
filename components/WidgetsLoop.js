@@ -14,7 +14,7 @@ import { HostContext } from "@/contexts/HostContext.js";
 import { sanitizeHTML } from "./Utils.js";
 import { AccountContext } from "@/contexts/AccountContext.js";
 import BannerLink from "./widgetsComponents/BannerLink.js";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import { SlideshowPlaceholder, SquarePlaceholder } from "./widgetsComponents/Placeholders.js";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {

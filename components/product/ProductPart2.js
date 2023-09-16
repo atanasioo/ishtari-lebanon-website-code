@@ -25,7 +25,7 @@ import PointsLoader from "../PointsLoader";
 import imageCompression from "browser-image-compression";
 import ReviewImagesModal from "./ReviewImagesModal";
 import { useRouter } from "next/router";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BiRightArrowCircle } from "react-icons/bi";
 
 function ProductPart2(props) {
@@ -1169,12 +1169,12 @@ function ProductPart2(props) {
               {sellerData.products.map((product) => (
                 <Link href={`/${slugify(product.name)}/p=${product.product_id}`} className="bg-white rounded-xl p-2 border border-dgreyRate hover:shadow-md">
                   <div className="rounded-b-xl border-b border-dgreyRate">
-                    <LazyLoadImage
+                    <img
                       src={product.thumb}
                       alt={product.name}
                       width={150}
                       height={200}
-                      placeholderSrc="/images/product_placeholder.png"
+                      // placeholderSrc="/images/product_placeholder.png"
                     />
                   </div>
                   <div className="text-center pt-3 pb-1 pr-semibold">

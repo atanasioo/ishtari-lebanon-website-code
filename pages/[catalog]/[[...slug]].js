@@ -168,6 +168,8 @@ export async function getServerSideProps(context) {
           Authorization: "Bearer " + token,
         },
       });
+console.log("testest")
+      console.log(response.data)
 
       const response1 = await axiosServer.get(
         buildLink("getProductAdditionalData", undefined, undefined, site_host) +
@@ -179,11 +181,11 @@ export async function getServerSideProps(context) {
           }
       )
        additionalData = response1.data.data;
-       console.log(additionalData)
+      //  console.log(additionalData)
 
   
 
-      // console.log(response.data);
+      console.log(response.data);
       if (!response.data.success) {
         return {
           notFound: true,
@@ -201,7 +203,7 @@ export async function getServerSideProps(context) {
       slug[0].includes("s=")
     ) {
       let id = "";
-      console.log(slug);
+      // console.log(slug);
       if (catalog === "category" || slug[0].includes("c=")) {
         type = "category";
         if (slug[0].includes("c=")) {
@@ -244,8 +246,8 @@ export async function getServerSideProps(context) {
           "&source_id=1&limit=50" +
           filter +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); 
-        console.log("FFFFFFFFFFFFFF1111");
-        console.log(link);
+        // console.log("FFFFFFFFFFFFFF1111");
+        // console.log(link);
         const response = await axiosServer.get(link, {
           headers: {
             Authorization: "Bearer " + token,
@@ -317,6 +319,8 @@ export async function getServerSideProps(context) {
           };
         }
         data = response?.data?.data;
+
+        // console.log(data)
       }
     } else {
       //redirect to 404
