@@ -33,12 +33,12 @@ export const AccountReducer = (state, action) => {
       case "setFirstname":
         return {
           ...state,
-          username: action.payload
+          firstname: action.payload
         };
       case "setLastname":
         return {
           ...state,
-          username: action.payload
+          lastname: action.payload
         };
       case "setUserId":
         return {

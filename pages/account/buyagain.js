@@ -198,7 +198,7 @@ function buyagain() {
                     </div>
                   )}
             </div>{" "}
-            <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-8 gap-2">
+            <div className="grid grid-cols-2  lg:grid-cols-6 gap-2">
               {data?.map((item) => (
                 <SingleProduct item={item} addToCart={true} key={item.product_id} />
               ))}

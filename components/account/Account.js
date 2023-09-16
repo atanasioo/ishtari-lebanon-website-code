@@ -138,35 +138,37 @@ function Account() {
     };
 
     axiosServer.post(buildLink("social"), obj).then((resp) => {
-      checkLogin();
+      // console.log(resp.data.data.firstname)
+    
       if(resp.data.success){
-        dispatch({ type: "setFirstname", payload: resp.data.firstname });
-        dispatch({ type: "setLastname", payload: resp.data.lastname });
+        dispatch({ type: "setFirstname", payload: resp.data.data.firstname });
+        dispatch({ type: "setLastname", payload: resp.data.data.lastname });
       }
+      checkLogin();
       // window.location.reload();
     });
   }
-  const responseFacebook = (response) => {
-    if (typeof response.email == "undefined" || response.email?.length === 0) {
-      // console.log(response);
-      // setShowLoginError(true);
-      // setLoginError(" Facebook account has no email address ");
-      // return;
-    }
-    const obj = {
-      provider: "facebook",
-      social_access_token: response.accessToken,
-      email: response?.email
-        ? response?.email
-        : response.id + "@ishtari-mobile.com",
-      id: response.id
-    };
+  // const responseFacebook = (response) => {
+  //   if (typeof response.email == "undefined" || response.email?.length === 0) {
+  //     // console.log(response);
+  //     // setShowLoginError(true);
+  //     // setLoginError(" Facebook account has no email address ");
+  //     // return;
+  //   }
+  //   const obj = {
+  //     provider: "facebook",
+  //     social_access_token: response.accessToken,
+  //     email: response?.email
+  //       ? response?.email
+  //       : response.id + "@ishtari-mobile.com",
+  //     id: response.id
+  //   };
 
-    axiosServer.post(buildLink("social"), obj).then(() => {
-      checkLogin();
-      window.location.reload();
-    });
-  };
+  //   axiosServer.post(buildLink("social"), obj).then(() => {
+  //     checkLogin();
+  //     window.location.reload();
+  //   });
+  // };
   async function log() {
     if (session) {
       const obj = {
@@ -502,7 +504,7 @@ function Account() {
               </form> */}
 
               <FacebookLogin
-                appId={window.config["appId"]}
+                appId={"614900577487464"}
                 fields="name,email"
                 scope="public_profile,email"
                 isMobile={false}
