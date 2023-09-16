@@ -580,7 +580,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
       {widget?.display === "slider" &&
         widget.type !== "text" &&
         (widget.items.length > 1 ? (
-          <div className="-mx-4">
+          <div className="-mx-4 mb-2">
             {width > 650 ? (
               <Slider {...settingSliderD} className="sliderSwiper">
                 {widget.items.map((item, index) =>
