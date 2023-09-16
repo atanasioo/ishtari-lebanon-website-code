@@ -121,7 +121,7 @@ function Account() {
     }
   }, [stateLogin, stateLoginResult]);
   function successFB(response1, response) {
-    console.log(response);
+    // console.log(response);
     if (typeof response.email == "undefined" || response.email?.length === 0) {
       // console.log(response);
       // setShowLoginError(true);
@@ -138,37 +138,11 @@ function Account() {
     };
 
     axiosServer.post(buildLink("social"), obj).then((resp) => {
-      // console.log(resp.data.data.firstname)
     
-      if(resp.data.success){
-        dispatch({ type: "setFirstname", payload: resp.data.data.firstname });
-        dispatch({ type: "setLastname", payload: resp.data.data.lastname });
-      }
       checkLogin();
-      // window.location.reload();
     });
   }
-  // const responseFacebook = (response) => {
-  //   if (typeof response.email == "undefined" || response.email?.length === 0) {
-  //     // console.log(response);
-  //     // setShowLoginError(true);
-  //     // setLoginError(" Facebook account has no email address ");
-  //     // return;
-  //   }
-  //   const obj = {
-  //     provider: "facebook",
-  //     social_access_token: response.accessToken,
-  //     email: response?.email
-  //       ? response?.email
-  //       : response.id + "@ishtari-mobile.com",
-  //     id: response.id
-  //   };
 
-  //   axiosServer.post(buildLink("social"), obj).then(() => {
-  //     checkLogin();
-  //     window.location.reload();
-  //   });
-  // };
   async function log() {
     if (session) {
       const obj = {
@@ -187,17 +161,6 @@ function Account() {
     }
   }
 
-  // const handleFacebookLogin = async (e) => {
-  //   e.preventDefault();
-
-  //   const result = await signIn("facebook");
-  //   // alert(result);
-  //   alert(result);
-  //   if (result?.error) {
-  //     alert("Facebook login error:", result.error);
-  //     return;
-  //   }
-  // };
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
@@ -224,13 +187,15 @@ function Account() {
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
 
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
           dispatch({ type: "setUsername", payload: data.username });
           dispatch({ type: "setEmail", payload: data.email });
+          dispatch({ type: "setFirstname", payload: data?.firstname });
+          dispatch({ type: "setLastname", payload: data?.lastname });
 
           // if (
           //   history.location.pathname == "/checkout" &&
@@ -345,6 +310,8 @@ function Account() {
           dispatch({ type: "setUsername", payload: data.username });
           dispatch({ type: "setUserId", payload: data.customer_id });
           dispatch({ type: "setEmail", payload: data.email });
+          dispatch({ type: "setFirstname", payload: data?.firstname });
+          dispatch({ type: "setLastname", payload: data?.lastname });
         } else {
           dispatch({ type: "setLoged", payload: false });
         }
@@ -504,7 +471,7 @@ function Account() {
               </form> */}
 
               <FacebookLogin
-                appId={"614900577487464"}
+                appId={window.config['appId']}
                 fields="name,email"
                 scope="public_profile,email"
                 isMobile={false}
@@ -512,7 +479,7 @@ function Account() {
                   setStateLogin(response);
                 }}
                 onFail={(error) => {
-                  console.log("Login Failed!", error);
+                  // console.log("Login Failed!", error);
                 }}
                 onProfileSuccess={(response) => {
                   setStateLoginResult(response);
