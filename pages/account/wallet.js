@@ -26,7 +26,13 @@ function wallet() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const limit = 10;
-  const router = useRouter()
+  const router = useRouter();
+  const firstname = session?.user?.firstname ? session?.user?.firstname : state.firstname;
+  const lastname = session?.user?.lastname ? session?.user?.lastname : state.lastname;
+
+
+  console.log(state);
+
   useEffect(() => {
     axiosServer
       .get(buildLink("getBalance", undefined, window.innerWidth))
@@ -102,16 +108,16 @@ function wallet() {
                     className="rounded-full w-max p-5 pr-semibold"
                     style={{ backgroundColor: "#a8e8ff" }}
                   >
-                    {session?.user?.firstname?.replace(/\s+/g, "")
+                    {firstname?.replace(/\s+/g, "")
                       .charAt(0)
                       .toUpperCase()}{" "}
-                    {session?.user?.lastname?.replace(/\s+/g, "")
+                    {lastname?.replace(/\s+/g, "")
                       .charAt(0)
                       .toUpperCase()}
                   </div>
                   <div className="text-white">
                     {" "}
-                    {session?.user?.firstname} {session?.user?.lastname}{" "}
+                    {firstname} {lastname}{" "}
                   </div>
                 </div>
                 <div
@@ -138,11 +144,11 @@ function wallet() {
                           className="rounded-full p-4 text-sm"
                           style={{ backgroundColor: "#a8e8ff" }}
                         >
-                          {session?.user?.firstname
+                          {firstname
                             .replace(/\s+/g, "")
                             .charAt(0)
                             .toUpperCase()}{" "}
-                          {session?.user?.lastname
+                          {lastname
                             .replace(/\s+/g, "")
                             .charAt(0)
                             .toUpperCase()}
@@ -150,7 +156,7 @@ function wallet() {
                         <div>
                           <div>
                             {" "}
-                            {session?.user?.firstname} {session?.user?.lastname}{" "}
+                            {firstname} {lastname}{" "}
                           </div>
                           <div className="text-sm text-dgreyQtyProduct">
                             {data.date}

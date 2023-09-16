@@ -137,8 +137,12 @@ function Account() {
       id: response.id
     };
 
-    axiosServer.post(buildLink("social"), obj).then(() => {
+    axiosServer.post(buildLink("social"), obj).then((resp) => {
       checkLogin();
+      if(resp.data.success){
+        dispatch({ type: "setFirstname", payload: resp.data.firstname });
+        dispatch({ type: "setLastname", payload: resp.data.lastname });
+      }
       // window.location.reload();
     });
   }

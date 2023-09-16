@@ -383,7 +383,6 @@ function ProductPart2(props) {
     };
   }, [router.events]);
 
-  console.log("part 2 ", productData2);
 
   return (
     <div className="">
@@ -1179,7 +1178,7 @@ function ProductPart2(props) {
                     />
                   </div>
                   <div className="text-center pt-3 pb-1 pr-semibold">
-                    {product.special !== "" ? product.special : product.price}
+                    {product.special !== "0" ? product.special : product.price}
                   </div>
                 </Link>
               ))}

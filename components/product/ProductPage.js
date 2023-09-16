@@ -147,6 +147,7 @@ function ProductPage(props) {
     setLoader(true);
     setQuantity(1);
     setToggleQty(false);
+    setHasBannerEvent();
   }, [router]);
 
   useEffect(() => {
@@ -203,8 +204,7 @@ function ProductPage(props) {
     );
   }
 
-  console.log("data" ,data);
-  console.log("addddata" ,additionalData);
+
 
   function CustomNextArrows({ direction, onClick, style, className }) {
     return (

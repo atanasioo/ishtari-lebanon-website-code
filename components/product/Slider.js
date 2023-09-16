@@ -58,12 +58,11 @@ function ImageSlider(props) {
     >
       <Slider {...settings} ref={sliderRef}>
         <div key={"2"}>
-          <LazyLoadImage
+          <img
             src={primary}
             alt={`Image`}
-            // width={200}
+            width={200}
             height={200}
-            placeholderSrc="/images/product_placeholder.png"
           />
         </div>
         {images.map((image, index) => (
