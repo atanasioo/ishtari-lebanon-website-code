@@ -2073,6 +2073,9 @@ function CheckoutCompnents() {
                                 src={product.image}
                                 className="w-24 block rounded ml-2"
                                 alt={product.name}
+                                width="59"
+                                height="80"
+                                loading="lazy"
                               />{" "}
                             </Link>{" "}
                             <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow ">
@@ -2180,6 +2183,9 @@ function CheckoutCompnents() {
                                       }`
                                     )
                                   }
+                                  width="59"
+                                  height="80"
+                                  loading="lazy"
                                   src={product.image}
                                   className="w-full block rounded"
                                   alt={product.name}

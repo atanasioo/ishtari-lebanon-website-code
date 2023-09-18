@@ -132,7 +132,7 @@ function SingleProductTest(props) {
                   src={item.thumb}
                   width={200}
                   height={300}
-                 
+                  loading="lazy"
                   className="max-w-full max-h-full"
                 />
                 // <div></div>
@@ -244,6 +244,7 @@ function SingleProductTest(props) {
                       src={"/images/express.png"}
                       className="h-6 w-16 py-1"
                       alt="Express delivery"
+                      loading="lazy"
                     />
                   ) : (
                     <img
@@ -252,6 +253,7 @@ function SingleProductTest(props) {
                       src={"/images/market.svg"}
                       className="h-6 w-16 py-1 "
                       alt={"market image"}
+                      loading="lazy"
                     />
                   )}
                 </div>

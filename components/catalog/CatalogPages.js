@@ -918,6 +918,9 @@ function CatalogPage(props) {
                                           style={{
                                             padding: `1px`
                                           }}
+                                          width="28"
+                                          height="28"
+                                          loading="lazy"
                                           className={`w-12/12 rounded-full border border-dgreyRate`}
                                           alt="Not Found"
                                         />
@@ -1002,6 +1005,9 @@ function CatalogPage(props) {
                                               style={{
                                                 padding: `1px`
                                               }}
+                                              width="28"
+                                              height="28"
+                                              loading="lazy"
                                               className={`w-12/12 rounded-full border border-dgreyRate`}
                                               alt="Not Found"
                                             />
@@ -1287,6 +1293,8 @@ function CatalogPage(props) {
                             className="h-20"
                             width={"100"}
                             height={"100"}
+                      
+                            loading="lazy"
                             placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
                           />
                           <h2
@@ -1328,6 +1336,8 @@ function CatalogPage(props) {
                           src={category.thumb}
                           width={110}
                           height={110}
+                     
+                          loading="lazy"
                           placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
                           className="h-20 w-20"
                         />
@@ -1488,6 +1498,9 @@ function CatalogPage(props) {
                                             )}
                                             `}
                                             alt={filters[key]?.id}
+                                            width="28"
+                                            height="28"
+                                            loading="lazy"
                                           />
 
                                           <p className="pt-1 mx-2 text-d13 w-8/12 font-light">
@@ -1718,6 +1731,9 @@ function CatalogPage(props) {
                                           style={{
                                             padding: `2px`
                                           }}
+                                          width="28"
+                                          height="28"
+                                          loading="lazy"
                                           className={`w-7 h-7 rounded-full 
                                           ${checkFilter(
                                             filters[
@@ -2382,6 +2398,9 @@ function CatalogPage(props) {
                                     }}
                                     className={`w-12/12 rounded-full border border-dgreyRate`}
                                     alt="Not Found"
+                                    width="28"
+                                    height="28"
+                                    loading="lazy"
                                   />
                                 </span>
                                 <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
@@ -2461,6 +2480,9 @@ function CatalogPage(props) {
                                         }}
                                         className={`w-12/12 rounded-full border border-dgreyRate`}
                                         alt="Not Found"
+                                        width="28"
+                                        height="28"
+                                        loading="lazy"
                                       />
                                     </span>
                                     <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">

@@ -63,6 +63,7 @@ function ImageSlider(props) {
             alt={`Image`}
             width={200}
             height={"300"}
+            loading="lazy"
             style={{
               backgroundImage: `url(${"/images/product_placeholder.png"})`,
               height: "autoc", // Set the desired height
@@ -80,6 +81,7 @@ function ImageSlider(props) {
               alt={`Image ${index + 1}`}
               width={200}
               height={200}
+              loading="lazy"
               className="bg-cover"
             />
           </div>
