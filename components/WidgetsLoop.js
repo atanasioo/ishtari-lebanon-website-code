@@ -15,7 +15,10 @@ import { sanitizeHTML } from "./Utils.js";
 import { AccountContext } from "@/contexts/AccountContext.js";
 import BannerLink from "./widgetsComponents/BannerLink.js";
 // import { LazyLoadImage } from "react-lazy-load-image-component";
-import { SlideshowPlaceholder, SquarePlaceholder } from "./widgetsComponents/Placeholders.js";
+import {
+  SlideshowPlaceholder,
+  SquarePlaceholder,
+} from "./widgetsComponents/Placeholders.js";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {
   const [showNext, setShowNext] = useState(false);
@@ -32,14 +35,14 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
   const [accountState] = useContext(AccountContext);
   const host = useContext(HostContext);
   const catalog =
-  router.asPath.startsWith("/category") ||
-  router.asPath.includes("c=") ||
-  router.asPath.startsWith("/seller") ||
-  router.asPath.includes("s=") ||
-  router.asPath.startsWith("/manufacturer") ||
-  router.asPath.includes("m=")
-    ? true
-    : false;
+    router.asPath.startsWith("/category") ||
+    router.asPath.includes("c=") ||
+    router.asPath.startsWith("/seller") ||
+    router.asPath.includes("s=") ||
+    router.asPath.startsWith("/manufacturer") ||
+    router.asPath.includes("m=")
+      ? true
+      : false;
   const source_type =
     router.asPath === "/"
       ? "home"
@@ -69,7 +72,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller"
+    4: "seller",
   };
 
   // console.log(bannerStats);
@@ -87,7 +90,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
       marginLeft: widget.margin_left !== "-1" ? widget.margin_left + "%" : "",
       marginRight: widget.margin_right !== "-1" && widget.margin_right + "%",
       marginBottom: widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
-      marginTop: widget.margin_top !== "-1" && widget.margin_top + "%"
+      marginTop: widget.margin_top !== "-1" && widget.margin_top + "%",
     };
     // setAppliedStyles(styles);
   }, [widget]);
@@ -98,7 +101,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
       ignore: false,
       banner_image_id: banner_image_id,
       source_type: source_type,
-      source_type_id: source_type_id
+      source_type_id: source_type_id,
     });
   };
 
@@ -148,7 +151,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     autoplay: true,
     autoplaySpeed: 4000,
     arrows: false,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const settingSliderD = {
     dots: true,
@@ -160,7 +163,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     autoplaySpeed: 4000,
     prevArrow: <CustomSliderPrevArrows />,
     nextArrow: <CustomSliderNextArrows />,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const productMobile = {
     dots: false,
@@ -175,15 +178,16 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     slidesToScroll: 1,
     infinite: false,
     arrows: false,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const productSetting = {
     speed: 200,
-    slidesToShow: widget?.items?.length < 7 ?( widget?.items?.length ): (catalog ? 6 : 7),
+    slidesToShow:
+      widget?.items?.length < 7 ? widget?.items?.length : catalog ? 6 : 7,
     slidesToScroll: 7,
     infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />
+    nextArrow: <CustomNextArrows direction={"r"} />,
   };
 
   // slidesToShow: widget?.items?.length < 7 ? widget?.items?.length : 7,
@@ -202,13 +206,13 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
         breakpoint: 768,
         settings: {
           slidesPerRow: 1,
-          rows: 2
-        }
-      }
+          rows: 2,
+        },
+      },
     ],
     arrows: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />
+    nextArrow: <CustomNextArrows direction={"r"} />,
   };
 
   function CustomSliderPrevArrows({ direction, onClick, style, className }) {
@@ -408,7 +412,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
             <h1
               className="pr-semibold p-2 text-xl"
               dangerouslySetInnerHTML={{
-                __html: widget.title
+                __html: widget.title,
               }}
             />
           )}
@@ -571,7 +575,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
         <div
           className="w-full widget_text"
           dangerouslySetInnerHTML={{
-            __html: sanitizeHTML(widget.html_content)
+            __html: sanitizeHTML(widget.html_content),
           }}
         />
       )}
@@ -596,7 +600,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-
+                        loading="lazy"
                       />
                     </div>
                   ) : (
@@ -627,6 +631,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
+                        loading="lazy"
                       />
                     </div>
                   ) : (
@@ -684,7 +689,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         .replace(/\s+/g, "-")
                         .replaceAll("/", "-")}
                       className={"w-full"}
-                    
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -713,7 +718,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     width:
                       widget.column_number === "1"
                         ? "unset"
-                        : `calc(100% / ${widget.column_number}) `
+                        : `calc(100% / ${widget.column_number}) `,
                   }}
                 >
                   <BannerLink
@@ -742,7 +747,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       height={widget.banner_height}
                       title={item?.name}
                       className={"w-full"}
-                     
+                      loading="lazy"
                     />
                     {showStats &&
                       typeof bannerStats !== "undefined" &&
@@ -785,7 +790,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       .replace(/\s+/g, "-")
                       .replaceAll("/", "-")}
                     className={`${"w-full"}`}
-                   
+                    loading="lazy"
                   />
                 </div>
               );
@@ -835,7 +840,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       height={widget.banner_height}
                       title={item?.name}
                       className={"w-full"}
-                    
+                      loading="lazy"
                     />
                     {showStats &&
                       typeof bannerStats !== "undefined" &&
@@ -878,7 +883,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         ?.replace(/\s+/g, "-")
                         ?.replaceAll("/", "-")}
                       className={"w-full"}
-                     
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -1034,7 +1039,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
               )}
             </div>
           ) : (
-          <div className="w-full ">
+            <div className="w-full ">
               {widget.row_number === "2" ? (
                 <div className="mobile:hidden">
                   <div className="flex flex-col overflow-x-auto">
@@ -1072,43 +1077,41 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                 </div>
               ) : (
                 <div className="">
-                   <div className="flex overflow-x-auto space-x-2 mobile:hidden overflow-hidden" >
-                  {widget?.display === "carousel" &&
-                    widget.type !== "text" &&
-                    widget.items?.map((item) => {
-                      if (item?.product_id)
-                        return (
-                          <div className="" key={item.product_id}>
-                            <SingleProductTest
-                              scroll={true}
-                              item={item}
-                            ></SingleProductTest>
-                          </div>
-                        );
-
-                       else
-
+                  <div className="flex overflow-x-auto space-x-2 mobile:hidden overflow-hidden">
+                    {widget?.display === "carousel" &&
+                      widget.type !== "text" &&
+                      widget.items?.map((item) => {
+                        if (item?.product_id)
+                          return (
+                            <div className="" key={item.product_id}>
+                              <SingleProductTest
+                                scroll={true}
+                                item={item}
+                              ></SingleProductTest>
+                            </div>
+                          );
+                        else
                           return (
                             <div
-                            className={`p-1 min-w-max `}
-                        
-                            key={item.banner_image_id}
-                          >
-                       {!widget?.scrolling  &&   <BannerLink
-                              widget={widget}
-                              item={item}
-                              bannerStats={bannerStats}
-                              handleLinkClick={handleLinkClick}
-                              handleOnItemClick={handleOnItemClick}
-                              types={types}
-                              // carouselBannerCap={true}
-                            />}
-                      </div>
+                              className={`p-1 min-w-max `}
+                              key={item.banner_image_id}
+                            >
+                              {!widget?.scrolling && (
+                                <BannerLink
+                                  widget={widget}
+                                  item={item}
+                                  bannerStats={bannerStats}
+                                  handleLinkClick={handleLinkClick}
+                                  handleOnItemClick={handleOnItemClick}
+                                  types={types}
+                                  // carouselBannerCap={true}
+                                />
+                              )}
+                            </div>
                           );
-                    })}
+                      })}
+                  </div>
                 </div>
-                </div>
-               
               )}
 
               {/* kmn by3ml mshkle */}
@@ -1234,8 +1237,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       id="content"
                       style={{
                         animation: `scroll ${
-                          widget.duration > 0 ? widget.duration-350 : 200
-                        }s linear infinite `
+                          widget.duration > 0 ? widget.duration - 350 : 200
+                        }s linear infinite `,
                       }}
                     >
                       {widget.row_number === "2" ? (

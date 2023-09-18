@@ -561,6 +561,7 @@ function Cart(props) {
                           src={product.thumb}
                           className="w-24 cursor-pointer block rounded"
                           alt={product.name}
+                          loading="lazy"
                         />
                         <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow ">
                           <p className="text-d13 text-dgrey1">{product.sku}</p>
@@ -682,6 +683,7 @@ function Cart(props) {
                               src={product.thumb}
                               className="w-full block cursor-pointer rounded"
                               alt={product.name}
+                              loading="lazy"
                             />
                           </div>
                           <div className="flex flex-col items-end text-dblack justify-center">

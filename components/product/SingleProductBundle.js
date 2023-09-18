@@ -105,6 +105,7 @@ function SingleProductBundle(props) {
                   height="100"
                   placeholder=""
                   style={{maxHeight: '120px'}}
+                  loading="lazy"
                 />
                 {/* <span className="text-d22">+</span> */}
               </div>

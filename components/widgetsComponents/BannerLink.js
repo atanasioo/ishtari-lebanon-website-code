@@ -85,8 +85,8 @@ function BannerLink(props) {
             .replace(/\s+/g, "-")
             .replaceAll("/", "-")}
           className={`${!bool && "w-full"} max-w-full 
-       
         `}
+        loading="lazy"
         />
       {/* ) : (
         <LazyLoadImage

@@ -1524,6 +1524,7 @@ function ProductPage(props) {
                               alt={"Option"}
                               width={80}
                               height={80}
+                              loading="lazy"
                             />
                           </div>
                           {accountState.admin && (
@@ -1654,6 +1655,7 @@ function ProductPage(props) {
                       width={483}
                       height={64}
                       className="w-full"
+                      loading="lazy"
                     />
                   </div>
                 )}
@@ -1681,6 +1683,7 @@ function ProductPage(props) {
                               className="w-full"
                               width={80}
                               height={80}
+                              loading="lazy"
                             />
                           </Link>
                         ))}
@@ -1749,6 +1752,7 @@ function ProductPage(props) {
                                   className="w-full"
                                   width={80}
                                   height={80}
+                                  loading="lazy"
                                   // placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
                                 />
                               </Link>

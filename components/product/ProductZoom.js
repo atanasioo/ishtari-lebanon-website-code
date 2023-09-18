@@ -430,6 +430,7 @@ function ProductZoom(props) {
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
+                      loading="lazy"
                    
                     />
                   </div>
@@ -458,7 +459,7 @@ function ProductZoom(props) {
                             "border-dblue"
                           : "border-dgreyZoom"
                       }`}
-                     
+                      loading="lazy"
                     />
                     {/* {
                         activeImage && activeImage["popup"] === i["popup"]
@@ -550,6 +551,7 @@ function ProductZoom(props) {
                                 alt={product.name}
                                 width={120}
                                 height={100}
+                                loading="lazy"
                                 // placeholderSrc="/images/product_placeholder.png"
                               />
                             </div>

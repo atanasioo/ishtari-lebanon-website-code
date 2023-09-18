@@ -1174,6 +1174,7 @@ function ProductPart2(props) {
                       alt={product.name}
                       width={150}
                       height={200}
+                      loading="lazy"
                       // placeholderSrc="/images/product_placeholder.png"
                     />
                   </div>
@@ -1264,6 +1265,7 @@ function ProductPart2(props) {
                         width={128}
                         height={128}
                         className=" w-32 block mx-auto"
+                        loading="lazy"
                       />
                       <p
                         dangerouslySetInnerHTML={{
@@ -1298,6 +1300,7 @@ function ProductPart2(props) {
                           width={128}
                           height={128}
                           className=" w-32 block mx-auto"
+                          loading="lazy"
                         />
                         <p
                           dangerouslySetInnerHTML={{
