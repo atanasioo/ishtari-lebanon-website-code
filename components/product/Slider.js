@@ -61,8 +61,8 @@ function ImageSlider(props) {
           <Image
             src={primary}
             alt={`Image`}
-            width={200}
-            height={"300"}
+            width={194}
+            height={267}
            
             style={{
               backgroundImage: `url(${"/images/product_placeholder.png"})`,
@@ -79,8 +79,8 @@ function ImageSlider(props) {
             <Image
               src={image.mobile_image}
               alt={`Image ${index + 1}`}
-              width={200}
-              height={300}
+              width={194}
+              height={267}
              
               className="bg-cover"
             />

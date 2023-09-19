@@ -5,15 +5,25 @@ import Head from "next/head";
 import cookie from "cookie";
 import buildLink from "@/urls";
 import ProductPage from "@/components/product/ProductPage";
-import CatalogPage from "@/components/catalog/CatalogPage";
+// import CatalogPage from "@/components/catalog/CatalogPage";
 import CatalogPages from "@/components/catalog/CatalogPages";
 import { getConfig } from "@/functions";
+import dynamic from "next/dynamic";
+import CatalogPlaceholder from "@/components/catalog/CatalogPlaceholder";
+// import ProductPlaceholder from "@/components/product/ProductPlaceholder";
+
 function SlugPage(props) {
   const router = useRouter();
   const [isCatalog, setIsCatalog] = useState(false);
   const [isProduct, setIsProduct] = useState(false);
   const slug = router.query; // Access the slug array from the URL
   // Determine whether it's a category or product page based on the slug structure
+  // const CatalogPages = dynamic(() => Promise.all([
+  //   import('@/components/catalog/CatalogPages')  ]).then(([component]) => component), {
+  //   loading: () => <CatalogPlaceholder />,
+  //   ssr: false // Disable server-side rendering for this dynamic component
+  // });
+
   useEffect(() => {
     if (slug.catalog === "product") {
       setIsProduct(true);
@@ -82,6 +92,7 @@ function SlugPage(props) {
           />
         </>
       ) : (
+
         <CatalogPages
           type={props.type}
           data={props.data}
@@ -338,7 +349,7 @@ console.log("testest")
         isLoading: "false",
         p,
         additionalData
-      },
+      }
     };
   } else {
     return {

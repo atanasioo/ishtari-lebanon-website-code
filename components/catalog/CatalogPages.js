@@ -69,6 +69,11 @@ function CatalogPage(props) {
     });
   };
 
+
+ 
+// const SingleProduct = dynamic(() => import('../product/SingleProduct'), {
+//   loading: () => <p>Loading...</p>,
+// })
   useEffect(() => {
     const isOverflowingRight = false;
     const isOverflowingLeft = false;
@@ -913,8 +918,8 @@ function CatalogPage(props) {
                                           filter
                                         )}`}
                                       >
-                                        <Image
-                                          src={filter.image}
+                                       {filter?.image &&  <Image
+                                          src={filter?.image}
                                           style={{
                                             padding: `1px`
                                           }}
@@ -923,7 +928,7 @@ function CatalogPage(props) {
                                     
                                           className={`w-12/12 rounded-full border border-dgreyRate`}
                                           alt="Not Found"
-                                        />
+                                        /> }
                                       </span>
                                       <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
                                         {" "}
@@ -1000,7 +1005,7 @@ function CatalogPage(props) {
                                               filter
                                             )}`}
                                           >
-                                            <Image
+                                               {filter?.image &&  <Image
                                               src={filter.image}
                                               style={{
                                                 padding: `1px`
@@ -1010,7 +1015,7 @@ function CatalogPage(props) {
                                            
                                               className={`w-12/12 rounded-full border border-dgreyRate`}
                                               alt="Not Found"
-                                            />
+                                            />}
                                           </span>
                                           <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
                                             {" "}
@@ -1726,7 +1731,7 @@ function CatalogPage(props) {
                                       }
                                     >
                                       <span className="flex">
-                                        <Image
+                                      {filter?.image &&   <Image
                                           src={filter.image}
                                           style={{
                                             padding: `2px`
@@ -1751,6 +1756,7 @@ function CatalogPage(props) {
                                           `}
                                           alt={filter.name}
                                         />
+                                          }
 
                                         <p className="p-2 mx-2 text-d13 w-8/12 font-light">
                                           {" "}
@@ -2391,7 +2397,7 @@ function CatalogPage(props) {
                                     filter
                                   )}`}
                                 >
-                                  <Image
+                                    {filter?.image &&   <Image
                                     src={filter.image}
                                     style={{
                                       padding: `1px`
@@ -2400,7 +2406,7 @@ function CatalogPage(props) {
                                     alt="Not Found"
                                     width="28"
                                     height="28"
-                                  />
+                                  /> }
                                 </span>
                                 <p className="py-1 mx-2 text-d14 leading-dtight w-8/12 font-light">
                                   {" "}
@@ -2472,7 +2478,7 @@ function CatalogPage(props) {
                                         filter
                                       )}`}
                                     >
-                                      <Image
+                                       {filter?.image &&    <Image
                                         src={filter.image}
                                         style={{
                                           padding: `1px`
@@ -2482,7 +2488,7 @@ function CatalogPage(props) {
                                         width="28"
                                         height="28"
                                         loading="lazy"
-                                      />
+                                      /> }
                                     </span>
                                     <p className="py-2 mx-2 text-d14 leading-dtight w-8/12 font-light">
                                       {" "}

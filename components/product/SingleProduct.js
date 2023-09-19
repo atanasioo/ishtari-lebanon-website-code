@@ -304,7 +304,7 @@ function SingleProduct(props) {
                   <Slider
                     images={props?.item?.images?.slice(0, 2)}
                     autoplay={true}
-                    primary={item?.popup}
+                    primary={item?.thumb}
                   />
                   {props?.item?.option_color_count &&
                   props?.item?.option_color_count > 1 ? (

@@ -135,7 +135,7 @@ export default function latest(props) {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-8 gap-2 px-2">
+      <div className="grid grid-cols-2 xl:grid-cols-6 lg:grid-cols-6 gap-2 px-2">
         {data.products?.map((product) => (
           <SingleProducts
             key={product.product_id}
