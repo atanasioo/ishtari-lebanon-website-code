@@ -152,6 +152,9 @@ module.exports = {
       dPink: {
         DEFAULT: "#FFCCCB"
       },
+      dTransparentWhite1:{
+        DEFAULT: "rgba(255,255,255,0.5)"
+      },
       dgrey: {
         DEFAULT: "#f7f7fa"
       },
