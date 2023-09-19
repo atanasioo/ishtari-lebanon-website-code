@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import useDeviceSize from "../useDeviceSize";
@@ -419,7 +419,7 @@ function ProductZoom(props) {
                     key={i["thumb"]}
                     className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
                   >
-                    <img
+                    <Image
                       src={i["thumb"]}
                       alt="product image"
                       width={80}
@@ -430,7 +430,7 @@ function ProductZoom(props) {
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
-                      loading="lazy"
+                     
                    
                     />
                   </div>
@@ -447,7 +447,7 @@ function ProductZoom(props) {
                     }}
                     className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
                   >
-                    <img
+                    <Image
                       src={i["thumb"]}
                       alt="product image"
                       width={80}
@@ -459,7 +459,7 @@ function ProductZoom(props) {
                             "border-dblue"
                           : "border-dgreyZoom"
                       }`}
-                      loading="lazy"
+             
                     />
                     {/* {
                         activeImage && activeImage["popup"] === i["popup"]
@@ -521,7 +521,7 @@ function ProductZoom(props) {
                   className="single-product-img-slider"
                 >
                   {images?.map((i, index) => (
-                    <img
+                    <Image
                       key={i["thumb"]}
                       id={`myimage${index}`}
                       src={i["popup"]}
@@ -546,12 +546,12 @@ function ProductZoom(props) {
                             className="rounded-xl bg-white p-2"
                           >
                             <div className="rounded-b-xl border-b border-dgreyRate">
-                              <img
+                              <Image
                                 src={product.thumb}
                                 alt={product.name}
                                 width={120}
                                 height={100}
-                                loading="lazy"
+                      
                                 // placeholderSrc="/images/product_placeholder.png"
                               />
                             </div>

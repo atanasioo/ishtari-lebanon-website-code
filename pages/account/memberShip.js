@@ -14,6 +14,8 @@ import Link from "next/link";
 import { slugify } from "@/components/Utils";
 import { BiArrowToRight } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
+import Image from "next/legacy/image";
+
 export default function MenmberShip() {
   const [state, setState] = useState([]);
   const [width, height] = useDeviceSize();
@@ -143,7 +145,7 @@ export default function MenmberShip() {
                   <div className="flex my-2 bg-white">
 
                     <div className=" w-24">
-                      <img src={p.mobile_image} widt={59} height={80} />
+                      <Image src={p.mobile_image} widt={59} height={80} />
                     </div>
                     <div className="flex-col p-5  text-l">
                       <div>{p.name}</div>

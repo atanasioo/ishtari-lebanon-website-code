@@ -594,13 +594,13 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       key={`sliderM` + index}
                       className="relative"
                     >
-                      <img
+                      <Image
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-                        loading="lazy"
+                       
                       />
                     </div>
                   ) : (
@@ -625,13 +625,13 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       key={`sliderM` + index}
                       className="relative"
                     >
-                      <img
+                      <Image
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
-                        loading="lazy"
+              
                       />
                     </div>
                   ) : (
@@ -678,7 +678,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    <img
+                    <Image
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
@@ -689,7 +689,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         .replace(/\s+/g, "-")
                         .replaceAll("/", "-")}
                       className={"w-full"}
-                      loading="lazy"
+                    
                     />
                   </div>
                 </div>
@@ -740,14 +740,14 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     href={"/latest"}
                     className="relative"
                   >
-                    <img
+                    <Image
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
                       className={"w-full"}
-                      loading="lazy"
+                     
                     />
                     {showStats &&
                       typeof bannerStats !== "undefined" &&
@@ -779,7 +779,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   className={`hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                   key={item.banner_image_id}
                 >
-                  <img
+                  <Image
                     alt={item?.name}
                     src={host.host + "/image/" + item.image}
                     width={widget.banner_width}
@@ -790,7 +790,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       .replace(/\s+/g, "-")
                       .replaceAll("/", "-")}
                     className={`${"w-full"}`}
-                    loading="lazy"
+                   
                   />
                 </div>
               );
@@ -833,14 +833,14 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     href={"/latest"}
                     className="relative"
                   >
-                    <img
+                    <Image
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
                       className={"w-full"}
-                      loading="lazy"
+                     
                     />
                     {showStats &&
                       typeof bannerStats !== "undefined" &&
@@ -873,7 +873,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   key={item.banner_image_id}
                 >
                   <div>
-                    <img
+                    <Image
                       alt={item?.name}
                       src={host.host + "/image/" + item.image}
                       width={widget.banner_width}
@@ -883,7 +883,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         ?.replace(/\s+/g, "-")
                         ?.replaceAll("/", "-")}
                       className={"w-full"}
-                      loading="lazy"
+                     
                     />
                   </div>
                 </div>

@@ -1083,7 +1083,7 @@ function ProductPage(props) {
                     className="text-dgrey1 hover:text-dblue"
                   >
                     {data?.manufacturer_image ? (
-                      <img
+                      <Image
                         src={data.manufacturer_image}
                         alt={data.manufacturer_id}
                         className="w-24"
@@ -1518,13 +1518,13 @@ function ProductPage(props) {
                                 </div>
                               </div>
                             )}
-                            <img
+                            <Image
                               src={option["image"]}
                               key={option.image}
                               alt={"Option"}
                               width={80}
                               height={80}
-                              loading="lazy"
+                   
                             />
                           </div>
                           {accountState.admin && (
@@ -1571,7 +1571,7 @@ function ProductPage(props) {
                             >
                               <div>
                                 {sizeGuide && (
-                                  <img
+                                  <Image
                                     src={data["options"]["0"]["size_guide"]}
                                     className={`${
                                       width < 650 ? "pb-24" : "pb-1 "
@@ -1649,13 +1649,13 @@ function ProductPage(props) {
                 {/*banner */}
                 {hasBannerEvent && hasBannerEvent.thumb && (
                   <div className="mt-5">
-                    <img
+                    <Image
                       src={hasBannerEvent.thumb}
                       alt={hasBannerEvent.name}
                       width={483}
                       height={64}
                       className="w-full"
-                      loading="lazy"
+                    
                     />
                   </div>
                 )}
@@ -1677,13 +1677,13 @@ function ProductPage(props) {
                                 : "border-dgrey"
                             }`}
                           >
-                            <img
+                            <Image
                               src={product.product_main_image}
                               alt={product.product_name}
                               className="w-full"
                               width={80}
                               height={80}
-                              loading="lazy"
+                     
                             />
                           </Link>
                         ))}
@@ -1746,13 +1746,13 @@ function ProductPage(props) {
                                 }}
                                 onMouseLeave={() => handleLeavedSeries(key)}
                               >
-                                <img
+                                <Image
                                   src={option_val?.image}
                                   alt={option_val?.name}
                                   className="w-full"
                                   width={80}
                                   height={80}
-                                  loading="lazy"
+                            
                                   // placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
                                 />
                               </Link>

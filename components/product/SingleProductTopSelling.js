@@ -1,5 +1,5 @@
 import { useMarketingData } from "@/contexts/MarketingContext";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 import { BsFillAwardFill } from "react-icons/bs";
@@ -45,7 +45,7 @@ function SingleProductTopSelling(props) {
           style={{ height: "138px", width: "92px" }}
         >
           <div className="w-full flex justify-center">
-            <img
+            <Image
               src={item.popup}
               className="w-full"
               width={92}
@@ -118,7 +118,7 @@ function SingleProductTopSelling(props) {
               >
                 <div className="express  -mt-1">
                   {props.item.market === "0" ? (
-                    <img
+                    <Image
                       width={64}
                       height={24}
                       src={"/images/express.png"}
@@ -126,7 +126,7 @@ function SingleProductTopSelling(props) {
                       alt="Express delivery"
                     />
                   ) : (
-                    <img
+                    <Image
                       width={64}
                       height={24}
                       src={"/images/market.svg"}

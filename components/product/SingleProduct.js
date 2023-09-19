@@ -1,4 +1,4 @@
-// import Image from "next/legacy/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ import Slider from "./Slider";
 import { useMarketingData } from "@/contexts/MarketingContext";
 // import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
+// import Image from "next/image";
 
 function SingleProduct(props) {
   const { item, host, addToCart, topSelling, carousel } = props;
@@ -291,12 +292,11 @@ function SingleProduct(props) {
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
                 !item?.images ? (
-                <img
+                <Image
                   alt={item.name}
                   src={item.thumb}
                   width={!topSelling ? 200 : 150}
                   height={!topSelling ? 200 : 300}
-                  loading="lazy"
                   className="max-w-full max-h-full"
                 />
               ) : (

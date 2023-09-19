@@ -1,5 +1,5 @@
 // Slider.js
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useRef, useState, useEffect } from "react";
 // import { LazyLoadImage } from "react-lazy-load-image-component";
 import Slider from "react-slick";
@@ -58,12 +58,12 @@ function ImageSlider(props) {
     >
       <Slider {...settings} ref={sliderRef}>
         <div key={"2"}>
-          <img
+          <Image
             src={primary}
             alt={`Image`}
             width={200}
             height={"300"}
-            loading="lazy"
+           
             style={{
               backgroundImage: `url(${"/images/product_placeholder.png"})`,
               height: "autoc", // Set the desired height
@@ -76,12 +76,12 @@ function ImageSlider(props) {
         </div>
         {images.map((image, index) => (
           <div key={index}>
-            <img
+            <Image
               src={image.mobile_image}
               alt={`Image ${index + 1}`}
               width={200}
               height={200}
-              loading="lazy"
+             
               className="bg-cover"
             />
           </div>
