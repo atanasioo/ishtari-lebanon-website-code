@@ -196,7 +196,6 @@ console.log("testest")
 
   
 
-      console.log(response.data);
       if (!response.data.success) {
         return {
           notFound: true,
