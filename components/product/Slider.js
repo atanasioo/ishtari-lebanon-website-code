@@ -80,7 +80,7 @@ function ImageSlider(props) {
               src={image.mobile_image}
               alt={`Image ${index + 1}`}
               width={200}
-              height={200}
+              height={300}
              
               className="bg-cover"
             />
