@@ -33,7 +33,6 @@ function OrderDetails() {
   const [returnProducts, setReturnProducts] = useState([]);
   const [returnErr, setReturnErr] = useState("");
 
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -94,13 +93,13 @@ function OrderDetails() {
     setReturnProducts(allProducts);
   }
 
-  function validateReturn(){
-    if(returnProducts.length >0){
-      router.push(`/account/return/${id}?products=${returnProducts}`)
-    }else{
+  function validateReturn() {
+    if (returnProducts.length > 0) {
+      router.push(`/account/return/${id}?products=${returnProducts}`);
+    } else {
       setReturnErr("Please select the products that you want to return");
       setTimeout(() => {
-        setReturnErr("")
+        setReturnErr("");
       }, 5000);
     }
   }
@@ -246,8 +245,12 @@ function OrderDetails() {
               </div>
             </div>
 
-            {/* {orderComplete && (
-              <div className={`w-full flex ${returnErr.length >0 ? "justify-between" : "justify-end"}  pt-5`}>
+            {orderComplete && (
+              <div
+                className={`w-full flex ${
+                  returnErr.length > 0 ? "justify-between" : "justify-end"
+                }  pt-5`}
+              >
                 {returnErr.length > 0 && (
                   <div className="text-dbase pr-semibold">{returnErr}</div>
                 )}
@@ -257,13 +260,13 @@ function OrderDetails() {
                   onClick={() => {
                     // setReturnItem(i);
                     // setShowReturnModal(true);
-                    validateReturn()
+                    validateReturn();
                   }}
                 >
                   Request a Return
                 </div>
               </div>
-            )} */}
+            )}
 
             {/* TABLE */}
             <div className="mt-7 overflow-x-scroll">
@@ -271,13 +274,16 @@ function OrderDetails() {
                 <table className="w-full  text-left">
                   <thead className="border">
                     <tr>
-                      <th className="px-4">
-                        <input
-                          type="checkbox"
-                          id="check_all"
-                          onClick={() => SelectAll()}
-                        />
-                      </th>
+                      {orderComplete && (
+                        <th className="px-4">
+                          <input
+                            type="checkbox"
+                            id="check_all"
+                            onClick={() => SelectAll()}
+                          />
+                        </th>
+                      )}
+
                       <th className=" border-l  px-4  py-1 text-sm">#</th>
                       <th className="border-l px-2 md:px-4 py-1  text-sm">
                         Product
@@ -305,13 +311,16 @@ function OrderDetails() {
                   {data?.products?.map((data, i) => (
                     <tbody key={i}>
                       <tr className="border">
-                        <td className="px-4">
-                          <input
-                            type="checkbox"
-                            id={`product${data.product_id}`}
-                            onClick={() => addReturnProduct(data.product_id)}
-                          />
-                        </td>
+                        {orderComplete && (
+                          <td className="px-4">
+                            <input
+                              type="checkbox"
+                              id={`product${data.product_id}`}
+                              onClick={() => addReturnProduct(data.product_id)}
+                            />
+                          </td>
+                        )}
+
                         <td className="border  px-4">
                           <Link
                             href={`/product/${data.product_id}`}
