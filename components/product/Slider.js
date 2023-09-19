@@ -66,7 +66,7 @@ function ImageSlider(props) {
            
             style={{
               backgroundImage: `url(${"/images/product_placeholder.png"})`,
-              height: "autoc", // Set the desired height
+              height: "auto", // Set the desired height
               width: "100%", // Set the desired width
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
@@ -81,7 +81,6 @@ function ImageSlider(props) {
               alt={`Image ${index + 1}`}
               width={194}
               height={267}
-             
               className="bg-cover"
             />
           </div>

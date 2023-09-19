@@ -683,7 +683,6 @@ function CatalogPage(props) {
     return import("react-facebook-pixel").then((module) => module.default);
   }
 
-
   //marketing analytics
 
   let productArray = [];
