@@ -97,7 +97,7 @@ function SingleProductBundle(props) {
               />
             ) : (
               <div className="w-full content-center	justify-center	">
-                <img
+                <Image
                   alt={props.item.name}
                   src={props?.item?.thumb
                   }
@@ -105,7 +105,7 @@ function SingleProductBundle(props) {
                   height="100"
                   placeholder=""
                   style={{maxHeight: '120px'}}
-                  loading="lazy"
+                
                 />
                 {/* <span className="text-d22">+</span> */}
               </div>

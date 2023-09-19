@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCamera } from "react-icons/bs";
-
+import Image from "next/image";
 function ReturnProducts() {
   const router = useRouter();
   let id = router.query["order-id"];
@@ -132,7 +132,7 @@ function ReturnProducts() {
             >
               <div className="flex items-center mb-3 gap-3">
                 <div>
-                  <img
+                  <Image
                     className="w-36 h-[196px]"
                     height={"196"}
                     width={144}

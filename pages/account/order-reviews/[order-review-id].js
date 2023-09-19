@@ -199,10 +199,12 @@ export default function OrderReviews(props) {
                               Image:
                             </td>
                             <td className="p-2 border-b  border-dinputBorder ">
-                              <img
+                              <Image
                                 className="w-12"
                                 src={data.image}
                                 alt={data.name}
+                                width="48"
+                                height="65"
                               />
                             </td>
                           </tr>
@@ -357,10 +359,12 @@ export default function OrderReviews(props) {
                             Image:
                           </td>
                           <td className="p-2 border-b  border-dinputBorder ">
-                            <img
+                            <Image
                               className="w-12"
                               src={data.mobile_image}
                               alt={data.name}
+                              width="48"
+                              height="65"
                             />
                           </td>
                         </tr>
@@ -524,10 +528,12 @@ export default function OrderReviews(props) {
                     {data?.products?.map((data, key) => (
                       <tr className="">
                         <td className="p-2 border-b  border-dinputBorder ">
-                          <img
+                          <Image
                             className="w-12"
                             src={data.image}
                             alt={data.name}
+                            width="48"
+                            height="65"
                           />
                         </td>
                         <td className="p-2 border-b  border-dinputBorder">
@@ -648,10 +654,12 @@ export default function OrderReviews(props) {
                     {!data?.products && data && (
                       <tr className="">
                         <td className="p-2 border-b  border-dinputBorder ">
-                          <img
+                          <Image
                             className="w-12"
                             src={data.mobile_image}
                             alt={data.name}
+                            width="48"
+                            height="65"
                           />
                         </td>
                         <td className="p-2 border-b  border-dinputBorder">

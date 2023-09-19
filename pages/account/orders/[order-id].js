@@ -17,7 +17,7 @@ import { BsCart2 } from "react-icons/bs";
 import { HiOutlineHome } from "react-icons/hi";
 import cookie from "cookie";
 import { getHost } from "@/functions";
-
+import Image from "next/legacy/image";
 function OrderDetails() {
   const router = useRouter();
   const [data, setData] = useState();
@@ -333,10 +333,12 @@ function OrderDetails() {
                               })
                             }
                           >
-                            <img
+                            <Image
                               className="w-12"
                               src={data.image}
                               alt={data.name}
+                              width="48"
+                              height="65"
                             />
                           </Link>
                         </td>

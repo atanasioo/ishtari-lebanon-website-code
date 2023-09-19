@@ -74,7 +74,7 @@ function BannerLink(props) {
       className={`relative ${sliderSingleBanner ? "w-full link-span" : ""}`}
     >
       {/* {widget.display === "slider" || widget.display === "carousel" ? ( */}
-        <img
+        <Image
           alt={item?.name}
           src={host + "/image/" + item.image}
           width={widget?.banner_width}
@@ -86,7 +86,7 @@ function BannerLink(props) {
             .replaceAll("/", "-")}
           className={`${!bool && "w-full"} max-w-full 
         `}
-        loading="lazy"
+        // loading="lazy"
         />
       {/* ) : (
         <LazyLoadImage

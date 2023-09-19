@@ -295,8 +295,8 @@ function SingleProduct(props) {
                 <Image
                   alt={item.name}
                   src={item.thumb}
-                  width={!topSelling ? 200 : 150}
-                  height={!topSelling ? 200 : 300}
+                  width={!topSelling ? 200 : 100}
+                  height={!topSelling ? 280 : 150}
                   className="max-w-full max-h-full"
                 />
               ) : (
