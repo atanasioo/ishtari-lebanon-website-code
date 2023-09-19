@@ -183,7 +183,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
   const productSetting = {
     speed: 200,
     slidesToShow:
-      widget?.items?.length < 7 ? widget?.items?.length : catalog ? 6 : 7,
+      widget?.items?.length < 7 ? widget?.items?.length  : (catalog && widget?.items && widget?.items[0]?.product_id)  ? 6 : 7,
     slidesToScroll: 7,
     infinite: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
