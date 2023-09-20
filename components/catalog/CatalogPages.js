@@ -1071,7 +1071,7 @@ function CatalogPage(props) {
         <div className="w-full mobile:w-4/5 leading-dtight mobile:pl-5 overflow-x-hidden">
           <div className="flex justify-between">
             {/* Results found */}
-            <div className="flex mx-1 mobile:w-4/12 pt-2 mobile:pt-1 ">
+            <div className="flex mx-1 mobile:w-auto pt-2 mobile:pt-1 ">
               <span className=" mr-2 font-light">
                 {data.product_total} Results {data.heading_title && "for"}
               </span>
