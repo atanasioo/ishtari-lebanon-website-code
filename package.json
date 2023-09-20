@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "save-build-time": "node build-info.js"
+    "save-build-time": "node build-info.js",
+    "clean": "rm -rf .next"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^38.0.1",
