@@ -134,7 +134,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
       );
     } else if (returnImgs.length === 0) {
       setError("Minimum of 1 image for the product is required");
-    }else if (actionReqs.key === "") {
+    }else if (action.key === "") {
       setError("Action request must be selected");
     } else {
       var formData = new FormData();
@@ -146,7 +146,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
       formData.append("products[0][return_reason_id]", returnReason.id);
       formData.append("products[0][price]", item?.price);
       formData.append("products[0][quantity]", quantity);
-      formData.append("products[0][action_request]", actionReqs.key);
+      formData.append("products[0][action_request]", action.key);
       returnImgs.slice(0, 5).map((image) => {
         formData.append("products[0][images][]", image);
       });
@@ -155,7 +155,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
         .post(buildLink("addReturnOrder", undefined, undefined), formData)
         .then((response) => {
           if (!response.data.success) {
-            setError(response.data?.errors?.errorMsg);
+            setError(response.data?.errors[0]?.errorMsg);
           } else {
             setError("");
             setSuccess(true);
@@ -166,6 +166,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
         });
     }
   };
+
 
 
   return (
