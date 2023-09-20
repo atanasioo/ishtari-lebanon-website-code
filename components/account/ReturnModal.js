@@ -11,7 +11,7 @@ import buildLink from "@/urls";
 function ReturnModal({ data, index, closeModal, showReturnModal }) {
   const [quantity, setQuantity] = useState(1);
   const [returnReason, setReturnReason] = useState({
-    name: "Return Reason:",
+    name: "",
     id: 0,
   });
   const [reasonDropDown, setReasonDropDown] = useState(false);
@@ -19,7 +19,10 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
   const [qtyDropDown, setQtyDropDown] = useState(false);
   const [reasons, setReasons] = useState([]);
   const [actionReqs, setActionsReqs] = useState([]);
-  const [action, setAction] = useState("Action request:");
+  const [action, setAction] = useState({
+    key: "",
+    value:""
+  });
   const [comment, setComment] = useState("");
   const [returnImgs, setReturnImgs] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
@@ -131,6 +134,8 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
       );
     } else if (returnImgs.length === 0) {
       setError("Minimum of 1 image for the product is required");
+    }else if (actionReqs.key === "") {
+      setError("Action request must be selected");
     } else {
       var formData = new FormData();
 
@@ -141,6 +146,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
       formData.append("products[0][return_reason_id]", returnReason.id);
       formData.append("products[0][price]", item?.price);
       formData.append("products[0][quantity]", quantity);
+      formData.append("products[0][action_request]", actionReqs.key);
       returnImgs.slice(0, 5).map((image) => {
         formData.append("products[0][images][]", image);
       });
@@ -161,6 +167,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
     }
   };
 
+
   return (
     <div>
       {showReturnModal && (
@@ -180,7 +187,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
           onClick={() => closeModal()}
         />
         <p className="text-d20 pr-semibold mb-4 text-center">Return Item</p>
-        <div className="flex items-center mb-3">
+        <div className="flex items-center mb-3 gap-3">
           <div>
             <img className="w-36" src={item?.image} alt={item?.name} />
           </div>
@@ -203,7 +210,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
               onClick={() => setQtyDropDown(!qtyDropDown)}
               className="border rounded-tl-3xl rounded-br-3xl rounded-tr-md rounded-bl-md p-1.5 px-3  flex justify-between cursor-pointer"
             >
-              <div>Quantity: {quantity}</div>
+              <div>Quantity: <span className="pr-semibold">{quantity}</span></div>
               <BiChevronDown className="w-6 h-6" />
             </div>
             {qtyDropDown && (
@@ -215,7 +222,6 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
                   (_, index) => index + 1
                 ).map((value) => (
                   <div
-                  
                     onClick={() => {
                       setQuantity(value);
                       setQtyDropDown(false);
@@ -233,29 +239,24 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
               onClick={() => setActionDropDown(!actionDropDown)}
               className="border rounded-tl-3xl rounded-br-3xl rounded-tr-md rounded-bl-md p-1.5 px-3  flex justify-between cursor-pointer"
             >
-              <div>{action}</div>
+              <div>Action request: 
+                        <span className="pr-semibold"> {action.value}</span>
+                      </div>
               <BiChevronDown className="w-6 h-6" />
             </div>
             {actionDropDown && (
               <div className="bg-white absolute z-10 w-full border rounded">
-                <div
-                  onClick={() => {
-                    setAction(refuned_money);
-                    setReasonDropDown(false);
-                  }}
-                  className=" px-2 py-1 hover:bg-dblue hover:text-white cursor-pointer"
-                >
-                  {actionReqs.refuned_money}
-                </div>
-                <div
-                  onClick={() => {
-                    setAction(send_to_customer);
-                    setReasonDropDown(false);
-                  }}
-                  className=" px-2 py-1 hover:bg-dblue hover:text-white cursor-pointer"
-                >
-                  {actionReqs.send_to_customer}
-                </div>
+                {actionReqs.map((req) => (
+                  <div
+                    onClick={() => {
+                      setAction({key:req.key, value:req.value});
+                      setActionDropDown(!actionDropDown);
+                    }}
+                    className=" px-2 py-1 hover:bg-dblue hover:text-white cursor-pointer"
+                  >
+                    {req.value}
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -264,7 +265,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
               onClick={() => setReasonDropDown(!reasonDropDown)}
               className="border rounded-tl-3xl rounded-br-3xl rounded-tr-md rounded-bl-md p-1.5 px-3  flex justify-between cursor-pointer"
             >
-              <div>{returnReason.name}</div>
+              <div>Return Reason: <span className="pr-semibold">{returnReason.name}</span></div>
               <BiChevronDown className="w-6 h-6" />
             </div>
             {reasonDropDown && (

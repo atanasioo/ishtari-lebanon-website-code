@@ -9,6 +9,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
 import PointsLoader from "@/components/PointsLoader";
+import Image from "next/legacy/image";
 
 
 export async function getServerSideProps(context){
