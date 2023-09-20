@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import Slider from "react-slick";
 // import SmallArrows from "../components/SmallArrows";
 //  import { useProductContext } from "@/contexts/ProductContext";

@@ -104,9 +104,16 @@ function SlugPage(props) {
     </div>
   );
 }
-export async function getServerSideProps(context) {
+export async function getServerSideProps(  context) {
   // Fetch the corresponding API endpoint based on the page type
   // const { catalog,  slug  , resolvedUrl } = context.params;
+  const { req, res } = context;
+
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+  
   const {
     catalog,
     slug,
@@ -123,7 +130,6 @@ export async function getServerSideProps(context) {
     limit,
     fromSearch
   } = context.query;
-  const { req } = context;
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
   // const { NEXT_INIT_QUERY  = context.has_filter;
   let data = null;

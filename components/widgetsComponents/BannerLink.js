@@ -3,9 +3,6 @@ import React, { useContext } from "react";
 import Image from "next/legacy/image";
 import { HostContext } from "@/contexts/HostContext";
 import { useMarketingData } from "@/contexts/MarketingContext";
-// import { LazyLoadImage } from "react-lazy-load-image-component";
-import { SlideshowPlaceholder, SquarePlaceholder } from "./Placeholders";
-import { useRouter } from "next/router";
 
 function BannerLink(props) {
   const {

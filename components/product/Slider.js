@@ -1,7 +1,6 @@
 // Slider.js
 import Image from "next/legacy/image";
 import React, { useRef, useState, useEffect } from "react";
-// import { LazyLoadImage } from "react-lazy-load-image-component";
 import Slider from "react-slick";
 import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
 

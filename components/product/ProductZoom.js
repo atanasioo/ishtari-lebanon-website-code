@@ -8,7 +8,6 @@ import ShareSocial from "./ShareSocial";
 import { useRouter } from "next/router";
 import { BiLoaderCircle, BiRightArrowCircle } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
-// import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
 import { slugify } from "../Utils";
 

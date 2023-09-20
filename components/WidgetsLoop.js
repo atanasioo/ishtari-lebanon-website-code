@@ -14,7 +14,6 @@ import { HostContext } from "@/contexts/HostContext.js";
 import { sanitizeHTML } from "./Utils.js";
 import { AccountContext } from "@/contexts/AccountContext.js";
 import BannerLink from "./widgetsComponents/BannerLink.js";
-// import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {
   const [showNext, setShowNext] = useState(false);

@@ -25,7 +25,6 @@ import PointsLoader from "../PointsLoader";
 import imageCompression from "browser-image-compression";
 import ReviewImagesModal from "./ReviewImagesModal";
 import { useRouter } from "next/router";
-// import { LazyLoadImage } from "react-lazy-load-image-component";
 import { BiRightArrowCircle } from "react-icons/bi";
 
 function ProductPart2(props) {
