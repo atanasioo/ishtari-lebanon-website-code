@@ -15,10 +15,6 @@ import { sanitizeHTML } from "./Utils.js";
 import { AccountContext } from "@/contexts/AccountContext.js";
 import BannerLink from "./widgetsComponents/BannerLink.js";
 // import { LazyLoadImage } from "react-lazy-load-image-component";
-import {
-  SlideshowPlaceholder,
-  SquarePlaceholder,
-} from "./widgetsComponents/Placeholders.js";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {
   const [showNext, setShowNext] = useState(false);
@@ -592,7 +588,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     <div
                       data-index={index}
                       key={`sliderM` + index}
-                      className="relative"
+                      className="relative placeHolderSlideCSS"
                     >
                       <Image
                         alt={item?.name}
@@ -600,6 +596,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         className="w-full"
                         height={widget.banner_height}
                         width={widget.banner_width}
+                        
                        
                       />
                     </div>
@@ -628,9 +625,10 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       <Image
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
-                        className="w-full"
+                        className="w-full placeHolderSlideCSS"
                         height={widget.banner_height}
                         width={widget.banner_width}
+                         
               
                       />
                     </div>
@@ -688,7 +686,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         .replace("%", "")
                         .replace(/\s+/g, "-")
                         .replaceAll("/", "-")}
-                      className={"w-full"}
+                      className={"w-full placeHolderSlideCSS"}
+                      
                     
                     />
                   </div>
@@ -746,8 +745,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
-                      className={"w-full"}
-                     
+                      className={"w-full placeHolderSlideCSS"}
+                                     
                     />
                     {showStats &&
                       typeof bannerStats !== "undefined" &&
@@ -789,8 +788,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       .replace("%", "")
                       .replace(/\s+/g, "-")
                       .replaceAll("/", "-")}
-                    className={`${"w-full"}`}
-                   
+                    className={`${"w-full placeHolderSlideCSS"}`}
+
                   />
                 </div>
               );
@@ -839,7 +838,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       width={widget.banner_width}
                       height={widget.banner_height}
                       title={item?.name}
-                      className={"w-full"}
+                      className={"w-full placeHolderSlideCSS"}
+                  
                      
                     />
                     {showStats &&
@@ -882,8 +882,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                         ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                         ?.replace(/\s+/g, "-")
                         ?.replaceAll("/", "-")}
-                      className={"w-full"}
-                     
+                      className={"w-full placeHolderSlideCSS"}
+        
                     />
                   </div>
                 </div>

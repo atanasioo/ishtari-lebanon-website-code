@@ -6,10 +6,11 @@ import {
   BsFillHeartFill,
   BsStarFill
 } from "react-icons/bs";
-import { MdAvTimer, MdFeedback } from "react-icons/md";
+import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import Link from "next/link";
 import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
+import { BiStar } from "react-icons/bi";
 
 function UserSidebar(props) {
   const [data, setData] = useState(props.data);
@@ -19,6 +20,8 @@ function UserSidebar(props) {
   const [showWishArrow, setShowWishArrow] = useState(false);
   const [showBuyArrow, setShowBuyArrow] = useState(false);
   const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
+  const [showMemberShipArrow, setShowMembershipArrow] = useState(false);
+
   const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
   const [showFeedbackArrow, setShowFeedbackArrow] = useState(false);
   const [showWalletArrow, setShowWalletArrow] = useState(false);
@@ -137,6 +140,36 @@ function UserSidebar(props) {
 
         <li
           onMouseEnter={() => {
+            setShowMembershipArrow(true);
+          }}
+          onMouseLeave={() => {
+            setShowMembershipArrow(false);
+          }}
+        >
+          <Link
+            href={`${path}/account/memberShip`}
+            className="ml-9 flex  items-center h-12 text-dgreyAccount hover:text-dblackk"
+          >
+            <div className="w-2/12">
+              <MdCardMembership className="text-dbase text-d20" />
+            </div>
+            <div
+              className={`flex-1  w-4/12 ${
+                props.active === "membership" && "font-semibold underline"
+              }${ props.active === "membership" ? "text-dgreyAccountActive" : ""}`}
+            >
+              MemberShip
+            </div>
+            {showMemberShipArrow && (
+              <div className=" w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
+            )}{" "}
+          </Link>
+        </li>
+
+        <li
+          onMouseEnter={() => {
             setShowBuyArrow(true);
           }}
           onMouseLeave={() => {
@@ -194,6 +227,8 @@ function UserSidebar(props) {
             )}{" "}
           </Link>
         </li>
+
+     
         <li
           onMouseEnter={() => {
             setShowAddArrow(true);

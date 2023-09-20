@@ -2405,7 +2405,16 @@ div.widget_text p{
   }
  
 
+.placeHolderSlideCSS{
 
+  background-image: url('/images/placeholder_slideshow.png');
+  height : "auto";
+  width: "100%";
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
 
 /* styles.css */
 

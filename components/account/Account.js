@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
+import { MdCardMembership } from "react-icons/md";
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -23,6 +24,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
+import { BiStar } from "react-icons/bi";
 function Account() {
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -670,6 +672,14 @@ function Account() {
                 >
                   <FaMoneyBillWave className=" text-d16 " />
                   <span className="ml-4">Orders</span>
+                </Link>
+                <Link
+                  href={`${path}/account/memberShip`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 px-3"
+                >
+                  <MdCardMembership className=" text-d16 " />
+                  <span className="ml-4">MenmberShip</span>
                 </Link>
                 <Link
                   href={`${path}/account/wallet`}

@@ -84,8 +84,9 @@ function BannerLink(props) {
             .replace("%", "")
             .replace(/\s+/g, "-")
             .replaceAll("/", "-")}
-          className={`${!bool && "w-full"} max-w-full 
-        `}
+          className={`${!bool && "w-full"} max-w-full placeHolderSlideCSS`}
+
+       
         // loading="lazy"
         />
       {/* ) : (

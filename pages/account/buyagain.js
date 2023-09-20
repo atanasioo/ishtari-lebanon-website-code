@@ -13,7 +13,7 @@ import ReactPaginate from "react-paginate";
 import { authOptions } from "../api/auth/[...nextauth]";
 import cookie from "cookie";
 import { getHost } from "@/functions";
-
+import PointsLoader from "@/components/PointsLoader";
 function buyagain() {
   const router = useRouter();
   const [data, setData] = useState();
@@ -74,6 +74,11 @@ function buyagain() {
               <UserSidebarMobile active={"buyagain"} />
             )}
           </div>
+          {loading ? (
+            <div className="flex justify-center w-full">
+              <PointsLoader />
+            </div>
+          ) : (
           <div className="w-full px-2 md:w-4/5 md:pl-8 mb-8">
             <div className="flex justify-between">
               <p className="text-lg pr-semibold py-4">Buy Again </p>
@@ -238,6 +243,7 @@ function buyagain() {
                 ></ReactPaginate>
               ))}
           </div>
+          )}
         </div>
       </div>
     </div>

@@ -7,22 +7,21 @@ import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import { AccountContext } from "@/contexts/AccountContext";
 import { useSession } from "next-auth/react";
-import { AiOutlineLeft, AiOutlineRight, AiOutlineStar } from "react-icons/ai";
-import ReactPaginate from "react-paginate";
+import { AiOutlineLeft, AiOutlineStar } from "react-icons/ai";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { slugify } from "@/components/Utils";
-import { BiArrowToRight } from "react-icons/bi";
-import { BsArrowRight } from "react-icons/bs";
+
+import PointsLoader from "@/components/PointsLoader";
+
 export default function MenmberShip() {
   const [state, setState] = useState([]);
   const [width, height] = useDeviceSize();
   const [accountState] = useContext(AccountContext);
-  const { data: session, status } = useSession();
   const [totalPage, setTotalPage] = useState(0);
   const [limit, setLimit] = useState(20);
   const [page, setPage] = useState(0);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axiosServer
       .get(buildLink("memberShip") + "&page=" + page + "&limit=" + limit)
@@ -30,6 +29,12 @@ export default function MenmberShip() {
         console.log(resp.data);
         setState(resp.data);
         setTotalPage(resp.data.data?.suggestions?.total_pages);
+      
+        if (!accountState.loged) {
+          router.push("/");
+        }
+        setLoading(false)
+        
       });
   }, [page]);
 
@@ -53,11 +58,16 @@ export default function MenmberShip() {
           <div className="flex-row md:flex">
             <div className="w-full mb-3 md:w-1/5">
               {width > 650 ? (
-                <UserSidebar active={"buyagain"} />
+                <UserSidebar active={"memberShip"} />
               ) : (
-                <UserSidebarMobile active={"buyagain"} />
+                <UserSidebarMobile active={"memberShip"} />
               )}
             </div>
+            {loading ? (
+            <div className="flex justify-center w-full">
+              <PointsLoader />
+            </div>
+          ) : (
             <div className="w-full h-full">
               <div
                 className=" text-white px-5 h-1/3"
@@ -129,7 +139,7 @@ export default function MenmberShip() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div>)}
           </div>
         </div>
       </div>

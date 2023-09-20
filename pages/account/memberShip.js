@@ -15,7 +15,7 @@ import { slugify } from "@/components/Utils";
 import { BiArrowToRight } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import Image from "next/legacy/image";
-
+import PointsLoader from "@/components/PointsLoader";
 export default function MenmberShip() {
   const [state, setState] = useState([]);
   const [width, height] = useDeviceSize();
@@ -25,6 +25,8 @@ export default function MenmberShip() {
   const[limit, setLimit]=useState(20)
   const[page, setPage]=useState(0)
  const router =useRouter()
+ const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axiosServer
       .get(buildLink("memberShip") + "&page="+page + "&limit="+limit)
@@ -32,6 +34,12 @@ export default function MenmberShip() {
         console.log(resp.data);
         setState(resp.data);
         setTotalPage(resp.data.data?.suggestions?.total_pages)
+
+        if (!accountState.loged) {
+          router.push("/");
+        }
+        setLoading(false);
+
       });
   }, [page]);
 
@@ -55,11 +63,16 @@ export default function MenmberShip() {
           <div className="flex-row md:flex">
             <div className="w-full mb-3 md:w-1/5">
               {width > 650 ? (
-                <UserSidebar active={"buyagain"} />
+                <UserSidebar active={"memberShip"} />
               ) : (
-                <UserSidebarMobile active={"buyagain"} />
+                <UserSidebarMobile active={"memberShip"} />
               )}
             </div>
+            {loading ? (
+            <div className="flex justify-center w-full">
+              <PointsLoader />
+            </div>
+          ) : (
             <div className="w-full h-full">
               <div
                 className=" text-white px-5 h-1/3"
@@ -145,7 +158,7 @@ export default function MenmberShip() {
                   <div className="flex my-2 bg-white">
 
                     <div className=" w-24">
-                      <Image src={p.mobile_image} widt={59} height={80} />
+                      <Image src={p?.thumb} width={59} height={80} />
                     </div>
                     <div className="flex-col p-5  text-l">
                       <div>{p.name}</div>
@@ -182,7 +195,7 @@ export default function MenmberShip() {
          ></ReactPaginate>
 
        }
-            </div>
+            </div>)}
           </div>
         </div>
       </div>
