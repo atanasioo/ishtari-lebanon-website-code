@@ -55,6 +55,9 @@ function TopSearch() {
     4: "seller",
   };
 
+  useEffect(()=>{
+  setQuery("")
+  }, [router])
   function useOutsideAlerter(ref) {
     useEffect(() => {
       if (overlay) {
