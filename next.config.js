@@ -3,7 +3,6 @@
 
 const nextConfig = {
   reactStrictMode: false,
-  optimized:true,
   generateEtags: false,  // Disable etags
   onDemandEntries: {
     maxInactiveAge: 60 * 60 * 1000,  // Cache inactive entries for 1 hour

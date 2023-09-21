@@ -1661,7 +1661,7 @@ function ProductPage(props) {
                 {/* PDS */}
                 {data?.pds &&
                   data.pds.length > 0 &&
-                  data["series_options"].length < 0 && (
+                  data["series_options"].length < 1 && (
                     <div className="my-2 md:my-4">
                       <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">
                         In the same series
