@@ -14,6 +14,8 @@ import CatalogPlaceholder from "@/components/catalog/CatalogPlaceholder";
 
 function SlugPage(props) {
 
+  console.log(props.host);
+
   return (
     <div>
       <Head>
@@ -24,13 +26,21 @@ function SlugPage(props) {
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
           {(props.data?.heading_title || props.data?.name) &&
             (props?.type === "product"
-              ? props.data?.name
+              ? ("Shop" + props.data?.name
                   .replaceAll("&amp;", "&")
-                  .replaceAll("&quot;", "&")
-              : props.data?.heading_title &&
-                props.data?.heading_title
+                  .replaceAll("&quot;", "&") + "in Lebanon | Ishtari")
+              : props.data?.heading_title && props?.type === "category" ?
+
+                (props.data?.heading_title
                   .replaceAll("&amp;", "&")
-                  .replaceAll("&quot;", "&") + " | ishtari"
+                  .replaceAll("&quot;", "&") + " - in Lebanon | Buy Online | ishtari")
+                  :  props.data?.heading_title && props?.type === "manufacturer" ?
+                  (props.data?.heading_title
+                    .replaceAll("&amp;", "&")
+                    .replaceAll("&quot;", "&") + " - ishtari Lebanon")
+                    : (props.data?.heading_title
+                      .replaceAll("&amp;", "&")
+                      .replaceAll("&quot;", "&"))
             ).replaceAll("<!-- -->", "")}
         </title>
         {props.type === "product" ? (
@@ -332,7 +342,7 @@ console.log("testest")
         data,
         type,
         type_id: id,
-        host,
+        host: site_host,
         config,
         hovered: false,
         isLoading: "false",

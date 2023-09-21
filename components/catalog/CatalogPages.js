@@ -13,7 +13,7 @@ import { CustomArrowProps } from "react-slick";
 import { IoIosArrowDown } from "react-icons/io";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
-import { BsGrid } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsGrid } from "react-icons/bs";
 import useDeviceSize from "../useDeviceSize";
 import { AiOutlineClose } from "react-icons/ai";
 import ScrollToTop from "react-scroll-to-top";
@@ -45,9 +45,9 @@ function CatalogPage(props) {
     speed: 200,
     slidesToShow: 8,
     slidesToScroll: 3,
-    infinite: false
-    // prevArrow: <CustomPrevArrows direction={"l"} />,
-    // nextArrow: <CustomNextArrows direction={"r"} />
+    infinite: false,
+    prevArrow: <CustomPrevArrows direction={"l"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />
   };
 
   const productMSetting = {
@@ -162,9 +162,11 @@ function CatalogPage(props) {
       <div
         style={{ ...style, padding: "2px 5px" }}
         onClick={onClick}
-        className="mySwiper"
+        className="mySwiper cursor-pointer"
       >
-        <div className="swiper-button-prev"></div>
+        <div className="swiper-button-prev flex justify-center items-center">
+        <BsChevronLeft className="text-dblack" />
+        </div>
       </div>
     );
   }
@@ -173,9 +175,11 @@ function CatalogPage(props) {
       <div
         style={{ ...style, padding: "2px 5px" }}
         onClick={onClick}
-        className="mySwiper"
+        className="mySwiper cursor-pointer"
       >
-        <div className="swiper-button-next"></div>
+        <div className="swiper-button-next flex justify-center items-center mr-1">
+        <BsChevronRight className="text-dblack" />
+        </div>
       </div>
     );
   }
@@ -686,6 +690,8 @@ function CatalogPage(props) {
   async function initializeReactPixel() {
     return import("react-facebook-pixel").then((module) => module.default);
   }
+
+  console.log(data?.categories);
 
   //marketing analytics
 
@@ -1297,7 +1303,6 @@ function CatalogPage(props) {
                           <Image
                             alt={category.name}
                             src={category.thumb}
-                            className="h-20"
                             width={"100"}
                             height={"100"}
                       
