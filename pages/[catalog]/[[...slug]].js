@@ -13,38 +13,7 @@ import CatalogPlaceholder from "@/components/catalog/CatalogPlaceholder";
 // import ProductPlaceholder from "@/components/product/ProductPlaceholder";
 
 function SlugPage(props) {
-  const router = useRouter();
-  const [isCatalog, setIsCatalog] = useState(false);
-  const [isProduct, setIsProduct] = useState(false);
-  const slug = router.query; // Access the slug array from the URL
-  // Determine whether it's a category or product page based on the slug structure
-  // const CatalogPages = dynamic(() => Promise.all([
-  //   import('@/components/catalog/CatalogPages')  ]).then(([component]) => component), {
-  //   loading: () => <CatalogPlaceholder />,
-  //   ssr: false // Disable server-side rendering for this dynamic component
-  // });
 
-  useEffect(() => {
-    if (slug.catalog === "product") {
-      setIsProduct(true);
-    } else if (
-      slug.catalog === "category" ||
-      slug.catalog === "product" ||
-      slug.catalog === "manufacturer"
-    ) {
-      setIsCatalog(true);
-    } else if (slug.slug[0].includes("p=")) {
-      setIsProduct(true);
-    } else if (
-      slug.slug[0].includes("c=") ||
-      slug.slug[0].includes("s=") ||
-      slug.slug[0].includes("m=")
-    ) {
-      setIsCatalog(true);
-    } else {
-      return <div>Not found..</div>;
-    }
-  }, [slug]);
   return (
     <div>
       <Head>
@@ -95,6 +64,7 @@ function SlugPage(props) {
 
         <CatalogPages
           type={props.type}
+          type_id={props.type_id}
           data={props.data}
           isloading={props.isLoading}
           page={props.p}
@@ -114,9 +84,8 @@ export async function getServerSideProps(  context) {
     'public, s-maxage=3600, stale-while-revalidate=59'
   )
   
-  const {
+  let {
     catalog,
-    slug,
     has_filter,
     filter_categories,
     filter_manufacturers,
@@ -130,6 +99,7 @@ export async function getServerSideProps(  context) {
     limit,
     fromSearch
   } = context.query;
+  let slug = context.query.slug || [];
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
   // const { NEXT_INIT_QUERY  = context.has_filter;
   let data = null;
@@ -159,9 +129,25 @@ export async function getServerSideProps(  context) {
     site_host = host_cookie;
   }
 
+
   const config = await getConfig(site_host);
   var path = "&path=";
-  if (typeof slug !== "undefined") {
+
+  //handle seo path
+
+  if(typeof catalog !== "undefined" && slug.length === 0){
+    const alias = await axiosServer.get(buildLink(`alias`,undefined, undefined, site_host) + catalog);
+    if(typeof alias.data.query !== "undefined"){
+      const theAlias = alias.data.query.split("=",2);
+      const aliasName = theAlias[0].split('_',1)[0];
+      const aliasId = theAlias[1];
+      slug[0] = aliasId;
+      catalog =aliasName
+    }
+  } 
+
+  if (typeof slug !== "undefined" && slug.length >0) {
+    let id = "";
     if (catalog === "product" || slug[0].includes("p=")) {
       // get product id
       let product_id = "";
@@ -218,7 +204,7 @@ console.log("testest")
       slug[0].includes("m=") ||
       slug[0].includes("s=")
     ) {
-      let id = "";
+      
       // console.log(slug);
       if (catalog === "category" || slug[0].includes("c=")) {
         type = "category";
@@ -326,9 +312,6 @@ console.log("testest")
           },
         });
 
-
-
-
         if (response.data.success == false  || (response.data.data.products.length  < 1 &&   response.data.data.desktop_widgets.length < 1  && response.data.data.widgets.length < 1)) {
           return {
             notFound: true,
@@ -348,6 +331,7 @@ console.log("testest")
       props: {
         data,
         type,
+        type_id: id,
         host,
         config,
         hovered: false,

@@ -24,7 +24,7 @@ import buildLink, { pixelID } from "@/urls";
 import { AccountContext } from "@/contexts/AccountContext";
 
 function CatalogPage(props) {
-  const { data } = props; //instead of productData
+  const { data, type_id } = props; //instead of productData
   const filters = data?.filters;
   var isLoading = useRef(false);
   const [showSort, setShowSort] = useState(false);
@@ -180,13 +180,17 @@ function CatalogPage(props) {
     );
   }
 
+
+
   const router = useRouter();
-  const catalog_id =
-    router.query.slug[0].includes("c=") ||
-    router.query.slug[0].includes("s=") ||
-    router.query.slug[0].includes("m=")
-      ? router.query.slug[0].split("=")[1]
-      : router.query.slug[0];
+  console.log(router.query);
+  const catalog_id = type_id;
+    // router.query.slug[0].includes("c=") ||
+    // router.query.slug[0].includes("s=") ||
+    // router.query.slug[0].includes("m=")
+    //   ? router.query.slug[0].split("=")[1]
+    //   : router.query.slug[0];
+
   const {
     catalog,
     filter_categories,
