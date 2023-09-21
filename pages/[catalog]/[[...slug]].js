@@ -13,7 +13,6 @@ import CatalogPlaceholder from "@/components/catalog/CatalogPlaceholder";
 // import ProductPlaceholder from "@/components/product/ProductPlaceholder";
 
 function SlugPage(props) {
-
   console.log(props.host);
 
   return (
@@ -26,21 +25,39 @@ function SlugPage(props) {
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
           {(props.data?.heading_title || props.data?.name) &&
             (props?.type === "product"
-              ? ("Shop" + props.data?.name
+              ? "Shop " +
+                props.data?.name
                   .replaceAll("&amp;", "&")
-                  .replaceAll("&quot;", "&") + "in Lebanon | Ishtari")
-              : props.data?.heading_title && props?.type === "category" ?
-
-                (props.data?.heading_title
+                  .replaceAll("&quot;", "&") +
+                ` in ${
+                  props.host === "ishtari-ghana" ||
+                  props.host === "www.ishtari.com.gh"
+                    ? "Ghana"
+                    : "Lebanon"
+                } | Ishtari`
+              : props.data?.heading_title && props?.type === "category"
+              ? props.data?.heading_title
                   .replaceAll("&amp;", "&")
-                  .replaceAll("&quot;", "&") + " - in Lebanon | Buy Online | ishtari")
-                  :  props.data?.heading_title && props?.type === "manufacturer" ?
-                  (props.data?.heading_title
-                    .replaceAll("&amp;", "&")
-                    .replaceAll("&quot;", "&") + " - ishtari Lebanon")
-                    : (props.data?.heading_title
-                      .replaceAll("&amp;", "&")
-                      .replaceAll("&quot;", "&"))
+                  .replaceAll("&quot;", "&") +
+                ` - in ${
+                  props.host === "ishtari-ghana" ||
+                  props.host === "www.ishtari.com.gh"
+                    ? "Ghana"
+                    : "Lebanon"
+                } | Buy Online | ishtari`
+              : props.data?.heading_title && props?.type === "manufacturer"
+              ? props.data?.heading_title
+                  .replaceAll("&amp;", "&")
+                  .replaceAll("&quot;", "&") +
+                ` - ishtari ${
+                  props.host === "ishtari-ghana" ||
+                  props.host === "www.ishtari.com.gh"
+                    ? "Ghana"
+                    : "Lebanon"
+                }`
+              : props.data?.heading_title
+                  .replaceAll("&amp;", "&")
+                  .replaceAll("&quot;", "&")
             ).replaceAll("<!-- -->", "")}
         </title>
         {props.type === "product" ? (
@@ -71,7 +88,6 @@ function SlugPage(props) {
           />
         </>
       ) : (
-
         <CatalogPages
           type={props.type}
           type_id={props.type_id}
@@ -84,16 +100,16 @@ function SlugPage(props) {
     </div>
   );
 }
-export async function getServerSideProps(  context) {
+export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
   // const { catalog,  slug  , resolvedUrl } = context.params;
   const { req, res } = context;
 
   res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=3600, stale-while-revalidate=59'
-  )
-  
+    "Cache-Control",
+    "public, s-maxage=3600, stale-while-revalidate=59"
+  );
+
   let {
     catalog,
     has_filter,
@@ -107,7 +123,7 @@ export async function getServerSideProps(  context) {
     order,
     last,
     limit,
-    fromSearch
+    fromSearch,
   } = context.query;
   let slug = context.query.slug || [];
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
@@ -118,7 +134,7 @@ export async function getServerSideProps(  context) {
   if (page !== undefined) {
     p = page;
   }
- var additionalData ={}
+  var additionalData = {};
   const host = req.headers.host;
   var link;
   const cookies = req.headers.cookie;
@@ -139,24 +155,25 @@ export async function getServerSideProps(  context) {
     site_host = host_cookie;
   }
 
-
   const config = await getConfig(site_host);
   var path = "&path=";
 
   //handle seo path
 
-  if(typeof catalog !== "undefined" && slug.length === 0){
-    const alias = await axiosServer.get(buildLink(`alias`,undefined, undefined, site_host) + catalog);
-    if(typeof alias.data.query !== "undefined"){
-      const theAlias = alias.data.query.split("=",2);
-      const aliasName = theAlias[0].split('_',1)[0];
+  if (typeof catalog !== "undefined" && slug.length === 0) {
+    const alias = await axiosServer.get(
+      buildLink(`alias`, undefined, undefined, site_host) + catalog
+    );
+    if (typeof alias.data.query !== "undefined") {
+      const theAlias = alias.data.query.split("=", 2);
+      const aliasName = theAlias[0].split("_", 1)[0];
       const aliasId = theAlias[1];
       slug[0] = aliasId;
-      catalog =aliasName
+      catalog = aliasName;
     }
-  } 
+  }
 
-  if (typeof slug !== "undefined" && slug.length >0) {
+  if (typeof slug !== "undefined" && slug.length > 0) {
     let id = "";
     if (catalog === "product" || slug[0].includes("p=")) {
       // get product id
@@ -174,29 +191,29 @@ export async function getServerSideProps(  context) {
         "&source_id=1&part_one" +
         (AdminToken !== undefined || typeof AdminToken !== "undefined"
           ? "&employer=true"
-          : "") + (fromSearch ? "&from_search=1" : "") ;
+          : "") +
+        (fromSearch ? "&from_search=1" : "");
 
       const response = await axiosServer.get(link, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
-console.log("testest")
-      console.log(response.data)
+      console.log("testest");
+      console.log(response.data);
 
       const response1 = await axiosServer.get(
         buildLink("getProductAdditionalData", undefined, undefined, site_host) +
           "&product_id=" +
-          product_id , {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-      )
-       additionalData = response1.data.data;
+          product_id,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      additionalData = response1.data.data;
       //  console.log(additionalData)
-
-  
 
       if (!response.data.success) {
         return {
@@ -204,7 +221,7 @@ console.log("testest")
         };
       }
       data = response?.data?.data;
-      
+
       type = "product";
     } else if (
       catalog === "category" ||
@@ -214,7 +231,6 @@ console.log("testest")
       slug[0].includes("m=") ||
       slug[0].includes("s=")
     ) {
-      
       // console.log(slug);
       if (catalog === "category" || slug[0].includes("c=")) {
         type = "category";
@@ -257,7 +273,7 @@ console.log("testest")
           id +
           "&source_id=1&limit=50" +
           filter +
-          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : ""); 
+          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
         // console.log("FFFFFFFFFFFFFF1111");
         // console.log(link);
         const response = await axiosServer.get(link, {
@@ -265,7 +281,12 @@ console.log("testest")
             Authorization: "Bearer " + token,
           },
         });
-        if (response.data.success == false  || (response.data.data.products.length  < 1 &&   response.data.data.desktop_widgets.length < 1  && response.data.data.widgets.length < 1)) {
+        if (
+          response.data.success == false ||
+          (response.data.data.products.length < 1 &&
+            response.data.data.desktop_widgets.length < 1 &&
+            response.data.data.widgets.length < 1)
+        ) {
           return {
             notFound: true,
           };
@@ -322,7 +343,12 @@ console.log("testest")
           },
         });
 
-        if (response.data.success == false  || (response.data.data.products.length  < 1 &&   response.data.data.desktop_widgets.length < 1  && response.data.data.widgets.length < 1)) {
+        if (
+          response.data.success == false ||
+          (response.data.data.products.length < 1 &&
+            response.data.data.desktop_widgets.length < 1 &&
+            response.data.data.widgets.length < 1)
+        ) {
           return {
             notFound: true,
           };
@@ -347,8 +373,8 @@ console.log("testest")
         hovered: false,
         isLoading: "false",
         p,
-        additionalData
-      }
+        additionalData,
+      },
     };
   } else {
     return {

@@ -102,25 +102,31 @@ function DesktopMenuClientPopups(props) {
       typeof selectedTopCategory.category_id !== "undefined"
     ) {
       setLoading(true);
-      axiosServer
-        .get(
-          buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
-            "&category_id=" +
-            selectedTopCategory.category_id
-        )
-        .then((response) => {
-          if (
-            typeof response.data.data?.products !== "undefined" &&
-            response.data.data.products.length > 0
-          ) {
-            setTopSelling(response.data.data.products);
-          } else {
-            setTopSelling([]);
-          }
-          setLoading(false);
-        });
+      if (viewSubAllCategories2) {
+        axiosServer
+          .get(
+            buildLink(
+              "getTopSellingByCategoryId",
+              undefined,
+              window.innerWidth
+            ) +
+              "&category_id=" +
+              selectedTopCategory.category_id
+          )
+          .then((response) => {
+            if (
+              typeof response.data.data?.products !== "undefined" &&
+              response.data.data.products.length > 0
+            ) {
+              setTopSelling(response.data.data.products);
+            } else {
+              setTopSelling([]);
+            }
+            setLoading(false);
+          });
+      }
     }
-  }, [selectedTopCategory]);
+  }, [selectedTopCategory, viewSubAllCategories2]);
 
   return (
     <div>
@@ -150,12 +156,14 @@ function DesktopMenuClientPopups(props) {
                         href={`/${slugify(category.name)}/c=${
                           category.category_id
                         }`}
-                        onClick={() => setMarketingData({
-                          ignore: false,
-                          banner_image_id: "",
-                          source_type: "categories",
-                          source_type_id: "",
-                        })}
+                        onClick={() =>
+                          setMarketingData({
+                            ignore: false,
+                            banner_image_id: "",
+                            source_type: "categories",
+                            source_type_id: "",
+                          })
+                        }
                         className="flex items-center py-1 hover:text-dblue px-4"
                       >
                         <img
@@ -185,12 +193,14 @@ function DesktopMenuClientPopups(props) {
                     <Link
                       className="text-dblue text-sm"
                       href={`/category/${selectedTopCategory.category_id}`}
-                      onClick={() => setMarketingData({
+                      onClick={() =>
+                        setMarketingData({
                           ignore: false,
                           banner_image_id: "",
                           source_type: "categories",
                           source_type_id: "",
-                      })}
+                        })
+                      }
                     >
                       <span>View All </span>
                       <i className="icon icon-angle-right"></i>
@@ -202,12 +212,14 @@ function DesktopMenuClientPopups(props) {
                         key={Math.random()}
                         href={`/category/${sub_category.category_id}`}
                         className=" flex items-center py-1 hover:bg-dsearchGrey"
-                        onClick={() => setMarketingData({
-                          ignore: false,
-                          banner_image_id: "",
-                          source_type: "categories",
-                          source_type_id: "",
-                        })}
+                        onClick={() =>
+                          setMarketingData({
+                            ignore: false,
+                            banner_image_id: "",
+                            source_type: "categories",
+                            source_type_id: "",
+                          })
+                        }
                       >
                         <img
                           alt={sub_category.name}
@@ -247,12 +259,20 @@ function DesktopMenuClientPopups(props) {
                           <Slider {...settings}>
                             {topSelling?.slice(0, 10).map((item) => (
                               <div key={item.product_id}>
-                                <SingleProduct item={item} topSelling={true} carousel={true} />
+                                <SingleProduct
+                                  item={item}
+                                  topSelling={true}
+                                  carousel={true}
+                                />
                               </div>
                             ))}
                             {topSelling?.slice(10).map((item) => (
                               <div key={item.product_id}>
-                                <SingleProduct item={item} topSelling={true} carousel={true} />
+                                <SingleProduct
+                                  item={item}
+                                  topSelling={true}
+                                  carousel={true}
+                                />
                               </div>
                             ))}
                           </Slider>

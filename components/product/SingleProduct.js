@@ -15,7 +15,7 @@ import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
 // import Image from "next/image";
 
 function SingleProduct(props) {
-  const { item, host, addToCart, topSelling, carousel } = props;
+  const { item, addToCart, topSelling, carousel } = props;
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
   const router = useRouter();

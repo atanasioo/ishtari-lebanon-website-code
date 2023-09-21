@@ -302,7 +302,10 @@ function TopSearch() {
                                 1
                               )}=${id}`
                         }
-                        onClick={() => saveSearchHistory(value, types[type])}
+                        onClick={() => {
+                          saveSearchHistory(value, types[type]);
+                          setShowSearch(false);
+                        }}
                       >
                         <span className="flex w-full align-middle items-center   h-auto my-2 px-1 ">
                           <span class="w-12 ">
@@ -389,6 +392,7 @@ function TopSearch() {
                           href={`${path}/search?keyword=${history}`}
                           key={index}
                           className="bg-dsearchGrey px-2.5 py-1 cursor-pointer relative"
+                          onClick={()=> setShowSearch(false)}
                         >
                           <div onClick={() => setOverlay(false)}>{history}</div>
                           {!trash && (
@@ -414,6 +418,7 @@ function TopSearch() {
                           href={`${path}/search?keyword=${search.keyphrase}`}
                           key={index}
                           className="bg-dsearchGrey px-2.5 py-1 cursor-pointer"
+                          onClick={()=> setShowSearch(false)}
                         >
                           {search.keyphrase}
                         </Link>
