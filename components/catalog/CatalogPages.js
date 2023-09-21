@@ -899,8 +899,8 @@ function CatalogPage(props) {
                           <div>
                             {filters[key].items.slice(0, 5).map((filter) => (
                               <div key={Math.random()}>
-                                {filters[key].name === "Light color" ||
-                                filters[key].name === "Color" ? (
+                                {((filters[key].name === "Light color" ||
+                                filters[key].name === "Color") && filters[key].option_id)  ? (
                                   <div
                                     className="my-2 flex items-center cursor-pointer hover:text-dblue"
                                     key={filter.name}
@@ -916,7 +916,7 @@ function CatalogPage(props) {
                                           filter
                                         )}`}
                                       >
-                                       {filter?.image &&  <Image
+                                       {filter.image &&  <Image
                                           src={filter?.image}
                                           style={{
                                             padding: `1px`
@@ -983,8 +983,8 @@ function CatalogPage(props) {
                                 .slice(5, filters[key].items.length)
                                 .map((filter) => (
                                   <div key={Math.random()}>
-                                    {filters[key].name === "Light color" ||
-                                    filters[key].name === "Color" ? (
+                                    {(filters[key].name === "Light color" ||
+                                    filters[key].name === "Color")  && filters[key].option_id  ? (
                                       <div
                                         className="my-2 flex items-center cursor-pointer hover:text-dblue"
                                         key={filter.name}
@@ -1453,7 +1453,7 @@ function CatalogPage(props) {
                                     className="w-auto px-3 py-1"
                                     key={Math.random()}
                                   >
-                                    {filters[
+                                    {(filters[
                                       data.filters.findIndex(
                                         (x) => x.name === topFilter.name
                                       )
@@ -1462,7 +1462,11 @@ function CatalogPage(props) {
                                       data.filters.findIndex(
                                         (x) => x.name === topFilter.name
                                       )
-                                    ].name === "Color" ? (
+                                    ].name === "Color")  &&  filters[
+                                      data.filters.findIndex(
+                                        (x) => x.name === topFilter.name
+                                      )
+                                    ].option_id  ? (
                                       <p
                                         className=" flex items-center justify-between  cursor-pointer hover:text-dblue"
                                         key={filter.name}
@@ -1703,7 +1707,7 @@ function CatalogPage(props) {
                                   className="w-full px-3 py-1"
                                   key={Math.random()}
                                 >
-                                  {filters[
+                                  {(filters[
                                     data.filters.findIndex(
                                       (x) => x.name === topFilter.name
                                     )
@@ -1712,7 +1716,11 @@ function CatalogPage(props) {
                                     data.filters.findIndex(
                                       (x) => x.name === topFilter.name
                                     )
-                                  ].name === "Color" ? (
+                                  ].name === "Color") &&  filters[
+                                    data.filters.findIndex(
+                                      (x) => x.name === topFilter.name
+                                    )
+                                  ].option_id ? (
                                     <p
                                       className=" flex items-center justify-between cursor-pointer hover:text-dblue"
                                       key={filter.name}
@@ -2210,7 +2218,7 @@ function CatalogPage(props) {
                                     </div>
                                   );
                                 }
-                              } else if (filter.name === "Color") {
+                              } else if (filter.name === "Color"   ) {
                                 const temp = Math.max(
                                   ...filter.items.map((o) => {
                                     if (
@@ -2378,8 +2386,8 @@ function CatalogPage(props) {
                     <div>
                       {filters[key].items.slice(0, 5).map((filter) => (
                         <div key={Math.random()}>
-                          {filters[key].name === "Light color" ||
-                          filters[key].name === "Color" ? (
+                          {(filters[key].name === "Light color" ||
+                          filters[key].name === "Color") && filter?.option_id ? (
                             <div
                               className="my-2 flex items-center cursor-pointer hover:text-dblue"
                               key={filter.name}
@@ -2461,8 +2469,8 @@ function CatalogPage(props) {
                           .slice(5, filters[key].items.length)
                           .map((filter) => (
                             <div key={Math.random()}>
-                              {filters[key].name === "Light color" ||
-                              filters[key].name === "Color" ? (
+                              {(filters[key].name === "Light color" ||
+                              filters[key].name === "Color" ) && filters[key]?.option_id ? (
                                 <div
                                   className="my-2 flex items-center cursor-pointer hover:text-dblue"
                                   key={filter.name}
