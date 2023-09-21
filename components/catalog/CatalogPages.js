@@ -912,7 +912,7 @@ function CatalogPage(props) {
                                       parseFilter(filters[key].id, filter.id)
                                     }
                                   >
-                                    <span className="flex w-10/12">
+                                    <div className="flex w-10/12">
                                       <span
                                         className={`flex w-7 h-7 ${checkFilter(
                                           filters[key]?.id,
@@ -936,7 +936,7 @@ function CatalogPage(props) {
                                         {" "}
                                         {filter.name}
                                       </p>
-                                    </span>
+                                    </div>
                                     <span className="flex w-1/12"></span>
                                     <span className="text-d14 text-right font-light opacity-70">
                                       ({filter.count})
@@ -999,7 +999,7 @@ function CatalogPage(props) {
                                           )
                                         }
                                       >
-                                        <span className="flex w-10/12">
+                                        <div className="flex w-10/12">
                                           <span
                                             className={`flex w-7 h-7 ${checkFilter(
                                               filters[key].id,
@@ -1023,7 +1023,7 @@ function CatalogPage(props) {
                                             {" "}
                                             {filter.name}
                                           </p>
-                                        </span>
+                                        </div>
                                         <span className="flex w-1/12"></span>
                                         <span className="text-d14 text-right font-light opacity-70">
                                           ({filter.count})
@@ -1485,7 +1485,7 @@ function CatalogPage(props) {
                                           )
                                         }
                                       >
-                                        <span className="flex">
+                                        <div className="flex">
                                           <Image
                                             src={filter.image}
                                             style={{
@@ -1518,7 +1518,7 @@ function CatalogPage(props) {
                                             {" "}
                                             {filter.name}
                                           </p>
-                                        </span>
+                                        </div>
                                         <span className="text-d13 text-right font-light ">
                                           ({filter.count})
                                         </span>
@@ -2399,7 +2399,7 @@ function CatalogPage(props) {
                                 parseFilter(filters[key].id, filter.id)
                               }
                             >
-                              <span className="flex w-10/12">
+                              <div className="flex w-10/12">
                                 <span
                                   className={`flex w-7 h-7 ${checkFilter(
                                     filters[key]?.id,
@@ -2422,7 +2422,7 @@ function CatalogPage(props) {
                                   {" "}
                                   {filter.name}
                                 </p>
-                              </span>
+                              </div>
                               <span className="flex w-2/12"></span>
                               <span className="text-d14 text-right font-light opacity-70 ">
                                 ({filter.count})
@@ -2480,7 +2480,7 @@ function CatalogPage(props) {
                                   key={filter.name}
                                   // onClick={() => parseFilter(filters[key].id, filter)}
                                 >
-                                  <span className="flex w-10/12">
+                                  <div className="flex w-10/12">
                                     <span
                                       className={`flex w-7 h-7 ${checkFilter(
                                         filters[key].id,
@@ -2504,7 +2504,7 @@ function CatalogPage(props) {
                                       {" "}
                                       {filter.name}
                                     </p>
-                                  </span>
+                                  </div>
                                   <span className="flex w-1/12"></span>
                                   <span className="text-d14 text-right font-light opacity-70">
                                     ({filter.count})
