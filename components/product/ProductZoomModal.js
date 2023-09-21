@@ -142,10 +142,10 @@ function ProductZoomModal(props) {
                         <img
                           id="myimage"
                           src={i["popup"]}
-                          width={800}
+                          // width={800}
                           height={800}
                           alt=""
-                          className={`rounded-lg w-full
+                          className={`rounded-lg 
                             myimage-product-zoom  ${
                             cursor ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
