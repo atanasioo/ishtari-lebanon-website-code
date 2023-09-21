@@ -1016,7 +1016,11 @@ function ProductPage(props) {
               )}
             </div>
           </div>
-          <div className="product-div flex items-stretch bg-white w-full md:px-2">
+          <div      className={`${width > 650 && "overflow-hidden"} ${
+        accountState.admin && data?.status === "0"
+          && "bg-dPink"
+         
+      } product-div flex items-stretch bg-white w-full md:px-2`}>
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
               <div className="product-zoom w-full md:w-6/12 ">
                 {/* <img width={380} height={518} src={data.popup} /> */}
