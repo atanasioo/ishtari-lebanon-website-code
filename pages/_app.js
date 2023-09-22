@@ -49,10 +49,10 @@ export default function App({
 
   useEffect(() => {
     const handleStart = (url) => {
-      const excludeHome = url === "/";
-      if (!excludeHome) {
+      // const excludeHome = url === "/";
+      // if (!excludeHome) {
         setLoading(true);
-      }
+      //}
     };
 
     const handleComplete = () => {
