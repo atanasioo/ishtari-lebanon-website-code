@@ -134,7 +134,7 @@ export default function MenmberShip() {
                       <div className="px-5 text-d14">{state?.data?.current_point_precentage}%</div>
                     </div>
                     <div className="text-d14 ">
-                      Earn {state?.points_earned_last_month || 'zero'} more points to
+                      Earn {state?.points_needed || 'zero'} more points to
                       become a Gold Member
                     </div>
                   </div>
