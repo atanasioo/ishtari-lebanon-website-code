@@ -9,8 +9,7 @@ import ProductPage from "@/components/product/ProductPage";
 import CatalogPages from "@/components/catalog/CatalogPages";
 import { getConfig } from "@/functions";
 import dynamic from "next/dynamic";
-import CatalogPlaceholder from "@/components/catalog/CatalogPlaceholder";
-// import ProductPlaceholder from "@/components/product/ProductPlaceholder";
+
 
 function SlugPage(props) {
   console.log(props.host);
