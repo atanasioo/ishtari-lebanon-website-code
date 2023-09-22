@@ -155,8 +155,8 @@ function UserSidebar(props) {
             </div>
             <div
               className={`flex-1  w-4/12 ${
-                props.active === "membership" && "font-semibold underline"
-              }${ props.active === "membership" ? "text-dgreyAccountActive" : ""}`}
+                props.active === "memberShip" && "font-semibold underline"
+              } ${ props.active === "memberShip" ? "text-dgreyAccountActive" : ""}`}
             >
               MemberShip
             </div>
