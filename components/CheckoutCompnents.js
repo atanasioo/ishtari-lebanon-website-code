@@ -595,8 +595,7 @@ function CheckoutCompnents() {
     }
     axiosServer
       .post(
-        buildLink("manual", undefined, undefined, window.config["site-url"])
-        +"&testrimn=true",
+        buildLink("manual", undefined, undefined, window.config["site-url"]),
         body
       )
       .then((response) => {
@@ -2659,7 +2658,7 @@ function CheckoutCompnents() {
                     <h1 className="pr-bold text-xll text-dblack mb-4 leading-26">
                       Customer Balance
                     </h1>
-                    <div className="pr-semibold">{manualResponse?.balance}</div>
+                    <div className="pr-semibold">{manualResponse?.balance ? manualResponse.balance :  walletBalance}</div>
                   </div>
 
                   <div className="text-sm">
