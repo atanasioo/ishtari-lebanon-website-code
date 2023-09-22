@@ -291,6 +291,8 @@ export async function getServerSideProps(context) {
           };
         }
         data = response.data.data;
+        console.log(data)
+
       } else {
         var filter = "";
         if (has_filter !== undefined) {
@@ -354,7 +356,7 @@ export async function getServerSideProps(context) {
         }
         data = response?.data?.data;
 
-        // console.log(data)
+        console.log(data)
       }
     } else {
       //redirect to 404
