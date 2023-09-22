@@ -359,7 +359,7 @@ function CheckoutCompnents() {
       name: zone.current.name,
       value: zone.current.id,
     };
-    if (balanceAmount.current.value.length > 1) {
+    if (balanceAmount.current.value.length >= 0) {
       manual(manualCart, obj, activePaymentMethod, false);
     }
   }
@@ -486,7 +486,6 @@ function CheckoutCompnents() {
         });
     }
   }, []);
-
 
   //get wallet balance
   useEffect(() => {
@@ -2163,7 +2162,10 @@ function CheckoutCompnents() {
                           {/* Mobile design */}{" "}
                           <div>
                             <Link
-                              href={`${product.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g,"-").replace(/\s+/g,'-').replace('/','-')}/p=${product.product_id}`}
+                              href={`${product.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")
+                                .replace("/", "-")}/p=${product.product_id}`}
                               className={`flex xl:hidden lg:hidden mb-2 -mx-2 py-2 rounded ${
                                 product.stock
                                   ? "bg-white "
@@ -2327,9 +2329,11 @@ function CheckoutCompnents() {
                         <div className="mb-6">
                           <div className="flex items-center justify-between">
                             <p className="pr-light pb-2">Customer points: </p>
-                            <p className="text-dgreen pr-semibold">{manualResponse?.customer_point} pts</p>
+                            <p className="text-dgreen pr-semibold">
+                              {manualResponse?.customer_point} pts
+                            </p>
                           </div>
-                          
+
                           <div className="relative">
                             <div
                               onClick={() => setPointsDropdown(!pointsDropdown)}
@@ -2648,39 +2652,45 @@ function CheckoutCompnents() {
                 </div>
 
                 {/* customer wallet */}
-                <div className="p-5 rounded top-7 border border-dgrey1 border-opacity-20 mt-6">
-                  {loading && (
-                    <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
-                      <Loader styles="h-9 w-9 text-dblue ml-4" />
+                {state.loged && (
+                  <div className="p-5 rounded top-7 border border-dgrey1 border-opacity-20 mt-6">
+                    {loading && (
+                      <div className="absolute top-0 left-0 w-full h-full bg-dblack  bg-opacity-10 flex items-center justify-center">
+                        <Loader styles="h-9 w-9 text-dblue ml-4" />
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <h1 className="pr-bold text-xll text-dblack mb-4 leading-26">
+                        Customer Balance
+                      </h1>
+                      <div className="pr-semibold">
+                        {manualResponse?.balance
+                          ? manualResponse.balance
+                          : walletBalance}
+                      </div>
                     </div>
-                  )}
-                  <div className="flex justify-between">
-                    <h1 className="pr-bold text-xll text-dblack mb-4 leading-26">
-                      Customer Balance
-                    </h1>
-                    <div className="pr-semibold">{manualResponse?.balance ? manualResponse.balance :  walletBalance}</div>
-                  </div>
 
-                  <div className="text-sm">
-                    You can utilize your entire balance or a specific amount to
-                    deduct from the total amount of your order.
+                    <div className="text-sm">
+                      You can utilize your entire balance or a specific amount
+                      to deduct from the total amount of your order.
+                    </div>
+                    <div className="mt-4 flex ">
+                      <input
+                        type="text"
+                        className="border border-dinputBorder flex-grow rounded-tl rounded-bl border-r-0 h-10 px-5"
+                        placeholder="Enter an amount"
+                        ref={balanceAmount}
+                        onChange={() => handleBalanceAmountChance()}
+                      />
+                      <div
+                        onClick={() => applyBalance()}
+                        className="bg-dblue text-white px-3 h-10 rounded-tr rounded-br text-sm cursor-pointer"
+                      >
+                        <p className="text-center mt-3">APPLY</p>
+                      </div>{" "}
+                    </div>
                   </div>
-                  <div className="mt-4 flex ">
-                    <input
-                      type="text"
-                      className="border border-dinputBorder flex-grow rounded-tl rounded-bl border-r-0 h-10 px-5"
-                      placeholder="Enter an amount"
-                      ref={balanceAmount}
-                      onChange={() => handleBalanceAmountChance()}
-                    />
-                    <div
-                      onClick={() => applyBalance()}
-                      className="bg-dblue text-white px-3 h-10 rounded-tr rounded-br text-sm cursor-pointer"
-                    >
-                      <p className="text-center mt-3">APPLY</p>
-                    </div>{" "}
-                  </div>
-                </div>
+                )}
               </div>
             </div>{" "}
           </form>
