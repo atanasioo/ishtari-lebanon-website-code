@@ -134,8 +134,8 @@ export default function MenmberShip() {
                       <div className="px-5 text-d14">{state?.data?.current_point_precentage}%</div>
                     </div>
                     <div className="text-d14 ">
-                      Earn {state?.points_needed || 'zero'} more points to
-                      become a Gold Member
+                      Earn {state?.data.points_needed ? state?.data.points_needed : 'zero'} more points to
+                      become a {state.data.next_level} Member
                     </div>
                   </div>
                   <div onClick={goTo} className="flex  justify-between starts-div absolute z-10 rounded-lg bg-white text-dgreyProduct text-sm md:text-d14 shadow-md  px-6 py-1.5 -bottom-10 w-full">

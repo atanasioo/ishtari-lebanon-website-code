@@ -133,9 +133,15 @@ export default function MenmberShip() {
                       />{" "}
                       <span className="pl-2">{p.title}</span>
                     </div>
+                    {p.start==1500 ? 
+                    <div className="flex-col p-5  text-l">
+                     { ">= " +p.start  } 
+                  </div>
+                  :
                     <div className="flex-col p-5  text-l">
                       {p.start}-{p.end}
                     </div>
+}
                   </div>
                 ))}
               </div>
