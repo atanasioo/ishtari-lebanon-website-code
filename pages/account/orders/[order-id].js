@@ -29,7 +29,6 @@ function OrderDetails() {
   const { setMarketingData } = useMarketingData();
   const [returnItem, setReturnItem] = useState(0);
   const [showReturnModal, setShowReturnModal] = useState(false);
-  const [orderComplete, setOrderComplete] = useState(false);
   const [returnProducts, setReturnProducts] = useState([]);
   const [returnErr, setReturnErr] = useState("");
 
@@ -55,9 +54,6 @@ function OrderDetails() {
         if (response.data.success) {
           setData(response?.data.data);
           setLoading(false);
-          if (response.data.data.order_status_id === "155") {
-            setOrderComplete(true);
-          }
         }
       });
   }, [id]);
@@ -301,14 +297,14 @@ function OrderDetails() {
                       <th className="px-2 border-l md:px-4  py-1 text-sm">
                         Total
                       </th>
-                      {orderComplete && (
+                      {/* {data?.can_be_returned && (
                       <th className="px-2 border-l md:px-4  py-1 text-sm">
                         Action
                       </th>
-                    )}
+                    )} */}
                     </tr>
                   </thead>
-                  {data?.products?.map((data, i) => (
+                  {data?.products?.map((product, i) => (
                     <tbody key={i}>
                       <tr className="border">
                         {/* {orderComplete && (
@@ -323,7 +319,7 @@ function OrderDetails() {
 
                         <td className="border  px-4">
                           <Link
-                            href={`/product/${data.product_id}`}
+                            href={`/product/${product.product_id}`}
                             onClick={() =>
                               setMarketingData({
                                 ignore: false,
@@ -335,8 +331,8 @@ function OrderDetails() {
                           >
                             <Image
                               className="w-12"
-                              src={data.image}
-                              alt={data.name}
+                              src={product.image}
+                              alt={product.name}
                               width="48"
                               height="65"
                             />
@@ -344,28 +340,28 @@ function OrderDetails() {
                         </td>
                         <td className="px-4 text-sm">
                           <span
-                            dangerouslySetInnerHTML={{ __html: data.name }}
+                            dangerouslySetInnerHTML={{ __html: product.name }}
                           ></span>
                           <span className="font-semibold">
                             {" "}
-                            {data?.option[0]?.name &&
-                              "( " + data?.option[0]?.value + " )"}{" "}
+                            {product?.option[0]?.name &&
+                              "( " + product?.option[0]?.value + " )"}{" "}
                           </span>{" "}
                         </td>
 
-                        <td className="border   px-4 text-sm">{data.model}</td>
+                        <td className="border   px-4 text-sm">{product.model}</td>
                         <td className="border  px-4 text-sm">
-                          {data.quantity}
+                          {product.quantity}
                         </td>
                         <td className="border  px-4 text-sm whitespace-nowrap">
-                          {data.price}
+                          {product.price}
                         </td>
                         <td className="border  px-4 text-sm whitespace-nowrap">
                           {" "}
-                          {data.total}
+                          {product.total}
                         </td>
                         {/* only show return button when order is complete */}
-                        {orderComplete && (
+                        {/* {product?.can_be_returned && !product.non_refundable && (
                           <td className="border  px-4 text-sm">
                             <div
                               className="px-2 py-2 text-center mx-2 bg-dmenusep rounded-full text-white cursor-pointer whitespace-nowrap"
@@ -377,7 +373,7 @@ function OrderDetails() {
                               Request a Return
                             </div>
                           </td>
-                        )}
+                        )} */}
                       </tr>
                     </tbody>
                   ))}
@@ -394,35 +390,35 @@ function OrderDetails() {
                     <th className="border-l px-2  py-1  text-sm">Quantity</th>
                     <th className="border-l px-2  py-1  text-sm">Price</th>
                     <th className="border-l px-2  py-1 text-sm">Total</th>
-                    {orderComplete && (
+                    {/* {data?.can_be_returned && (
                       <th className="border-l px-2  py-1 text-sm">Action</th>
-                    )}
+                    )} */}
                   </thead>
-                  {data?.products.map((data, i) => (
+                  {data?.products.map((product, i) => (
                     <tbody key={i}>
                       <tr className="border">
                         <div className="hidden md:flex-wrap">
                           {" "}
                           <td className="border  px-4">
-                            <img className="w-12" src={data.image} alt="" />
+                            <img className="w-12" src={product.image} alt="" />
                           </td>
                         </div>
                         <td className=" px-2 md:px-4 text-sm line-clamp-3 md:line-clamp-none">
-                          {data.name}
+                          {product.name}
                         </td>
                         <td className="border  px-2 md:px-4 text-sm">
-                          {data.model}
+                          {product.model}
                         </td>
                         <td className="border px-2 md:px-4 text-sm">
-                          {data.quantity}
+                          {product.quantity}
                         </td>
                         <td className="border px-2 md:px-4 text-sm">
-                          {data.price}
+                          {product.price}
                         </td>
                         <td className="border px-2 md:px-4 text-sm">
-                          {data.total}
+                          {product.total}
                         </td>
-                        {orderComplete && (
+                        {/* {data?.can_be_returned && !product?.non_refundable && (
                           <td className="border px-2 md:px-4 text-sm">
                             <div
                               className="px-3 py-2 mx-2 bg-dmenusep rounded-full text-white cursor-pointer whitespace-nowrap"
@@ -434,7 +430,7 @@ function OrderDetails() {
                               Request a Return
                             </div>
                           </td>
-                        )}
+                        )} */}
                       </tr>
                     </tbody>
                   ))}
