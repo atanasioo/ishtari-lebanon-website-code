@@ -239,7 +239,7 @@ function SingleProduct(props) {
       className={` cursor-pointer   ${props.isList && "mb-3"}  `}
     >
       <div className={`relative ${!props?.soon && ""}`}>
-        {props.soon && (
+        {props?.soon && (
           <div className="absolute z-50 flex justify-center items-center w-full h-full bg-dTransparentWhite">
             <div className="absolute z-50 rounded-full text-white w-auto top-3 px-3 py-1 bg-dblack pr-bold">
               Coming Soon
