@@ -12,8 +12,10 @@ import NewImage from "./NewImage";
 import Slider from "./Slider";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
+import { BiLock, BiLockAlt } from "react-icons/bi";
 // import Image from "next/image";
-
+import TimerSingleProduct from './TimerSingleProduct'
+import { IoIosUnlock } from "react-icons/io";
 function SingleProduct(props) {
   const { item, addToCart, topSelling, carousel } = props;
   const [state] = useContext(AccountContext);
@@ -240,9 +242,26 @@ function SingleProduct(props) {
         query: linkQuery,
       }}
       onClickCapture={props.click}
-      className={` cursor-pointer   ${props.isList && "mb-3"}`}
+      className={` cursor-pointer   ${props.isList && "mb-3"}  `}
     >
-      {props.item.new && <NewImage />}
+      <div className={`relative ${!props?.soon && ""}`}>
+      {/* <div className="absolute z-50 flex justify-center items-center w-full h-full bg-dTransparentWhite">
+        <div className="flex flex-col justify-center items-center border-4 rounded-full border-dblack w-44 h-44 ">
+        <div className="rounded-full w-10 h-10 mb-5 flex justify-center items-center" style={{backgroundColor: "#ff00002b"}} ><IoIosUnlock className=" text-dbase text-2xl mb-2 pr-bold" /></div>
+         
+         <TimerSingleProduct data="2023-09-28"/>
+
+         <p className="text-d22 pr-semibold pt-3">
+                    {item.special !== "0" &&
+                    item.special !== "" &&
+                    item.special !== false
+                      ? item.special
+                      : item.price}
+                  </p>
+        </div>
+
+      </div> */}
+      {props.item.new && <NewImage className="w-10 bg-dpinterest"/>}
       <div
         className={`flex flex-col h-full ${
           props.scroll && "w-150px"
@@ -513,6 +532,7 @@ function SingleProduct(props) {
             )}
           </div>
         </div>
+      </div>
       </div>
     </Link>
   );

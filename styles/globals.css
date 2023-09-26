@@ -692,7 +692,7 @@ mySwiper .swiper-button-next {
   width: 3px;
 }
 
-.myFilterSwiper .swiper-button-disabled {
+/* .myFilterSwiper .swiper-button-disabled {
   display: none;
 }
 
@@ -736,7 +736,7 @@ mySwiper .swiper-button-next {
 .myFilterSwiper .swiper-button-prev::after {
   color: rgb(126, 133, 155);
   font-size: 18px;
-}
+} */
 
 .selector_div .slick-arrow .arrow {
   width: 100%;
@@ -2449,6 +2449,42 @@ display: inline-block;
     transform: translateX(-50%);
   }
 
+}
+
+
+.placeholder_animation {
+  background-image: radial-gradient(
+    rgba(254, 254, 254, 0.925),
+    rgba(215, 211, 223, 0.474)
+  );
+  /* background-image: radial-gradient(rgba(254, 254, 254, 0.925), rgba(210, 210, 210, 0.323)); */
+  /* background-image: radial-gradient(
+    
+    rgba(255, 255, 255, 0) 0px,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.7) 60%,
+    rgba(255, 255, 255, 0) 100%,
+
+  ); */
+  background-size: 200% 100%;
+  animation: anmBg 0.8s linear infinite;
+}
+@keyframes anmBg {
+  to {
+    background-position: -170% 0;
+  }
+}
+@media (max-width: 650px) {
+  .placeholder_animation {
+    background-image: radial-gradient(
+      rgba(254, 254, 254, 0.925),
+      rgba(215, 211, 223, 0.474)
+    );
+  }
+}
+
+.icon-color {
+  color:rgb(53, 90, 184); /* Change this to your desired color */
 }
 
 

@@ -9,7 +9,7 @@ import ProductPage from "@/components/product/ProductPage";
 import CatalogPages from "@/components/catalog/CatalogPages";
 import { getConfig } from "@/functions";
 import dynamic from "next/dynamic";
-
+import CatalogTest from "@/components/catalog/CatalogTest";
 
 function SlugPage(props) {
   console.log(props.host);
@@ -87,7 +87,15 @@ function SlugPage(props) {
           />
         </>
       ) : (
-        <CatalogPages
+        // <CatalogPages
+        //   type={props.type}
+        //   type_id={props.type_id}
+        //   data={props.data}
+        //   isloading={props.isLoading}
+        //   page={props.p}
+        //   link={props.link}
+        // />
+        <CatalogTest   
           type={props.type}
           type_id={props.type_id}
           data={props.data}
@@ -222,147 +230,9 @@ export async function getServerSideProps(context) {
       data = response?.data?.data;
 
       type = "product";
-    } else if (
-      catalog === "category" ||
-      catalog === "manufacturer" ||
-      catalog === "seller" ||
-      slug[0].includes("c=") ||
-      slug[0].includes("m=") ||
-      slug[0].includes("s=")
-    ) {
-      // console.log(slug);
-      if (catalog === "category" || slug[0].includes("c=")) {
-        type = "category";
-        if (slug[0].includes("c=")) {
-          id = slug[0].split("=")[1];
-        } else {
-          id = slug[0];
-        }
-      } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
-        type = "manufacturer";
-        if (slug[0].includes("m=")) {
-          id = slug[0].split("=")[1];
-        } else {
-          id = slug[0];
-        }
-        path = "&manufacturer_id=";
-      } else if (catalog === "seller" || slug[0].includes("s=")) {
-        type = "seller";
-        if (slug[0].includes("s=")) {
-          id = slug[0].split("=")[1];
-        } else {
-          id = slug[0];
-        }
-        path = "&seller_id=";
-      }
-      var filter = "";
-      if (!has_filter) {
-        if (page != undefined) {
-          filter += "&page=" + page;
-        }
-
-        if (sort !== undefined && order !== undefined) {
-          filter += "&sort=" + sort;
-          filter += "&order=" + order;
-        }
-        // } else {
-
-        link =
-          buildLink(type, undefined, undefined, site_host) +
-          id +
-          "&source_id=1&limit=50" +
-          filter +
-          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
-        // console.log("FFFFFFFFFFFFFF1111");
-        // console.log(link);
-        const response = await axiosServer.get(link, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        if (
-          response.data.success == false ||
-          (response.data.data.products.length < 1 &&
-            response.data.data.desktop_widgets.length < 1 &&
-            response.data.data.widgets.length < 1)
-        ) {
-          return {
-            notFound: true,
-          };
-        }
-        data = response.data.data;
-        console.log(data)
-
-      } else {
-        var filter = "";
-        if (has_filter !== undefined) {
-          filter += "&has_filter=" + has_filter;
-        }
-        if (filter_categories !== undefined) {
-          filter += "&filter_categories=" + filter_categories;
-        }
-        if (filter_manufacturers !== undefined) {
-          filter += "&filter_manufacturers=" + filter_manufacturers;
-        }
-        if (filter_sellers !== undefined) {
-          filter += "&filter_sellers=" + filter_sellers;
-        }
-        if (filter_options != undefined) {
-          filter += "&filter_options=" + filter_options;
-        }
-        if (adv_filters != undefined) {
-          filter += "&adv_filters=" + adv_filters;
-        }
-        if (page != undefined) {
-          filter += "&page=" + page;
-        }
-        if (last != undefined) {
-          filter += "&last=" + last;
-        }
-
-        if (sort !== undefined && order !== undefined) {
-          filter += "&sort=" + sort;
-          filter += "&order=" + order;
-        }
-
-        if (limit != undefined) {
-          filter += "&limit=" + limit;
-        } else {
-          filter += "&limit=50";
-        }
-
-        link =
-          buildLink("filter", undefined, undefined, site_host) +
-          path +
-          id +
-          filter +
-          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
-
-        const response = await axiosServer.get(link, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-
-        if (
-          response.data.success == false ||
-          (response.data.data.products.length < 1 &&
-            response.data.data.desktop_widgets.length < 1 &&
-            response.data.data.widgets.length < 1)
-        ) {
-          return {
-            notFound: true,
-          };
-        }
-        data = response?.data?.data;
-
-        console.log(data)
-      }
     } else {
-      //redirect to 404
-      return {
-        notFound: true,
-      };
+
+
     }
     return {
       props: {

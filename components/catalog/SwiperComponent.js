@@ -1,9 +1,10 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper.min.css";
+// import "swiper/swiper.min.css";
 import { Navigation } from "swiper";
 import { useRouter } from "next/router";
 import { IoIosArrowDown } from "react-icons/io";
+import 'swiper/swiper-bundle.css';
 
 export default function SwiperComponent(props) {
   const router = useRouter();
@@ -82,7 +83,7 @@ export default function SwiperComponent(props) {
         modules={[Navigation]}
         className="myFilterSwiper"
       >
-        {data.filters.map((filter) => {
+        {data?.filters?.map((filter) => {
           return (
             filter.id !="adv_filters" &&  filter.items.length > 0 &&
             filter.name !== "Socks" &&
@@ -115,7 +116,7 @@ export default function SwiperComponent(props) {
             )
           );
         })}
-        {data.filters.map((filter) => {
+        {data?.filters?.map((filter) => {
           return (
             filter.items.length > 0 &&
             filter.items.map((item) => {
@@ -149,7 +150,7 @@ export default function SwiperComponent(props) {
             })
           );
         })}
-        {data.filters.map((filter) => {
+        {data?.filters?.map((filter) => {
           return (
             filter.items.length > 0 &&
             filter.items.slice(0, 3).map((item) => {
