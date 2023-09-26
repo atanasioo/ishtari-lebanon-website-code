@@ -63,7 +63,6 @@ function ProductZoom(props) {
     className: "slider variable-width",
   };
 
-
   const singleSetting = {
     dots: false,
     infinite: false,
@@ -111,12 +110,10 @@ function ProductZoom(props) {
 
   useEffect(() => {
     // Use activeImage here, it will have the updated value.
-    console.log("new images", images[0]);
-    console.log("Updated activeImage", activeImage);
+
   }, [activeImage]);
 
   useEffect(() => {
-    // console.log("new images", images[0]);
     setActiveImage(images[0]);
     setActiveSlide(0);
     imageSlider?.current?.slickGoTo(0);
@@ -124,7 +121,6 @@ function ProductZoom(props) {
     smallMobileSliderRef?.current?.slickGoTo(0);
     // setAllImagesLoaded(false);
     setHovered(false);
-    
   }, [images]);
 
   useEffect(() => {
@@ -133,9 +129,7 @@ function ProductZoom(props) {
     SmallImageSlider?.current?.slickGoTo(0);
     smallMobileSliderRef?.current?.slickGoTo(0);
     setSellerSlide(false);
-  },[router])
-
-
+  }, [router]);
 
   const maxComments = 2;
   const commentDuration = 3500;
@@ -161,7 +155,7 @@ function ProductZoom(props) {
                 if (newComments.length > maxComments) {
                   setTimeout(() => {
                     newComments.shift(); // Remove the oldest comment
-                    newComments.shift(); 
+                    newComments.shift();
                   }, 10);
                 }
               }
@@ -218,7 +212,6 @@ function ProductZoom(props) {
     if (hoverZoom && width > 768) {
       imageZoom("myimage" + activeSlide, "myresult");
     }
-
   }, [hoverZoom, hovered]);
 
   function changeImage(imgSrc) {
@@ -237,8 +230,7 @@ function ProductZoom(props) {
 
   function handleSingleMobileChange(currentSlide) {
     if (width < 768) {
-      console.log("images with curr slide" , images[currentSlide]);
-      if(!routeChanged){
+      if (!routeChanged) {
         setActiveImage(images[currentSlide]);
       }
       setActiveSlide(currentSlide);
@@ -258,6 +250,7 @@ function ProductZoom(props) {
     var img, lens, result, cx, cy;
     img = document.getElementById(imgID);
     result = document.getElementById(resultID);
+
     /*check if lens alreay exists and remove it */
     const lensExist = document.getElementsByClassName("img-zoom-lens");
     const elementsArray = Array.from(lensExist);
@@ -416,21 +409,20 @@ function ProductZoom(props) {
                 {images?.map((i) => (
                   <div
                     key={i["thumb"]}
-                    className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
+                    className={` flex justify-center mt-2 mr-4 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
                   >
-                    <Image
+                    <img
                       src={i["thumb"]}
                       alt="product image"
                       width={80}
                       height={120}
                       onClick={() => changeImage(i)}
-                      className={`cursor-pointer border-2 ${
+                      className={`cursor-pointer border-2 
+                      ${
                         activeImage && activeImage["popup"] === i["popup"]
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
-                     
-                   
                     />
                   </div>
                 ))}
@@ -453,12 +445,11 @@ function ProductZoom(props) {
                       height={120}
                       onClick={() => changeImage(i)}
                       className={`cursor-pointer border-2 ${
-                         activeImage?.popup === i["popup"]
+                        activeImage?.popup === i["popup"]
                           ? //  activeSlide === index
                             "border-dblue"
                           : "border-dgreyZoom"
                       }`}
-             
                     />
                     {/* {
                         activeImage && activeImage["popup"] === i["popup"]
@@ -477,7 +468,6 @@ function ProductZoom(props) {
                       setSellerSlide(true);
                       setActiveSlide(images.length);
                       imageSlider.current.slickGoTo(images.length);
-                      
                     }}
                   >
                     ...
@@ -528,7 +518,6 @@ function ProductZoom(props) {
                       width={500}
                       height={680}
                       className="rounded-lg myimage-product-zoom"
-                    
                     />
                   ))}
                   {Object.keys(sellerData).length > 0 && width < 768 && (
@@ -550,7 +539,7 @@ function ProductZoom(props) {
                                 alt={product.name}
                                 width={120}
                                 height={100}
-                      
+
                                 // placeholderSrc="/images/product_placeholder.png"
                               />
                             </div>
