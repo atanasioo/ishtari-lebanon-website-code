@@ -24,7 +24,8 @@ import buildLink, { pixelID } from "@/urls";
 import { AccountContext } from "@/contexts/AccountContext";
 import CatalogPlaceholder from "./CatalogPlaceholder";
 function CatalogTest(props) {
-  const { datatest, type_id } = props; //instead of productData
+  const { datatest, type_id , AdminToken } = props; //instead of productData
+  console.log(props)
   const [data, setData] = useState([]);
   const filters = data?.filters;
   var isLoading = useRef(false);

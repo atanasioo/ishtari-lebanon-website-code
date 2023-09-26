@@ -6,7 +6,7 @@ import cookie from "cookie";
 import buildLink from "@/urls";
 import ProductPage from "@/components/product/ProductPage";
 // import CatalogPage from "@/components/catalog/CatalogPage";
-import CatalogPages from "@/components/catalog/CatalogPages";
+// import CatalogPages from "@/components/catalog/CatalogPages";
 import { getConfig } from "@/functions";
 import dynamic from "next/dynamic";
 import CatalogTest from "@/components/catalog/CatalogTest";
@@ -98,6 +98,7 @@ function SlugPage(props) {
         <CatalogTest   
           type={props.type}
           type_id={props.type_id}
+          AdminToken={props.AdminToken}
           data={props.data}
           isloading={props.isLoading}
           page={props.p}
@@ -245,6 +246,7 @@ export async function getServerSideProps(context) {
         isLoading: "false",
         p,
         additionalData,
+        AdminToken: AdminToken
       },
     };
   } else {
