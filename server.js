@@ -17,7 +17,7 @@ app.prepare().then(() => {
 
     // Serve _ssgManifest.js file
     if (requestedPath === '/_next/static/AanfiBvTONjxvzuhjP9Q8/_ssgManifest.js') {
-      res.setHeader('Cache-Control', 'public, max-age=10800'); 
+      res.setHeader('Cache-Control', 'public, max-age=3600'); 
       res.setHeader('Content-Type', 'application/json');
       res.writeHead(200);
       res.end(JSON.stringify(ssgManifest));
