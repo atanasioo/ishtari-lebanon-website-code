@@ -35,7 +35,7 @@ function CatalogTest(props) {
   const { showStats } = useMarketingData();
   const [bannerStats, setBannerStats] = useState([]);
   const [state] = useContext(AccountContext);
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
 
   const [productDisplay, setProductDisplay] = useState("grid");
   const [width] = useDeviceSize();
@@ -279,7 +279,7 @@ function CatalogTest(props) {
         
                         router.push("/404")
 
-        
+                        setLoading(false);
           } else {
             setLoading(false);
             setData(response?.data?.data);
@@ -339,6 +339,7 @@ function CatalogTest(props) {
               response.data.data.desktop_widgets.length < 1 &&
               response.data.data.widgets.length < 1)
           ) {
+            setLoading(false);
            router.push("/404")
           } else {
             setLoading(false);
@@ -350,9 +351,8 @@ function CatalogTest(props) {
       }
     } else {
       //redirect to 404
-      return {
-        notFound: true
-      };
+      router.push("/404")
+
     }
   }, [router]);
 

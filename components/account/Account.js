@@ -673,14 +673,14 @@ function Account() {
                   <FaMoneyBillWave className=" text-d16 " />
                   <span className="ml-4">Orders</span>
                 </Link>
-                <Link
+                {/* <Link
                   href={`${path}/account/memberShip`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="py-2 flex items-center cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 px-3"
                 >
                   <MdCardMembership className=" text-d16 " />
                   <span className="ml-4">MenmberShip</span>
-                </Link>
+                </Link> */}
                 <Link
                   href={`${path}/account/wallet`}
                   onClick={() => setShowUserMenu(!showUserMenu)}

@@ -132,9 +132,9 @@ function feedback() {
         <div className="flex-row md:flex">
           <div className="w-full mb-3 md:w-1/5">
             {width > 650 ? (
-              <UserSidebar active={"feedback"} />
+              <UserSidebar active="feedback" />
             ) : (
-              <UserSidebarMobile active={"feedback"} />
+              <UserSidebarMobile active="feedback" />
             )}
           </div>
           <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">

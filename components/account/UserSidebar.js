@@ -138,7 +138,7 @@ function UserSidebar(props) {
           </Link>
         </li>
 
-        <li
+        {/* <li
           onMouseEnter={() => {
             setShowMembershipArrow(true);
           }}
@@ -166,7 +166,7 @@ function UserSidebar(props) {
               </div>
             )}{" "}
           </Link>
-        </li>
+        </li> */}
 
         <li
           onMouseEnter={() => {
@@ -334,7 +334,7 @@ function UserSidebar(props) {
             <div
               className={`flex-1 w-4/12 ${
                 props.active === "feedback" && "font-semibold underline"
-              }${ props.active === "feedback" ? "text-dgreyAccountActive" : ""}`}
+              } ${ props.active === "feedback" && "text-dgreyAccountActive"}`}
             >
               Feedback
             </div>

@@ -35,7 +35,7 @@ function UserSidebarMobile(props) {
           <span className="text-center text-d11">Orders</span>
         </div>
       </Link>
-      <Link
+      {/* <Link
         href={`${path}/account/memberShip`}
         className={`py-2 flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
           props.active === "memberShip" && "bg-white text-dbase"
@@ -47,7 +47,7 @@ function UserSidebarMobile(props) {
           </div>
           <span className="text-center text-d11">MemberShip</span>
         </div>
-      </Link>
+      </Link> */}
       <Link
         href={`${path}/account/wallet`}
         className={`py-2 flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
