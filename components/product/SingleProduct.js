@@ -239,7 +239,7 @@ function SingleProduct(props) {
       className={` cursor-pointer   ${props.isList && "mb-3"}  `}
     >
       <div className={`relative ${!props?.soon && ""}`}>
-        {props?.soon && (
+        {props?.coming_soon_date && (
           <div className="absolute z-50 flex justify-center items-center w-full h-full bg-dTransparentWhite">
             <div className="absolute z-50 rounded-full text-white w-auto top-3 px-3 py-1 bg-dblack pr-bold">
               Coming Soon
@@ -253,7 +253,7 @@ function SingleProduct(props) {
                 <IoIosUnlock className=" text-dbase text-2xl mb-2 pr-bold" />
               </div>
 
-              <TimerSingleProduct data="2023-09-28" />
+              <TimerSingleProduct data={props?.coming_soon_date } />
 
               <p className="text-d22 pr-semibold pt-3">
                 {item.special !== "0" &&
@@ -312,7 +312,7 @@ function SingleProduct(props) {
                     filter={"duotone"} // see docs beneath
                     colorOne={[96, 96, 96]}
                     colorTwo={[255, 255, 255]}
-                    style={{ height: !topSelling ? "246.4px" : "200px" }}
+                    style={{ height: !topSelling ? "215.4px" : "200px" }}
                   />
                 ) : !props?.isSlider ||
                   item?.images?.length === 0 ||
