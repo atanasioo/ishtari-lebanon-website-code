@@ -103,6 +103,8 @@ function SlugPage(props) {
           isloading={props.isLoading}
           page={props.p}
           link={props.link}
+          slugId={props.slug}
+          catalogId={props.catalog}
         />
       )}
     </div>
@@ -112,6 +114,7 @@ export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
   // const { catalog,  slug  , resolvedUrl } = context.params;
   const { req, res } = context;
+
 
   res.setHeader(
     "Cache-Control",
@@ -178,6 +181,8 @@ export async function getServerSideProps(context) {
       const aliasId = theAlias[1];
       slug[0] = aliasId;
       catalog = aliasName;
+      console.log(slug[0]);
+      console.log(catalog);
     }
   }
 
@@ -244,6 +249,8 @@ export async function getServerSideProps(context) {
         config,
         hovered: false,
         isLoading: "false",
+        slug: slug,
+        catalog: catalog,
         p,
         additionalData,
         AdminToken: AdminToken

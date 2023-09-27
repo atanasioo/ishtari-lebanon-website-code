@@ -24,7 +24,7 @@ import buildLink, { pixelID } from "@/urls";
 import { AccountContext } from "@/contexts/AccountContext";
 import CatalogPlaceholder from "./CatalogPlaceholder";
 function CatalogTest(props) {
-  const { datatest, type_id , AdminToken } = props; //instead of productData
+  const { slugId, type_id , AdminToken, catalogId } = props; //instead of productData
   console.log(props)
   const [data, setData] = useState([]);
   const filters = data?.filters;
@@ -195,7 +195,6 @@ function CatalogTest(props) {
   //   : router.query.slug[0];
 
   const {
-    catalog,
     filter_categories,
     filter_manufacturers,
     filter_sellers,
@@ -203,12 +202,17 @@ function CatalogTest(props) {
     adv_filters,
     has_filter,
     last,
-    slug,
     page,
     sort,
     order,
     limit
   } = router.query;
+
+  const slug = router.query.slug || slugId;
+  const catalog = catalogId || router.query.catalog ;
+
+  console.log(slug);
+  console.log("catalogid" , catalog);
 
   useEffect(() => {
     setLoading(true);
