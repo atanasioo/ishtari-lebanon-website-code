@@ -169,9 +169,11 @@ export async function getServerSideProps(context) {
   const config = await getConfig(site_host);
   var path = "&path=";
 
+  const isLatestSettings = catalog ==="comingSoon" || catalog ==="backToStock" || catalog ==="latest" ? true : false
+
   //handle seo path
 
-  if (typeof catalog !== "undefined" && slug.length === 0) {
+  if (typeof catalog !== "undefined" && slug.length === 0 && !isLatestSettings) {
     const alias = await axiosServer.get(
       buildLink(`alias`, undefined, undefined, site_host) + catalog
     );
@@ -184,6 +186,10 @@ export async function getServerSideProps(context) {
       console.log(slug[0]);
       console.log(catalog);
     }
+  }
+
+  if(isLatestSettings){
+    type = catalog;
   }
 
   if (typeof slug !== "undefined" && slug.length > 0) {
@@ -253,7 +259,8 @@ export async function getServerSideProps(context) {
         catalog: catalog,
         p,
         additionalData,
-        AdminToken: AdminToken
+        AdminToken: AdminToken,
+        isLatestSettings: isLatestSettings
       },
     };
   } else {
