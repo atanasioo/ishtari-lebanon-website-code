@@ -188,11 +188,7 @@ function CatalogTest(props) {
   const router = useRouter();
   console.log(router.query);
   const catalog_id = type_id;
-  // router.query.slug[0].includes("c=") ||
-  // router.query.slug[0].includes("s=") ||
-  // router.query.slug[0].includes("m=")
-  //   ? router.query.slug[0].split("=")[1]
-  //   : router.query.slug[0];
+
 
   const {
     filter_categories,
@@ -1046,8 +1042,8 @@ function CatalogTest(props) {
           </div>
 
           <div class="container flex h-full">
-            <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 ">
-              <div className="sticky top-0 ">
+            <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 " className={`${  (filters && Object.keys(filters)?.length < 1 )? "w-auto" : 'mobile:w-1/5'  } flex-child hidden mobile:block mobile:w-1/5  mb-6`}  >
+              <div className="sticky top-0 " >
                 <div className="overflow-auto hover:overflow-scroll h-screen pb-5  mobile:pr-5 mobile:pl-5 hover:scrollbar  hover:test">
                   <div className=" ">
                     {filters &&
@@ -1244,7 +1240,7 @@ function CatalogTest(props) {
                 </div>
               </div>
             </div>
-            <div className="w-full mobile:w-4/5 leading-dtight mobile:pl-5 overflow-x-hidden">
+            <div   className={`${  (filters && Object.keys(filters)?.length < 1 )? "mobile:w-full" : 'mobile:w-4/5'  } w-full  leading-dtight mobile:pl-5 overflow-x-hidden`}>
               <div className="flex justify-between pb-2">
                 {/* Results found */}
                 <div className="flex mx-1 mobile:w-auto pt-2 mobile:pt-1 ">
