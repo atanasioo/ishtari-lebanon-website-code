@@ -312,7 +312,7 @@ function SingleProduct(props) {
                     Out Of Stock
                   </div>
                 )}
-                {props.item.quantity === "0" ? (
+                {props.item.quantity === "0" && !props?.item?.coming_soon_date ? (
                   <ImageFilter
                     image={props.item.thumb}
                     filter={"duotone"} // see docs beneath
