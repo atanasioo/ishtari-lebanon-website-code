@@ -256,6 +256,12 @@ function CatalogTest(props) {
         if (filter != undefined) {
           filters += "?&filters=" + filter;
         }
+
+        if (limit != undefined) {
+          filters += "&limit=" + limit;
+        }else{
+          filters += "&limit=50";
+        }
         if (page != undefined) {
           filters += "&page=" + page;
         }
@@ -269,7 +275,7 @@ function CatalogTest(props) {
         link =
           buildLink(type, undefined, undefined) +
           id +
-          "&source_id=1&limit=50" +
+          "&source_id=1" +
           filters +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
         // console.log("FFFFFFFFFFFFFF1111");
