@@ -277,9 +277,9 @@ function CatalogTest(props) {
         axiosServer.get(link).then((response) => {
           if (
             response?.data.success == false ||
-            (response.data.data.products?.length < 1 &&
-              response.data.data.desktop_widgets?.length < 1 &&
-              response.data.data.widgets?.length < 1)
+            (response.data?.data?.products?.length < 1 &&
+              response.data?.data?.desktop_widgets?.length < 1 &&
+              response.data?.data?.widgets?.length < 1)
           ) {
         
                         router.push("/404")
@@ -1050,8 +1050,8 @@ function CatalogTest(props) {
             </div>
           </div>
 
-          <div class="container flex h-full">
-            <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 " className={`${  (!filters || ( filters &&  Object.keys(filters)?.length < 1))? "w-0" : 'mobile:w-1/5'  } flex-child hidden mobile:block  mb-6`}  >
+          <div className="container flex h-full">
+            <div className={`${  (!filters || ( filters &&  Object.keys(filters)?.length < 1))? "w-0" : 'mobile:w-1/5'  } flex-child hidden mobile:block  mb-6`}  >
               <div className="sticky top-0 " >
                 <div className="overflow-auto hover:overflow-scroll h-screen pb-5  mobile:pr-5 mobile:pl-5 hover:scrollbar  hover:test">
                   <div className=" ">

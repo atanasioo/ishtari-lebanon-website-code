@@ -891,8 +891,8 @@ function CatalogPage(props) {
         </div>
       </div>
 
-      <div class="container flex h-full">
-        <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 ">
+      <div className="container flex h-full">
+        <div className="flex-child hidden mobile:block mobile:w-1/5  mb-6">
           <div className="sticky top-0 ">
             <div className="overflow-auto hover:overflow-scroll h-screen pb-5  mobile:pr-5 mobile:pl-5 hover:scrollbar  hover:test">
               <div className=" ">
