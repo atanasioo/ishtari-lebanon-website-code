@@ -40,7 +40,7 @@ function unescapeHTML(str) {
     }
   });
 }
-function Information(props) {
+function Information() {
   // const { data } = props;
   const [data, setData] = useState()
   const router = useRouter();
