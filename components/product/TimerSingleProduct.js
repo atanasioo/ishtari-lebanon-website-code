@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 function TimerSingleProduct({ data }) {
   const date = data;
-  console.log(date)
+
   const calculateTimeLeft = () => {
     const day = date?.slice(8, 10);
     const month = date?.slice(5, 7);
