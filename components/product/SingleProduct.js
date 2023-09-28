@@ -17,7 +17,7 @@ import { BiLock, BiLockAlt } from "react-icons/bi";
 import TimerSingleProduct from "./TimerSingleProduct";
 import { IoIosUnlock } from "react-icons/io";
 function SingleProduct(props) {
-  console.log(props)
+  console.log(props);
   const { item, addToCart, topSelling, carousel } = props;
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
@@ -27,7 +27,7 @@ function SingleProduct(props) {
   const [width] = useDeviceSize();
   const { setMarketingData } = useMarketingData();
 
-  const date1 = new Date(props.coming_soon_date);  // Assuming 'YYYY-MM-DD' format
+  const date1 = new Date(props.coming_soon_date); // Assuming 'YYYY-MM-DD' format
   const date2 = new Date();
 
   const source_type =
@@ -245,20 +245,21 @@ function SingleProduct(props) {
       <div className={`relative ${props?.coming_soon_date && ""}`}>
         {props?.item?.coming_soon_date && (
           <div className="absolute z-10 flex justify-center items-center w-full h-full bg-dTransparentWhite2">
-
             <div className="absolute z-10 rounded-full text-white w-auto top-3 px-3 py-1 bg-dblack pr-bold">
-              Coming Soon 
+              Coming Soon
             </div>
 
             <div className="flex flex-col justify-center items-center border-4 rounded-full border-dblack w-44 h-44 ">
               <div
-                className="rounded-full w-10 h-10 mb-5 flex justify-center items-center"
+                className="rounded-full w-10 h-10 mb-2 flex justify-center items-center"
                 style={{ backgroundColor: "#ff00002b" }}
               >
                 <IoIosUnlock className=" text-dbase text-2xl mb-2 pr-bold" />
               </div>
 
-              <TimerSingleProduct data={props?.item?.coming_soon_date} />
+              <div className="h-6 mb-2">
+                <TimerSingleProduct data={props?.item?.coming_soon_date} />
+              </div>
 
               <p className="text-d22 pr-semibold">
                 {item.special !== "0" &&
@@ -300,7 +301,7 @@ function SingleProduct(props) {
                 // onMouseEnter={handleMouseEnter}
                 // onMouseLeave={handleMouseLeave}
               >
-                {props.item.quantity === "0" && (
+                {props.item.quantity === "0" && !props?.item?.coming_soon_date && (
                   <div
                     className={
                       width > 650
@@ -362,7 +363,7 @@ function SingleProduct(props) {
             </div>
             <div className="product-info pt-3 flex flex-col w-full">
               <div
-                className={`${props.item.quantity === "0" && "opacity-40"} ${
+                className={`${props.item.quantity === "0"  && !props?.item?.coming_soon_date && "opacity-40"} ${
                   props.isList && "flex justify-between"
                 }`}
               >
