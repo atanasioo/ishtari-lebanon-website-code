@@ -15,7 +15,7 @@ function DynamicProducts() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [width] = useDeviceSize();
-  // const type = 
+  const type = router.query.catalog === "coming_soon" ? "comingsoon" :  router.query.catalog === "back_to_stock" ? "backtostock" : "";
 
   console.log(router.query);
 
@@ -24,14 +24,14 @@ function DynamicProducts() {
     axiosServer
       .get(
         buildLink("dynamicproducts", undefined, undefined) +
-          `${`comingsoon&page=${page}&limit=${limit}`}`
+          `${`${type}&page=${page}&limit=${limit}`}`
       )
       .then((response) => {
         console.log(response.data);
         setData(response.data.data);
         setLoading(false);
       });
-  }, [page, limit]);
+  }, [page, limit, type]);
 
   const handlePageClick = (event) => {
     const new_page = parseInt(event.selected) + 1;
