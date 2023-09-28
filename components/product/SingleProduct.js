@@ -17,7 +17,6 @@ import { BiLock, BiLockAlt } from "react-icons/bi";
 import TimerSingleProduct from "./TimerSingleProduct";
 import { IoIosUnlock } from "react-icons/io";
 function SingleProduct(props) {
-  console.log(props);
   const { item, addToCart, topSelling, carousel } = props;
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
