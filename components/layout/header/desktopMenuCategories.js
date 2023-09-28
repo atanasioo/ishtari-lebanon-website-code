@@ -15,7 +15,7 @@ import { useMarketingData } from "@/contexts/MarketingContext";
 import { useHeaderColor } from "@/contexts/HeaderContext";
 
 function DesktopMenuCategories(props) {
-  const { header_categories, local } = props;
+  const { header_categories, local, headerSettings } = props;
   const [menuCategories2, setMenuCategories2] = useState([]);
   const [selectedMenuCategory2, setSelectedMenuCategory2] = useState();
   const [viewSubAllCategories2, setViewSubAllCategories2] = useState(false);
@@ -53,12 +53,14 @@ function DesktopMenuCategories(props) {
       setMenuCategories2(header_categories);
       // setSelectedMenuCategory2(header_categories[0]);
     } else {
+      
       axiosServer
         .get(
           buildLink("headerv2", undefined, undefined, window.config["site-url"])
         )
         .then((response) => {
           const data = response?.data;
+          console.log(data);
           setMenuCategories2(data.data);
           // setSelectedMenuCategory2(data[0]);
         });
@@ -238,11 +240,19 @@ function DesktopMenuCategories(props) {
                     ></Link>
                   </div>
                 ))}
-              <div className="px-4 hover:text-dbase cursor-pointer">
+              {/* <div className="px-4 hover:text-dbase cursor-pointer">
                 <Link href={`/latest`} onClick={() => setMarketingData({})}>
                   New Arrivals
                 </Link>
-              </div>
+              </div> */}
+              {headerSettings.length > 0 &&
+                headerSettings.map((setting, index) => (
+                  <div className={`px-4 hover:text-dbase cursor-pointer ${index !== headerSettings.length -1 ? "border-r border-dplaceHolder" : "" }  ${!setting.value ? "hidden" : ""}`}>
+                    <Link href={`/${setting.key === "new_arrivals" ? "latest" : setting.key}`} onClick={() => setMarketingData({})}>
+                      {setting.title}
+                    </Link>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

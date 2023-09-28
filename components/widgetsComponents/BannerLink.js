@@ -54,7 +54,11 @@ function BannerLink(props) {
             (item?.filters?.filter_sellers
               ? "&filter_sellers=" +
                 item?.filters?.filter_sellers.map((fs) => fs.id)
-              : "")
+              : "") +
+              (item?.filters?.filter_options
+                ? "&filter_options=" +
+                  item?.filters?.filter_options.map((fo) => fo.id)
+                : "") 
           : item?.name?.length > 0
           ? "/" +
             item?.name

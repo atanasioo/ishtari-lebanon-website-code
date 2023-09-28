@@ -10,9 +10,9 @@ import ProductPage from "@/components/product/ProductPage";
 import { getConfig } from "@/functions";
 import dynamic from "next/dynamic";
 import CatalogTest from "@/components/catalog/CatalogTest";
+import DynamicProducts from "@/components/product/DynamicProducts";
 
 function SlugPage(props) {
-  console.log(props.host);
 
   return (
     <div>
@@ -86,6 +86,10 @@ function SlugPage(props) {
             additionalData={props.additionalData}
           />
         </>
+      ) : props.type === "coming_soon" ||
+        props.type === "back_to_stock" ||
+        props.type === "coming_soon" ? (
+        <DynamicProducts />
       ) : (
         // <CatalogPages
         //   type={props.type}
@@ -95,7 +99,7 @@ function SlugPage(props) {
         //   page={props.p}
         //   link={props.link}
         // />
-        <CatalogTest   
+        <CatalogTest
           type={props.type}
           type_id={props.type_id}
           AdminToken={props.AdminToken}
@@ -114,7 +118,6 @@ export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
   // const { catalog,  slug  , resolvedUrl } = context.params;
   const { req, res } = context;
-
 
   res.setHeader(
     "Cache-Control",
@@ -169,11 +172,20 @@ export async function getServerSideProps(context) {
   const config = await getConfig(site_host);
   var path = "&path=";
 
-  const isLatestSettings = catalog ==="comingSoon" || catalog ==="backToStock" || catalog ==="latest" ? true : false
+  const isLatestSettings =
+    catalog === "coming_soon" ||
+    catalog === "back_to_stock" ||
+    catalog === "latest"
+      ? true
+      : false;
 
   //handle seo path
 
-  if (typeof catalog !== "undefined" && slug.length === 0 && !isLatestSettings) {
+  if (
+    typeof catalog !== "undefined" &&
+    slug.length === 0 &&
+    !isLatestSettings
+  ) {
     const alias = await axiosServer.get(
       buildLink(`alias`, undefined, undefined, site_host) + catalog
     );
@@ -188,9 +200,17 @@ export async function getServerSideProps(context) {
     }
   }
 
-  if(isLatestSettings){
+  if (isLatestSettings) {
     type = catalog;
+    return{
+      props: {
+        type
+      }
+    }
   }
+
+  console.log(isLatestSettings);
+  console.log(type);
 
   if (typeof slug !== "undefined" && slug.length > 0) {
     let id = "";
@@ -243,8 +263,6 @@ export async function getServerSideProps(context) {
 
       type = "product";
     } else {
-
-
     }
     return {
       props: {
@@ -260,7 +278,7 @@ export async function getServerSideProps(context) {
         p,
         additionalData,
         AdminToken: AdminToken,
-        isLatestSettings: isLatestSettings
+        isLatestSettings: isLatestSettings,
       },
     };
   } else {

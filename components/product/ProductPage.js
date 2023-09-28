@@ -225,7 +225,6 @@ function ProductPage(props) {
     }
   }
 
-  console.log(data);
 
   useEffect(() => {
     if (data.special_end !== null && data.special_end !== 0) {
@@ -866,6 +865,10 @@ function ProductPage(props) {
     handleWishlist(0);
   }, [stateW]);
 
+  console.log(stateW.pIds);
+  console.log(stateW.pIds.indexOf(product_id) > -1);
+  console.log(stateW.pIds.filter((i) => i === product_id).length );
+
   function deleteItemFromAllGroup() {
     axiosServer
       .post(
@@ -881,7 +884,6 @@ function ProductPage(props) {
       .then((response) => {
         if (response.data.success) {
           setIsWishlist(false);
-
           axiosServer
             .get(
               buildLink(
@@ -892,16 +894,16 @@ function ProductPage(props) {
               )
             )
             .then((response) => {
-              if (response.data.success) {
+              //if (response.data.success) {
                 dispatchW({
                   type: "setProductsCount",
                   payload: response.data.data.total,
                 });
                 dispatchW({
                   type: "setProductIds",
-                  payload: response.data.data.products,
+                  payload: response.data.data.total !== '0' ? response.data.data.products : [],
                 });
-              }
+              //}
             });
         }
         setShowGroup(false);

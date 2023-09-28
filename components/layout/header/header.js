@@ -33,6 +33,7 @@ function Header(props) {
   const [categories, setCategories] = useState([]);
   const { data: session, status } = useSession();
   const [stateAcc, dispatch] = useContext(AccountContext);
+  const [headerSettings, setHeaderSettings] = useState([]);
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
   const host = useContext(HostContext);
@@ -50,8 +51,10 @@ function Header(props) {
       )
       .then((response) => {
         setState(response.data.data);
+        setHeaderSettings(response.data.header_settings);
       });
   }, []);
+
 
   useEffect(() => {
     if (router.asPath !== '/') {
@@ -267,7 +270,7 @@ function Header(props) {
         </div>
       </div>
 
-      <DesktopMenuCategories header_categories={state} local={local} />
+      <DesktopMenuCategories header_categories={state} local={local} headerSettings={headerSettings} />
     </div>
   );
 }
