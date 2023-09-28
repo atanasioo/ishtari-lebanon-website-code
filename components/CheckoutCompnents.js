@@ -742,7 +742,11 @@ function CheckoutCompnents() {
     // if(subTotal> 15 &&  subTotal < 50  )
     // Cookies.set('change', true);
     const sel = e.target;
-    setLoadingtown(true);
+    if (window.config["site-url"] === "https://www.ishtari.com.gh") {
+      setLoadingtown(true);
+    }
+
+    
     setTownes("");
     const obj = {
       name: sel.options[sel.selectedIndex].text,
@@ -757,18 +761,20 @@ function CheckoutCompnents() {
     dispatchAccount({ type: "setShowSignup", payload: false });
     // }
 
-    axiosServer
-      .get(
-        buildLink("town", undefined, undefined, window.config["site-url"]) +
-          zone.current.id
-      )
-      .then((response) => {
-        if (response.data.success) {
-          setTownes(response.data.data);
-          //  setLoadingtown(false)
-        }
-        setLoadingtown(false);
-      });
+    if (window.config["site-url"] === "https://www.ishtari.com.gh") {
+      axiosServer
+        .get(
+          buildLink("town", undefined, undefined, window.config["site-url"]) +
+            zone.current.id
+        )
+        .then((response) => {
+          if (response.data.success) {
+            setTownes(response.data.data);
+            //  setLoadingtown(false)
+          }
+          setLoadingtown(false);
+        });
+    }
   }
 
   function townChanged(e, z) {
