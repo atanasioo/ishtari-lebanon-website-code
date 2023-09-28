@@ -249,7 +249,7 @@ module.exports = {
         DEFAULT: "rgba(255,255,255,.8)"
       },
       dTransparentWhite2: {
-        DEFAULT: "rgba(255,255,255,.4)"
+        DEFAULT: "rgba(255,255,255,.6)"
       },
       dDarkgrey: {
         DEFAULT: "#565656"
