@@ -14,9 +14,9 @@ function TimerSingleProduct({ data }) {
     if (difference > 0) {
       timer = {
         // DAYS: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        HOURS: Math.floor((difference / (1000 * 60 * 60)) ) + ":",
-        MIN: Math.floor((difference / 1000 / 60) % 60)  +":",
-        SEC: Math.floor((difference / 1000) % 60) > 0 ?Math.floor((difference / 1000) % 60)  : "00"
+        HOURS: Math.floor((difference / (1000 * 60 * 60)) ) < 10 ? "0"+ Math.floor((difference / (1000 * 60 * 60)) ) + ":"  : Math.floor((difference / (1000 * 60 * 60)) ) + ":",
+        MIN:  Math.floor((difference / 1000 / 60) % 60) < 10 ?   "0" +  Math.floor((difference / 1000 / 60) % 60)  +":"  :  Math.floor((difference / 1000 / 60) % 60)  +":",
+        SEC: Math.floor((difference / 1000) % 60) < 10  ? "0"  + Math.floor((difference / 1000) % 60)  :  Math.floor((difference / 1000) % 60) 
       };
     }
     return timer;

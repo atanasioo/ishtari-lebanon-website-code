@@ -44,7 +44,7 @@ function CheckoutCompnents() {
   const pointsInfo = useRef({
     point: "",
     type: "",
-    value: "",
+    value: ""
   });
 
   //google map
@@ -52,7 +52,7 @@ function CheckoutCompnents() {
   const [googleLocation, setGoogleLocation] = useState(true);
   const [position, setPosition] = useState({
     lat: 0,
-    lng: 0,
+    lng: 0
   });
   const [countryCorrect, setCountryCorrect] = useState(true);
 
@@ -67,11 +67,11 @@ function CheckoutCompnents() {
   const [firstAttemp, setFirstAttemp] = useState(true);
   const zone = useRef({
     id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name,
+    name: window.config["initial-zone"].name
   });
   const town = useRef({
     id: 0,
-    name: "",
+    name: ""
   });
   // Cart states
   const [emptyCart, setEmptyCart] = useState(false);
@@ -122,7 +122,7 @@ function CheckoutCompnents() {
   const CellulantCheckoutPopup = dynamic(
     () => import("./CellulantCheckoutPopup"),
     {
-      ssr: false, // Disable server-side rendering
+      ssr: false // Disable server-side rendering
     }
   );
 
@@ -143,7 +143,7 @@ function CheckoutCompnents() {
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product,
+          items: manualResponse?.order_product
         });
       } else if (
         window.location.host === "www.ishtari.com.gh" ||
@@ -154,7 +154,7 @@ function CheckoutCompnents() {
           value: manualResponse?.sub_total,
           currency: "USD",
           // 'coupon': coupon?.current?.value,
-          items: manualResponse?.order_product,
+          items: manualResponse?.order_product
         });
       }
     }
@@ -167,12 +167,12 @@ function CheckoutCompnents() {
         fn: manualResponse?.social_data?.firstname,
         ln: manualResponse?.social_data?.lastname,
         external_id: manualResponse?.social_data?.external_id,
-        country: manualResponse?.social_data?.country_code,
+        country: manualResponse?.social_data?.country_code
       };
 
       ReactPixel.init(pixelID, advancedMatching, {
         debug: true,
-        autoConfig: false,
+        autoConfig: false
       });
       ReactPixel.pageView();
       ReactPixel.fbq("track", "PageView");
@@ -193,7 +193,7 @@ function CheckoutCompnents() {
           content_type: "product",
           content_ids: productArray,
           num_items: manualResponse?.order_product?.length,
-          currency: manualResponse?.social_data?.currency,
+          currency: manualResponse?.social_data?.currency
         },
         { eventID: manualResponse?.social_data?.event_id }
       );
@@ -292,7 +292,7 @@ function CheckoutCompnents() {
               if (!response.data.success) {
                 router.push({
                   pathname: "/account/address/add",
-                  search: "from-checkout=true",
+                  search: "from-checkout=true"
                 });
               } else {
                 zone.current.name = response.data.data[0].city;
@@ -319,7 +319,7 @@ function CheckoutCompnents() {
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id,
+      value: address.zone_id
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -340,7 +340,7 @@ function CheckoutCompnents() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id,
+      value: zone.current.id
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false);
@@ -357,7 +357,7 @@ function CheckoutCompnents() {
   function applyBalance() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id,
+      value: zone.current.id
     };
     if (balanceAmount.current.value.length >= 0) {
       manual(manualCart, obj, activePaymentMethod, false);
@@ -374,7 +374,7 @@ function CheckoutCompnents() {
     setPointsDropdown(false);
     const obj = {
       name: zone.current.name,
-      value: zone.current.id,
+      value: zone.current.id
     };
 
     // setPointsInfo({
@@ -440,21 +440,21 @@ function CheckoutCompnents() {
           payload:
             response.data?.data?.products?.length > 0
               ? response.data.data.products
-              : [],
+              : []
         });
         dispatch({
           type: "setTotals",
           payload:
             response.data?.data?.totals?.length > 0
               ? response.data.data.totals
-              : 0,
+              : 0
         });
         dispatch({
           type: "setProductsCount",
           payload:
             response?.data?.data?.total_product_count > 0
               ? response.data.data.total_product_count
-              : 0,
+              : 0
         });
       });
     // End cart check
@@ -545,7 +545,7 @@ function CheckoutCompnents() {
             : "",
         product_points_value: "",
         product_points: "",
-        product_points_type: "",
+        product_points_type: ""
       };
     } else {
       body = {
@@ -585,7 +585,7 @@ function CheckoutCompnents() {
             : "",
         product_points_value: pointsInfo.current.value,
         product_points: pointsInfo.current.point,
-        product_points_type: pointsInfo.current.type,
+        product_points_type: pointsInfo.current.type
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -633,6 +633,20 @@ function CheckoutCompnents() {
           dataSocial["fbc"] = Cookies.get("_fbc");
           dataSocial["ttp"] = Cookies.get("_ttp");
         }
+       
+        if (response?.data?.success === false) {
+          manualErrors.current = response.data.errors;    
+          setConfirmDisalbe(false);
+        } 
+        if (response?.data?.success === true) {
+          manualErrors.current = "";
+          if (body.telephone != "00000000") {
+            paymentForm(confirm, paymentcode);
+          }
+          setLoading(false);
+
+          if (firstAttemp) setFirstAttemp(false);
+        }
         if (isFirst) {
           setIsFirst(false);
 
@@ -652,18 +666,7 @@ function CheckoutCompnents() {
               }
             });
         }
-        if (response?.data?.success === false) {
-          manualErrors.current = response.data.errors;
-          // paymentForm(confirm, paymentcode);
-          setLoading(false);
-          setConfirmDisalbe(false);
-        } else {
-          manualErrors.current = "";
-          paymentForm(confirm, paymentcode);
-          setLoading(false);
 
-          if (firstAttemp) setFirstAttemp(false);
-        }
       });
 
     if (!state.loged) {
@@ -743,7 +746,7 @@ function CheckoutCompnents() {
     setTownes("");
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value,
+      value: sel.value
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
@@ -776,7 +779,7 @@ function CheckoutCompnents() {
     town.current.name = sel.options[sel.selectedIndex].text;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value,
+      value: sel.value
     };
     manual(manualCart, "", activePaymentMethod, false);
     dispatchAccount({ type: "setShowOver", payload: false });
@@ -829,7 +832,7 @@ function CheckoutCompnents() {
         service_code: paymentData?.service_code,
         success_redirect_url: paymentData?.success_redirect_url,
         fail_redirect_url: paymentData?.failed_url,
-        language_code: "en",
+        language_code: "en"
       };
       axiosServer
         .post(
@@ -960,7 +963,7 @@ function CheckoutCompnents() {
               request_description:
                 "ishtariLTD payment for order ID: " + manualResponse.order_id,
               service_code: data.service_code,
-              success_redirect_url: data.success_redirect_url,
+              success_redirect_url: data.success_redirect_url
             });
 
             setCellulantData(data);
@@ -1057,12 +1060,12 @@ function CheckoutCompnents() {
             fn: data?.data?.social_data?.firstname,
             ln: data?.data?.social_data?.lastname,
             external_id: data?.data?.social_data?.external_id,
-            country: data?.data?.social_data?.country_code,
+            country: data?.data?.social_data?.country_code
           };
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
             autoConfig: false,
-            country: data?.data?.social_data?.country_code,
+            country: data?.data?.social_data?.country_code
           });
 
           ReactPixel.pageView();
@@ -1076,7 +1079,7 @@ function CheckoutCompnents() {
                 content_ids: data?.data?.social_data?.content_ids,
                 value: data?.data?.social_data?.value,
                 num_items: data?.data?.social_data?.num_items,
-                currency: data?.data?.social_data?.currency,
+                currency: data?.data?.social_data?.currency
               },
               { eventID: data?.data?.social_data?.event_id }
             );
@@ -1102,11 +1105,11 @@ function CheckoutCompnents() {
         setMarketingData(response.data.data);
         if (firstPath === "bey") {
           router.push({
-            pathname: "/bey/success/",
+            pathname: "/bey/success/"
           });
         } else {
           router.push({
-            pathname: "/success/",
+            pathname: "/success/"
           });
         }
       }
@@ -1137,7 +1140,7 @@ function CheckoutCompnents() {
       zone.current.id = obj.zone;
       const data = {
         name: obj.city,
-        value: obj.zone,
+        value: obj.zone
       };
       manual(manualCart, data, activePaymentMethod, false);
     }
@@ -1160,7 +1163,7 @@ function CheckoutCompnents() {
     amount: 0,
     confirm_url: "0",
     success_url: "0",
-    order_id: 0,
+    order_id: 0
   });
 
   function setPaymentMethod(pm) {
@@ -1174,7 +1177,7 @@ function CheckoutCompnents() {
     Cookies.set("change", true);
 
     var obj = {
-      currency: currency,
+      currency: currency
     };
     axiosServer
       .post(
@@ -1203,15 +1206,15 @@ function CheckoutCompnents() {
         if (!loged) {
           dispatchAccount({
             type: "setShowOver",
-            payload: true,
+            payload: true
           });
           dispatchAccount({
             type: "setShowLogin",
-            payload: true,
+            payload: true
           });
           dispatchAccount({
             type: "setShowSignup",
-            payload: false,
+            payload: false
           });
         } else {
           setPaymentMethod(payment_code);
@@ -1223,7 +1226,7 @@ function CheckoutCompnents() {
   function handlePosition(lat, lng) {
     setPosition({
       lat: lat,
-      lng: lng,
+      lng: lng
     });
   }
 
@@ -1572,7 +1575,7 @@ function CheckoutCompnents() {
                                       <span
                                         className="absolute -bottom-4 left-0 right-0 text-d12 font-semibold py-px text-white"
                                         style={{
-                                          background: "rgba(0, 0, 0, 0.3)",
+                                          background: "rgba(0, 0, 0, 0.3)"
                                         }}
                                       >
                                         Change
@@ -1609,7 +1612,7 @@ function CheckoutCompnents() {
                                         setConfirmedLocation(e.target.value);
                                       }}
                                       style={{
-                                        border: "1px solid rgb(218, 220, 227)",
+                                        border: "1px solid rgb(218, 220, 227)"
                                       }}
                                     />
                                   </div>
@@ -2052,7 +2055,7 @@ function CheckoutCompnents() {
                                   ignore: false,
                                   banner_image_id: "",
                                   source_type: "checkout",
-                                  source_type_id: "",
+                                  source_type_id: ""
                                 })
                               }
                               key={product.product_id}
@@ -2084,7 +2087,7 @@ function CheckoutCompnents() {
                               <p
                                 className=" text-sm font-semibold"
                                 dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(product.name),
+                                  __html: DOMPurify.sanitize(product.name)
                                 }}
                               />{" "}
                               {product.option.length > 0 && (
@@ -2233,7 +2236,7 @@ function CheckoutCompnents() {
                                 <p
                                   className=" text-sm "
                                   dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(product.name),
+                                    __html: DOMPurify.sanitize(product.name)
                                   }}
                                 ></p>{" "}
                                 {product.option.length > 0 && (
@@ -2437,15 +2440,15 @@ function CheckoutCompnents() {
                         onClick={() => {
                           dispatchAccount({
                             type: "setShowOver",
-                            payload: true,
+                            payload: true
                           });
                           dispatchAccount({
                             type: "setShowLogin",
-                            payload: true,
+                            payload: true
                           });
                           dispatchAccount({
                             type: "setShowSignup",
-                            payload: false,
+                            payload: false
                           });
                         }}
                       >

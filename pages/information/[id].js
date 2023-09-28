@@ -4,6 +4,7 @@ import { axiosServer } from "@/axiosServer";
 import cookie from "cookie";
 import { sanitizeHTML } from "@/components/Utils";
 import Head from "next/head";
+import { useRouter } from "next/router";
 var htmlEntities = {
   nbsp: " ",
   cent: "¢",
@@ -40,10 +41,20 @@ function unescapeHTML(str) {
   });
 }
 function Information(props) {
-  const { data } = props;
+  // const { data } = props;
+  const [data, setData] = useState()
+  const router = useRouter();
+  const {id} = router.query
+  useEffect(()=>{
+    axiosServer.get(
+      buildLink("information", undefined, undefined) + "&information_id=" + id).then((resp)=>{
+        setData(resp.data.data)
+      });
+    
+  },[])
 
   return (
-    <div>
+    <div className="container">
       <Head>
         <title>{data?.title}</title>
 
@@ -61,37 +72,37 @@ function Information(props) {
 
 export default Information;
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { id } = context.query;
-  const host = req.headers.host;
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { id } = context.query;
+//   const host = req.headers.host;
 
-  const cookies = req.headers.cookie;
-  const parsedCookies = cookie.parse(cookies);
-  const host_cookie = parsedCookies["site-local-name"];
-  let site_host = "";
-  if (host_cookie === undefined || typeof host_cookie === "undefined") {
-    site_host = host;
-  } else {
-    site_host = host_cookie;
-  }
-  const token = parsedCookies["api-token"];
-  var data;
-  const response = await axiosServer
-    .get(
-      buildLink("information", undefined, undefined, site_host) + "&information_id=" + id,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+//   const cookies = req.headers.cookie;
+//   const parsedCookies = cookie.parse(cookies);
+//   const host_cookie = parsedCookies["site-local-name"];
+//   let site_host = "";
+//   if (host_cookie === undefined || typeof host_cookie === "undefined") {
+//     site_host = host;
+//   } else {
+//     site_host = host_cookie;
+//   }
+//   const token = parsedCookies["api-token"];
+//   var data;
+//   const response = await axiosServer
+//     .get(
+//       buildLink("information", undefined, undefined, site_host) + "&information_id=" + id,
+//       {
+//         headers: {
+//           Authorization: "Bearer " + token,
+//         },
+//       }
+//     );
     
-    data = response.data.data;
+//     data = response.data.data;
 
-  return {
-    props: {
-      data,
-    },
-  };
-}
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// }

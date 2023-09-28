@@ -25,7 +25,7 @@ import { AccountContext } from "@/contexts/AccountContext";
 import CatalogPlaceholder from "./CatalogPlaceholder";
 function CatalogTest(props) {
   const { slugId, type_id , AdminToken, catalogId } = props; //instead of productData
-  console.log(props)
+  // console.log(props)
   const [data, setData] = useState([]);
   const filters = data?.filters;
   var isLoading = useRef(false);
@@ -195,6 +195,7 @@ function CatalogTest(props) {
     filter_manufacturers,
     filter_sellers,
     filter_options,
+    filter,
     adv_filters,
     has_filter,
     last,
@@ -249,15 +250,19 @@ function CatalogTest(props) {
         }
         path = "&seller_id=";
       }
-      var filter = "";
+      var filters = "";
       if (!has_filter) {
+
+        if (filter != undefined) {
+          filters += "?&filters=" + filter;
+        }
         if (page != undefined) {
-          filter += "&page=" + page;
+          filters += "&page=" + page;
         }
 
         if (sort !== undefined && order !== undefined) {
-          filter += "&sort=" + sort;
-          filter += "&order=" + order;
+          filters += "&sort=" + sort;
+          filters += "&order=" + order;
         }
         // } else {
 
@@ -265,16 +270,16 @@ function CatalogTest(props) {
           buildLink(type, undefined, undefined) +
           id +
           "&source_id=1&limit=50" +
-          filter +
+          filters +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
         // console.log("FFFFFFFFFFFFFF1111");
         // console.log(link);
         axiosServer.get(link).then((response) => {
           if (
-            response.data.success == false ||
-            (response.data.data.products.length < 1 &&
-              response.data.data.desktop_widgets.length < 1 &&
-              response.data.data.widgets.length < 1)
+            response?.data.success == false ||
+            (response.data.data.products?.length < 1 &&
+              response.data.data.desktop_widgets?.length < 1 &&
+              response.data.data.widgets?.length < 1)
           ) {
         
                         router.push("/404")
@@ -288,48 +293,52 @@ function CatalogTest(props) {
 
         console.log(data);
       } else {
-        var filter = "";
+        var filters = "";
         if (has_filter !== undefined) {
-          filter += "&has_filter=" + has_filter;
+          filters += "&has_filter=" + has_filter;
         }
         if (filter_categories !== undefined) {
-          filter += "&filter_categories=" + filter_categories;
+          filters += "&filter_categories=" + filter_categories;
         }
         if (filter_manufacturers !== undefined) {
-          filter += "&filter_manufacturers=" + filter_manufacturers;
+          filters += "&filter_manufacturers=" + filter_manufacturers;
         }
         if (filter_sellers !== undefined) {
-          filter += "&filter_sellers=" + filter_sellers;
+          filters += "&filter_sellers=" + filter_sellers;
         }
         if (filter_options != undefined) {
-          filter += "&filter_options=" + filter_options;
+          filters += "&filter_options=" + filter_options;
         }
         if (adv_filters != undefined) {
-          filter += "&adv_filters=" + adv_filters;
+          filters += "&adv_filters=" + adv_filters;
+        }
+
+        if (filter != undefined) {
+          filters += "&filters=" + filter;
         }
         if (page != undefined) {
-          filter += "&page=" + page;
+          filters += "&page=" + page;
         }
         if (last != undefined) {
-          filter += "&last=" + last;
+          filters += "&last=" + last;
         }
 
         if (sort !== undefined && order !== undefined) {
-          filter += "&sort=" + sort;
-          filter += "&order=" + order;
+          filters += "&sort=" + sort;
+          filters += "&order=" + order;
         }
 
         if (limit != undefined) {
-          filter += "&limit=" + limit;
+          filters += "&limit=" + limit;
         } else {
-          filter += "&limit=50";
+          filters += "&limit=50";
         }
 
         link =
           buildLink("filter", undefined, undefined) +
           path +
           id +
-          filter +
+          filters +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
 
         axiosServer.get(link).then((response) => {
@@ -1042,7 +1051,7 @@ function CatalogTest(props) {
           </div>
 
           <div class="container flex h-full">
-            <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 " className={`${  (filters && Object.keys(filters)?.length < 1 )? "w-auto" : 'mobile:w-1/5'  } flex-child hidden mobile:block mobile:w-1/5  mb-6`}  >
+            <div class="flex-child hidden mobile:block mobile:w-1/5  mb-6 " className={`${  (!filters || ( filters &&  Object.keys(filters)?.length < 1))? "w-0" : 'mobile:w-1/5'  } flex-child hidden mobile:block  mb-6`}  >
               <div className="sticky top-0 " >
                 <div className="overflow-auto hover:overflow-scroll h-screen pb-5  mobile:pr-5 mobile:pl-5 hover:scrollbar  hover:test">
                   <div className=" ">
@@ -1240,7 +1249,7 @@ function CatalogTest(props) {
                 </div>
               </div>
             </div>
-            <div   className={`${  (filters && Object.keys(filters)?.length < 1 )? "mobile:w-full" : 'mobile:w-4/5'  } w-full  leading-dtight mobile:pl-5 overflow-x-hidden`}>
+            <div   className={` w-full  ${  (!filters || ( filters &&  Object.keys(filters)?.length < 1) ) ?  "mobile:w-full" : 'mobile:w-4/5 mobile:pl-5'  }  leading-dtight  overflow-x-hidden`}>
               <div className="flex justify-between pb-2">
                 {/* Results found */}
                 <div className="flex mx-1 mobile:w-auto pt-2 mobile:pt-1 ">
@@ -2510,9 +2519,9 @@ function CatalogTest(props) {
                   </div>
                 )}
               <div
-                className={`grid transition-all mobile:pt-2 ${
+                className={`grid transition-all  ${
                   productDisplay === "grid"
-                    ? "grid-cols-2 xl:grid-cols-5 lg:grid-cols-5 gap-2 "
+                    ?  (!filters || ( filters &&  Object.keys(filters)?.length < 1) ) ?  "grid-cols-2 xl:grid-cols-6 lg:grid-cols-6 gap-2" :  "grid-cols-2 xl:grid-cols-5 lg:grid-cols-5 gap-2 mobile:pt-2"
                     : "grid-cols-1"
                 }`}
               >

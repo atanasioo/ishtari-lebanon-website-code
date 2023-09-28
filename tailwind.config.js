@@ -1,25 +1,25 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}"
   ],
-  important:true,
+  important: true,
   theme: {
     extend: {
-      maxHeight:{
-        '90%': "90%",
+      maxHeight: {
+        "90%": "90%",
         "245px": "245px",
         "350px": "350px",
         "410px": "410px",
         "450px": "450px",
-        "700px": "700px",
+        "700px": "700px"
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
       },
       transformOrigin: {
         0: "0%"
@@ -32,30 +32,30 @@ module.exports = {
         "86%": "86%",
         5.5: "22px",
         "150px": "150px",
-        "284px" : "284px",
-        "1057px" : "1057px",
-        "unset": "unset",
+        "284px": "284px",
+        "1057px": "1057px",
+        unset: "unset"
       },
-      height:{
+      height: {
         5.5: "22px",
-        "22": "85px",
-        "unset": "unset",
+        22: "85px",
+        unset: "unset",
         "90%": "90%",
         "90vh": "90vh",
         "100svh": "100svh",
         "100lvh": "100lvh",
-        "100dvh": "100dvh",
+        "100dvh": "100dvh"
       },
       lineHeight: {
-        'dsnug': '21.56px',
-        'dtight': '19.6px',
-        'loose': '1.75',
-        'lcf': "22.2133px",
-        'spn': "17.36px",
-        "pn": "31.36px",
-        "26": "26.7736px"
+        dsnug: "21.56px",
+        dtight: "19.6px",
+        loose: "1.75",
+        lcf: "22.2133px",
+        spn: "17.36px",
+        pn: "31.36px",
+        26: "26.7736px"
         // Add more line heights as needed
-      },
+      }
     },
     screens: {
       xs: "320px",
@@ -63,7 +63,7 @@ module.exports = {
       sm: "640px",
       // => @media (min-width: 640px) { ... },
       mobile: "650px",
-       // => @media (min-width: 650px) { ... },
+      // => @media (min-width: 650px) { ... },
 
       md: "768px",
       // => @media (min-width: 768px) { ... }
@@ -86,11 +86,11 @@ module.exports = {
       d10: "10px",
       d11: "11px",
       d12: "12px",
-      d13: "13px", 
+      d13: "13px",
       d14: "14px",
       d15: "15px",
       df: "15.4px", // footer parent category
-      dcf : "15.8666px" , // filter title 
+      dcf: "15.8666px", // filter title
       d16: "16px",
       d17: "17px",
       d18: "18px",
@@ -104,7 +104,7 @@ module.exports = {
       md: "1rem",
       lg: "1.125rem",
       xl: "1.25rem",
-      xll : "1.366rem",
+      xll: "1.366rem",
       xxl: "2rem",
       "2xl": "1.5rem",
       "3xl": "1.875rem",
@@ -114,10 +114,10 @@ module.exports = {
       "6xl": "4rem",
       "7xl": "5rem"
     },
-    outlineWidth:{
+    outlineWidth: {
       0.5: "0.5px"
     },
-  
+
     colors: {
       white: {
         DEFAULT: "rgb(255 255 255)"
@@ -144,7 +144,7 @@ module.exports = {
         DEFAULT: "rgb(126, 133, 155)"
       },
       dbase: {
-        DEFAULT: "#bf1b26"    //ishtari's red color
+        DEFAULT: "#bf1b26" //ishtari's red color
       },
       dSecondary: {
         DEFAULT: "3866de"
@@ -152,7 +152,7 @@ module.exports = {
       dPink: {
         DEFAULT: "#FFCCCB"
       },
-      dTransparentWhite1:{
+      dTransparentWhite1: {
         DEFAULT: "rgba(255,255,255,0.5)"
       },
       dgrey: {
@@ -248,6 +248,9 @@ module.exports = {
       dTransparentWhite: {
         DEFAULT: "rgba(255,255,255,.8)"
       },
+      dTransparentWhite2: {
+        DEFAULT: "rgba(255,255,255,.4)"
+      },
       dDarkgrey: {
         DEFAULT: "#565656"
       },
@@ -257,10 +260,10 @@ module.exports = {
       dgreyBlack: {
         DEFAULT: "rgb(65,69,81)"
       },
-      dgreyPrev:{
+      dgreyPrev: {
         DEFAULT: "rgb(247, 247, 250)"
       },
-      dblackOverlay:{
+      dblackOverlay: {
         DEFAULT: "rgba(0,0,0,0.5)"
       },
       dblackOverlay2: {
@@ -269,49 +272,48 @@ module.exports = {
       dblackOverlay3: {
         DEFAULT: "rgba(74,74,74,1)"
       },
-      dbeigeRed:{
+      dbeigeRed: {
         DEFAULT: "rgb(252, 244, 244)"
       },
-      dsearchGrey:{
+      dsearchGrey: {
         DEFAULT: "#f4f4f4"
       },
-      dborderProduct:{
-        DEFAULT: "#F0F2F8"     //like noon
-      }, 
-      dgreyProduct:{
-        DEFAULT: "#7E859B"     //like noon
-      }, 
-      dgreyQtyProduct:{
-        DEFAULT: "#B2BBD2"     //like noon
-      }, 
-      dprimarybg:{
+      dborderProduct: {
+        DEFAULT: "#F0F2F8" //like noon
+      },
+      dgreyProduct: {
+        DEFAULT: "#7E859B" //like noon
+      },
+      dgreyQtyProduct: {
+        DEFAULT: "#B2BBD2" //like noon
+      },
+      dprimarybg: {
         DEFAULT: "#F8F8F9"
       },
-      dgreyZoom:{
+      dgreyZoom: {
         DEFAULT: "#EBECF0"
       },
-      darrowZoom:{
+      darrowZoom: {
         DEFAULT: "#b4b4b4"
       },
-      dblueHover:{
+      dblueHover: {
         DEFAULT: "#3E72F7"
       },
-      dgreyAddress:{
+      dgreyAddress: {
         DEFAULT: "#9BA0AA"
       },
-      dborderAddress:{
+      dborderAddress: {
         DEFAULT: "#DADCE3"
       },
-      dgreyAccount:{
+      dgreyAccount: {
         DEFAULT: "rgb(126,133,155)"
       },
-      dgreyAccountActive:{
+      dgreyAccountActive: {
         DEFAULT: "rgb(64,69,83)"
       }
-    },
-
+    }
   },
-   plugins: [
+  plugins: [
     function ({ addComponents }) {
       addComponents({
         ".container": {
@@ -328,13 +330,13 @@ module.exports = {
           margin: "auto",
           overfloe: "hidden"
         },
-        ".top-245px":{
-          top: "245px",
+        ".top-245px": {
+          top: "245px"
         },
-        ".top-182px":{
-          top: "182px",
+        ".top-182px": {
+          top: "182px"
         }
       });
-    },
+    }
   ]
-}
+};

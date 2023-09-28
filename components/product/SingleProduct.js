@@ -17,6 +17,7 @@ import { BiLock, BiLockAlt } from "react-icons/bi";
 import TimerSingleProduct from "./TimerSingleProduct";
 import { IoIosUnlock } from "react-icons/io";
 function SingleProduct(props) {
+  console.log(props)
   const { item, addToCart, topSelling, carousel } = props;
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
@@ -25,6 +26,9 @@ function SingleProduct(props) {
 
   const [width] = useDeviceSize();
   const { setMarketingData } = useMarketingData();
+
+  const date1 = new Date(props.coming_soon_date);  // Assuming 'YYYY-MM-DD' format
+  const date2 = new Date();
 
   const source_type =
     router.asPath === "/"
@@ -238,11 +242,12 @@ function SingleProduct(props) {
       onClickCapture={props.click}
       className={` cursor-pointer   ${props.isList && "mb-3"}  `}
     >
-      <div className={`relative ${!props?.soon && ""}`}>
-        {props?.coming_soon_date && (
-          <div className="absolute z-50 flex justify-center items-center w-full h-full bg-dTransparentWhite">
-            <div className="absolute z-50 rounded-full text-white w-auto top-3 px-3 py-1 bg-dblack pr-bold">
-              Coming Soon
+      <div className={`relative ${props?.coming_soon_date && ""}`}>
+        {props?.item?.coming_soon_date && (
+          <div className="absolute z-10 flex justify-center items-center w-full h-full bg-dTransparentWhite2">
+
+            <div className="absolute z-10 rounded-full text-white w-auto top-3 px-3 py-1 bg-dblack pr-bold">
+              Coming Soon 
             </div>
 
             <div className="flex flex-col justify-center items-center border-4 rounded-full border-dblack w-44 h-44 ">
@@ -253,16 +258,16 @@ function SingleProduct(props) {
                 <IoIosUnlock className=" text-dbase text-2xl mb-2 pr-bold" />
               </div>
 
-              <TimerSingleProduct data={props?.coming_soon_date } />
+              <TimerSingleProduct data={props?.item?.coming_soon_date} />
 
-              <p className="text-d22 pr-semibold pt-3">
+              <p className="text-d22 pr-semibold">
                 {item.special !== "0" &&
                 item.special !== "" &&
                 item.special !== false
                   ? item.special
                   : item.price}
               </p>
-              <span className="text-d16 line-through pt-3 pr-light">
+              <span className="text-d16 line-through  pr-light">
                 {item.price}
               </span>
             </div>
