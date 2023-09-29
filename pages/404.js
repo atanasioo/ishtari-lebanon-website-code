@@ -5,21 +5,28 @@ import { useRouter } from "next/router";
 function NotFound() {
   const router = useRouter();
   return (
-    <div className="flex items-center justify-center  py-20 flex-col">
-      <img src={"/images/page-404.webp"} className=" w-2/12" alt="Not Found" />
-      <h2 className="text-2xl mt-4">Sorry, there is nothing here!</h2>
-      <Link
-        href={`/`}
-        className="bg-dblue text-white px-10 py-3 rounded mt-4"
-      >
-        START SHOPPING
-      </Link>
-      <button
-        onClick={() => router.back()}
-        className="bg-dbase text-white px-10 py-3 rounded mt-4"
-      >
-        Go back
-      </button>
+    <div class="h-screen w-screen bg-gray-100 flex items-center">
+      <div class="container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700">
+        <div class="max-w-md">
+          <div class="text-5xl font-dark font-bold">404</div>
+          <p class="text-2xl md:text-3xl font-light leading-normal">
+            Sorry we couldn't find this page.{" "}
+          </p>
+          <p class="mb-8">
+            But dont worry, you can find plenty of other things on our homepage.
+          </p>
+
+          <button
+            onClick={() => router.push("/")}
+            class="px-4 inline py-2 text-md font-medium leading-5 shadow text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue bg-dblue active:bg-blue-600 hover:bg-blue-700"
+          >
+            Back to homepage
+          </button>
+        </div>
+        <div class="max-w-lg">
+          <img src={"/images/notfound.jpeg"} alt="404 Not Found" />
+        </div>
+      </div>
     </div>
   );
 }
