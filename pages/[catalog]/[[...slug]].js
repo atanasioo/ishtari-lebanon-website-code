@@ -209,9 +209,6 @@ export async function getServerSideProps(context) {
     }
   }
 
-  console.log(isLatestSettings);
-  console.log(type);
-
   if (typeof slug !== "undefined" && slug.length > 0) {
     let id = "";
     if (catalog === "product" || slug[0].includes("p=")) {

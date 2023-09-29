@@ -240,19 +240,19 @@ function DesktopMenuCategories(props) {
                     ></Link>
                   </div>
                 ))}
-              {/* <div className="px-4 hover:text-dbase cursor-pointer">
+              <div className="px-4 hover:text-dbase cursor-pointer">
                 <Link href={`/latest`} onClick={() => setMarketingData({})}>
                   New Arrivals
                 </Link>
-              </div> */}
-              {headerSettings.length > 0 &&
+              </div>
+              {/* {headerSettings.length > 0 &&
                 headerSettings.map((setting, index) => (
                   <div className={`px-4 hover:text-dbase cursor-pointer ${index !== headerSettings.length -1 ? "border-r border-dplaceHolder" : "" }  ${!setting.value ? "hidden" : ""}`}>
                     <Link href={`/${setting.key === "new_arrivals" ? "latest" : setting.key}`} onClick={() => setMarketingData({})}>
                       {setting.title}
                     </Link>
                   </div>
-                ))}
+                ))} */}
             </div>
           </div>
         </div>
