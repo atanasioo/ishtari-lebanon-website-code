@@ -366,7 +366,9 @@ function CatalogTest(props) {
       }
     } else {
       //redirect to 404
-      setNotFound(true);
+       setNotFound(true);
+       setLoading(false);
+
     }
   }, [router]);
 
