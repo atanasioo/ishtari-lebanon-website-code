@@ -2487,6 +2487,40 @@ display: inline-block;
   color:rgb(53, 90, 184); /* Change this to your desired color */
 }
 
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .placeholder_animation {
+    background-image: radial-gradient(
+      rgba(254, 254, 254, 0.925),
+      rgba(215, 211, 223, 0.474)
+    );
+
+    background-size: 200% 100%;
+    animation: anmBg 0.8s linear infinite;
+  }
+  @keyframes anmBg {
+    to {
+      background-position: -170% 0;
+    }
+  }
+  @media (max-width: 650px) {
+    .placeholder_animation {
+      background-image: radial-gradient(
+        rgba(254, 254, 254, 0.925),
+        rgba(215, 211, 223, 0.474)
+      );
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .placeholder_animation {
+    background-image: radial-gradient(
+      rgba(254, 254, 254, 0.925),
+      rgba(215, 211, 223, 0.474)
+    );
+  }
+}
+
 
 
 

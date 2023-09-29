@@ -89,7 +89,7 @@ function SlugPage(props) {
         </>
       ) : props.type === "coming_soon" ||
         props.type === "back_to_stock" ||
-        props.type === "coming_soon" ? (
+        props.type === "latest" ? (
         <DynamicProducts />
       ) : (
         // <CatalogPages
@@ -173,6 +173,8 @@ export async function getServerSideProps(context) {
 
   const config = await getConfig(site_host);
   var path = "&path=";
+
+  console.log("catalog" , catalog);
 
   const isLatestSettings =
     catalog === "coming_soon" ||

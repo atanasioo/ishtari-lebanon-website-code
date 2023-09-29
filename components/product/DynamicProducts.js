@@ -5,26 +5,29 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import SingleProduct from "./SingleProduct";
 import useDeviceSize from "../useDeviceSize";
-import PointsLoader from "../PointsLoader";
 import NoData from "../NoData";
+import LatestPlaceholder from "./DynamicPlaceholder";
 
 function DynamicProducts() {
   const router = useRouter();
   const [data, setData] = useState();
   const [showLimit, setShowLimit] = useState(false);
-  const [limit, setLimit] = useState(48);
+  const [limit, setLimit] = useState(router.query.limit || 48);
   const title = router.query.catalog.replaceAll("_", " ");
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(router.query.page || 1);
   const [width] = useDeviceSize();
   const type =
     router.query.catalog === "coming_soon"
       ? "comingsoon"
       : router.query.catalog === "back_to_stock"
       ? "backtostock"
+      : router.query.catalog === "latest"
+      ? "latest"
       : "";
 
   useEffect(() => {
+    setLoading(true);
     axiosServer
       .get(
         buildLink("dynamicproducts", undefined, undefined) +
@@ -62,7 +65,7 @@ function DynamicProducts() {
     query.limit = new_limit;
 
     if (typeof query.page !== "undefined") {
-      query.page = router.query.limit;
+      query.page = router.query.page;
     }
 
     router.push({
@@ -75,7 +78,7 @@ function DynamicProducts() {
     <div>
       {loading ? (
         <div>
-          <PointsLoader />
+          <LatestPlaceholder />
         </div>
       ) : data.products.length > 0 ? (
         <div>
@@ -149,23 +152,25 @@ function DynamicProducts() {
               ></SingleProduct>
             ))}
           </div>
-          <div className="h-12">
-            <ReactPaginate
-              className={"category-pagination"}
-              breakLabel="..."
-              nextLabel=">"
-              onPageChange={handlePageClick}
-              pageRangeDisplayed={width < 650 ? 1 : 2}
-              marginPagesDisplayed={width < 650 ? 1 : 2}
-              pageCount={data?.total_pages}
-              previousLabel="<"
-              activeClassName={"active-pagination-category"}
-              renderOnZeroPageCount={null}
-              forcePage={
-                router.query.page ? parseInt(router.query.page) - 1 : 0
-              }
-            />
-          </div>
+          {data.total_pages > 1 && (
+            <div className="h-12">
+              <ReactPaginate
+                className={"category-pagination"}
+                breakLabel="..."
+                nextLabel=">"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={width < 650 ? 1 : 2}
+                marginPagesDisplayed={width < 650 ? 1 : 2}
+                pageCount={data?.total_pages}
+                previousLabel="<"
+                activeClassName={"active-pagination-category"}
+                renderOnZeroPageCount={null}
+                forcePage={
+                  router.query.page ? parseInt(router.query.page) - 1 : 0
+                }
+              />
+            </div>
+          )}
         </div>
       ) : (
         <NoData />
