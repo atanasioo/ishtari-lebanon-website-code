@@ -237,8 +237,6 @@ export async function getServerSideProps(context) {
           Authorization: "Bearer " + token
         }
       });
-      // console.log("testest");
-      // console.log(response.data);
 
       const response1 = await axiosServer.get(
         buildLink("getProductAdditionalData", undefined, undefined, site_host) +
