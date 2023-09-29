@@ -58,6 +58,8 @@ function DynamicProducts() {
     });
   };
 
+  
+
   const handleLimitClick = (value) => {
     const new_limit = parseInt(value);
     const query = { ...router.query };
