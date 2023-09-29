@@ -11,9 +11,9 @@ import { getConfig } from "@/functions";
 import dynamic from "next/dynamic";
 import CatalogTest from "@/components/catalog/CatalogTest";
 import DynamicProducts from "@/components/product/DynamicProducts";
+import axios from "axios";
 
 function SlugPage(props) {
-
   return (
     <div>
       <Head>
@@ -22,7 +22,7 @@ function SlugPage(props) {
             ? props.data?.name
             : props.data?.heading_title
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
-          {(props.data?.heading_title || props.data?.name) &&
+          {(props.data?.heading_title || props.data?.name  ||  props?.meta?.title ) &&
             (props?.type === "product"
               ? "Shop " +
                 props.data?.name
@@ -34,8 +34,8 @@ function SlugPage(props) {
                     ? "Ghana"
                     : "Lebanon"
                 } | Ishtari`
-              : props.data?.heading_title && props?.type === "category"
-              ? props.data?.heading_title
+              : (props.data?.heading_title ||  props?.meta?.title ) && props?.type === "category"
+              ? (props.data?.heading_title ||  props?.meta?.title )
                   .replaceAll("&amp;", "&")
                   .replaceAll("&quot;", "&") +
                 ` - in ${
@@ -44,8 +44,8 @@ function SlugPage(props) {
                     ? "Ghana"
                     : "Lebanon"
                 } | Buy Online | ishtari`
-              : props.data?.heading_title && props?.type === "manufacturer"
-              ? props.data?.heading_title
+              : (props.data?.heading_title ||  props.meta?.title ) && props?.type === "manufacturer"
+              ? (props.data?.heading_title ||  props.meta?.title )
                   .replaceAll("&amp;", "&")
                   .replaceAll("&quot;", "&") +
                 ` - ishtari ${
@@ -54,7 +54,7 @@ function SlugPage(props) {
                     ? "Ghana"
                     : "Lebanon"
                 }`
-              : props.data?.heading_title
+              : (props.data?.heading_title ||  props.meta?.title )
                   .replaceAll("&amp;", "&")
                   .replaceAll("&quot;", "&")
             ).replaceAll("<!-- -->", "")}
@@ -65,10 +65,11 @@ function SlugPage(props) {
             content={`Shop the ${props.data?.name}. Enjoy easy online shopping at ishtari.`}
           ></meta>
         ) : (
-          <meta
-            name="description"
-            content={`Discover a wide range of quality ${props.data?.category_seo} products. Enjoy easy online shopping at ishtari.`}
-          ></meta>
+          <></>
+          // <meta
+          //   name="description"
+          //   content={`Discover a wide range of quality ${ props?.meta?.description} products. Enjoy easy online shopping at ishtari.`}
+          // ></meta>
         )}
 
         <meta
@@ -137,12 +138,13 @@ export async function getServerSideProps(context) {
     order,
     last,
     limit,
-    fromSearch,
+    fromSearch
   } = context.query;
   let slug = context.query.slug || [];
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
   // const { NEXT_INIT_QUERY  = context.has_filter;
   let data = null;
+  let meta = null;
   let type = "";
   var p = 0;
   if (page !== undefined) {
@@ -202,11 +204,11 @@ export async function getServerSideProps(context) {
 
   if (isLatestSettings) {
     type = catalog;
-    return{
+    return {
       props: {
         type
       }
-    }
+    };
   }
 
   if (typeof slug !== "undefined" && slug.length > 0) {
@@ -232,8 +234,8 @@ export async function getServerSideProps(context) {
 
       const response = await axiosServer.get(link, {
         headers: {
-          Authorization: "Bearer " + token,
-        },
+          Authorization: "Bearer " + token
+        }
       });
       console.log("testest");
       console.log(response.data);
@@ -244,8 +246,8 @@ export async function getServerSideProps(context) {
           product_id,
         {
           headers: {
-            Authorization: "Bearer " + token,
-          },
+            Authorization: "Bearer " + token
+          }
         }
       );
       additionalData = response1.data.data;
@@ -253,13 +255,60 @@ export async function getServerSideProps(context) {
 
       if (!response.data.success) {
         return {
-          notFound: true,
+          notFound: true
         };
       }
       data = response?.data?.data;
 
       type = "product";
     } else {
+      if (
+        catalog === "category" ||
+        catalog === "manufacturer" ||
+        catalog === "seller" ||
+        slug[0].includes("c=") ||
+        slug[0].includes("m=") ||
+        slug[0].includes("s=")
+      ) {
+        // console.log(slug);
+        if (catalog === "category" || slug[0].includes("c=")) {
+          type = "category";
+          if (slug[0].includes("c=")) {
+            id = slug[0].split("=")[1];
+          } else {
+            id = slug[0];
+          }
+        } else if (catalog === "manufacturer" || slug[0].includes("m=")) {
+          type = "manufacturer";
+          if (slug[0].includes("m=")) {
+            id = slug[0].split("=")[1];
+          } else {
+            id = slug[0];
+          }
+          path = "&manufacturer_id=";
+        } else if (catalog === "seller" || slug[0].includes("s=")) {
+          type = "seller";
+          if (slug[0].includes("s=")) {
+            id = slug[0].split("=")[1];
+          } else {
+            id = slug[0];
+          }
+          path = "&seller_id=";
+        }
+           const response = await  axiosServer.get(buildLink("seo-" + type, undefined, undefined, site_host) + id ,{
+            headers: {
+              Authorization: "Bearer " + token
+            }
+          })
+          if(response.data.success){
+            meta =  response.data.data
+            meta = meta[0]
+            // console.log(meta )
+            // console.log(meta )
+            // console.log("test-1")
+          }
+    
+      }
     }
     return {
       props: {
@@ -272,15 +321,17 @@ export async function getServerSideProps(context) {
         isLoading: "false",
         slug: slug,
         catalog: catalog,
+        meta,
         p,
         additionalData,
         AdminToken: AdminToken,
-        isLatestSettings: isLatestSettings,
-      },
+        isLatestSettings: isLatestSettings, 
+        
+      }
     };
   } else {
     return {
-      notFound: true,
+      notFound: true
     };
   }
 }

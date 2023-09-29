@@ -126,7 +126,10 @@ var urls = {
     pos : "v2/index.php?route=checkout/cart/addToCartPos",
     getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
     searchProduct: "v2/index.php?route=stockapi/product&item=",
-    memberShip: "v2/index.php?route=account/account/getPointData"
+    memberShip: "v2/index.php?route=account/account/getPointData",
+    'seo-category':"v2/index.php?route=catalog/category/getCategoryDescription&category_id=",
+    'seo-manufacturer':"v2/index.php?route=catalog/manufacturer/getManufacturerDescription&manufacturer_id=",
+    'seo-seller':"v2/index.php?route=catalog/seller/getSellerDescription&seller_id=",
 };
 
 if (typeof window !== "undefined") {
