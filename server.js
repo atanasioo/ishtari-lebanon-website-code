@@ -37,21 +37,6 @@ app.prepare().then(() => {
           res.end("Internal Server Error");
         }
       });
-    } else if (requestedPath === "/control/admin") {
-      const indexPath = path.join(
-        __dirname,
-        "httpdocs/control/admin/index.php"
-      );
-      fs.readFile(indexPath, (err, data) => {
-        if (!err && data) {
-          res.setHeader("Content-Type", "text/html"); // Set the content type for PHP
-          res.writeHead(200);
-          res.end(data);
-        } else {
-          res.writeHead(500); // Something went wrong when reading the PHP file
-          res.end("Internal Server Error");
-        }
-      });
     } else {
       // Serve static files directly if found
       const filePath = path.join(__dirname, requestedPath);
