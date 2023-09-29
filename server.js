@@ -14,7 +14,16 @@ app.prepare().then(() => {
     const parsedUrl = parse(req.url, true);
     const requestedPath = parsedUrl.pathname;
 
-    // Check if the requested path is '/app'
+    // Serve _ssgManifest.js file
+    if (
+      requestedPath === "/_next/static/AanfiBvTONjxvzuhjP9Q8/_ssgManifest.js"
+    ) {
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.setHeader("Content-Type", "application/json");
+      res.writeHead(200);
+      res.end(JSON.stringify(ssgManifest));
+      return;
+    } // Check if the requested path is '/app'
     if (requestedPath === "/app") {
       // Serve the index.php file for the '/app' route
       const indexPath = path.join(__dirname, "app", "index.php");
@@ -28,16 +37,21 @@ app.prepare().then(() => {
           res.end("Internal Server Error");
         }
       });
-    }
-    // Serve _ssgManifest.js file
-    else if (
-      requestedPath === "/_next/static/AanfiBvTONjxvzuhjP9Q8/_ssgManifest.js"
-    ) {
-      res.setHeader("Cache-Control", "public, max-age=3600");
-      res.setHeader("Content-Type", "application/json");
-      res.writeHead(200);
-      res.end(JSON.stringify(ssgManifest));
-      return;
+    } else if (requestedPath === "/control/admin") {
+      const indexPath = path.join(
+        __dirname,
+        "httpdocs/control/admin/index.php"
+      );
+      fs.readFile(indexPath, (err, data) => {
+        if (!err && data) {
+          res.setHeader("Content-Type", "text/html"); // Set the content type for PHP
+          res.writeHead(200);
+          res.end(data);
+        } else {
+          res.writeHead(500); // Something went wrong when reading the PHP file
+          res.end("Internal Server Error");
+        }
+      });
     } else {
       // Serve static files directly if found
       const filePath = path.join(__dirname, requestedPath);
