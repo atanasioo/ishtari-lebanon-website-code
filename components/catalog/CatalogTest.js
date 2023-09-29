@@ -23,8 +23,9 @@ import Cookies from "js-cookie";
 import buildLink, { pixelID } from "@/urls";
 import { AccountContext } from "@/contexts/AccountContext";
 import CatalogPlaceholder from "./CatalogPlaceholder";
+import NoData from "../NoData";
 function CatalogTest(props) {
-  const { slugId, type_id , AdminToken, catalogId } = props; //instead of productData
+  const { slugId, type_id, AdminToken, catalogId } = props; //instead of productData
   // console.log(props)
   const [data, setData] = useState([]);
   const filters = data?.filters;
@@ -36,6 +37,7 @@ function CatalogTest(props) {
   const [bannerStats, setBannerStats] = useState([]);
   const [state] = useContext(AccountContext);
   const [loading, setLoading] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   const [productDisplay, setProductDisplay] = useState("grid");
   const [width] = useDeviceSize();
@@ -189,7 +191,6 @@ function CatalogTest(props) {
   console.log(router.query);
   const catalog_id = type_id;
 
-
   const {
     filter_categories,
     filter_manufacturers,
@@ -206,10 +207,10 @@ function CatalogTest(props) {
   } = router.query;
 
   const slug = router.query.slug || slugId;
-  const catalog = catalogId || router.query.catalog ;
+  const catalog = catalogId || router.query.catalog;
 
   console.log(slug);
-  console.log("catalogid" , catalog);
+  console.log("catalogid", catalog);
 
   useEffect(() => {
     setLoading(true);
@@ -252,14 +253,13 @@ function CatalogTest(props) {
       }
       var filters = "";
       if (!has_filter) {
-
         if (filter != undefined) {
           filters += "?&filters=" + filter;
         }
 
         if (limit != undefined) {
           filters += "&limit=" + limit;
-        }else{
+        } else {
           filters += "&limit=50";
         }
         if (page != undefined) {
@@ -287,10 +287,9 @@ function CatalogTest(props) {
               response.data?.data?.desktop_widgets?.length < 1 &&
               response.data?.data?.widgets?.length < 1)
           ) {
-        
-                        router.push("/404")
-
-                        setLoading(false);
+            // router.push("/404");
+            setNotFound(true);
+            setLoading(false);
           } else {
             setLoading(false);
             setData(response?.data?.data);
@@ -354,8 +353,9 @@ function CatalogTest(props) {
               response.data.data.desktop_widgets.length < 1 &&
               response.data.data.widgets.length < 1)
           ) {
+            setNotFound(true);
             setLoading(false);
-           router.push("/404")
+            // router.push("/404");
           } else {
             setLoading(false);
             setData(response?.data?.data);
@@ -366,8 +366,7 @@ function CatalogTest(props) {
       }
     } else {
       //redirect to 404
-      router.push("/404")
-
+      setNotFound(true);
     }
   }, [router]);
 
@@ -1013,6 +1012,8 @@ function CatalogTest(props) {
       {" "}
       {loading ? (
         <CatalogPlaceholder />
+      ) : notFound ? (
+        <NoData />
       ) : (
         <div className="h-full product-page-wrapper">
           {width < 650 && (
@@ -1057,8 +1058,14 @@ function CatalogTest(props) {
           </div>
 
           <div className="container flex h-full">
-            <div className={`${  (!filters || ( filters &&  Object.keys(filters)?.length < 1))? "w-0" : 'mobile:w-1/5'  } flex-child hidden mobile:block  mb-6`}  >
-              <div className="sticky top-0 " >
+            <div
+              className={`${
+                !filters || (filters && Object.keys(filters)?.length < 1)
+                  ? "w-0"
+                  : "mobile:w-1/5"
+              } flex-child hidden mobile:block  mb-6`}
+            >
+              <div className="sticky top-0 ">
                 <div className="overflow-auto hover:overflow-scroll h-screen pb-5  mobile:pr-5 mobile:pl-5 hover:scrollbar  hover:test">
                   <div className=" ">
                     {filters &&
@@ -1255,7 +1262,13 @@ function CatalogTest(props) {
                 </div>
               </div>
             </div>
-            <div   className={` w-full  ${  (!filters || ( filters &&  Object.keys(filters)?.length < 1) ) ?  "mobile:w-full" : 'mobile:w-4/5 mobile:pl-5'  }  leading-dtight  overflow-x-hidden`}>
+            <div
+              className={` w-full  ${
+                !filters || (filters && Object.keys(filters)?.length < 1)
+                  ? "mobile:w-full"
+                  : "mobile:w-4/5 mobile:pl-5"
+              }  leading-dtight  overflow-x-hidden`}
+            >
               <div className="flex justify-between pb-2">
                 {/* Results found */}
                 <div className="flex mx-1 mobile:w-auto pt-2 mobile:pt-1 ">
@@ -2527,7 +2540,9 @@ function CatalogTest(props) {
               <div
                 className={`grid transition-all  ${
                   productDisplay === "grid"
-                    ?  (!filters || ( filters &&  Object.keys(filters)?.length < 1) ) ?  "grid-cols-2 xl:grid-cols-6 lg:grid-cols-6 gap-2" :  "grid-cols-2 xl:grid-cols-5 lg:grid-cols-5 gap-2 mobile:pt-2"
+                    ? !filters || (filters && Object.keys(filters)?.length < 1)
+                      ? "grid-cols-2 xl:grid-cols-6 lg:grid-cols-6 gap-2"
+                      : "grid-cols-2 xl:grid-cols-5 lg:grid-cols-5 gap-2 mobile:pt-2"
                     : "grid-cols-1"
                 }`}
               >
