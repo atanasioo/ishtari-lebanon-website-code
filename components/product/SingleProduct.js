@@ -256,8 +256,15 @@ function SingleProduct(props) {
                 <IoIosUnlock className=" text-dbase text-2xl mb-2 pr-bold" />
               </div>
 
-              <div className="h-6 mb-2">
-                <TimerSingleProduct data={props?.item?.coming_soon_date} />
+              <div className="flex h-8 mb-2 justify-center items-center px-5">
+              <img
+                        width={200}
+                        height={100}
+                        src={"/images/ezgif.com-crop.gif"}
+                       className="w-8"
+                        alt={"market image"}
+                      />
+                <div className="px-2"><TimerSingleProduct data={props?.item?.coming_soon_date} /></div>
               </div>
 
               <p className="text-d22 pr-semibold">

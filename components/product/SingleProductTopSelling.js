@@ -51,6 +51,14 @@ function SingleProductTopSelling(props) {
               width={92}
               height={138}
               alt={item.name}
+              style={{
+                backgroundImage: `url(${"/images/product_placeholder.png"})`,
+                height: "auto", // Set the desired height
+                width: "100%", // Set the desired width
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center"
+              }}
             />
           </div>
 

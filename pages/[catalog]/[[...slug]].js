@@ -43,7 +43,7 @@ function SlugPage(props) {
                   props.host === "www.ishtari.com.gh"
                     ? "Ghana"
                     : "Lebanon"
-                } | Buy Online | ishtari`
+                }  Buy Online | ishtari`
               : (props.data?.heading_title ||  props.meta?.title ) && props?.type === "manufacturer"
               ? (props.data?.heading_title ||  props.meta?.title )
                   .replaceAll("&amp;", "&")
@@ -65,11 +65,11 @@ function SlugPage(props) {
             content={`Shop the ${props.data?.name}. Enjoy easy online shopping at ishtari.`}
           ></meta>
         ) : (
-          <></>
-          // <meta
-          //   name="description"
-          //   content={`Discover a wide range of quality ${ props?.meta?.description} products. Enjoy easy online shopping at ishtari.`}
-          // ></meta>
+  
+          <meta
+            name="description"
+            content={props?.meta?.meta_description}
+          ></meta>
         )}
 
         <meta
@@ -302,8 +302,8 @@ export async function getServerSideProps(context) {
           })
           if(response.data.success){
             meta =  response.data.data
-            meta = meta[0]
-            // console.log(meta )
+            // meta = meta
+            console.log(meta )
             // console.log(meta )
             // console.log("test-1")
           }

@@ -82,7 +82,7 @@ function DynamicProducts() {
         <div>
           <LatestPlaceholder />
         </div>
-      ) : data.products.length > 0 ? (
+      ) : data?.products?.length > 0 ? (
         <div>
           <div className="flex justify-between w-full p-3">
             <h1 className="text-2xl font-bold capitalize">{title} products</h1>
