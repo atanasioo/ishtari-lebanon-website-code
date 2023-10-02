@@ -5,12 +5,8 @@ import { useRouter } from "next/router";
 import { AiOutlinePlus } from "react-icons/ai";
 import { sanitizeHTML } from "../Utils";
 import dynamic from "next/dynamic";
-// import { Swiper, SwiperSlide } from "swiper/react";
 import { useContext, useRef, useState } from "react";
 import useDeviceSize from "../useDeviceSize";
-// import "swiper/modules/pagination/pagination.min.css";
-// import "swiper/modules/navigation/navigation.min.css";
-// import { Pagination, Autoplay } from "swiper";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
 

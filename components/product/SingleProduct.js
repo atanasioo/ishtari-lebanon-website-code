@@ -1,19 +1,15 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { HiStar } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { AiOutlinePlus, AiFillStar } from "react-icons/ai";
 import { sanitizeHTML } from "../Utils";
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import useDeviceSize from "../useDeviceSize";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
 import NewImage from "./NewImage";
 import Slider from "./Slider";
-import { useMarketingData } from "@/contexts/MarketingContext";
-import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
-import { BiLock, BiLockAlt } from "react-icons/bi";
-// import Image from "next/image";
+import { useMarketingData } from "@/contexts/MarketingContext";;
 import TimerSingleProduct from "./TimerSingleProduct";
 import { IoIosUnlock } from "react-icons/io";
 function SingleProduct(props) {
@@ -261,10 +257,10 @@ function SingleProduct(props) {
                         width={200}
                         height={100}
                         src={"/images/ezgif.com-crop.gif"}
-                       className="w-8"
+                       className="w-8  "
                         alt={"market image"}
                       />
-                <div className="px-2"><TimerSingleProduct data={props?.item?.coming_soon_date} /></div>
+                <div className="px-2"><TimerSingleProduct data={props?.item?.coming_soon_date } /></div>
               </div>
 
               <p className="text-d22 pr-semibold">
@@ -334,7 +330,7 @@ function SingleProduct(props) {
                     src={item.thumb}
                     width={!topSelling ? 194 : 100}
                     height={!topSelling ? 267 : 150}
-                    className="max-w-full max-h-full"
+                    // className="max-w-full max-h-full"
                   />
                 ) : (
                   <div>

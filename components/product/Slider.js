@@ -2,7 +2,6 @@
 import Image from "next/legacy/image";
 import React, { useRef, useState, useEffect } from "react";
 import Slider from "react-slick";
-import { ProductPlaceholder } from "../widgetsComponents/Placeholders";
 
 function ImageSlider(props) {
   const { images, autoplay, primary } = props;
@@ -60,9 +59,9 @@ function ImageSlider(props) {
           <Image
             src={primary}
             alt={`Image`}
-            width={194}
-            height={267}
-           
+            width={"192"}
+              height={"264"}
+   
             style={{
               backgroundImage: `url(${"/images/product_placeholder.png"})`,
               height: "auto", // Set the desired height
@@ -78,8 +77,8 @@ function ImageSlider(props) {
             <Image
               src={image.mobile_image}
               alt={`Image ${index + 1}`}
-              width={194}
-              height={267}
+              width={"192"}
+              height={"264"}
               className="bg-cover"
             />
           </div>

@@ -1,10 +1,9 @@
 import { axiosServer } from "@/axiosServer";
-import SingleProduct from "@/components/product/SingleProduct";
 import SingleProductTopSelling from "@/components/product/SingleProductTopSelling";
 import { sanitizeHTML } from "@/components/Utils";
 import buildLink from "@/urls";
 import cookie from "cookie";
-import Image from "next/image";
+
 
 function categoryTopSelling(props) {
   const { data } = props;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import Footer from "./footer/footer";
 import Header from "./header/header";
 import { useRouter } from "next/router";

@@ -4,7 +4,6 @@ import React from "react";
 import { useContext, useEffect, useState, useRef } from "react";
 import buildLink, { path } from "@/urls";
 import axios from "axios";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { BsFire, BsSearch, BsTrash } from "react-icons/bs";
 import { sanitizeHTML } from "@/components/Utils";

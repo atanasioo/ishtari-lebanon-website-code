@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import ImageFilter from "react-image-filter/lib/ImageFilter";
 function LogoClient(props) {
 
   return (

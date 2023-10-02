@@ -24,7 +24,6 @@ import ProductZoom from "./ProductZoom";
 import { CartContext } from "../../contexts/CartContext";
 import { AccountContext } from "../../contexts/AccountContext";
 import CartSideModal from "./CartSideModal";
-import StarRatings from "react-star-ratings";
 import { WishlistContext } from "../../contexts/WishlistContext";
 import SingleProductBundle from "./SingleProductBundle";
 import Slider from "react-slick";

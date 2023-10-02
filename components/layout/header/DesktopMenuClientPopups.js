@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { slugify } from "@/components/Utils";
 import { sanitizeHTML } from "@/components/Utils";
 import { useRouter } from "next/router";

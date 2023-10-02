@@ -7,7 +7,6 @@ import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { FaHome, FaUser, FaShoppingCart } from "react-icons/fa";
 import { useRouter } from "next/router";
 import LogofloOrange from "/public/images/logo-flo-orange.png";
-import logoflo from "/public/images/logo-flo.png";
 import { axiosServer } from "@/axiosServer";
 import { useContext, useState } from "react";
 import { AccountContext } from "@/contexts/AccountContext";
@@ -17,7 +16,6 @@ import SingleProduct from "@/components/product/SingleProduct";
 import Slider from "react-slick";
 import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
-import Image from "next/image";
 import { useMarketingData } from "@/contexts/MarketingContext";
 function MobileMenu(props) {
   const { viewMenu, categories, closeMobileMenu } = props;

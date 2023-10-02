@@ -5,11 +5,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Slider from "react-slick";
 import Image from "next/image";
-import { loader } from "/public/images/loader.gif";
 import ReactPaginate from "react-paginate";
 import WidgetsLoop from "../WidgetsLoop";
-import styles from "/styles/slider.module.css";
-import { CustomArrowProps } from "react-slick";
 import { IoIosArrowDown } from "react-icons/io";
 import { sanitizeHTML } from "../Utils";
 import { FaList } from "react-icons/fa";
@@ -852,7 +849,7 @@ function CatalogTest(props) {
     return import("react-facebook-pixel").then((module) => module.default);
   }
 
-  console.log(data?.categories);
+
 
   //marketing analytics
 

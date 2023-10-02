@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { BsBell } from "react-icons/bs";
 import { MdOutlineElectricBolt } from "react-icons/md";
 import { slugify } from "../Utils";

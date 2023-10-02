@@ -1,17 +1,13 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+
 import { axiosServer } from "@/axiosServer";
 import Head from "next/head";
 import cookie from "cookie";
 import buildLink from "@/urls";
 import ProductPage from "@/components/product/ProductPage";
-// import CatalogPage from "@/components/catalog/CatalogPage";
-// import CatalogPages from "@/components/catalog/CatalogPages";
 import { getConfig } from "@/functions";
-import dynamic from "next/dynamic";
 import CatalogTest from "@/components/catalog/CatalogTest";
 import DynamicProducts from "@/components/product/DynamicProducts";
-import axios from "axios";
+
 
 function SlugPage(props) {
   return (

@@ -1,15 +1,9 @@
 import React from "react";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { FaLinkedinIn, FaFacebookF, FaInstagram } from "react-icons/fa";
-import mastercard from "/public/images/mastercard.svg";
-import visa from "/public/images/visa.svg";
-import cash from "/public/images/cash.svg";
-import amex from "/public/images/amex.svg";
-import Image from "next/image";
 import Link from "next/link";
 import Cookies from "js-cookie";
 export default function FooterPart2(props) {
-  // const info = props
   return (
     <div className="text-dblack  ">
       <div className="mt-4 ">

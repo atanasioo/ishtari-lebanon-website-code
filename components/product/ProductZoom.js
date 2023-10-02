@@ -6,7 +6,7 @@ import ProductZoomModal from "./ProductZoomModal";
 import SmallArrows from "./SmallArrows";
 import ShareSocial from "./ShareSocial";
 import { useRouter } from "next/router";
-import { BiLoaderCircle, BiRightArrowCircle } from "react-icons/bi";
+import { BiRightArrowCircle } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import Link from "next/link";
 import { slugify } from "../Utils";

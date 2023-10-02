@@ -1,4 +1,3 @@
-import useDeviceSize from "@/components/useDeviceSize";
 import React, { useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 

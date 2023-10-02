@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import buildLink, { path } from "@/urls";
 import {
   AiOutlineDashboard,
   AiOutlineInbox,

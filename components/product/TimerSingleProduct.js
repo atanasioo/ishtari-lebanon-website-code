@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
 function TimerSingleProduct({ data }) {
   const date = data;

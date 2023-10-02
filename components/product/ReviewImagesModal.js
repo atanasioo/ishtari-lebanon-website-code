@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import React, { useRef, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import Slider from "react-slick";

@@ -8,7 +8,6 @@ import React from "react";
 import { slugify } from "@/components/Utils";
 import { HeaderOverlay } from "@/components/Overlay";
 import DesktopMenuClientPopups from "./DesktopMenuClientPopups";
-import dynamic from "next/dynamic";
 import { sanitizeHTML } from "@/components/Utils";
 import { axiosServer } from "@/axiosServer";
 import { useMarketingData } from "@/contexts/MarketingContext";

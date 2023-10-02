@@ -2,10 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import Slider from "react-slick";
 import { CgClose } from "react-icons/cg";
 import PrismaZoom from "react-prismazoom";
-import Image from "next/image";
 import useDeviceSize from "../useDeviceSize";
 import { sanitizeHTML } from "../Utils";
-import { FullOverlay } from "../Overlay";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 function ProductZoomModal(props) {

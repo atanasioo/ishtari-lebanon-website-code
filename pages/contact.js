@@ -1,8 +1,7 @@
 import { axiosServer } from "@/axiosServer";
-import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import dynamic from "next/dynamic";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 function Contact() {
   const [submitLoading, setSubmitLoading] = useState(false);
