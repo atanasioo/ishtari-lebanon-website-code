@@ -19,7 +19,7 @@ function Adresses() {
   const [width, height] = useDeviceSize();
   const [state, dispatch] = useContext(AccountContext);
   const [addresses, setAddresses] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(true);
   const path = "";
 const router = useRouter()
   useEffect(() => {

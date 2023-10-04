@@ -4,13 +4,14 @@ import buildLink, { path } from "../../urls";
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
-  BsStarFill
+  BsStarFill,
 } from "react-icons/bs";
 import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import Link from "next/link";
 import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 import { BiStar } from "react-icons/bi";
+import { HiLightBulb } from "react-icons/hi";
 
 function UserSidebar(props) {
   const [data, setData] = useState(props.data);
@@ -24,6 +25,7 @@ function UserSidebar(props) {
 
   const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
   const [showFeedbackArrow, setShowFeedbackArrow] = useState(false);
+  const [showSuggestionArrow, setShowSuggestionArrow] = useState(false);
   const [showWalletArrow, setShowWalletArrow] = useState(false);
   const [showProfileArrow, setShowProfileArrow] = useState(false);
 
@@ -31,7 +33,7 @@ function UserSidebar(props) {
     <aside
       className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
       style={{
-        flex: "0 0 auto"
+        flex: "0 0 auto",
       }}
     >
       <ul className="lg:py-3 py-1">
@@ -53,19 +55,13 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "profile" && "font-semibold underline"
-              } ${ props.active === "profile" ? "text-dgreyAccountActive" : ""}`}
-
+              } ${props.active === "profile" ? "text-dgreyAccountActive" : ""}`}
             >
               Profile
             </span>
             {showProfileArrow && (
               <div className="w-2/12">
-                <img
-                  className=""
-                  src={"/images/arrow-right.svg"}
-                  alt="arrow"
-                />
-              
+                <img className="" src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
             )}{" "}
           </Link>
@@ -88,8 +84,7 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "orders" && "font-semibold underline"
-              } ${ props.active === "orders" ? "text-dgreyAccountActive" : ""} `}
-              
+              } ${props.active === "orders" ? "text-dgreyAccountActive" : ""} `}
             >
               Orders
             </span>
@@ -122,7 +117,7 @@ function UserSidebar(props) {
             <div
               className={`flex-1 w-4/12 ${
                 props.active === "wallet" && "font-semibold underline"
-              } ${ props.active === "wallet" ? "text-dgreyAccountActive" : ""} `}
+              } ${props.active === "wallet" ? "text-dgreyAccountActive" : ""} `}
             >
               Wallet
             </div>
@@ -186,7 +181,9 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "buyagain" && "font-semibold underline"
-              } ${ props.active === "buyagain" ? "text-dgreyAccountActive" : ""}`}
+              } ${
+                props.active === "buyagain" ? "text-dgreyAccountActive" : ""
+              }`}
             >
               Buy Again
             </span>
@@ -216,7 +213,11 @@ function UserSidebar(props) {
             <div
               className={`flex-1  w-4/12 ${
                 props.active === "recentlyViewed" && "font-semibold underline"
-              }${ props.active === "recentlyViewed" ? "text-dgreyAccountActive" : ""}`}
+              }${
+                props.active === "recentlyViewed"
+                  ? "text-dgreyAccountActive"
+                  : ""
+              }`}
             >
               Recently Viewed
             </div>
@@ -228,7 +229,6 @@ function UserSidebar(props) {
           </Link>
         </li>
 
-     
         <li
           onMouseEnter={() => {
             setShowAddArrow(true);
@@ -247,14 +247,16 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12${
                 props.active === "addresses" && "font-semibold underline"
-              }${ props.active === "addresses" ? "text-dgreyAccountActive" : ""}`}
+              }${
+                props.active === "addresses" ? "text-dgreyAccountActive" : ""
+              }`}
             >
               Addresses
             </span>
             {showAddArrow && (
-               <div className="w-2/12">
-               <img src={"/images/arrow-right.svg"} alt="arrow" />
-             </div>
+              <div className="w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -276,14 +278,14 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "wishlist" && "font-semibold underline"
-              }${ props.active === "wishlist" ? "text-dgreyAccountActive" : ""}`}
+              }${props.active === "wishlist" ? "text-dgreyAccountActive" : ""}`}
             >
               WishList
             </span>
             {showWishArrow && (
-             <div className=" w-2/12">
-             <img src={"/images/arrow-right.svg"} alt="arrow" />
-           </div>
+              <div className=" w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -305,14 +307,16 @@ function UserSidebar(props) {
             <span
               className={`flex-1 w-4/12 ${
                 props.active === "reviewCenter" && "font-semibold underline"
-              } ${ props.active === "reviewCenter" ? "text-dgreyAccountActive" : ""}`}
+              } ${
+                props.active === "reviewCenter" ? "text-dgreyAccountActive" : ""
+              }`}
             >
               Review Center
             </span>
             {showReviewCenterArrow && (
-               <div className=" w-2/12">
-               <img src={"/images/arrow-right.svg"} alt="arrow" />
-             </div>
+              <div className=" w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
             )}{" "}
           </Link>
         </li>
@@ -334,14 +338,43 @@ function UserSidebar(props) {
             <div
               className={`flex-1 w-4/12 ${
                 props.active === "feedback" && "font-semibold underline"
-              } ${ props.active === "feedback" && "text-dgreyAccountActive"}`}
+              } ${props.active === "feedback" && "text-dgreyAccountActive"}`}
             >
               Feedback
             </div>
             {showFeedbackArrow && (
-               <div className="w-2/12">
-               <img src={"/images/arrow-right.svg"} alt="arrow" />
-             </div>
+              <div className="w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
+            )}{" "}
+          </Link>
+        </li>
+        <li
+          onMouseEnter={() => {
+            setShowSuggestionArrow(true);
+          }}
+          onMouseLeave={() => {
+            setShowSuggestionArrow(false);
+          }}
+        >
+          <Link
+            href={`${path}/account/suggestion`}
+            className="pl-9 flex  items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
+          >
+            <div className="w-2/12">
+              <HiLightBulb className="text-d20 text-dbase" />
+            </div>
+            <div
+              className={`flex-1 w-4/12 ${
+                props.active === "suggestion" && "font-semibold underline"
+              } ${props.active === "suggestion" && "text-dgreyAccountActive"}`}
+            >
+              Suggestion
+            </div>
+            {showSuggestionArrow && (
+              <div className="w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
             )}{" "}
           </Link>
         </li>

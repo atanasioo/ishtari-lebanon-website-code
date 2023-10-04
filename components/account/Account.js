@@ -17,14 +17,14 @@ import {
 } from "react-icons/bs";
 import { MdAvTimer, MdFeedback } from "react-icons/md";
 import {
-  FaFacebookF,
   FaMoneyBillWave,
   FaUserAlt,
   FaWallet
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
-import { BiStar } from "react-icons/bi";
+import { HiLightBulb } from "react-icons/hi";
+
 function Account() {
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -737,6 +737,14 @@ function Account() {
                 >
                   <MdFeedback className="text-d17 mb-1"></MdFeedback>
                   <span className="ml-4">Feedback</span>
+                </Link>
+                <Link
+                  href={`${path}/account/suggestion`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
+                >
+                  <HiLightBulb className="text-d20 mb-1"></HiLightBulb>
+                  <span className="ml-4">Suggestion</span>
                 </Link>
                 <p
                   onClick={(e) => logOut(e)}

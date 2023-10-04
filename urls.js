@@ -43,6 +43,7 @@ var urls = {
   reviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerReviewedProducts",
   unreviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerUnreviewedProducts",
   getcustomerfeedback:"v2/index.php?route=account/feedback/getCustomerFeedback",
+  suggestion: "v2/index.php?route=account/account/suggestion",
   getFlashSale: "v2/index.php?route=catalog/flash_sale&limit=20&page=1&flash_sale_event_id=",
   getProductAdditionalData: "v2/index.php?route=catalog/product/getProductAdditionalData",
   getReturnReasons: "v2/index.php?route=checkout/return_order/getReturnData",

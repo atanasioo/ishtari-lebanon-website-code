@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 import { MdCardMembership } from "react-icons/md";
+import { HiLightBulb } from "react-icons/hi";
 
 function UserSidebarMobile(props) {
   return (
@@ -138,6 +139,19 @@ function UserSidebarMobile(props) {
             <MdFeedback className="my-1 text-2xl" />
           </div>
           <span className="text-center text-d11 mt-1">Feedback</span>
+        </div>
+      </Link>
+      <Link
+        href={`${path}/account/suggestion`}
+        className={`py-2 flex-row md:flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
+          props.active === "suggestion" && "bg-white text-dbase"
+        }`}
+      >
+        <div className="flex flex-col justify-between h-full items-center w-14">
+          <div className="text-center">
+            <HiLightBulb className="my-1 text-2xl" />
+          </div>
+          <span className="text-center text-d11 mt-1">Suggestion</span>
         </div>
       </Link>
       
