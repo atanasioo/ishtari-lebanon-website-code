@@ -130,6 +130,7 @@ var urls = {
     'seo-category':"v2/index.php?route=catalog/category/getCategoryDescription&category_id=",
     'seo-manufacturer':"v2/index.php?route=catalog/manufacturer/getManufacturerDescription&manufacturer_id=",
     'seo-seller':"v2/index.php?route=catalog/seller/getSellerDescription&seller_id=",
+    'seo-product':"v2/index.php?route=catalog/product/getProductDescription&product_id=",
 };
 
 if (typeof window !== "undefined") {

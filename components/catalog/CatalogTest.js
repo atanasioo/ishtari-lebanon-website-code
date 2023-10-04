@@ -21,6 +21,7 @@ import buildLink, { pixelID } from "@/urls";
 import { AccountContext } from "@/contexts/AccountContext";
 import CatalogPlaceholder from "./CatalogPlaceholder";
 import NoData from "../NoData";
+import CatalogMobilePlaceholder from "./CatalogMobilePlaceholder";
 function CatalogTest(props) {
   const { slugId, type_id, AdminToken, catalogId } = props; //instead of productData
   // console.log(props)
@@ -593,7 +594,7 @@ function CatalogTest(props) {
   const handleTopFilter = (name) => {
     const off = document.getElementById(`${name}`).offsetLeft;
 
-    if (700 > 650) {
+    if (width > 650) {
       if (topFilter.name === name && topFilter.show === true) {
         setTopFilter({
           show: false,
@@ -1010,7 +1011,10 @@ function CatalogTest(props) {
     <>
       {" "}
       {loading ? (
+        width > 650 ?
         <CatalogPlaceholder />
+        :
+        <CatalogMobilePlaceholder />
       ) : notFound ? (
         <NoData />
       ) : (
