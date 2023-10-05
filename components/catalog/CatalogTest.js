@@ -186,7 +186,7 @@ function CatalogTest(props) {
   }
 
   const router = useRouter();
-  console.log(router.query);
+  // console.log(router.query);
   const catalog_id = type_id;
 
   const {
@@ -207,8 +207,8 @@ function CatalogTest(props) {
   const slug = router.query.slug || slugId;
   const catalog = catalogId || router.query.catalog;
 
-  console.log(slug);
-  console.log("catalogid", catalog);
+  // console.log(slug);
+  // console.log("catalogid", catalog);
 
   useEffect(() => {
     setLoading(true);
@@ -294,7 +294,7 @@ function CatalogTest(props) {
           }
         });
 
-        console.log(data);
+        // console.log(data);
       } else {
         var filters = "";
         if (has_filter !== undefined) {
@@ -360,7 +360,7 @@ function CatalogTest(props) {
           }
         });
 
-        console.log(data);
+        // console.log(data);
       }
     } else {
       //redirect to 404
@@ -819,7 +819,7 @@ function CatalogTest(props) {
         url += "&last=f";
       }
     }
-    console.log(url);
+    // console.log(url);
     if (url.length > 8) {
       router.push("/" + catalog + "/" + slug[0] + "?has_filter=true" + url);
     } else {
@@ -857,6 +857,7 @@ function CatalogTest(props) {
   let productArray = [];
 
   useEffect(() => {
+    // console.log(data?.social_data)
     var dataSocial = data?.social_data;
     if (typeof dataSocial !== "undefined") {
       dataSocial["fbp"] = Cookies.get("_fbp");
@@ -879,13 +880,12 @@ function CatalogTest(props) {
           : "";
       }
 
-      if (typeof window !== "undefined" && !state.admin) {
+      if (typeof window !== "undefined" && state.admin) {
         const productDetails = [];
         data?.products?.map((p) => {
           productArray.push(p.product_id);
           productDetails.push({ id: p.product_id, quantity: p.quantity });
         });
-
         let ReactPixel;
 
         // ---> Facebook PIXEL <---
@@ -930,7 +930,7 @@ function CatalogTest(props) {
           }
         });
     }
-  }, [router]);
+  }, [router , data]);
 
   //page view conversion for google ads
   useEffect(() => {

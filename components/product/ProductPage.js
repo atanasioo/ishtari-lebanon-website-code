@@ -693,20 +693,20 @@ function ProductPage(props) {
           if (data) {
             const data = response?.data?.data?.social_data;
 
-            // ReactPixel.fbq(
-            //   "track",
-            //   "AddToCart",
-            //   {
-            //     content_type: "product",
-            //     content_ids: data?.content_ids,
-            //     content_name: data?.name,
-            //     value: data?.value,
-            //     content_category: data?.breadcrumbs?.category[0]?.name,
-            //     currency: data?.currency,
-            //     fbp: Cookies.get("_fbp"),
-            //   },
-            //   { eventID: data?.event_id }
-            // );
+            window.fbq(
+              "track",
+              "AddToCart",
+              {
+                content_type: "product",
+                content_ids: data?.content_ids,
+                content_name: data?.name,
+                value: data?.value,
+                content_category: data?.breadcrumbs?.category[0]?.name,
+                currency: data?.currency,
+                fbp: Cookies.get("_fbp"),
+              },
+              { eventID: data?.event_id }
+            );
           }
           // }
 
@@ -864,9 +864,9 @@ function ProductPage(props) {
     handleWishlist(0);
   }, [stateW]);
 
-  console.log(stateW.pIds);
-  console.log(stateW.pIds.indexOf(product_id) > -1);
-  console.log(stateW.pIds.filter((i) => i === product_id).length );
+  // console.log(stateW.pIds);
+  // console.log(stateW.pIds.indexOf(product_id) > -1);
+  // console.log(stateW.pIds.filter((i) => i === product_id).length );
 
   function deleteItemFromAllGroup() {
     axiosServer
