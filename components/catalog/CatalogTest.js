@@ -880,7 +880,7 @@ function CatalogTest(props) {
           : "";
       }
 
-      if (typeof window !== "undefined" && state.admin) {
+      if (typeof window !== "undefined" && !state.admin) {
         const productDetails = [];
         data?.products?.map((p) => {
           productArray.push(p.product_id);
