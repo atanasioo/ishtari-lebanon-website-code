@@ -1904,7 +1904,7 @@ function ProductPage(props) {
                     rel="noreferrer"
                     href={`${
                       window.config["admin-update-product"] + product_id
-                    }&token=${accountState?.adminToken}`}
+                    }&token=${accountState.adminToken}`}
                     className="text-dblack  bg-dgrey px-6 py-2 rounded my-2 inline-block"
                   >
                     Edit Product
