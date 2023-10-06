@@ -1066,16 +1066,16 @@ function ProductPage(props) {
                           category_id: `${additionalData?.product_rank?.category_id}`,
                         },
                       }}
-                      className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 rounded-full"
+                      className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 py-1 rounded-full"
                       style={{ backgroundColor: "#ffeced" }}
                     >
                       <div className="relative">
-                        <BsFillAwardFill className="text-dyellow w-6 h-6" />
+                        <BsFillAwardFill className="text-dyellow w-7 h-8" />
                         <div className="absolute pr-semibold top-0 left-0 right-0 bottom-0 m-auto text-d11 flex justify-center items-center mb-1 text-white">
                           {additionalData?.product_rank?.index}
                         </div>
                       </div>
-                      <div className="text-xs">
+                      <div className="text-d14">
                         {" "}
                         Top Selling in{" "}
                         <span
