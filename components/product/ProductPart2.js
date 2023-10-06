@@ -4,6 +4,7 @@ import Image from "next/image";
 import useDeviceSize from "@/components/useDeviceSize";
 import {
   BsArrowRightCircle,
+  BsChevronDown,
   BsChevronLeft,
   BsChevronRight,
   BsPlusLg,
@@ -26,10 +27,21 @@ import imageCompression from "browser-image-compression";
 import ReviewImagesModal from "./ReviewImagesModal";
 import { useRouter } from "next/router";
 import { BiRightArrowCircle } from "react-icons/bi";
+import { AiOutlineCheck, AiOutlineLike } from "react-icons/ai";
+import DotsLoader from "../loaders/DotsLoader";
 
 function ProductPart2(props) {
-  const { titleRef, loader, productData2, data, host, product_id, sellerData } =
-    props; //data is for product part one data
+  const {
+    titleRef,
+    loader,
+    productData2,
+    data,
+    host,
+    product_id,
+    sellerData,
+    getProductPart2,
+    loadingReviews
+  } = props; //data is for product part one data
   const [width] = useDeviceSize();
   const [ReviewImages, setReviewImages] = useState([]);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
@@ -44,6 +56,18 @@ function ProductPart2(props) {
   const [reviews, setReviews] = useState(props.reviews);
   const [pageValue, setPageValue] = useState(1);
   const [totalSize, setTotalSize] = useState(0);
+  const [reviewFilter, setReviewFilter] = useState({
+    text: "Most Recent",
+    value: "r.review_id-DESC",
+  });
+  const [showReviewFilters, setShowReviewFilters] = useState(false);
+  const [likedReviews, setLikedReviews] = useState([]);
+  const [alreadyLiked, setAlreadyLiked] = useState([]);
+  const [likeCounts, setLikeCounts] = useState({})
+  const [likeLoading, setLikeLoading] = useState({
+    bool: false,
+    id: 0,
+  });
   const hiddenFileInput = useRef(null);
   const commentRef = useRef();
   const textRef = useRef();
@@ -54,7 +78,6 @@ function ProductPart2(props) {
   useEffect(() => {
     setReviews(props.reviews);
   }, [props.reviews]);
-
 
   //image size compressor
   const defaultOptions = {
@@ -153,7 +176,10 @@ function ProductPart2(props) {
           product_id +
           "&page=" +
           page +
-          "&limit=5",
+          "&limit=5"+
+          "&filter_product_reviews="
+          +reviewFilter.value
+          ,
         obj
       )
       .then((response) => {
@@ -326,7 +352,6 @@ function ProductPart2(props) {
     }
   }
 
-
   function validateImagesSize() {
     const files = ReviewImages;
     let cumulativeSize = totalSize;
@@ -382,11 +407,68 @@ function ProductPart2(props) {
     };
   }, [router.events]);
 
+  const handleReviewLike = (review_id) => {
+    setLikeLoading({
+      bool: true,
+      id: review_id,
+    });
+    axiosServer
+      .post(buildLink("likeUnlikeReview", undefined, undefined) + review_id)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.success && response.data.data.liked) {
+          setLikedReviews((current) => [...current, review_id]);
+          setAlreadyLiked((current) => [...current, review_id]);
+        } else {
+          setLikedReviews((current) =>
+            current.filter((liked) => {
+              return liked !== review_id;
+            })
+          );
+          setAlreadyLiked((current) =>
+            current.filter((liked) => {
+              return liked !== review_id;
+            })
+          );
+        }
+        setLikeCounts((prevLikeCounts) => ({
+          ...prevLikeCounts,
+          [review_id]: response.data.data.nb_likes
+        }));
+        setLikeLoading({
+          bool: false,
+          id: 0,
+        });
+      });
+  };
+
+  useEffect(() => {
+    setLikeCounts({})
+    if (stateAccount.loged) {
+      reviews?.map((review) => {
+        if (review.liked_by_customer) {
+          setAlreadyLiked((current) => [...current, review.review_id]);
+        }
+        setLikeCounts((prevLikeCounts) => ({
+          ...prevLikeCounts,
+          [review.review_id]: review.likes,
+        }));
+      });
+    }
+  }, [reviews, stateAccount]);
+
+
+  console.log("reviewsss" ,reviews);
+
+
+  console.log(alreadyLiked);
+
+console.log( "hello" ,likeCounts);
 
   return (
     <div className="">
       {/* Poduct Details for Mobile :) */}
-  
+
       <div className="overflow-x-hidden">
         <div className="w-full bg-white pb-2">
           <div
@@ -406,8 +488,7 @@ function ProductPart2(props) {
                           "mobile:border-b-4 border-dblue "
                         }  font-semibold cursor-pointer text-xl text-dblack  py-4`}
                       >
-                       Product Ratings & Reviews
-
+                        Product Ratings & Reviews
                       </p>
                     </div>
                     <div
@@ -419,7 +500,7 @@ function ProductPart2(props) {
                     >
                       <div className="grid gap-4 lg:grid-cols-3 pt-4 mobile:px-5">
                         <div className="flex p-1 md:border-r-2 md:border-dgreyRate">
-                          <div className="flex ">
+                          <div className="flex">
                             <div className="text-center">
                               <div className="text-center font-bold text-d14">
                                 Overall Rating
@@ -725,104 +806,198 @@ function ProductPart2(props) {
                         )}
 
                         <div className="mt-2" ref={commentRef}>
-                          {reviews?.map((r) => (
-                            <div
-                              className="border-b-2 border-dinputBorder pb-2"
-                              key={r.review_id}
-                            >
-                              <div className="mt-4 flex justify-start items-center flex-row space-x-2.5 ">
+                          {productData2?.product_reviews?.totals > 0 && (
+                            <div className="w-full py-4 border-t border-b border-dinputBorder flex justify-between items-center mt-4">
+                              <div className="text-d20 pr-semibold">
+                                {productData2?.product_reviews?.totals} Customer
+                                Review
+                                {productData2?.product_reviews?.totals > 1
+                                  ? "s"
+                                  : ""}
+                              </div>
+                              <div className="relative">
                                 <div
-                                  className="flex rounded-full w-14 h-14 border-2 text-white  text-d22 items-center justify-center"
-                                  style={{
-                                    backgroundColor:
-                                      color[
-                                        r.name
-                                          .replace(/\s+/g, "")
-                                          .charAt(0)
-                                          ?.toLowerCase()
-                                      ] || "red",
-                                    minWidth: "56px",
-                                  }}
+                                  onClick={() =>
+                                    setShowReviewFilters(!showReviewFilters)
+                                  }
+                                  className="py-2.5 px-6 border border-[#dadce3] w-44 pr-light cursor-pointer flex justify-center items-center gap-2 rounded-sm"
                                 >
-                                  {r.name
-                                    .replace(/\s+/g, "")
-                                    .charAt(0)
-                                    .toUpperCase()}{" "}
+                                  <div>{reviewFilter.text}</div>
+                                  <BsChevronDown />
                                 </div>
-                                <div className="flex flex-col justify-start ">
-                                  <div className="flex items-center">
-                                    <p className="text-base font-bold pr-3 w-40 md:w-48">
-                                      {r?.name}
-                                    </p>
-                                    {r.check_purchase && (
-                                      <div className="flex items-center justify-center text-d12 border-l-2 border-dinputBorder pl-2 pr-3">
-                                        <svg
-                                          width="13"
-                                          height="13"
-                                          className=" mr-2"
-                                          viewBox="0 0 13 13"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
+                                {showReviewFilters && (
+                                  <div className="bg-white absolute border border-dgrey shadow-lg w-44">
+                                    {productData2?.product_reviews?.filter_product_reviews?.map(
+                                      (filter, index) => (
+                                        <div
+                                          key={index}
+                                          className={`py-2.5 px-6 whitespace-nowrap cursor-pointer ${
+                                            reviewFilter.value === filter.value
+                                              ? "bg-dblue text-white"
+                                              : "hover:bg-dgrey"
+                                          }`}
+                                          onClick={() => {
+                                            setReviewFilter({
+                                              text: filter.text,
+                                              value: filter.value,
+                                            });
+                                            setShowReviewFilters(false);
+                                            getProductPart2(filter.value);
+                                          }}
                                         >
-                                          <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M5.07262 9.64218L2.67767 7.24723L3.52189 6.403L5.07262 7.94775L9.0183 4.00206L9.86252 4.85227L5.07262 9.64218ZM6.2701 0.661133C2.96506 0.661133 0.282715 3.34348 0.282715 6.64851C0.282715 9.95355 2.96506 12.6359 6.2701 12.6359C9.57513 12.6359 12.2575 9.95355 12.2575 6.64851C12.2575 3.34348 9.57513 0.661133 6.2701 0.661133Z"
-                                            fill="#3866DF"
-                                          ></path>
-                                        </svg>
-                                        <p className="item-center justified-item mt-1">
-                                          Verified Purchase
-                                        </p>
+                                          {filter.text}
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          <div className={`${loadingReviews ? "opacity-50 blur-[1px]" : ""}`}>
+                            {reviews?.map((r) => (
+                              <div
+                                className="border-b-2 border-dinputBorder pb-2"
+                                key={r.review_id}
+                              >
+                                <div className="mt-4 flex justify-start items-center flex-row space-x-2.5 ">
+                                  <div
+                                    className="flex rounded-full w-14 h-14 border-2 text-white  text-d22 items-center justify-center"
+                                    style={{
+                                      backgroundColor:
+                                        color[
+                                          r.name
+                                            .replace(/\s+/g, "")
+                                            .charAt(0)
+                                            ?.toLowerCase()
+                                        ] || "red",
+                                      minWidth: "56px",
+                                    }}
+                                  >
+                                    {r.name
+                                      .replace(/\s+/g, "")
+                                      .charAt(0)
+                                      .toUpperCase()}{" "}
+                                  </div>
+                                  <div className="flex flex-col justify-start ">
+                                    <div className="flex items-center">
+                                      <p className="text-base font-bold pr-3 w-40 md:w-48">
+                                        {r?.name}
+                                      </p>
+                                      {r.check_purchase && (
+                                        <div className="flex items-center justify-center text-d12 border-l-2 border-dinputBorder pl-2 pr-3">
+                                          <svg
+                                            width="13"
+                                            height="13"
+                                            className=" mr-2"
+                                            viewBox="0 0 13 13"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              fillRule="evenodd"
+                                              clipRule="evenodd"
+                                              d="M5.07262 9.64218L2.67767 7.24723L3.52189 6.403L5.07262 7.94775L9.0183 4.00206L9.86252 4.85227L5.07262 9.64218ZM6.2701 0.661133C2.96506 0.661133 0.282715 3.34348 0.282715 6.64851C0.282715 9.95355 2.96506 12.6359 6.2701 12.6359C9.57513 12.6359 12.2575 9.95355 12.2575 6.64851C12.2575 3.34348 9.57513 0.661133 6.2701 0.661133Z"
+                                              fill="#3866DF"
+                                            ></path>
+                                          </svg>
+                                          <p className="item-center justified-item mt-1">
+                                            Verified Purchase
+                                          </p>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div className="flex -mt-1.5">
+                                      <StarRatings
+                                        starDimension="18px"
+                                        size="13"
+                                        starSpacing="1px"
+                                        starEmptyColor="#e3e3e3"
+                                        starRatedColor="#f5a523"
+                                        rating={parseInt(r.rating)}
+                                      />
+                                    </div>
+
+                                    <p
+                                      className="text-sm leading-none  font-d11 pt-1"
+                                      style={{ color: "rgb(189, 189, 189)" }}
+                                    >
+                                      {/* {r.reviews.text} */}
+                                      {r?.date_added
+                                        .replace("-", " ")
+                                        .replace("-", " ")}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="images flex flex-wrap gap-1 my-4">
+                                  {r?.images.map((img, i) => (
+                                    <div
+                                      className="mr-2 cursor-pointer"
+                                      key={i}
+                                      onClick={() =>
+                                        handleReviewsModal(img, i, r)
+                                      }
+                                    >
+                                      <img
+                                        src={img}
+                                        alt={img}
+                                        width={56}
+                                        height={56}
+                                        className="w-14 h-14 sm:w-20 sm:h-20"
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="text-sm leading-none   pt-3 ">
+                                  {r?.text}
+                                </div>
+
+                                <div className="flex items-center gap-5 mt-4 mb-2">
+                                  <div
+                                    onClick={() =>
+                                      handleReviewLike(r.review_id)
+                                    }
+                                    className={`flex items-center gap-1 border ${
+                                      alreadyLiked.includes(r.review_id)
+                                        ? "border-dblue text-dblue"
+                                        : "border-[#7E859B] text-[#7E859B]"
+                                    }  w-max px-2 py-1 rounded-[4px] text-sm cursor-pointer`}
+                                  >
+                                    <AiOutlineLike />
+                                    {likeLoading.bool &&
+                                    likeLoading.id === r.review_id ? (
+                                      <div className="py-1.5 pr-4">
+                                        <DotsLoader />
+                                      </div>
+                                    ) : alreadyLiked.includes(r.review_id) ? (
+                                      <div>{likeCounts[r.review_id]}</div>
+                                    ) : (
+                                      <div>
+                                        Helpful {likeCounts && likeCounts[r.review_id] !=="0" ? "("+likeCounts[r.review_id]+")" : ""}
                                       </div>
                                     )}
                                   </div>
-                                  <div className="flex -mt-1.5">
-                                    <StarRatings
-                                      starDimension="18px"
-                                      size="13"
-                                      starSpacing="1px"
-                                      starEmptyColor="#e3e3e3"
-                                      starRatedColor="#f5a523"
-                                      rating={parseInt(r.rating)}
-                                    />
-                                  </div>
 
-                                  <p
-                                    className="text-sm leading-none  font-d11 pt-1"
-                                    style={{ color: "rgb(189, 189, 189)" }}
-                                  >
-                                    {/* {r.reviews.text} */}
-                                    {r?.date_added
-                                      .replace("-", " ")
-                                      .replace("-", " ")}
-                                  </p>
+                                  {likedReviews?.map(
+                                    (liked) =>
+                                      liked === r.review_id && (
+                                        <div
+                                          className="flex items-center gap-1.5"
+                                          key={r.review_id}
+                                        >
+                                          <AiOutlineCheck className="text-dgreen text-d18" />
+                                          <p className="text-sm pr-light">
+                                            Thanks for voting!
+                                          </p>
+                                        </div>
+                                      )
+                                  )}
                                 </div>
                               </div>
-                              <div className="images flex flex-wrap gap-1 my-4">
-                                {r?.images.map((img, i) => (
-                                  <div
-                                    className="mr-2 cursor-pointer"
-                                    key={i}
-                                    onClick={() =>
-                                      handleReviewsModal(img, i, r)
-                                    }
-                                  >
-                                    <img
-                                      src={img}
-                                      alt={img}
-                                      width={56}
-                                      height={56}
-                                      className="w-14 h-14 sm:w-20 sm:h-20"
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                              <div className="text-sm leading-none   pt-3 ">
-                                {r?.text}
-                              </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
+
                           {productData2?.product_reviews?.total_pages > 1 && (
                             <ReactPaginate
                               pageCount={Math.ceil(
@@ -1166,7 +1341,10 @@ function ProductPart2(props) {
             </p>
             <div className="flex gap-3">
               {sellerData.products.map((product) => (
-                <Link href={`/${slugify(product.name)}/p=${product.product_id}`} className="bg-white rounded-xl p-2 border border-dgreyRate hover:shadow-md">
+                <Link
+                  href={`/${slugify(product.name)}/p=${product.product_id}`}
+                  className="bg-white rounded-xl p-2 border border-dgreyRate hover:shadow-md"
+                >
                   <div className="rounded-b-xl border-b border-dgreyRate">
                     <img
                       src={product.thumb}
@@ -1182,7 +1360,10 @@ function ProductPart2(props) {
                   </div>
                 </Link>
               ))}
-              <Link href={`/${slugify(data.seller)}/s=${data.seller_id}`} className="bg-white rounded-xl p-2 flex justify-center items-center w-44 border border-dgreyRate hover:shadow-md">
+              <Link
+                href={`/${slugify(data.seller)}/s=${data.seller_id}`}
+                className="bg-white rounded-xl p-2 flex justify-center items-center w-44 border border-dgreyRate hover:shadow-md"
+              >
                 <div className="flex flex-col text-dblue items-center gap-2">
                   <BiRightArrowCircle className="w-11 h-11" />
                   <div>Discover More</div>

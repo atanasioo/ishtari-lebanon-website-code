@@ -77,12 +77,13 @@ function ProductPage(props) {
   const [showGroup, setShowGroup] = useState(false);
   const [checked, setChecked] = useState(["0"]);
   const [showModel, setShowModel] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   // const [additionalData, setAdditionalData] = useState({});
   const [warrantyPlan, setWarrantyPlan] = useState({});
   const [warrantyPopup, setWarrantyPopup] = useState(false);
   const [isDetails, setIsDetails] = useState(false);
   const [viewSeriesVal, setViewSeriesVal] = useState();
+  const [loadingReviews, setLoadingReviews] = useState(false);
+
 
   // const [additionalData, setAdditionalData] = useState({});
   const [additional, setAdditional] = useState();
@@ -223,7 +224,6 @@ function ProductPage(props) {
       setWarrantyPlan(state);
     }
   }
-
 
   useEffect(() => {
     if (data.special_end !== null && data.special_end !== 0) {
@@ -439,7 +439,10 @@ function ProductPage(props) {
     }
   }
 
-  async function getProductPart2() {
+  async function getProductPart2(filter_value) {
+    if(typeof filter_value !== "undefined"){
+      setLoadingReviews(true);
+    } 
     var link =
       buildLink("product", undefined, window.innerWidth) +
       `${
@@ -452,7 +455,11 @@ function ProductPage(props) {
                 : "&admin=true"
             }`
           : product_id
-      }&source_id=1&part_two=true`;
+      }&source_id=1&part_two=true&test_review${
+        typeof filter_value !== "undefined"
+          ? "&filter_product_reviews=" + filter_value
+          : ""
+      }`;
     axiosServer.get(link).then((response) => {
       const data = response.data;
 
@@ -461,6 +468,9 @@ function ProductPage(props) {
 
         setProductData2(data.data);
         setLoader(false);
+        if(typeof filter_value !== "undefined"){
+          setLoadingReviews(false);
+        } 
         if (
           reviewCenterData.scrollToReview &&
           reviewCenterData.product_id === product_id
@@ -894,14 +904,17 @@ function ProductPage(props) {
             )
             .then((response) => {
               //if (response.data.success) {
-                dispatchW({
-                  type: "setProductsCount",
-                  payload: response.data.data.total,
-                });
-                dispatchW({
-                  type: "setProductIds",
-                  payload: response.data.data.total !== '0' ? response.data.data.products : [],
-                });
+              dispatchW({
+                type: "setProductsCount",
+                payload: response.data.data.total,
+              });
+              dispatchW({
+                type: "setProductIds",
+                payload:
+                  response.data.data.total !== "0"
+                    ? response.data.data.products
+                    : [],
+              });
               //}
             });
         }
@@ -1017,11 +1030,11 @@ function ProductPage(props) {
               )}
             </div>
           </div>
-          <div      className={`${width > 650 && "overflow-hidden"} ${
-        accountState.admin && data?.status === "0"
-          && "bg-dPink"
-         
-      } product-div flex items-stretch bg-white w-full md:px-2`}>
+          <div
+            className={`${width > 650 && "overflow-hidden"} ${
+              accountState.admin && data?.status === "0" && "bg-dPink"
+            } product-div flex items-stretch bg-white w-full md:px-2`}
+          >
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">
               <div className="product-zoom w-full md:w-6/12 ">
                 {/* <img width={380} height={518} src={data.popup} /> */}
@@ -2181,6 +2194,8 @@ function ProductPage(props) {
             host={host}
             product_id={product_id}
             sellerData={sellerData}
+            getProductPart2={getProductPart2}
+            loadingReviews={loadingReviews}
           />
         </div>
       </div>

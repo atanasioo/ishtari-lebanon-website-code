@@ -32,6 +32,8 @@ function OrderDetails() {
   const [returnProducts, setReturnProducts] = useState([]);
   const [returnErr, setReturnErr] = useState("");
 
+  console.log("order id " + id);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,

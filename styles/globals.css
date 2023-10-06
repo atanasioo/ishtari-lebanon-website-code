@@ -2521,9 +2521,45 @@ display: inline-block;
   }
 }
 
+.loading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
 
+.loading__dot {
+  animation: dot ease-in-out 1.5s infinite;
+  background-color: white;
+  display: inline-block;
+  height: 5px;
+  margin: 2px;
+  width: 5px;
+  border-radius: 10px;
+}
 
+.loading__dot:nth-of-type(2) {
+  animation-delay: 0.3s;
+}
 
+.loading__dot:nth-of-type(3) {
+  animation-delay: 0.5s;
+}
+
+@keyframes dot {
+  0% { background-color: white; transform: scale(1); }
+  50% { background-color: #3866de; transform: scale(1.3); }
+  100% { background-color: white; transform: scale(1); }
+}
+
+.blur-loading{
+  width: 200px;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.1); /* Background color with transparency */
+  backdrop-filter: blur(5px); /* Apply a blur effect */
+
+}
 
 
 

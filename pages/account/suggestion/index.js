@@ -64,7 +64,7 @@ function index() {
 
             <div className="relative  justify-center hidden mobile:flex">
               <Image
-                src={"/images/feedback-website.png"}
+                src={"/images/cutomer-suggestion.png"}
                 width={1220}
                 height={320}
               />
