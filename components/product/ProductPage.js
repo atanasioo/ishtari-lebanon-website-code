@@ -874,9 +874,7 @@ function ProductPage(props) {
     handleWishlist(0);
   }, [stateW]);
 
-  // console.log(stateW.pIds);
-  // console.log(stateW.pIds.indexOf(product_id) > -1);
-  // console.log(stateW.pIds.filter((i) => i === product_id).length );
+
 
   function deleteItemFromAllGroup() {
     axiosServer
