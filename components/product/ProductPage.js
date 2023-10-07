@@ -2082,7 +2082,7 @@ function ProductPage(props) {
                 data?.attribute_groups.length > 0 ? "w-1/2" : "w-full"
               }  bg-white mb-4  px-6 my-content  text-d14 pb-2 `}
             >
-              <div className="flex  space-x-10 text-d16 text-left w-full pt-5">
+              <div className="flex  space-x-10 text-d16 text-left w-full py-5">
                 <p onClick={() => setShowReview(false)} className={`text-d20`}>
                   Description
                 </p>
