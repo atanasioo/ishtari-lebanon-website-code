@@ -74,9 +74,10 @@ function index() {
               >
                 Add New Suggestion <BsPlus className="w-5 h-5" />
               </Link>
+              
             </div>
             <div className="mobile:hidden">
-              <Image src={"/images/sugg-mobile.png"} width={359} height={323} />
+              <Image src={"/images/sugg-mobile.png"} width={359} height={323} className="w-full" />
             </div>
             {loading ? (
               <div className="h-screen">

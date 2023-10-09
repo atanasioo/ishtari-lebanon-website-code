@@ -407,6 +407,10 @@ function ProductPart2(props) {
     };
   }, [router.events]);
 
+  useEffect(() => {
+    setLikedReviews([]);
+  },[router])
+
   const handleReviewLike = (review_id) => {
     setLikeLoading({
       bool: true,
