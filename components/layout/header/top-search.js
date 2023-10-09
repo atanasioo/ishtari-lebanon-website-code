@@ -86,7 +86,7 @@ function TopSearch() {
     }, [ref, overlay]);
   }
   function navigateSearch(e) {
-    if (e.keyCode === 13 && e.target.value) {
+    if (e.keyCode === 13 && e?.target?.value?.length > 2) {
       const query = e.target.value;
       setQuery("");
       setLoading(false);
