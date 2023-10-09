@@ -37,24 +37,34 @@ var urls = {
   historySearch: "v2/index.php?route=catalog/search/TopSearchByCustomer",
   home: "v2/index.php?route=common/widgets",
   banner_stats: "v2/index.php?route=analytics/banner/fetchStats",
-  likeUnlikeReview: "v2/index.php?route=catalog/product/likeUnlikeReview&review_id=",
+  likeUnlikeReview:
+    "v2/index.php?route=catalog/product/likeUnlikeReview&review_id=",
   //home: "v2/index.php?route=common/widgets_preview",
   product: "v2/index.php?route=catalog/product&product_id=",
   recentlyViewed: "v2/index.php?route=catalog/recently_viewed",
-  reviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerReviewedProducts",
-  unreviewedProtuctsCenter: "v2/index.php?route=catalog/review/getCustomerUnreviewedProducts",
-  getcustomerfeedback:"v2/index.php?route=account/feedback/getCustomerFeedback",
+  reviewedProtuctsCenter:
+    "v2/index.php?route=catalog/review/getCustomerReviewedProducts",
+  unreviewedProtuctsCenter:
+    "v2/index.php?route=catalog/review/getCustomerUnreviewedProducts",
+  getcustomerfeedback:
+    "v2/index.php?route=account/feedback/getCustomerFeedback",
   suggestion: "v2/index.php?route=account/account/suggestion",
-  getFlashSale: "v2/index.php?route=catalog/flash_sale&limit=20&page=1&flash_sale_event_id=",
-  getProductAdditionalData: "v2/index.php?route=catalog/product/getProductAdditionalData",
+  getFlashSale:
+    "v2/index.php?route=catalog/flash_sale&limit=20&page=1&flash_sale_event_id=",
+  getProductAdditionalData:
+    "v2/index.php?route=catalog/product/getProductAdditionalData",
   getReturnReasons: "v2/index.php?route=checkout/return_order/getReturnData",
   addReturnOrder: "v2/index.php?route=checkout/return_order/addReturnOrder",
   addReminderForFlashSale: "v2/index.php?route=catalog/flash_sale/remindMe",
-  editcustomerfeedback: "v2/index.php?route=account/feedback/editCustomerFeedback",
-  getTopSellingByCategoryId: "v2/index.php?route=cronjob/sold_item/getTopSellingByCategoryid",
-  getAllTopSellingbyCategoryid: "v2/index.php?route=cronjob/sold_item/getAllTopSellingbyCategoryid",
+  editcustomerfeedback:
+    "v2/index.php?route=account/feedback/editCustomerFeedback",
+  getTopSellingByCategoryId:
+    "v2/index.php?route=cronjob/sold_item/getTopSellingByCategoryid",
+  getAllTopSellingbyCategoryid:
+    "v2/index.php?route=cronjob/sold_item/getAllTopSellingbyCategoryid",
   getBalance: "v2/index.php?route=account/wallet/getBalance",
-  getTransactionHistory: "v2/index.php?route=account/wallet/getTransactionHistory",
+  getTransactionHistory:
+    "v2/index.php?route=account/wallet/getTransactionHistory",
   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
   category: "v2/index.php?route=catalog/category&path=",
   manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",
@@ -123,22 +133,27 @@ var urls = {
   seller_reports: "v2/index.php?route=seller_report/reports",
   seller_reports_sold_products:
     "v2/index.php?route=seller_report/reports/getSoldProduct",
-    clearCache: "v2/index.php?route=catalog/search/clearKeyCache&term=",
+  clearCache: "v2/index.php?route=catalog/search/clearKeyCache&term=",
 
-    pos : "v2/index.php?route=checkout/cart/addToCartPos",
-    getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
-    searchProduct: "v2/index.php?route=stockapi/product&item=",
-    memberShip: "v2/index.php?route=account/account/getPointData",
-    'seo-category':"v2/index.php?route=catalog/category/getCategoryDescription&category_id=",
-    'seo-manufacturer':"v2/index.php?route=catalog/manufacturer/getManufacturerDescription&manufacturer_id=",
-    'seo-seller':"v2/index.php?route=catalog/seller/getSellerDescription&seller_id=",
-    'seo-product':"v2/index.php?route=catalog/product/getProductDescription&product_id=",
+  pos: "v2/index.php?route=checkout/cart/addToCartPos",
+  getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
+  searchProduct: "v2/index.php?route=stockapi/product&item=",
+  memberShip: "v2/index.php?route=account/account/getPointData",
+  "seo-category":
+    "v2/index.php?route=catalog/category/getCategoryDescription&category_id=",
+  "seo-manufacturer":
+    "v2/index.php?route=catalog/manufacturer/getManufacturerDescription&manufacturer_id=",
+  "seo-seller":
+    "v2/index.php?route=catalog/seller/getSellerDescription&seller_id=",
+  "seo-product":
+    "v2/index.php?route=catalog/product/getProductDescription&product_id="
 };
 
 if (typeof window !== "undefined") {
   if (
     Cookies.get("site-local-name") === "ishtari-ghana" ||
-    host === "www.ishtari.com.gh" ||  host === "next.ishtari.com.gh" || 
+    host === "www.ishtari.com.gh" ||
+    host === "next.ishtari.com.gh" ||
     host === "ishtari.com.gh"
   ) {
     pixelID = "1132590020651282";
@@ -191,7 +206,7 @@ if (typeof window !== "undefined") {
     Cookies.get("site-local-name") === "ishtari" ||
     host === "www.ishtari.com" ||
     host === "www.sari3.com" ||
-    host === "ishtari.com"  || 
+    host === "ishtari.com" ||
     host === "next.ishtari.com" ||
     host === "ishtari-mobile.com"
   ) {
@@ -220,7 +235,8 @@ if (typeof window !== "undefined") {
       search: "v2/index.php?route=catalog/search/autoCompleteV2&term=",
       trendingSearch: "v2/index.php?route=catalog/search/topSearch",
       historySearch: "v2/index.php?route=catalog/search/TopSearchByCustomer",
-      getReturnReasons: "v2/index.php?route=checkout/return_order/getReturnReasons",
+      getReturnReasons:
+        "v2/index.php?route=checkout/return_order/getReturnReasons",
       addReturnOrder: "v2/index.php?route=checkout/return_order/addReturnOrder",
       home: "v2/index.php?route=common/widgets",
       //home: "v2/index.php?route=common/widgets_preview",
@@ -231,9 +247,11 @@ if (typeof window !== "undefined") {
       seller: "v2/index.php?route=catalog/seller&seller_id=",
       alg: "v2/index.php?route=catalog/search&key=",
       filter: "v2/index.php?route=catalog/filter_product",
-      dynamicproducts: "v2/index.php?route=catalog/product/products&params=comingsoon",
+      dynamicproducts:
+        "v2/index.php?route=catalog/product/products&params=comingsoon",
       banner_event: "v2/index.php?route=design/bannerevent",
-      likeUnlikeReview: "v2/index.php?route=catalog/product/likeUnlikeReview&review_id=",
+      likeUnlikeReview:
+        "v2/index.php?route=catalog/product/likeUnlikeReview&review_id=",
       menu: "v2/index.php?route=common/home/getMenu",
       footer: "v2/index.php?route=common/home/getFooter",
       all_categories: "v2/index.php?route=catalog/category/categories&level=2",
@@ -284,10 +302,9 @@ if (typeof window !== "undefined") {
       seller_reports: "v2/index.php?route=seller_report/reports",
       seller_reports_sold_products:
         "v2/index.php?route=seller_report/reports/getSoldProduct",
-        pos : "v2/index.php?route=checkout/cart/addToCartPos",
-        getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
-        searchProduct: "v2/index.php?route=stockapi/product&item=",
-
+      pos: "v2/index.php?route=checkout/cart/addToCartPos",
+      getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
+      searchProduct: "v2/index.php?route=stockapi/product&item="
     };
   }
   const firstPath = window.location.href.split("/")[3];
@@ -349,34 +366,33 @@ function buildLink(link, payload, width, hostServer) {
   // if (typeof window !== "undefined" &&  hostServer !== "https://cloudgoup.com/" && hostServer !== "https://www.cloudgoup.com/" && hostServer !== "http://cloudgoup.com" && hostServer !== "www.cloudgoup.com" && hostServer !== "www.ishtari.com"){
   //  return host + path1 + urls[link] + extra_params;
   // }else{
-///
+  ///
   if (
     hostServer === "ishtari" ||
     hostServer === "https://www.ishtari.com" ||
     hostServer === "http://cloudgoup.com" ||
     hostServer === "https://cloudgoup.com/" ||
     hostServer === "www.cloudgoup.com" ||
-
     hostServer === "https://next.ishtari.com/" ||
     hostServer === "https://www.next.ishtari.com/" ||
     hostServer === "http://next.ishtari.com" ||
-    hostServer === "www.next.ishtari.com"||
+    hostServer === "www.next.ishtari.com" ||
     hostServer === "next.ishtari.com" ||
     hostServer === "www.ishtari.com" ||
     hostServer === "ishtari-mobile.com" ||
-    hostServer === "https://ishtari-mobile.com/" 
+    hostServer === "https://ishtari-mobile.com/"
   ) {
     host = "https://www.ishtari.com/";
     path1 = "motor/";
     return host + path1 + urls[link] + extra_params;
   } else if (
     hostServer === "ishtari-ghana" ||
-    hostServer === "https://www.ishtari.com.gh/" ||  hostServer === "next.ishtari.com.gh" ||
+    hostServer === "https://www.ishtari.com.gh/" ||
+    hostServer === "next.ishtari.com.gh" ||
     hostServer === "https://next.ishtari.com.gh" ||
-    hostServer === "www.next.ishtari.com.gh"||
+    hostServer === "www.next.ishtari.com.gh" ||
     type === "ishtari-ghana"
   ) {
-
     host = "https://www.ishtari.com.gh/";
     path1 = "";
     return host + path1 + urls[link] + extra_params;
