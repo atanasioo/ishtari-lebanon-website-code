@@ -331,6 +331,15 @@ function SingleProduct(props) {
                     width={!topSelling ? 194 : 100}
                     height={!topSelling ? 267 : 150}
                     // className="max-w-full max-h-full"
+
+                    style={{
+                      backgroundImage: `url(${"/images/product_placeholder.png"})`,
+                      height: "auto", // Set the desired height
+                      width: "100%", // Set the desired width
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center"
+                    }}
                   />
                 ) : (
                   <div>
