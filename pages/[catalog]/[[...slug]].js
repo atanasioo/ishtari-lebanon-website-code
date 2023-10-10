@@ -83,6 +83,7 @@ function SlugPage(props) {
             hovered={props.hovered}
             config={props.config}
             additionalData={props.additionalData}
+            meta={props.meta}
           />
         </>
       ) : props.type === "coming_soon" ||

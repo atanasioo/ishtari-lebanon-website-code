@@ -6,7 +6,7 @@ import SmallArrows from "./SmallArrows";
 import useDeviceSize from "../useDeviceSize";
 import { FiChevronDown } from "react-icons/fi";
 
-function ProductPlaceholder() {
+function ProductPlaceholder({meta}) {
   const [width] = useDeviceSize();
 
   const setting = {
@@ -124,7 +124,7 @@ function ProductPlaceholder() {
                   //     __html: sanitizeHTML(data.name),
                   //   }}
                 >
-                  product name
+                  {meta?.title}
                 </h1>
                 <div className="mb-3 product-info">
                   <div className="mb-3">

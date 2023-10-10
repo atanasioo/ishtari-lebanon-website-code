@@ -37,7 +37,7 @@ import ProductPlaceholder from "./ProductPlaceholder";
 
 function ProductPage(props) {
   //Server props
-  const { host, hovered, config } = props; //instead of productData
+  const { host, hovered, config, meta } = props; //instead of productData
   //contexts
   const [accountState, dispatchAccount] = useContext(AccountContext);
   const [state, dispatch] = useContext(CartContext);
@@ -1144,7 +1144,7 @@ function ProductPage(props) {
   }
 
   return loading ? (
-    <ProductPlaceholder />
+    <ProductPlaceholder meta ={meta} />
   ) : (
     <div
 
