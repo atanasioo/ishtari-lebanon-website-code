@@ -4,13 +4,13 @@ import {
   AiOutlineMail,
   AiOutlineRight,
 } from "react-icons/ai";
-import _axios from "../../axios";
 import useDeviceSize from "@/components/useDeviceSize";
 import { BiEdit } from "react-icons/bi";
 import { useSellerContext } from "../../contexts/SellerContext";
 import Link from "next/link";
 import SellerHeader from "@/components/seller/SellerHeader";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 
 const DashboardSeller = () => {
   const [ width ] = useDeviceSize();
@@ -33,7 +33,7 @@ const DashboardSeller = () => {
   };
 
   useEffect(() => {
-    _axios
+    axiosServer
       .get(
         buildLink("seller_home")
       )

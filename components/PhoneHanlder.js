@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import _axios from "../axios";
+import axiosServer from "../axios";
 import { AccountContext } from "../contexts/AccountContext";
 import buildLink from "../urls";
 
@@ -76,7 +76,7 @@ function HandlePhoneModel(props) {
         }
       });
     setLoading(true);
-    _axios
+    axiosServer
       .get(
         buildLink("autoCompletePhone", undefined, window.innerWidth) + number
       )
@@ -88,7 +88,7 @@ function HandlePhoneModel(props) {
   };
 
   function FormHandler(number) {
-    _axios
+    axiosServer
       .get(
         buildLink("getCustomerByPhone", undefined, window.innerWidth) + number
       )

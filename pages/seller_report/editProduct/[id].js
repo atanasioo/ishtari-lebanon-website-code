@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
-import _axios from "../../../axios";
 import SellerHeader from "../../../components/seller/SellerHeader";
 import { useSellerContext } from "../../../contexts/SellerContext";
 import { FaPen } from "react-icons/fa";
@@ -9,6 +8,7 @@ import useDeviceSize from "@/components/useDeviceSize";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 
 const EditProduct = () => {
   const router = useRouter();
@@ -59,7 +59,7 @@ const EditProduct = () => {
       top: 0,
       behavior: "smooth",
     });
-    _axios
+    axiosServer
       .get(
         buildLink("seller_product_info")
         + `&product_id=${router.query.id}`
@@ -101,7 +101,7 @@ const EditProduct = () => {
       quantity: quantity,
       model: model,
     };
-    _axios
+    axiosServer
       .post(
         buildLink("seller_edit_product")
         +`&product_id=${router.query.id}`,

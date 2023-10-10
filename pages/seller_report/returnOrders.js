@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
-import _axios from "../../axios";
-
 import { BsEyeFill } from "react-icons/bs";
 import { VscSearch, VscClose } from "react-icons/vsc";
 import { useSellerContext } from "../../contexts/SellerContext";
@@ -14,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 const ReturnOrdersSeller = () => {
   const [data, setData] = useState();
   const { toggle } = useSellerContext();
@@ -102,7 +101,7 @@ const ReturnOrdersSeller = () => {
       behavior: "smooth",
     });
 
-    _axios
+    axiosServer
       .get(buildLink("seller_return_orders") + `&limit=10&page=1`)
       .then((response) => {
         setData(response.data.data);
@@ -132,7 +131,7 @@ const ReturnOrdersSeller = () => {
 
   useEffect(() => {
     if (!resetClicked) {
-      _axios
+      axiosServer
         .get(
           buildLink("seller_return_orders")
           + `&limit=${limit}&page=${page}${filter_date}${filter_total}${filter_status}${filter_order_id}${filter_product_quantity}${filter_return_order_id}`

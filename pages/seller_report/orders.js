@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
-import _axios from "../../axios";
 import SellerHeader from "@/components/seller/SellerHeader";
 import useDeviceSize from "@/components/useDeviceSize";
 import { BsEyeFill, BsPrinter } from "react-icons/bs";

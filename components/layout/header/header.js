@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import _axios from "@/axios";
 import buildLink from "@/urls";
 import SiteHeaders from "./site-headers";
 import Link from "next/link";

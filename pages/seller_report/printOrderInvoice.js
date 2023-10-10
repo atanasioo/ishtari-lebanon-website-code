@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import _axios from "../../axios";
 import { useReactToPrint } from "react-to-print";
 import Barcode from "react-barcode";
 import { useRouter } from "next/router";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 
 function PrintOrderInvoice() {
   const router = useRouter();
@@ -22,7 +22,7 @@ function PrintOrderInvoice() {
   });
 
   useEffect(() => {
-    _axios
+    axiosServer
       .get(
         buildLink("seller_profile")
         // `https://www.ishtari.com/motor/v1/index.php?route=seller_report/profile`
@@ -35,7 +35,7 @@ function PrintOrderInvoice() {
   }, []);
 
   function printOrders(selected_orders) {
-    _axios
+    axiosServer
       .post(
         buildLink("seller_print_orders"),
         // "https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders/getSellerOrders",

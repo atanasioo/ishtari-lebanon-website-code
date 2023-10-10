@@ -1,7 +1,6 @@
 import { axiosServer } from "@/axiosServer";
 import Cookies from "js-cookie";
 import { useContext, useState } from "react";
-import _axios from "../../axios";
 import { AccountContext } from "../../contexts/AccountContext";
 import buildLink from "../../urls";
 

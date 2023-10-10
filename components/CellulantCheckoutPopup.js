@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import buildLink from "../urls";
+import { axiosServer } from "@/axiosServer";
 
 function CellulantCheckoutPopup(props) {
   const [checkoutData, setCheckoutData] = useState([]);
@@ -18,7 +19,7 @@ function CellulantCheckoutPopup(props) {
   useEffect(() => {
     if (window.location.host === "localhost:3000") {
       if (Object.keys(props.data).length > 0) {
-        _axios
+        axiosServer
           .post(
             "https://www.ishtari.com.gh/v2/index.php/?route=payment/cellulant_custom_momo/checkoutRequest",
             props.checkoutObj
@@ -55,7 +56,7 @@ function CellulantCheckoutPopup(props) {
         payment_option_code: paymentOpCode,
       };
       //charge request
-      _axios
+      axiosServer
         .post(
           "https://www.ishtari.com.gh/v2/index.php/?route=payment/cellulant_custom_momo/chargeRequest",
           obj
@@ -93,14 +94,14 @@ function CellulantCheckoutPopup(props) {
     const obj = {
       order_id: props.checkoutObj.merchant_transaction_id,
     };
-    _axios
+    axiosServer
       .post(
         "https://www.ishtari.com.gh/v2/index.php/?route=payment/cellulant_custom_momo/paymentSuccessValidation",
         obj
       )
       .then((res) => {
         if (res.data.success) {
-          _axios
+          axiosServer
             .post(buildLink("payment_form"), {
               payment_method: "cellulant_custom_momo",
             })
@@ -109,7 +110,7 @@ function CellulantCheckoutPopup(props) {
               confirmOrder(data.confirm_url, data.success_url, true);
             });
         } else {
-          _axios
+          axiosServer
             .get(
               "https://www.ishtari.com.gh/v2/index.php/?route=payment/cellulant_custom_momo/queryStatus&service_code=" +
                 props.checkoutObj.service_code +
@@ -117,7 +118,7 @@ function CellulantCheckoutPopup(props) {
                 props.checkoutObj.merchant_transaction_id
             )
             .then((result) => {
-              _axios
+              axiosServer
                 .post(buildLink("payment_form"), {
                   payment_method: "cellulant_custom_momo",
                 })
@@ -133,7 +134,7 @@ function CellulantCheckoutPopup(props) {
   }
 
   function confirmOrder(c_url, s_url) {
-    _axios.post(c_url).then((response) => {
+    axiosServer.post(c_url).then((response) => {
       const data = response.data;
       if (data.success) {
         successOrder(s_url);
@@ -146,7 +147,7 @@ function CellulantCheckoutPopup(props) {
   }
   // +96103005854
   function successOrder(url) {
-    _axios.get(url).then((response) => {
+    axiosServer.get(url).then((response) => {
       const data = response.data;
       if (data.success) {
         setLoading(false);

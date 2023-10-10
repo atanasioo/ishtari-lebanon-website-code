@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import _axios from "../../axios";
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineHome } from "react-icons/ai";
 import useDeviceSize from "@/components/useDeviceSize";
@@ -15,6 +14,7 @@ import SellerHeader from "@/components/seller/SellerHeader";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 
 function ProductsSeller() {
   const [data, setData] = useState();
@@ -81,7 +81,7 @@ function ProductsSeller() {
       })
     );
 
-    _axios
+    axiosServer
       .get(
         buildLink("seller_products")
         + `&limit=${limit}&page=${currentPage}${filter_name}${filter_model}${filter_sku}${filter_cost}${filter_price}${filter_quantity}${filter_status}${filter_date_added}${filter_date_modified}`
@@ -121,7 +121,7 @@ function ProductsSeller() {
       top: 0,
       behavior: "smooth"
     });
-    _axios
+    axiosServer
       .get(
         buildLink("seller_products")
         + `&limit=10&page=1`
@@ -211,7 +211,7 @@ function ProductsSeller() {
 
   function exportExcel() {
     setExportLoading(true);
-    _axios
+    axiosServer
       .get(
         buildLink("seller_products")
         + "&export_all=1"

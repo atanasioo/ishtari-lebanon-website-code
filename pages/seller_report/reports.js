@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
-import _axios from "../../axios";
 import useDeviceSize from "@/components/useDeviceSize";
 import SellerHeader from "@/components/seller/SellerHeader";
 import { BsEyeFill } from "react-icons/bs";
@@ -14,6 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import buildLink from "@/urls";
+import { axiosServer } from "@/axiosServer";
 const ReportsSeller = () => {
   const [ width ] = useDeviceSize();
   const [data, setData] = useState();
@@ -96,7 +96,7 @@ const router = useRouter()
       })
     );
 
-    _axios
+    axiosServer
       .get(
         buildLink("seller_reports")
         + `&limit=${limit}&page=${currentPage}${filter_name}${filter_sku}${filter_cost}${filter_price}${filter_total}${filter_date}`
@@ -122,7 +122,7 @@ const router = useRouter()
       top: 0,
       behavior: "smooth",
     });
-    _axios
+    axiosServer
       .get(
         buildLink("seller_reports")
         + `&limit=10&page=1`

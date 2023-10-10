@@ -70,7 +70,7 @@ const EditSeller = () => {
       lastname: lastName,
       telephone: phone,
     };
-    _axios
+    axiosServer
       .post(
         `https://www.ishtari.com/motor/v2/index.php?route=seller_report/profile/edit`,
         formData

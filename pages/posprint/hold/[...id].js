@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import _axios from "../../../axios";
 import { useRouter } from "next/router";
 export default function PosPrint(props) {
   var param = props.id;
