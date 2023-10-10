@@ -73,6 +73,7 @@ function getContentType(filePath) {
     case ".png":
       return "image/png";
     case ".jpg":
+      return "image/jpg";
     case ".jpeg":
       return "image/jpeg";
     case ".gif":
