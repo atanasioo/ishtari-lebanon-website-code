@@ -211,7 +211,7 @@ function TopSearch() {
     setSearchHistory(history);
 
     axiosServer
-      .get(buildLink("historySearch", undefined, window.innerWidth))
+      .get(buildLink("historySearch", undefined, undefined))
       .then((response) => {
         setTopSearch(response.data?.data?.topsearch);
         startPlaceholderLoop(response.data.data?.topsearch);
