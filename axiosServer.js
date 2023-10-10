@@ -57,17 +57,23 @@ const getTokenFromCookie = () => {
 
 // Add an interceptor to inject the token into requests
 axiosServer.interceptors.request.use((config) => {
+  // console.log("url" , config.url);
   const token = getTokenFromCookie();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // Check if the request URL contains "undefined"
+  if (config.url && config.url.includes("undefined")) {
+    const routePathname = window.location.pathname; // Get the route pathname
+    console.log(`Request URL contains "undefined" at route: ${routePathname}`);
+  }
+
   return config;
 });
 
-
 let isRefreshing = false;
 let refreshSubscribers = [];
-
 
 const subscribeTokenRefresh = (callback) => {
   refreshSubscribers.push(callback);
@@ -113,7 +119,7 @@ axiosServer.interceptors.response.use(
         // Trigger the onRefreshed callback to notify other requests
         onRefreshed(newToken);
         // Refresh the page
-        if(typeof window !== "undefined"){
+        if (typeof window !== "undefined") {
           window.location.reload();
         }
         // Retry the original request with the new token

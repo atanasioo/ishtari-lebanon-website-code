@@ -8,7 +8,6 @@ import CatalogTest from "@/components/catalog/CatalogTest";
 import DynamicProducts from "@/components/product/DynamicProducts";
 
 function SlugPage(props) {
-  console.log("meta " ,props.meta);
   return (
     <div>
       <Head>

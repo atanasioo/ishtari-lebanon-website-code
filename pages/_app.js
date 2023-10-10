@@ -3,7 +3,7 @@ import {
   getToken,
   setAuthorizationHeader,
 } from "@/axiosServer.js";
-import { getHost, getMainData } from "@/functions";
+import { getHost } from "@/functions";
 import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
 import cookie from "cookie";
@@ -34,9 +34,7 @@ import { HeaderProvider } from "@/contexts/HeaderContext";
 export default function App({
   Component,
   pageProps,
-  header_categories,
-  footer_categories,
-  information_data,
+
   host,
 }) {
   const router = useRouter();
@@ -194,9 +192,6 @@ export default function App({
 
                           {router.asPath.indexOf("posSystem") < 0 ? (
                             <Layout
-                              header_categories={header_categories}
-                              footer_categories={footer_categories}
-                              information_data={information_data}
                               host={host}
                             >
                               <div className="bg-dprimarybg min-h-screen">
@@ -285,16 +280,10 @@ App.getInitialProps = async ({ Component, ctx }) => {
         }
         setAuthorizationHeader(newToken);
 
-        // Fetch header, footer, footer_information data using the new token
-        // const resp = await getMainData(newToken, host_url);
-
-        // console.log(resp);
 
         // Return the fetched data as props
         return {
-          // header_categories: resp.data.data?.data,
-          // footer_categories: resp.footer_data.data?.data,
-          // information_data: resp.information_data.data?.data,
+
           token: newToken,
           host: site_host,
         };
@@ -342,15 +331,9 @@ App.getInitialProps = async ({ Component, ctx }) => {
 
         setAuthorizationHeader(newToken);
 
-        // Fetch header, footer, footer_information data using the new token
-
-        const resp = await getMainData(token, host_url);
 
         // Return the fetched data as props
         return {
-          header_categories: resp.data.data.data,
-          footer_categories: resp.footer_data.data.data,
-          information_data: resp.information_data?.data.data,
           token: newToken,
           host: host,
         };

@@ -213,99 +213,99 @@ if (typeof window !== "undefined") {
     pixelID = "668318187192045";
     host = "https://www.ishtari.com/";
     path1 = "motor/";
-    mobileurls = {
-      token: "v2/index.php?route=token/token&grant_type=client_credentials",
-      login: "v2/index.php?route=account/login/login",
-      get_account: "v2/index.php?route=account/account/getAccount",
-      save_account: "v2/index.php?route=account/account/saveAccount",
-      change_password: "v2/index.php?route=account/account/changePassword",
-      forget_password: "v2/index.php?route=account/forgotten/forgotten",
-      wishlist: "v2/index.php?route=account/wishlist/wishlist",
-      wishlistCount: "v2/index.php?route=account/wishlist/getTotalWishlist",
-      orders: "v2/index.php?route=account/order/orders",
-      order_details: "v2/index.php?route=account/order/orders&id=",
-      register: "v2/index.php?route=account/register/register",
-      latest: "v2/index.php?route=catalog/product/latest",
-      zone: "v2/index.php?route=account/zone&country_id=",
-      social: "v2/index.php?route=account/login/sociallogin",
-      logout: "v2/index.php?route=account/logout/logout",
-      address: "v2/index.php?route=account/address/address",
-      cart: "v2/index.php?route=checkout/cart/cart",
-      cartCount: "v2/index.php?route=checkout/cart/getProductsCount",
-      search: "v2/index.php?route=catalog/search/autoCompleteV2&term=",
-      trendingSearch: "v2/index.php?route=catalog/search/topSearch",
-      historySearch: "v2/index.php?route=catalog/search/TopSearchByCustomer",
-      getReturnReasons:
-        "v2/index.php?route=checkout/return_order/getReturnReasons",
-      addReturnOrder: "v2/index.php?route=checkout/return_order/addReturnOrder",
-      home: "v2/index.php?route=common/widgets",
-      //home: "v2/index.php?route=common/widgets_preview",
-      product: "v2/index.php?route=catalog/product&product_id=",
-      productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
-      category: "v2/index.php?route=catalog/category&path=",
-      manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",
-      seller: "v2/index.php?route=catalog/seller&seller_id=",
-      alg: "v2/index.php?route=catalog/search&key=",
-      filter: "v2/index.php?route=catalog/filter_product",
-      dynamicproducts:
-        "v2/index.php?route=catalog/product/products&params=comingsoon",
-      banner_event: "v2/index.php?route=design/bannerevent",
-      likeUnlikeReview:
-        "v2/index.php?route=catalog/product/likeUnlikeReview&review_id=",
-      menu: "v2/index.php?route=common/home/getMenu",
-      footer: "v2/index.php?route=common/home/getFooter",
-      all_categories: "v2/index.php?route=catalog/category/categories&level=2",
-      manual: "v2/index.php?route=checkout/manual",
-      payment_form: "v2/index.php?route=checkout/payment_form",
-      autoCompletePhone:
-        "v2/index.php?route=account/address/autoComplete&filter_name=",
-      getCustomerByPhone:
-        "v2/index.php?route=account/address/getCustomerByPhone&phone=",
-      information: "v2/index.php?route=catalog/information",
-      alias: "v2/index.php?route=catalog/seo/handler&keyword=",
-      footerv2: "v2/index.php?route=common/footerItem",
-      headerv2: "v2/index.php?route=design/headerMenu",
+    // mobileurls = {
+    //   token: "v2/index.php?route=token/token&grant_type=client_credentials",
+    //   login: "v2/index.php?route=account/login/login",
+    //   get_account: "v2/index.php?route=account/account/getAccount",
+    //   save_account: "v2/index.php?route=account/account/saveAccount",
+    //   change_password: "v2/index.php?route=account/account/changePassword",
+    //   forget_password: "v2/index.php?route=account/forgotten/forgotten",
+    //   wishlist: "v2/index.php?route=account/wishlist/wishlist",
+    //   wishlistCount: "v2/index.php?route=account/wishlist/getTotalWishlist",
+    //   orders: "v2/index.php?route=account/order/orders",
+    //   order_details: "v2/index.php?route=account/order/orders&id=",
+    //   register: "v2/index.php?route=account/register/register",
+    //   latest: "v2/index.php?route=catalog/product/latest",
+    //   zone: "v2/index.php?route=account/zone&country_id=",
+    //   social: "v2/index.php?route=account/login/sociallogin",
+    //   logout: "v2/index.php?route=account/logout/logout",
+    //   address: "v2/index.php?route=account/address/address",
+    //   cart: "v2/index.php?route=checkout/cart/cart",
+    //   cartCount: "v2/index.php?route=checkout/cart/getProductsCount",
+    //   search: "v2/index.php?route=catalog/search/autoCompleteV2&term=",
+    //   trendingSearch: "v2/index.php?route=catalog/search/topSearch",
+    //   historySearch: "v2/index.php?route=catalog/search/TopSearchByCustomer",
+    //   getReturnReasons:
+    //     "v2/index.php?route=checkout/return_order/getReturnReasons",
+    //   addReturnOrder: "v2/index.php?route=checkout/return_order/addReturnOrder",
+    //   home: "v2/index.php?route=common/widgets",
+    //   //home: "v2/index.php?route=common/widgets_preview",
+    //   product: "v2/index.php?route=catalog/product&product_id=",
+    //   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
+    //   category: "v2/index.php?route=catalog/category&path=",
+    //   manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",
+    //   seller: "v2/index.php?route=catalog/seller&seller_id=",
+    //   alg: "v2/index.php?route=catalog/search&key=",
+    //   filter: "v2/index.php?route=catalog/filter_product",
+    //   dynamicproducts:
+    //     "v2/index.php?route=catalog/product/products&params=comingsoon",
+    //   banner_event: "v2/index.php?route=design/bannerevent",
+    //   likeUnlikeReview:
+    //     "v2/index.php?route=catalog/product/likeUnlikeReview&review_id=",
+    //   menu: "v2/index.php?route=common/home/getMenu",
+    //   footer: "v2/index.php?route=common/home/getFooter",
+    //   all_categories: "v2/index.php?route=catalog/category/categories&level=2",
+    //   manual: "v2/index.php?route=checkout/manual",
+    //   payment_form: "v2/index.php?route=checkout/payment_form",
+    //   autoCompletePhone:
+    //     "v2/index.php?route=account/address/autoComplete&filter_name=",
+    //   getCustomerByPhone:
+    //     "v2/index.php?route=account/address/getCustomerByPhone&phone=",
+    //   information: "v2/index.php?route=catalog/information",
+    //   alias: "v2/index.php?route=catalog/seo/handler&keyword=",
+    //   footerv2: "v2/index.php?route=common/footerItem",
+    //   headerv2: "v2/index.php?route=design/headerMenu",
 
-      currency: "v2/index.php?route=account/change/currency",
-      notify: "v2/index.php?route=marketing/notify/addNotification",
-      // productBundles:
-      //   "v2/index.php?route=catalog/product/getProductBundles&product_id=",
-      insertLike: "v2/index.php?route=catalog/product/likeProduct",
-      deleteLike: "v2/index.php?route=catalog/product/unlikeProduct",
-      getLikeProduct: "v2/index.php?route=catalog/product/getLikedProducts",
-      town: "v2/index.php?route=account/town/town&zone_id=",
-      verify: "v2/index.php?route=account/address/addressPhoneVerification",
-      checkVerify: "v2/index.php?route=account/address/checkVerification",
-      disabledAccount: "v2/index.php?route=account/logout/disableAccount",
-      widgetsPreview: "v2/index.php?route=common/widgets_preview",
-      buyagain: "v2/index.php?route=account/order/getProductFromCompletedOrder",
-      contactUs: "v2/index.php?route=account/contact_us",
-      EmailNotifications:
-        "v2/index.php?route=account/account/getCustomerEmailDisable",
-      disableEmailNotification:
-        "v2/index.php?route=account/account/customerEmailDisable",
+    //   currency: "v2/index.php?route=account/change/currency",
+    //   notify: "v2/index.php?route=marketing/notify/addNotification",
+    //   // productBundles:
+    //   //   "v2/index.php?route=catalog/product/getProductBundles&product_id=",
+    //   insertLike: "v2/index.php?route=catalog/product/likeProduct",
+    //   deleteLike: "v2/index.php?route=catalog/product/unlikeProduct",
+    //   getLikeProduct: "v2/index.php?route=catalog/product/getLikedProducts",
+    //   town: "v2/index.php?route=account/town/town&zone_id=",
+    //   verify: "v2/index.php?route=account/address/addressPhoneVerification",
+    //   checkVerify: "v2/index.php?route=account/address/checkVerification",
+    //   disabledAccount: "v2/index.php?route=account/logout/disableAccount",
+    //   widgetsPreview: "v2/index.php?route=common/widgets_preview",
+    //   buyagain: "v2/index.php?route=account/order/getProductFromCompletedOrder",
+    //   contactUs: "v2/index.php?route=account/contact_us",
+    //   EmailNotifications:
+    //     "v2/index.php?route=account/account/getCustomerEmailDisable",
+    //   disableEmailNotification:
+    //     "v2/index.php?route=account/account/customerEmailDisable",
 
-      //Seller report
-      seller_home: "v2/index.php?route=seller_report/home",
-      seller_profile: "v2/index.php?route=seller_report/profile",
-      seller_products: "v2/index.php?route=seller_report/products",
-      seller_product_info: "v2/index.php?route=seller_report/products/info",
-      seller_edit_product: "v2/index.php?route=seller_report/products/edit",
-      seller_orders: "v2/index.php?route=seller_report/orders",
-      seller_print_orders:
-        "v2/index.php?route=seller_report/orders/getSellerOrders",
-      seller_order_info: "v2/index.php?route=seller_report/orders/getOrderInfo",
-      seller_return_orders: "v2/index.php?route=seller_report/return_order",
-      seller_return_order_info:
-        "v2/index.php?route=seller_report/return_order/getReturnOrderInfo",
-      seller_accounting: "v2/index.php?route=seller_report/accounting",
-      seller_reports: "v2/index.php?route=seller_report/reports",
-      seller_reports_sold_products:
-        "v2/index.php?route=seller_report/reports/getSoldProduct",
-      pos: "v2/index.php?route=checkout/cart/addToCartPos",
-      getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
-      searchProduct: "v2/index.php?route=stockapi/product&item="
-    };
+    //   //Seller report
+    //   seller_home: "v2/index.php?route=seller_report/home",
+    //   seller_profile: "v2/index.php?route=seller_report/profile",
+    //   seller_products: "v2/index.php?route=seller_report/products",
+    //   seller_product_info: "v2/index.php?route=seller_report/products/info",
+    //   seller_edit_product: "v2/index.php?route=seller_report/products/edit",
+    //   seller_orders: "v2/index.php?route=seller_report/orders",
+    //   seller_print_orders:
+    //     "v2/index.php?route=seller_report/orders/getSellerOrders",
+    //   seller_order_info: "v2/index.php?route=seller_report/orders/getOrderInfo",
+    //   seller_return_orders: "v2/index.php?route=seller_report/return_order",
+    //   seller_return_order_info:
+    //     "v2/index.php?route=seller_report/return_order/getReturnOrderInfo",
+    //   seller_accounting: "v2/index.php?route=seller_report/accounting",
+    //   seller_reports: "v2/index.php?route=seller_report/reports",
+    //   seller_reports_sold_products:
+    //     "v2/index.php?route=seller_report/reports/getSoldProduct",
+    //   pos: "v2/index.php?route=checkout/cart/addToCartPos",
+    //   getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
+    //   searchProduct: "v2/index.php?route=stockapi/product&item="
+    // };
   }
   const firstPath = window.location.href.split("/")[3];
   // alert(firstPath)

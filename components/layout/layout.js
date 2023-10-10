@@ -5,9 +5,6 @@ import { useRouter } from "next/router";
 import AsideMenu from "./AsideMenu";
 function Layout({
   children,
-  header_categories,
-  footer_categories,
-  information_data,
   token,
   host
 }) {
@@ -33,7 +30,7 @@ function Layout({
         <></>
       ) : !router.pathname.startsWith("/seller_report")   ? (
         //other user case
-        <Header header_categories={header_categories} host={host} />
+        <Header host={host} />
       ) : (
         //seller case
         <AsideMenu />
@@ -48,8 +45,6 @@ function Layout({
         //other user case
        
         <Footer
-          footer_categories={footer_categories}
-          information_data={information_data}
         />
       )}
     </div>
