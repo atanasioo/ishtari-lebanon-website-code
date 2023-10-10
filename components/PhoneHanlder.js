@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import axiosServer from "../axios";
 import { AccountContext } from "../contexts/AccountContext";
 import buildLink from "../urls";
+import { axiosServer } from "@/axiosServer";
 
 function HandlePhoneModel(props) {
   const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, fromContact , pos } = props;
