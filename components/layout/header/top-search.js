@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useContext, useEffect, useState, useRef } from "react";
 import buildLink, { path } from "@/urls";
-import axios from "axios";
 import Link from "next/link";
 import { BsFire, BsSearch, BsTrash } from "react-icons/bs";
 import { sanitizeHTML } from "@/components/Utils";
@@ -191,11 +190,11 @@ function TopSearch() {
         setViewResults(true);
         // setOverlay(true);
       } catch (error) {
-        if (axios.isCancel(error)) {
-          console.error("axios error", error.message);
-        } else {
+        // if (axios.isCancel(error)) {
+        //   console.error("axios error", error.message);
+        // } else {
           console.error(error);
-        }
+        //}
       }
     }
     if (query.length > 1) {
