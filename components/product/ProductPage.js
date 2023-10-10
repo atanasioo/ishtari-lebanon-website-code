@@ -33,10 +33,11 @@ import { useMarketingData } from "@/contexts/MarketingContext";
 import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
 import WarrantyPopup from "./WarrantyPopup";
 import Timer from "./Timer";
+import ProductPlaceholder from "./ProductPlaceholder";
 
 function ProductPage(props) {
   //Server props
-  const { data, host, hovered, config, additionalData } = props; //instead of productData
+  const { host, hovered, config } = props; //instead of productData
   //contexts
   const [accountState, dispatchAccount] = useContext(AccountContext);
   const [state, dispatch] = useContext(CartContext);
@@ -44,6 +45,9 @@ function ProductPage(props) {
   const { marketingData, setMarketingData } = useMarketingData();
   const { reviewCenterData, setReviewCenterData } = useReviewCenterData();
   //states
+  const [data, setData] = useState([]);
+  const [additionalData, setAdditionalData] = useState([]);
+  const [loading, setLoading]= useState(true);
   const [countDownPointer, setCountDownPointer] = useState();
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
   const [AddToCartError, setAddToCartError] = useState("");
@@ -69,7 +73,7 @@ function ProductPage(props) {
   const [colorSelected, setColorSelected] = useState();
   const [reviews, setReviews] = useState();
   const [activeImageOption, setImageActiveOption] = useState({});
-  const [images, setImages] = useState(data.images);
+  const [images, setImages] = useState([]); //instead of data.images initially
   const [hasOption, setHasOption] = useState(false);
   const [activeImage, setActiveImage] = useState({});
   const [isWishlist, setIsWishlist] = useState(false);
@@ -83,7 +87,6 @@ function ProductPage(props) {
   const [isDetails, setIsDetails] = useState(false);
   const [viewSeriesVal, setViewSeriesVal] = useState();
   const [loadingReviews, setLoadingReviews] = useState(false);
-
 
   // const [additionalData, setAdditionalData] = useState({});
   const [additional, setAdditional] = useState();
@@ -140,6 +143,167 @@ function ProductPage(props) {
     setViewSeriesVal();
     seriesOp_name.textContent = "";
   }
+
+  //fetch product part1 data
+  //fetch product part1 data
+  useEffect(() => {
+    setLoading(true);
+    const fromSearch =
+      typeof router.query.fromSearch !== "undefined" ? true : false;
+    const AdminToken = Cookies.get("ATDetails");
+    const link =
+      buildLink("product", undefined, undefined) +
+      product_id +
+      "&source_id=1&part_one" +
+      (AdminToken !== undefined || typeof AdminToken !== "undefined"
+        ? "&employer=true"
+        : "") +
+      (fromSearch ? "&from_search=1" : "");
+
+    axiosServer.get(link).then((response) => {
+      if (!response.data.success) {
+        router.push("/404");
+      } else {
+        setData(response?.data?.data);
+
+        axiosServer
+          .get(
+            buildLink("getProductAdditionalData", undefined, undefined) +
+              "&product_id=" +
+              product_id
+          )
+          .then((resp) => {
+            setAdditionalData(resp.data.data);
+            setLoading(false);
+          });
+
+        const data = response.data?.data;
+        if (data.special_end !== null && data.special_end !== 0) {
+          setHasBannerEvent(data?.bannerevent);
+        }
+        setProductBundle(
+          data?.product_bundles?.length > 0 ? data?.product_bundles[0] : null
+        );
+
+        setReviews(data?.product_reviews?.reviews);
+
+        //banner_event
+        if (data?.special_end !== null && data?.special_end !== 0) {
+          setHasBannerEvent(data?.bannerevent);
+        }
+
+        setHasOption(data?.options?.length > 0);
+
+        data.options.length > 0 &&
+          setOptionParent(data.options[0]["product_option_id"]);
+
+        const includesImage = data?.images.some((image) => {
+          return image.popup === data.popup && image.thumb === data.thumb;
+        });
+
+        if (!includesImage) {
+          data?.images.unshift({
+            popup: data.popup,
+            thumb: data.thumb,
+          });
+        }
+
+        handleWishlist(0);
+        setImages(data.images);
+
+        // ---> Facebook PIXEL <---
+        if (!accountState.admin) {
+          const advancedMatching = {
+            em: data?.social_data?.email,
+            fn: data?.social_data?.firstname,
+            ln: data?.social_data?.lastname,
+            external_id: data?.social_data?.external_id,
+            country: data?.social_data?.country_code,
+            fbp: Cookies.get("_fbp"),
+          };
+          if (typeof window !== "undefined") {
+            let ReactPixel; // Define a variable to hold the reference to ReactPixel
+
+            initializeReactPixel().then((ReactPixel) => {
+              ReactPixel.init(pixelID, advancedMatching, {
+                debug: true,
+                autoConfig: false,
+              });
+              ReactPixel.pageView();
+              ReactPixel.fbq("track", "PageView");
+
+              window.fbq(
+                "track",
+                "ViewContent",
+                {
+                  content_type: "product",
+                  content_ids: [product_id],
+                  content_name: data?.social_data?.name,
+                  value: data?.social_data?.value,
+                  currency: data?.social_data?.currency,
+                },
+                { eventID: data?.social_data?.event_id }
+              );
+            });
+
+            var dataSocial = data.social_data;
+            dataSocial["fbp"] = Cookies.get("_fbp");
+            dataSocial["fbc"] = Cookies.get("_fbc");
+            dataSocial["ttp"] = Cookies.get("_ttp");
+            dataSocial["link"] = window.location.href;
+            dataSocial["view_type"] = "product";
+            dataSocial["view_type_id"] = product_id;
+
+            if (
+              marketingData.source_type === "" ||
+              marketingData.source_type === null ||
+              typeof marketingData.source_type === "undefined"
+            ) {
+              dataSocial["ignore"] = true;
+            } else {
+              dataSocial["source_type"] = marketingData.source_type;
+              dataSocial["source_type_id"] = marketingData.source_type_id;
+              dataSocial["banner_image_id"] = marketingData.banner_image_id
+                ? marketingData.banner_image_id
+                : "";
+            }
+
+            axiosServer
+              .post(
+                buildLink(
+                  "pixel",
+                  undefined,
+                  window.innerWidth,
+                  window.config["site-url"]
+                ),
+                dataSocial
+              )
+              .then((response) => {
+                const data = response.data;
+              });
+          }
+        }
+
+        //seller recommendations (excluding ishtari)
+        if (
+          data?.seller_id > 0 &&
+          data.seller !== "" &&
+          data.seller_id !== "168"
+        ) {
+          const link =
+            buildLink("seller", undefined, undefined) +
+            data.seller_id +
+            "&source_id=1&limit=5";
+          axiosServer.get(link).then((response) => {
+            if (response.data.success) {
+              setSellerData(response.data.data);
+            }
+          });
+        }
+      }
+    });
+  }, [product_id]);
+
   useEffect(() => {
     // to force re-render when navigating using client side
     setAdditional(false);
@@ -225,123 +389,123 @@ function ProductPage(props) {
     }
   }
 
-  useEffect(() => {
-    if (data.special_end !== null && data.special_end !== 0) {
-      setHasBannerEvent(data?.bannerevent);
-    }
-    setProductBundle(
-      data?.product_bundles?.length > 0 ? data?.product_bundles[0] : null
-    );
+  // useEffect(() => {
+  //   if (data.special_end !== null && data.special_end !== 0) {
+  //     setHasBannerEvent(data?.bannerevent);
+  //   }
+  //   setProductBundle(
+  //     data?.product_bundles?.length > 0 ? data?.product_bundles[0] : null
+  //   );
 
-    setReviews(data?.product_reviews?.reviews);
+  //   setReviews(data?.product_reviews?.reviews);
 
-    //banner_event
-    if (data?.special_end !== null && data?.special_end !== 0) {
-      setHasBannerEvent(data?.bannerevent);
-    }
+  //   //banner_event
+  //   if (data?.special_end !== null && data?.special_end !== 0) {
+  //     setHasBannerEvent(data?.bannerevent);
+  //   }
 
-    setHasOption(data?.options?.length > 0);
+  //   setHasOption(data?.options?.length > 0);
 
-    data.options.length > 0 &&
-      setOptionParent(data.options[0]["product_option_id"]);
+  //   data.options.length > 0 &&
+  //     setOptionParent(data.options[0]["product_option_id"]);
 
-    const includesImage = data?.images.some((image) => {
-      return image.popup === data.popup && image.thumb === data.thumb;
-    });
+  //   const includesImage = data?.images.some((image) => {
+  //     return image.popup === data.popup && image.thumb === data.thumb;
+  //   });
 
-    if (!includesImage) {
-      data?.images.unshift({
-        popup: data.popup,
-        thumb: data.thumb,
-      });
-    }
+  //   if (!includesImage) {
+  //     data?.images.unshift({
+  //       popup: data.popup,
+  //       thumb: data.thumb,
+  //     });
+  //   }
 
-    // ---> Facebook PIXEL <---
-    if (!accountState.admin) {
-      const advancedMatching = {
-        em: data?.social_data?.email,
-        fn: data?.social_data?.firstname,
-        ln: data?.social_data?.lastname,
-        external_id: data?.social_data?.external_id,
-        country: data?.social_data?.country_code,
-        fbp: Cookies.get("_fbp"),
-      };
-      if (typeof window !== "undefined") {
-        let ReactPixel; // Define a variable to hold the reference to ReactPixel
+  //   // ---> Facebook PIXEL <---
+  //   if (!accountState.admin) {
+  //     const advancedMatching = {
+  //       em: data?.social_data?.email,
+  //       fn: data?.social_data?.firstname,
+  //       ln: data?.social_data?.lastname,
+  //       external_id: data?.social_data?.external_id,
+  //       country: data?.social_data?.country_code,
+  //       fbp: Cookies.get("_fbp"),
+  //     };
+  //     if (typeof window !== "undefined") {
+  //       let ReactPixel; // Define a variable to hold the reference to ReactPixel
 
-        initializeReactPixel().then((ReactPixel) => {
-          ReactPixel.init(pixelID, advancedMatching, {
-            debug: true,
-            autoConfig: false,
-          });
-          ReactPixel.pageView();
-          ReactPixel.fbq("track", "PageView");
+  //       initializeReactPixel().then((ReactPixel) => {
+  //         ReactPixel.init(pixelID, advancedMatching, {
+  //           debug: true,
+  //           autoConfig: false,
+  //         });
+  //         ReactPixel.pageView();
+  //         ReactPixel.fbq("track", "PageView");
 
-          window.fbq(
-            "track",
-            "ViewContent",
-            {
-              content_type: "product",
-              content_ids: [product_id],
-              content_name: data?.social_data?.name,
-              value: data?.social_data?.value,
-              currency: data?.social_data?.currency,
-            },
-            { eventID: data?.social_data?.event_id }
-          );
-        });
+  //         window.fbq(
+  //           "track",
+  //           "ViewContent",
+  //           {
+  //             content_type: "product",
+  //             content_ids: [product_id],
+  //             content_name: data?.social_data?.name,
+  //             value: data?.social_data?.value,
+  //             currency: data?.social_data?.currency,
+  //           },
+  //           { eventID: data?.social_data?.event_id }
+  //         );
+  //       });
 
-        var dataSocial = data.social_data;
-        dataSocial["fbp"] = Cookies.get("_fbp");
-        dataSocial["fbc"] = Cookies.get("_fbc");
-        dataSocial["ttp"] = Cookies.get("_ttp");
-        dataSocial["link"] = window.location.href;
-        dataSocial["view_type"] = "product";
-        dataSocial["view_type_id"] = product_id;
+  //       var dataSocial = data.social_data;
+  //       dataSocial["fbp"] = Cookies.get("_fbp");
+  //       dataSocial["fbc"] = Cookies.get("_fbc");
+  //       dataSocial["ttp"] = Cookies.get("_ttp");
+  //       dataSocial["link"] = window.location.href;
+  //       dataSocial["view_type"] = "product";
+  //       dataSocial["view_type_id"] = product_id;
 
-        if (
-          marketingData.source_type === "" ||
-          marketingData.source_type === null ||
-          typeof marketingData.source_type === "undefined"
-        ) {
-          dataSocial["ignore"] = true;
-        } else {
-          dataSocial["source_type"] = marketingData.source_type;
-          dataSocial["source_type_id"] = marketingData.source_type_id;
-          dataSocial["banner_image_id"] = marketingData.banner_image_id
-            ? marketingData.banner_image_id
-            : "";
-        }
+  //       if (
+  //         marketingData.source_type === "" ||
+  //         marketingData.source_type === null ||
+  //         typeof marketingData.source_type === "undefined"
+  //       ) {
+  //         dataSocial["ignore"] = true;
+  //       } else {
+  //         dataSocial["source_type"] = marketingData.source_type;
+  //         dataSocial["source_type_id"] = marketingData.source_type_id;
+  //         dataSocial["banner_image_id"] = marketingData.banner_image_id
+  //           ? marketingData.banner_image_id
+  //           : "";
+  //       }
 
-        axiosServer
-          .post(
-            buildLink(
-              "pixel",
-              undefined,
-              window.innerWidth,
-              window.config["site-url"]
-            ),
-            dataSocial
-          )
-          .then((response) => {
-            const data = response.data;
-          });
-      }
-    }
+  //       axiosServer
+  //         .post(
+  //           buildLink(
+  //             "pixel",
+  //             undefined,
+  //             window.innerWidth,
+  //             window.config["site-url"]
+  //           ),
+  //           dataSocial
+  //         )
+  //         .then((response) => {
+  //           const data = response.data;
+  //         });
+  //     }
+  //   }
 
-    //seller recommendations (excluding ishtari)
-    if (data?.seller_id > 0 && data.seller !== "" && data.seller_id !== "168") {
-      const link =
-        buildLink("seller", undefined, undefined) +
-        data.seller_id +
-        "&source_id=1&limit=5";
-      axiosServer.get(link).then((response) => {
-        if (response.data.success) {
-          setSellerData(response.data.data);
-        }
-      });
-    }
-  }, [router]);
+  //   //seller recommendations (excluding ishtari)
+  //   if (data?.seller_id > 0 && data.seller !== "" && data.seller_id !== "168") {
+  //     const link =
+  //       buildLink("seller", undefined, undefined) +
+  //       data.seller_id +
+  //       "&source_id=1&limit=5";
+  //     axiosServer.get(link).then((response) => {
+  //       if (response.data.success) {
+  //         setSellerData(response.data.data);
+  //       }
+  //     });
+  //   }
+  // }, [router]);
 
   function fetchAdditionalData() {
     axiosServer
@@ -440,9 +604,9 @@ function ProductPage(props) {
   }
 
   async function getProductPart2(filter_value) {
-    if(typeof filter_value !== "undefined"){
+    if (typeof filter_value !== "undefined") {
       setLoadingReviews(true);
-    } 
+    }
     var link =
       buildLink("product", undefined, window.innerWidth) +
       `${
@@ -468,9 +632,9 @@ function ProductPage(props) {
 
         setProductData2(data.data);
         setLoader(false);
-        if(typeof filter_value !== "undefined"){
+        if (typeof filter_value !== "undefined") {
           setLoadingReviews(false);
-        } 
+        }
         if (
           reviewCenterData.scrollToReview &&
           reviewCenterData.product_id === product_id
@@ -806,8 +970,8 @@ function ProductPage(props) {
 
   useEffect(() => {
     // setChecked(data?.data?.groups_wishlist);
-    handleWishlist(0);
-    setImages(data.images);
+    // handleWishlist(0);
+    // setImages(data.images);
     return () => {
       setImages([]);
       setActiveImage({}); //comment it for magic zoom //
@@ -873,8 +1037,6 @@ function ProductPage(props) {
   useEffect(() => {
     handleWishlist(0);
   }, [stateW]);
-
-
 
   function deleteItemFromAllGroup() {
     axiosServer
@@ -981,10 +1143,12 @@ function ProductPage(props) {
     }, [ref, toggleQty]);
   }
 
-  return (
+  return loading ? (
+    <ProductPlaceholder />
+  ) : (
     <div
-      style={{ backgroundColor: "#f8f8f9" }}
-      className="product-page-wrapper"
+
+      className="product-page-wrapper bg-[#f8f8f9]"
     >
       <div className="">
         <CartSideModal
@@ -1030,7 +1194,9 @@ function ProductPage(props) {
           </div>
           <div
             className={` ${
-              accountState.admin && data?.status === "0" ? "bg-dPink" : "bg-white"
+              accountState.admin && data?.status === "0"
+                ? "bg-dPink"
+                : "bg-white"
             } product-div flex items-stretch  w-full md:px-2`}
           >
             <div className="flex flex-col md:flex-row py-3 pr-2 w-full md:w-3/4">

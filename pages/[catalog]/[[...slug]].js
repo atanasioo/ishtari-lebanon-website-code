@@ -1,4 +1,3 @@
-
 import { axiosServer } from "@/axiosServer";
 import Head from "next/head";
 import cookie from "cookie";
@@ -8,8 +7,8 @@ import { getConfig } from "@/functions";
 import CatalogTest from "@/components/catalog/CatalogTest";
 import DynamicProducts from "@/components/product/DynamicProducts";
 
-
 function SlugPage(props) {
+  console.log("meta " ,props.meta);
   return (
     <div>
       <Head>
@@ -18,10 +17,12 @@ function SlugPage(props) {
             ? props.data?.name
             : props.data?.heading_title
           )?.replaceAll("&amp;", "&").replaceAll("<!-- -->", "")}{" | "} */}
-          {(props.data?.heading_title || props.data?.name  ||  props?.meta?.title ) &&
+          {(props.data?.heading_title ||
+            props.data?.name ||
+            props?.meta?.title) &&
             (props?.type === "product"
               ? "Shop " +
-                props.data?.name
+                props.meta?.title
                   .replaceAll("&amp;", "&")
                   .replaceAll("&quot;", "&") +
                 ` in ${
@@ -30,8 +31,9 @@ function SlugPage(props) {
                     ? "Ghana"
                     : "Lebanon"
                 } | Ishtari`
-              : (props.data?.heading_title ||  props?.meta?.title ) && props?.type === "category"
-              ? (props.data?.heading_title ||  props?.meta?.title )
+              : (props.data?.heading_title || props?.meta?.title) &&
+                props?.type === "category"
+              ? (props.data?.heading_title || props?.meta?.title)
                   .replaceAll("&amp;", "&")
                   .replaceAll("&quot;", "&") +
                 ` - in ${
@@ -40,8 +42,9 @@ function SlugPage(props) {
                     ? "Ghana"
                     : "Lebanon"
                 }  Buy Online | ishtari`
-              : (props.data?.heading_title ||  props.meta?.title ) && props?.type === "manufacturer"
-              ? (props.data?.heading_title ||  props.meta?.title )
+              : (props.data?.heading_title || props.meta?.title) &&
+                props?.type === "manufacturer"
+              ? (props.data?.heading_title || props.meta?.title)
                   .replaceAll("&amp;", "&")
                   .replaceAll("&quot;", "&") +
                 ` - ishtari ${
@@ -50,7 +53,7 @@ function SlugPage(props) {
                     ? "Ghana"
                     : "Lebanon"
                 }`
-              : (props.data?.heading_title ||  props.meta?.title )
+              : (props.data?.heading_title || props.meta?.title)
                   .replaceAll("&amp;", "&")
                   .replaceAll("&quot;", "&")
             ).replaceAll("<!-- -->", "")}
@@ -58,10 +61,9 @@ function SlugPage(props) {
         {props.type === "product" ? (
           <meta
             name="description"
-            content={`Shop the ${props.data?.name}. Enjoy easy online shopping at ishtari.`}
+            content={`${props.meta.meta_description !== "" ? props.meta.meta_description : `Shop the ${props.meta?.title}. Enjoy easy online shopping at ishtari.`} `}
           ></meta>
         ) : (
-  
           <meta
             name="description"
             content={props?.meta?.meta_description}
@@ -134,7 +136,7 @@ export async function getServerSideProps(context) {
     order,
     last,
     limit,
-    fromSearch
+    fromSearch,
   } = context.query;
   let slug = context.query.slug || [];
   // const { NEXT_INIT_QUERY } = context.params.NEXT_INIT_QUERY;
@@ -170,7 +172,7 @@ export async function getServerSideProps(context) {
   const config = await getConfig(site_host);
   var path = "&path=";
 
-  console.log("catalog" , catalog);
+  console.log("catalog", catalog);
 
   const isLatestSettings =
     catalog === "coming_soon" ||
@@ -204,8 +206,8 @@ export async function getServerSideProps(context) {
     type = catalog;
     return {
       props: {
-        type
-      }
+        type,
+      },
     };
   }
 
@@ -219,42 +221,43 @@ export async function getServerSideProps(context) {
       } else {
         product_id = slug[0];
       }
+      id = product_id;
 
       //fetch product data
-      link =
-        buildLink("product", undefined, undefined, site_host) +
-        product_id +
-        "&source_id=1&part_one" +
-        (AdminToken !== undefined || typeof AdminToken !== "undefined"
-          ? "&employer=true"
-          : "") +
-        (fromSearch ? "&from_search=1" : "");
+      // link =
+      //   buildLink("product", undefined, undefined, site_host) +
+      //   product_id +
+      //   "&source_id=1&part_one" +
+      //   (AdminToken !== undefined || typeof AdminToken !== "undefined"
+      //     ? "&employer=true"
+      //     : "") +
+      //   (fromSearch ? "&from_search=1" : "");
 
-      const response = await axiosServer.get(link, {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      });
+      // const response = await axiosServer.get(link, {
+      //   headers: {
+      //     Authorization: "Bearer " + token
+      //   }
+      // });
 
-      const response1 = await axiosServer.get(
-        buildLink("getProductAdditionalData", undefined, undefined, site_host) +
-          "&product_id=" +
-          product_id,
-        {
-          headers: {
-            Authorization: "Bearer " + token
-          }
-        }
-      );
-      additionalData = response1.data.data;
-      //  console.log(additionalData)
+      // const response1 = await axiosServer.get(
+      //   buildLink("getProductAdditionalData", undefined, undefined, site_host) +
+      //     "&product_id=" +
+      //     product_id,
+      //   {
+      //     headers: {
+      //       Authorization: "Bearer " + token
+      //     }
+      //   }
+      // );
+      // additionalData = response1.data.data;
+      // //  console.log(additionalData)
 
-      if (!response.data.success) {
-        return {
-          notFound: true
-        };
-      }
-      data = response?.data?.data;
+      // if (!response.data.success) {
+      //   return {
+      //     notFound: true
+      //   };
+      // }
+      // data = response?.data?.data;
 
       type = "product";
     } else {
@@ -291,21 +294,22 @@ export async function getServerSideProps(context) {
           }
           path = "&seller_id=";
         }
-           const response = await  axiosServer.get(buildLink("seo-" + type, undefined, undefined, site_host) + id ,{
-            headers: {
-              Authorization: "Bearer " + token
-            }
-          })
-          if(response.data.success){
-            meta =  response.data.data
-            // meta = meta
-            console.log(meta )
-            // console.log(meta )
-            // console.log("test-1")
-          }
-    
       }
     }
+
+    const response = await axiosServer.get(
+      buildLink("seo-" + type, undefined, undefined, site_host) + id,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response.data.success) {
+      meta = response.data.data;
+      console.log(meta);
+    }
+
     return {
       props: {
         data,
@@ -320,14 +324,13 @@ export async function getServerSideProps(context) {
         meta,
         p,
         additionalData,
-        AdminToken: AdminToken,
-        isLatestSettings: isLatestSettings, 
-        
-      }
+        AdminToken: AdminToken || null,
+        isLatestSettings: isLatestSettings,
+      },
     };
   } else {
     return {
-      notFound: true
+      notFound: true,
     };
   }
 }

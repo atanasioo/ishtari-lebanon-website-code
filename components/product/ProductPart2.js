@@ -40,7 +40,7 @@ function ProductPart2(props) {
     product_id,
     sellerData,
     getProductPart2,
-    loadingReviews
+    loadingReviews,
   } = props; //data is for product part one data
   const [width] = useDeviceSize();
   const [ReviewImages, setReviewImages] = useState([]);
@@ -63,7 +63,7 @@ function ProductPart2(props) {
   const [showReviewFilters, setShowReviewFilters] = useState(false);
   const [likedReviews, setLikedReviews] = useState([]);
   const [alreadyLiked, setAlreadyLiked] = useState([]);
-  const [likeCounts, setLikeCounts] = useState({})
+  const [likeCounts, setLikeCounts] = useState({});
   const [likeLoading, setLikeLoading] = useState({
     bool: false,
     id: 0,
@@ -176,10 +176,9 @@ function ProductPart2(props) {
           product_id +
           "&page=" +
           page +
-          "&limit=5"+
-          "&filter_product_reviews="
-          +reviewFilter.value
-          ,
+          "&limit=5" +
+          "&filter_product_reviews=" +
+          reviewFilter.value,
         obj
       )
       .then((response) => {
@@ -409,65 +408,65 @@ function ProductPart2(props) {
 
   useEffect(() => {
     setLikedReviews([]);
-  },[router])
+  }, [router]);
 
   const handleReviewLike = (review_id) => {
-    setLikeLoading({
-      bool: true,
-      id: review_id,
-    });
-    axiosServer
-      .post(buildLink("likeUnlikeReview", undefined, undefined) + review_id)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.success && response.data.data.liked) {
-          setLikedReviews((current) => [...current, review_id]);
-          setAlreadyLiked((current) => [...current, review_id]);
-        } else {
-          setLikedReviews((current) =>
-            current.filter((liked) => {
-              return liked !== review_id;
-            })
-          );
-          setAlreadyLiked((current) =>
-            current.filter((liked) => {
-              return liked !== review_id;
-            })
-          );
-        }
-        setLikeCounts((prevLikeCounts) => ({
-          ...prevLikeCounts,
-          [review_id]: response.data.data.nb_likes
-        }));
-        setLikeLoading({
-          bool: false,
-          id: 0,
-        });
+    if (stateAccount.loged) {
+      setLikeLoading({
+        bool: true,
+        id: review_id,
       });
+      axiosServer
+        .post(buildLink("likeUnlikeReview", undefined, undefined) + review_id)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.success && response.data.data.liked) {
+            setLikedReviews((current) => [...current, review_id]);
+            setAlreadyLiked((current) => [...current, review_id]);
+          } else {
+            setLikedReviews((current) =>
+              current.filter((liked) => {
+                return liked !== review_id;
+              })
+            );
+            setAlreadyLiked((current) =>
+              current.filter((liked) => {
+                return liked !== review_id;
+              })
+            );
+          }
+          setLikeCounts((prevLikeCounts) => ({
+            ...prevLikeCounts,
+            [review_id]: response.data.data.nb_likes,
+          }));
+          setLikeLoading({
+            bool: false,
+            id: 0,
+          });
+        });
+    }else{
+      dispatchAccount({ type: "setShowOver", payload: true });
+      dispatchAccount({ type: "setShowLogin", payload: true });
+      dispatchAccount({ type: "setShowSignup", payload: false });
+    }
   };
 
   useEffect(() => {
-    setLikeCounts({})
-    if (stateAccount.loged) {
-      reviews?.map((review) => {
-        if (review.liked_by_customer) {
-          setAlreadyLiked((current) => [...current, review.review_id]);
-        }
-        setLikeCounts((prevLikeCounts) => ({
-          ...prevLikeCounts,
-          [review.review_id]: review.likes,
-        }));
-      });
-    }
+    setLikeCounts({});
+    //if (stateAccount.loged) {
+    reviews?.map((review) => {
+      if (review.liked_by_customer) {
+        setAlreadyLiked((current) => [...current, review.review_id]);
+      }
+      setLikeCounts((prevLikeCounts) => ({
+        ...prevLikeCounts,
+        [review.review_id]: review.likes,
+      }));
+    });
+    //}
   }, [reviews, stateAccount]);
 
 
-  console.log("reviewsss" ,reviews);
-
-
-  console.log(alreadyLiked);
-
-console.log( "hello" ,likeCounts);
 
   return (
     <div className="">
@@ -859,7 +858,11 @@ console.log( "hello" ,likeCounts);
                             </div>
                           )}
 
-                          <div className={`${loadingReviews ? "opacity-50 blur-[1px]" : ""}`}>
+                          <div
+                            className={`${
+                              loadingReviews ? "opacity-50 blur-[1px]" : ""
+                            }`}
+                          >
                             {reviews?.map((r) => (
                               <div
                                 className="border-b-2 border-dinputBorder pb-2"
@@ -978,7 +981,11 @@ console.log( "hello" ,likeCounts);
                                       <div>{likeCounts[r.review_id]}</div>
                                     ) : (
                                       <div>
-                                        Helpful {likeCounts && likeCounts[r.review_id] !=="0" ? "("+likeCounts[r.review_id]+")" : ""}
+                                        Helpful{" "}
+                                        {likeCounts &&
+                                        likeCounts[r.review_id] !== "0"
+                                          ? "(" + likeCounts[r.review_id] + ")"
+                                          : ""}
                                       </div>
                                     )}
                                   </div>
