@@ -387,7 +387,9 @@ function buildLink(link, payload, width, hostServer) {
     host = "https://www.ishtari.com/";
     path1 = "motor/";
     console.log(host + path1 + urls[link] + extra_params)
+    if(urls[link])
     return host + path1 + urls[link] + extra_params;
+    else return  ''
   } else if (
     hostServer === "ishtari-ghana" ||
     hostServer === "https://www.ishtari.com.gh/" ||
@@ -441,6 +443,7 @@ function buildLink(link, payload, width, hostServer) {
   console.log(urls[link])
   if(urls[link])
   return host + path1 + urls[link] + extra_params;
+  else return '';
   //}
 
   // }
