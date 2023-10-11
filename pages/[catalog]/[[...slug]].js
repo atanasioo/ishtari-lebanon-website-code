@@ -56,7 +56,11 @@ function SlugPage(props) {
         {props.type === "product" ? (
           <meta
             name="description"
-            content={`${props.meta.meta_description !== "" ? props.meta.meta_description : `Shop the ${props.meta?.title}. Enjoy easy online shopping at ishtari.`} `}
+            content={`${
+              props.meta.meta_description !== ""
+                ? props.meta.meta_description
+                : `Shop the ${props.meta?.title}. Enjoy easy online shopping at ishtari.`
+            } `}
           ></meta>
         ) : (
           <meta
@@ -293,17 +297,19 @@ export async function getServerSideProps(context) {
       }
     }
 
-    const response = await axiosServer.get(
-      buildLink("seo-" + type, undefined, undefined, site_host) + id,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
+    if (type !== "") {
+      const response = await axiosServer.get(
+        buildLink("seo-" + type, undefined, undefined, site_host) + id,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.data.success) {
+        meta = response.data.data;
+        console.log(meta);
       }
-    );
-    if (response.data.success) {
-      meta = response.data.data;
-      console.log(meta);
     }
 
     return {
