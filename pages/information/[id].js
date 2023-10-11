@@ -47,7 +47,7 @@ function Information() {
   const {id} = router.query
   useEffect(()=>{
     axiosServer.get(
-      buildLink("information", undefined, undefined) + "&information_id=" + id).then((resp)=>{
+      buildLink("information", undefined, undefined, window.location.host) + "&information_id=" + id).then((resp)=>{
         setData(resp.data.data)
       });
     

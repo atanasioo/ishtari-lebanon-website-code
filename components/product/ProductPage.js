@@ -562,7 +562,7 @@ function ProductPage(props) {
           "information",
           undefined,
           window.innerWidth,
-          window.config["site-url"]
+          window.location.href
         ) + "&information_id=10"
       )
       .then((response) => {

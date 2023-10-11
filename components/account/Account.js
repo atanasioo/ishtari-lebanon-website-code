@@ -87,7 +87,7 @@ function Account() {
           ? session.user.email
           : session.user.id + "@ishtari-mobile.com"
       };
-      const response = await axiosServer.post(buildLink("social"), obj);
+      const response = await axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj);
       // console.log(response)
       if (response?.data?.data?.customer_id) checkLogin();
       // window.location.reload();
@@ -139,7 +139,7 @@ function Account() {
       id: response.id
     };
 
-    axiosServer.post(buildLink("social"), obj).then((resp) => {
+    axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj).then((resp) => {
     
       checkLogin();
     });
@@ -156,7 +156,7 @@ function Account() {
           ? session.user.email
           : session.user.id + "@ishtari-mobile.com"
       };
-      const response = await axiosServer.post(buildLink("social"), obj);
+      const response = await axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj);
       if (response) {
         checkLogin();
       }

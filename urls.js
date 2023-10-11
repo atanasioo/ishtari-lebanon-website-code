@@ -352,6 +352,7 @@ if (typeof window !== "undefined") {
   }
 }
 function buildLink(link, payload, width, hostServer) {
+  if(typeof link == "undefined") console.log("error" ) 
   const type = Cookies.get("site-local-name");
 
   // if (
@@ -367,23 +368,25 @@ function buildLink(link, payload, width, hostServer) {
   //  return host + path1 + urls[link] + extra_params;
   // }else{
   ///
+  console.log(hostServer)
   if (
-    hostServer === "ishtari" ||
-    hostServer === "https://www.ishtari.com" ||
+   ( hostServer === "ishtari" ||
+    hostServer === "https://www.ishtari.com" || 
     hostServer === "http://cloudgoup.com" ||
     hostServer === "https://cloudgoup.com/" ||
     hostServer === "www.cloudgoup.com" ||
     hostServer === "https://next.ishtari.com/" ||
     hostServer === "https://www.next.ishtari.com/" ||
     hostServer === "http://next.ishtari.com" ||
-    hostServer === "www.next.ishtari.com" ||
+    hostServer === "www.next.ishtari.com" ||  (( hostServer === "localhost:3000" ||  hostServer === "http://localhost:3000" || hostServer === "http://localhost:3000/" )&&  Cookies.get("site-local-name") === "ishtari") ||
     hostServer === "next.ishtari.com" ||
     hostServer === "www.ishtari.com" ||
     hostServer === "ishtari-mobile.com" ||
-    hostServer === "https://ishtari-mobile.com/"
+    hostServer === "https://ishtari-mobile.com/" )  
   ) {
     host = "https://www.ishtari.com/";
     path1 = "motor/";
+    console.log(host + path1 + urls[link] + extra_params)
     return host + path1 + urls[link] + extra_params;
   } else if (
     hostServer === "ishtari-ghana" ||
@@ -434,6 +437,9 @@ function buildLink(link, payload, width, hostServer) {
   } else {
     // host="https://www.ishtari.com.gh/";
   }
+  console.log("urls[link]")
+  console.log(urls[link])
+  if(urls[link])
   return host + path1 + urls[link] + extra_params;
   //}
 

@@ -16,7 +16,7 @@ export const CurrencyProvider = ({ children }) => {
       
 router.asPath.indexOf("posSystem") < 0 &&
          await axiosServer
-        .get(buildLink("information", undefined, undefined), {
+        .get(buildLink("information", undefined, undefined, window.location.href), {
             headers: {
               Authorization: "Bearer " + Cookies.get("api-token")
             }

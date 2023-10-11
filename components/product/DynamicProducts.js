@@ -30,7 +30,7 @@ function DynamicProducts() {
     setLoading(true);
     axiosServer
       .get(
-        buildLink("dynamicproducts", undefined, undefined) +
+        buildLink("dynamicproducts", undefined, undefined , window.location.host) +
           `${`${type}&page=${page}&limit=${limit}`}`
       )
       .then((response) => {

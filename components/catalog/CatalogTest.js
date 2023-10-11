@@ -271,7 +271,7 @@ function CatalogTest(props) {
         // } else {
 
         link =
-          buildLink(type, undefined, undefined) +
+          buildLink(type, undefined, undefined , window.location.host) +
           id +
           "&source_id=1" +
           filters +
@@ -338,7 +338,7 @@ function CatalogTest(props) {
         }
 
         link =
-          buildLink("filter", undefined, undefined) +
+          buildLink("filter", undefined, undefined, window.location.host) +
           path +
           id +
           filters +
@@ -923,7 +923,7 @@ function CatalogTest(props) {
       }
 
       axiosServer
-        .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+        .post(buildLink("pixel", undefined, undefined, window.location.host), dataSocial)
         .then((response) => {
           const data = response.data;
           if (data.success === true) {
@@ -1000,7 +1000,7 @@ function CatalogTest(props) {
           banner_image_ids
         };
 
-        axiosServer.post(buildLink("banner_stats"), obj).then((response) => {
+        axiosServer.post(buildLink("banner_stats" , undefined, undefined, window.location.host), obj).then((response) => {
           setBannerStats(response.data.data);
         });
       }

@@ -491,7 +491,7 @@ const router = useRouter()
         }
 
         axiosServer
-          .post(buildLink("pixel", undefined, undefined), dataSocial)
+          .post(buildLink("pixel", undefined, undefined, window.location.host), dataSocial)
           .then((response) => {
             const data = response.data;
             if (data.success === true) {

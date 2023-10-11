@@ -71,7 +71,7 @@ export default function latest(props) {
     }
 
     axiosServer
-      .post(buildLink("pixel", undefined, window.innerWidth), social_data)
+      .post(buildLink("pixel", undefined, undefined, window.location.host), social_data)
       .then((response) => {
       });
   }, []);

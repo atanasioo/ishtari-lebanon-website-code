@@ -763,7 +763,7 @@ function CatalogPage(props) {
       }
 
       axiosServer
-        .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+        .post(buildLink("pixel", undefined, undefined, window.location.host), dataSocial)
         .then((response) => {
           const data = response.data;
           if (data.success === true) {

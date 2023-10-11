@@ -657,8 +657,8 @@ function CheckoutCompnents() {
                 "pixel",
                 undefined,
                 undefined,
-                window.config["site-url"]
-              ),
+                window.location.host)
+              ,
               dataSocial
             )
             .then((response) => {
@@ -1100,7 +1100,7 @@ function CheckoutCompnents() {
         dataSocial["ttp"] = Cookies.get("_ttp");
         axiosServer
           .post(
-            buildLink("pixel", undefined, undefined, window.config["site-url"]),
+            buildLink("pixel", undefined, undefined, window.location.host),
             dataSocial
           )
           .then((response) => {

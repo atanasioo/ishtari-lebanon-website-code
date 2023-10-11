@@ -440,8 +440,8 @@ function Cart(props) {
           "pixel",
           undefined,
           window.innerWidth,
-          window.config["site-url"]
-        ),
+          window.location.host)
+        ,
         obj
       )
       .then((response) => {
