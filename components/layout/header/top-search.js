@@ -309,7 +309,7 @@ function TopSearch() {
                           <span class="w-12 ">
                             {img.length > 0 ? (
                               <img
-                                onError={(event) => (event.target.src = sq)}
+                                onError={(event) => (event.target.src = "/images/product_placeholder_square.png")}
                                 width="24"
                                 height="24"
                                 src={`${window.config["site-url"]}/image/${img}`}
@@ -508,7 +508,7 @@ function TopSearch() {
                     <span className="w-12 ">
                       {img.length > 0 ? (
                         <img
-                          onError={(event) => (event.target.src = sq)}
+                          onError={(event) => (event.target.src = "/images/product_placeholder_square.png")}
                           width="24"
                           height="24"
                           src={`${window.config["site-url"]}/image/${img}`}
