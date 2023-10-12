@@ -58,6 +58,7 @@ function SingleProductTest(props) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   }
+  const mobileViews = ["web_mobile", "seller_mobile", "category_mobile", "manufacturer_mobile"];
 
   return (
     <Link
@@ -75,11 +76,11 @@ function SingleProductTest(props) {
 
       onClickCapture={props?.click}
 
-      className={` cursor-pointer   ${props.isList && "mb-3"}`}
+      className={` cursor-pointer block w-full  ${props.isList && "mb-3"}`}
     >
       {props.item.new && <NewImage />}
       <div
-        className={`flex flex-col h-full ${props.scroll && "w-150px"} md:w-unset bg-white text-dblack p-2.5 relative ${
+        className={`flex flex-col h-full ${props.scroll && "w-150px"} ${!mobileViews.includes(router.query.view) && "w-unset"}  bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
         style={{ height: props.isList && "260px" }}
