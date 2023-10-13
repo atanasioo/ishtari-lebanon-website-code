@@ -37,7 +37,9 @@ app.prepare().then(() => {
           res.end("Internal Server Error");
         }
       });
-    } else {
+    }
+    //comment this
+     else {
       // Serve static files directly if found
       const filePath = path.join(__dirname, requestedPath);
       fs.readFile(filePath, (err, data) => {
@@ -52,6 +54,7 @@ app.prepare().then(() => {
         }
       });
     }
+    //
   }).listen(process.env.PORT, (err) => {
     if (err) throw err;
   });
