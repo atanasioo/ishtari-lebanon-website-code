@@ -307,20 +307,20 @@ function SingleProduct(props) {
                   <div
                     className={
                       width > 650
-                        ? "absolute z-20 text-dbase w-full text-center  bottom-0"
-                        : "absolute z-20 text-dbase w-full text-center bottom-0"
+                        ? "absolute z-40 text-dbase w-full text-center  bottom-0"
+                        : "absolute z-40 text-dbase w-full text-center bottom-00"
                     }
                   >
                     Out Of Stock
                   </div>
                 )}
                 {props.item.quantity === "0" && !props?.item?.coming_soon_date ? (
-                  <ImageFilter
+                 <ImageFilter
                     image={props.item.thumb}
                     filter={"duotone"} // see docs beneath
                     colorOne={[96, 96, 96]}
                     colorTwo={[255, 255, 255]}
-                    style={{ height: !topSelling ? "215.4px" : "200px" }}
+                    style={{ height: !topSelling ? "243px" : "150px" }}
                   />
                 ) : !props?.isSlider ||
                   item?.images?.length === 0 ||
