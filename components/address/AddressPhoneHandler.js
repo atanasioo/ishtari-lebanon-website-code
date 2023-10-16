@@ -146,7 +146,7 @@ function AddressHandlePhoneModel(props) {
   return (
     <div className="flex-end ml-5">
       <div>
-        {state.admin ? (
+        {state.admin  && fromCheckout ? (
           <input
             autoComplete={false}
             onFocus={(e) => setShow(e.target.value.length > 1)}
