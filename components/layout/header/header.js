@@ -37,14 +37,14 @@ function Header(props) {
   const { headerColor, setHeaderColor } = useHeaderColor();
 
 
-  const serverSideDomain = props.host;
+  // const serverSideDomain = props.host;
 
   //  console.log(session);
   const [state, setState] = useState([]);
   useEffect(() => {
     axiosServer
       .get(
-        buildLink("headerv2", undefined, undefined, window.config["site-url"])
+        buildLink("headerv2", undefined, undefined, window.location.host)
       )
       .then((response) => {
         setState(response.data.data);
@@ -69,7 +69,7 @@ function Header(props) {
             "all_categories",
             undefined,
             undefined,
-            window.config["site-url"]
+            window.location.host
           )
         )
         .then((response) => {
@@ -166,7 +166,7 @@ function Header(props) {
                 }
               }}
             >
-              {serverSideDomain.indexOf("flo") > -1 ? (
+              {/* {window?.location?.host?.indexOf("flo") > -1 ? (
                 <img
                   src={"/images/logo-flo-orange.png"}
                   width={110}
@@ -174,8 +174,8 @@ function Header(props) {
                   alt="flo-logo"
                   // style={{ width: "80%", height: "auto" }}
                 />
-              ) : serverSideDomain.indexOf("ishtari") > -1 ||
-                serverSideDomain.indexOf("next") > -1 ? (
+              ) : window?.location.host.indexOf("ishtari") > -1 ||
+              window?.location.host.indexOf("next") > -1 ? ( */}
                 <>
                   <img
                     className="hidden mobile:block"
@@ -194,7 +194,7 @@ function Header(props) {
                     // style={{ width: "78%", height: "auto" }}
                   />
                 </>
-              ) : serverSideDomain.indexOf("energy") > -1 ? (
+              {/* ) : window.location.host.indexOf("energy") > -1 ? (
                 <>
                   <img
                     className="hidden mobile:block"
@@ -236,7 +236,7 @@ function Header(props) {
                 </>
               ) : (
                 <LogoClient host={host.host} />
-              )}
+              )} */}
             </Link>
           </div>
 

@@ -229,123 +229,123 @@ export default function App({
   );
 }
 
-App.getInitialProps = async ({ Component, ctx }) => {
-  const { req } = ctx;
-  const cook = useCookie(ctx);
+// App.getInitialProps = async ({ Component, ctx }) => {
+//   const { req } = ctx;
+//   const cook = useCookie(ctx);
 
-  const cookies = req?.headers.cookie || "";
+//   const cookies = req?.headers.cookie || "";
 
-  const parsedCookiesss = cookie.parse(cookies, "; ", "=");
+//   const parsedCookiesss = cookie.parse(cookies, "; ", "=");
 
-  const parsedCookies = cookie?.parse(cookies);
-  const token = parsedCookiesss["api-token"];
+//   const parsedCookies = cookie?.parse(cookies);
+//   const token = parsedCookiesss["api-token"];
 
-  const maxAgeInDays = 15;
-  const maxAgeInSeconds = maxAgeInDays * 24 * 60 * 60; // Convert days to seconds
+//   const maxAgeInDays = 15;
+//   const maxAgeInSeconds = maxAgeInDays * 24 * 60 * 60; // Convert days to seconds
 
-  let options = {
-    path: "/",
-    maxAge: maxAgeInSeconds,
-    expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
-  };
+//   let options = {
+//     path: "/",
+//     maxAge: maxAgeInSeconds,
+//     expires: new Date(Date.now() + maxAgeInSeconds * 1000), // Calculate expiration date
+//   };
 
-  let host_url = "";
+//   let host_url = "";
 
-  const host = req?.headers.host;
+//   const host = req?.headers.host;
 
-  if (typeof cookies !== "undefined" && cookies !== "") {
-    var site_host = parsedCookies["site-local-name"];
+//   if (typeof cookies !== "undefined" && cookies !== "") {
+//     var site_host = parsedCookies["site-local-name"];
 
-    if (typeof site_host === "undefined") {
-      site_host = host;
-    }
+//     if (typeof site_host === "undefined") {
+//       site_host = host;
+//     }
 
-    host_url = await getHost(site_host);
+//     host_url = await getHost(site_host);
 
-    // Check if the token is invalid, undefined, or expired
-    if (
-      typeof token === "undefined" ||
-      token === undefined ||
-      token === "undefined"
-    ) {
-      try {
-        // Request a new token from the server
+//     // Check if the token is invalid, undefined, or expired
+//     if (
+//       typeof token === "undefined" ||
+//       token === undefined ||
+//       token === "undefined"
+//     ) {
+//       try {
+//         // Request a new token from the server
 
-        const response = await getToken(host_url);
+//         const response = await getToken(host_url);
 
-        const newToken = response.access_token;
+//         const newToken = response.access_token;
 
-        if (newToken != undefined) {
-          cook.set("api-token", newToken, options);
-        }
-        setAuthorizationHeader(newToken);
-
-
-        // Return the fetched data as props
-        return {
-
-          token: newToken,
-          host: site_host,
-        };
-      } catch (error) {
-        console.error(
-          "Failed to get a new token, or to fetch data heree:",
-          error
-        );
-      }
-    } else {
-      // Fetch data using the existing token
-      const parsedCookies = cookie.parse(cookies);
-      const token = parsedCookies["api-token"];
-
-      var site_host = parsedCookies["site-local-name"];
-
-      if (typeof site_host === "undefined") {
-        site_host = host;
-      }
-
-      host_url = await getHost(site_host);
-
-      // Fetch header, footer, footer_information data using the existing token
-      // const resp = await getMainData(token, host_url);
-
-      // Return the fetched data as props
-
-      return {
-        host: site_host,
-      };
-    }
-  } else {
-    //live
-    if (typeof window === "undefined") {
-      host_url = await getHost(host);
-
-      try {
-        // Request a new token from the server
-
-        const response = await getToken(host_url);
-
-        const newToken = response.access_token;
-
-        cook.set("api-token", newToken, options);
-
-        setAuthorizationHeader(newToken);
+//         if (newToken != undefined) {
+//           cook.set("api-token", newToken, options);
+//         }
+//         setAuthorizationHeader(newToken);
 
 
-        // Return the fetched data as props
-        return {
-          token: newToken,
-          host: host,
-        };
-      } catch (error) {
-        // Handle any errors that occurred during the token request
+//         // Return the fetched data as props
+//         return {
 
-        // console.error("host isss:" + site_host);
-        console.error("Failed to get a new token:", error);
-      }
-    }
-  }
-  return {
-    host: host_url,
-  };
-};
+//           token: newToken,
+//           host: site_host,
+//         };
+//       } catch (error) {
+//         console.error(
+//           "Failed to get a new token, or to fetch data heree:",
+//           error
+//         );
+//       }
+//     } else {
+//       // Fetch data using the existing token
+//       const parsedCookies = cookie.parse(cookies);
+//       const token = parsedCookies["api-token"];
+
+//       var site_host = parsedCookies["site-local-name"];
+
+//       if (typeof site_host === "undefined") {
+//         site_host = host;
+//       }
+
+//       host_url = await getHost(site_host);
+
+//       // Fetch header, footer, footer_information data using the existing token
+//       // const resp = await getMainData(token, host_url);
+
+//       // Return the fetched data as props
+
+//       return {
+//         host: site_host,
+//       };
+//     }
+//   } else {
+//     //live
+//     if (typeof window === "undefined") {
+//       host_url = await getHost(host);
+
+//       try {
+//         // Request a new token from the server
+
+//         const response = await getToken(host_url);
+
+//         const newToken = response.access_token;
+
+//         cook.set("api-token", newToken, options);
+
+//         setAuthorizationHeader(newToken);
+
+
+//         // Return the fetched data as props
+//         return {
+//           token: newToken,
+//           host: host,
+//         };
+//       } catch (error) {
+//         // Handle any errors that occurred during the token request
+
+//         // console.error("host isss:" + site_host);
+//         console.error("Failed to get a new token:", error);
+//       }
+//     }
+//   }
+//   return {
+//     host: host_url,
+//   };
+// };

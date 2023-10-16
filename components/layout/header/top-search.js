@@ -181,7 +181,7 @@ function TopSearch() {
       setLoading(true);
       const res = await axiosServer.get(
         buildLink("search", undefined, undefined, window.config["site-url"]) +
-          query
+          query +  `${stateAcc?.admin && "&employer=true"}`
       );
       try {
         setResults(!res?.data?.message && res?.data?.data);

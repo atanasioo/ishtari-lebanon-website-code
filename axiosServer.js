@@ -64,10 +64,10 @@ axiosServer.interceptors.request.use((config) => {
   }
 
   // Check if the request URL contains "undefined"
-  if (config.url && config.url.includes("undefined")) {
-    const routePathname = window.location.pathname; // Get the route pathname
-    console.log(`Request URL contains "undefined" at route: ${routePathname}`);
-  }
+  // if (config.url && config.url.includes("undefined")) {
+  //   const routePathname = window.location.pathname; // Get the route pathname
+  //   console.log(`Request URL contains "undefined" at route: ${routePathname}`);
+  // }
 
   return config;
 });

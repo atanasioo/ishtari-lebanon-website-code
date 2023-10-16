@@ -162,7 +162,7 @@ function ProductPage(props) {
 
     axiosServer.get(link).then((response) => {
       if (!response.data.success) {
-        router.push("/404");
+        // router.push("/404");
       } else {
         setData(response?.data?.data);
 
