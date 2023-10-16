@@ -17,8 +17,10 @@ import AddressHandlePhoneModel from "./AddressPhoneHandler";
 
 function AddAddressPage(props) {
   const { address_id } = props;
+
   const router = useRouter();
   const checkoutParam = router.query.checkout; // This will be a string or undefined
+  
   const [address_2, setAddress_2] = useState("");
   const [address_1, setAddress_1] = useState("");
   const [firstname, setFirstName] = useState("");
@@ -83,10 +85,10 @@ function AddAddressPage(props) {
       setFromCheckout(true);
     }
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth",
+    // });
     axiosServer
       .get(
         buildLink("zone", undefined, window.innerWidth) + window.config["zone"]
@@ -106,6 +108,7 @@ function AddAddressPage(props) {
               .then((response) => {
                 if (response.data.success) {
                   const addressDetails = response.data.data;
+               
                   axiosServer
                     .get(
                       buildLink("town", undefined, window.innerWidth) +
