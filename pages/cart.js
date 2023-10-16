@@ -18,12 +18,12 @@ import { AiOutlineShopping } from "react-icons/ai";
 import { slugify } from "@/components/Utils";
 import { useMarketingData } from "@/contexts/MarketingContext";
 
-function Cart(props) {
+function Cart() {
   const [loading, setLoading] = useState(true);
   const [showSelect, setShowSelect] = useState(false);
   const [select, setSelect] = useState(true);
 
-  const { data } = props;
+
   // console.log(data)
   const [error, setError] = useState(false);
   const [selectProduct, setSelectProduct] = useState([]);
@@ -812,7 +812,7 @@ function Cart(props) {
                   )}
                 </div>
               </div>
-              {data === true && (
+              {stateAccount.loged && (
                 <div className="flex justify-between  py-5">
                   <div className="flex items-center">
                     <h1 className=" font-bold" style={{ fontSize: "23px" }}>
@@ -927,14 +927,14 @@ function Cart(props) {
 
 export default Cart;
 
-export async function getServerSideProps(context) {
-  const session = await getServerSession(context.req, context.res, authOptions);
+// export async function getServerSideProps(context) {
+//   const session = await getServerSession(context.req, context.res, authOptions);
 
-  var data = false;
-  if (session) {
-    data = true;
-  }
-  return {
-    props: { data: data },
-  };
-}
+//   var data = false;
+//   if (session) {
+//     data = true;
+//   }
+//   return {
+//     props: { data: data },
+//   };
+// }
