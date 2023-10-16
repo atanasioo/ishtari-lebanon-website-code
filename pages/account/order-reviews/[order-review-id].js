@@ -12,18 +12,18 @@ import PointsLoader from "@/components/PointsLoader";
 import Image from "next/legacy/image";
 
 
-export async function getServerSideProps(context){
-  const session = await getServerSession(context.req, context.res, authOptions);
-  let isLogged= false;
+// export async function getServerSideProps(context){
+//   const session = await getServerSession(context.req, context.res, authOptions);
+//   let isLogged= false;
 
-  if(session){
-   isLogged = true
-  }
+//   if(session){
+//    isLogged = true
+//   }
 
-  return {
-    props: { isLogged },
-  }
-}
+//   return {
+//     props: { isLogged },
+//   }
+// }
 
 export default function OrderReviews(props) {
   const [data, setData] = useState();
@@ -46,7 +46,7 @@ export default function OrderReviews(props) {
   let commentErr = " ";
 
   useEffect(() => {
-    if (!props.isLogged) {
+    if (!state.loged) {
       dispatch({ type: "setShowOver", payload: true });
       dispatch({ type: "setShowLogin", payload: true });
     } else {
