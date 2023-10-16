@@ -38,19 +38,19 @@ app.prepare().then(() => {
         }
       });
     }else {
-      // Serve static files directly if found
-      const filePath = path.join(__dirname, requestedPath);
-      fs.readFile(filePath, (err, data) => {
-        if (!err && data) {
-          const contentType = getContentType(filePath);
-          res.setHeader("Content-Type", contentType);
-          res.writeHead(200);
-          res.end(data);
-        } else {
+      // // Serve static files directly if found
+      // const filePath = path.join(__dirname, requestedPath);
+      // fs.readFile(filePath, (err, data) => {
+      //   if (!err && data) {
+      //     const contentType = getContentType(filePath);
+      //     res.setHeader("Content-Type", contentType);
+      //     res.writeHead(200);
+      //     res.end(data);
+      //   } else {
           // If file not found, handle with Next.js
           handle(req, res, parsedUrl);
-        }
-      });
+      //   }
+      // });
     }
     
   }).listen(process.env.PORT, (err) => {
