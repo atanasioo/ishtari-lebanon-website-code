@@ -3,10 +3,23 @@ import SingleProductTopSelling from "@/components/product/SingleProductTopSellin
 import { sanitizeHTML } from "@/components/Utils";
 import buildLink from "@/urls";
 import cookie from "cookie";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
+function categoryTopSelling() {
 
-function categoryTopSelling(props) {
-  const { data } = props;
+  const [data , setData] = useState([])
+  const router = useRouter()
+  const { category_id } = router.query;
+
+  useEffect(()=>{
+    axiosServer.get(buildLink("getAllTopSellingbyCategoryid", undefined, undefined, window.location.host) +
+    "&category_id=" +
+    category_id).then((resp)=>{
+      setData(resp.data)
+    })
+
+  }, [])
 
   return (
     <div className="py-6 container">
@@ -37,39 +50,3 @@ function categoryTopSelling(props) {
 
 export default categoryTopSelling;
 
-export async function getServerSideProps(context) {
-  const category_id = context.query.category_id;
-  const { req } = context;
-  const host = req.headers.host;
-
-  const cookies = req.headers.cookie;
-  const parsedCookies = cookie.parse(cookies);
-  const host_cookie = parsedCookies["site-local-name"];
-  const token = parsedCookies["api-token"];
-  let site_host = "";
-  if (host_cookie === undefined || typeof host_cookie === "undefined") {
-    site_host = host;
-  } else {
-    site_host = host_cookie;
-  }
-
-
-  const response = await axiosServer.get(
-    buildLink("getAllTopSellingbyCategoryid", undefined, undefined, site_host) +
-      "&category_id=" +
-      category_id,
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
-
-  const data = response.data;
-
-  return {
-    props: {
-      data,
-    },
-  };
-}
