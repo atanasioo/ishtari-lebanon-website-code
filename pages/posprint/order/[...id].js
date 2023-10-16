@@ -3,6 +3,8 @@ import buildLink from "@/urls";
 import { axiosServer } from "@/axiosServer";
 import { useRouter } from "next/router";
 export default function PosPrint(props) {
+
+
   var param = props.id;
   const {date, time} = props;
   const [result, setResult] = useState();
@@ -10,6 +12,7 @@ export default function PosPrint(props) {
   const [site, setSite] = useState("");
 
   const router = useRouter();
+      
    
   useEffect(() => {
     var data =
