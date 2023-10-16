@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { IoIosAlert } from "react-icons/io";
 
 function flashSale(props) {
-  const { data } = props;
+  const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const [accountState, dispatchAccount] = useContext(AccountContext);
   const [loading, setLoading] = useState(false);
@@ -20,10 +20,6 @@ function flashSale(props) {
     product_id: 0,
     state: false,
   });
-
-  useEffect(() => {
-    setProductsTab(data[activeTab].products);
-  }, []);
 
   function handleReminder(event, product_id, flash_sale_event_id) {
     event.preventDefault();
@@ -42,7 +38,7 @@ function flashSale(props) {
           if (response.data.success) {
             axiosServer
               .get(
-                buildLink("getFlashSale", undefined, undefined) +
+                buildLink("getFlashSale", undefined, undefined) + "&flash_sale_event_id=" +
                   data[activeTab].flash_sale_event_id
               )
               .then((resp) => {
@@ -80,14 +76,20 @@ function flashSale(props) {
     }
   }
 
-  function handleTabClick(index) {
+  function handleTabClick(index, resp) {
+    console.log("data in handle tab", data);
     setNoSale(false);
     setLoading(true);
     setActiveTab(index);
     axiosServer
       .get(
         buildLink("getFlashSale", undefined, undefined) +
-          data[index].flash_sale_event_id
+          "&flash_sale_event_id=" +
+          `${
+            data && data.length > index && data[index].flash_sale_event_id
+              ? data[index].flash_sale_event_id
+              : resp[index].flash_sale_event_id
+          }`
       )
       .then((response) => {
         if (response.data.success) {
@@ -99,12 +101,24 @@ function flashSale(props) {
       });
   }
 
-  useEffect(() =>{
-    if(data.length >0 && !data[0].on_sale_now && data[0].products.length === 0){
-      setActiveTab(1);
-      handleTabClick(1);
-    }
-  },[])
+  useEffect(() => {
+    axiosServer
+      .get(buildLink("getFlashSale", undefined, undefined))
+      .then((response) => {
+        if (response.data.success) {
+          setData(response.data.data);
+          setProductsTab(response.data.data[activeTab].products);
+          console.log("response data", response.data);
+          if (
+            !response.data.data[0].on_sale_now &&
+            response.data.data[0].products.length === 0
+          ) {
+            setActiveTab(1);
+            handleTabClick(1, response.data.data);
+          }
+        }
+      });
+  }, []);
 
   return (
     <div className="">
@@ -162,39 +176,40 @@ function flashSale(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const { page, limit } = context.query;
-  const host = req.headers.host;
-  const cookies = req.headers.cookie;
-  const parsedCookies = cookie.parse(cookies);
-  const host_cookie = parsedCookies["site-local-name"];
-  const token = parsedCookies["api-token"];
-  var data = {};
-  let site_host = "";
-  if (host_cookie === undefined || typeof host_cookie === "undefined") {
-    site_host = host;
-  } else {
-    site_host = host_cookie;
-  }
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const { page, limit } = context.query;
+//   const host = req.headers.host;
+//   const cookies = req.headers.cookie;
+//   const parsedCookies = cookie.parse(cookies);
+//   const host_cookie = parsedCookies["site-local-name"];
+//   const token = parsedCookies["api-token"];
+//   var data = {};
+//   let site_host = "";
+//   if (host_cookie === undefined || typeof host_cookie === "undefined") {
+//     site_host = host;
+//   } else {
+//     site_host = host_cookie;
+//   }
 
-  const response = await axiosServer.get(
-    buildLink("getFlashSale", undefined, undefined, site_host),
-    {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+//   const response = await axiosServer.get(
+//     buildLink("getFlashSale", undefined, undefined, site_host),
+//     {
+//       headers: {
+//         Authorization: "Bearer " + token,
+//       },
+//     }
+//   );
 
-  data = response.data.data;
+//   data = response.data.data;
 
+//   console.log("response data" , response.data);
 
-  return {
-    props: {
-      data: data,
-    },
-  };
-}
+//   return {
+//     props: {
+//       data: data,
+//     },
+//   };
+// }
 
 export default flashSale;
