@@ -71,38 +71,3 @@ function Information() {
 }
 
 export default Information;
-
-// export async function getServerSideProps(context) {
-//   const { req } = context;
-//   const { id } = context.query;
-//   const host = req.headers.host;
-
-//   const cookies = req.headers.cookie;
-//   const parsedCookies = cookie.parse(cookies);
-//   const host_cookie = parsedCookies["site-local-name"];
-//   let site_host = "";
-//   if (host_cookie === undefined || typeof host_cookie === "undefined") {
-//     site_host = host;
-//   } else {
-//     site_host = host_cookie;
-//   }
-//   const token = parsedCookies["api-token"];
-//   var data;
-//   const response = await axiosServer
-//     .get(
-//       buildLink("information", undefined, undefined, site_host) + "&information_id=" + id,
-//       {
-//         headers: {
-//           Authorization: "Bearer " + token,
-//         },
-//       }
-//     );
-    
-//     data = response.data.data;
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// }

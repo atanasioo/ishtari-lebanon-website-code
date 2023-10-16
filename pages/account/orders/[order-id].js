@@ -15,9 +15,9 @@ import { AiOutlineCar } from "react-icons/ai";
 import { BiBox } from "react-icons/bi";
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineHome } from "react-icons/hi";
-import cookie from "cookie";
-import { getHost } from "@/functions";
+
 import Image from "next/legacy/image";
+
 function OrderDetails() {
   const router = useRouter();
   const [data, setData] = useState();
@@ -472,61 +472,4 @@ function OrderDetails() {
 
 export default OrderDetails;
 
-export async function getServerSideProps(context) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  const { req } = context;
 
-  // if (!session) {
-  //   //check whether the user is logged using facebook login
-
-  //   var site_host = "";
-  //   let host_url = "";
-
-  //   const host = req.headers.host;
-
-  //   let token = "";
-
-  //   const cookies = req?.headers.cookie || "";
-  //   if (typeof cookies !== "undefined" && cookies !== "") {
-  //     const parsedCookies = cookie?.parse(cookies);
-  //     site_host = parsedCookies["site-local-name"];
-  //     token = parsedCookies["api-token"];
-
-  //     if (typeof site_host === "undefined") {
-  //       site_host = host;
-  //     }
-  //   }
-
-  //   host_url = await getHost(site_host);
-  //   try {
-  //     const response = await axiosServer.get(
-  //       buildLink("login", undefined, undefined, host_url),
-  //       {
-  //         headers: {
-  //           Authorization: "Bearer " + token,
-  //         },
-  //       }
-  //     );
-  //     console.log(response.data);
-  //     if (response.data.customer_id === 0) {
-  //       return {
-  //         redirect: {
-  //           destination: "/",
-  //           permanent: false,
-  //         },
-  //       };
-  //     }
-  //   } catch(error) {
-  //     return {
-  //       redirect: {
-  //         destination: "/",
-  //         permanent: false,
-  //       },
-  //     };
-  //   }
-  // }
-
-  return {
-    props: {},
-  };
-}
