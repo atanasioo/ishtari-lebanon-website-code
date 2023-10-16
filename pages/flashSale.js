@@ -158,7 +158,7 @@ function flashSale(props) {
           </div>
         </div>
       ) : (
-        <div className="products-wrapper pb-5 mt-5 grid grid-cols-4 gap-3">
+        <div className="products-wrapper pb-5 mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-3">
           {productsTab?.map((item) => (
             <SingleProductFlashSale
               key={item.product_id}

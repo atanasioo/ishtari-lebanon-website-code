@@ -2,15 +2,16 @@ import Link from "next/link";
 import { BsBell } from "react-icons/bs";
 import { MdOutlineElectricBolt } from "react-icons/md";
 import { slugify } from "../Utils";
+import useDeviceSize from "../useDeviceSize";
 
 function SingleProductFlashSale(props) {
   const { handleReminder, item, data, successReminder, errReminder, reminder } = props;
+  const [ width ] =useDeviceSize();
 
   return (
     <Link
       href={`/${slugify(item.full_name)}/p=${item.product_id}`}
-      className="bg-white   relative"
-      style={{ width: "303px" }}
+      className="bg-white relative  md:w-[303px]"
     >
       <div className="flash absolute z-10 top-0 left-0">
         <div
@@ -24,11 +25,10 @@ function SingleProductFlashSale(props) {
       <div>
         <img
           src={item.thumb_sdesktop}
-          width={303}
-          height={403}
+          width={width > 768 ? 303 : 180}
+          height={width > 768 ? 403 : 300}
           alt={item.full_name}
-          className="w-full"
-          style={{ height: "403px" }}    
+          className="w-full  md:h-[403px] "
         />
 
         <div className="product-info-wrapper py-3 px-2">
