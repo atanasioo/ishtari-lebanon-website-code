@@ -47,7 +47,7 @@ function ProductPage(props) {
   //states
   const [data, setData] = useState([]);
   const [additionalData, setAdditionalData] = useState([]);
-  const [loading, setLoading]= useState(true);
+  const [loading, setLoading] = useState(true);
   const [countDownPointer, setCountDownPointer] = useState();
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
   const [AddToCartError, setAddToCartError] = useState("");
@@ -867,20 +867,22 @@ function ProductPage(props) {
           if (data) {
             const data = response?.data?.data?.social_data;
 
-            window.fbq(
-              "track",
-              "AddToCart",
-              {
-                content_type: "product",
-                content_ids: data?.content_ids,
-                content_name: data?.name,
-                value: data?.value,
-                content_category: data?.breadcrumbs?.category[0]?.name,
-                currency: data?.currency,
-                fbp: Cookies.get("_fbp"),
-              },
-              { eventID: data?.event_id }
-            );
+            initializeReactPixel().then((ReactPixel) => {
+              ReactPixel.fbq(
+                "track",
+                "AddToCart",
+                {
+                  content_type: "product",
+                  content_ids: data?.content_ids,
+                  content_name: data?.name,
+                  value: data?.value,
+                  content_category: data?.breadcrumbs?.category[0]?.name,
+                  currency: data?.currency,
+                  fbp: Cookies.get("_fbp"),
+                },
+                { eventID: data?.event_id }
+              );
+            });
           }
           // }
 
@@ -1144,12 +1146,9 @@ function ProductPage(props) {
   }
 
   return loading ? (
-    <ProductPlaceholder meta ={meta} />
+    <ProductPlaceholder meta={meta} />
   ) : (
-    <div
-
-      className="product-page-wrapper bg-[#f8f8f9]"
-    >
+    <div className="product-page-wrapper bg-[#f8f8f9]">
       <div className="">
         <CartSideModal
           successAdded={successAdded}
