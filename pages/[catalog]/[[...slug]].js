@@ -115,7 +115,6 @@ function SlugPage(props) {
 }
 export async function getServerSideProps(context) {
   // Fetch the corresponding API endpoint based on the page type
-  // const { catalog,  slug  , resolvedUrl } = context.params;
   const { req, res } = context;
 
   res.setHeader(

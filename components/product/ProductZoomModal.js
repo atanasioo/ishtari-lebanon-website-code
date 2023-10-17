@@ -63,7 +63,7 @@ function ProductZoomModal(props) {
     slidesToShow: 6,
     slidesToScroll: 2,
     swipeToSlide: true,
-    autoplay: false,
+    autoplay: true,
     currentSlide: currentSlide,
     ref: slider2,
     prevArrow: <div><BsChevronLeft className="w-8 h-8 -ml-2.5 text-darrowZoom"/></div>, // or null

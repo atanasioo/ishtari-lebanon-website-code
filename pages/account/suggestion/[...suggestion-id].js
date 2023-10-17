@@ -22,9 +22,21 @@ function suggestionDetails() {
   const [deleteMsg, setDeleteMsg] = useState("");
   const [deleteErr, setDeleteErr] = useState("");
   const hiddenFileInput = useRef(null);
-  const isEdit = router.query["suggestion-id"][1] === "edit";
+  // const isEdit = router.query["suggestion-id"][1] === "edit";
   const [width] = useDeviceSize();
-  const suggestion_id = router.query["suggestion-id"][0];
+  const [isEdit, setIsEdit] = useState(false);
+  const [suggestion_id, setSuggest] = useState();
+  const slug = router.query;
+
+  useEffect(() => {
+    console.log("slug")
+    console.log(slug)
+    if (Object.keys(slug).length > 0) {
+      setIsEdit(slug && slug["suggestion-id"][1] === "edit" && true);
+      setSuggest(slug["suggestion-id"][0]);
+    }
+  }, [router]);
+  // const suggestion_id = router.query["suggestion-id"][0];
 
   console.log(deletedImgs);
 
@@ -46,7 +58,7 @@ function suggestionDetails() {
           }
         });
     }
-  }, []);
+  }, [isEdit]);
 
   useEffect(() => {
     const left = 5 - dataImgs.length;
@@ -54,7 +66,7 @@ function suggestionDetails() {
   }, [dataImgs]);
 
   const defaultOptions = {
-    maxSizeMB: 1,
+    maxSizeMB: 1
   };
 
   function compressFile(imageFile, options = defaultOptions) {
@@ -209,7 +221,7 @@ function suggestionDetails() {
           setDeleteMsg("Suggestion deleted successfully");
           setTimeout(() => {
             setDeleteMsg("");
-            router.push("/account/suggestion")
+            router.push("/account/suggestion");
           }, [3000]);
         } else {
           setDeleteErr(response.data?.errors[0]?.errorMsg);
@@ -324,7 +336,7 @@ function suggestionDetails() {
                         <button
                           className="absolute z-10 bottom-0 w-full align-middle"
                           style={{
-                            backgroundColor: "#00000066",
+                            backgroundColor: "#00000066"
                           }}
                           onClick={() =>
                             setSuggImgs(suggImgs.filter((e) => e !== img))
@@ -350,13 +362,13 @@ function suggestionDetails() {
                           <button
                             className="absolute z-10 bottom-0 w-full align-middle"
                             style={{
-                              backgroundColor: "#00000066",
+                              backgroundColor: "#00000066"
                             }}
                             onClick={() => {
                               setDataImgs(dataImgs.filter((e) => e !== img));
                               setDeletedImgs((current) => [
                                 ...current,
-                                dataImgs[index],
+                                dataImgs[index]
                               ]);
                             }}
                           >
@@ -384,7 +396,7 @@ function suggestionDetails() {
                 className="rounded-md text-white px-8 py-1.5 w-full md:w-60"
                 style={{
                   background:
-                    "linear-gradient(98.3deg, rgb(204, 0, 0) 30.6%, rgb(255, 153, 153) 97.7%)",
+                    "linear-gradient(98.3deg, rgb(204, 0, 0) 30.6%, rgb(255, 153, 153) 97.7%)"
                 }}
               >
                 Submit
@@ -397,8 +409,11 @@ function suggestionDetails() {
                 >
                   Edit
                 </button>
-                <div onClick={() => deleteSuggestion(suggestion_id)} className="cursor-pointer bg-dbase text-white w-1/2 md:w-60 rounded-md text-center py-1.5">
-                    Delete
+                <div
+                  onClick={() => deleteSuggestion(suggestion_id)}
+                  className="cursor-pointer bg-dbase text-white w-1/2 md:w-60 rounded-md text-center py-1.5"
+                >
+                  Delete
                 </div>
               </div>
             )}

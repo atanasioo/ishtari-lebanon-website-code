@@ -1,5 +1,3 @@
-import { AccountContext } from "@/contexts/AccountContext";
-import { getServerSideProps } from "@/pages";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
