@@ -33,7 +33,7 @@ function flashSale(props) {
         flash_sale_event_id: flash_sale_event_id,
       };
       axiosServer
-        .post(buildLink("addReminderForFlashSale", undefined, undefined), obj)
+        .post(buildLink("addReminderForFlashSale", undefined, undefined) +"&page=1&limit=20" , obj)
         .then((response) => {
           if (response.data.success) {
             axiosServer

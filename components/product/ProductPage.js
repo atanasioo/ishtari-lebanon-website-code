@@ -245,45 +245,43 @@ function ProductPage(props) {
                 { eventID: data?.social_data?.event_id }
               );
             });
-
-            var dataSocial = data.social_data;
-            dataSocial["fbp"] = Cookies.get("_fbp");
-            dataSocial["fbc"] = Cookies.get("_fbc");
-            dataSocial["ttp"] = Cookies.get("_ttp");
-            dataSocial["link"] = window.location.href;
-            dataSocial["view_type"] = "product";
-            dataSocial["view_type_id"] = product_id;
-
-            if (
-              marketingData.source_type === "" ||
-              marketingData.source_type === null ||
-              typeof marketingData.source_type === "undefined"
-            ) {
-              dataSocial["ignore"] = true;
-            } else {
-              dataSocial["source_type"] = marketingData.source_type;
-              dataSocial["source_type_id"] = marketingData.source_type_id;
-              dataSocial["banner_image_id"] = marketingData.banner_image_id
-                ? marketingData.banner_image_id
-                : "";
-            }
-
-            axiosServer
-              .post(
-                buildLink(
-                  "pixel",
-                  undefined,
-                  window.innerWidth,
-                  window.config["site-url"]
-                ),
-                dataSocial
-              )
-              .then((response) => {
-                const data = response.data;
-              });
           }
         }
+        var dataSocial = data.social_data;
+        dataSocial["fbp"] = Cookies.get("_fbp");
+        dataSocial["fbc"] = Cookies.get("_fbc");
+        dataSocial["ttp"] = Cookies.get("_ttp");
+        dataSocial["link"] = window.location.href;
+        dataSocial["view_type"] = "product";
+        dataSocial["view_type_id"] = product_id;
 
+        if (
+          marketingData.source_type === "" ||
+          marketingData.source_type === null ||
+          typeof marketingData.source_type === "undefined"
+        ) {
+          dataSocial["ignore"] = true;
+        } else {
+          dataSocial["source_type"] = marketingData.source_type;
+          dataSocial["source_type_id"] = marketingData.source_type_id;
+          dataSocial["banner_image_id"] = marketingData.banner_image_id
+            ? marketingData.banner_image_id
+            : "";
+        }
+
+        axiosServer
+          .post(
+            buildLink(
+              "pixel",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            ),
+            dataSocial
+          )
+          .then((response) => {
+            const data = response.data;
+          });
         //seller recommendations (excluding ishtari)
         if (
           data?.seller_id > 0 &&
