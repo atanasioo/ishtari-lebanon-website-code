@@ -188,9 +188,9 @@ function ProductPage(props) {
         setReviews(data?.product_reviews?.reviews);
 
         //banner_event
-        if (data?.special_end !== null && data?.special_end !== 0) {
+       // if (data?.special_end !== null && data?.special_end !== 0) {
           setHasBannerEvent(data?.bannerevent);
-        }
+        //}
 
         setHasOption(data?.options?.length > 0);
 
