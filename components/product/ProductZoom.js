@@ -45,7 +45,7 @@ function ProductZoom(props) {
     ref: SmallImageSlider,
     currentSlide: activeSlide,
     prevArrow: <SmallArrows direction={"u"} />,
-    nextArrow: <SmallArrows direction={"d"} />,
+    nextArrow: <SmallArrows direction={"d"} />
   };
 
   const mobileSetting = {
@@ -60,7 +60,7 @@ function ProductZoom(props) {
     autoplay: false,
     ref: smallMobileSliderRef,
     variableWidth: true,
-    className: "slider variable-width",
+    className: "slider variable-width"
   };
 
   const singleSetting = {
@@ -77,7 +77,7 @@ function ProductZoom(props) {
     touchThreshold: 100,
     afterChange: (currentSlide) => handleSingleMobileChange(currentSlide),
     prevArrow: <></>, // or null
-    nextArrow: <></>, // or null
+    nextArrow: <></> // or null
   };
 
   function closeModal() {
@@ -110,7 +110,6 @@ function ProductZoom(props) {
 
   useEffect(() => {
     // Use activeImage here, it will have the updated value.
-
   }, [activeImage]);
 
   useEffect(() => {
@@ -215,12 +214,18 @@ function ProductZoom(props) {
   }, [hoverZoom, hovered]);
 
   function changeImage(imgSrc) {
+    console.log(imgSrc);
     var selectedImgIndex = 0;
     var image = document.getElementById("myimage");
 
     selectedImgIndex = images.findIndex(
       (item) => item.popup === imgSrc.popup && item.thumb === imgSrc.thumb
     );
+    console.log(selectedImgIndex);
+    if (selectedImgIndex < 0) {
+      selectedImgIndex = images.length;
+      console.log(selectedImgIndex);
+    }
 
     setActiveImage(imgSrc);
 
@@ -426,6 +431,26 @@ function ProductZoom(props) {
                     />
                   </div>
                 ))}
+                <div
+                  key={productData?.videos && productData?.videos[0]}
+                  onClick={() => changeImage(productData?.videos[0])}
+                  className={`bg-dblack  flex justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                >
+                  <video
+                    className={`cursor-pointer border-2 
+                      ${
+                        activeImage &&
+                        productData?.videos &&
+                        (productData?.videos[0] === activeImage ||
+                          productData?.videos[0] === activeImage[0])
+                          ? "border-dblue"
+                          : "border-dgreyZoom"
+                      }`}
+                    style={{ height: "100px" }}
+                    src={productData?.videos && productData?.videos[0]}
+                    type="video/mp4"
+                  />
+                </div>
               </Slider>
               <Slider {...mobileSetting} className={`md:hidden`}>
                 {images?.map((i, index) => (
@@ -451,6 +476,7 @@ function ProductZoom(props) {
                           : "border-dgreyZoom"
                       }`}
                     />
+
                     {/* {
                         activeImage && activeImage["popup"] === i["popup"]
                           ? //  activeSlide === index
@@ -459,6 +485,7 @@ function ProductZoom(props) {
                       } */}
                   </div>
                 ))}
+
                 {Object.keys(sellerData).length > 0 && width < 768 && (
                   <div
                     className={`flex justify-center h-[107px] items-center mt-2 mr-4 text-d28 pr-bold transition-all ease-in-out outline-none cursor-pointer border-2 ${
@@ -473,6 +500,27 @@ function ProductZoom(props) {
                     ...
                   </div>
                 )}
+
+                <div
+                  key={productData?.videos && productData?.videos[0]}
+                  onClick={() => changeImage(productData?.videos[0])}
+                  className={`flex justify-center mt-2 mr-4 h-24  rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                >
+                  <video
+                    className={`cursor-pointer border-2
+                      ${
+                        productData?.videos &&
+                        productData?.videos[0] === activeImage
+                          ? "border-dblue"
+                          : "border-dgreyZoom"
+                      }`}
+                  >
+                    <source
+                      src={productData?.videos && productData?.videos[0]}
+                      type="video/mp4"
+                    />
+                  </video>
+                </div>
               </Slider>
             </div>
           </div>
@@ -520,6 +568,18 @@ function ProductZoom(props) {
                       className="rounded-lg myimage-product-zoom"
                     />
                   ))}
+
+                  <div className="h-full bg-dblack">
+                    <video
+                      id={`myimage${images.length}`}
+                      src={productData?.videos && productData?.videos[0]}
+                      type="video/mp4"
+                      style={{ height: "480px" }}
+                      controls
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
                   {Object.keys(sellerData).length > 0 && width < 768 && (
                     <div className="black-gradient h-full flex flex-col justify-center items-start p-2">
                       <div className="pr-semibold text-white pb-2">
@@ -617,7 +677,7 @@ function ProductZoom(props) {
                       style={{
                         background: "hsla(0,0%,100%,.8)",
                         boxShadow: "0 0 0.1rem 0 rgba(0,0,0,.07)",
-                        animationDelay: `${index * 0.2}s`, // Delay each comment's animation
+                        animationDelay: `${index * 0.2}s` // Delay each comment's animation
                       }}
                       ref={commentRef}
                     >

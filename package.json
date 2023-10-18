@@ -13,6 +13,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^38.0.1",
     "@ckeditor/ckeditor5-react": "^6.0.0",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@greatsumini/react-facebook-login": "^3.3.3",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
@@ -26,6 +27,7 @@
     "js-cookie": "^3.0.5",
     "next": "13.4.2",
     "next-auth": "^4.22.1",
+    "next-cloudinary": "^4.27.0",
     "next-cookie": "^2.8.0",
     "postcss": "8.4.23",
     "query-string": "^8.1.0",

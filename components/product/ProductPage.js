@@ -1361,7 +1361,10 @@ function ProductPage(props) {
                       </div>
 
                       {/* missing span */}
-
+                      {/* <video className="h-full w-full rounded-lg" controls>
+      <source src={ data?.videos && data?.videos[0]} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video> */}
                       {data.special !== "0" && (
                         <div className="flex items-center mb-3">
                           <div className="mr-9 text-d14 text-dblack">
