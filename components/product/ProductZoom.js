@@ -434,7 +434,7 @@ function ProductZoom(props) {
                 <div
                   key={productData?.videos && productData?.videos[0]}
                   onClick={() => changeImage(productData?.videos[0])}
-                  className={`bg-dblack  flex justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                  className={`bg-dblack  flex justify-center mt-2 mr-4 h- rounded-md cursor-pointer transition-all ease-in-out outline-none `}
                 >
                   <video
                     className={`cursor-pointer border-2 
