@@ -84,15 +84,11 @@ export default function App({
   if (host?.indexOf("flo") > -1) {
     favicon = "images/logo/favicon-flo.ico";
     title = "Flo Lebanon";
-  }
-
-  if (host?.indexOf("energy") > -1) {
+  }else if (host?.indexOf("energy") > -1) {
     favicon = "images/logo/favicon-energyplus.ico";
     title = "energyplus";
-  }
-
-  if (host?.indexOf(".gh") > -1) {
-    title = "energyplus";
+  }else if (host?.indexOf(".gh") > -1) {
+    // title = "energyplus";
     title = "ishtari | online Shopping in Ghana";
   }
 
