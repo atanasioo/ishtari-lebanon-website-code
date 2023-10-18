@@ -390,7 +390,6 @@ function TopSearch() {
                           href={`${path}/search?keyword=${history}`}
                           key={index}
                           className="bg-dsearchGrey px-2.5 py-1 cursor-pointer relative"
-                          onClick={()=> setShowSearch(false)}
                         >
                           <div onClick={() => setOverlay(false)}>{history}</div>
                           {!trash && (
