@@ -449,6 +449,7 @@ function ProductZoom(props) {
                     style={{ height: "100px" }}
                     src={productData?.videos && productData?.videos[0]}
                     type="video/mp4"
+             
                   />
                 </div>
               </Slider>
@@ -576,6 +577,7 @@ function ProductZoom(props) {
                       type="video/mp4"
                       style={{ height: "480px" }}
                       controls
+                      controlsList="nodownload" 
                     >
                       Your browser does not support the video tag.
                     </video>

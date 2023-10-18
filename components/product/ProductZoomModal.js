@@ -173,7 +173,7 @@ function ProductZoomModal(props) {
                     ))}
                     
                   <div className="h-full bg-dblack" >
-                  <video   id={`myimage${images.length}`} 
+                  <video   id={`myimage${images.length}`}   controlsList="nodownload" 
                       src={productData?.videos && productData?.videos[0]}
                       type="video/mp4" style={{height:"500px"}} controls >
             
@@ -208,7 +208,7 @@ function ProductZoomModal(props) {
                       </PrismaZoom>
                     ))}
                    <div  className="min-h-max bg-dblackOverlay">
-                   <video  controls 
+                   <video  controls         controlsList="nodownload" 
                         id={`myimage${images.length}`}
                         src={productData?.videos && productData?.videos[0]}
                         type="video/mp4"  className="min-h-max"  style={{height: "500px"}}
