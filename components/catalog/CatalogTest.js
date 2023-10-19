@@ -274,7 +274,7 @@ function CatalogTest(props) {
           buildLink(type, undefined, undefined , window.location.host) +
           id +
           "&source_id=1" +
-          filters +
+          filters + "&admin=true" +
           (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
         // console.log("FFFFFFFFFFFFFF1111");
         // console.log(link);
