@@ -3,7 +3,7 @@ import {
   BsChevronLeft,
   BsChevronRight,
   BsFillAwardFill,
-  BsFillHeartFill
+  BsFillHeartFill,
 } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
@@ -34,6 +34,7 @@ import { useReviewCenterData } from "@/contexts/ReviewCenterContext";
 import WarrantyPopup from "./WarrantyPopup";
 import Timer from "./Timer";
 import ProductPlaceholder from "./ProductPlaceholder";
+import NoData from "../NoData";
 
 function ProductPage(props) {
   //Server props
@@ -97,8 +98,9 @@ function ProductPage(props) {
   const descriptionRef = useRef();
   const [showOptionModal, setShowOptionModal] = useState({
     show: false,
-    bundle: null
+    bundle: null,
   });
+  const [noData, setNoData] = useState(false);
 
   async function initializeReactPixel() {
     const module = await import("react-facebook-pixel");
@@ -108,7 +110,7 @@ function ProductPage(props) {
   const [width, height] = useDeviceSize();
 
   const SellerImage = dynamic(() => import("./SellerImage"), {
-    ssr: false // Disable server-side rendering
+    ssr: false, // Disable server-side rendering
   });
 
   const router = useRouter();
@@ -122,7 +124,7 @@ function ProductPage(props) {
     slidesToScroll: 1,
     infinite: false,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />
+    nextArrow: <CustomNextArrows direction={"r"} />,
   };
   const productMobileBundlesSetting = {
     speed: 200,
@@ -130,7 +132,7 @@ function ProductPage(props) {
     slidesToScroll: 1,
     infinite: false,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />
+    nextArrow: <CustomNextArrows direction={"r"} />,
   };
 
   function handleHoveredSeries(key, name) {
@@ -162,6 +164,7 @@ function ProductPage(props) {
 
     axiosServer.get(link).then((response) => {
       if (!response.data.success) {
+        setNoData(true);
         // router.push("/404");
       } else {
         setData(response?.data?.data);
@@ -174,7 +177,6 @@ function ProductPage(props) {
           )
           .then((resp) => {
             setAdditionalData(resp.data.data);
-            setLoading(false);
           });
 
         const data = response.data?.data;
@@ -188,8 +190,8 @@ function ProductPage(props) {
         setReviews(data?.product_reviews?.reviews);
 
         //banner_event
-       // if (data?.special_end !== null && data?.special_end !== 0) {
-          setHasBannerEvent(data?.bannerevent);
+        // if (data?.special_end !== null && data?.special_end !== 0) {
+        setHasBannerEvent(data?.bannerevent);
         //}
 
         setHasOption(data?.options?.length > 0);
@@ -204,7 +206,7 @@ function ProductPage(props) {
         if (!includesImage) {
           data?.images.unshift({
             popup: data.popup,
-            thumb: data.thumb
+            thumb: data.thumb,
           });
         }
 
@@ -219,7 +221,7 @@ function ProductPage(props) {
             ln: data?.social_data?.lastname,
             external_id: data?.social_data?.external_id,
             country: data?.social_data?.country_code,
-            fbp: Cookies.get("_fbp")
+            fbp: Cookies.get("_fbp"),
           };
           if (typeof window !== "undefined") {
             let ReactPixel; // Define a variable to hold the reference to ReactPixel
@@ -227,7 +229,7 @@ function ProductPage(props) {
             initializeReactPixel().then((ReactPixel) => {
               ReactPixel.init(pixelID, advancedMatching, {
                 debug: true,
-                autoConfig: false
+                autoConfig: false,
               });
               ReactPixel.pageView();
               ReactPixel.fbq("track", "PageView");
@@ -240,7 +242,7 @@ function ProductPage(props) {
                   content_ids: [product_id],
                   content_name: data?.social_data?.name,
                   value: data?.social_data?.value,
-                  currency: data?.social_data?.currency
+                  currency: data?.social_data?.currency,
                 },
                 { eventID: data?.social_data?.event_id }
               );
@@ -299,6 +301,8 @@ function ProductPage(props) {
           });
         }
       }
+
+      setLoading(false);
     });
   }, [product_id]);
 
@@ -309,7 +313,12 @@ function ProductPage(props) {
     setQuantity(1);
     setToggleQty(false);
     setHasBannerEvent();
+    setNoData(false);
+    // setLoading(true);
   }, [router]);
+
+
+  console.log("data", data);
 
   useEffect(() => {
     const fetchDataAndScroll = async () => {
@@ -550,7 +559,7 @@ function ProductPage(props) {
     gt: ">",
     quot: '"',
     amp: "&",
-    apos: "'"
+    apos: "'",
   };
 
   function handleReturnPolicy() {
@@ -675,7 +684,7 @@ function ProductPage(props) {
             setImageActiveOption(option);
             setActiveImage({
               popup: element["popup"],
-              thumb: element["thumb"]
+              thumb: element["thumb"],
             });
           }
         }
@@ -707,7 +716,7 @@ function ProductPage(props) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
           value: price,
-          currency: "USD"
+          currency: "USD",
         });
       } else if (
         window.location.host === "www.ishtari.com.gh" ||
@@ -723,7 +732,7 @@ function ProductPage(props) {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
           value: price,
-          currency: "USD"
+          currency: "USD",
         });
       }
     }
@@ -751,7 +760,7 @@ function ProductPage(props) {
           send_to: "AW-991347483/FGk5CJ3V3owYEJuG29gD",
           value: price,
           currency: "USD",
-          event_callback: callback
+          event_callback: callback,
         });
         return false;
       } else if (
@@ -763,7 +772,7 @@ function ProductPage(props) {
           send_to: "AW-10993907106/6Y9jCLfUipEYEKLrpvoo",
           value: price,
           currency: "USD",
-          event_callback: callback
+          event_callback: callback,
         });
         return false;
       } else {
@@ -781,7 +790,7 @@ function ProductPage(props) {
     setAddingToCart(true);
     let obj = {
       product_id,
-      quantity
+      quantity,
     };
     if (hasOption) {
       let o = {};
@@ -831,7 +840,7 @@ function ProductPage(props) {
           }, 3000);
           dispatch({
             type: "loading",
-            payload: true
+            payload: true,
           });
           axiosServer
             .get(
@@ -845,20 +854,20 @@ function ProductPage(props) {
             .then((response_data) => {
               dispatch({
                 type: "setProducts",
-                payload: response_data.data?.data?.products
+                payload: response_data.data?.data?.products,
               });
 
               dispatch({
                 type: "setProductsCount",
-                payload: response_data?.data?.data?.total_product_count
+                payload: response_data?.data?.data?.total_product_count,
               });
               dispatch({
                 type: "setTotals",
-                payload: response_data.data?.data?.totals
+                payload: response_data.data?.data?.totals,
               });
               dispatch({
                 type: "loading",
-                payload: false
+                payload: false,
               });
             });
 
@@ -876,7 +885,7 @@ function ProductPage(props) {
                   value: data?.value,
                   content_category: data?.breadcrumbs?.category[0]?.name,
                   currency: data?.currency,
-                  fbp: Cookies.get("_fbp")
+                  fbp: Cookies.get("_fbp"),
                 },
                 { eventID: data?.event_id }
               );
@@ -928,7 +937,7 @@ function ProductPage(props) {
 
     obj = {
       name: nameValue,
-      description: descriptionValue
+      description: descriptionValue,
     };
     axiosServer
       .post(
@@ -994,7 +1003,7 @@ function ProductPage(props) {
   function addToWishList() {
     const obj = {
       id: checked,
-      product_id: product_id
+      product_id: product_id,
     };
     axiosServer
       .post(
@@ -1020,11 +1029,11 @@ function ProductPage(props) {
             if (response.data.success) {
               dispatchW({
                 type: "setProductsCount",
-                payload: response.data.data.total
+                payload: response.data.data.total,
               });
               dispatchW({
                 type: "setProductIds",
-                payload: response.data.data.products
+                payload: response.data.data.products,
               });
             }
           });
@@ -1066,14 +1075,14 @@ function ProductPage(props) {
               //if (response.data.success) {
               dispatchW({
                 type: "setProductsCount",
-                payload: response.data.data.total
+                payload: response.data.data.total,
               });
               dispatchW({
                 type: "setProductIds",
                 payload:
                   response.data.data.total !== "0"
                     ? response.data.data.products
-                    : []
+                    : [],
               });
               //}
             });
@@ -1103,7 +1112,7 @@ function ProductPage(props) {
       bundle.products.map((p) => {
         const obj = {
           product_id: p.product_id,
-          quantity: Number(p.required_quantity)
+          quantity: Number(p.required_quantity),
         };
         gtag_report_conversion(obj);
       });
@@ -1145,6 +1154,8 @@ function ProductPage(props) {
 
   return loading ? (
     <ProductPlaceholder meta={meta} />
+  ) : !loading && noData ? (
+    <NoData />
   ) : (
     <div className="product-page-wrapper bg-[#f8f8f9]">
       <div className="">
@@ -1180,7 +1191,9 @@ function ProductPage(props) {
                     href={`/category/${data?.breadcrumbs?.category[0]?.category_id}`}
                     className="hidden md:block text-dblack font-light truncate text-d11 md:text-sm mx-2"
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHTML(data?.breadcrumbs?.category[0]?.name)
+                      __html: sanitizeHTML(
+                        data?.breadcrumbs?.category[0]?.name
+                      ),
                     }}
                   />
                 </div>
@@ -1222,8 +1235,8 @@ function ProductPage(props) {
                       href={{
                         pathname: "/categoryTopSelling",
                         query: {
-                          category_id: `${additionalData?.product_rank?.category_id}`
-                        }
+                          category_id: `${additionalData?.product_rank?.category_id}`,
+                        },
                       }}
                       className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 py-1 rounded-full"
                       style={{ backgroundColor: "#ffeced" }}
@@ -1242,7 +1255,7 @@ function ProductPage(props) {
                           dangerouslySetInnerHTML={{
                             __html: sanitizeHTML(
                               additionalData?.product_rank?.category_name
-                            )
+                            ),
                           }}
                         ></span>
                       </div>
@@ -1277,7 +1290,7 @@ function ProductPage(props) {
                 <h1
                   className="text-dblack font-semibold text-d22 mb-3 leading-pn"
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeHTML(data.name)
+                    __html: sanitizeHTML(data.name),
                   }}
                 ></h1>
                 <div className="mb-3 product-info">
@@ -1437,7 +1450,7 @@ function ProductPage(props) {
                                   className="text-dgreyQtyProduct h-6 w-6"
                                   style={{
                                     // transform: toggleQty ? "rotate(-180deg)" : "",
-                                    transition: "transform 0.2s ease"
+                                    transition: "transform 0.2s ease",
                                   }}
                                 />
                               </div>
@@ -1459,7 +1472,7 @@ function ProductPage(props) {
                                   length:
                                     data?.maximum === 0
                                       ? data.quantity
-                                      : data?.maximum
+                                      : data?.maximum,
                                 },
                                 (_, index) => index + 1
                               ).map((value) => (
@@ -1531,7 +1544,7 @@ function ProductPage(props) {
                             border: "1px solid rgba(0, 0, 0, 0.1)",
                             boxShadow:
                               "rgba(0, 0, 0, 0.1) 0px 0px 15px 1px inset",
-                            transition: "all 0.3s ease-in-out 0s"
+                            transition: "all 0.3s ease-in-out 0s",
                           }}
                           className={`h-12 w-12 flex items-center justify-center bg-dgrey rounded-full `}
                           onClick={() => {
@@ -2045,7 +2058,7 @@ function ProductPage(props) {
                     <span
                       className={`text-2xl`}
                       style={{
-                        color: data.quantity > 5 ? "black" : "red"
+                        color: data.quantity > 5 ? "black" : "red",
                       }}
                     >
                       {data.quantity}
@@ -2153,7 +2166,7 @@ function ProductPage(props) {
                             dangerouslySetInnerHTML={{
                               __html: unescapeHTML(
                                 sanitizeHTML(returnPolicy?.description)
-                              )
+                              ),
                             }}
                           ></div>
                         </div>
@@ -2253,7 +2266,7 @@ function ProductPage(props) {
               <div
                 id="desc"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.description)
+                  __html: sanitizeHTML(data.description),
                 }}
               />{" "}
             </div>
@@ -2311,7 +2324,7 @@ function ProductPage(props) {
               <div
                 id="desc"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.description)
+                  __html: sanitizeHTML(data.description),
                 }}
               />
               {data?.attribute_groups.length > 0 && (
