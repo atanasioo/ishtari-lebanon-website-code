@@ -53,6 +53,15 @@ function TopSearch() {
     4: "seller",
   };
 
+
+  function slugify(value){
+
+    return value.toLowerCase().trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  }
   useEffect(()=>{
   setQuery("")
   }, [router])
@@ -291,11 +300,7 @@ function TopSearch() {
                         href={
                           isNaN(type)
                             ? `${path}/search?keyword=${value}`
-                            : `${path}/${value
-                                .replaceAll("/", "-")
-                                .replaceAll("/", "-")
-                                .replaceAll("%", parseInt("%"))
-                                .replaceAll("%20", "-")}/${types[type]?.slice(
+                            : `${path}/${slugify(value)}/${types[type]?.slice(
                                 0,
                                 1
                               )}=${id}`
@@ -493,10 +498,7 @@ function TopSearch() {
                       : // state.admin
                         // ? `${path}/${types[type]}/${id}`
                         // :
-                        `${path}/${value
-                          .replaceAll("/", "-")
-                          .replaceAll("%", parseInt("%"))
-                          .replaceAll("%20", "-")}/${types[type]?.slice(
+                        `${path}/${slugify(value)}/${types[type]?.slice(
                           0,
                           1
                         )}=${id}`
