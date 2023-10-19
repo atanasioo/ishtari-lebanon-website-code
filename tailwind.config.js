@@ -146,6 +146,9 @@ module.exports = {
       dbase: {
         DEFAULT: "#bf1b26" //ishtari's red color
       },
+      dbase1: {
+        DEFAULT: "#e94a4e" //ishtari's red color
+      },
       dSecondary: {
         DEFAULT: "3866de"
       },

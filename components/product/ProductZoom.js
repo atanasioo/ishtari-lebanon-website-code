@@ -431,7 +431,7 @@ function ProductZoom(props) {
                     />
                   </div>
                 ))}
-                <div
+              {productData?.videos &&  productData?.videos[0]  && <div
                   key={productData?.videos && productData?.videos[0]}
                   onClick={() => changeImage(productData?.videos[0])}
                   className={`bg-dblack  flex justify-center mt-2 mr-4 h- rounded-md cursor-pointer transition-all ease-in-out outline-none `}
@@ -449,9 +449,9 @@ function ProductZoom(props) {
                     style={{ height: "100px" }}
                     src={productData?.videos && productData?.videos[0]}
                     type="video/mp4"
-             
                   />
                 </div>
+}
               </Slider>
               <Slider {...mobileSetting} className={`md:hidden`}>
                 {images?.map((i, index) => (
@@ -502,26 +502,28 @@ function ProductZoom(props) {
                   </div>
                 )}
 
-                <div
-                  key={productData?.videos && productData?.videos[0]}
-                  onClick={() => changeImage(productData?.videos[0])}
-                  className={`flex justify-center mt-2 mr-4 h-24  rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                >
-                  <video
-                    className={`cursor-pointer border-2
+                {productData?.videos && productData?.videos.length > 0 && (
+                  <div
+                    key={productData?.videos && productData?.videos[0]}
+                    onClick={() => changeImage(productData?.videos[0])}
+                    className={`flex justify-center mt-2 mr-4 h-24  rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                  >
+                    <video
+                      className={`cursor-pointer border-2
                       ${
                         productData?.videos &&
                         productData?.videos[0] === activeImage
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
-                  >
-                    <source
-                      src={productData?.videos && productData?.videos[0]}
-                      type="video/mp4"
-                    />
-                  </video>
-                </div>
+                    >
+                      <source
+                        src={productData?.videos && productData?.videos[0]}
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
+                )}
               </Slider>
             </div>
           </div>
@@ -570,18 +572,20 @@ function ProductZoom(props) {
                     />
                   ))}
 
-                  <div className="h-full bg-dblack">
-                    <video
-                      id={`myimage${images.length}`}
-                      src={productData?.videos && productData?.videos[0]}
-                      type="video/mp4"
-                      style={{ height: "480px" }}
-                      controls
-                      controlsList="nodownload" 
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
+                  {productData?.videos && productData?.videos.length > 0 && (
+                    <div className="h-full bg-dblack">
+                      <video
+                        id={`myimage${images.length}`}
+                        src={productData?.videos && productData?.videos[0]}
+                        type="video/mp4"
+                        style={{ height: "480px" }}
+                        controls
+                        controlsList="nodownload"
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  )}
                   {Object.keys(sellerData).length > 0 && width < 768 && (
                     <div className="black-gradient h-full flex flex-col justify-center items-start p-2">
                       <div className="pr-semibold text-white pb-2">

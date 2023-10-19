@@ -27,6 +27,18 @@ export const CartReducer = (state, action) => {
                 wishlist : action.payload
             }
         }
+        case "setAsidecart":{
+            return {
+                ...state,
+                aside : action.payload
+            }
+        }
+        case "setProduct":{
+            return {
+                ...state,
+                product : action.payload
+            }
+        }
 
         default:
             return state
@@ -39,7 +51,9 @@ export const initialState = {
     productsCount: 0,
     loading: false,
     emptyCart: false,
+    aside:false,
     products: [],
+    product: '',
     totals: [],
     wishlist:[]
 }

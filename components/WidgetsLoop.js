@@ -29,6 +29,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
   const { showStats } = useMarketingData();
   const [accountState] = useContext(AccountContext);
   const host = useContext(HostContext);
+  const  noAddCart= true
   const catalog =
     router.asPath.startsWith("/category") ||
     router.asPath.includes("c=") ||
@@ -909,6 +910,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 item={item}
                                 click={handleOnItemClick}
                                 dragging={dragging}
+                                noAddCart={noAddCart}
                               ></SingleProduct>
                             </div>
                           );
@@ -940,6 +942,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 item={item}
                                 click={handleOnItemClick}
                                 dragging={dragging}
+                                noAddCart={noAddCart}
                               ></SingleProduct>
                             </div>
                           );
@@ -978,6 +981,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 item={item}
                                 click={handleOnItemClick}
                                 dragging={dragging}
+                                noAddCart={noAddCart}
                               ></SingleProduct>
                             </div>
                           );
@@ -1016,6 +1020,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                               <SingleProduct
                                 scroll={true}
                                 item={item}
+                                noAddCart={noAddCart}
                               ></SingleProduct>
                             </div>
                           );
@@ -1052,6 +1057,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                               <SingleProductTest
                                 scroll={true}
                                 item={item}
+                                noAddCart={noAddCart}
                               ></SingleProductTest>
                             </div>
                           );
@@ -1131,6 +1137,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 click={handleOnItemClick}
                                 dragging={dragging}
                                 carousel={true}
+                                noAddCart={noAddCart}
                               ></SingleProduct>
                             </div>
                           );
@@ -1162,6 +1169,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 click={handleOnItemClick}
                                 dragging={dragging}
                                 carousel={true}
+                                noAddCart={noAddCart}
                               ></SingleProduct>
                             </div>
                           );
@@ -1200,6 +1208,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                 click={handleOnItemClick}
                                 dragging={dragging}
                                 carousel={true}
+                                noAddCart={noAddCart}
                               ></SingleProduct>
                             </div>
                           );
@@ -1253,6 +1262,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                       <SingleProductTest
                                         scroll={true}
                                         item={item}
+                                        noAddCart={noAddCart}
                                       ></SingleProductTest>
                                     </div>
                                   );
@@ -1290,6 +1300,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                       item={item}
                                       click={handleOnItemClick}
                                       dragging={dragging}
+                                      noAddCart={noAddCart}
                                     ></SingleProduct>
                                   </div>
                                 );
@@ -1320,6 +1331,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                                   <SingleProduct
                                     item={item}
                                     scroll={true}
+                                    noAddCart={noAddCart}
                                   ></SingleProduct>
                                 </div>
                               );

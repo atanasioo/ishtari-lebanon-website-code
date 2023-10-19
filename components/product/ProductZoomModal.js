@@ -171,15 +171,21 @@ function ProductZoomModal(props) {
                         />
                       </PrismaZoom>
                     ))}
-                    
-                  <div className="h-full bg-dblack" >
-                  <video   id={`myimage${images.length}`}   controlsList="nodownload" 
-                      src={productData?.videos && productData?.videos[0]}
-                      type="video/mp4" style={{height:"500px"}} controls >
-            
-                    Your browser does not support the video tag.
-                  </video>
-                  </div>
+
+                    {productData?.videos && productData?.videos?.length > 0 && (
+                      <div className="h-full bg-dblack">
+                        <video
+                          id={`myimage${images.length}`}
+                          controlsList="nodownload"
+                          src={productData?.videos && productData?.videos[0]}
+                          type="video/mp4"
+                          style={{ height: "500px" }}
+                          controls
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    )}
                   </Slider>
 
                   <Slider
@@ -207,17 +213,17 @@ function ProductZoomModal(props) {
                         />
                       </PrismaZoom>
                     ))}
-                   <div  className="min-h-max bg-dblackOverlay">
-                   <video  controls         controlsList="nodownload" 
+                    <div className="min-h-max bg-dblackOverlay">
+                      <video
+                        controls
+                        controlsList="nodownload"
                         id={`myimage${images.length}`}
                         src={productData?.videos && productData?.videos[0]}
-                        type="video/mp4"  className="min-h-max"  style={{height: "500px"}}
+                        type="video/mp4"
+                        className="min-h-max"
+                        style={{ height: "500px" }}
                       />
-
-
-                   </div>
-                  
-                    
+                    </div>
                   </Slider>
                 </div>
                 <div className="product-info md:ml-10 lg:w-4/12 ">
@@ -240,7 +246,7 @@ function ProductZoomModal(props) {
                         <div
                           key={i["thumb"]}
                           className={`mt-3 w-max cursor-pointer border-2 rounded-md ${
-                            activeImage &&  activeImage["popup"] === i["popup"]
+                            activeImage && activeImage["popup"] === i["popup"]
                               ? "border-dblue"
                               : "border-dgreyZoom"
                           } outline-none`}
@@ -255,27 +261,30 @@ function ProductZoomModal(props) {
                           />
                         </div>
                       ))}
-                      <div
-                        key={productData?.videos && productData?.videos[0]}
-                        onClick={() => changeImage(productData?.videos[0])}
-                        className={` bg-dblack flex justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                      >
-                        <video
-                          className={`cursor-pointer border-2 
+                      {productData?.videos &&
+                        productData?.videos.length > 0 && (
+                          <div
+                            key={productData?.videos && productData?.videos[0]}
+                            onClick={() => changeImage(productData?.videos[0])}
+                            className={` bg-dblack flex justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                          >
+                            <video
+                              className={`cursor-pointer border-2 
                       ${
                         productData?.videos &&
                         productData?.videos[0] === activeImage
                           ? "border-dblue"
                           : "border-dgreyZoom"
                       }`}
-                   style={{height: "100px"}}
-                            src={productData?.videos && productData?.videos[0]}
-                            type="video/mp4"
-                          />
-                    
-                      </div>
+                              style={{ height: "100px" }}
+                              src={
+                                productData?.videos && productData?.videos[0]
+                              }
+                              type="video/mp4"
+                            />
+                          </div>
+                        )}
                     </div>
-
                     <Slider
                       {...mobileSetting}
                       className={` lg:hidden thumbss-slider mx-5 mb-7 ${
@@ -286,7 +295,7 @@ function ProductZoomModal(props) {
                         <div
                           key={i["thumb"]}
                           className={` flex justify-center border-b-4  pb-1 mt-2 mr-4 w-11 md:w-20  cursor-pointer ${
-                         activeImage &&   activeImage["popup"] === i["popup"]
+                            activeImage && activeImage["popup"] === i["popup"]
                               ? "border-darrowZoom"
                               : "border-transparent"
                           } outline-none`}
@@ -301,25 +310,29 @@ function ProductZoomModal(props) {
                         </div>
                       ))}
 
-                      <div
-                        key={productData?.videos && productData?.videos[0]}
-                        onClick={() => changeImage(productData?.videos[0])}
-                        className={` bg-dblack flex justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                      >
-                        <video
-                          className={`cursor-pointer border-2
+                      {productData?.videos &&
+                        productData?.videos.length > 0 && (
+                          <div
+                            key={productData?.videos && productData?.videos[0]}
+                            onClick={() => changeImage(productData?.videos[0])}
+                            className={` bg-dblack flex justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                          >
+                            <video
+                              className={`cursor-pointer border-2
                       ${
                         productData?.videos &&
                         productData?.videos[0] === activeImage
                           ? "border-dblue"
-                          : "border-dgreyZoom" 
+                          : "border-dgreyZoom"
                       }`}
-                            style={{height:"100px"}}
-                            src={productData?.videos && productData?.videos[0]}
-                            type="video/mp4" 
-                          />
-                   
-                      </div>
+                              style={{ height: "100px" }}
+                              src={
+                                productData?.videos && productData?.videos[0]
+                              }
+                              type="video/mp4"
+                            />
+                          </div>
+                        )}
                     </Slider>
                   </div>
                 </div>

@@ -817,14 +817,14 @@ function ProductPage(props) {
         bundle === undefined ? obj : bundle
       )
       .then((response) => {
-        const data = response.data;
-        if (data.success !== true) {
+        const data1 = response.data;
+        if (data1.success !== true) {
           // There is an error
           setHasAddToCartError(true);
           if (!hasOption) {
-            error = data?.errors[0]?.errorMsg;
+            error = data1?.errors[0]?.errorMsg;
           } else {
-            error = data?.errors[0]?.errorMsg;
+            error = data1?.errors[0]?.errorMsg;
           }
           // alert(error)
           setAddToCartError(error);
@@ -868,6 +868,15 @@ function ProductPage(props) {
               dispatch({
                 type: "loading",
                 payload: false,
+              });
+              dispatch({
+                type: "setAsidecart",
+                payload: true
+              });
+              console.log("data---", data);
+              dispatch({
+                type: "setProduct",
+                payload: { name: data.name, image: data?.mobile_image }
               });
             });
 
@@ -914,7 +923,7 @@ function ProductPage(props) {
               if (data.success === true) {
               }
             });
-          setSuccessAdded(true);
+          // setSuccessAdded(true);
 
           setTimeout(() => {
             // setCountDown(false)
@@ -1136,10 +1145,17 @@ function ProductPage(props) {
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
-      if (toggleQty) {
+      if (state.aside) {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target)) {
-            setTimeout(() => setToggleQty(false), 200);
+          if (state.aside) {
+            setTimeout(
+              () =>
+                dispatch({
+                  type: "setAsidecart",
+                  payload: false
+                }),
+              200
+            );
           }
         }
         // Bind the event listener
@@ -1149,7 +1165,7 @@ function ProductPage(props) {
           document.removeEventListener("mousedown", handleClickOutside);
         };
       }
-    }, [ref, toggleQty]);
+    }, [ref]);
   }
 
   return loading ? (
@@ -1159,12 +1175,12 @@ function ProductPage(props) {
   ) : (
     <div className="product-page-wrapper bg-[#f8f8f9]">
       <div className="">
-        <CartSideModal
+        {/* <CartSideModal
           successAdded={successAdded}
           data={data}
           toggleSucccessAdded={toggleSucccessAdded}
           hasBannerEvent={hasBannerEvent}
-        />
+        /> */}
 
         {showOptionModal.show && (
           <ProductOptionModal

@@ -20,7 +20,6 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import { SellerProvider, useSellerContext } from "@/contexts/SellerContext";
 import packageJson from "@/package.json";
 import moment from "moment";
-
 // import AsideMenu from "@/components/layout/AsideMenu";
 import Head from "next/head";
 import buildInfo from "@/build-info.json";
@@ -30,6 +29,7 @@ import { ReviewCenterProvider } from "@/contexts/ReviewCenterContext";
 import Script from "next/script";
 import Cookies from "js-cookie";
 import { HeaderProvider } from "@/contexts/HeaderContext";
+import CartSideModal from "@/components/product/CartSideModal";
 
 export default function App({
   Component,
@@ -40,7 +40,6 @@ export default function App({
   const router = useRouter();
   const topRef = useRef(null);
   const [loading, setLoading] = useState(false);
-
   const buildTimestamp = buildInfo.buildDate;
   const lastUpdateMoment = moment.unix(buildTimestamp / 1000);
   const formattedDate = lastUpdateMoment.format("DD.MM.YYYY HH:mm:ss");
@@ -174,7 +173,6 @@ export default function App({
                       <HeaderProvider>
                         <div className="" ref={topRef}>
                           {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
-
                           {loading && (
                             <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
                               <img
