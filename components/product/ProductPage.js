@@ -3,7 +3,7 @@ import {
   BsChevronLeft,
   BsChevronRight,
   BsFillAwardFill,
-  BsFillHeartFill,
+  BsFillHeartFill
 } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
@@ -88,6 +88,7 @@ function ProductPage(props) {
   const [isDetails, setIsDetails] = useState(false);
   const [viewSeriesVal, setViewSeriesVal] = useState();
   const [loadingReviews, setLoadingReviews] = useState(false);
+  const [sellerReview, setSellerReview] = useState();
 
   // const [additionalData, setAdditionalData] = useState({});
   const [additional, setAdditional] = useState();
@@ -98,7 +99,7 @@ function ProductPage(props) {
   const descriptionRef = useRef();
   const [showOptionModal, setShowOptionModal] = useState({
     show: false,
-    bundle: null,
+    bundle: null
   });
   const [noData, setNoData] = useState(false);
 
@@ -110,7 +111,7 @@ function ProductPage(props) {
   const [width, height] = useDeviceSize();
 
   const SellerImage = dynamic(() => import("./SellerImage"), {
-    ssr: false, // Disable server-side rendering
+    ssr: false // Disable server-side rendering
   });
 
   const router = useRouter();
@@ -124,7 +125,7 @@ function ProductPage(props) {
     slidesToScroll: 1,
     infinite: false,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />
   };
   const productMobileBundlesSetting = {
     speed: 200,
@@ -132,7 +133,7 @@ function ProductPage(props) {
     slidesToScroll: 1,
     infinite: false,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />
   };
 
   function handleHoveredSeries(key, name) {
@@ -171,6 +172,20 @@ function ProductPage(props) {
 
         axiosServer
           .get(
+            buildLink(
+              "sellerReview",
+              undefined,
+              undefined,
+              window.location.host
+            ) + response.data.data.seller_id
+          )
+          .then((resp) => {
+            if (response?.data?.success)
+              setSellerReview(resp?.data?.data?.rating);
+          });
+
+        axiosServer
+          .get(
             buildLink("getProductAdditionalData", undefined, undefined) +
               "&product_id=" +
               product_id
@@ -206,7 +221,7 @@ function ProductPage(props) {
         if (!includesImage) {
           data?.images.unshift({
             popup: data.popup,
-            thumb: data.thumb,
+            thumb: data.thumb
           });
         }
 
@@ -221,7 +236,7 @@ function ProductPage(props) {
             ln: data?.social_data?.lastname,
             external_id: data?.social_data?.external_id,
             country: data?.social_data?.country_code,
-            fbp: Cookies.get("_fbp"),
+            fbp: Cookies.get("_fbp")
           };
           if (typeof window !== "undefined") {
             let ReactPixel; // Define a variable to hold the reference to ReactPixel
@@ -229,7 +244,7 @@ function ProductPage(props) {
             initializeReactPixel().then((ReactPixel) => {
               ReactPixel.init(pixelID, advancedMatching, {
                 debug: true,
-                autoConfig: false,
+                autoConfig: false
               });
               ReactPixel.pageView();
               ReactPixel.fbq("track", "PageView");
@@ -242,7 +257,7 @@ function ProductPage(props) {
                   content_ids: [product_id],
                   content_name: data?.social_data?.name,
                   value: data?.social_data?.value,
-                  currency: data?.social_data?.currency,
+                  currency: data?.social_data?.currency
                 },
                 { eventID: data?.social_data?.event_id }
               );
@@ -316,7 +331,6 @@ function ProductPage(props) {
     setNoData(false);
     // setLoading(true);
   }, [router]);
-
 
   console.log("data", data);
 
@@ -559,7 +573,7 @@ function ProductPage(props) {
     gt: ">",
     quot: '"',
     amp: "&",
-    apos: "'",
+    apos: "'"
   };
 
   function handleReturnPolicy() {
@@ -684,7 +698,7 @@ function ProductPage(props) {
             setImageActiveOption(option);
             setActiveImage({
               popup: element["popup"],
-              thumb: element["thumb"],
+              thumb: element["thumb"]
             });
           }
         }
@@ -716,7 +730,7 @@ function ProductPage(props) {
         gtag("event", "conversion", {
           send_to: "AW-991347483/pc3dCIaww44YEJuG29gD",
           value: price,
-          currency: "USD",
+          currency: "USD"
         });
       } else if (
         window.location.host === "www.ishtari.com.gh" ||
@@ -732,7 +746,7 @@ function ProductPage(props) {
         gtag("event", "conversion", {
           send_to: "AW-10993907106/31DICLmKppEYEKLrpvoo",
           value: price,
-          currency: "USD",
+          currency: "USD"
         });
       }
     }
@@ -760,7 +774,7 @@ function ProductPage(props) {
           send_to: "AW-991347483/FGk5CJ3V3owYEJuG29gD",
           value: price,
           currency: "USD",
-          event_callback: callback,
+          event_callback: callback
         });
         return false;
       } else if (
@@ -772,7 +786,7 @@ function ProductPage(props) {
           send_to: "AW-10993907106/6Y9jCLfUipEYEKLrpvoo",
           value: price,
           currency: "USD",
-          event_callback: callback,
+          event_callback: callback
         });
         return false;
       } else {
@@ -790,7 +804,7 @@ function ProductPage(props) {
     setAddingToCart(true);
     let obj = {
       product_id,
-      quantity,
+      quantity
     };
     if (hasOption) {
       let o = {};
@@ -840,7 +854,7 @@ function ProductPage(props) {
           }, 3000);
           dispatch({
             type: "loading",
-            payload: true,
+            payload: true
           });
           axiosServer
             .get(
@@ -854,20 +868,20 @@ function ProductPage(props) {
             .then((response_data) => {
               dispatch({
                 type: "setProducts",
-                payload: response_data.data?.data?.products,
+                payload: response_data.data?.data?.products
               });
 
               dispatch({
                 type: "setProductsCount",
-                payload: response_data?.data?.data?.total_product_count,
+                payload: response_data?.data?.data?.total_product_count
               });
               dispatch({
                 type: "setTotals",
-                payload: response_data.data?.data?.totals,
+                payload: response_data.data?.data?.totals
               });
               dispatch({
                 type: "loading",
-                payload: false,
+                payload: false
               });
               dispatch({
                 type: "setAsidecart",
@@ -894,7 +908,7 @@ function ProductPage(props) {
                   value: data?.value,
                   content_category: data?.breadcrumbs?.category[0]?.name,
                   currency: data?.currency,
-                  fbp: Cookies.get("_fbp"),
+                  fbp: Cookies.get("_fbp")
                 },
                 { eventID: data?.event_id }
               );
@@ -946,7 +960,7 @@ function ProductPage(props) {
 
     obj = {
       name: nameValue,
-      description: descriptionValue,
+      description: descriptionValue
     };
     axiosServer
       .post(
@@ -1012,7 +1026,7 @@ function ProductPage(props) {
   function addToWishList() {
     const obj = {
       id: checked,
-      product_id: product_id,
+      product_id: product_id
     };
     axiosServer
       .post(
@@ -1038,11 +1052,11 @@ function ProductPage(props) {
             if (response.data.success) {
               dispatchW({
                 type: "setProductsCount",
-                payload: response.data.data.total,
+                payload: response.data.data.total
               });
               dispatchW({
                 type: "setProductIds",
-                payload: response.data.data.products,
+                payload: response.data.data.products
               });
             }
           });
@@ -1084,14 +1098,14 @@ function ProductPage(props) {
               //if (response.data.success) {
               dispatchW({
                 type: "setProductsCount",
-                payload: response.data.data.total,
+                payload: response.data.data.total
               });
               dispatchW({
                 type: "setProductIds",
                 payload:
                   response.data.data.total !== "0"
                     ? response.data.data.products
-                    : [],
+                    : []
               });
               //}
             });
@@ -1121,7 +1135,7 @@ function ProductPage(props) {
       bundle.products.map((p) => {
         const obj = {
           product_id: p.product_id,
-          quantity: Number(p.required_quantity),
+          quantity: Number(p.required_quantity)
         };
         gtag_report_conversion(obj);
       });
@@ -1207,9 +1221,7 @@ function ProductPage(props) {
                     href={`/category/${data?.breadcrumbs?.category[0]?.category_id}`}
                     className="hidden md:block text-dblack font-light truncate text-d11 md:text-sm mx-2"
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHTML(
-                        data?.breadcrumbs?.category[0]?.name
-                      ),
+                      __html: sanitizeHTML(data?.breadcrumbs?.category[0]?.name)
                     }}
                   />
                 </div>
@@ -1251,8 +1263,8 @@ function ProductPage(props) {
                       href={{
                         pathname: "/categoryTopSelling",
                         query: {
-                          category_id: `${additionalData?.product_rank?.category_id}`,
-                        },
+                          category_id: `${additionalData?.product_rank?.category_id}`
+                        }
                       }}
                       className="flex items-center gap-3  mt-3 md:mt-0 mb-3 w-fit px-2 py-1 rounded-full"
                       style={{ backgroundColor: "#ffeced" }}
@@ -1271,7 +1283,7 @@ function ProductPage(props) {
                           dangerouslySetInnerHTML={{
                             __html: sanitizeHTML(
                               additionalData?.product_rank?.category_name
-                            ),
+                            )
                           }}
                         ></span>
                       </div>
@@ -1306,7 +1318,7 @@ function ProductPage(props) {
                 <h1
                   className="text-dblack font-semibold text-d22 mb-3 leading-pn"
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeHTML(data.name),
+                    __html: sanitizeHTML(data.name)
                   }}
                 ></h1>
                 <div className="mb-3 product-info">
@@ -1466,7 +1478,7 @@ function ProductPage(props) {
                                   className="text-dgreyQtyProduct h-6 w-6"
                                   style={{
                                     // transform: toggleQty ? "rotate(-180deg)" : "",
-                                    transition: "transform 0.2s ease",
+                                    transition: "transform 0.2s ease"
                                   }}
                                 />
                               </div>
@@ -1488,7 +1500,7 @@ function ProductPage(props) {
                                   length:
                                     data?.maximum === 0
                                       ? data.quantity
-                                      : data?.maximum,
+                                      : data?.maximum
                                 },
                                 (_, index) => index + 1
                               ).map((value) => (
@@ -1560,7 +1572,7 @@ function ProductPage(props) {
                             border: "1px solid rgba(0, 0, 0, 0.1)",
                             boxShadow:
                               "rgba(0, 0, 0, 0.1) 0px 0px 15px 1px inset",
-                            transition: "all 0.3s ease-in-out 0s",
+                            transition: "all 0.3s ease-in-out 0s"
                           }}
                           className={`h-12 w-12 flex items-center justify-center bg-dgrey rounded-full `}
                           onClick={() => {
@@ -2074,7 +2086,7 @@ function ProductPage(props) {
                     <span
                       className={`text-2xl`}
                       style={{
-                        color: data.quantity > 5 ? "black" : "red",
+                        color: data.quantity > 5 ? "black" : "red"
                       }}
                     >
                       {data.quantity}
@@ -2182,7 +2194,7 @@ function ProductPage(props) {
                             dangerouslySetInnerHTML={{
                               __html: unescapeHTML(
                                 sanitizeHTML(returnPolicy?.description)
-                              ),
+                              )
                             }}
                           ></div>
                         </div>
@@ -2197,18 +2209,38 @@ function ProductPage(props) {
                   className="hidden md:flex items-center border-b border-dinputBorder  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
                 >
                   {data.seller_image.length > 0 ? (
-                    <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">
+                    <div className="rounded-full p-0.5 flex justify-center items-center w-17 h-17 mr-1.5 ">
                       <SellerImage src={data.seller_image} />
                     </div>
                   ) : (
                     <AiOutlineShop className=" text-dbase text-3xl mr-4" />
                   )}
+                  <div className="flex flex-col">
+                    <div className="flex">
+                      <span className="text-dblack text-sm">Sold by</span>{" "}
+                      <h1 className="text-dblue underline font-semibold ml-2 text-sm">
+                        {" "}
+                        {data.seller}
+                      </h1>
+                    </div>
+                    <div
+                      className="flex justify-center items-center flex-row  rounded-full h-5 space-x-0.5 p-1 mt-0.5 cursor-pointer w-10"
+                      style={{ backgroundColor: "rgb(130, 174, 4" }}
+                    >
+                      <div className=" font-bold text-white text-d14 ">
+                        {sellerReview || "0.0"}
+                      </div>
 
-                  <span className="text-dblack text-sm">Sold by</span>
-
-                  <h1 className="text-dblue underline font-semibold ml-2 text-sm">
-                    {data.seller}
-                  </h1>
+                      <AiFillStar className="text-white text-d12" />
+                      {/* <StarRatings
+                                containerClassName=" text-white text-bold"
+                                starEmptyColor="#FFFFFF"
+                                numberOfStars={1}
+                                starDimension="13px"
+                                isReadOnly="true"
+                              />{" "} */}
+                    </div>
+                  </div>
                 </Link>
               )}
               {data?.market === "0" && (
@@ -2282,7 +2314,7 @@ function ProductPage(props) {
               <div
                 id="desc"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.description),
+                  __html: sanitizeHTML(data.description)
                 }}
               />{" "}
             </div>
@@ -2340,7 +2372,7 @@ function ProductPage(props) {
               <div
                 id="desc"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(data.description),
+                  __html: sanitizeHTML(data.description)
                 }}
               />
               {data?.attribute_groups.length > 0 && (
