@@ -63,11 +63,7 @@ function wallet() {
         if (response.data.success) {
           setTransactionData(response.data.data);
           setLoading(false);
-        } else {
-        }
-        if (!state.loged) {
-          router.push("/");
-        }
+        } 
       });
   }, [page]);
 
