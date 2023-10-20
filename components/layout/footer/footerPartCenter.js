@@ -210,7 +210,7 @@ export default function FooterPartCenter(props) {
         })}
         <div>
           <div className="flex-row container justify-between">
-            <div className="border-b pb-2 border-dinputBorder ">
+            <div className="mt-2 border-b pb-2 border-dinputBorder ">
               <div
                 onClick={() => toggleButton("tb")}
                 className="flex items-center mx-4 justify-between font-normal text-sm hover:text-dblue"
