@@ -498,7 +498,7 @@ function SingleProduct(props) {
                           ? item.special
                           : item.price}
                       </strong>
-                   {!noAddCart  && <div
+                   {(props?.item?.check_if_has_options || props?.item?.check_if_has_options === 0 )&& <div
                         className="relative shadow shadow-dgrey1  z-20 rounded-full px-2  text-d18 pr-light py-1"
                         onClick={(e) => addProductToCart(e, item?.product_id, item.name)}
                       >
