@@ -57,6 +57,7 @@ function ReviewImagesModal(props) {
                   <div className="flex justify-center">
                     <img
                       src={img}
+                      className="max-h-[80vh]"
                       alt="review image"
                       width={width > 1024 ? 402 : 370}
                       height={width > 1024 ? 605 : 500}
@@ -96,7 +97,7 @@ function ReviewImagesModal(props) {
                     height={86}
                     className={`${
                       activeIndex === i ? "border-2 border-dblue" : ""
-                    } rounded-lg cursor-pointer`}
+                    } rounded-lg cursor-pointer max-h-[90px]`}
                     onClick={() => {
                       changeImage(img, i)
                     }}
