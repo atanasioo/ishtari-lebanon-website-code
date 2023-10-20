@@ -10,36 +10,41 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 
-
 function Adresses() {
   const [width, height] = useDeviceSize();
   const [state, dispatch] = useContext(AccountContext);
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
   const path = "";
-const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
-    axiosServer
-      .get(buildLink("address", undefined, window.innerWidth))
-      .then((response) => {
-        if (response.status) {
-          setAddresses(response.data.data);
-          setLoading(false);
-          if (!state.loged) {
-            router.push({
-              pathname: "/",
-            });
-          }
-        } else {
-          dispatch({ type: "setLoading", payload: false });
-          if (!state.loading && !state.loged) {
-            router.push({
-              pathname: "/",
-            });
-          }
-        }
+    if (!state.loading && !state.loged) {
+      router.push({
+        pathname: "/",
       });
-  }, [dispatch, state.loged, router]);
+    } else if (state.loged) {
+      axiosServer
+        .get(buildLink("address", undefined, window.innerWidth))
+        .then((response) => {
+          if (response.status) {
+            setAddresses(response.data.data);
+            setLoading(false);
+            if (!state.loged) {
+              router.push({
+                pathname: "/",
+              });
+            }
+          } else {
+            dispatch({ type: "setLoading", payload: false });
+            if (!state.loading && !state.loged) {
+              router.push({
+                pathname: "/",
+              });
+            }
+          }
+        });
+    }
+  }, [dispatch, state.loading, router]);
 
   //delete address
   function deleteAddress(address_id) {
@@ -71,7 +76,6 @@ const router = useRouter()
             )}
           </div>
           <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">
-
             <div className="lg:p-6">
               <div className="address-header ">
                 <div className="header-content mb-8">
@@ -184,5 +188,3 @@ const router = useRouter()
 }
 
 export default Adresses;
-
-

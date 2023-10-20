@@ -13,7 +13,6 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import { useRouter } from "next/router";
 
-
 function wallet() {
   const [width] = useDeviceSize();
   const [state] = useContext(AccountContext);
@@ -24,26 +23,32 @@ function wallet() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const router = useRouter();
-  const firstname = session?.user?.firstname ? session?.user?.firstname : state.firstname;
-  const lastname = session?.user?.lastname ? session?.user?.lastname : state.lastname;
-
+  const firstname = session?.user?.firstname
+    ? session?.user?.firstname
+    : state.firstname;
+  const lastname = session?.user?.lastname
+    ? session?.user?.lastname
+    : state.lastname;
 
   console.log(state);
 
   useEffect(() => {
-    axiosServer
-      .get(buildLink("getBalance", undefined, window.innerWidth))
-      .then((response) => {
-        if (response.data.success) {
-          setBalance(response.data.data.balance);
-        }else{
-          
-        }
-        if (!state.loged) {
-          router.push("/");
-        }
-      });
-  }, []);
+    if (!state.loading && !state.loged) {
+      router.push("/");
+    } else if (state.loged) {
+      axiosServer
+        .get(buildLink("getBalance", undefined, window.innerWidth))
+        .then((response) => {
+          if (response.data.success) {
+            setBalance(response.data.data.balance);
+          } else {
+          }
+          if (!state.loged) {
+            router.push("/");
+          }
+        });
+    }
+  }, [state.loading]);
 
   useEffect(() => {
     axiosServer
@@ -58,8 +63,8 @@ function wallet() {
         if (response.data.success) {
           setTransactionData(response.data.data);
           setLoading(false);
-         
-        }else{}
+        } else {
+        }
         if (!state.loged) {
           router.push("/");
         }
@@ -89,125 +94,121 @@ function wallet() {
             )}
           </div>
           <div className="w-full md:w-4/5 px-2 md:px-0  mb-5">
-
-          {loading ? (
-            <div className="flex justify-center w-full">
-              <PointsLoader />
-            </div>
-          ) : (
-            <div className="w-full md:mx-auto">
-              <div
-                className="w-full h-56 md:h-44 flex flex-col gap-3 md:gap-0 md:flex-row justify-between items-start md:items-center p-5"
-                style={{ backgroundColor: "#59acf4" }}
-              >
-                <div className="flex flex-col">
-                  <div
-                    className="rounded-full w-max p-5 pr-semibold"
-                    style={{ backgroundColor: "#a8e8ff" }}
-                  >
-                    {firstname?.replace(/\s+/g, "")
-                      .charAt(0)
-                      .toUpperCase()}{" "}
-                    {lastname?.replace(/\s+/g, "")
-                      .charAt(0)
-                      .toUpperCase()}
-                  </div>
-                  <div className="text-white">
-                    {" "}
-                    {firstname} {lastname}{" "}
-                  </div>
-                </div>
+            {loading ? (
+              <div className="flex justify-center w-full">
+                <PointsLoader />
+              </div>
+            ) : (
+              <div className="w-full md:mx-auto">
                 <div
-                  className="flex justify-between items-center p-3 text-white w-full md:w-2/5 lg:w-1/3"
-                  style={{ backgroundColor: "#ffffff4a" }}
+                  className="w-full h-56 md:h-44 flex flex-col gap-3 md:gap-0 md:flex-row justify-between items-start md:items-center p-5"
+                  style={{ backgroundColor: "#59acf4" }}
                 >
-                  <div className="pr-semibold">
-                    <div>Available balance:</div>
-                    <div className="text-d20">{balance}</div>
+                  <div className="flex flex-col">
+                    <div
+                      className="rounded-full w-max p-5 pr-semibold"
+                      style={{ backgroundColor: "#a8e8ff" }}
+                    >
+                      {firstname?.replace(/\s+/g, "").charAt(0).toUpperCase()}{" "}
+                      {lastname?.replace(/\s+/g, "").charAt(0).toUpperCase()}
+                    </div>
+                    <div className="text-white">
+                      {" "}
+                      {firstname} {lastname}{" "}
+                    </div>
                   </div>
-                  <FaWallet className="w-6 h-6 md:w-8 md:h-8" />
-                </div>
-              </div>
-
-              <div className="py-4 md:pl-6">
-                {transactionData?.data_transactions?.map((data) => (
                   <div
-                    key={data.transaction_id}
-                    className="bg-white rounded-md shadow-md mb-3 p-4"
+                    className="flex justify-between items-center p-3 text-white w-full md:w-2/5 lg:w-1/3"
+                    style={{ backgroundColor: "#ffffff4a" }}
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="rounded-full p-4 text-sm"
-                          style={{ backgroundColor: "#a8e8ff" }}
-                        >
-                          {firstname
-                            .replace(/\s+/g, "")
-                            .charAt(0)
-                            .toUpperCase()}{" "}
-                          {lastname
-                            .replace(/\s+/g, "")
-                            .charAt(0)
-                            .toUpperCase()}
-                        </div>
-                        <div>
-                          <div>
-                            {" "}
-                            {firstname} {lastname}{" "}
-                          </div>
-                          <div className="text-sm text-dgreyQtyProduct">
-                            {data.date}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="pr-semibold text-dgreyProduct">
-                        {data.type}
-                      </div>
+                    <div className="pr-semibold">
+                      <div>Available balance:</div>
+                      <div className="text-d20">{balance}</div>
                     </div>
-                    <div>
-                      Amount:{" "}
-                      <span
-                        className={` ${
-                          data.isDeposit ? "text-dgreen" : "text-dbase"
-                        }`}
-                      >
-                        {data.amount}
-                      </span>{" "}
-                    </div>
-                    {data.description.length > 0 && (
-                      <div>
-                        Description:{" "}
-                        <span className="text-dgreyProduct">
-                          {data.description}
-                        </span>
-                      </div>
-                    )}
+                    <FaWallet className="w-6 h-6 md:w-8 md:h-8" />
                   </div>
-                ))}
+                </div>
 
-                <div className="pagination-div pt-4">
-                  {!loading && transactionData?.total_transactions > limit && (
-                    <ReactPaginate
-                      pageCount={Math.ceil(
-                        transactionData?.total_transactions /
-                          transactionData?.total_pages
+                <div className="py-4 md:pl-6">
+                  {transactionData?.data_transactions?.map((data) => (
+                    <div
+                      key={data.transaction_id}
+                      className="bg-white rounded-md shadow-md mb-3 p-4"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="rounded-full p-4 text-sm"
+                            style={{ backgroundColor: "#a8e8ff" }}
+                          >
+                            {firstname
+                              .replace(/\s+/g, "")
+                              .charAt(0)
+                              .toUpperCase()}{" "}
+                            {lastname
+                              .replace(/\s+/g, "")
+                              .charAt(0)
+                              .toUpperCase()}
+                          </div>
+                          <div>
+                            <div>
+                              {" "}
+                              {firstname} {lastname}{" "}
+                            </div>
+                            <div className="text-sm text-dgreyQtyProduct">
+                              {data.date}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="pr-semibold text-dgreyProduct">
+                          {data.type}
+                        </div>
+                      </div>
+                      <div>
+                        Amount:{" "}
+                        <span
+                          className={` ${
+                            data.isDeposit ? "text-dgreen" : "text-dbase"
+                          }`}
+                        >
+                          {data.amount}
+                        </span>{" "}
+                      </div>
+                      {data.description.length > 0 && (
+                        <div>
+                          Description:{" "}
+                          <span className="text-dgreyProduct">
+                            {data.description}
+                          </span>
+                        </div>
                       )}
-                      containerClassName={"category-pagination"}
-                      onPageChange={pageSetter}
-                      pageRangeDisplayed={width > 650 ? 2 : 1}
-                      marginPagesDisplayed={width > 650 ? 1 : 1}
-                      previousLabel={<IoIosArrowBack />}
-                      previousLinkClassName={"arrowLink"}
-                      nextLinkClassName={"arrowLink"}
-                      nextLabel={<IoIosArrowForward />}
-                      activeClassName={"active-pagination-category"}
-                      forcePage={page - 1}
-                    ></ReactPaginate>
-                  )}
+                    </div>
+                  ))}
+
+                  <div className="pagination-div pt-4">
+                    {!loading &&
+                      transactionData?.total_transactions > limit && (
+                        <ReactPaginate
+                          pageCount={Math.ceil(
+                            transactionData?.total_transactions /
+                              transactionData?.total_pages
+                          )}
+                          containerClassName={"category-pagination"}
+                          onPageChange={pageSetter}
+                          pageRangeDisplayed={width > 650 ? 2 : 1}
+                          marginPagesDisplayed={width > 650 ? 1 : 1}
+                          previousLabel={<IoIosArrowBack />}
+                          previousLinkClassName={"arrowLink"}
+                          nextLinkClassName={"arrowLink"}
+                          nextLabel={<IoIosArrowForward />}
+                          activeClassName={"active-pagination-category"}
+                          forcePage={page - 1}
+                        ></ReactPaginate>
+                      )}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
           </div>
         </div>
       </div>
@@ -216,4 +217,3 @@ function wallet() {
 }
 
 export default wallet;
-

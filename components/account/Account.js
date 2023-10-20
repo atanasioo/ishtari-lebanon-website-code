@@ -49,6 +49,9 @@ function Account() {
   const path = "";
   const router = useRouter();
 
+
+  console.log("account state" , state);
+
   // if (session) {
   //   // The user is logged in
   //   const obj = {

@@ -83,7 +83,8 @@ export const AccountReducer = (state, action) => {
   };
   export const initialState = {
     loged: false,
-    loading: false,
+    // loading: false,
+    loading: true,
     showLogin: false,
     showOver: false,
     showSignup: false,

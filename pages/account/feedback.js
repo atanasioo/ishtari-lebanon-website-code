@@ -18,34 +18,34 @@ function feedback() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [required, setRequired] = useState("");
-  const [success, setSucess] = useState("")
+  const [success, setSucess] = useState("");
   const [activeService, setActiveService] = useState(0);
   const [showSubmitBtn, setShowSubmitBtn] = useState(false);
   const [feedbacks, setFeedbacks] = useState([]);
   const [state, dispatch] = useContext(AccountContext);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    axiosServer
-      .get(buildLink("getcustomerfeedback", undefined, window.innerWidth))
-      .then((response) => {
-        const data = response.data.data;
-        setData(data);
-        const feedbacksData = response.data.data.map((service) => ({
-          service_id: !service.is_general ? service.service_id : "general",
-          rating: !service.is_general ? service.rate : "",
-          comment: !service.is_general
-            ? service.service_comment
-            : service.comment,
-        }));
-        setFeedbacks(feedbacksData);
-        setLoading(false);
-        if (!state.loged) {
-          router.push("/");
-        }
-      });
-  }, []);
-
+    if (!state.loading && !state.loged) {
+      router.push("/");
+    } else if (state.loged) {
+      axiosServer
+        .get(buildLink("getcustomerfeedback", undefined, window.innerWidth))
+        .then((response) => {
+          const data = response.data.data;
+          setData(data);
+          const feedbacksData = response.data.data.map((service) => ({
+            service_id: !service.is_general ? service.service_id : "general",
+            rating: !service.is_general ? service.rate : "",
+            comment: !service.is_general
+              ? service.service_comment
+              : service.comment,
+          }));
+          setFeedbacks(feedbacksData);
+          setLoading(false);
+        });
+    }
+  }, [state.loading]);
 
   function handleActiveService(operation) {
     if (operation === "inc") {
@@ -92,7 +92,7 @@ function feedback() {
           obj
         )
         .then((response) => {
-          if(response.data.success){
+          if (response.data.success) {
             setSucess(response.data.message);
           }
         });
@@ -134,149 +134,148 @@ function feedback() {
             )}
           </div>
           <div className="w-full md:w-4/5 px-2 md:px-0 md:pl-8 mb-5">
-
-          {loading ? (
-            <div className="flex justify-center w-full">
-              <PointsLoader />
-            </div>
-          ) : (
-            <div className="w-full flex flex-col gap-10">
-              <div className="relative flex justify-center">
-                <div className="banner-image w-full flex justify-center">
-                  <img
-                    src={"/images/feedback-website.png"}
-                    width={1100}
-                    height={200}
-                    className="w-full hidden md:block"
-                    alt="feedback_banner"
-                  />
-                  <img
-                    src={"/images/feedback.png"}
-                    width={1100}
-                    height={200}
-                    className="w-full md:hidden"
-                    alt="feedback_banner_mobile"
-                  />
+            {loading ? (
+              <div className="flex justify-center w-full">
+                <PointsLoader />
+              </div>
+            ) : (
+              <div className="w-full flex flex-col gap-10">
+                <div className="relative flex justify-center">
+                  <div className="banner-image w-full flex justify-center">
+                    <img
+                      src={"/images/feedback-website.png"}
+                      width={1100}
+                      height={200}
+                      className="w-full hidden md:block"
+                      alt="feedback_banner"
+                    />
+                    <img
+                      src={"/images/feedback.png"}
+                      width={1100}
+                      height={200}
+                      className="w-full md:hidden"
+                      alt="feedback_banner_mobile"
+                    />
+                  </div>
+                  {data?.map((service, i) => (
+                    <div
+                      className={`starts-div absolute z-10 rounded-lg bg-white text-dgreyProduct text-sm md:text-d18 shadow-md italic px-6 py-1.5 -bottom-4 ${
+                        activeService === i ? "" : "hidden"
+                      }`}
+                      key={i}
+                    >
+                      {service.is_general ? (
+                        <div className="">We appreciate your feedback</div>
+                      ) : (
+                        <div>
+                          <StarRatings
+                            starDimension="24px"
+                            starSpacing="1px"
+                            isSelectable="true"
+                            containerClassName="flex mr-2"
+                            starEmptyColor="#e3e3e3"
+                            starRatedColor="#f5a523"
+                            starHoverColor="#f5a523"
+                            rating={parseFloat(
+                              feedbacks.find(
+                                (feedback) =>
+                                  feedback.service_id === service.service_id
+                              )?.rating || 0
+                            )}
+                            changeRating={(rating) =>
+                              handleStarRatingChange(service.service_id, rating)
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
+
+                {required.length > 0 && (
+                  <div className="alert rounded-md text-dbase  text-d20 text-center">
+                    {required}
+                  </div>
+                )}
+                {success.length > 0 && (
+                  <div className="alert rounded-md text-dgreen text-d20 text-center">
+                    {success}
+                  </div>
+                )}
+
                 {data?.map((service, i) => (
                   <div
-                    className={`starts-div absolute z-10 rounded-lg bg-white text-dgreyProduct text-sm md:text-d18 shadow-md italic px-6 py-1.5 -bottom-4 ${
+                    className={`mt-7 flex flex-col justify-center items-center gap-5 ${
                       activeService === i ? "" : "hidden"
                     }`}
                     key={i}
                   >
-                    {service.is_general ? (
-                      <div className="">We appreciate your feedback</div>
-                    ) : (
-                      <div>
-                        <StarRatings
-                          starDimension="24px"
-                          starSpacing="1px"
-                          isSelectable="true"
-                          containerClassName="flex mr-2"
-                          starEmptyColor="#e3e3e3"
-                          starRatedColor="#f5a523"
-                          starHoverColor="#f5a523"
-                          rating={parseFloat(
-                            feedbacks.find(
-                              (feedback) =>
-                                feedback.service_id === service.service_id
-                            )?.rating || 0
-                          )}
-                          changeRating={(rating) =>
-                            handleStarRatingChange(service.service_id, rating)
-                          }
-                        />
-                      </div>
-                    )}
+                    <div className=" pr-semibold text-d20">
+                      {service.is_general ? (
+                        <div>General Feedback</div>
+                      ) : (
+                        <div>{service.service_name}</div>
+                      )}
+                    </div>
+
+                    <textarea
+                      id={`feedback${i}`}
+                      className="w-11/12 md:w-3/4 h-44 rounded-lg shadow-lg p-5 text-sm"
+                      placeholder="There is no failure. Only feedback."
+                      defaultValue={
+                        service.is_general
+                          ? service.comment
+                          : service.service_comment
+                      }
+                      onChange={(e) =>
+                        handleCommentChange(
+                          !service.is_general ? service.service_id : "general",
+                          e
+                        )
+                      }
+                    ></textarea>
                   </div>
                 ))}
-              </div>
 
-              {required.length > 0 && (
-                <div className="alert rounded-md text-dbase  text-d20 text-center">
-                  {required}
-                </div>
-              )}
-              {success.length > 0 && (
-                <div className="alert rounded-md text-dgreen text-d20 text-center">
-                  {success}
-                </div>
-              )}
-
-              {data?.map((service, i) => (
-                <div
-                  className={`mt-7 flex flex-col justify-center items-center gap-5 ${
-                    activeService === i ? "" : "hidden"
-                  }`}
-                  key={i}
-                >
-                  <div className=" pr-semibold text-d20">
-                    {service.is_general ? (
-                      <div>General Feedback</div>
-                    ) : (
-                      <div>{service.service_name}</div>
-                    )}
+                <div className="service-pagination flex w-full justify-center gap-5 mt-10">
+                  <div
+                    className={`arrow-left rounded-lg shadow-md bg-white p-3 cursor-pointer ${
+                      activeService === 0 ? "hidden" : ""
+                    }`}
+                    onClick={() => handleActiveService("dec")}
+                  >
+                    <BsArrowLeft className="w-6 h-6" />
                   </div>
 
-                  <textarea
-                    id={`feedback${i}`}
-                    className="w-11/12 md:w-3/4 h-44 rounded-lg shadow-lg p-5 text-sm"
-                    placeholder="There is no failure. Only feedback."
-                    defaultValue={
-                      service.is_general
-                        ? service.comment
-                        : service.service_comment
-                    }
-                    onChange={(e) =>
-                      handleCommentChange(
-                        !service.is_general ? service.service_id : "general",
-                        e
-                      )
-                    }
-                  ></textarea>
-                </div>
-              ))}
+                  <div
+                    className={`arrow-left-hidden bg-transparent p-3 cursor-pointer w-12 ${
+                      activeService === 0 ? "" : "hidden"
+                    }`}
+                  ></div>
 
-              <div className="service-pagination flex w-full justify-center gap-5 mt-10">
-                <div
-                  className={`arrow-left rounded-lg shadow-md bg-white p-3 cursor-pointer ${
-                    activeService === 0 ? "hidden" : ""
-                  }`}
-                  onClick={() => handleActiveService("dec")}
-                >
-                  <BsArrowLeft className="w-6 h-6" />
-                </div>
-
-                <div
-                  className={`arrow-left-hidden bg-transparent p-3 cursor-pointer w-12 ${
-                    activeService === 0 ? "" : "hidden"
-                  }`}
-                ></div>
-
-                <div className="page-nb bg-white rounded-lg shadow-md p-3 w-24 text-center text-d18">
-                  {activeService + 1}
-                </div>
-                <div
-                  className={`arrow-right rounded-lg shadow-md bg-white p-3 cursor-pointer ${
-                    showSubmitBtn ? "hidden" : ""
-                  }`}
-                  onClick={() => handleActiveService("inc")}
-                >
-                  <BsArrowRight className="w-6 h-6" />
-                </div>
-                <div
-                  className={`submit-btn rounded-lg shadow-md bg-white p-3 cursor-pointer ${
-                    showSubmitBtn ? "" : "hidden"
-                  }`}
-                  onClick={() => handleSubmit()}
-                >
-                  <AiOutlineCheck className="w-6 h-6" />
+                  <div className="page-nb bg-white rounded-lg shadow-md p-3 w-24 text-center text-d18">
+                    {activeService + 1}
+                  </div>
+                  <div
+                    className={`arrow-right rounded-lg shadow-md bg-white p-3 cursor-pointer ${
+                      showSubmitBtn ? "hidden" : ""
+                    }`}
+                    onClick={() => handleActiveService("inc")}
+                  >
+                    <BsArrowRight className="w-6 h-6" />
+                  </div>
+                  <div
+                    className={`submit-btn rounded-lg shadow-md bg-white p-3 cursor-pointer ${
+                      showSubmitBtn ? "" : "hidden"
+                    }`}
+                    onClick={() => handleSubmit()}
+                  >
+                    <AiOutlineCheck className="w-6 h-6" />
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

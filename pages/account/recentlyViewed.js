@@ -38,7 +38,11 @@ function recentlyViewed() {
   }
 
   useEffect(() => {
-    axiosServer
+    if(!state.loading && !state.loged){
+      router.push("/");
+      setLoading(false);
+    }else if (state.loged){
+     axiosServer
       .get(buildLink("recentlyViewed", undefined, window.innerWidth))
       .then((response) => {
         if (response?.data?.success) {
@@ -46,17 +50,14 @@ function recentlyViewed() {
           setData(data);
           setTotal(data?.length);
           setLoading(false);
-          if (!state.loged) {
-            router.push("/");
-          }
+
         } else {
           setLoading(false);
-          if (!state.loading && !state.loged) {
-            router.push("/");
-          }
         }
-      });
-  }, [page, router, limit]);
+      }); 
+    }
+    
+  }, [page, router, limit, state.loading]);
 
   return (
     <div className="container text-dblack">

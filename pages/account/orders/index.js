@@ -23,25 +23,24 @@ function Orders() {
   const path = "";
 
   useEffect(() => {
-    setLoading(true);
-    axiosServer
-      .get(buildLink("orders", undefined, window.innerWidth))
-      .then((response) => {
-        if (response.data.success) {
-          setData(response.data.data);
-          setLoading(false);
-          if (!state.loged) {
-            router.push("/");
+    if (!state.loading && !state.loged) {
+      router.push("/");
+    } else if (state.loged) {
+      setLoading(true);
+      axiosServer
+        .get(buildLink("orders", undefined, window.innerWidth))
+        .then((response) => {
+          if (response.data.success) {
+            setData(response.data.data);
+            setLoading(false);
+
+          } else {
+            setLoading(false);
+            dispatch({ type: "setLoading", payload: false });
           }
-        } else {
-          setLoading(false);
-          dispatch({ type: "setLoading", payload: false });
-          if (!state.loading && !state.loged) {
-            router.push("/");
-          }
-        }
-      });
-  }, []);
+        });
+    }
+  }, [state.loading]);
 
   return (
     <div className="container text-dblack">
@@ -67,7 +66,10 @@ function Orders() {
             </div>
             {data?.orders?.length !== 0 &&
               data?.orders?.map((data) => (
-                <div className="bg-white rounded-md shadow-lg  pb-5" key={data.order_id}>
+                <div
+                  className="bg-white rounded-md shadow-lg  pb-5"
+                  key={data.order_id}
+                >
                   <div className="md:mt-5  md:pb-5">
                     <div className="flex flex-col justify-start items-center text-dblue sm:flex-row cart-header text-center sm:text-dblack">
                       <div
@@ -192,4 +194,3 @@ function Orders() {
 }
 
 export default Orders;
-

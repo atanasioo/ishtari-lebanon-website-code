@@ -8,7 +8,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
-;
 function profile() {
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
@@ -39,38 +38,37 @@ function profile() {
 
   useEffect(() => {
     setLoading(true);
-    axiosServer
-      .get(buildLink("get_account", undefined, window.innerWidth))
-      .then((response) => {
-        if (!response.data.success) {
-          dispatch({ type: "setLoading", payload: false });
-          if (!state.loading && !state.loged) {
-           router.push("/")
+    if (!state.loading && !state.loged) {
+      router.push("/");
+      setLoading(false);
+    } else if(state.loged) {
+      axiosServer
+        .get(buildLink("get_account", undefined, window.innerWidth))
+        .then((response) => {
+          if (!response.data.success) {
+            dispatch({ type: "setLoading", payload: false });
+          } else {
+            setData(response.data.data);
+            setLoading(false);
           }
-        } else {
-          setData(response.data.data);
-          setLoading(false);
-          if (!state.loged) {
-            router.push("/")
-           }
-        }
-      });
+        });
 
-    //get email notifications
-    axiosServer
-      .get(buildLink("EmailNotifications", undefined, window.innerWidth))
-      .then((res) => {
-        // console.log(res);
-        if (res.data.success === true) {
-          setEmailNotif(res.data.promotion_email);
-          res.data.promotion_email.map((em) => {
-            if (em.disable === 1) {
-              setDisabledEmails((current) => [...current, em.service_key]);
-            }
-          });
-        }
-      });
-  }, []);
+      //get email notifications
+      axiosServer
+        .get(buildLink("EmailNotifications", undefined, window.innerWidth))
+        .then((res) => {
+          // console.log(res);
+          if (res.data.success === true) {
+            setEmailNotif(res.data.promotion_email);
+            res.data.promotion_email.map((em) => {
+              if (em.disable === 1) {
+                setDisabledEmails((current) => [...current, em.service_key]);
+              }
+            });
+          }
+        });
+    }
+  }, [state.loading]);
 
   // Save Details
   function saveDetails(e) {
@@ -105,7 +103,7 @@ function profile() {
 
   function logout() {
     axiosServer.post(buildLink("logout")).then(() => {
-      Cookies.set("cid", 0)
+      Cookies.set("cid", 0);
     });
   }
 
@@ -326,7 +324,9 @@ function profile() {
                   </div>
                 </div>
                 <div
-                  className={`flex flex-col mobile:flex-row pt-4 ${width > 650 ? "gap-10" : "gap-8"}`}
+                  className={`flex flex-col mobile:flex-row pt-4 ${
+                    width > 650 ? "gap-10" : "gap-8"
+                  }`}
                 >
                   <div className={width > 650 ? "w-1/2" : "w-full"}>
                     <div className={`${equal ? "input" : "errorInput"}`}>
@@ -421,4 +421,3 @@ function profile() {
 }
 
 export default profile;
-

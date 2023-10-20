@@ -32,32 +32,34 @@ function OrderDetails() {
   const [returnProducts, setReturnProducts] = useState([]);
   const [returnErr, setReturnErr] = useState("");
 
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
-    axiosServer
-      .get(buildLink("get_account", undefined, window.innerWidth))
-      .then((response) => {
-        setEmail(response?.data?.data?.email);
-        setLoading(false);
-
-        if (!response.data.success) {
-          router.push("/");
-        }
-      });
-    axiosServer
-      .get(buildLink("order_details", undefined, window.innerWidth) + id)
-      .then((response) => {
-        if (response.data.success) {
-          setData(response?.data.data);
+    if (!state.loading && !state.loged) {
+      router.push("/");
+    } else if (state.loged) {
+      axiosServer
+        .get(buildLink("get_account", undefined, window.innerWidth))
+        .then((response) => {
+          setEmail(response?.data?.data?.email);
           setLoading(false);
-        }
-      });
-  }, [id]);
+
+          if (!response.data.success) {
+            router.push("/");
+          }
+        });
+      axiosServer
+        .get(buildLink("order_details", undefined, window.innerWidth) + id)
+        .then((response) => {
+          if (response.data.success) {
+            setData(response?.data.data);
+            setLoading(false);
+          }
+        });
+    }
+  }, [id, state.loading]);
 
   const closeModal = () => {
     setShowReturnModal(false);
@@ -350,7 +352,9 @@ function OrderDetails() {
                           </span>{" "}
                         </td>
 
-                        <td className="border   px-4 text-sm">{product.model}</td>
+                        <td className="border   px-4 text-sm">
+                          {product.model}
+                        </td>
                         <td className="border  px-4 text-sm">
                           {product.quantity}
                         </td>
@@ -453,14 +457,14 @@ function OrderDetails() {
 
             {/* return modal */}
             {showReturnModal && (
-            <div>
-              <ReturnModal
-                data={data}
-                index={returnItem}
-                closeModal={closeModal}
-                showReturnModal={showReturnModal}
-              />
-            </div>
+              <div>
+                <ReturnModal
+                  data={data}
+                  index={returnItem}
+                  closeModal={closeModal}
+                  showReturnModal={showReturnModal}
+                />
+              </div>
             )}
           </div>
         )
@@ -470,5 +474,3 @@ function OrderDetails() {
 }
 
 export default OrderDetails;
-
-

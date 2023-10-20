@@ -24,7 +24,7 @@ import { useMarketingData } from "@/contexts/MarketingContext";
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
   const [stateWishlist, dispatchWishlist] = useContext(WishlistContext);
-  const {setMarketingData} = useMarketingData();
+  const { setMarketingData } = useMarketingData();
   const [width, height] = useDeviceSize();
   const [AccountState] = useContext(AccountContext);
 
@@ -49,19 +49,19 @@ function wishlist() {
   const router = useRouter();
 
   useEffect(() => {
-    axiosServer
-      .get(buildLink("wishlist_group", undefined, window.innerWidth))
-      .then((response) => {
-        if (response.data.success) {
-          const data = response.data.data;
-          setGroups(data);
-        }
-        if(!AccountState.loged){
-          router.push("/")
-        }
-      });
-
-  }, [successGroup]);
+    if (!AccountState.loading && !AccountState.loged) {
+      router.push("/");
+    } else if(state.loged) {
+      axiosServer
+        .get(buildLink("wishlist_group", undefined, window.innerWidth))
+        .then((response) => {
+          if (response.data.success) {
+            const data = response.data.data;
+            setGroups(data);
+          }
+        });
+    }
+  }, [successGroup, AccountState.loading]);
 
   useEffect(() => {
     setLoading(true);
@@ -207,7 +207,6 @@ function wishlist() {
             });
             setSuccess(true);
             setSuccessMessage("Product added to cart successfully");
-         
           });
       });
   }
@@ -222,15 +221,16 @@ function wishlist() {
       )
       .then(() => {
         axiosServer
-        .get(
-          buildLink("whishlistProducts", undefined, window.innerWidth) +
-            "&id=" +
-            id +
-            "&page=" +
-            page +
-            "&limit=" +
-            limit
-        ).then((response) => {
+          .get(
+            buildLink("whishlistProducts", undefined, window.innerWidth) +
+              "&id=" +
+              id +
+              "&page=" +
+              page +
+              "&limit=" +
+              limit
+          )
+          .then((response) => {
             const data = response.data.data;
             setProducts(data);
             dispatchWishlist({
@@ -405,12 +405,14 @@ function wishlist() {
                       <Link
                         className="block"
                         href={`/product/${product?.product_id}`}
-                        onClick={() => setMarketingData({
-                          ignore: false,
-                          banner_image_id: "",
-                          source_type: "wishlist",
-                          source_type_id: "",
-                        })}
+                        onClick={() =>
+                          setMarketingData({
+                            ignore: false,
+                            banner_image_id: "",
+                            source_type: "wishlist",
+                            source_type_id: "",
+                          })
+                        }
                       >
                         <img
                           src={product?.thumb}
@@ -428,12 +430,20 @@ function wishlist() {
                           }}
                         ></p>
                         <div>
-                          <span className="mr-4 line-through text-sm">
-                            {product.price}
-                          </span>
-                          <span className="font-semibold">
-                            {product.special}
-                          </span>
+                          {product.special !== 0 ? (
+                            <div>
+                              <span className="mr-4 line-through text-sm">
+                                {product.price}
+                              </span>
+                              <span className="font-semibold">
+                                {product.special}
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="mr-4 font-semibold">
+                              {product.price}
+                            </span>
+                          )}
                         </div>
                         <div className="flex flex-col md:flex-row">
                           <button
@@ -541,5 +551,3 @@ function wishlist() {
 }
 
 export default wishlist;
-
-

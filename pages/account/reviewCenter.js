@@ -20,35 +20,41 @@ function reviewCenter() {
   const [loading, setLoading] = useState(true);
   const [awaitingReview, setAwaitingReview] = useState(true);
   const { reviewCenterData, setReviewCenterData } = useReviewCenterData();
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
-    setLoading(true);
-    if (awaitingReview) {
-      axiosServer
-        .get(
-          buildLink("unreviewedProtuctsCenter", undefined, window.innerWidth)
-        )
-        .then((response) => {
-          setLoading(false);
-          const data = response.data.data;
-          setData(data);
-          if (!state.loged) {
-            router.push("/");
-          }
-        });
-    } else {
-      axiosServer
-        .get(buildLink("reviewedProtuctsCenter", undefined, window.innerWidth))
-        .then((response) => {
-          setLoading(false);
-          const data = response.data.data;
-          setData(data);
-          if ( !state.loged) {
-            router.push("/");
-          }
-        });
+    if (!state.loading && !state.loged) {
+      router.push("/");
+    } else if (state.loged) {
+      setLoading(true);
+      if (awaitingReview) {
+        axiosServer
+          .get(
+            buildLink("unreviewedProtuctsCenter", undefined, window.innerWidth)
+          )
+          .then((response) => {
+            setLoading(false);
+            const data = response.data.data;
+            setData(data);
+            if (!state.loged) {
+              router.push("/");
+            }
+          });
+      } else {
+        axiosServer
+          .get(
+            buildLink("reviewedProtuctsCenter", undefined, window.innerWidth)
+          )
+          .then((response) => {
+            setLoading(false);
+            const data = response.data.data;
+            setData(data);
+            if (!state.loged) {
+              router.push("/");
+            }
+          });
+      }
     }
-  }, [awaitingReview]);
+  }, [awaitingReview, state.loading]);
 
   const handleClick = (product_id) => {
     setReviewCenterData({
@@ -56,7 +62,6 @@ function reviewCenter() {
       scrollToReview: true,
     });
   };
-
 
   return (
     <div className="container text-dblack">
@@ -122,4 +127,3 @@ function reviewCenter() {
 }
 
 export default reviewCenter;
-

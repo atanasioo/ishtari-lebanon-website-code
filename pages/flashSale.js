@@ -113,8 +113,8 @@ function flashSale(props) {
             !response.data.data[0].on_sale_now &&
             response.data.data[0].products.length === 0
           ) {
-            setActiveTab(1);
-            handleTabClick(1, response.data.data);
+            setActiveTab(0);
+            handleTabClick(0, response.data.data);
           }
         }
       });
@@ -130,7 +130,7 @@ function flashSale(props) {
           <div
             onClick={() => handleTabClick(i)}
             className={`text-center h-full flex flex-col justify-center cursor-pointer ${
-              sale_tab.products.length === 0 && i === 0 ? "hidden" : ""
+              sale_tab.products.length === 0 && i === 0 ? "" : ""
             }  ${activeTab === i ? "border-b-2 border-dgrey1 " : "opacity-40"}`}
             style={{ width: `calc(100% / ${data.length})` }}
             key={i}
