@@ -568,6 +568,7 @@ function ProductZoom(props) {
                       alt="product image"
                       width={500}
                       height={680}
+                      priority={true}
                       className="rounded-lg myimage-product-zoom"
                     />
                   ))}
