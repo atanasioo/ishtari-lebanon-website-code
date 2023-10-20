@@ -1338,7 +1338,16 @@ function ProductPage(props) {
                           >
                             <div
                               className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 -mt-1 cursor-pointer"
-                              style={{ backgroundColor: "rgb(130, 174, 4" }}
+                            style={{
+                        backgroundColor:
+                        data?.rating  >= 4.5
+                            ? "rgb(0,158,0)"
+                            : data?.rating  < 4.5 && data?.rating >= 4
+                            ? "rgb(110, 159, 0)"
+                            : data?.rating  < 4 && data?.rating  >= 3.5
+                            ? "rgb(243, 153, 22)"
+                            : "rgb(246,90,31)",
+                      }}
                             >
                               <div className=" font-bold text-white text-d14 ">
                                 {data?.rating || "0.0"}
@@ -2209,7 +2218,7 @@ function ProductPage(props) {
                   className="hidden md:flex items-center border-b border-dinputBorder  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
                 >
                   {data.seller_image.length > 0 ? (
-                    <div className="rounded-full p-0.5 flex justify-center items-center w-17 h-17 mr-1.5 ">
+                    <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">
                       <SellerImage src={data.seller_image} />
                     </div>
                   ) : (
@@ -2224,21 +2233,24 @@ function ProductPage(props) {
                       </h1>
                     </div>
                     <div
-                      className="flex justify-center items-center flex-row  rounded-full h-5 space-x-0.5 p-1 mt-0.5 cursor-pointer w-10"
-                      style={{ backgroundColor: "rgb(130, 174, 4" }}
+                              className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 cursor-pointer w-10 mt-0.5"
+                              style={{
+                        backgroundColor:
+                        sellerReview >= 4.5
+                            ? "rgb(0,158,0)"
+                            : sellerReview < 4.5 && sellerReview >= 4
+                            ? "rgb(110, 159, 0)"
+                            : sellerReview < 4 && sellerReview >= 3.5
+                            ? "rgb(243, 153, 22)"
+                            : "rgb(246,90,31)",
+                      }}
                     >
                       <div className=" font-bold text-white text-d14 ">
                         {sellerReview || "0.0"}
                       </div>
 
                       <AiFillStar className="text-white text-d12" />
-                      {/* <StarRatings
-                                containerClassName=" text-white text-bold"
-                                starEmptyColor="#FFFFFF"
-                                numberOfStars={1}
-                                starDimension="13px"
-                                isReadOnly="true"
-                              />{" "} */}
+                   
                     </div>
                   </div>
                 </Link>

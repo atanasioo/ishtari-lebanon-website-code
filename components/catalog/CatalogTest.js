@@ -1274,7 +1274,7 @@ function CatalogTest(props) {
             >
               <div className="flex justify-between pb-2">
                 {/* Results found */}
-                <div className="flex mx-1 mobile:w-auto pt-2 mobile:pt-1">
+                <div className="flex mx-1  pt-2 mobile:pt-1">
                   <span className=" flex mr-2 font-light whitespace-nowrap">
                     {data?.product_total} Results {data?.heading_title && "for"}
                   </span>
