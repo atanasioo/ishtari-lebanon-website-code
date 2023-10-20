@@ -20,9 +20,10 @@ import CartSideModal from "./CartSideModal";
 import buildLink from "@/urls";
 import { useRef, useEffect } from "react";
 function SingleProduct(props) {
-  const { item, addToCart, topSelling, carousel , noAddCart} = props;
+  const { item, addToCart, topSelling, carousel, noAddCart } = props;
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
+  const [bannerStyles, setBannerStyles] = useState({});
   const router = useRouter();
   const path = "";
   const [cart, dispatch] = useContext(CartContext);
@@ -35,7 +36,9 @@ function SingleProduct(props) {
   const [toggleQty, setToggleQty] = useState(false);
 
   function getProductQuantity(productId) {
-    const product = cart?.products?.find((item) => item.product_id === productId);
+    const product = cart?.products?.find(
+      (item) => item.product_id === productId
+    );
     return product ? product.quantity : null;
   }
   const source_type =
@@ -83,7 +86,7 @@ function SingleProduct(props) {
       ignore: false,
       banner_image_id: "",
       source_type: source_type,
-      source_type_id: source_type_id
+      source_type_id: source_type_id,
     });
   };
 
@@ -102,25 +105,27 @@ function SingleProduct(props) {
   }
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  function addProductToCart(e, product_id , name) {
-    if(props?.item?.check_if_has_options){
-    router.push(`${path}/${name
-      .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-      .replaceAll("%", "")
-      .replaceAll(/\s+/g, "-")
-      .replaceAll("..", "")
-      .replaceAll("/", "-")
-      .replaceAll("---", "-")
-      .replaceAll("--", "-")
-      .replaceAll("100%", "")
-      .replaceAll("#", "")
-      .replaceAll("/", "")}/p=${product_id}`);
+  function addProductToCart(e, product_id, name) {
+    if (props?.item?.check_if_has_options) {
+      router.push(
+        `${path}/${name
+          .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+          .replaceAll("%", "")
+          .replaceAll(/\s+/g, "-")
+          .replaceAll("..", "")
+          .replaceAll("/", "-")
+          .replaceAll("---", "-")
+          .replaceAll("--", "-")
+          .replaceAll("100%", "")
+          .replaceAll("#", "")
+          .replaceAll("/", "")}/p=${product_id}`
+      );
     }
     var quantity = 1;
     e.preventDefault();
     let obj = {
       product_id,
-      quantity
+      quantity,
     };
 
     let error = "";
@@ -151,7 +156,7 @@ function SingleProduct(props) {
         } else {
           dispatch({
             type: "loading",
-            payload: true
+            payload: true,
           });
           axiosServer
             .get(
@@ -165,30 +170,33 @@ function SingleProduct(props) {
             .then((response_data) => {
               dispatch({
                 type: "setProducts",
-                payload: response_data.data?.data?.products
+                payload: response_data.data?.data?.products,
               });
 
               dispatch({
                 type: "setProductsCount",
-                payload: response_data?.data?.data?.total_product_count
+                payload: response_data?.data?.data?.total_product_count,
               });
               dispatch({
                 type: "setTotals",
-                payload: response_data.data?.data?.totals
+                payload: response_data.data?.data?.totals,
               });
 
               dispatch({
                 type: "setAsidecart",
-                payload: true
+                payload: true,
               });
 
               dispatch({
                 type: "setProduct",
-                payload: { "name" : data?.data?.product.name, "image" : props?.item?.thumb}
+                payload: {
+                  name: data?.data?.product.name,
+                  image: props?.item?.thumb,
+                },
               });
               dispatch({
                 type: "loading",
-                payload: false
+                payload: false,
               });
             });
           setCartData(data.data);
@@ -243,24 +251,28 @@ function SingleProduct(props) {
   // useOutsideAlerter(wrapperRef);
 
   // function useOutsideAlerter(ref) {
-    useEffect(() => {
-      // if (toggleQty) {
-        function handleClickOutside(event) {
-          if (cart.aside) {
-            setTimeout(() =>   dispatch({
+  useEffect(() => {
+    // if (toggleQty) {
+    function handleClickOutside(event) {
+      if (cart.aside) {
+        setTimeout(
+          () =>
+            dispatch({
               type: "setAsidecart",
-              payload: false
-            }), 200);
-          }
-        }
-        // Bind the event listener
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-          // Unbind the event listener on clean up
-          document.removeEventListener("mousedown", handleClickOutside);
-        };
-      // }
-    }, [ cart]);
+              payload: false,
+            }),
+          200
+        );
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // }
+  }, [cart]);
   // }
 
   // useEffect(() => {
@@ -273,6 +285,33 @@ function SingleProduct(props) {
   //     }
   //   }
   // }, [hoveredIndex]);
+
+  // banner event possible styles:
+  // style1: (image)
+  // style2: (image& timer)
+  // style3: (background and timer)
+
+  useEffect(() => {
+    const banner_event_styles = {
+      backgroundColor:
+        props.item.bannerevent?.background_color !== ""
+          ? props.item.bannerevent?.background_color
+          : "",
+      textAlign:
+        props.item.bannerevent?.title_display !== "none"
+          ? props.item.bannerevent?.title_display
+          : "left",
+      color:
+        props.item.bannerevent?.font_color !== ""
+          ? props.item.bannerevent?.font_color
+          : "",
+      fontSize:
+        props.item.bannerevent?.font_size !== ""
+          ? props.item.bannerevent?.font_size + "px"
+          : "14px",
+    };
+    setBannerStyles(banner_event_styles);
+  }, [item]);
 
   return (
     <>
@@ -297,7 +336,7 @@ function SingleProduct(props) {
             .replaceAll("100%", "")
             .replaceAll("#", "")
             .replaceAll("/", "")}/p=${props.item.product_id}`,
-          query: linkQuery
+          query: linkQuery,
         }}
         onClickCapture={props.click}
         className={` cursor-pointer   ${props.isList && "mb-3"}  `}
@@ -407,7 +446,7 @@ function SingleProduct(props) {
                         width: "100%", // Set the desired width
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center"
+                        backgroundPosition: "center",
                       }}
                     />
                   ) : (
@@ -428,7 +467,7 @@ function SingleProduct(props) {
                               border: "1px solid rgba(255, 255, 255, 0.7)",
                               maxWidth: width > 650 ? "45%" : "55%",
                               paddingTop: "0.5px",
-                              paddingBottom: "0.5px"
+                              paddingBottom: "0.5px",
                             }}
                           >
                             {props?.item?.option_color_count} Colours
@@ -439,6 +478,74 @@ function SingleProduct(props) {
                       )}
                     </div>
                   )}
+
+                  {props.item?.bannerevent &&
+                    Object.keys(props.item.bannerevent).length > 0 && (
+                      <div className="w-full absolute bottom-0 z-10 mb-2.5">
+                        <div style={bannerStyles} className={`relative `}>
+                          {props.item.bannerevent.style === "1" ? ( //image
+                            <div className="relative link-span">
+                              <Image
+                                width={192}
+                                height={30}
+                                src={props.item.bannerevent?.thumb}
+                                className="w-full h-auto"
+                              />
+                            </div>
+                          ) : props.item.bannerevent.style === "2" ? ( //image & timer
+                            <div className="relative link-span">
+                              <Image
+                                width={192}
+                                height={30}
+                                src={props.item.bannerevent?.thumb}
+                                className="w-full h-auto"
+                              />
+                              {props.item.bannerevent.datediff > 0 && (
+                                <div
+                                  className={`absolute  inset-0 flex flex-col justify-center pr-2 ${
+                                    props.item.bannerevent?.title_display ===
+                                    "left"
+                                      ? "items-end"
+                                      : props.item.bannerevent
+                                          ?.title_display === "right"
+                                      ? "items-start"
+                                      : "items-end"
+                                  }`}
+                                >
+                                  <TimerSingleProduct
+                                    data={props?.item?.bannerevent.end_date}
+                                    bannerEvent={true}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            //background & timer
+                            <div className="relative py-1 px-1.5 ">
+                              {props.item.bannerevent.datediff > 0 && (
+                                <div
+                                  className={`flex gap-2 items-center text-sm ${
+                                    props.item.bannerevent?.title_display ===
+                                    "left"
+                                      ? "justify-end"
+                                      : props.item.bannerevent
+                                          ?.title_display === "right"
+                                      ? "justify-start"
+                                      : "justify-start"
+                                  }`}
+                                >
+                                  <div>Ends in</div>
+                                  <TimerSingleProduct
+                                    data={props?.item?.bannerevent.end_date}
+                                    bannerEvent={true}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                 </div>
               </div>
               <div className="product-info pt-3 flex flex-col w-full">
@@ -456,7 +563,7 @@ function SingleProduct(props) {
                           props.isList ? " pr-semibold" : "text-d13 "
                         }  mb-1 h-10 pr-semibold`}
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(props.item.manufacturer_name)
+                          __html: sanitizeHTML(props.item.manufacturer_name),
                         }}
                       />
                       {props.isList && <br />}
@@ -472,7 +579,7 @@ function SingleProduct(props) {
                           dangerouslySetInnerHTML={{
                             __html: sanitizeHTML(
                               item?.name?.split(item.manufacturer_name)[1]
-                            )
+                            ),
                           }}
                         />
                       ) : (
@@ -483,7 +590,7 @@ function SingleProduct(props) {
                               : "ml-1 text-d13 md:text-thin font-light"
                           }   mb-1 h-10 `}
                           dangerouslySetInnerHTML={{
-                            __html: props.isList ? item.full_name : item.name
+                            __html: props.isList ? item.full_name : item.name,
                           }}
                         />
                       )}
@@ -498,20 +605,24 @@ function SingleProduct(props) {
                           ? item.special
                           : item.price}
                       </strong>
-                   {(item?.check_if_has_options ===false || item?.check_if_has_options === true ) && <div
-                        className="relative shadow shadow-dgrey1  z-20 rounded-full px-2  text-d18 pr-light py-1"
-                        onClick={(e) => addProductToCart(e, item?.product_id, item.name)}
-                      >
-                        {getProductQuantity(item?.product_id) > 0 && (
-                          <div className="w-4 h-4  bg-dbase1 flex text-white items-center justify-center rounded-full text-xs absolute right-1 mobile:-right-1.5 -top-1.5 mobile:-top-2.6 border border-white -mr-2 mobile:mr-1">
-                            {getProductQuantity(item?.product_id)}
-                          </div>
-                        )}
-                        <MdAddShoppingCart />
-                      </div>
-}
+                      {(item?.check_if_has_options === false ||
+                        item?.check_if_has_options === true) && (
+                        <div
+                          className="relative shadow shadow-dgrey1  z-20 rounded-full px-2  text-d18 pr-light py-1"
+                          onClick={(e) =>
+                            addProductToCart(e, item?.product_id, item.name)
+                          }
+                        >
+                          {getProductQuantity(item?.product_id) > 0 && (
+                            <div className="w-4 h-4  bg-dbase1 flex text-white items-center justify-center rounded-full text-xs absolute right-1 mobile:-right-1.5 -top-1.5 mobile:-top-2.6 border border-white -mr-2 mobile:mr-1">
+                              {getProductQuantity(item?.product_id)}
+                            </div>
+                          )}
+                          <MdAddShoppingCart />
+                        </div>
+                      )}
                     </div>
-                        
+
                     <div
                       className={`mt-0.5 text-d12 flex items-center ${
                         (item.special === "0" ||
@@ -540,7 +651,7 @@ function SingleProduct(props) {
                       dangerouslySetInnerHTML={{
                         __html:
                           sanitizeHTML(props.item.description.slice(0, 500)) +
-                          "..."
+                          "...",
                       }}
                     ></div>
                   </div>
@@ -582,7 +693,7 @@ function SingleProduct(props) {
                                 ? "rgb(110, 159, 0)"
                                 : item?.rating < 4 && item?.rating >= 3.5
                                 ? "rgb(243, 153, 22)"
-                                : "rgb(246,90,31)"
+                                : "rgb(246,90,31)",
                           }}
                         >
                           <div

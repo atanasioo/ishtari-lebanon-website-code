@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function TimerSingleProduct({ data }) {
+function TimerSingleProduct({ data, bannerEvent }) {
   const date = data;
 
   const calculateTimeLeft = () => {
@@ -45,11 +45,11 @@ function TimerSingleProduct({ data }) {
         key={Math.random()}
       >
         {interval === "DAYS" ? (
-          <div className="flex text-d22  pr-semibold rounded-full text-dblackOverlay3">
+          <div className={` flex ${bannerEvent ? "" : " text-d22  pr-semibold rounded-full text-dblackOverlay3"} `}>
             {timeLeft[interval]} 
           </div>
         ) : (
-          <div className="flex text-d22 w-auto pr-semibold text-dblackOverlay3">
+          <div className={`flex ${bannerEvent ? "" : "text-d22 w-auto pr-semibold text-dblackOverlay3"} `}>
             {timeLeft[interval]} 
           </div>
         )}
