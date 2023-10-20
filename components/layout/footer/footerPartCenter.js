@@ -93,7 +93,7 @@ export default function FooterPartCenter(props) {
           );
         })}
 
-        <div className="mt-3">
+        <div className="">
           <div>
             <div
               className=" uppercase  hover:text-dblue text-df pb-3   pr-semibold loading-dsnug"
@@ -210,7 +210,7 @@ export default function FooterPartCenter(props) {
         })}
         <div>
           <div className="flex-row container justify-between">
-            <div className="mt-2 border-b pb-2 border-dinputBorder ">
+            <div className="border-b pb-2 border-dinputBorder ">
               <div
                 onClick={() => toggleButton("tb")}
                 className="flex items-center mx-4 justify-between font-normal text-sm hover:text-dblue"
