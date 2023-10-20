@@ -1274,7 +1274,7 @@ function CatalogTest(props) {
             >
               <div className="flex justify-between pb-2">
                 {/* Results found */}
-                <div className="flex mx-1 mobile:w-auto pt-2 mobile:pt-1">
+                <div className="flex mx-1 mobile:w-1/3 pt-2 mobile:pt-1">
                   <span className=" flex mr-2 font-light whitespace-nowrap">
                     {data?.product_total} Results {data?.heading_title && "for"}
                   </span>
@@ -1290,7 +1290,7 @@ function CatalogTest(props) {
                 {/* Settings */}
                 {/* Desktop setting */}
 
-                <div className="mobile:flex justify-end  hidden mobile:w-full">
+                <div className="mobile:flex justify-end  hidden">
                   {/* Sorts */}
                   {data?.products?.length > 0 && (
                     <div className=" px-8 flex items-center">
