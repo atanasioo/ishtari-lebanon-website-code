@@ -169,7 +169,7 @@ function ProductPage(props) {
         // router.push("/404");
       } else {
         setData(response?.data?.data);
-
+        setSellerReview('');
         axiosServer
           .get(
             buildLink(
@@ -181,7 +181,7 @@ function ProductPage(props) {
           )
           .then((resp) => {
             if (response?.data?.success)
-              setSellerReview(resp?.data?.data?.rating);
+              setSellerReview(resp?.data?.data);
           });
 
         axiosServer
@@ -2232,26 +2232,34 @@ function ProductPage(props) {
                         {data.seller}
                       </h1>
                     </div>
+                    {sellerReview?.rating ? 
+                    <div className="flex">
                     <div
                               className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 cursor-pointer w-10 mt-0.5"
                               style={{
                         backgroundColor:
-                        sellerReview >= 4.5
+                        sellerReview?.rating >= 4.5
                             ? "rgb(0,158,0)"
-                            : sellerReview < 4.5 && sellerReview >= 4
+                            : sellerReview?.rating  < 4.5 && sellerReview?.rating  >= 4
                             ? "rgb(110, 159, 0)"
-                            : sellerReview < 4 && sellerReview >= 3.5
+                            : sellerReview?.rating < 4 && sellerReview?.rating  >= 3.5
                             ? "rgb(243, 153, 22)"
                             : "rgb(246,90,31)",
                       }}
                     >
                       <div className=" font-bold text-white text-d14 ">
-                        {sellerReview || "0.0"}
+                        { sellerReview?.rating?.toFixed(1)  || "0.0"} 
                       </div>
 
                       <AiFillStar className="text-white text-d12" />
                    
                     </div>
+                    {sellerReview?.percentage  &&  sellerReview?.percentage  + "positive Ratings"}
+
+                    </div> : 
+                    <div className=" text-d14 flex  text-dgrey1 mt-o.5 font-semibold opacity-80">Not enough ratings to show   <AiFillStar className=" text-d16 mt-1 ml-1 " /></div>
+                    
+                  }
                   </div>
                 </Link>
               )}
