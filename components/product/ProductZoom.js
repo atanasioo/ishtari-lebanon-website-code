@@ -214,17 +214,17 @@ function ProductZoom(props) {
   }, [hoverZoom, hovered]);
 
   function changeImage(imgSrc) {
-    console.log(imgSrc);
+   // console.log(imgSrc);
     var selectedImgIndex = 0;
     var image = document.getElementById("myimage");
 
     selectedImgIndex = images.findIndex(
       (item) => item.popup === imgSrc.popup && item.thumb === imgSrc.thumb
     );
-    console.log(selectedImgIndex);
+   // console.log(selectedImgIndex);
     if (selectedImgIndex < 0) {
       selectedImgIndex = images.length;
-      console.log(selectedImgIndex);
+     // console.log(selectedImgIndex);
     }
 
     setActiveImage(imgSrc);

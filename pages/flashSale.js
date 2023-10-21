@@ -77,7 +77,7 @@ function flashSale(props) {
   }
 
   function handleTabClick(index, resp) {
-    console.log("data in handle tab", data);
+    // console.log("data in handle tab", data);
     setNoSale(false);
     setLoading(true);
     setActiveTab(index);
@@ -108,7 +108,7 @@ function flashSale(props) {
         if (response.data.success) {
           setData(response.data.data);
           setProductsTab(response.data.data[activeTab].products);
-          console.log("response data", response.data);
+          // console.log("response data", response.data);
           if (
             !response.data.data[0].on_sale_now &&
             response.data.data[0].products.length === 0

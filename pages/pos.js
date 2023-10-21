@@ -114,7 +114,7 @@ export default function Pos() {
     typeRef.current.value = "";
 
     telephone.current.value = "";
-    console.log("yess");
+    // console.log("yess");
     var body = {
       order_product: [],
       customer_id: "",
@@ -173,7 +173,7 @@ export default function Pos() {
     setIsValid(isValid);
   };
   const AdminPhoneHandler = (obj, isValid) => {
-    console.log(obj);
+    // console.log(obj);
     if (isValid) {
       firstname.current.value = obj.firstname !== "undefined" && obj.firstname;
       lastname.current.value = obj.lastname !== "undefined" && obj.lastname;

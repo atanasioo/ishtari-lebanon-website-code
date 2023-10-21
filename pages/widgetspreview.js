@@ -43,7 +43,7 @@ export default function Home(props) {
 
 //   TEST
 const testquery = router.query
-console.log("testquery.widget_group_id",testquery.widget_group_id)
+// console.log("testquery.widget_group_id",testquery.widget_group_id)
 
 //   TEST
 
@@ -85,8 +85,8 @@ console.log("testquery.widget_group_id",testquery.widget_group_id)
     let link =
       buildLink("widgetsPreview", undefined, undefined, window.config["site-url"]) +
       "&source_id=1" ;
-console.log("buldlink",link)
-console.log("obj",obj)
+// console.log("buldlink",link)
+// console.log("obj",obj)
     axiosServer.post(link, obj).then((response) => {
       if (response?.data?.success) {
         const newData = response?.data?.data?.widgets;
@@ -215,7 +215,7 @@ console.log("obj",obj)
       };
 
       axiosServer.post(buildLink("banner_stats"),  obj).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setBannerStats(response.data.data);
       });
     }

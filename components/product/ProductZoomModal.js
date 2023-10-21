@@ -20,8 +20,8 @@ function ProductZoomModal(props) {
   const slider3 = useRef(null);
   const zoomRef = useRef(null);
 
-  console.log("current slide index " + currentSlideIndex);
-  console.log("current slide" + currentSlide);
+  // console.log("current slide index " + currentSlideIndex);
+  // console.log("current slide" + currentSlide);
 
   const singleSetting = {
     dots: false,
@@ -97,7 +97,7 @@ function ProductZoomModal(props) {
   }, [selectedImage]);
 
   const handleFirstSliderChange = (index) => {
-    console.log("index afetr swipe" + index);
+    // console.log("index afetr swipe" + index);
     setCurrentSlide(index);
     slider2.current.slickGoTo(index);
     setActiveImage(images[index]);
@@ -112,10 +112,10 @@ function ProductZoomModal(props) {
     selectedImgIndex = images.findIndex(
       (item) => item.popup === imgSrc.popup && item.thumb === imgSrc.thumb
     );
-    console.log(selectedImgIndex);
+    // console.log(selectedImgIndex);
     if (selectedImgIndex < 0) {
       selectedImgIndex = images.length;
-      console.log(selectedImgIndex);
+      // console.log(selectedImgIndex);
     }
 
     setActiveImage(imgSrc);

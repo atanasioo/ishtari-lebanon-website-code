@@ -6,10 +6,10 @@ import { sanitizeHTML } from "../Utils";
 
 function CartSideModal(props) {
   const { successAdded, data, toggleSucccessAdded, hasBannerEvent, image } = props;
-  console.log(data)
+  //console.log(data)
   const [state, dispatch] = useContext(CartContext);
   const [width, height] = useDeviceSize();
-  console.log(state)
+  //console.log(state)
   const path ="";
   return (
     <div>

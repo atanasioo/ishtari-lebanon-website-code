@@ -419,7 +419,7 @@ function ProductPart2(props) {
       axiosServer
         .post(buildLink("likeUnlikeReview", undefined, undefined) + review_id)
         .then((response) => {
-          console.log(response.data);
+         // console.log(response.data);
           if (response.data.success && response.data.data.liked) {
             setLikedReviews((current) => [...current, review_id]);
             setAlreadyLiked((current) => [...current, review_id]);

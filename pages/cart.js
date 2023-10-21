@@ -111,7 +111,7 @@ function Cart() {
       state?.products[i]?.maximum === "0" ||
       typeof i === "undefined"
     ) {
-      console.log("herereer");
+      // console.log("herereer");
       const obj = { key, quantity };
       setOpacity(true);
       dispatch({

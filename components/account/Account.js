@@ -50,8 +50,6 @@ function Account() {
   const router = useRouter();
 
 
-  console.log("account state" , state);
-
   // if (session) {
   //   // The user is logged in
   //   const obj = {
@@ -70,6 +68,9 @@ function Account() {
   //   // The user is not logged in
   //   // return <p>Please log in with Facebook.</p>
   // }
+
+
+
   useEffect(() => {
     // if () {
     // alert(session.user.email);

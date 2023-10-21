@@ -52,13 +52,13 @@ export default function PosOrders() {
     const storedDataHolder = localStorage.getItem("hold-order");
     try {
       const storedHolder = JSON.parse(storedDataHolder);
-      console.log(storedHolder);
+      // console.log(storedHolder);
       setHoldArray(storedHolder);
 
       var sumHold = 0;
 
       storedHolder?.map((item) => {
-        console.log(item);
+        // console.log(item);
         // console.log(item?.order_total)
         if (item?.total !== undefined) sumHold += Number(item?.total); // Replace "columnName" with the actual column you want to sum
       });
@@ -269,7 +269,7 @@ export default function PosOrders() {
     if (day.length < 2) day = "0" + day;
 
     const date = [year, month, day].join("-");
-    console.log(date);
+    // console.log(date);
     // setDate(date + "-" + date);
 
     // console.log("storedArray");
@@ -313,7 +313,7 @@ export default function PosOrders() {
         setManualResponse(response?.data?.data);
 
         if (response?.data?.success === false) {
-          console.log(response?.data);
+          // console.log(response?.data);
           setError(response?.data?.errors);
 
           if (

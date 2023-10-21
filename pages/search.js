@@ -78,7 +78,7 @@ function search(props) {
     });
   }, [router]);
 
-  console.log("data", data);
+
 
   function handleFilter(type, name) {
     const query = { ...router.query };

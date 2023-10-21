@@ -786,9 +786,9 @@ const router = useRouter()
         : final_queries + `${state.admin ? "&adm_quantity=true" : ""}`;
     } else {
       //heree
-      console.log(catalog_id);
+    //  console.log(catalog_id);
       const q_s = queryString.parse(location.search);
-      console.log(location);
+    //  console.log(location);
       let type = getType()
         .replace("category", "path")
         .replace("manufacturer", "manufacturer_id")
