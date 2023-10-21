@@ -9,41 +9,219 @@ import { useContext, useRef, useState } from "react";
 import useDeviceSize from "../useDeviceSize";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
 import { AccountContext } from "@/contexts/AccountContext";
+import { CartContext } from "@/contexts/CartContext";
+import { MdAddShoppingCart } from "react-icons/md";
+import { axiosServer } from "@/axiosServer";
+import buildLink from "@/urls";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 function SingleProductTest(props) {
   const { item, host, addToCart } = props;
   const [state] = useContext(AccountContext);
+  const [cart, dispatch] = useContext(CartContext);
   const [copied, setCopied] = useState(false);
   const router = useRouter();
+  const [cartData, setCartData] = useState();
+
   const path = "";
-//   const swiperRef = useRef(null);
-//   const onInit = (Swiper) => {
-//     swiperRef.current = Swiper;
-//   };
+  //   const swiperRef = useRef(null);
+  //   const onInit = (Swiper) => {
+  //     swiperRef.current = Swiper;
+  //   };
   const [width] = useDeviceSize();
 
   const NewImage = dynamic(() => import("./NewImage"), {
-    ssr: false, // Disable server-side rendering
+    ssr: false // Disable server-side rendering
   });
 
-  
 
-//   const handleMouseEnter = () => {
-//     if (swiperRef.current !== null) {
-//       swiperRef?.current?.autoplay?.start();
-//       if(swiperRef.current.params !== null && swiperRef.current.params !== undefined){
-//         swiperRef.current.params.autoplay.delay = 1000;
-//       }
-      
-//     }
-//   };
+  useEffect(() => {
+    // if (toggleQty) {
+    function handleClickOutside(event) {
+      if (cart.aside) {
+        setTimeout(
+          () =>
+            dispatch({
+              type: "setAsidecart",
+              payload: false,
+            }),
+          200
+        );
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // }
+  }, [cart]);
+  function getProductQuantity(productId) {
+    const product = cart?.products?.find(
+      (item) => item.product_id === productId
+    );
+    return product ? product.quantity : null;
+  }
+  function addProductToCart(e, product_id, name) {
+    if (props?.item?.check_if_has_options) {
+      router.push(
+        `${path}/${name
+          .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+          .replaceAll("%", "")
+          .replaceAll(/\s+/g, "-")
+          .replaceAll("..", "")
+          .replaceAll("/", "-")
+          .replaceAll("---", "-")
+          .replaceAll("--", "-")
+          .replaceAll("100%", "")
+          .replaceAll("#", "")
+          .replaceAll("/", "")}/p=${product_id}`
+      );
+    }
+    var quantity = 1;
+    e.preventDefault();
+    let obj = {
+      product_id,
+      quantity
+    };
 
-//   const handleMouseLeave = () => {
-//     if (swiperRef.current !== null && swiperRef.current.autoplay !== undefined) {
-//       swiperRef.current.autoplay.stop();
-//       swiperRef.current.slideTo(1);
-//     }
-//   };
+    let error = "";
+    axiosServer
+      .post(
+        buildLink(
+          "cart",
+          undefined,
+          window.innerWidth,
+          window.config["site-url"]
+        ) + "&source_id=1",
+        obj
+      )
+      .then((response) => {
+        const data = response.data;
+        if (data.success !== true) {
+          // There is an error
+          // setHasAddToCartError(true);
+          // if (!hasOption) {
+          //   error = data?.errors[0]?.errorMsg;
+          // } else {
+          //   error = data?.errors[0]?.errorMsg;
+          // }
+          // alert(error)
+          // setAddToCartError(error);
+          // setAddingToCart(false);
+          // setCartData(data.data)
+        } else {
+          dispatch({
+            type: "loading",
+            payload: true
+          });
+          axiosServer
+            .get(
+              buildLink(
+                "cart",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              )
+            )
+            .then((response_data) => {
+              dispatch({
+                type: "setProducts",
+                payload: response_data.data?.data?.products
+              });
+
+              dispatch({
+                type: "setProductsCount",
+                payload: response_data?.data?.data?.total_product_count
+              });
+              dispatch({
+                type: "setTotals",
+                payload: response_data.data?.data?.totals
+              });
+
+              dispatch({
+                type: "setAsidecart",
+                payload: true
+              });
+
+              dispatch({
+                type: "setProduct",
+                payload: {
+                  name: data?.data?.product.name,
+                  image: props?.item?.thumb
+                }
+              });
+              dispatch({
+                type: "loading",
+                payload: false
+              });
+            });
+          setCartData(data.data);
+          // setSuccessAdded(true)
+
+          if (data) {
+            const data = response?.data?.data?.social_data;
+
+            // ReactPixel.fbq(
+            //   "track",
+            //   "AddToCart",
+            //   {
+            //     content_type: "product",
+            //     content_ids: data?.content_ids,
+            //     content_name: data?.name,
+            //     value: data?.value,
+            //     content_category: data?.breadcrumbs?.category[0]?.name,
+            //     currency: data?.currency,
+            //     fbp: Cookies.get("_fbp"),
+            //   },
+            //   { eventID: data?.event_id }
+            // );
+          }
+          // }
+
+          var dataSocial = response?.data?.data?.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+
+          axiosServer
+            .post(
+              buildLink(
+                "pixel",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              ),
+              dataSocial
+            )
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
+        }
+      });
+  }
+
+  //   const handleMouseEnter = () => {
+  //     if (swiperRef.current !== null) {
+  //       swiperRef?.current?.autoplay?.start();
+  //       if(swiperRef.current.params !== null && swiperRef.current.params !== undefined){
+  //         swiperRef.current.params.autoplay.delay = 1000;
+  //       }
+
+  //     }
+  //   };
+
+  //   const handleMouseLeave = () => {
+  //     if (swiperRef.current !== null && swiperRef.current.autoplay !== undefined) {
+  //       swiperRef.current.autoplay.stop();
+  //       swiperRef.current.slideTo(1);
+  //     }
+  //   };
 
   function copyContent(e, sku) {
     e.preventDefault();
@@ -58,7 +236,12 @@ function SingleProductTest(props) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   }
-  const mobileViews = ["web_mobile", "seller_mobile", "category_mobile", "manufacturer_mobile"];
+  const mobileViews = [
+    "web_mobile",
+    "seller_mobile",
+    "category_mobile",
+    "manufacturer_mobile"
+  ];
 
   return (
     <Link
@@ -73,14 +256,14 @@ function SingleProductTest(props) {
         .replaceAll("100%", "")
         .replaceAll("#", "")
         .replaceAll("/", "")}/p=${props.item.product_id}`}
-
       onClickCapture={props?.click}
-
       className={` cursor-pointer block w-full  ${props.isList && "mb-3"}`}
     >
       {props.item.new && <NewImage />}
       <div
-        className={`flex flex-col h-full ${props.scroll && "w-150px"} ${!mobileViews.includes(router.query.view) && "w-unset"}  bg-white text-dblack p-2.5 relative ${
+        className={`flex flex-col h-full ${props.scroll && "w-150px"} ${
+          !mobileViews.includes(router.query.view) && "w-unset"
+        }  bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
         style={{ height: props.isList && "260px" }}
@@ -97,11 +280,10 @@ function SingleProductTest(props) {
           >
             <div
               className={` relative ${
-                props.isList &&
-                "flex-shrink-0 flex-grow-0 w-40 -my-4 -ml-4 mr-4"
+                props.isList && "flex-shrink-0 flex-grow-0 w-40  -ml-4 mr-4 "
               }`}
-            //   onMouseEnter={handleMouseEnter}
-            //   onMouseLeave={handleMouseLeave}
+              //   onMouseEnter={handleMouseEnter}
+              //   onMouseLeave={handleMouseLeave}
             >
               {props.item.quantity === "0" && (
                 <div
@@ -124,19 +306,26 @@ function SingleProductTest(props) {
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
                 !item?.images ? (
-                <Image
-                  alt={item.name}
-                  src={item.thumb}
-                  width={200}
-                  height={300}
-                 
-                  className="max-w-full max-h-full"
-                />
-                // <div></div>
+                <div   >
+                  <Image
+                    alt={item.name}
+                    src={item.thumb}
+                    width={194}
+                    height={267}
+                    style={{
+                      backgroundImage: `url(${"/images/product_placeholder.png"})`,
+                      height: "auto", // Set the desired height
+                      width: "100%", // Set the desired width
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center"
+                    }}
+                    className="min-w-full max-h-full"
+                  />
+                </div>
               ) : (
-                <>
-                </>
-                
+                // <div></div>
+                <></>
               )}
             </div>
           </div>
@@ -153,7 +342,7 @@ function SingleProductTest(props) {
                       props.isList ? " pr-semibold" : "text-d13 "
                     }  mb-1 h-10 pr-semibold`}
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHTML(props.item.manufacturer_name),
+                      __html: sanitizeHTML(props.item.manufacturer_name)
                     }}
                   />
                   {props.isList && <br />}
@@ -169,7 +358,7 @@ function SingleProductTest(props) {
                       dangerouslySetInnerHTML={{
                         __html: sanitizeHTML(
                           item?.name?.split(item.manufacturer_name)[1]
-                        ),
+                        )
                       }}
                     />
                   ) : (
@@ -180,7 +369,7 @@ function SingleProductTest(props) {
                           : "ml-1 text-d13 md:text-thin font-light"
                       }   mb-1 h-10 `}
                       dangerouslySetInnerHTML={{
-                        __html: props.isList ? item.full_name : item.name,
+                        __html: props.isList ? item.full_name : item.name
                       }}
                     />
                   )}
@@ -188,14 +377,32 @@ function SingleProductTest(props) {
                 {/* <span>{item.name}</span> */}
               </div>
               <div className="">
-                <div>
-                  <strong className="pr-bold text-d18">
-                    {item.special !== "0" &&
-                    item.special !== "" &&
-                    item.special !== false
-                      ? item.special
-                      : item.price}
-                  </strong>
+                <div className="flex justify-between">
+                  <div>
+                    <strong className="pr-bold text-d18">
+                      {item.special !== "0" &&
+                      item.special !== "" &&
+                      item.special !== false
+                        ? item.special
+                        : item.price}
+                    </strong>
+                  </div>
+                  {(item?.check_if_has_options === false ||
+                    item?.check_if_has_options === true) && (
+                    <div
+                      className="relative shadow shadow-dgrey1  z-20 rounded-full px-2  text-d18 pr-light py-1"
+                      onClick={(e) =>
+                        addProductToCart(e, item?.product_id, item.name)
+                      }
+                    >
+                      {getProductQuantity(item?.product_id) > 0 && (
+                        <div className="w-4 h-4  bg-dbase1 flex text-white items-center justify-center rounded-full text-xs absolute right-1 mobile:-right-1.5 -top-1.5 mobile:-top-2.6 border border-white -mr-2 mobile:mr-1">
+                          {getProductQuantity(item?.product_id)}
+                        </div>
+                      )}
+                      <MdAddShoppingCart />
+                    </div>
+                  )}
                 </div>
                 <div
                   className={`mt-0.5 text-d12 flex items-center ${
@@ -221,8 +428,7 @@ function SingleProductTest(props) {
                 <div
                   dangerouslySetInnerHTML={{
                     __html:
-                      sanitizeHTML(props.item.description.slice(0, 500)) +
-                      "...",
+                      sanitizeHTML(props.item.description.slice(0, 500)) + "..."
                   }}
                 ></div>
               </div>
@@ -241,7 +447,6 @@ function SingleProductTest(props) {
                       src={"/images/express.png"}
                       className="h-6 w-16 py-1"
                       alt="Express delivery"
-                      
                     />
                   ) : (
                     <img
@@ -250,7 +455,6 @@ function SingleProductTest(props) {
                       src={"/images/market.svg"}
                       className="h-6 w-16 py-1 "
                       alt={"market image"}
-                    
                     />
                   )}
                 </div>
@@ -266,7 +470,7 @@ function SingleProductTest(props) {
                             ? "rgb(110, 159, 0)"
                             : item?.rating < 4 && item?.rating >= 3.5
                             ? "rgb(243, 153, 22)"
-                            : "rgb(246,90,31)",
+                            : "rgb(246,90,31)"
                       }}
                     >
                       <div

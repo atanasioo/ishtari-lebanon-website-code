@@ -12,14 +12,17 @@ function categoryTopSelling() {
   const router = useRouter()
   const { category_id } = router.query;
 
+
   useEffect(()=>{
+
+
     axiosServer.get(buildLink("getAllTopSellingbyCategoryid", undefined, undefined, window.location.host) +
     "&category_id=" +
     category_id).then((resp)=>{
       setData(resp.data)
     })
 
-  }, [])
+  }, [category_id])
 
   return (
     <div className="py-6 container">

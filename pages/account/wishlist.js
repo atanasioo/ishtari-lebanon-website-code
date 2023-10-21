@@ -51,7 +51,7 @@ function wishlist() {
   useEffect(() => {
     if (!AccountState.loading && !AccountState.loged) {
       router.push("/");
-    } else if(state.loged) {
+    } else if(AccountState.loged) {
       axiosServer
         .get(buildLink("wishlist_group", undefined, window.innerWidth))
         .then((response) => {
