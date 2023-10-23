@@ -44,8 +44,10 @@ function search(props) {
     };
   }, [router]);
 
+  const { keyword, brand, seller, category, page } = router.query;
+
+
   useEffect(() => {
-    const { keyword, brand, seller, category, page } = router.query;
 
  
       // Compare the current route with the previous route
@@ -54,10 +56,10 @@ function search(props) {
       // const currentRoute =
       //   routeHistory[routeHistory.length - 1];
 
-      // console.log(keyword);
-      // console.log(routeHistory);
-      // console.log(routeHistory?.indexOf(keyword))
-      if (routeHistory?.length > 1 && routeHistory?.indexOf(keyword) > 0) {
+      console.log(keyword);
+      console.log(routeHistory);
+      console.log(routeHistory?.indexOf(keyword))
+      if (routeHistory?.length > 1 && routeHistory?.indexOf(keyword) > 0  &&  routeHistory?.indexOf("page") < 1) {
         router.back();
       } else {
         setLoading(true);
@@ -70,8 +72,7 @@ function search(props) {
         let link =
           buildLink("alg", undefined, undefined) +
           encodedKeyword +
-          "&limit=50&page=" +
-          Number(p);
+          "&limit=50&page=" +  Number(p);
 
         if (brand) {
           link += "&brand=" + brand.replaceAll(" & ", "--");
@@ -105,7 +106,7 @@ function search(props) {
         });
       }
   
-  }, [routeHistory]);
+  }, [routeHistory, page]);
 
   useEffect(() => {}, [router]);
 
@@ -216,7 +217,7 @@ function search(props) {
 
   //  Pagination
   function pageSetter(page) {
-    const new_page = parseInt(page["selected"]);
+    const new_page = parseInt(page["selected"] + 1);
     router.push("/search?keyword=" + encodedKeyword + "&page=" + new_page);
   }
 
@@ -460,7 +461,7 @@ function search(props) {
                   nextLabel={">"}
                   activeClassName={"active-pagination"}
                   forcePage={
-                    router.query.page ? parseInt(router.query.page) : 0
+                    page ? parseInt(page) -1  : 1
                   }
                 ></ReactPaginate>
               )}
