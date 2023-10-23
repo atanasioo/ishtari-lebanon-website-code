@@ -141,10 +141,7 @@ function wishlist() {
     axiosServer
       .post(buildLink("wishlistDelete", undefined, undefined) + id)
       .then((response) => {
-        if (response.data.success) {
-          setSuccessGroup(true);
-          setResult(response.data);
-        }
+      
       });
     setId(0);
     setPage(1);
@@ -232,6 +229,7 @@ function wishlist() {
           )
           .then((response) => {
             const data = response.data.data;
+            
             setProducts(data);
             dispatchWishlist({
               type: "setProductsCount",
@@ -336,10 +334,10 @@ function wishlist() {
                   >
                     <div className="cart-header flex justify-between items-center ">
                       <span className="font-bold flex">
-                        {ps?.products.length === 0 && "No Items"}
-                        {ps?.products.length === 1 && "1 Item"}
-                        {ps?.products.length > 1 &&
-                          ps?.products.length + " Items"}{" "}
+                        {products?.products?.length === 0 && "No Items"}
+                        {products?.products?.length === 1 && "1 Item"}
+                        {products?.products?.length > 1 &&
+                        products?.products?.length + " Items"}{" "}
                         <HiLockClosed className="m-1" />{" "}
                       </span>
 

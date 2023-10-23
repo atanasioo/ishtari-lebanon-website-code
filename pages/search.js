@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { HiOutlineChevronDown } from "react-icons/hi";
 import ReactPaginate from "react-paginate";
-
+import { useRef } from "react";
 function search(props) {
   const router = useRouter();
   const [data, setData] = useState([]);
@@ -25,58 +25,89 @@ function search(props) {
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
   const [width] = useDeviceSize();
-
+  const [routeHistory, setRouteHistory] = useState([]);
   // );
   const ClearCacheLink = dynamic(() => import("@/components/ClearCacheLink"), {
-    ssr: false, // Disable server-side rendering
+    ssr: false // Disable server-side rendering
   });
 
   useEffect(() => {
-    setLoading(true);
-    const { keyword, brand, seller, category, page } = router.query;
-    let encodedKeyword = encodeURIComponent(keyword);
-    var p = "";
-    if (page !== undefined) {
-      p = page;
-    }
+    const handleRouteChange = (url) => {
+      setRouteHistory(url);
+      console.log(url);
+    };
 
-    let link =
-      buildLink("alg", undefined, undefined) +
-      encodedKeyword +
-      "&limit=50&page=" +
-      Number(p);
+    router.events.on("routeChangeStart", handleRouteChange);
 
-    if (brand) {
-      link += "&brand=" + brand.replaceAll(" & ", "--");
-    }
-    if (seller) {
-      link += "&seller=" + seller.replaceAll(" & ", "--");
-    }
-    if (category) {
-      link += "&category=" + category.replaceAll(" & ", "--");
-    }
-
-    axiosServer.get(link).then((response) => {
-      const data = response.data;
-
-      if (data?.data?.redirect === "1") {
-        router.push(
-          `/` +
-            encodedKeyword.replaceAll("%20", "-") +
-            "/" +
-            data.data.type.slice(0, 1) +
-            "=" +
-            data.data.type_id
-        );
-      }else if (data?.data?.nbHits === 0 || data?.success === false) {
-        setNoData(true);
-      } else {
-        setData(data);
-        setFilters(data.data.facets);
-      }
-      setLoading(false);
-    });
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
   }, [router]);
+
+  useEffect(() => {
+    const { keyword, brand, seller, category, page } = router.query;
+
+ 
+      // Compare the current route with the previous route
+      // const previousRoute =
+      //   routeHistory[routeHistory.length - 2];
+      // const currentRoute =
+      //   routeHistory[routeHistory.length - 1];
+
+      // console.log(keyword);
+      // console.log(routeHistory);
+      // console.log(routeHistory?.indexOf(keyword))
+      if (routeHistory?.length > 1 && routeHistory?.indexOf(keyword) > 0) {
+        router.back();
+      } else {
+        setLoading(true);
+        let encodedKeyword = encodeURIComponent(keyword);
+        var p = "";
+        if (page !== undefined) {
+          p = page;
+        }
+
+        let link =
+          buildLink("alg", undefined, undefined) +
+          encodedKeyword +
+          "&limit=50&page=" +
+          Number(p);
+
+        if (brand) {
+          link += "&brand=" + brand.replaceAll(" & ", "--");
+        }
+        if (seller) {
+          link += "&seller=" + seller.replaceAll(" & ", "--");
+        }
+        if (category) {
+          link += "&category=" + category.replaceAll(" & ", "--");
+        }
+
+        axiosServer.get(link).then((response) => {
+          const data = response.data;
+
+          if (data?.data?.redirect === "1") {
+            router.push(
+              `/` +
+                encodedKeyword.replaceAll("%20", "-") +
+                "/" +
+                data.data.type.slice(0, 1) +
+                "=" +
+                data.data.type_id
+            );
+          } else if (data?.data?.nbHits === 0 || data?.success === false) {
+            setNoData(true);
+          } else {
+            setData(data);
+            setFilters(data.data.facets);
+          }
+          setLoading(false);
+        });
+      }
+  
+  }, [routeHistory]);
+
+  useEffect(() => {}, [router]);
 
   console.log("data", data);
 
@@ -197,9 +228,9 @@ function search(props) {
     <div className="overflow-x-hidden">
       {loading && width > 650 ? (
         <CatalogPlaceholder />
-      ) : loading && width < 650 ?  (
+      ) : loading && width < 650 ? (
         <CatalogMobilePlaceholder />
-      ): noData ? (
+      ) : noData ? (
         <NoData />
       ) : (
         <div>

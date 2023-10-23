@@ -23,19 +23,19 @@ function DesktopMenuClientPopups(props) {
     handleState,
     allCategories,
     selectedTopCategory,
-    overlay,
+    overlay
   } = props;
 
   const [loading, setLoading] = useState(false);
   const [topSelling, setTopSelling] = useState([]);
-
+  const [hover, setHover] = useState(false);
   const { host } = useContext(HostContext);
 
   const types = {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller",
+    4: "seller"
   };
 
   const settings = {
@@ -50,13 +50,13 @@ function DesktopMenuClientPopups(props) {
         breakpoint: 768,
         settings: {
           slidesPerRow: 1,
-          rows: 2,
-        },
-      },
+          rows: 2
+        }
+      }
     ],
     arrows: true,
     prevArrow: <CustomPrevArrows direction={"l"} />,
-    nextArrow: <CustomNextArrows direction={"r"} />,
+    nextArrow: <CustomNextArrows direction={"r"} />
   };
 
   function CustomPrevArrows({ direction, onClick, style, className }) {
@@ -98,8 +98,10 @@ function DesktopMenuClientPopups(props) {
         window.location.host === "ishtari-mobile.com" ||
         Cookies.get("site-local-name") === "ishtari") &&
       window.innerWidth > 1024 &&
-      typeof selectedTopCategory.category_id !== "undefined"
+      typeof selectedTopCategory.category_id !== "undefined" &&
+      hover === true
     ) {
+      setHover(false);
       setLoading(true);
       if (viewSubAllCategories2) {
         axiosServer
@@ -125,8 +127,15 @@ function DesktopMenuClientPopups(props) {
           });
       }
     }
-  }, [selectedTopCategory, viewSubAllCategories2]);
+  }, [hover]);
 
+
+  const handleMouseLeave = () => {
+    setHover(false);
+    console.log('Mouse left the div');
+    setTopSelling([])
+    // You can perform additional actions here when the mouse leaves the div.
+  };
   return (
     <div>
       {/* Subcategories' menu */}
@@ -160,7 +169,7 @@ function DesktopMenuClientPopups(props) {
                             ignore: false,
                             banner_image_id: "",
                             source_type: "categories",
-                            source_type_id: "",
+                            source_type_id: ""
                           })
                         }
                         className="flex items-center py-1 hover:text-dblue px-4"
@@ -174,7 +183,7 @@ function DesktopMenuClientPopups(props) {
                         <span
                           className="ml-3 font-light text-d13"
                           dangerouslySetInnerHTML={{
-                            __html: sanitizeHTML(category.name),
+                            __html: sanitizeHTML(category.name)
                           }}
                         ></span>
                       </Link>
@@ -186,7 +195,7 @@ function DesktopMenuClientPopups(props) {
                     <h2
                       className=" font-semibold"
                       dangerouslySetInnerHTML={{
-                        __html: selectedTopCategory.name,
+                        __html: selectedTopCategory.name
                       }}
                     ></h2>
                     <Link
@@ -197,7 +206,7 @@ function DesktopMenuClientPopups(props) {
                           ignore: false,
                           banner_image_id: "",
                           source_type: "categories",
-                          source_type_id: "",
+                          source_type_id: ""
                         })
                       }
                     >
@@ -216,7 +225,7 @@ function DesktopMenuClientPopups(props) {
                             ignore: false,
                             banner_image_id: "",
                             source_type: "categories",
-                            source_type_id: "",
+                            source_type_id: ""
                           })
                         }
                       >
@@ -229,31 +238,32 @@ function DesktopMenuClientPopups(props) {
                         <span
                           className="ml-3 font-light text-xs"
                           dangerouslySetInnerHTML={{
-                            __html: sub_category.name,
+                            __html: sub_category.name
                           }}
                         ></span>
                       </Link>
                     ))}
 
-                  {loading ? (
-                    <PointsLoader />
-                  ) : (
-                    topSelling.length > 0 && (
-                      <div>
-                        <div className="flex items-center mt-4 text-dblack">
-                          <Link
-                            href={{
-                              pathname: "/categoryTopSelling",
-                              query: {
-                                category_id: selectedTopCategory.category_id,
-                              },
-                            }}
-                            className="pr-semibold cursor-pointer hover:text-dblue"
-                          >
-                            Explore Top Selling Products
-                          </Link>
-                          <i className="icon icon-angle-right"></i>
-                        </div>
+                  <div    onMouseLeave={handleMouseLeave}>
+                    <div className="flex items-center mt-4 text-dblack">
+                      <Link
+                        href={{
+                          pathname: "/categoryTopSelling",
+                          query: {
+                            category_id: selectedTopCategory.category_id
+                          }
+                        }}
+                        className="pr-semibold cursor-pointer hover:text-dblue"
+                        onMouseEnter={() => setHover(true)}
+                      >
+                        Explore Top Selling Products
+                      </Link>
+                      <i className="icon icon-angle-right"></i>
+                    </div>
+                    {loading ? (
+                      <PointsLoader />
+                    ) : (
+                      topSelling.length > 0 && (
                         <div className="w-full">
                           <Slider {...settings}>
                             {topSelling?.slice(0, 10).map((item) => (
@@ -276,9 +286,9 @@ function DesktopMenuClientPopups(props) {
                             ))}
                           </Slider>
                         </div>
-                      </div>
-                    )
-                  )}
+                      )
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -317,7 +327,7 @@ function DesktopMenuClientPopups(props) {
                   dangerouslySetInnerHTML={{
                     __html: sanitizeHTML(
                       selectedMenuCategory2["top-category"].name?.toUpperCase()
-                    ),
+                    )
                   }}
                   onClick={() => setMarketingData({})}
                 ></Link>
@@ -326,7 +336,7 @@ function DesktopMenuClientPopups(props) {
                     key={category.category_id}
                     className="block text-sm py-2 hover:text-dblue "
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHTML(category.name),
+                      __html: sanitizeHTML(category.name)
                     }}
                     href={`/${slugify(category.name)}/c=${
                       category.category_id
