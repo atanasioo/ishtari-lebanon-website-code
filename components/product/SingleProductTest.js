@@ -23,6 +23,8 @@ function SingleProductTest(props) {
   const [copied, setCopied] = useState(false);
   const router = useRouter();
   const [cartData, setCartData] = useState();
+  const [loading, setLoading] = useState(false);
+
 
   const path = "";
   //   const swiperRef = useRef(null);
@@ -35,7 +37,6 @@ function SingleProductTest(props) {
     ssr: false // Disable server-side rendering
   });
 
-
   useEffect(() => {
     // if (toggleQty) {
     function handleClickOutside(event) {
@@ -44,7 +45,7 @@ function SingleProductTest(props) {
           () =>
             dispatch({
               type: "setAsidecart",
-              payload: false,
+              payload: false
             }),
           200
         );
@@ -65,6 +66,7 @@ function SingleProductTest(props) {
     return product ? product.quantity : null;
   }
   function addProductToCart(e, product_id, name) {
+    setLoading(product_id)
     if (props?.item?.check_if_has_options) {
       router.push(
         `${path}/${name
@@ -180,7 +182,7 @@ function SingleProductTest(props) {
             // );
           }
           // }
-
+setLoading(false)
           var dataSocial = response?.data?.data?.social_data;
           dataSocial["link"] = window.location.href;
           dataSocial["fbp"] = Cookies.get("_fbp");
@@ -261,12 +263,14 @@ function SingleProductTest(props) {
     >
       {props.item.new && <NewImage />}
       <div
-        className={`flex flex-col h-full ${props.scroll && "w-150px"} ${!mobileViews.includes(router.query.view) && "md:w-unset"}  bg-white text-dblack p-2.5 relative ${
-          props.isList ? "p-4 relative" : "pb-2"
-        }`}
-        // className={`flex flex-col h-full ${props.scroll && "w-150px"} md:w-unset bg-white text-dblack p-2.5 relative ${
+        // className={`flex flex-col h-full ${props.scroll && "w-150px"} ${!mobileViews.includes(router.query.view) && "w-unset"}  bg-white text-dblack p-2.5 relative ${
         //   props.isList ? "p-4 relative" : "pb-2"
         // }`}
+        className={`flex flex-col h-full ${
+          props.scroll && "w-150px"
+        } md:w-unset bg-white text-dblack p-2.5 relative ${
+          props.isList ? "p-4 relative" : "pb-2"
+        }`}
         style={{ height: props.isList && "260px" }}
       >
         <div
@@ -307,7 +311,7 @@ function SingleProductTest(props) {
               ) : !props?.isSlider ||
                 item?.images?.length === 0 ||
                 !item?.images ? (
-                <div   >
+                <div>
                   <Image
                     alt={item.name}
                     src={item.thumb}
@@ -390,19 +394,32 @@ function SingleProductTest(props) {
                   </div>
                   {(item?.check_if_has_options === false ||
                     item?.check_if_has_options === true) && (
-                    <div
-                      className="relative shadow shadow-dgrey1  z-20 rounded-full px-2  text-d18 pr-light py-1"
-                      onClick={(e) =>
-                        addProductToCart(e, item?.product_id, item.name)
-                      }
-                    >
-                      {getProductQuantity(item?.product_id) > 0 && (
-                        <div className="w-4 h-4  bg-dbase1 flex text-white items-center justify-center rounded-full text-xs absolute right-1 mobile:-right-1.5 -top-1.5 mobile:-top-2.6 border border-white -mr-2 mobile:mr-1">
-                          {getProductQuantity(item?.product_id)}
+                    <>
+                      {loading === item.product_id ? (
+                        <div class="relative   z-30 flex items-center justify-center mr-2">
+                          <div class="animate-ping h-1 w-1.5 bg-dblue rounded-full absolute"></div>
+                          <div class="animate-ping h-1.5 w-2 bg-dblue2 rounded-full absolute opacity-50 "></div>
+                          <div class="animate-ping h-2 w-2.5 bg-dblue1 rounded-full absolute  "></div>
+                          <div class="animate-ping  h-2.5 w-3 bg-dblue2 rounded-full absolute"></div>
+                          <div class="animate-ping  h-3.5 w-5 bg-dblue rounded-full absolute"></div>
+
+                        </div>
+                      ) : (
+                        <div
+                          className="relative shadow shadow-dgrey1  z-20 rounded-full px-2  text-d18 pr-light py-1"
+                          onClick={(e) =>
+                            addProductToCart(e, item?.product_id, item.name)
+                          }
+                        >
+                          {getProductQuantity(item?.product_id) > 0 && (
+                            <div className="w-4 h-4  bg-dbase1 flex text-white items-center justify-center rounded-full text-xs absolute right-1 mobile:-right-1.5 -top-1.5 mobile:-top-2.6 border border-white -mr-2 mobile:mr-1">
+                              {getProductQuantity(item?.product_id)}
+                            </div>
+                          )}
+                          <MdAddShoppingCart />
                         </div>
                       )}
-                      <MdAddShoppingCart />
-                    </div>
+                  </>
                   )}
                 </div>
                 <div
