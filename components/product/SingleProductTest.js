@@ -261,12 +261,12 @@ function SingleProductTest(props) {
     >
       {props.item.new && <NewImage />}
       <div
-        // className={`flex flex-col h-full ${props.scroll && "w-150px"} ${!mobileViews.includes(router.query.view) && "w-unset"}  bg-white text-dblack p-2.5 relative ${
-        //   props.isList ? "p-4 relative" : "pb-2"
-        // }`}
-        className={`flex flex-col h-full ${props.scroll && "w-150px"} md:w-unset bg-white text-dblack p-2.5 relative ${
+        className={`flex flex-col h-full ${props.scroll && "w-150px"} ${!mobileViews.includes(router.query.view) && "md:w-unset"}  bg-white text-dblack p-2.5 relative ${
           props.isList ? "p-4 relative" : "pb-2"
         }`}
+        // className={`flex flex-col h-full ${props.scroll && "w-150px"} md:w-unset bg-white text-dblack p-2.5 relative ${
+        //   props.isList ? "p-4 relative" : "pb-2"
+        // }`}
         style={{ height: props.isList && "260px" }}
       >
         <div
