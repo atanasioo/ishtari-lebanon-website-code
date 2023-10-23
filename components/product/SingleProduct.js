@@ -479,73 +479,73 @@ function SingleProduct(props) {
                     </div>
                   )}
 
-                  {props.item?.bannerevent &&
-                    Object.keys(props.item.bannerevent).length > 0 && (
-                      <div className="w-full absolute bottom-0 z-10 mb-2.5">
-                        <div style={bannerStyles} className={`relative `}>
-                          {props.item.bannerevent.style === "1" ? ( //image
-                            <div className="relative link-span">
-                              <Image
-                                width={192}
-                                height={30}
-                                src={props.item.bannerevent?.thumb}
-                                className="w-full h-auto"
-                              />
-                            </div>
-                          ) : props.item.bannerevent.style === "2" ? ( //image & timer
-                            <div className="relative link-span">
-                              <Image
-                                width={192}
-                                height={30}
-                                src={props.item.bannerevent?.thumb}
-                                className="w-full h-auto"
-                              />
-                              {props.item.bannerevent.datediff > 0 && (
-                                <div
-                                  className={`absolute  inset-0 flex flex-col justify-center pr-2 ${
-                                    props.item.bannerevent?.title_display ===
-                                    "left"
-                                      ? "items-end"
-                                      : props.item.bannerevent
-                                          ?.title_display === "right"
-                                      ? "items-start"
-                                      : "items-end"
-                                  }`}
-                                >
-                                  <TimerSingleProduct
-                                    data={props?.item?.bannerevent.end_date}
-                                    bannerEvent={true}
-                                  />
+                          {props.item?.bannerevent &&
+                            Object.keys(props.item.bannerevent).length > 0 && (
+                              <div className="w-full absolute bottom-0 z-10 mb-2.5">
+                                <div style={bannerStyles} className={`relative `}>
+                                  {props.item.bannerevent.style === "1" ? ( //image
+                                    <div className="relative link-span">
+                                      <Image
+                                        width={192}
+                                        height={30}
+                                        src={props.item.bannerevent?.thumb}
+                                        className="w-full h-auto"
+                                      />
+                                    </div>
+                                  ) : props.item.bannerevent.style === "2" ? ( //image & timer
+                                    <div className="relative link-span">
+                                      <Image
+                                        width={192}
+                                        height={30}
+                                        src={props.item.bannerevent?.thumb}
+                                        className="w-full h-auto"
+                                      />
+                                      {props.item.bannerevent.datediff > 0 && (
+                                        <div
+                                          className={`absolute  inset-0 flex flex-col justify-center pr-2 ${
+                                            props.item.bannerevent?.title_display ===
+                                            "left"
+                                              ? "items-end"
+                                              : props.item.bannerevent
+                                                  ?.title_display === "right"
+                                              ? "items-start"
+                                              : "items-end"
+                                          }`}
+                                        >
+                                          <TimerSingleProduct
+                                            data={props?.item?.bannerevent.end_date}
+                                            bannerEvent={true}
+                                          />
+                                        </div>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    //background & timer
+                                    <div className="relative py-1 px-1.5 ">
+                                      {props.item.bannerevent.datediff > 0 && (
+                                        <div
+                                          className={`flex gap-2 items-center text-sm ${
+                                            props.item.bannerevent?.title_display ===
+                                            "left"
+                                              ? "justify-end"
+                                              : props.item.bannerevent
+                                                  ?.title_display === "right"
+                                              ? "justify-start"
+                                              : "justify-start"
+                                          }`}
+                                        >
+                                          <div>Ends in</div>
+                                          <TimerSingleProduct
+                                            data={props?.item?.bannerevent.end_date}
+                                            bannerEvent={true}
+                                          />
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
-                          ) : (
-                            //background & timer
-                            <div className="relative py-1 px-1.5 ">
-                              {props.item.bannerevent.datediff > 0 && (
-                                <div
-                                  className={`flex gap-2 items-center text-sm ${
-                                    props.item.bannerevent?.title_display ===
-                                    "left"
-                                      ? "justify-end"
-                                      : props.item.bannerevent
-                                          ?.title_display === "right"
-                                      ? "justify-start"
-                                      : "justify-start"
-                                  }`}
-                                >
-                                  <div>Ends in</div>
-                                  <TimerSingleProduct
-                                    data={props?.item?.bannerevent.end_date}
-                                    bannerEvent={true}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                              </div>
+                            )}
                 </div>
               </div>
               <div className="product-info pt-3 flex flex-col w-full">
