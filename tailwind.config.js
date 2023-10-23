@@ -176,6 +176,12 @@ module.exports = {
       dblue: {
         DEFAULT: "#3866de"
       },
+      dblue1: {
+        DEFAULT: "#5079e2"
+      },
+      dblue2: {
+        DEFAULT: "#658ae6"
+      },
       dbluedark: {
         DEFAULT: "#2b4cd7"
       },
