@@ -67,6 +67,10 @@ function Cart() {
               type: "loading",
               payload: false,
             });
+            dispatch({
+              type: "setAsidecart",
+              payload: false
+            });
           }
           setLoading(false);
         });
