@@ -212,7 +212,7 @@ export async function getServerSideProps(context) {
 
   if (typeof slug !== "undefined" && slug.length > 0) {
     let id = "";
-    if (catalog === "product" || slug[0].includes("p=")) {
+    if (catalog === "product" || catalog === "productpreview"  || slug[0].includes("p=")) {
       // get product id
       let product_id = "";
       if (slug[0].includes("p=")) {

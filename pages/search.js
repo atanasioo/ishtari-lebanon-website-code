@@ -33,15 +33,15 @@ function search(props) {
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      setRouteHistory(url);
-      console.log(url);
+      setRouteHistory(encodeURIComponent(url));
+    //   console.log(url);
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
 
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
+    // return () => {
+    //   router.events.off("routeChangeStart", handleRouteChange);
+    // };
   }, [router]);
 
   const { keyword, brand, seller, category, page } = router.query;
@@ -59,9 +59,9 @@ function search(props) {
       console.log(keyword);
       console.log(routeHistory);
       console.log(routeHistory?.indexOf(keyword))
-      if (routeHistory?.length > 1 && routeHistory?.indexOf(keyword) > 0  &&  routeHistory?.indexOf("page") < 1) {
-        router.back();
-      } else {
+      // if (routeHistory && routeHistory?.length > 2 && routeHistory?.indexOf(encodeURIComponent(keyword)) > 0  &&  routeHistory?.indexOf("page") < 1  && keyword !="" && keyword !="/" ) {
+      //   router.back();
+      // } else {
         setLoading(true);
         let encodedKeyword = encodeURIComponent(keyword);
         var p = "";
@@ -104,9 +104,9 @@ function search(props) {
           }
           setLoading(false);
         });
-      }
+      // }
   
-  }, [routeHistory, page]);
+  }, [router, page ]);
 
   useEffect(() => {}, [router]);
 
