@@ -25,88 +25,69 @@ function search(props) {
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
   const [width] = useDeviceSize();
-  const [routeHistory, setRouteHistory] = useState([]);
-  // );
+
   const ClearCacheLink = dynamic(() => import("@/components/ClearCacheLink"), {
-    ssr: false // Disable server-side rendering
+    ssr: false, // Disable server-side rendering
   });
 
-  useEffect(() => {
-    const handleRouteChange = (url) => {
-      setRouteHistory(encodeURIComponent(url));
-    //   console.log(url);
-    };
+  const handleBeforePopState = ({ url }) => {
+    if (url === router.asPath) {
+      // The user is trying to go back to the search page, redirect them to the previous page
+      router.back();
+      return false; // Prevent the default behavior
+    }
+    return true; // Allow the default behavior
+  };
 
-    router.events.on("routeChangeStart", handleRouteChange);
-
-    // return () => {
-    //   router.events.off("routeChangeStart", handleRouteChange);
-    // };
-  }, [router]);
 
   const { keyword, brand, seller, category, page } = router.query;
 
-
   useEffect(() => {
+    setLoading(true);
+    let encodedKeyword = encodeURIComponent(keyword);
+    var p = "";
+    if (page !== undefined) {
+      p = page;
+    }
 
- 
-      // Compare the current route with the previous route
-      // const previousRoute =
-      //   routeHistory[routeHistory.length - 2];
-      // const currentRoute =
-      //   routeHistory[routeHistory.length - 1];
+    let link =
+      buildLink("alg", undefined, undefined) +
+      encodedKeyword +
+      "&limit=50&page=" +
+      Number(p);
 
-      console.log(keyword);
-      console.log(routeHistory);
-      console.log(routeHistory?.indexOf(keyword))
-      // if (routeHistory && routeHistory?.length > 2 && routeHistory?.indexOf(encodeURIComponent(keyword)) > 0  &&  routeHistory?.indexOf("page") < 1  && keyword !="" && keyword !="/" ) {
-      //   router.back();
-      // } else {
-        setLoading(true);
-        let encodedKeyword = encodeURIComponent(keyword);
-        var p = "";
-        if (page !== undefined) {
-          p = page;
-        }
+    if (brand) {
+      link += "&brand=" + brand.replaceAll(" & ", "--");
+    }
+    if (seller) {
+      link += "&seller=" + seller.replaceAll(" & ", "--");
+    }
+    if (category) {
+      link += "&category=" + category.replaceAll(" & ", "--");
+    }
 
-        let link =
-          buildLink("alg", undefined, undefined) +
-          encodedKeyword +
-          "&limit=50&page=" +  Number(p);
+    axiosServer.get(link).then((response) => {
+      const data = response.data;
 
-        if (brand) {
-          link += "&brand=" + brand.replaceAll(" & ", "--");
-        }
-        if (seller) {
-          link += "&seller=" + seller.replaceAll(" & ", "--");
-        }
-        if (category) {
-          link += "&category=" + category.replaceAll(" & ", "--");
-        }
-
-        axiosServer.get(link).then((response) => {
-          const data = response.data;
-
-          if (data?.data?.redirect === "1") {
-            router.push(
-              `/` +
-                encodedKeyword.replaceAll("%20", "-") +
-                "/" +
-                data.data.type.slice(0, 1) +
-                "=" +
-                data.data.type_id
-            );
-          } else if (data?.data?.nbHits === 0 || data?.success === false) {
-            setNoData(true);
-          } else {
-            setData(data);
-            setFilters(data.data.facets);
-          }
-          setLoading(false);
-        });
-      // }
-  
-  }, [router, page ]);
+      if (data?.data?.redirect === "1") {
+        router.beforePopState(handleBeforePopState);
+        router.push(
+          `/` +
+            encodedKeyword.replaceAll("%20", "-") +
+            "/" +
+            data.data.type.slice(0, 1) +
+            "=" +
+            data.data.type_id
+        );
+      } else if (data?.data?.nbHits === 0 || data?.success === false) {
+        setNoData(true);
+      } else {
+        setData(data);
+        setFilters(data.data.facets);
+      }
+      setLoading(false);
+    });
+  }, [router, page]);
 
   useEffect(() => {}, [router]);
 
@@ -460,9 +441,7 @@ function search(props) {
                   previousLabel={"<"}
                   nextLabel={">"}
                   activeClassName={"active-pagination"}
-                  forcePage={
-                    page ? parseInt(page) -1  : 1
-                  }
+                  forcePage={page ? parseInt(page) - 1 : 1}
                 ></ReactPaginate>
               )}
             </div>
