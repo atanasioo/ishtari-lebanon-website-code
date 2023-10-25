@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function TimerSingleProduct({ data, bannerEvent }) {
+function TimerSingleProduct({ data, bannerEvent, flashSaleWidget }) {
   const date = data;
 
   const calculateTimeLeft = () => {
@@ -13,9 +13,9 @@ function TimerSingleProduct({ data, bannerEvent }) {
     if (difference > 0) {
       timer = {
         // DAYS: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        HOURS: Math.floor((difference / (1000 * 60 * 60)) ) < 10 ? "0"+ Math.floor((difference / (1000 * 60 * 60)) ) + ":"  : Math.floor((difference / (1000 * 60 * 60)) ) + ":",
-        MIN:  Math.floor((difference / 1000 / 60) % 60) < 10 ?   "0" +  Math.floor((difference / 1000 / 60) % 60)  +":"  :  Math.floor((difference / 1000 / 60) % 60)  +":",
-        SEC: Math.floor((difference / 1000) % 60) < 10  ? "0"  + Math.floor((difference / 1000) % 60)  :  Math.floor((difference / 1000) % 60) 
+        HOURS: Math.floor((difference / (1000 * 60 * 60)) ) < 10 ? "0"+ Math.floor((difference / (1000 * 60 * 60)) ) + ":"  : Math.floor((difference / (1000 * 60 * 60)) ) +(!flashSaleWidget ? "" : "h") + ":",
+        MIN:  Math.floor((difference / 1000 / 60) % 60) < 10 ?   "0" +  Math.floor((difference / 1000 / 60) % 60)  +":"  :  Math.floor((difference / 1000 / 60) % 60) +(!flashSaleWidget ? "" : "m")  + (!flashSaleWidget ? ":" : ""),
+        SEC: !flashSaleWidget ? Math.floor((difference / 1000) % 60) < 10  ? "0"  + Math.floor((difference / 1000) % 60)  :  Math.floor((difference / 1000) % 60) : "" 
       };
     }
     return timer;

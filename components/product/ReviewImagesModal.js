@@ -4,6 +4,7 @@ import { CgClose } from "react-icons/cg";
 import Slider from "react-slick";
 import StarRatings from "react-star-ratings";
 import useDeviceSize from "../useDeviceSize";
+import { sanitizeHTML } from "../Utils";
 
 function ReviewImagesModal(props) {
   const { selectedReviewImg, selectedIndex, review, closeModal } = props;
@@ -84,7 +85,7 @@ function ReviewImagesModal(props) {
                   {review?.date_added.replace("-", " ").replace("-", " ")}
                 </div>
               </div>
-              <div className="text-sm leading-none pt-3 ml-2 lg:ml-0">{review?.text}</div>
+              <div className="text-sm leading-none pt-3 ml-2 lg:ml-0" dangerouslySetInnerHTML={{__html: sanitizeHTML(review?.text)}}></div>
               <div className="mt-5 text-d17 mb-4 font-semibold hidden lg:block">
                 Images in this review
               </div>

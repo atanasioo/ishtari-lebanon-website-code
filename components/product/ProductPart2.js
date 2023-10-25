@@ -956,9 +956,7 @@ function ProductPart2(props) {
                                     </div>
                                   ))}
                                 </div>
-                                <div className="text-sm leading-none   pt-3 ">
-                                  {r?.text}
-                                </div>
+                                <div className="text-sm leading-none pt-3 " dangerouslySetInnerHTML={{__html: sanitizeHTML(r?.text)}}></div>
 
                                 <div className="flex items-center gap-5 mt-4 mb-2">
                                   <div

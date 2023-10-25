@@ -2,7 +2,7 @@ import SingleProduct from "./product/SingleProduct.js";
 import Slider from "react-slick";
 import Image from "next/legacy/image";
 import { useRef, useState, useCallback, useEffect, useContext } from "react";
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsStopwatch } from "react-icons/bs";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
@@ -11,9 +11,10 @@ import SingleProductTest from "./product/SingleProductTest.js";
 import { useRouter } from "next/router.js";
 import { useMarketingData } from "@/contexts/MarketingContext.js";
 import { HostContext } from "@/contexts/HostContext.js";
-import { sanitizeHTML } from "./Utils.js";
+import { sanitizeHTML, slugify } from "./Utils.js";
 import { AccountContext } from "@/contexts/AccountContext.js";
 import BannerLink from "./widgetsComponents/BannerLink.js";
+import TimerSingleProduct from "./product/TimerSingleProduct.js";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {
   const [showNext, setShowNext] = useState(false);
@@ -1364,6 +1365,47 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
           )}{" "}
         </div>
       )}
+
+      {/* flashsale widget */}
+      {widget?.display.includes("flash_sale") && widget.type !== "text" && (
+        <div className="mb-3">
+          <div className="flex items-center justify-between py-4">
+            <div className="flex flex-col md:flex-row md:gap-4 items-center">
+              <div className="pr-semibold p-2 text-xl">{widget.title}</div>
+
+              <div className="bg-[#ECECEC] rounded-full flex items-center gap-1.5 text-dblack px-2.5 py-0.5 h-max">
+                <BsStopwatch />
+                <TimerSingleProduct data={widget.date_end} bannerEvent={true} flashSaleWidget={true} />
+              </div>
+            </div>
+            
+            <div>
+              {widget?.view_all !=="0" &&(
+              <Link href={"/flashSale"+`?flash_sale_event_id=${widget.type_id}`}>
+                <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">ALL DEALS</h1>
+              </Link>
+            )}
+            </div>
+          </div>
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:flex md:flex-wrap md:grid-cols-4 items-center gap-3 justify-center">
+            {widget?.items?.map((product) => (
+              <Link href={`/${slugify(product.name)}/p=${product.product_id}`} className="bg-white rounded-lg w-[172px]  md:w-[230px]">
+                <div className="flex justify-center bg-white py-4 rounded-t-lg border-b border-dborderProduct mx-4">
+                  <Image src={host.host + "/image/" + product?.image } width={80} height={109} />
+                </div>
+                <div className="px-3 py-2">
+                  <div className="line-clamp-1"> {product?.name}</div>
+                  <div className="flex gap-4 items-center pr-semibold ">
+                    <div className="line-through line-thro text-[1.2rem] decoration-dbase decoration-2"> {product?.price} </div>
+                    <div className="text-[1.4rem]"> {product?.special} </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

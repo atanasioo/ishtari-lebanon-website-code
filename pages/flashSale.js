@@ -4,10 +4,13 @@ import SingleProductFlashSale from "@/components/product/SingleProductFlashSale"
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import cookie from "cookie";
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { IoIosAlert } from "react-icons/io";
 
 function flashSale(props) {
+  const router = useRouter();
+  const event_id = router.query.flash_sale_event_id;
   const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const [accountState, dispatchAccount] = useContext(AccountContext);
@@ -33,12 +36,17 @@ function flashSale(props) {
         flash_sale_event_id: flash_sale_event_id,
       };
       axiosServer
-        .post(buildLink("addReminderForFlashSale", undefined, undefined) +"&page=1&limit=20" , obj)
+        .post(
+          buildLink("addReminderForFlashSale", undefined, undefined) +
+            "&page=1&limit=20",
+          obj
+        )
         .then((response) => {
           if (response.data.success) {
             axiosServer
               .get(
-                buildLink("getFlashSale", undefined, undefined) + "&flash_sale_event_id=" +
+                buildLink("getFlashSale", undefined, undefined) +
+                  "&flash_sale_event_id=" +
                   data[activeTab].flash_sale_event_id
               )
               .then((resp) => {
@@ -101,7 +109,11 @@ function flashSale(props) {
       });
   }
 
+  console.log(event_id);
+
   useEffect(() => {
+    setLoading(true);
+
     axiosServer
       .get(buildLink("getFlashSale", undefined, undefined))
       .then((response) => {
@@ -111,13 +123,26 @@ function flashSale(props) {
           // console.log("response data", response.data);
           if (
             !response.data.data[0].on_sale_now &&
-            response.data.data[0].products.length === 0
+            response.data.data[0].products.length === 0 &&
+            !window.location.href.includes("flash_sale_event_id=")
           ) {
             setActiveTab(0);
             handleTabClick(0, response.data.data);
+          }else if (window.location.href.includes("flash_sale_event_id=")){
+            const event_id = window.location.href.split("=")[1];
+            let index = 0;
+            response.data.data.map((tab, i) => {
+              if(tab.flash_sale_event_id === event_id){
+                index= i;
+              }
+            });
+            setActiveTab(index);
+            handleTabClick(index, response.data.data)
           }
         }
       });
+
+    setLoading(false);
   }, []);
 
   return (
