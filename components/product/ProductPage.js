@@ -88,7 +88,7 @@ function ProductPage(props) {
   const [isDetails, setIsDetails] = useState(false);
   const [viewSeriesVal, setViewSeriesVal] = useState();
   const [loadingReviews, setLoadingReviews] = useState(false);
-  const [sellerReview, setSellerReview] = useState();
+  // const [sellerReview, setSellerReview] = useState();
 
   // const [additionalData, setAdditionalData] = useState({});
   const [additional, setAdditional] = useState();
@@ -169,19 +169,19 @@ function ProductPage(props) {
         // router.push("/404");
       } else {
         setData(response?.data?.data);
-        setSellerReview("");
-        axiosServer
-          .get(
-            buildLink(
-              "sellerReview",
-              undefined,
-              undefined,
-              window.location.host
-            ) + response.data.data.seller_id
-          )
-          .then((resp) => {
-            if (response?.data?.success) setSellerReview(resp?.data?.data);
-          });
+        // setSellerReview("");
+        // axiosServer
+        //   .get(
+        //     buildLink(
+        //       "sellerReview",
+        //       undefined,
+        //       undefined,
+        //       window.location.host
+        //     ) + response.data.data.seller_id
+        //   )
+        //   .then((resp) => {
+        //     if (response?.data?.success) setSellerReview(resp?.data?.data);
+        //   });
 
         axiosServer
           .get(
@@ -299,11 +299,11 @@ function ProductPage(props) {
             const data = response.data;
           });
         //seller recommendations (excluding ishtari)
-        if (
-          data?.seller_id > 0 &&
-          data.seller !== "" &&
-          data.seller_id !== "168"
-        ) {
+        // if (
+        //   data?.seller_id > 0 &&
+        //   data.seller !== "" &&
+        //   data.seller_id !== "168"
+        // ) {
           const link =
             buildLink("seller", undefined, undefined) +
             data.seller_id +
@@ -314,7 +314,7 @@ function ProductPage(props) {
             }
           });
         }
-      }
+      // }
 
       setLoading(false);
     });
@@ -2231,33 +2231,33 @@ function ProductPage(props) {
                         {data.seller}
                       </h1>
                     </div>
-                    {sellerReview?.rating ? (
+                    {sellerData?.seller_reviews?.rating ? (
                       <div className="flex ">
                         <div
                           className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 mr-3 cursor-pointer w-10 mt-1"
                           style={{
                             backgroundColor:
-                              sellerReview?.rating >= 4.5
+                              sellerData.seller_reviews?.rating >= 4.5
                                 ? "rgb(0,158,0)"
-                                : sellerReview?.rating < 4.5 &&
-                                  sellerReview?.rating >= 4
+                                : sellerData.seller_reviews?.rating < 4.5 &&
+                                sellerData.seller_reviews?.rating >= 4
                                 ? "rgb(110, 159, 0)"
-                                : sellerReview?.rating < 4 &&
-                                  sellerReview?.rating >= 3.5
+                                : sellerData.seller_reviews?.rating < 4 &&
+                                sellerData.seller_reviews?.rating >= 3.5
                                 ? "rgb(243, 153, 22)"
                                 : "rgb(246,90,31)"
                           }}
                         >
                           <div className=" font-bold text-white text-d14 ">
-                            {sellerReview?.rating || "0.0"}
+                            {sellerData.seller_reviews?.rating || "0.0"}
                           </div>
 
                           <AiFillStar className="text-white text-d12" />
                         </div>
                         <div className=" text-d14 flex  text-dgrey1 mt-0.5 font-semibold ">
                           {"  "}
-                          {sellerReview?.percentage &&
-                            sellerReview?.percentage + " positive Ratings"}
+                          {sellerData.seller_reviews?.percentage &&
+                          sellerData.seller_reviews?.percentage + " positive Ratings"}
                         </div>
                       </div>
                     ) : (
