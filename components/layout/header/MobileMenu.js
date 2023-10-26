@@ -17,6 +17,7 @@ import Slider from "react-slick";
 import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
 import { useMarketingData } from "@/contexts/MarketingContext";
+
 function MobileMenu(props) {
   const { viewMenu, categories, closeMobileMenu } = props;
   const router = useRouter();
@@ -25,8 +26,11 @@ function MobileMenu(props) {
   const [activeCategory, setActiveCategory] = useState({});
   const [topSelling, setTopSelling] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingLatest, setLoadingLatest] = useState(false);
+  const [categoryLatest, setCategoryLatest] = useState([]);
   const { host, config } = useContext(HostContext);
   const { setMarketingData } = useMarketingData();
+
 
   function handleScroll() {
     var myDiv = document.getElementById("scrollDiv");
@@ -135,6 +139,23 @@ function MobileMenu(props) {
         setLoading(false);
       });
   }
+
+  const getCategoryLatest = (category_id) => {
+    setLoadingLatest(true);
+    axiosServer
+      .get(
+        buildLink("dynamicproducts", undefined, undefined) +
+          "latest&nourtest&category_id=" +
+          category_id
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.data.success) {
+          setCategoryLatest(response.data.data.products);
+        }
+        setLoadingLatest(false);
+      });
+  };
 
   return (
     <div className={`text-dblack overflow-x-hidden h-full`}>
@@ -307,17 +328,23 @@ function MobileMenu(props) {
                   </div>
                 ))}
 
-              {loading ? (
+              
+
+              {host === "https://www.ishtari.com" && (
+                <div className="flex items-center mt-4 text-dblack">
+                <div className="pr-semibold cursor-pointer hover:text-dblue">
+                  Explore Top Selling Products
+                </div>
+                <i className="icon icon-angle-right"></i>
+              </div>
+              )}
+              
+
+              {loading && host === "https://www.ishtari.com" ? (
                 <PointsLoader />
               ) : (
                 topSelling.length > 0 && (
                   <div>
-                    <div className="flex items-center mt-4 text-dblack">
-                      <div className="pr-semibold cursor-pointer hover:text-dblue">
-                        Explore Top Selling Products
-                      </div>
-                      <i className="icon icon-angle-right"></i>
-                    </div>
                     <div className="w-full">
                       <Slider {...settings}>
                         {topSelling?.slice(0, 10).map((item) => (
@@ -329,6 +356,49 @@ function MobileMenu(props) {
                           </div>
                         ))}
                         {topSelling?.slice(10).map((item) => (
+                          <div
+                            key={item.product_id}
+                            onClick={() => closeMobileMenu()}
+                          >
+                            <SingleProduct item={item} topSelling={true} />
+                          </div>
+                        ))}
+                      </Slider>
+                    </div>
+                  </div>
+                )
+              )}
+
+
+
+              <div className="flex items-center mt-4 text-dblack">
+                <div className="pr-semibold cursor-pointer hover:text-dblue">
+                  Explore{" "}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeHTML(activeCategory.name),
+                    }}
+                  ></span>{" "}
+                  Products
+                </div>
+                <i className="icon icon-angle-right"></i>
+              </div>
+              {loadingLatest ? (
+                <PointsLoader />
+              ) : (
+                categoryLatest.length > 0 && (
+                  <div>
+                    <div className="w-full">
+                      <Slider {...settings}>
+                        {categoryLatest?.slice(0, 10).map((item) => (
+                          <div
+                            key={item.product_id}
+                            onClick={() => closeMobileMenu()}
+                          >
+                            <SingleProduct item={item} topSelling={true} />
+                          </div>
+                        ))}
+                        {categoryLatest?.slice(10).map((item) => (
                           <div
                             key={item.product_id}
                             onClick={() => closeMobileMenu()}
@@ -391,6 +461,7 @@ function MobileMenu(props) {
                       // handleActiveCategory(category);
                       setActiveCategory(category);
                       getTopSelling(category.category_id);
+                      getCategoryLatest(category.category_id);
                       handleScroll();
                     }}
                   >
