@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import Slider from "react-slick/lib/slider";
 import SingleProduct from "@/components/product/SingleProduct";
+import SingleProductTest from "@/components/product/SingleProductTest";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import StarRatings from "react-star-ratings";
 import ReviewSellerPlaceholder from "@/components/ReviewSellerPlaceholder";
@@ -120,7 +121,7 @@ export default function sellerReview() {
       });
   }, [id]);
   return (
-    <div className="container">
+    <div className="container overflow-hidden">
       {loading ? (
         <ReviewSellerPlaceholder />
       ) : (
@@ -168,9 +169,9 @@ export default function sellerReview() {
               {data?.social_data?.name}
             </div>
           </div>
-          <div className="flex mt-20 space-x-5">
-            <div className="flex w-6/12  space-x-5 flex-row pr-6 h-32">
-              <div className="w-1/2 border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5">
+          <div className="flex flex-col mobile:flex-row mt-20 space-x-5">
+            <div className="flex  w-full mobile:w-6/12  mobile:space-x-5 flex-col mobile:flex-row pr-6  h-full mobile:h-32">
+              <div className="w-full mobile:w-1/2 border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5">
                 <span className="text-d16 pr-semibold text-dblackOverlay3">
                   Seller Rating
                 </span>
@@ -206,7 +207,7 @@ export default function sellerReview() {
                 </div>
               </div>
 
-              <div className="w-1/2 border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5 h-32">
+              <div className="w-full mobile:w-1/2 border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 mt-5 mobile:mt-0  h-32 ">
                 <span className="text-d16 pr-semibold text-dblackOverlay3">
                   Customers
                 </span>
@@ -222,17 +223,17 @@ export default function sellerReview() {
                 </div>
               </div>
             </div>
-            <div className="w-6/12 flex flex-col  border-dgrey1 border-opacity-20 pl-6 -mt-12 border-l">
-              <div className="text-d22 pr-semibold px-2">
+            <div className="w-full mobile:w-6/12 flex flex-col    mobile:pl-6 mt-5 mobile:-mt-12 mobile:border-l border-dgrey1 border-opacity-20">
+              <div className="text-d22 pr-semibold mobile:px-2">
                 Seller Ratings & Reviews
               </div>
-              <div className=" flex flex-row  border-dgrey1 border-opacity-10 pl-2 space-x-5 mt-5">
-                <div className="flex justify-end flex-col w-4/12">
+              <div className="flex flex-col mobile:flex-row  border-dgrey1 border-opacity-10 mobile:pl-2 mobile:space-x-5 mt-5">
+                <div className="flex justify-end flex-col w-full mobile:w-4/12">
                   <div className=" pr-semibold text-5xxl -mb-2">
                     {data?.seller_reviews?.average_rating}
                   </div>
                   <StarRatings
-                    starDimension="30px"
+                    starDimension="25px"
                     starEmptyColor="#e3e3e3"
                     starRatedColor={
                       data?.seller_reviews?.average_rating >= 4.5
@@ -257,7 +258,7 @@ export default function sellerReview() {
                   </div>
                 </div>
 
-                <div classname="flex  flex-col w-full">
+                <div className="flex flex-col w-full mt-5  mobile:mt-0">
                   <div className="flex flex-row w-full items-center space-x-1">
                     <div className="w-2 text-center">5</div>
 
@@ -388,13 +389,21 @@ export default function sellerReview() {
               </div>
             </div>
           </div>
-          <div className="w-full py-5">
+          <div className="hidden mobile:block w-full py-5">
             <div className="text-d22 pr-semibold px-2 py-3">
               All products by this seller
             </div>
             <Slider {...settings}>
               {data?.products.map((item) => [<SingleProduct item={item} />])}
             </Slider>
+          </div>
+          <div className="mobile:hidden  py-5">
+            <div className="text-d22 pr-semibold px-2 py-3">
+              All products by this seller
+            </div>
+            <div className="flex overflow-x-scroll overflow-hidden pr-6">
+              {data?.products.map((item) => [<div><SingleProduct scroll={true} item={item} /></div>])}
+            </div>
           </div>
         </>
       )}
