@@ -139,7 +139,7 @@ export default function sellerReview() {
         </>
       ) : (
         <>
-          <div className="mobile:bg-white pb-10">
+          <div className="mobile:bg-white mobile:pb-10">
             <div
               className="relative w-full h-48 flex justify-center items-center text-6xl uppercase font-sans"
               style={{
@@ -278,7 +278,7 @@ export default function sellerReview() {
                       }
                     />
                     <div className="text-d16 ">
-                      Based on <span>{data?.seller_reviews?.totalRating} </span>
+                      Based on <span>{data?.seller_reviews?.total} </span>
                       ratings
                     </div>
                   </div>
@@ -303,8 +303,8 @@ export default function sellerReview() {
                             backgroundColor: "rgb(0,158,0)",
                             width:
                               (data?.seller_reviews?.grouped_rating["5*"] /
-                                data?.seller_reviews?.totalRating) *
-                              100
+                                data?.seller_reviews?.total) *
+                              100 + "%"
                           }}
                         ></div>
                       </div>
@@ -330,9 +330,8 @@ export default function sellerReview() {
                           style={{
                             backgroundColor: "rgb(110, 159, 0)",
                             width:
-                              (data?.seller_reviews?.grouped_rating["4*"] /
-                                data?.seller_reviews?.totalRating) *
-                              100
+                              (data?.seller_reviews?.grouped_rating["4*"] /data?.seller_reviews?.total) *
+                              100 + "%"
                           }}
                         ></div>
                       </div>
@@ -359,8 +358,8 @@ export default function sellerReview() {
                             backgroundColor: "rgb(243, 153, 22)",
                             width:
                               (data?.seller_reviews?.grouped_rating["3*"] /
-                                data?.seller_reviews?.totalRating) *
-                              100
+                                data?.seller_reviews?.total) *
+                                100 + "%"
                           }}
                         ></div>
                       </div>
@@ -387,8 +386,8 @@ export default function sellerReview() {
                             backgroundColor: "rgb(246,90,31)",
                             width:
                               (data?.seller_reviews?.grouped_rating["2*"] /
-                                data?.seller_reviews?.totalRating) *
-                              100
+                                data?.seller_reviews?.total) *
+                                100 + "%"
                           }}
                         ></div>
                       </div>
@@ -415,8 +414,8 @@ export default function sellerReview() {
                             backgroundColor: "rgb(246,90,31)",
                             width:
                               (data?.seller_reviews?.grouped_rating["*"] /
-                                data?.seller_reviews?.totalRating) *
-                              100
+                                data?.seller_reviews?.total) *
+                                100 + "%"
                           }}
                         ></div>
                       </div>
@@ -430,16 +429,37 @@ export default function sellerReview() {
             </div>
           </div>
           <div className="hidden mobile:block w-full py-5 ">
-            <div className="text-d22 pr-semibold px-2 py-3">
+            <div className="flex justify-between text-d22 pr-semibold px-2 py-3">
               All products by this seller
+              <Link
+              
+                href={`/${
+                  data?.social_data?.name &&
+                  slugify(data?.social_data?.name) + "/s=" + id
+                }`}
+              >
+                 <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">
+                    VIEW ALL
+                  </h1>
+              </Link>
             </div>
             <Slider {...settings}>
               {data?.products.map((item) => [<SingleProduct item={item} />])}
             </Slider>
           </div>
-          <div className="mobile:hidden  p-5">
-            <div className="text-d16 pr-semibold px-2 py-3">
-              All products by this seller
+          <div className=" mobile:hidden pb-5">
+            <div className="text-d16 pr-semibold   px-5 flex justify-between  py-5">
+              All products by this seller     <Link
+              
+              href={`/${
+                data?.social_data?.name &&
+                slugify(data?.social_data?.name) + "/s=" + id
+              }`}
+            >
+               <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">
+                  VIEW ALL
+                </h1>
+            </Link>
             </div>
             <div className="flex overflow-x-scroll overflow-hidden pr-6">
               {data?.products.map((item) => [

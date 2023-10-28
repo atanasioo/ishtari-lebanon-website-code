@@ -28,7 +28,7 @@ export default function reviewSellerPlaceholderMobile() {
             </div>
           </div>
 
-          <div className="w-full border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5 h-32">
+          {/* <div className="w-full border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5 h-32">
             <div className="text-d16 pr-semibold text-dblackOverlay3 h-3 mb-3">
               Customers
             </div>
@@ -40,7 +40,7 @@ export default function reviewSellerPlaceholderMobile() {
                 During the last 90 days
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="w-full flex flex-col  border-dgrey1 border-opacity-20 mt-12">
           <div className="text-d22 pr-semibold px-2">

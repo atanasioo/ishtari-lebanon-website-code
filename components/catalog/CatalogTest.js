@@ -1272,7 +1272,7 @@ function CatalogTest(props) {
                   : "mobile:w-4/5 mobile:pl-5"
               }  leading-dtight  overflow-x-hidden`}
             >
-              <div className="flex justify-between pb-2">
+              <div className="flex justify-between py-2">
                 {/* Results found */}
                 <div className="flex justify-end items-end mx-1   mobile:pt-1 whitespace-nowrap font-light">
                   <span className="mr-1 ">
