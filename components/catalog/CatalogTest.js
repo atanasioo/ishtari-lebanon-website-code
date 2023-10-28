@@ -1274,18 +1274,19 @@ function CatalogTest(props) {
             >
               <div className="flex justify-between pb-2">
                 {/* Results found */}
-                <div className="flex mx-1  pt-2 mobile:pt-1">
-                  <span className=" flex mr-2 font-light whitespace-nowrap">
-                    {data?.product_total} Results {data?.heading_title && "for"}
+                <div className="flex justify-end items-end mx-1   mobile:pt-1 whitespace-nowrap font-light">
+                  <span className="mr-1 ">
+                    {data?.product_total} Results {data?.heading_title && "for "}
+                
                   </span>
-                 
-                  <h1
-                    className="font-semibold capitalize text-d16 "
+                  {data?.heading_title && '" '}
+                   <h1
+                    className="pr-semibold capitalize text-d16 mt-0.5"
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHTML(data?.heading_title)
                     }}
-                  />
-                  {/* {data?.heading_title && '"'} */}
+                  /> 
+                  {data?.heading_title && ' "'}
                 </div>
                 {/* Settings */}
                 {/* Desktop setting */}

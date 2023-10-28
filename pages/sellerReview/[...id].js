@@ -11,6 +11,8 @@ import SingleProductTest from "@/components/product/SingleProductTest";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import StarRatings from "react-star-ratings";
 import ReviewSellerPlaceholder from "@/components/ReviewSellerPlaceholder";
+import ReviewSellerPlaceholderMobile from "@/components/ReviewSellerPlaceholderMobile";
+
 // import CustomPrevArrows
 export default function sellerReview() {
   const router = useRouter();
@@ -121,9 +123,14 @@ export default function sellerReview() {
       });
   }, [id]);
   return (
-    <div className="container overflow-hidden">
+    <div className="">
       {loading ? (
-        <ReviewSellerPlaceholder />
+        <>
+<div className="mobile:hidden"> <ReviewSellerPlaceholderMobile /></div>
+<div className="hidden mobile:block"> <ReviewSellerPlaceholder /></div>
+
+        </>
+        
       ) : (
         <>
           <div
