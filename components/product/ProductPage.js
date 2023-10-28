@@ -2213,7 +2213,7 @@ function ProductPage(props) {
               )}
               {data?.seller_id > 0 && data.seller !== "" && (
                 <Link
-                  href={`/${slugify(data.seller)}/s=${data.seller_id}`}
+                  href={`/sellerReview/${data.seller_id}`}
                   className="hidden md:flex items-center border-b border-dinputBorder  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
                 >
                   {data.seller_image.length > 0 ? (
@@ -2307,7 +2307,7 @@ function ProductPage(props) {
           <div className="my-4 container block mobile:hidden">
             <WhatsappBtn product_id={product_id} config={config} />
           </div>
-
+        
           <div
             ref={lastElementRef}
             className="border-t-8 border-dinputBorder bg-dinputBorder"
@@ -2432,6 +2432,64 @@ function ProductPage(props) {
               )}
             </div>
           </div>
+          {data?.seller_id > 0 && data.seller !== "" && (
+                <Link
+                  href={`/sellerReview/${data.seller_id}`}
+                  className="flex mobile:hidden items-center border-b border-dinputBorder  cursor-pointer  hover:opacity-80 py-2 md:py-6 bg-white"
+                >
+                  {data.seller_image.length > 0 ? (
+                    <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">
+                      <SellerImage src={data.seller_image} />
+                    </div>
+                  ) : (
+                    <AiOutlineShop className=" text-dbase text-3xl mr-4" />
+                  )}
+                  <div className="flex flex-col">
+                    <div className="flex">
+                      <span className="text-dblack text-sm">Sold by</span>{" "}
+                      <h1 className="text-dblue underline ml-2 text-d14 uppercase pr-semibold">
+                        {" "}
+                        {data.seller}
+                      </h1>
+                    </div>
+                    {sellerData?.seller_reviews?.rating ? (
+                      <div className="flex ">
+                        <div
+                          className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 mr-3 cursor-pointer w-10 mt-1"
+                          style={{
+                            backgroundColor:
+                              sellerData.seller_reviews?.rating >= 4.5
+                                ? "rgb(0,158,0)"
+                                : sellerData.seller_reviews?.rating < 4.5 &&
+                                sellerData.seller_reviews?.rating >= 4
+                                ? "rgb(110, 159, 0)"
+                                : sellerData.seller_reviews?.rating < 4 &&
+                                sellerData.seller_reviews?.rating >= 3.5
+                                ? "rgb(243, 153, 22)"
+                                : "rgb(246,90,31)"
+                          }}
+                        >
+                          <div className=" font-bold text-white text-d14 ">
+                            {sellerData.seller_reviews?.rating || "0.0"}
+                          </div>
+
+                          <AiFillStar className="text-white text-d12" />
+                        </div>
+                        <div className=" text-d14 flex  text-dgrey1 mt-0.5 font-semibold ">
+                          {"  "}
+                          {sellerData.seller_reviews?.percentage &&
+                          sellerData.seller_reviews?.percentage + " positive Ratings"}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className=" text-d14 flex  text-dgrey1 mt-o.5 font-semibold opacity-80">
+                        Not enough ratings to show{" "}
+                        <AiFillStar className=" text-d16 mt-0.5 ml-1 " />
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              )}
           <div ref={descriptionRef}></div>
           <ProductPart2
             titleRef={titleRef}
