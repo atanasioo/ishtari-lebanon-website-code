@@ -36,7 +36,7 @@ export default function sellerReview() {
     b: "#00BFFF",
     c: "#00BFFF",
     d: "#00BFFF",
-    e: "#DC143C",
+    e: "LightGray",
     f: "#ff9900",
     g: "#008000",
     h: "#008000",
@@ -56,7 +56,7 @@ export default function sellerReview() {
     w: "#bf1b26",
     x: "#bf1b26",
     y: "#00BFFF",
-    z: "#00BFFF",
+    z: "LightGray",
     s: "#DC143C"
   };
 
@@ -65,7 +65,7 @@ export default function sellerReview() {
     b: "#00BFFF",
     c: "#00BFFF",
     d: "#00BFFF",
-    e: "#DC143C",
+    e: "#000066",
     f: "white",
     g: "#008000",
     h: "#008000",
@@ -85,8 +85,8 @@ export default function sellerReview() {
     w: "#bf1b26",
     x: "#bf1b26",
     y: "#00BFFF",
-    z: "#00BFFF",
-    s: "#00BFFF"
+    z: "#00708b",
+    s: "white"
   };
   function CustomPrevArrows({ direction, onClick, style, className }) {
     return (
@@ -161,7 +161,7 @@ export default function sellerReview() {
             >
               {data?.social_data?.name}
               <div
-                className="absolute z-20 rounded-full w-32 h-32 border-4 border-white -bottom-16 left-10  text-d18 flex items-center justify-center "
+                className="absolute z-20 rounded-full w-32 h-32 border-4 border-white -bottom-16 left-10  text-d18 flex items-center justify-center pl-5"
                 style={{
                   backgroundColor:
                     color[
@@ -194,45 +194,46 @@ export default function sellerReview() {
                 {data?.social_data?.name}
               </Link>
             </div>
-            <div className="flex flex-col mobile:flex-row mt-6 pl-5 ">
-              <div className="flex  w-full mobile:w-6/12  mobile:space-x-5 flex-col mobile:flex-row pr-6  h-full mobile:h-32">
-                <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5 bg-white">
-                  <span className="text-d16 pr-semibold text-dblackOverlay3">
-                    Seller Rating
-                  </span>
-                  <div className="flex items-center pr-semibold">
-                    <span className=" text-2xl pr-semibold">
-                      {data?.seller_reviews?.average_rating}
-                    </span>{" "}
-                    <AiFillStar
-                      className="text-d18 ml-1"
-                      style={{
-                        color:
-                          data?.seller_reviews?.average_rating >= 4.5
-                            ? "rgb(0,158,0)"
-                            : data?.seller_reviews?.average_rating < 4.5 &&
-                              data?.seller_reviews?.average_rating >= 4
-                            ? "rgb(110, 159, 0)"
-                            : data?.seller_reviews?.average_rating < 4 &&
-                              data?.seller_reviews?.average_rating >= 3.5
-                            ? "rgb(243, 153, 22)"
-                            : "rgb(246,90,31)"
-                      }}
-                    />
-                  </div>
-                  <div className="flex">
-                    {" "}
-                    <span className=" text-d14">
-                      {data?.seller_reviews?.percentage}
-                    </span>{" "}
-                    <span className="text-dgrey1 pl-1 text-opacity-70 text-d14">
-                      {" "}
-                      Positive Ratings
+            {data?.seller_reviews?.grouped_rating ? (
+              <div className="flex flex-col mobile:flex-row mt-6 pl-5 ">
+                <div className="flex  w-full mobile:w-6/12  mobile:space-x-5 flex-col mobile:flex-row pr-6  h-full mobile:h-32">
+                  <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5 bg-white">
+                    <span className="text-d16 pr-semibold text-dblackOverlay3">
+                      Seller Rating
                     </span>
+                    <div className="flex items-center pr-semibold">
+                      <span className=" text-2xl pr-semibold">
+                        {data?.seller_reviews?.average_rating}
+                      </span>{" "}
+                      <AiFillStar
+                        className="text-d18 ml-1"
+                        style={{
+                          color:
+                            data?.seller_reviews?.average_rating >= 4.5
+                              ? "rgb(0,158,0)"
+                              : data?.seller_reviews?.average_rating < 4.5 &&
+                                data?.seller_reviews?.average_rating >= 4
+                              ? "rgb(110, 159, 0)"
+                              : data?.seller_reviews?.average_rating < 4 &&
+                                data?.seller_reviews?.average_rating >= 3.5
+                              ? "rgb(243, 153, 22)"
+                              : "rgb(246,90,31)"
+                        }}
+                      />
+                    </div>
+                    <div className="flex">
+                      {" "}
+                      <span className=" text-d14">
+                        {data?.seller_reviews?.percentage}
+                      </span>{" "}
+                      <span className="text-dgrey1 pl-1 text-opacity-70 text-d14">
+                        {" "}
+                        Positive Ratings
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 mt-5 mobile:mt-0  h-32 bg-white">
+                  {/* <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 mt-5 mobile:mt-0  h-32 bg-white">
                 <span className="text-d16 pr-semibold text-dblackOverlay3">
                   Customers
                 </span>
@@ -247,200 +248,212 @@ export default function sellerReview() {
                   </span>
                 </div>
               </div> */}
-              </div>
-              <div className="w-full mobile:w-6/12 flex flex-col   mobile:pl-6 mt-5 mobile:-mt-12 mobile:border-l border-dgrey1 border-opacity-20 ">
-                <div className="text-d18 mobile:text-d22 pr-semibold px-5 mobile:px-2">
-                  Seller Ratings & Reviews
                 </div>
-                <div className="flex flex-col mobile:flex-row  border-dgrey1 border-opacity-10 mobile:pl-2 mobile:space-x-5 mt-5 px-5 bg-white mr-5 pb-6">
-                  <div className="flex justify-end flex-col w-full mobile:w-4/12 ">
-                    <div className=" pr-semibold text-5xxl -mb-2">
-                      {data?.seller_reviews?.average_rating}
+
+                <div className="w-full mobile:w-6/12 flex flex-col   mobile:pl-6 mt-5 mobile:-mt-12 mobile:border-l border-dgrey1 border-opacity-20 ">
+                  <div className="text-d18 mobile:text-d22 pr-semibold px-5 mobile:px-2">
+                    Seller Ratings & Reviews
+                  </div>
+                  <div className="flex flex-col mobile:flex-row  border-dgrey1 border-opacity-10 mobile:pl-2 mobile:space-x-5 mt-5 px-5 bg-white mr-5 pb-6">
+                    <div className="flex justify-end flex-col w-full mobile:w-4/12 ">
+                      <div className=" pr-semibold text-5xxl -mb-2">
+                        {data?.seller_reviews?.average_rating}
+                      </div>
+                      <StarRatings
+                        starDimension="25px"
+                        starEmptyColor="#e3e3e3"
+                        starRatedColor={
+                          data?.seller_reviews?.average_rating >= 4.5
+                            ? "rgb(0,158,0)"
+                            : data?.seller_reviews?.average_rating < 4.5 &&
+                              data?.seller_reviews?.average_rating >= 4
+                            ? "rgb(110, 159, 0)"
+                            : data?.seller_reviews?.average_rating < 4 &&
+                              data?.seller_reviews?.average_rating >= 3.5
+                            ? "rgb(243, 153, 22)"
+                            : "rgb(246,90,31)"
+                        }
+                        starSpacing="0"
+                        rating={
+                          data?.seller_reviews?.average_rating &&
+                          Number(data?.seller_reviews?.average_rating)
+                        }
+                      />
+                      <div className="text-d16 ">
+                        Based on <span>{data?.seller_reviews?.total} </span>
+                        ratings
+                      </div>
                     </div>
-                    <StarRatings
-                      starDimension="25px"
-                      starEmptyColor="#e3e3e3"
-                      starRatedColor={
-                        data?.seller_reviews?.average_rating >= 4.5
-                          ? "rgb(0,158,0)"
-                          : data?.seller_reviews?.average_rating < 4.5 &&
-                            data?.seller_reviews?.average_rating >= 4
-                          ? "rgb(110, 159, 0)"
-                          : data?.seller_reviews?.average_rating < 4 &&
-                            data?.seller_reviews?.average_rating >= 3.5
-                          ? "rgb(243, 153, 22)"
-                          : "rgb(246,90,31)"
-                      }
-                      starSpacing="0"
-                      rating={
-                        data?.seller_reviews?.average_rating &&
-                        Number(data?.seller_reviews?.average_rating)
-                      }
-                    />
-                    <div className="text-d16 ">
-                      Based on <span>{data?.seller_reviews?.total} </span>
-                      ratings
+
+                    <div className="flex flex-col w-full mt-5  mobile:mt-0">
+                      <div className="flex flex-row w-full items-center space-x-1">
+                        <div className="w-2 text-center">5</div>
+
+                        <div>
+                          {" "}
+                          <AiFillStar
+                            className="text-d18 ml-1"
+                            style={{
+                              color: "rgb(0,158,0)"
+                            }}
+                          />{" "}
+                        </div>
+                        <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
+                          <div
+                            className="h-full"
+                            style={{
+                              backgroundColor: "rgb(0,158,0)",
+                              width:
+                                (data?.seller_reviews?.grouped_rating["5*"] /
+                                  data?.seller_reviews?.total) *
+                                  100 +
+                                "%"
+                            }}
+                          ></div>
+                        </div>
+                        <div className="w-2 text-center opacity-40">
+                          ({data?.seller_reviews?.grouped_rating["5*"]})
+                        </div>
+                      </div>
+                      <div className="flex flex-row w-full items-center space-x-1">
+                        <div className="w-2 text-center op">4</div>
+
+                        <div>
+                          {" "}
+                          <AiFillStar
+                            className="text-d18 ml-1"
+                            style={{
+                              color: "rgb(110, 159, 0)"
+                            }}
+                          />{" "}
+                        </div>
+                        <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
+                          <div
+                            className="h-full"
+                            style={{
+                              backgroundColor: "rgb(110, 159, 0)",
+                              width:
+                                (data?.seller_reviews?.grouped_rating["4*"] /
+                                  data?.seller_reviews?.total) *
+                                  100 +
+                                "%"
+                            }}
+                          ></div>
+                        </div>
+                        <div className="w-2 text-center opacity-40">
+                          ({data?.seller_reviews?.grouped_rating["4*"]})
+                        </div>
+                      </div>
+                      <div className="flex flex-row w-full items-center space-x-1">
+                        <div className="w-2 text-center">3</div>
+
+                        <div>
+                          {" "}
+                          <AiFillStar
+                            className="text-d18 ml-1"
+                            style={{
+                              color: "rgb(243, 153, 22)"
+                            }}
+                          />{" "}
+                        </div>
+                        <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
+                          <div
+                            className="h-full"
+                            style={{
+                              backgroundColor: "rgb(243, 153, 22)",
+                              width:
+                                (data?.seller_reviews?.grouped_rating["3*"] /
+                                  data?.seller_reviews?.total) *
+                                  100 +
+                                "%"
+                            }}
+                          ></div>
+                        </div>
+                        <div className="w-2 text-center opacity-40">
+                          ({data?.seller_reviews?.grouped_rating["3*"]})
+                        </div>
+                      </div>
+                      <div className="flex flex-row w-full items-center space-x-1">
+                        <div className="w-2 text-center">2</div>
+
+                        <div>
+                          {" "}
+                          <AiFillStar
+                            className="text-d18 ml-1"
+                            style={{
+                              color: "rgb(246,90,31)"
+                            }}
+                          />{" "}
+                        </div>
+                        <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
+                          <div
+                            className="h-full"
+                            style={{
+                              backgroundColor: "rgb(246,90,31)",
+                              width:
+                                (data?.seller_reviews?.grouped_rating["2*"] /
+                                  data?.seller_reviews?.total) *
+                                  100 +
+                                "%"
+                            }}
+                          ></div>
+                        </div>
+                        <div className="w-2 text-center opacity-40">
+                          ({data?.seller_reviews?.grouped_rating["2*"]})
+                        </div>
+                      </div>
+                      <div className="flex flex-row w-full items-center space-x-1">
+                        <div className="w-2 text-center">1</div>
+
+                        <div>
+                          {" "}
+                          <AiFillStar
+                            className="text-d18 ml-1"
+                            style={{
+                              color: "rgb(246,90,31)"
+                            }}
+                          />{" "}
+                        </div>
+                        <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
+                          <div
+                            className="h-full"
+                            style={{
+                              backgroundColor: "rgb(246,90,31)",
+                              width:
+                                (data?.seller_reviews?.grouped_rating["*"] /
+                                  data?.seller_reviews?.total) *
+                                  100 +
+                                "%"
+                            }}
+                          ></div>
+                        </div>
+                        <div className="w-2 text-center opacity-40">
+                          ({data?.seller_reviews?.grouped_rating["*"]})
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="flex flex-col w-full mt-5  mobile:mt-0">
-                    <div className="flex flex-row w-full items-center space-x-1">
-                      <div className="w-2 text-center">5</div>
-
-                      <div>
-                        {" "}
-                        <AiFillStar
-                          className="text-d18 ml-1"
-                          style={{
-                            color: "rgb(0,158,0)"
-                          }}
-                        />{" "}
-                      </div>
-                      <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
-                        <div
-                          className="h-full"
-                          style={{
-                            backgroundColor: "rgb(0,158,0)",
-                            width:
-                              (data?.seller_reviews?.grouped_rating["5*"] /
-                                data?.seller_reviews?.total) *
-                              100 + "%"
-                          }}
-                        ></div>
-                      </div>
-                      <div className="w-2 text-center opacity-40">
-                        ({data?.seller_reviews?.grouped_rating["5*"]})
-                      </div>
-                    </div>
-                    <div className="flex flex-row w-full items-center space-x-1">
-                      <div className="w-2 text-center op">4</div>
-
-                      <div>
-                        {" "}
-                        <AiFillStar
-                          className="text-d18 ml-1"
-                          style={{
-                            color: "rgb(110, 159, 0)"
-                          }}
-                        />{" "}
-                      </div>
-                      <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
-                        <div
-                          className="h-full"
-                          style={{
-                            backgroundColor: "rgb(110, 159, 0)",
-                            width:
-                              (data?.seller_reviews?.grouped_rating["4*"] /data?.seller_reviews?.total) *
-                              100 + "%"
-                          }}
-                        ></div>
-                      </div>
-                      <div className="w-2 text-center opacity-40">
-                        ({data?.seller_reviews?.grouped_rating["4*"]})
-                      </div>
-                    </div>
-                    <div className="flex flex-row w-full items-center space-x-1">
-                      <div className="w-2 text-center">3</div>
-
-                      <div>
-                        {" "}
-                        <AiFillStar
-                          className="text-d18 ml-1"
-                          style={{
-                            color: "rgb(243, 153, 22)"
-                          }}
-                        />{" "}
-                      </div>
-                      <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
-                        <div
-                          className="h-full"
-                          style={{
-                            backgroundColor: "rgb(243, 153, 22)",
-                            width:
-                              (data?.seller_reviews?.grouped_rating["3*"] /
-                                data?.seller_reviews?.total) *
-                                100 + "%"
-                          }}
-                        ></div>
-                      </div>
-                      <div className="w-2 text-center opacity-40">
-                        ({data?.seller_reviews?.grouped_rating["3*"]})
-                      </div>
-                    </div>
-                    <div className="flex flex-row w-full items-center space-x-1">
-                      <div className="w-2 text-center">2</div>
-
-                      <div>
-                        {" "}
-                        <AiFillStar
-                          className="text-d18 ml-1"
-                          style={{
-                            color: "rgb(246,90,31)"
-                          }}
-                        />{" "}
-                      </div>
-                      <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
-                        <div
-                          className="h-full"
-                          style={{
-                            backgroundColor: "rgb(246,90,31)",
-                            width:
-                              (data?.seller_reviews?.grouped_rating["2*"] /
-                                data?.seller_reviews?.total) *
-                                100 + "%"
-                          }}
-                        ></div>
-                      </div>
-                      <div className="w-2 text-center opacity-40">
-                        ({data?.seller_reviews?.grouped_rating["2*"]})
-                      </div>
-                    </div>
-                    <div className="flex flex-row w-full items-center space-x-1">
-                      <div className="w-2 text-center">1</div>
-
-                      <div>
-                        {" "}
-                        <AiFillStar
-                          className="text-d18 ml-1"
-                          style={{
-                            color: "rgb(246,90,31)"
-                          }}
-                        />{" "}
-                      </div>
-                      <div className=" h-1.5 bg-dgreySeller bg-opacity-20 rounded w-52">
-                        <div
-                          className="h-full"
-                          style={{
-                            backgroundColor: "rgb(246,90,31)",
-                            width:
-                              (data?.seller_reviews?.grouped_rating["*"] /
-                                data?.seller_reviews?.total) *
-                                100 + "%"
-                          }}
-                        ></div>
-                      </div>
-                      <div className="w-2 text-center opacity-40">
-                        ({data?.seller_reviews?.grouped_rating["*"]})
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="w-full flex  justify-center items-center text-d28 mt-12">
+                {" "}
+                No Reviews Available
+              </div>
+            )}
           </div>
           <div className="hidden mobile:block w-full py-5 ">
             <div className="flex justify-between text-d22 pr-semibold px-2 py-3">
               All products by this seller
               <Link
-              
                 href={`/${
                   data?.social_data?.name &&
                   slugify(data?.social_data?.name) + "/s=" + id
                 }`}
               >
-                 <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">
-                    VIEW ALL
-                  </h1>
+                <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">
+                  VIEW ALL
+                </h1>
               </Link>
             </div>
             <Slider {...settings}>
@@ -449,17 +462,17 @@ export default function sellerReview() {
           </div>
           <div className=" mobile:hidden pb-5">
             <div className="text-d16 pr-semibold   px-5 flex justify-between  py-5">
-              All products by this seller     <Link
-              
-              href={`/${
-                data?.social_data?.name &&
-                slugify(data?.social_data?.name) + "/s=" + id
-              }`}
-            >
-               <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">
+              All products by this seller{" "}
+              <Link
+                href={`/${
+                  data?.social_data?.name &&
+                  slugify(data?.social_data?.name) + "/s=" + id
+                }`}
+              >
+                <h1 className="font-bold text-xs border px-2 py-1 cursor-pointer hover:opacity-80">
                   VIEW ALL
                 </h1>
-            </Link>
+              </Link>
             </div>
             <div className="flex overflow-x-scroll overflow-hidden pr-6">
               {data?.products.map((item) => [

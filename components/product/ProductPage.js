@@ -2231,25 +2231,25 @@ function ProductPage(props) {
                         {data.seller}
                       </h1>
                     </div>
-                    {sellerData?.seller_reviews?.rating ? (
+                    {sellerData?.seller_reviews?.average_rating ? (
                       <div className="flex ">
                         <div
                           className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 mr-3 cursor-pointer w-10 mt-1"
                           style={{
                             backgroundColor:
-                              sellerData.seller_reviews?.rating >= 4.5
+                              sellerData.seller_reviews?.average_rating >= 4.5
                                 ? "rgb(0,158,0)"
-                                : sellerData.seller_reviews?.rating < 4.5 &&
-                                sellerData.seller_reviews?.rating >= 4
+                                : sellerData.seller_reviews?.average_rating < 4.5 &&
+                                sellerData.seller_reviews?.average_rating >= 4
                                 ? "rgb(110, 159, 0)"
-                                : sellerData.seller_reviews?.rating < 4 &&
-                                sellerData.seller_reviews?.rating >= 3.5
+                                : sellerData.seller_reviews?.average_rating < 4 &&
+                                sellerData.seller_reviews?.average_rating >= 3.5
                                 ? "rgb(243, 153, 22)"
                                 : "rgb(246,90,31)"
                           }}
                         >
                           <div className=" font-bold text-white text-d14 ">
-                            {sellerData.seller_reviews?.rating || "0.0"}
+                            {sellerData.seller_reviews?.average_rating || "0.0"}
                           </div>
 
                           <AiFillStar className="text-white text-d12" />
@@ -2452,25 +2452,25 @@ function ProductPage(props) {
                         {data.seller}
                       </h1>
                     </div>
-                    {sellerData?.seller_reviews?.rating ? (
+                    {sellerData?.seller_reviews?.average_rating ? (
                       <div className="flex ">
                         <div
                           className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 mr-3 cursor-pointer w-10 mt-1"
                           style={{
                             backgroundColor:
-                              sellerData.seller_reviews?.rating >= 4.5
+                              sellerData.seller_reviews?.average_rating >= 4.5
                                 ? "rgb(0,158,0)"
-                                : sellerData.seller_reviews?.rating < 4.5 &&
-                                sellerData.seller_reviews?.rating >= 4
+                                : sellerData.seller_reviews?.average_rating < 4.5 &&
+                                sellerData.seller_reviews?.average_rating >= 4
                                 ? "rgb(110, 159, 0)"
-                                : sellerData.seller_reviews?.rating < 4 &&
-                                sellerData.seller_reviews?.rating >= 3.5
+                                : sellerData.seller_reviews?.average_rating < 4 &&
+                                sellerData.seller_reviews?.average_rating >= 3.5
                                 ? "rgb(243, 153, 22)"
                                 : "rgb(246,90,31)"
                           }}
                         >
                           <div className=" font-bold text-white text-d14 ">
-                            {sellerData.seller_reviews?.rating || "0.0"}
+                            {sellerData.seller_reviews?.average_rating || "0.0"}
                           </div>
 
                           <AiFillStar className="text-white text-d12" />
