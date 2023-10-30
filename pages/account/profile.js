@@ -41,7 +41,7 @@ function profile() {
     if (!state.loading && !state.loged) {
       router.push("/");
       setLoading(false);
-    } else if(state.loged) {
+    } else if (state.loged) {
       axiosServer
         .get(buildLink("get_account", undefined, window.innerWidth))
         .then((response) => {
@@ -312,6 +312,7 @@ function profile() {
                       <input
                         type="password"
                         value={oldPass}
+                        autoComplete="new-password"
                         onChange={(e) => setOldPass(e.target.value)}
                       />
                     </div>
