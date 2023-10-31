@@ -88,6 +88,8 @@ function CheckoutCompnents() {
   const manualErrors = useRef({});
   const [manualCart, setManualCart] = useState([]);
   const [subTotal, setsubTotal] = useState(0);
+  const [test, setTest] = useState(0);
+
   // User Details
 
   const firstname = useRef();
@@ -117,7 +119,12 @@ function CheckoutCompnents() {
     }
   });
 
-  useEffect(() => {}, [router.pathname]);
+  useEffect(() => {
+    if(test){
+      getCart()
+      setTest(true)
+    }
+  }, [test]);
 
   const CellulantCheckoutPopup = dynamic(
     () => import("./CellulantCheckoutPopup"),
@@ -257,7 +264,8 @@ function CheckoutCompnents() {
         if (!data.customer_id) {
           setloged(false);
           // alert(2)
-          getCart();
+          // getCart();
+          setTest(true)
 
           if (!state.loged) {
             if (!state.admin && !loginShow) {
@@ -301,7 +309,8 @@ function CheckoutCompnents() {
                 town.current.name = response.data.data[0].town_name;
                 setAddresses(response.data.data);
                 changeAddress(response.data.data[0], false);
-                getCart();
+                setTest(true)
+                // getCart();
                 // alert(1);
               }
             });
@@ -312,6 +321,7 @@ function CheckoutCompnents() {
     // });
     // End account check
   }, []);
+
 
   // set active address from address list
   function changeAddress(address, _manual) {

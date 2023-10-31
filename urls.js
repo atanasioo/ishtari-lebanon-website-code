@@ -147,6 +147,7 @@ var urls = {
     "v2/index.php?route=catalog/seller/getSellerDescription&seller_id=",
   "seo-product":
     "v2/index.php?route=catalog/product/getProductDescription&product_id=",
+    purchased: "v2/index.php?route=catalog/product/getPurchasedProducts"
 };
 
 if (typeof window !== "undefined") {
