@@ -44,7 +44,7 @@ export default function sellerReview() {
     j: "#008000",
     k: "#008000",
     l: "#008000",
-    m: "#008000",
+    m: "white",
     n: "#008000",
     o: "#F08080	",
     p: "#bf1b26",
