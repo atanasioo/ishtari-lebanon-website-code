@@ -44,7 +44,7 @@ export default function sellerReview() {
     j: "#008000",
     k: "#008000",
     l: "#008000",
-    m: "white",
+    m: "#008000",
     n: "#008000",
     o: "#F08080	",
     p: "#bf1b26",
@@ -73,7 +73,7 @@ export default function sellerReview() {
     j: "#008000",
     k: "#008000",
     l: "#008000",
-    m: "#008000",
+    m: "#white",
     n: "#008000",
     o: "#F08080	",
     p: "#bf1b26",
@@ -161,7 +161,7 @@ export default function sellerReview() {
             >
               {data?.social_data?.name}
               <div
-                className="absolute z-20 rounded-full w-32 h-32 border-4 border-white -bottom-16 left-10  text-d18 flex items-center justify-center pl-5"
+                className="absolute z-20 rounded-full w-32 h-32 border-4 border-white -bottom-16 left-10  text-d14 flex items-center justify-center"
                 style={{
                   backgroundColor:
                     color[
