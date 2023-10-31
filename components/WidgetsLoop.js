@@ -589,12 +589,12 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     <div
                       data-index={index}
                       key={`sliderM` + index}
-                      className="relative placeHolderSlideCSS"
+                      className="relative "
                     >
                       <Image
                         alt={item?.name}
                         src={host.host + "/image/" + item.image}
-                        className="w-full"
+                        className="w-full placeHolderSlideCSS"
                         height={widget.banner_height}
                         width={widget.banner_width}
                         
@@ -704,7 +704,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
         widget.column_number < 7 && (
           <div className="flex -mx-4 flex-wrap justify-between">
             {widget.items.map((item) => {
-              const bool = widget.items.length > 0;
+              const bool = widget.items.length > 0 ;
 
               return item.mobile_type_id !== "0" ? (
                 <div
@@ -727,7 +727,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     bannerStats={bannerStats}
                     handleLinkClick={handleLinkClick}
                     types={types}
-                    bool={bool}
+              
                   />
                 </div>
               ) : item.mobile_type === "6" ? (
@@ -789,7 +789,9 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       .replace("%", "")
                       .replace(/\s+/g, "-")
                       .replaceAll("/", "-")}
-                    className={`${"w-full placeHolderSlideCSS"}`}
+                    // className={`${"w-full placeHolderSlideCSS"}`}
+                    className={`${ widget.items.length > 1 && "placeHolderSlideCSS"} "w-full"`}
+
 
                   />
                 </div>

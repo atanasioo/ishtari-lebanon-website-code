@@ -188,9 +188,10 @@ function TopSearch() {
   useEffect(() => {
     async function search() {
       setLoading(true);
+      console.log(query)
       const res = await axiosServer.get(
         buildLink("search", undefined, undefined, window.config["site-url"]) +
-          query +  `${stateAcc?.admin && "&employer=true"}`
+          query +  `${stateAcc?.admin ? "&employer=true" : ''}`
       );
       try {
         setResults(!res?.data?.message && res?.data?.data);

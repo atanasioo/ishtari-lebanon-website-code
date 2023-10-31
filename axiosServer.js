@@ -36,19 +36,19 @@ const axiosServer = axios.create({
 });
 
 // Function to set the token in the axios instance headers
-const setAuthorizationHeader = (token) => {
-  axiosServer.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  axiosServer.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${token}`;
+// const setAuthorizationHeader = (token) => {
+//   axiosServer.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+//   axiosServer.interceptors.request.use((config) => {
+//     config.headers.Authorization = `Bearer ${token}`;
 
-    return config;
-  });
-};
+//     return config;
+//   });
+// };
 
 // Function to set the token in cookies
-const setTokenInCookie = (token) => {
-  Cookies.set("api-token", token, { expires: 7, path: "/" });
-};
+// const setTokenInCookie = (token) => {
+//   Cookies.set("api-token", token, { expires: 7, path: "/" });
+// };
 
 // Function to get the token from cookies
 const getTokenFromCookie = () => {
@@ -75,14 +75,14 @@ axiosServer.interceptors.request.use((config) => {
 let isRefreshing = false;
 let refreshSubscribers = [];
 
-const subscribeTokenRefresh = (callback) => {
-  refreshSubscribers.push(callback);
-};
+// const subscribeTokenRefresh = (callback) => {
+//   refreshSubscribers.push(callback);
+// };
 
-const onRefreshed = (token) => {
-  refreshSubscribers.forEach((callback) => callback(token));
-  refreshSubscribers = [];
-};
+// const onRefreshed = (token) => {
+//   refreshSubscribers.forEach((callback) => callback(token));
+//   refreshSubscribers = [];
+// };
 
 axiosServer.interceptors.response.use(
   (response) => {
@@ -117,7 +117,7 @@ axiosServer.interceptors.response.use(
         Cookies.set("api-token", response.data.access_token, { expires: 15 });
 
         // Trigger the onRefreshed callback to notify other requests
-        onRefreshed(newToken);
+        // onRefreshed(newToken);
         // Refresh the page
         if (typeof window !== "undefined") {
           window.location.reload();
@@ -137,9 +137,6 @@ axiosServer.interceptors.response.use(
 );
 
 export {
-  axiosServer,
-  setTokenInCookie,
-  getTokenFromCookie,
-  getToken,
-  setAuthorizationHeader,
+  axiosServer, getToken
+
 };

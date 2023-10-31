@@ -1497,7 +1497,7 @@ function CatalogTest(props) {
                                 src={category.thumb}
                                 width={"100"}
                                 height={"100"}
-                                placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
+                                // placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
                               />
                               <h2
                                 dangerouslySetInnerHTML={{
@@ -1534,7 +1534,7 @@ function CatalogTest(props) {
                               src={category.thumb}
                               width={110}
                               height={110}
-                              placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
+                              // placeholdersrc="https://ishtari.com/static/product_placeholder_square.png"
                               className="h-20 w-20"
                             />
 

@@ -1,7 +1,6 @@
 import {
   axiosServer,
-  getToken,
-  setAuthorizationHeader,
+  getToken
 } from "@/axiosServer.js";
 import { getHost } from "@/functions";
 import Layout from "@/components/layout/layout";
