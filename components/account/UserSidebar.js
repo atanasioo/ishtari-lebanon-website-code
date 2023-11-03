@@ -4,7 +4,7 @@ import buildLink, { path } from "../../urls";
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
-  BsStarFill,
+  BsStarFill
 } from "react-icons/bs";
 import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 import { BiStar } from "react-icons/bi";
 import { HiLightBulb } from "react-icons/hi";
-
+import { RiUserFollowLine } from "react-icons/ri";
 function UserSidebar(props) {
   const [data, setData] = useState(props.data);
   const [state] = useContext(AccountContext);
@@ -33,7 +33,7 @@ function UserSidebar(props) {
     <aside
       className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
       style={{
-        flex: "0 0 auto",
+        flex: "0 0 auto"
       }}
     >
       <ul className="lg:py-3 py-1">
@@ -314,6 +314,34 @@ function UserSidebar(props) {
               Review Center
             </span>
             {showReviewCenterArrow && (
+              <div className=" w-2/12">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
+            )}{" "}
+          </Link>
+        </li>
+        <li
+          onMouseEnter={() => {
+            setShowWishArrow(true);
+          }}
+          onMouseLeave={() => {
+            setShowWishArrow(false);
+          }}
+        >
+          <Link
+            href={`${path}/account/follow`}
+            className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
+          >
+            <div className="w-2/12">
+              <RiUserFollowLine className="text-d16 text-dbase" />
+            </div>
+            <span
+              className={`flex-1 w-4/12 ${
+                props.active?.indexOf("follow") > -1 && "underline font-semibold text-dgreyAccountActive"}`}
+            >
+              Follow 
+            </span>
+            {showWishArrow && (
               <div className=" w-2/12">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>

@@ -1,7 +1,4 @@
-import {
-  axiosServer,
-  getToken
-} from "@/axiosServer.js";
+import { axiosServer, getToken } from "@/axiosServer.js";
 import { getHost } from "@/functions";
 import Layout from "@/components/layout/layout";
 import "@/styles/globals.css";
@@ -34,7 +31,7 @@ export default function App({
   Component,
   pageProps,
 
-  host,
+  host
 }) {
   const router = useRouter();
   const topRef = useRef(null);
@@ -47,7 +44,7 @@ export default function App({
     const handleStart = (url) => {
       // const excludeHome = url === "/";
       // if (!excludeHome) {
-        setLoading(true);
+      setLoading(true);
       //}
     };
 
@@ -65,6 +62,8 @@ export default function App({
       router.events.off("routeChangeError", handleComplete);
     };
   }, []);
+
+  
   useEffect(() => {
     const handleRouteChange = () => {
       topRef.current?.scrollIntoView();
@@ -82,10 +81,10 @@ export default function App({
   if (host?.indexOf("flo") > -1) {
     favicon = "images/logo/favicon-flo.ico";
     title = "Flo Lebanon";
-  }else if (host?.indexOf("energy") > -1) {
+  } else if (host?.indexOf("energy") > -1) {
     favicon = "images/logo/favicon-energyplus.ico";
     title = "energyplus";
-  }else if (host?.indexOf(".gh") > -1) {
+  } else if (host?.indexOf(".gh") > -1) {
     // title = "energyplus";
     title = "ishtari | online Shopping in Ghana";
   }
@@ -95,7 +94,7 @@ export default function App({
       Cookies.get("site-local-name") === "ishtari" ||
       window.location.host === "www.ishtari.com" ||
       window.location.host === "next.ishtari.com" ||
-      window.location.host === "ishtari-mobile.com" 
+      window.location.host === "ishtari-mobile.com"
     ) {
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -117,9 +116,8 @@ export default function App({
     }
   }, []);
 
-
   return (
-    <SessionProvider >
+    <SessionProvider>
       <Head>
         <link rel="icon" href={favicon} />
         <title>{title}</title>
@@ -140,8 +138,7 @@ export default function App({
       (typeof window !== "undefined" &&
         (window.location.host === "www.ishtari.com" ||
           window.location.host === "next.ishtari.com" ||
-          window.location.host === "ishtari-mobile.com" 
-          )) ? (
+          window.location.host === "ishtari-mobile.com")) ? (
         <Script
           id="tag"
           async
@@ -184,9 +181,7 @@ export default function App({
                           )}
 
                           {router.asPath.indexOf("posSystem") < 0 ? (
-                            <Layout
-                              host={host}
-                            >
+                            <Layout host={host}>
                               <div className="bg-dprimarybg min-h-screen">
                                 <div className="md:container ">
                                   <Component {...pageProps} />
@@ -273,7 +268,6 @@ export default function App({
 //         }
 //         setAuthorizationHeader(newToken);
 
-
 //         // Return the fetched data as props
 //         return {
 
@@ -323,7 +317,6 @@ export default function App({
 //         cook.set("api-token", newToken, options);
 
 //         setAuthorizationHeader(newToken);
-
 
 //         // Return the fetched data as props
 //         return {

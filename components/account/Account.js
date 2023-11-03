@@ -9,7 +9,8 @@ import Cookies from "js-cookie";
 import { FiChevronDown } from "react-icons/fi";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
-import { MdCardMembership } from "react-icons/md";
+import {RiUserFollowLine} from "react-icons/ri";
+
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -725,6 +726,14 @@ function Account() {
                 >
                   <BsFillHeartFill className="text-d17"></BsFillHeartFill>
                   <span className="ml-4">WishList</span>
+                </Link>
+                <Link
+                  href={`${path}/account/follow`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
+                >
+                  <RiUserFollowLine className="text-d17"></RiUserFollowLine>
+                  <span className="ml-4">Follow</span>
                 </Link>
                 <Link
                   href={`${path}/account/reviewCenter`}

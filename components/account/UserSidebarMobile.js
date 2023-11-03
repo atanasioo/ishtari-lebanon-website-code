@@ -6,6 +6,7 @@ import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 import { MdCardMembership } from "react-icons/md";
 import { HiLightBulb } from "react-icons/hi";
+import {RiUserFollowLine} from "react-icons/ri";
 
 function UserSidebarMobile(props) {
   return (
@@ -113,6 +114,19 @@ function UserSidebarMobile(props) {
             <BsFillHeartFill className="text-d20 text-center w-8 mt-1" />
           </div>
           <span className="text-center text-d11">WishList</span>
+        </div>
+      </Link>
+      <Link
+        href={`${path}/account/follow`}
+        className={`py-2 flex-row md:flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
+          props.active === "follow" && "bg-white text-dbase"
+        }`}
+      >
+        <div className="flex flex-col justify-between h-full items-center w-20">
+          <div className="text-center">
+            <RiUserFollowLine className="my-1 text-2xl" />
+          </div>
+          <span className="text-center text-d11 mt-1">follow</span>
         </div>
       </Link>
       <Link

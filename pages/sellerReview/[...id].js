@@ -1,7 +1,9 @@
 import { axiosServer } from "@/axiosServer";
+import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
 import React from "react";
 import { useEffect } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
@@ -15,12 +17,28 @@ import ReviewSellerPlaceholderMobile from "@/components/ReviewSellerPlaceholderM
 import { LinkedinIcon } from "react-share";
 import { slugify } from "@/components/Utils";
 import Link from "next/link";
+import { BsHandThumbsUp } from "react-icons/bs";
+import Image from "next/image";
 // import CustomPrevArrows
 export default function sellerReview() {
   const router = useRouter();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const { id } = router.query;
+  const [follow, setFollow] = useState(false);
+  const [accountState, dispatch] = useContext(AccountContext);
+  const [ disabled , setDisabled] = useState(false)
+  useEffect(() => {
+    console.log(id);
+    if (id !== "undefined")
+      axiosServer
+        .get(buildLink("seller", undefined, window.location.host) + id)
+        .then((resp) => {
+          setData(resp.data.data);
+          setLoading(false);
+        });
+  }, [router, follow]);
+
   const settings = {
     speed: 200,
     slidesToShow: 6,
@@ -32,7 +50,7 @@ export default function sellerReview() {
   };
 
   const color = {
-    a: "#FFEBCD	",
+    a: "#ffad35",
     b: "#00BFFF",
     c: "#00BFFF",
     d: "#00BFFF",
@@ -61,29 +79,29 @@ export default function sellerReview() {
   };
 
   const textColor = {
-    a: "#FFEBCD	",
-    b: "#00BFFF",
-    c: "#00BFFF",
-    d: "#00BFFF",
+    a: "#FFEBCD",
+    b: "white",
+    c: "white",
+    d: "white",
     e: "#000066",
     f: "white",
-    g: "#008000",
-    h: "#008000",
+    g: "white",
+    h: "white",
     i: "white",
-    j: "#008000",
-    k: "#008000",
-    l: "White",
-    m: "#white",
-    n: "#008000",
-    o: "#F08080	",
+    j: "white",
+    k: "white",
+    l: "white",
+    m: "white",
+    n: "white",
+    o: "white",
     p: "#bf1b26",
     q: "#bf1b26",
     r: "#DC143C",
-    t: "#FFD700",
+    t: "#b39700",
     u: "#ffcc00",
-    v: "#bf1b26",
-    w: "#bf1b26",
-    x: "#bf1b26",
+    v: "white",
+    w: "white",
+    x: "white",
     y: "#00BFFF",
     z: "#00708b",
     s: "white"
@@ -116,14 +134,36 @@ export default function sellerReview() {
     );
   }
 
-  useEffect(() => {
+  function followAction() {
+    if (!accountState.loged) {
+      dispatch({ type: "setShowOver", payload: true });
+      dispatch({ type: "setShowLogin", payload: true });
+    }
+    setFollow("");
+    setDisabled(true)
     console.log(id);
-    if (id !== "undefined")
-      axiosServer.get(buildLink("seller") + id).then((resp) => {
-        setData(resp.data.data);
-        setLoading(false);
+    var obj = {
+      type: "seller",
+      type_id: id[0]
+    };
+
+    axiosServer
+      .post(
+        buildLink("follow", undefined, undefined, window.location.host),
+        obj
+      )
+      .then((resp) => {
+        if (resp.data.data.follow === true) {
+          setFollow(true);
+          setDisabled(false)
+        }
+        if (resp.data.data.follow === false) {
+          setFollow(false);
+          setDisabled(false)
+        }
       });
-  }, [id]);
+  }
+
   return (
     <div className="">
       {loading ? (
@@ -141,7 +181,7 @@ export default function sellerReview() {
         <>
           <div className="mobile:bg-white mobile:pb-10">
             <div
-              className="relative w-full h-48 flex justify-center items-center text-6xl uppercase font-sans"
+              className="relative w-full h-48 flex justify-center items-center text-d28 mobile:text-6xl  font-sans"
               style={{
                 backgroundColor:
                   color[
@@ -159,10 +199,10 @@ export default function sellerReview() {
                   ] || "white"
               }}
             >
-              {data?.social_data?.name}
+                             <div className="uppercase">{ data?.social_data?.name}</div>
+
               <div
-                className="absolute z-20 rounded-full w-32 h-32 border-4 border-white -bottom-16 left-10  text-d14 flex items-center justify-center"
-                style={{
+                className={`${!data?.seller_reviews?.image &&  "w-28 h-28 mobile:w-32 mobile:h-32 flex items-center justify-center" } " absolute z-20 rounded-full  -bottom-16 left-10  text-d14 "`} style={{border:" 4px solid rgb(243, 244, 248)",
                   backgroundColor:
                     color[
                       data?.social_data?.name
@@ -180,7 +220,19 @@ export default function sellerReview() {
                 }}
               >
                 {" "}
-                {data?.social_data?.name}
+              {data?.seller_reviews?.image ?  <Image src={data?.seller_reviews?.image }  width="200" height="200"  className="rounded-full  w-28 h-28 mobile:w-32 mobile:h-32"/>  : data?.social_data?.name}
+              </div>
+              <div
+                className={`${ disabled && 'bg-opacity-95 text-opacity-40 pointer-events-none' } " absolute z-20 right-10 bottom-5 text-d14 p-2 rounded-full bg-white border-dgreyProduct text-dblack pr-semibold px-4 mobile:px-5 "`}
+                onClick={followAction}
+              >
+                {" "}
+                {(follow) ? (
+                  <span className="">Following  </span>
+                ) : (
+                  <span className="">+ Follow </span>
+                )}
+
               </div>
             </div>
             <div className="w-full mt-20  pl-12">
@@ -194,7 +246,7 @@ export default function sellerReview() {
                 {data?.social_data?.name}
               </Link>
             </div>
-            {data?.seller_reviews?.grouped_rating ? (
+            {data?.seller_reviews?.grouped_rating  ? (
               <div className="flex flex-col mobile:flex-row mt-6 pl-5 ">
                 <div className="flex  w-full mobile:w-6/12  mobile:space-x-5 flex-col mobile:flex-row pr-6  h-full mobile:h-32">
                   <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5 bg-white">
@@ -233,21 +285,21 @@ export default function sellerReview() {
                     </div>
                   </div>
 
-                  {/* <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 mt-5 mobile:mt-0  h-32 bg-white">
-                <span className="text-d16 pr-semibold text-dblackOverlay3">
-                  Customers
-                </span>
-                <div className="flex items-center pr-semibold text-2xl">
-                  200K+
-                </div>
-                <div className="flex">
-                  {" "}
-                  <span className="text-dgrey1 pl-1 text-opacity-70 text-d14">
-                    {" "}
-                    During the last 90 days
-                  </span>
-                </div>
-              </div> */}
+                  <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 mt-5 mobile:mt-0  h-32 bg-white">
+                    <span className="text-d16 pr-semibold text-dblackOverlay3">
+                      Customers
+                    </span>
+                    <div className="flex items-center pr-semibold text-2xl">
+                      {( Number(data?.total_followers)) }
+                    </div>
+                    <div className="flex">
+                      {" "}
+                      <span className="text-dgrey1 pl-1 text-opacity-70 text-d14">
+                        {" "}
+                        During the last 90 days
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="w-full mobile:w-6/12 flex flex-col   mobile:pl-6 mt-5 mobile:-mt-12 mobile:border-l border-dgrey1 border-opacity-20 ">
@@ -279,7 +331,7 @@ export default function sellerReview() {
                           Number(data?.seller_reviews?.average_rating)
                         }
                       />
-                      <div className="text-d16 ">
+                      <div className="text-d14">
                         Based on <span>{data?.seller_reviews?.total} </span>
                         ratings
                       </div>
@@ -436,9 +488,9 @@ export default function sellerReview() {
                 </div>
               </div>
             ) : (
-              <div className="w-full flex  justify-center items-center text-d28 mt-12">
+             !loading && <div className="w-full flex  justify-center items-center text-d28 mt-12">
                 {" "}
-                No Reviews Available
+                {/* No Reviews Available */}
               </div>
             )}
           </div>
