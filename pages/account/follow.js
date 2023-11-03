@@ -13,6 +13,8 @@ import Image from "next/image";
 import PointsLoader from "@/components/PointsLoader";
 import NotFound from "../404";
 import NoData from "@/components/NoData";
+import { slugify } from "@/components/Utils";
+import Link from "next/link";
 function Follow() {
   const router = useRouter();
   const [data, setData] = useState();
@@ -119,6 +121,7 @@ function Follow() {
                   {data?.data?.followed?.map((item) => (
                     <div className=" w-full  flex flex-row justify-between items-center bg-white p-5 text-d14 mobile:text-d16 my-1">
                       {" "}
+                      <Link href={'/' + slugify(item.name) + '/s=' +item.seller_id}>
                       <div className="flex justify-center items-center">
                         <div className=" border rounded-full flex justify-center items-center p-4 w-16 h-16   border-dgrey1 border-opacity-50 font-semibold text-d18">
                           {item.image ? (
@@ -129,8 +132,9 @@ function Follow() {
                         </div>{" "}
                         <div className="mx-5 uppercase">{item.name}</div>
                       </div>
+                      </Link>
                       <div
-                        className="flex justify-center bg-dbase pr-semibold text-white px-4  rounded-full items-center h-10"
+                        className="flex justify-center bg-dbase pr-semibold text-white px-4  rounded-full items-center h-10 cursor-pointer"
                         onClick={() => followAction(item?.seller_id)}
                       >
                         following
