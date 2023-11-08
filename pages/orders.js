@@ -88,7 +88,7 @@ export default function PosOrders() {
         .then((response) => {
           if (response.data.success) {
             // setMyArray(response?.data?.data);
-            console.log(date);
+            // console.log(date);
             // calculateSum(date);
             setMyArray(response?.data?.data);
             response?.data?.data?.map((order) => {
@@ -209,7 +209,7 @@ export default function PosOrders() {
         .then((response) => {
           if (response.data.success) {
             // setMyArray(response?.data?.data);
-            console.log(date);
+            // console.log(date);
             // calculateSum(date);
             setMyArray(response?.data?.data);
             response?.data?.data?.map((order) => {

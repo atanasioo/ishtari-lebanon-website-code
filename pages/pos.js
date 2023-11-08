@@ -290,7 +290,7 @@ export default function Pos() {
         )
       )
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
         if (response) {
           setUsers(response?.data);
         }
@@ -423,7 +423,7 @@ export default function Pos() {
         ) + value
       )
       .then((response) => {
-        console.log(response?.data);
+       // console.log(response?.data);
         if (response.data.success) {
           setDataSearch(response?.data?.data);
         }
@@ -441,7 +441,7 @@ export default function Pos() {
         select = i - 1;
         SetSelectCart(select);
         // select = select - 1;
-        console.log("item" + select);
+       // console.log("item" + select);
         document.getElementById("item" + select).focus();
       } else {
         select = Number(cart?.products?.length) - 1;
@@ -462,7 +462,7 @@ export default function Pos() {
         document.getElementById("item0").focus();
       }
     }
-    console.log(e);
+    // console.log(e);
     //left Arrow  qty - 1
     if (qty > 0 && e.keyCode === 37) {
       qty = Number(qty) - 1;
@@ -483,7 +483,7 @@ export default function Pos() {
   }
 
   function changeQuantity(key, quantity) {
-    console.log("omar" + quantity);
+   // console.log("omar" + quantity);
 
     updatequnatity(key, quantity);
   }
@@ -581,8 +581,8 @@ export default function Pos() {
       }
       temp.push(new_product);
     }
-    console.log("manual-2");
-    console.log(cart);
+    // console.log("manual-2");
+    // console.log(cart);
     if (!typeRef.current.value && !amountRef.current.value) {
       body = {
         order_product: temp,
@@ -669,7 +669,7 @@ export default function Pos() {
 
         if (response?.data?.success === false) {
           setManualResponse(response?.data?.data);
-          console.log(response?.data);
+          // console.log(response?.data);
 
           setError(response?.data?.errors);
           setManualResponse(response?.data?.data);

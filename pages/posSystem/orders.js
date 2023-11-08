@@ -24,7 +24,7 @@ export default function orders() {
   const orderId = useRef("");
 
   useEffect(() => {
-    console.log(date);
+    // console.log(date);
     setOrders([]);
     getData("orders");
   }, [date, orderID, update]);
@@ -38,7 +38,7 @@ export default function orders() {
 
 
   function addNewTable() {
-    console.log("omar");
+    // console.log("omar");
     // Your logic to insert products to the cart goes here
     const dbName = "posDB";
     const dbVersion = 8;
@@ -46,7 +46,7 @@ export default function orders() {
 
     // Open a connection to a database or create it if it doesn't exist.
     const request = indexedDB.open(dbName, dbVersion);
-    console.log("request" + request);
+    // console.log("request" + request);
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
@@ -87,7 +87,7 @@ export default function orders() {
 
     request.onsuccess = (event) => {
       const db = event.target.result;
-      console.log("success");
+      // console.log("success");
       // Now, you can interact with the database using 'db' object.
     };
 
@@ -218,7 +218,7 @@ export default function orders() {
 
             orderDate = [year, month, day].join("-");
 
-            console.log(orderDate);
+            // console.log(orderDate);
             orderDate = new Date(orderDate).getTime();
 
 
@@ -271,7 +271,7 @@ export default function orders() {
     const currentDate = new Date();
     const formattedDateTime = currentDate.toLocaleString();
     holdsDetails.date = formattedDateTime;
-    console.log(holdsDetails);
+    // console.log(holdsDetails);
     axiosServer
       .post(
         buildLink("manual", undefined, undefined, window.config["site-url"]),
@@ -427,7 +427,7 @@ export default function orders() {
 
       deleteRequest.onsuccess = (event) => {
         setUpdate(true);
-        console.log("Record deleted successfully");
+        // console.log("Record deleted successfully");
       };
 
       deleteRequest.onerror = (event) => {
@@ -437,7 +437,7 @@ export default function orders() {
 
     request.onupgradeneeded = (event) => {
       // Handle database upgrades if needed
-      console.log("Database upgrade needed");
+      // console.log("Database upgrade needed");
     };
   }
   return (

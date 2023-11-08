@@ -91,7 +91,7 @@ function search(props) {
 
   useEffect(() => {}, [router]);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   function handleFilter(type, name) {
     const query = { ...router.query };

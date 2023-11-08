@@ -26,7 +26,7 @@ function index() {
     axiosServer
       .get(buildLink("suggestion", undefined, undefined) + `&page=${page}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.success) {
           setData(response.data.data);
         }

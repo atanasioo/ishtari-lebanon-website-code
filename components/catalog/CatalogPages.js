@@ -187,7 +187,7 @@ function CatalogPage(props) {
 
 
   const router = useRouter();
-  console.log(router.query);
+  // console.log(router.query);
   const catalog_id = type_id;
     // router.query.slug[0].includes("c=") ||
     // router.query.slug[0].includes("s=") ||

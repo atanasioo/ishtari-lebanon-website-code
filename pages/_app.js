@@ -89,6 +89,23 @@ export default function App({
     title = "ishtari | online Shopping in Ghana";
   }
 
+
+  useEffect(() => {
+    // Add an event listener to the 'load' event of the window
+    const clearLocalStorageOnLoad = () => {
+      // Clear the entire localStorage
+      localStorage.clear();
+    
+    };
+
+    window.addEventListener('beforeunload', clearLocalStorageOnLoad);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', clearLocalStorageOnLoad);
+    };
+  }, []);
+
   useEffect(() => {
     if (
       Cookies.get("site-local-name") === "ishtari" ||

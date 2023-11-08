@@ -109,7 +109,7 @@ function flashSale(props) {
       });
   }
 
-  console.log(event_id);
+  // console.log(event_id);
 
   useEffect(() => {
     setLoading(true);

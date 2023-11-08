@@ -7,6 +7,7 @@ import SingleProduct from "./SingleProduct";
 import useDeviceSize from "../useDeviceSize";
 import NoData from "../NoData";
 import LatestPlaceholder from "./DynamicPlaceholder";
+import Head from "next/head";
 
 function DynamicProducts() {
   const router = useRouter();
@@ -30,11 +31,15 @@ function DynamicProducts() {
     setLoading(true);
     axiosServer
       .get(
-        buildLink("dynamicproducts", undefined, undefined , window.location.host) +
-          `${`${type}&page=${page}&limit=${limit}`}`
+        buildLink(
+          "dynamicproducts",
+          undefined,
+          undefined,
+          window.location.host
+        ) + `${`${type}&page=${page}&limit=${limit}`}`
       )
       .then((response) => {
-       // console.log(response.data);
+        // console.log(response.data);
         setData(response.data.data);
         setLoading(false);
       });
@@ -54,11 +59,9 @@ function DynamicProducts() {
 
     router.push({
       pathname: router.pathname,
-      query,
+      query
     });
   };
-
-  
 
   const handleLimitClick = (value) => {
     const new_limit = parseInt(value);
@@ -72,12 +75,15 @@ function DynamicProducts() {
 
     router.push({
       pathname: router.pathname,
-      query,
+      query
     });
   };
 
   return (
     <div>
+      <Head>
+        <title>{title}  ishtari | Online Shopping in Lebanon </title>
+      </Head>
       {loading ? (
         <div>
           <LatestPlaceholder />

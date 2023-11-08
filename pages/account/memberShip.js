@@ -34,7 +34,7 @@ export default function MenmberShip() {
       axiosServer
         .get(buildLink("memberShip") + "&page=" + page + "&limit=" + limit)
         .then((resp) => {
-          console.log(resp.data);
+          // console.log(resp.data);
           setState(resp.data);
           setTotalPage(resp.data.data?.suggestions?.total_pages);
 

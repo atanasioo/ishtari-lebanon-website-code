@@ -6,7 +6,6 @@ import ProductPage from "@/components/product/ProductPage";
 import { getConfig } from "@/functions";
 import CatalogTest from "@/components/catalog/CatalogTest";
 import DynamicProducts from "@/components/product/DynamicProducts";
-
 function SlugPage(props) {
   return (
     <div>
@@ -57,9 +56,9 @@ function SlugPage(props) {
           <meta
             name="description"
             content={`${
-              props.meta.meta_description !== ""
-                ? props.meta.meta_description
-                : `Shop the ${props.meta?.title}. Enjoy easy online shopping at ishtari.`
+              props?.meta?.meta_description !== ""
+                ? props?.meta?.meta_description
+                : `Shop the ${props?.meta?.title}. Enjoy easy online shopping at ishtari.`
             } `}
           ></meta>
         ) : (
@@ -171,7 +170,7 @@ export async function getServerSideProps(context) {
   const config = await getConfig(site_host);
   var path = "&path=";
 
-  console.log("catalog", catalog);
+  // console.log("catalog", catalog);
 
   const isLatestSettings =
     catalog === "coming_soon" ||
@@ -196,8 +195,8 @@ export async function getServerSideProps(context) {
       const aliasId = theAlias[1];
       slug[0] = aliasId;
       catalog = aliasName;
-      console.log(slug[0]);
-      console.log(catalog);
+      // console.log(slug[0]);
+      // console.log(catalog);
     }
   }
 
@@ -295,8 +294,8 @@ export async function getServerSideProps(context) {
         }
       }
     }
-
-    if (type !== "") {
+     const seo= true
+    if (type !== ""  && seo ) {
       const response = await axiosServer.get(
         buildLink("seo-" + type, undefined, undefined, site_host) + id,
         {
@@ -307,7 +306,7 @@ export async function getServerSideProps(context) {
       );
       if (response.data.success) {
         meta = response.data.data;
-        console.log(meta);
+        // console.log(meta);
       }
     }
 

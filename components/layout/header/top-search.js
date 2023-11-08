@@ -161,12 +161,12 @@ function TopSearch() {
       // } else {
       setViewResults(true);
       //}
-      if (trendingSearch.length === 0) {
+      if (trendingSearch?.length === 0) {
         axiosServer
           .get(buildLink("trendingSearch", undefined, window.innerWidth))
           .then((response) => {
             if (response.data.success) {
-              setTrendingSearch(response.data.data.topsearch);
+              setTrendingSearch(response?.data?.data?.topsearch);
               setViewResults(true);
               setTrendingLoading(false);
             }
@@ -188,7 +188,7 @@ function TopSearch() {
   useEffect(() => {
     async function search() {
       setLoading(true);
-      console.log(query)
+      // console.log(query)
       const res = await axiosServer.get(
         buildLink("search", undefined, undefined, window.config["site-url"]) +
           query +  `${stateAcc?.admin ? "&employer=true" : ''}`
@@ -552,11 +552,11 @@ function TopSearch() {
                 </Link>
               ))}
           </div>
-        ) : results.length === 0 &&
+        ) : results?.length === 0 &&
           viewResults &&
-          (trendingSearch.length > 0 || searchHistory.length > 0) ? (
+          (trendingSearch?.length > 0 || searchHistory?.length > 0) ? (
           <div className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none">
-            {searchHistory.length > 0 && (
+            {searchHistory?.length > 0 && (
               <div className="px-4 py-2 trash-icon">
                 <div className="flex items-center justify-between gap-2 py-2 ">
                   <div className="pr-semibold text-d18">Recently Searched</div>
@@ -584,7 +584,7 @@ function TopSearch() {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {searchHistory.map((history, index) => (
+                  {searchHistory?.map((history, index) => (
                     <Link
                       href={`${path}/search?keyword=${history}`}
                       key={index}
@@ -607,13 +607,13 @@ function TopSearch() {
               </div>
             )}
 
-            {trendingSearch.length > 0 && !trendingLoading ? (
+            {trendingSearch?.length > 0 && !trendingLoading ? (
               <div className="px-4 py-2">
                 <div className="flex items-center gap-2 pr-semibold text-d18 py-2">
                   Trending <BsFire className="text-dbase" />
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {trendingSearch.map((search, index) => (
+                  {trendingSearch?.map((search, index) => (
                     <Link
                       href={`${path}/search?keyword=${search.keyphrase}`}
                       key={index}

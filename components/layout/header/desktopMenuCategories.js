@@ -96,7 +96,7 @@ function DesktopMenuCategories(props) {
   //       setViewSubAllCategories2(false);
   //     }
   //   });
-  // }
+
 
   /* ON LINK CHANGE CLOSE OVERLAY */
   useEffect(() => {

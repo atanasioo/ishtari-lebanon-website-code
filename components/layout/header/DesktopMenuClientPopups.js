@@ -26,7 +26,7 @@ function DesktopMenuClientPopups(props) {
     overlay,
   } = props;
 
-
+// console.log(props)
   const [loadingLatest, setLoadingLatest] = useState(false);
   const [categoryLatest, setCategoryLatest] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -101,12 +101,21 @@ function DesktopMenuClientPopups(props) {
         window.location.host === "ishtari-mobile.com" ||
         Cookies.get("site-local-name") === "ishtari") &&
       window.innerWidth > 1024 &&
-      typeof selectedTopCategory.category_id !== "undefined" &&
-      hover === true
+      typeof selectedTopCategory.category_id !== "undefined" 
+      //&&
+      // viewMenuCategories2
     ) {
       setHover(false);
       setLoading(true);
-      if (viewSubAllCategories2) {
+      if (selectedTopCategory?.category_id) {
+
+
+        var myObject =   localStorage.getItem('topSelling-'+ selectedTopCategory.category_id) 
+        if(  myObject && myObject?.length > 0){
+          //  console.log(JSON.parse(myObject))
+          setTopSelling(JSON.parse(myObject))
+          setLoading(false);
+        }else{
         axiosServer
           .get(
             buildLink(
@@ -122,15 +131,18 @@ function DesktopMenuClientPopups(props) {
               typeof response.data.data?.products !== "undefined" &&
               response.data.data.products.length > 0
             ) {
+              
               setTopSelling(response.data.data.products);
+              localStorage.setItem('topSelling-'+ selectedTopCategory.category_id ,  JSON.stringify(response.data.data.products) )
             } else {
               setTopSelling([]);
             }
             setLoading(false);
           });
+        }
       }
     }
-  }, [hover]);
+  }, [selectedTopCategory]);
 
   const handleMouseLeave = () => {
     setHover(false);
@@ -148,7 +160,7 @@ function DesktopMenuClientPopups(props) {
           category_id
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.success) {
           setCategoryLatest(response.data.data.products);
         }
@@ -275,7 +287,7 @@ function DesktopMenuClientPopups(props) {
                           },
                         }}
                         className="pr-semibold cursor-pointer hover:text-dblue"
-                        onMouseEnter={() => setHover(true)}
+                        // onMouseEnter={() => setHover(true)}
                       >
                         Explore Top Selling Products
                       </Link>

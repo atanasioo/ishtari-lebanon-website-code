@@ -58,7 +58,7 @@ function ReturnProducts() {
       });
   }, []);
 
-  console.log(actionReqs);
+  // console.log(actionReqs);
 
   const handleQty = (value, index) => {
     const updatedReturnProducts = [...returnProducts];
@@ -100,7 +100,7 @@ function ReturnProducts() {
     setReturnProducts(updatedReturnProducts);
   };
 
-  console.log(returnProducts);
+  // console.log(returnProducts);
 
   const submitRequest = () => {};
 

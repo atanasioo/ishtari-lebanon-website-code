@@ -29,8 +29,8 @@ function suggestionDetails() {
   const slug = router.query;
 
   useEffect(() => {
-    console.log("slug")
-    console.log(slug)
+    // console.log("slug")
+    // console.log(slug)
     if (Object.keys(slug).length > 0) {
       setIsEdit(slug && slug["suggestion-id"][1] === "edit" && true);
       setSuggest(slug["suggestion-id"][0]);
@@ -38,7 +38,7 @@ function suggestionDetails() {
   }, [router]);
   // const suggestion_id = router.query["suggestion-id"][0];
 
-  console.log(deletedImgs);
+  // console.log(deletedImgs);
 
   useEffect(() => {
     if (isEdit) {
@@ -48,7 +48,7 @@ function suggestionDetails() {
             `&suggestion_id=${suggestion_id}`
         )
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.success) {
             setName(response.data.data[0].name);
             setDesc(response.data.data[0].description);
@@ -73,7 +73,7 @@ function suggestionDetails() {
     return imageCompression(imageFile, options);
   }
 
-  console.log("dataimgs", dataImgs);
+  // console.log("dataimgs", dataImgs);
 
   async function onFileChange(event) {
     const selectedFiles = event.target.files;
@@ -147,19 +147,19 @@ function suggestionDetails() {
     hiddenFileInput.current.click();
   };
 
-  console.log("left imgs " + leftImgs);
+  // console.log("left imgs " + leftImgs);
 
   // if (suggImgs?.length > leftImgs) {
   //   setSuggImgs(suggImgs.slice(0, leftImgs));
   // }
 
-  console.log("sugg imgs", suggImgs);
+  // console.log("sugg imgs", suggImgs);
 
   const submitRequest = (e) => {
     e.preventDefault();
     var formData = new FormData();
 
-    console.log(suggImgs);
+    // console.log(suggImgs);
 
     formData.append("name", name);
     formData.append("description", desc);
@@ -173,7 +173,7 @@ function suggestionDetails() {
       axiosServer
         .post(buildLink("suggestion", undefined, undefined), formData)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.success) {
             setSuccess(response.data.message);
             setTimeout(() => {
@@ -196,7 +196,7 @@ function suggestionDetails() {
           formData
         )
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.success) {
             setSuccess(response.data.message);
             setTimeout(() => {
@@ -216,7 +216,7 @@ function suggestionDetails() {
           `&suggestion_id=${sugg_id}`
       )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.success) {
           setDeleteMsg("Suggestion deleted successfully");
           setTimeout(() => {

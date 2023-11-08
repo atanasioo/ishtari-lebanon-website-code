@@ -22,8 +22,9 @@ import { AccountContext } from "@/contexts/AccountContext";
 import CatalogPlaceholder from "./CatalogPlaceholder";
 import NoData from "../NoData";
 import CatalogMobilePlaceholder from "./CatalogMobilePlaceholder";
+import { Helmet } from "react-helmet";
 function CatalogTest(props) {
-  const { slugId, type_id, AdminToken, catalogId } = props; //instead of productData
+  const { slugId, type_id, AdminToken, catalogId, meta } = props; //instead of productData
   // console.log(props)
   const [data, setData] = useState([]);
   const filters = data?.filters;
@@ -271,7 +272,7 @@ function CatalogTest(props) {
         // } else {
 
         link =
-          buildLink(type, undefined, undefined , window.location.host) +
+          buildLink(type, undefined, undefined, window.location.host) +
           id +
           "&source_id=1" +
           filters +
@@ -364,9 +365,8 @@ function CatalogTest(props) {
       }
     } else {
       //redirect to 404
-       setNotFound(true);
-       setLoading(false);
-
+      setNotFound(true);
+      setLoading(false);
     }
   }, [router]);
 
@@ -850,8 +850,6 @@ function CatalogTest(props) {
     return import("react-facebook-pixel").then((module) => module.default);
   }
 
-
-
   //marketing analytics
 
   let productArray = [];
@@ -923,14 +921,17 @@ function CatalogTest(props) {
       }
 
       axiosServer
-        .post(buildLink("pixel", undefined, undefined, window.location.host), dataSocial)
+        .post(
+          buildLink("pixel", undefined, undefined, window.location.host),
+          dataSocial
+        )
         .then((response) => {
           const data = response.data;
           if (data.success === true) {
           }
         });
     }
-  }, [router , data]);
+  }, [router, data]);
 
   //page view conversion for google ads
   useEffect(() => {
@@ -1000,9 +1001,19 @@ function CatalogTest(props) {
           banner_image_ids
         };
 
-        axiosServer.post(buildLink("banner_stats" , undefined, undefined, window.location.host), obj).then((response) => {
-          setBannerStats(response.data.data);
-        });
+        axiosServer
+          .post(
+            buildLink(
+              "banner_stats",
+              undefined,
+              undefined,
+              window.location.host
+            ),
+            obj
+          )
+          .then((response) => {
+            setBannerStats(response.data.data);
+          });
       }
     }
   }, [state.admin, showStats, data]);
@@ -1011,14 +1022,31 @@ function CatalogTest(props) {
     <>
       {" "}
       {loading ? (
-        width > 650 ?
-        <CatalogPlaceholder />
-        :
-        <CatalogMobilePlaceholder />
+        width > 650 ? (
+          <CatalogPlaceholder />
+        ) : (
+          <CatalogMobilePlaceholder />
+        )
       ) : notFound ? (
         <NoData />
       ) : (
         <div className="h-full product-page-wrapper">
+          {/* {!meta && data?.heading_title && ( */}
+          {!meta && (
+            <Helmet>
+              <title>
+                {data?.heading_title
+                  ?.replace(/&amp;/g, "&")
+                  .replace(/&lt;/g, "<")
+                  .replace(/&gt;/g, ">")
+                  .replace(/&quot;/g, '"') +
+                  "ishtari | Online Shopping in Lebanon"}
+              </title>
+              <meta name="description" content="dddion" />
+              <meta name="theme-color" content="#008f68" />
+            </Helmet>
+          )}
+          {/* )} */}
           {width < 650 && (
             <ScrollToTop
               smooth
@@ -1276,16 +1304,16 @@ function CatalogTest(props) {
                 {/* Results found */}
                 <div className="flex justify-end items-end mx-1   mobile:pt-1 whitespace-nowrap font-light">
                   <span className="mr-1 ">
-                    {data?.product_total} Results {data?.heading_title && "for "}
-                
+                    {data?.product_total} Results{" "}
+                    {data?.heading_title && "for "}
                   </span>
                   {data?.heading_title && '" '}
-                   <h1
+                  <h1
                     className="pr-semibold capitalize text-d16 mt-0.5"
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHTML(data?.heading_title)
                     }}
-                  /> 
+                  />
                   {data?.heading_title && ' "'}
                 </div>
                 {/* Settings */}
@@ -1484,9 +1512,8 @@ function CatalogTest(props) {
                         {data?.categories.map((category, idx) => {
                           return (
                             <Link
-                              href={`/${slugify(category.name) +
-                                "/c=" +
-                                category.id
+                              href={`/${
+                                slugify(category.name) + "/c=" + category.id
                               }`}
                               key={category.id}
                               onClick={() => handleLinkClick()}
@@ -1520,10 +1547,7 @@ function CatalogTest(props) {
                               // state.admin
                               //   ? `${path}/category/${category.id}`
                               //   :
-                              `/${slugify(category.name) +
-                                "/c=" +
-                                category.id
-                              }`
+                              `/${slugify(category.name) + "/c=" + category.id}`
                             }
                             key={category.id}
                             onClick={() => handleLinkClick()}

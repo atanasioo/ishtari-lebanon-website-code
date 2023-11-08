@@ -89,8 +89,8 @@ function Pos() {
           const cart = result.value;
           // console.log(cart)
 
-          console.log(cart[0]?.option_value?.barcode);
-          console.log(search);
+          // console.log(cart[0]?.option_value?.barcode);
+          // console.log(search);
           const check = cart[0]?.option_value?.barcode === search && cart.id;
           // find(
           //   (opt) =>
@@ -99,11 +99,11 @@ function Pos() {
           //     cart.model === search
           // );
           if (check) {
-            console.log(`${search} exists in table1.`);
+            // console.log(`${search} exists in table1.`);
 
             updateQuantity(check, search);
           } else {
-            console.log(`${search} does not exist in table1.`);
+            // console.log(`${search} does not exist in table1.`);
 
             // const transaction = db.transaction(objectStoreName, "readonly");
             const objectStore = transaction.objectStore(objectStoreName);

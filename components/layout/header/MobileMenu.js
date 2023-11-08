@@ -149,7 +149,7 @@ function MobileMenu(props) {
           category_id
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.success) {
           setCategoryLatest(response.data.data.products);
         }

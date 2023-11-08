@@ -148,7 +148,8 @@ var urls = {
   "seo-product":
     "v2/index.php?route=catalog/product/getProductDescription&product_id=",
     purchased: "v2/index.php?route=catalog/product/getPurchasedProducts",
-    'follow': "v2/index.php?route=account/account/follow"
+    'follow': "v2/index.php?route=account/account/follow",
+    'cancelOrder': "v2/index.php?route=account/order/canceledOrder&order_id="
 };
 
 if (typeof window !== "undefined") {

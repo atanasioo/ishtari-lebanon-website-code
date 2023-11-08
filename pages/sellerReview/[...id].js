@@ -27,10 +27,10 @@ export default function sellerReview() {
   const { id } = router.query;
   const [follow, setFollow] = useState(false);
   const [accountState, dispatch] = useContext(AccountContext);
-  const [ disabled , setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(false);
+
   useEffect(() => {
-    console.log(id);
-    if (id !== "undefined")
+    if (typeof id !== "undefined")
       axiosServer
         .get(buildLink("seller", undefined, window.location.host) + id)
         .then((resp) => {
@@ -138,9 +138,10 @@ export default function sellerReview() {
     if (!accountState.loged) {
       dispatch({ type: "setShowOver", payload: true });
       dispatch({ type: "setShowLogin", payload: true });
+      return;
     }
     setFollow("");
-    setDisabled(true)
+    setDisabled(true);
     console.log(id);
     var obj = {
       type: "seller",
@@ -153,13 +154,13 @@ export default function sellerReview() {
         obj
       )
       .then((resp) => {
-        if (resp.data.data.follow === true) {
+        if (resp?.data?.data?.follow === true) {
           setFollow(true);
-          setDisabled(false)
+          setDisabled(false);
         }
-        if (resp.data.data.follow === false) {
+        if (resp?.data?.data && resp?.data?.data?.follow === false) {
           setFollow(false);
-          setDisabled(false)
+          setDisabled(false);
         }
       });
   }
@@ -199,10 +200,15 @@ export default function sellerReview() {
                   ] || "white"
               }}
             >
-                             <div className="uppercase">{ data?.social_data?.name}</div>
+              <div className="uppercase">{data?.social_data?.name}</div>
 
               <div
-                className={`${!data?.seller_reviews?.image &&  "w-28 h-28 mobile:w-32 mobile:h-32 flex items-center justify-center" } " absolute z-20 rounded-full  -bottom-16 left-10  text-d14 "`} style={{border:" 4px solid rgb(243, 244, 248)",
+                className={`${
+                  !data?.seller_reviews?.image &&
+                  "w-28 h-28 mobile:w-32 mobile:h-32 flex items-center justify-center"
+                } " absolute z-20 rounded-full  -bottom-16 left-10  text-d14 "`}
+                style={{
+                  border: " 4px solid rgb(243, 244, 248)",
                   backgroundColor:
                     color[
                       data?.social_data?.name
@@ -220,19 +226,30 @@ export default function sellerReview() {
                 }}
               >
                 {" "}
-              {data?.seller_reviews?.image ?  <Image src={data?.seller_reviews?.image }  width="200" height="200"  className="rounded-full  w-28 h-28 mobile:w-32 mobile:h-32"/>  : data?.social_data?.name}
+                {data?.seller_reviews?.image ? (
+                  <Image
+                    src={data?.seller_reviews?.image}
+                    width="200"
+                    height="200"
+                    className="rounded-full  w-28 h-28 mobile:w-32 mobile:h-32"
+                  />
+                ) : (
+                  data?.social_data?.name
+                )}
               </div>
               <div
-                className={`${ disabled && 'bg-opacity-95 text-opacity-40 pointer-events-none' } " absolute z-20 right-10 bottom-5 text-d14 p-2 rounded-full bg-white border-dgreyProduct text-dblack pr-semibold px-4 mobile:px-5 "`}
+                className={`${
+                  disabled &&
+                  "bg-opacity-95 text-opacity-40 pointer-events-none"
+                } " absolute z-20 right-10 bottom-5 text-d14 p-2 rounded-full bg-white border-dgreyProduct text-dblack pr-semibold px-4 mobile:px-5 cursor-pointer"`}
                 onClick={followAction}
               >
                 {" "}
-                {(follow) ? (
-                  <span className="">Following  </span>
+                {follow || data?.followed ? (
+                  <span className=" cursor-pointer">Following </span>
                 ) : (
-                  <span className="">+ Follow </span>
+                  <span className=" cursor-pointer">+ Follow </span>
                 )}
-
               </div>
             </div>
             <div className="w-full mt-20  pl-12">
@@ -246,7 +263,7 @@ export default function sellerReview() {
                 {data?.social_data?.name}
               </Link>
             </div>
-            {data?.seller_reviews?.grouped_rating  ? (
+            {data?.seller_reviews?.grouped_rating ? (
               <div className="flex flex-col mobile:flex-row mt-6 pl-5 ">
                 <div className="flex  w-full mobile:w-6/12  mobile:space-x-5 flex-col mobile:flex-row pr-6  h-full mobile:h-32">
                   <div className="w-full mobile:w-1/2 mobile:border border-dgrey1 text-d14 flex flex-col rounded-lg border-opacity-20 p-5 space-y-0.5 bg-white">
@@ -290,7 +307,7 @@ export default function sellerReview() {
                       Customers
                     </span>
                     <div className="flex items-center pr-semibold text-2xl">
-                      {( Number(data?.total_followers)) }
+                      {Number(data?.total_followers)}
                     </div>
                     <div className="flex">
                       {" "}
@@ -488,10 +505,12 @@ export default function sellerReview() {
                 </div>
               </div>
             ) : (
-             !loading && <div className="w-full flex  justify-center items-center text-d28 mt-12">
-                {" "}
-                {/* No Reviews Available */}
-              </div>
+              !loading && (
+                <div className="w-full flex  justify-center items-center text-d28 mt-12">
+                  {" "}
+                  {/* No Reviews Available */}
+                </div>
+              )
             )}
           </div>
           <div className="hidden mobile:block w-full py-5 ">

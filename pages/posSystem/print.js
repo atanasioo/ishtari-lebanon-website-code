@@ -59,7 +59,7 @@ export default function PosOrdersPrint() {
      var startDate = urlSearchParams.get('startDate');
      var endDate = urlSearchParams.get('endDate');
     
-     console.log(startDate, endDate)
+    //  console.log(startDate, endDate)
     // Open a connection to the IndexedDB database
     var request = indexedDB.open("posDB", 8);
 

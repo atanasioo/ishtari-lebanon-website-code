@@ -78,7 +78,7 @@ function Pos() {
   }, []);
 
   const AdminPhoneHandler = (obj, isValid) => {
-    console.log(obj);
+    // console.log(obj);
     if (isValid) {
       fnameRef.current.value = obj.firstname !== "undefined" && obj.firstname;
       lnameRef.current.value = obj.lastname !== "undefined" && obj.lastname;
@@ -144,10 +144,10 @@ function Pos() {
         });
         setTotal(total_cart);
         setSubTotal(total_cart);
-        console.log("Data:", data);
+        // console.log("Data:", data);
       } else {
         // Data with the given ID not found
-        console.log("Data not found");
+        // console.log("Data not found");
       }
     };
 
@@ -156,7 +156,7 @@ function Pos() {
     };
   }
   function addNewTable() {
-    console.log("omar");
+    // console.log("omar");
     // Your logic to insert products to the cart goes here
     const dbName = "posDB";
     const dbVersion = 8;
@@ -164,7 +164,7 @@ function Pos() {
 
     // Open a connection to a database or create it if it doesn't exist.
     const request = indexedDB.open(dbName, dbVersion);
-    console.log("request" + request);
+    // console.log("request" + request);
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
@@ -205,7 +205,7 @@ function Pos() {
 
     request.onsuccess = (event) => {
       const db = event.target.result;
-      console.log("success");
+      // console.log("success");
       // Now, you can interact with the database using 'db' object.
     };
 
@@ -231,8 +231,8 @@ function Pos() {
     if (e.target.value.trim() !== "" && e.key === "Enter") {
       queryProductsByBarcodeAndOption("posDB", "products", searchKeyWord)
         .then((products) => {
-          console.log("Products matching the query:");
-          console.log(products);
+          // console.log("Products matching the query:");
+          // console.log(products);
           // Assuming you have scanned a value and now want to clear the input field
           clearInputAfterScan();
         })
@@ -277,7 +277,7 @@ function Pos() {
 
           // console.log(check);
           if (check) {
-            console.log(`${search} exists in table1.`);
+            // console.log(`${search} exists in table1.`);
 
             updateQuantity(check, search);
           } else {
@@ -285,11 +285,11 @@ function Pos() {
 
             const products = [];
             const request = objectStore.getAll();
-            console.log(request);
+            // console.log(request);
             request.onsuccess = (event) => {
-              console.log(event);
+              // console.log(event);
               const cursor = event.target.result;
-              console.log(cursor);
+              // console.log(cursor);
               if (cursor) {
                 const product = cursor;
 
@@ -381,9 +381,9 @@ function Pos() {
   }
 
   function findDataCart(obj, search) {
-    console.log("oobj" + obj);
+    // console.log("oobj" + obj);
     for (const key in obj) {
-      console.log(obj[key]);
+      // console.log(obj[key]);
       if (
         obj[key].option_value?.barcode === search ||
         obj[key].sku === search ||
@@ -411,10 +411,10 @@ function Pos() {
   function insertToCart(products) {
     setUpdate(false);
     const openRequest = indexedDB.open("posDB", 8);
-    console.log("event");
+    // console.log("event");
 
     openRequest.onupgradeneeded = (event) => {
-      console.log(event);
+      // console.log(event);
       const db = event.target.result;
 
       if (!db.objectStoreNames.contains("draft_cart")) {
@@ -448,9 +448,9 @@ function Pos() {
         if (existingObject) {
           // console.log(existing)
           const newArrayToAdd = products;
-          console.log("products-tabValue");
-          console.log(products);
-          console.log("products-2");
+          // console.log("products-tabValue");
+          // console.log(products);
+          // console.log("products-2");
 
           existingObject.cart.push(newArrayToAdd[0]);
 
@@ -459,7 +459,7 @@ function Pos() {
           setUpdate(true);
 
           updateRequest.onsuccess = function (event) {
-            console.log("Object updated successfully!");
+            // console.log("Object updated successfully!");
             setUpdate(true);
           };
 
@@ -512,7 +512,7 @@ function Pos() {
 
       getRequest.onsuccess = (event) => {
         const mainObject = event.target.result;
-        console.log(mainObject);
+        // console.log(mainObject);
 
         if (mainObject) {
           // Check if the product with the specified ID exists in the main object
@@ -558,7 +558,7 @@ function Pos() {
 
           updateRequest.onsuccess = function (event) {
             setUpdate(true);
-            console.log("Main object updated successfully!");
+            // console.log("Main object updated successfully!");
           };
 
           updateRequest.onerror = function (event) {
@@ -594,7 +594,7 @@ function Pos() {
 
       getRequest.onsuccess = (event) => {
         const mainObject = event.target.result;
-        console.log(mainObject);
+        // console.log(mainObject);
 
         if (mainObject) {
           // Check if the object with the specified ID exists in the main object
@@ -659,7 +659,7 @@ function Pos() {
 
       getRequest.onsuccess = (event) => {
         const mainObject = event.target.result;
-        console.log(mainObject);
+        // console.log(mainObject);
 
         if (mainObject) {
           // Check if the product with the specified ID exists in the main object
@@ -788,7 +788,7 @@ function Pos() {
       temp.push(new_product);
     }
     // console.log("manual-2");
-    console.log(temp);
+    // console.log(temp);
     if (!typeRef?.current?.value && !amountRef?.current?.value) {
       body = {
         order_product: temp,
@@ -857,7 +857,7 @@ function Pos() {
         code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
       };
     }
-console.log(body)
+// console.log(body)
     if (isOnline) {
       axiosServer
         .post(

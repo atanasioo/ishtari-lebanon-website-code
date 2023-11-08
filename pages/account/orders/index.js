@@ -20,6 +20,7 @@ function Orders() {
   const [loading, setLoading] = useState("");
   const [state, dispatch] = useContext(AccountContext);
   const router = useRouter();
+  const [success, setSuccess] = useState(false);
   const path = "";
 
   useEffect(() => {
@@ -33,14 +34,30 @@ function Orders() {
           if (response.data.success) {
             setData(response.data.data);
             setLoading(false);
-
           } else {
             setLoading(false);
             dispatch({ type: "setLoading", payload: false });
           }
         });
     }
-  }, [state.loading]);
+  }, [state.loading, success]);
+
+  function cancelOrder(id) {
+    setLoading(true);
+
+    axiosServer
+      .get(
+        buildLink("cancelOrder", undefined, undefined, window.location.host) +
+          id
+      )
+      .then((resp) => {
+        // console.log(resp);
+        if (resp.data.succes) {
+          setSuccess(true);
+          setLoading(false);
+        }
+      });
+  }
 
   return (
     <div className="container text-dblack">
@@ -152,6 +169,18 @@ function Orders() {
                           </span>
                         </Link>
                       </div>
+                      {/* {!data?.eligible_to_cancel && (
+                        <div
+                          className="flex mx-4 text-right justify-end bg-dbase text-white p-2 rounded-full font-bold cursor-pointer"
+                          onClick={(e) => cancelOrder(data.order_id)}
+                        >
+
+                          <span className="mx-1 whitespace-nowrap space-x-2">
+                            {" "}
+                            Cancel Order
+                          </span>
+                        </div>
+                      )} */}
                     </div>
 
                     <div className="cart-body">

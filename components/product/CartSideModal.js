@@ -14,7 +14,7 @@ function CartSideModal(props) {
   return (
     <div>
       {/* for mobile */}
-      {( state.aside )&& (
+      {(state.aside ) && (
         <div
           className=" block md:hidden fixed top-0 left-0 right-0 min-h-screen w-full bg-dblack bg-opacity-30 z-50 overflow-y-auto overflow-auto"
           // onClick={() => toggleSucccessAdded(false)}
@@ -66,7 +66,7 @@ function CartSideModal(props) {
             <div className=" border-b border-dinputBorder py-2">
               <div className="flex ">
                 <img
-                  src={state.product.image}
+                  src={state?.product?.image}
                   alt={state?.product?.name}
                   height={200}
                   width={100}
@@ -76,7 +76,7 @@ function CartSideModal(props) {
                   <p
                     className="text-xs font-semibold "
                     dangerouslySetInnerHTML={{
-                      __html: sanitizeHTML( state?.product['name']  )
+                      __html: sanitizeHTML(state?.product && state?.product['name']  )
                     }}
                   />
                   {hasBannerEvent?.name !== undefined &&

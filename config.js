@@ -34,6 +34,7 @@ if (typeof window !== "undefined") {
       showMenu2: true,
       showCart: true,
       showTopBrand: true,
+      seoActive: true,
       showVisaCard: true,
       send_email: "info@ishtari.com",
       zone: "118",

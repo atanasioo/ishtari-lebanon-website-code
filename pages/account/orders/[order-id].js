@@ -31,11 +31,12 @@ function OrderDetails() {
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [returnProducts, setReturnProducts] = useState([]);
   const [returnErr, setReturnErr] = useState("");
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
     if (!state.loading && !state.loged) {
       router.push("/");
@@ -59,7 +60,7 @@ function OrderDetails() {
           }
         });
     }
-  }, [id, state.loading]);
+  }, [id, state.loading, success]);
 
   const closeModal = () => {
     setShowReturnModal(false);
@@ -73,7 +74,7 @@ function OrderDetails() {
     }
   }
 
-  console.log(returnProducts);
+  // console.log(returnProducts);
 
   function SelectAll() {
     const allProducts = [];
@@ -101,6 +102,23 @@ function OrderDetails() {
         setReturnErr("");
       }, 5000);
     }
+  }
+
+  function cancelOrder(id) {
+    setLoading(true);
+
+    axiosServer
+      .get(
+        buildLink("cancelOrder", undefined, undefined, window.location.host) +
+          id
+      )
+      .then((resp) => {
+        // console.log(resp);
+        if (resp.data.succes) {
+          setSuccess(true);
+          setLoading(false);
+        }
+      });
   }
 
   return (
@@ -204,13 +222,32 @@ function OrderDetails() {
                 </div>
               </div>
             </div>
-            <div className="mt-5">
-              <p className="text-xs font-semibold">
-                {data?.firstname + " "}
-                {data?.lastname}
-              </p>
-              <p className="text-xs">{data?.telephone}</p>
-              <p className="text-xxs text-gray-600">{email}</p>
+            <div className="w-full text-dgreen">
+              {success && "Success Order Canceled"}
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="mt-5 w-1/2">
+                <p className="text-xs font-semibold">
+                  {data?.firstname + " "}
+                  {data?.lastname}
+                </p>
+                <p className="text-xs">{data?.telephone}</p>
+                <p className="text-xxs text-gray-600">{email}</p>
+              </div>
+
+              {data?.eligible_to_cancel && (
+                <div
+                  className="flex mx-4 text-right justify-end bg-dbase text-white p-2 rounded-full font-bold cursor-pointer h-10"
+                  onClick={(e) => cancelOrder(data.order_id)}
+                >
+                  {/* <span className="text-dblue">&#x1f441;</span> */}
+
+                  <span className="mx-1 whitespace-nowrap space-x-2">
+                    {" "}
+                    Cancel Order
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="flex-row md:flex mt-5 pb-7  border-b  border-dgrey1 justify-between">
@@ -328,7 +365,7 @@ function OrderDetails() {
                                 ignore: false,
                                 banner_image_id: "",
                                 source_type: "order",
-                                source_type_id: id,
+                                source_type_id: id
                               })
                             }
                           >

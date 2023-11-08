@@ -200,7 +200,7 @@ export default function Home(props) {
       };
 
       axiosServer.post(buildLink("banner_stats"),  obj).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setBannerStats(response.data.data);
       });
     }

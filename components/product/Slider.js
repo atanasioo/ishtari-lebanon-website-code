@@ -27,7 +27,7 @@ function ImageSlider(props) {
     const sliderElement = sliderRef.current;
     if (sliderElement) {
       if (isHovered) {
-        console.log(sliderElement.props.autoplay);
+        // console.log(sliderElement.props.autoplay);
 
         sliderRef.current.slickPlay();
         // console.log(sliderElement)

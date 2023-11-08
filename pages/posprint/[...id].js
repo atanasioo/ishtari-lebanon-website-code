@@ -55,13 +55,13 @@ export default function PosOrdersPrint(props) {
     const storedDataHolder = localStorage.getItem("hold-order");
     try {
       const storedHolder = JSON.parse(storedDataHolder);
-      console.log(storedHolder);
+      // console.log(storedHolder);
       setHold(storedHolder);
 
       var sumHold = 0;
 
    storedHolder?.map((item) => {
-    console.log(item)
+    // console.log(item)
         // console.log(item?.order_total)
         if (item?.total !== undefined)
           sumHold += Number(item?.total); // Replace "columnName" with the actual column you want to sum
