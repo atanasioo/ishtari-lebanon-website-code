@@ -64,10 +64,10 @@ function CategoryTest({ type, id }) {
   const source_type_id = location.state?.source_type_id
     ? location.state?.source_type_id
     : "";
-  console.log(location.state);
+  // console.log(location.state);
   const [display, setDisplay] = useState("grid");
   const [empty, setEmpty] = useState(true);
-//   const curr = useContext(CurrencyContext);
+  // const curr = useContext(CurrencyContext);
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState({
     value: "p2co.sort_order-ASC",

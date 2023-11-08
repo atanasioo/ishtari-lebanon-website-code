@@ -39,7 +39,6 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
     maxSizeMB: 1,
   };
 
-  console.log(actionReqs);
 
   useEffect(() => {
     if (showReturnModal && reasons.length === 0) {
@@ -122,7 +121,7 @@ function ReturnModal({ data, index, closeModal, showReturnModal }) {
     }
   }
 
-  console.log(data);
+å
 
   const submitRequest = () => {
     setError("");
