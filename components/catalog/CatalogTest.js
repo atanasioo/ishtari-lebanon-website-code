@@ -276,7 +276,7 @@ function CatalogTest(props) {
           id +
           "&source_id=1" +
           filters +
-          (typeof AdminToken !== "undefined" ? "&adm_quantity=true" : "");
+          ((typeof AdminToken !== "undefined"  && AdminToken !==  null) ? "&adm_quantity=true" : "");
         // console.log("FFFFFFFFFFFFFF1111");
         // console.log(link);
         axiosServer.get(link).then((response) => {
@@ -1040,10 +1040,9 @@ function CatalogTest(props) {
                   .replace(/&lt;/g, "<")
                   .replace(/&gt;/g, ">")
                   .replace(/&quot;/g, '"') +
-                  "ishtari | Online Shopping in Lebanon"}
+                  " - ishtari | Online Shopping in Lebanon"}
               </title>
-              <meta name="description" content="dddion" />
-              <meta name="theme-color" content="#008f68" />
+
             </Helmet>
           )}
           {/* )} */}

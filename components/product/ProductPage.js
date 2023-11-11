@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Helmet } from "react-helmet";
-import Head from 'next/head';
+import Head from "next/head";
 
 import {
   BsChevronLeft,
@@ -155,6 +155,11 @@ function ProductPage(props) {
   //fetch product part1 data
   useEffect(() => {
     setLoading(true);
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth"
+    // });
+    setData([])
     const fromSearch =
       typeof router.query.fromSearch !== "undefined" ? true : false;
     const AdminToken = Cookies.get("ATDetails");
@@ -639,6 +644,8 @@ function ProductPage(props) {
     if (typeof filter_value !== "undefined") {
       setLoadingReviews(true);
     }
+
+    setProductData2([])
     var link =
       buildLink("product", undefined, window.innerWidth) +
       `${
@@ -898,7 +905,7 @@ function ProductPage(props) {
                 type: "setAsidecart",
                 payload: true
               });
-           
+
               dispatch({
                 type: "setProduct",
                 payload: { name: data.name, image: data?.mobile_image }
@@ -1193,7 +1200,6 @@ function ProductPage(props) {
     }, [ref]);
   }
 
- 
   return (
     <>
       {" "}
@@ -1204,15 +1210,21 @@ function ProductPage(props) {
       ) : (
         <div className="product-page-wrapper bg-[#f8f8f9]">
           <div>
-    {!meta &&   <Head>
-        <title>  {data?.heading_title
-                  ?.replace(/&amp;/g, "&")
-                  .replace(/&lt;/g, "<")
-                  .replace(/&gt;/g, ">")
-                  .replace(/&quot;/g, '"') + + 'ishtari | Online Shopping in Lebanon'}</title>
-      </Head>  }
-      {/* Your page content */}
-    </div>
+            {!meta && (
+              <Head>
+                <title>
+                  {" "}
+                  {data?.heading_title
+                    ?.replace(/&amp;/g, "&")
+                    .replace(/&lt;/g, "<")
+                    .replace(/&gt;/g, ">")
+                    .replace(/&quot;/g, '"') +
+                    +" - ishtari | Online Shopping in Lebanon"}
+                </title>
+              </Head>
+            )}
+            {/* Your page content */}
+          </div>
           {/* {!meta && !loading && (
             <Helmet>
               <title>
@@ -2360,6 +2372,25 @@ function ProductPage(props) {
                       </div>
                     </div>
                   )}
+
+                  {data?.market === "1" && (
+                    <div className="hidden md:flex-row w-1/2 md:w-full md:flex md:items-center text-dblack py-6">
+                      <img
+                        src={"/images/market.svg"}
+                        className="w-16"
+                        alt="express"
+                        width={90}
+                        height={90}
+                      />
+                      <div className="ml-2">
+                        <p className="text-dgrey1 font-light text-d13">
+                          All seller's warehouse; usually ships slower than
+                          express items
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="hidden md:flex w-full items-center text-dblack border-t border-dinputBorder py-2 md:py-6">
                     <FaBus className=" text-dbase w-6 h-6 mr-4" />
                     <div>

@@ -27,7 +27,7 @@ function search(props) {
   const [width] = useDeviceSize();
 
   const ClearCacheLink = dynamic(() => import("@/components/ClearCacheLink"), {
-    ssr: false, // Disable server-side rendering
+    ssr: false // Disable server-side rendering
   });
 
   const handleBeforePopState = ({ url }) => {
@@ -38,7 +38,6 @@ function search(props) {
     }
     return true; // Allow the default behavior
   };
-
 
   const { keyword, brand, seller, category, page } = router.query;
 
@@ -65,28 +64,28 @@ function search(props) {
     if (category) {
       link += "&category=" + category.replaceAll(" & ", "--");
     }
+    if (typeof keyword !== "undefined"){
+      axiosServer.get(link).then((response) => {
+        const data = response.data;
 
-    axiosServer.get(link).then((response) => {
-      const data = response.data;
-
-      if (data?.data?.redirect === "1") {
-        router.beforePopState(handleBeforePopState);
-        router.push(
-          `/` +
-            encodedKeyword.replaceAll("%20", "-") +
-            "/" +
-            data.data.type.slice(0, 1) +
-            "=" +
-            data.data.type_id
-        );
-      } else if (data?.data?.nbHits === 0 || data?.success === false) {
-        setNoData(true);
-      } else {
-        setData(data);
-        setFilters(data.data.facets);
-      }
-      setLoading(false);
-    });
+        if (data?.data?.redirect === "1") {
+          router.beforePopState(handleBeforePopState);
+          router.push(
+            `/` +
+              encodedKeyword.replaceAll("%20", "-") +
+              "/" +
+              data.data.type.slice(0, 1) +
+              "=" +
+              data.data.type_id
+          );
+        } else if (data?.data?.nbHits === 0 || data?.success === false) {
+          setNoData(true);
+        } else {
+          setData(data);
+          setFilters(data.data.facets);
+        }
+        setLoading(false);
+      });}
   }, [router, page]);
 
   useEffect(() => {}, [router]);

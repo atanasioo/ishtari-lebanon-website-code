@@ -74,7 +74,7 @@ export default function App({
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-  }, []);
+  }, [router]);
 
   var favicon = "/favicon-1.ico";
   var title = "ishtari | online Shopping in lebanon";

@@ -24,6 +24,8 @@ function DesktopMenuCategories(props) {
   const [clearHover, setClearHover] = useState(false);
   const { setMarketingData } = useMarketingData();
   const { headerColor, setHeaderColor } = useHeaderColor();
+  const { temp, setTemp } = useState();
+
 
   const router = useRouter();
 
@@ -79,12 +81,18 @@ function DesktopMenuCategories(props) {
             const data = response.data.data;
             setAllCategories(data);
             setSelectedTopCategory(data[0]);
+            // setTemp(data[0])
           } catch (error) {}
         });
     }
 
     //
   }, []);
+
+
+  // useEffect(()=>{
+  //   setSelectedTopCategory(temp);
+  // },[viewSubAllCategories2])
 
   /* ON CLICK ESC CLOSE OVERLAY */
 
