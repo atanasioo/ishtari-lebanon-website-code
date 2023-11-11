@@ -235,19 +235,18 @@ function OrderDetails() {
                 <p className="text-xxs text-gray-600">{email}</p>
               </div>
 
-              {data?.eligible_to_cancel && (
+              {/* {data?.eligible_to_cancel && (
                 <div
                   className="flex mx-4 text-right justify-end bg-dbase text-white p-2 rounded-full font-bold cursor-pointer h-10"
                   onClick={(e) => cancelOrder(data.order_id)}
                 >
-                  {/* <span className="text-dblue">&#x1f441;</span> */}
 
                   <span className="mx-1 whitespace-nowrap space-x-2">
                     {" "}
                     Cancel Order
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
 
             <div className="flex-row md:flex mt-5 pb-7  border-b  border-dgrey1 justify-between">
