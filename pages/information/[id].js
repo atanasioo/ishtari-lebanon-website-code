@@ -42,16 +42,22 @@ function unescapeHTML(str) {
 }
 function Information() {
   // const { data } = props;
-  const [data, setData] = useState()
+  const [data, setData] = useState();
   const router = useRouter();
-  const {id} = router.query
-  useEffect(()=>{
-    axiosServer.get(
-      buildLink("information", undefined, undefined, window.location.host) + "&information_id=" + id).then((resp)=>{
-        setData(resp.data.data)
-      });
-    
-  },[])
+  const { id } = router.query;
+  useEffect(() => {
+    if (typeof id !== "undefined") {
+      axiosServer
+        .get(
+          buildLink("information", undefined, undefined, window.location.host) +
+            "&information_id=" +
+            id
+        )
+        .then((resp) => {
+          setData(resp.data.data);
+        });
+    }
+  }, [id]);
 
   return (
     <div className="container">
