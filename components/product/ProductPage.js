@@ -2303,9 +2303,7 @@ function ProductPage(props) {
                       <div className="flex flex-col">
                         <div className="flex">
                           <span className="text-dblack text-sm">Sold by</span>{" "}
-                          <h1 className="text-dblue underline ml-2 text-d14 uppercase pr-semibold">
-                            {" "}
-                            {data.seller}
+                          <h1 dangerouslySetInnerHTML={{__html: sanitizeHTML(data.seller)}} className="text-dblue underline ml-2 text-d14 uppercase pr-semibold">                            
                           </h1>
                         </div>
                         {sellerData?.seller_reviews?.average_rating ? (
@@ -2559,9 +2557,7 @@ function ProductPage(props) {
                   <div className="flex flex-col">
                     <div className="flex">
                       <span className="text-dblack text-sm">Sold by</span>{" "}
-                      <h1 className="text-dblue underline ml-2 text-d14 uppercase pr-semibold">
-                        {" "}
-                        {data.seller}
+                      <h1 dangerouslySetInnerHTML={{__html: sanitizeHTML(data.seller)}} className="text-dblue underline ml-2 text-d14 uppercase pr-semibold">
                       </h1>
                     </div>
                     {sellerData?.seller_reviews?.average_rating ? (
