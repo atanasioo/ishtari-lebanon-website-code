@@ -455,7 +455,7 @@ export default function PosOrders() {
                         #
                       </th>
                       <th scope="col" class="py-4">
-                        product
+                        name
                       </th>
                       <th scope="col" class="pr-4 py-4">
                         sku

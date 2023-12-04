@@ -519,7 +519,7 @@ export default function orders() {
                         #
                       </th>
                       <th scope="col" className="py-4">
-                        product
+                        hi
                       </th>
                       <th scope="col" className="pr-4 py-4">
                         sku

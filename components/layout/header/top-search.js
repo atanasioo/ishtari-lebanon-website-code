@@ -615,7 +615,7 @@ function TopSearch() {
                 <div className="flex flex-wrap gap-2">
                   {trendingSearch?.map((search, index) => (
                     <Link
-                      href={`${path}/search?keyword=${search.keyphrase}`}
+                      href={`${path}/search?keyword=${search.keyphrase}&page=1`}
                       key={index}
                       className="bg-dsearchGrey px-2.5 py-1 cursor-pointer"
                     >

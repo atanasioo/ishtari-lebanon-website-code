@@ -19,16 +19,15 @@ function UserSidebar(props) {
   const [showOrderArrow, setShowOrderArrow] = useState(false);
   const [showAddArrow, setShowAddArrow] = useState(false);
   const [showWishArrow, setShowWishArrow] = useState(false);
+  const [showFollowArrow, setShowFollowArrow] = useState(false);
   const [showBuyArrow, setShowBuyArrow] = useState(false);
   const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
   const [showMemberShipArrow, setShowMembershipArrow] = useState(false);
-
   const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
   const [showFeedbackArrow, setShowFeedbackArrow] = useState(false);
   const [showSuggestionArrow, setShowSuggestionArrow] = useState(false);
   const [showWalletArrow, setShowWalletArrow] = useState(false);
   const [showProfileArrow, setShowProfileArrow] = useState(false);
-
   return (
     <aside
       className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
@@ -132,7 +131,7 @@ function UserSidebar(props) {
             )}{" "}
           </Link>
         </li>
-
+        
         {/* <li
           onMouseEnter={() => {
             setShowMembershipArrow(true);
@@ -162,7 +161,6 @@ function UserSidebar(props) {
             )}{" "}
           </Link>
         </li> */}
-
         <li
           onMouseEnter={() => {
             setShowBuyArrow(true);
@@ -194,7 +192,6 @@ function UserSidebar(props) {
             )}{" "}
           </Link>
         </li>
-
         <li
           onMouseEnter={() => {
             setShowRecentlyViewedArrow(true);
@@ -228,7 +225,6 @@ function UserSidebar(props) {
             )}{" "}
           </Link>
         </li>
-
         <li
           onMouseEnter={() => {
             setShowAddArrow(true);
@@ -301,7 +297,7 @@ function UserSidebar(props) {
             href={`${path}/account/reviewCenter`}
             className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
-            <div className="w-2/12">
+<div className="w-2/12">
               <BsStarFill className="text-d16 text-dbase" />
             </div>
             <span
@@ -322,10 +318,10 @@ function UserSidebar(props) {
         </li>
         <li
           onMouseEnter={() => {
-            setShowWishArrow(true);
+            setShowFollowArrow(true);
           }}
           onMouseLeave={() => {
-            setShowWishArrow(false);
+            setShowFollowArrow(false);
           }}
         >
           <Link
@@ -339,9 +335,9 @@ function UserSidebar(props) {
               className={`flex-1 w-4/12 ${
                 props.active?.indexOf("follow") > -1 && "underline font-semibold text-dgreyAccountActive"}`}
             >
-              Follow 
+              Follow
             </span>
-            {showWishArrow && (
+            {showFollowArrow && (
               <div className=" w-2/12">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
@@ -410,5 +406,4 @@ function UserSidebar(props) {
     </aside>
   );
 }
-
 export default UserSidebar;

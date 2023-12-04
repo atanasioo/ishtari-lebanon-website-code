@@ -18,7 +18,7 @@ function NotFound() {
 
           <button
             onClick={() => router.push("/")}
-            class="px-4 inline py-2 text-md font-medium leading-5 shadow text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue bg-dblue active:bg-blue-600 hover:bg-blue-700"
+            class="px-4 inline py-2 text-md font-medium leading-5 shadow text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue bg-dbase active:bg-red-600 hover:bg-red-700"
           >
             Back to homepage
           </button>

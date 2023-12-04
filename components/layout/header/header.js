@@ -57,7 +57,7 @@ function Header(props) {
     if (router.asPath !== '/') {
       setHeaderColor('white');
     } else {
-      setHeaderColor('headerColor'); 
+      setHeaderColor(''); 
     }
   }, [router.asPath]);
 
@@ -80,7 +80,7 @@ function Header(props) {
 
   useEffect(() => {
     if (window !== undefined) {
-      if (window.location.host === "localhost:3000") {
+      if (window.location.host.startsWith ("localhost:") === true) {
         setLocal(true);
       }
     }

@@ -20,7 +20,7 @@ import { MdAvTimer, MdFeedback } from "react-icons/md";
 import {
   FaMoneyBillWave,
   FaUserAlt,
-  FaWallet
+  FaWallet,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
@@ -694,6 +694,7 @@ function Account() {
                   <FaWallet className=" text-d16 " />
                   <span className="ml-4">Wallet</span>
                 </Link>
+                
                 <Link
                   href={`${path}/account/buyagain`}
                   onClick={() => setShowUserMenu(!showUserMenu)}

@@ -63,8 +63,8 @@ export default function Home(props) {
 
   useEffect(() => {
     // if (page > 1) {
-    setIsLoading(true);
-    var obj = {
+      setIsLoading(true);
+      var obj = {
       view: window.innerWidth > 650 ? "web_desktop" : "web_mobile",
       limit: 10,
       page: page,

@@ -7,7 +7,6 @@ import { ImLocation } from "react-icons/im";
 import { MdCardMembership } from "react-icons/md";
 import { HiLightBulb } from "react-icons/hi";
 import {RiUserFollowLine} from "react-icons/ri";
-
 function UserSidebarMobile(props) {
   return (
     <div className="flex md:block justify-between overflow-x-auto">
@@ -63,6 +62,7 @@ function UserSidebarMobile(props) {
           <span className="text-center text-d11">Wallet</span>
         </div>
       </Link>
+     
       <Link
         href={`${path}/account/buyagain`}
         className={`py-2  flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
@@ -76,7 +76,6 @@ function UserSidebarMobile(props) {
           <span className="text-center text-d11 mt-1">Buy Again</span>
         </div>
       </Link>
-
       <Link
         href={`${path}/account/recentlyViewed`}
         className={`py-2  flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10  cursor-pointer ${
@@ -168,9 +167,7 @@ function UserSidebarMobile(props) {
           <span className="text-center text-d11 mt-1">Suggestion</span>
         </div>
       </Link>
-      
     </div>
   );
 }
-
 export default UserSidebarMobile;
