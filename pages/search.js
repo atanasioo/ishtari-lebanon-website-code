@@ -13,14 +13,14 @@ import { useEffect, useState } from "react";
 import { HiOutlineChevronDown } from "react-icons/hi";
 import ReactPaginate from "react-paginate";
 import { useRef } from "react";
-function search(props) {
+ function search(props) {
   const router = useRouter();
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState([]);
   const [baseURL, setBaseURL] = useState("?keyword=" + router.query.keyword);
   const [successClear, setSuccessClear] = useState(false);
   const [mobileFilter, showMobileFilter] = useState(false);
-  const encodedKeyword = encodeURIComponent(router.query.keyword);
+  const encodedKeyword = router.query.keyword;
   const queryParameters = ["brand", "seller", "category"];
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);

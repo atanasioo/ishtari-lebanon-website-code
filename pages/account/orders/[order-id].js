@@ -59,6 +59,7 @@ function OrderDetails() {
         .get(buildLink("order_details", undefined, window.innerWidth) + id)
         .then((response) => {
           if (response.data.success) {
+            console.log(response.data.data);
             setData(response?.data.data);
             setLoading(false);
           }
@@ -401,7 +402,7 @@ function OrderDetails() {
                         </td>
 
                         <td className="border   px-4 text-sm">
-                          {product.model}
+                          {product.sku}
                         </td>
                         <td className="border  px-4 text-sm">
                           {product.quantity}
@@ -460,7 +461,7 @@ function OrderDetails() {
                           {product.name}
                         </td>
                         <td className="border  px-2 md:px-4 text-sm">
-                          {product.model}
+                          {product.sku}
                         </td>
                         <td className="border px-2 md:px-4 text-sm">
                           {product.quantity}

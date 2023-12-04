@@ -8,26 +8,12 @@ import {
 } from "react-icons/bs";
 import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import Link from "next/link";
-import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
+import { FaMoneyBillWave, FaUserAlt, FaWallet,FaTicketAlt } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 import { BiStar } from "react-icons/bi";
 import { HiLightBulb } from "react-icons/hi";
 import { RiUserFollowLine } from "react-icons/ri";
 function UserSidebar(props) {
-  const [data, setData] = useState(props.data);
-  const [state] = useContext(AccountContext);
-  const [showOrderArrow, setShowOrderArrow] = useState(false);
-  const [showAddArrow, setShowAddArrow] = useState(false);
-  const [showWishArrow, setShowWishArrow] = useState(false);
-  const [showBuyArrow, setShowBuyArrow] = useState(false);
-  const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
-  const [showMemberShipArrow, setShowMembershipArrow] = useState(false);
-
-  const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
-  const [showFeedbackArrow, setShowFeedbackArrow] = useState(false);
-  const [showSuggestionArrow, setShowSuggestionArrow] = useState(false);
-  const [showWalletArrow, setShowWalletArrow] = useState(false);
-  const [showProfileArrow, setShowProfileArrow] = useState(false);
 
   return (
     <aside
@@ -38,12 +24,7 @@ function UserSidebar(props) {
     >
       <ul className="lg:py-3 py-1">
         <li
-          onMouseEnter={() => {
-            setShowProfileArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowProfileArrow(false);
-          }}
+      className="group"
         >
           <Link
             href={`${path}/account/profile`}
@@ -59,20 +40,13 @@ function UserSidebar(props) {
             >
               Profile
             </span>
-            {showProfileArrow && (
-              <div className="w-2/12">
-                <img className="" src={"/images/arrow-right.svg"} alt="arrow" />
+            <div className="w-2/12 group-hover:block hidden">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
         <li
-          onMouseEnter={() => {
-            setShowOrderArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowOrderArrow(false);
-          }}
+      className="group"
         >
           <Link
             href={`${path}/account/orders`}
@@ -88,24 +62,13 @@ function UserSidebar(props) {
             >
               Orders
             </span>
-            {showOrderArrow && (
-              <div className="w-2/12">
-                <img
-                  className="-mr-1"
-                  src={"/images/arrow-right.svg"}
-                  alt="arrow"
-                />
+            <div className="w-2/12 group-hover:block hidden">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
         <li
-          onMouseEnter={() => {
-            setShowWalletArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowWalletArrow(false);
-          }}
+      className="group"
         >
           <Link
             href={`${path}/account/wallet`}
@@ -121,55 +84,43 @@ function UserSidebar(props) {
             >
               Wallet
             </div>
-            {showWalletArrow && (
-              <div className="w-2/12">
-                <img
-                  className="-mr-1"
-                  src={"/images/arrow-right.svg"}
-                  alt="arrow"
-                />
+            
+            <div className="w-2/12 group-hover:block hidden">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
 
+
+
         {/* <li
-          onMouseEnter={() => {
-            setShowMembershipArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowMembershipArrow(false);
-          }}
+      className="group"
         >
           <Link
-            href={`${path}/account/memberShip`}
-            className="ml-9 flex  items-center h-12 text-dgreyAccount hover:text-dblackk"
+            href={`${path}/account/coupon`}
+            className="pl-9 flex  items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">
-              <MdCardMembership className="text-dbase text-d20" />
+              <FaTicketAlt className="text-d16 text-dbase" />
             </div>
             <div
-              className={`flex-1  w-4/12 ${
-                props.active === "memberShip" && "font-semibold underline"
-              } ${ props.active === "memberShip" ? "text-dgreyAccountActive" : ""}`}
+              className={`flex-1 w-4/12 ${
+                props.active === "coupon" && "font-semibold underline"
+              } ${props.active === "coupon" ? "text-dgreyAccountActive" : ""} `}
             >
-              MemberShip
+              Coupon
             </div>
-            {showMemberShipArrow && (
-              <div className=" w-2/12">
+            
+          
+            <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li> */}
 
+
         <li
-          onMouseEnter={() => {
-            setShowBuyArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowBuyArrow(false);
-          }}
+       className="group"
         >
           <Link
             href={`${path}/account/buyagain`}
@@ -187,21 +138,14 @@ function UserSidebar(props) {
             >
               Buy Again
             </span>
-            {showBuyArrow && (
-              <div className="w-2/12">
-                <img className="" src={"/images/arrow-right.svg"} alt="arrow" />
+            <div className="w-2/12 group-hover:block hidden">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
 
         <li
-          onMouseEnter={() => {
-            setShowRecentlyViewedArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowRecentlyViewedArrow(false);
-          }}
+    className="group"
         >
           <Link
             href={`${path}/account/recentlyViewed`}
@@ -221,21 +165,14 @@ function UserSidebar(props) {
             >
               Recently Viewed
             </div>
-            {showRecentlyViewedArrow && (
-              <div className=" w-2/12">
+            <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
 
         <li
-          onMouseEnter={() => {
-            setShowAddArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowAddArrow(false);
-          }}
+       className="group"
         >
           <Link
             href={`${path}/account/address`}
@@ -253,20 +190,13 @@ function UserSidebar(props) {
             >
               Addresses
             </span>
-            {showAddArrow && (
-              <div className="w-2/12">
+            <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
         <li
-          onMouseEnter={() => {
-            setShowWishArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowWishArrow(false);
-          }}
+      className="group"
         >
           <Link
             href={`${path}/account/wishlist`}
@@ -282,20 +212,13 @@ function UserSidebar(props) {
             >
               WishList
             </span>
-            {showWishArrow && (
-              <div className=" w-2/12">
+            <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
         <li
-          onMouseEnter={() => {
-            setShowReviewCenterArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowReviewCenterArrow(false);
-          }}
+     className="group"
         >
           <Link
             href={`${path}/account/reviewCenter`}
@@ -313,20 +236,13 @@ function UserSidebar(props) {
             >
               Review Center
             </span>
-            {showReviewCenterArrow && (
-              <div className=" w-2/12">
+            <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
         <li
-          onMouseEnter={() => {
-            setShowWishArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowWishArrow(false);
-          }}
+         className="group"
         >
           <Link
             href={`${path}/account/follow`}
@@ -341,20 +257,13 @@ function UserSidebar(props) {
             >
               Follow 
             </span>
-            {showWishArrow && (
-              <div className=" w-2/12">
+            <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
         <li
-          onMouseEnter={() => {
-            setShowFeedbackArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowFeedbackArrow(false);
-          }}
+   className="group"
         >
           <Link
             href={`${path}/account/feedback`}
@@ -370,20 +279,13 @@ function UserSidebar(props) {
             >
               Feedback
             </div>
-            {showFeedbackArrow && (
-              <div className="w-2/12">
+            <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
           </Link>
         </li>
         <li
-          onMouseEnter={() => {
-            setShowSuggestionArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowSuggestionArrow(false);
-          }}
+        className=" group"
         >
           <Link
             href={`${path}/account/suggestion`}
@@ -399,11 +301,11 @@ function UserSidebar(props) {
             >
               Suggestion
             </div>
-            {showSuggestionArrow && (
-              <div className="w-2/12">
+           
+              <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
-            )}{" "}
+       
           </Link>
         </li>
       </ul>

@@ -21,6 +21,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
   const [showPrev, setShowPrev] = useState(false);
   const swiperNavNextRef = useRef(null);
   const swiperNavPrevRef = useRef(null);
+  const swiperRef = useRef(null);
   const [dragging, setDragging] = useState(false);
   const [width] = useDeviceSize();
   const router = useRouter();
@@ -161,7 +162,14 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     prevArrow: <CustomSliderPrevArrows />,
     nextArrow: <CustomSliderNextArrows />,
     lazyLoad: true,
+
   };
+  
+  const onSwipSlide = ()=>{
+    console.log(swiperRef.current)
+  }
+
+ 
   const productMobile = {
     dots: false,
     speed: 1000,
@@ -583,7 +591,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
         (widget.items.length > 1 ? (
           <div className="-mx-4 mb-2">
             {width > 650 ? (
-              <Slider {...settingSliderD} className="sliderSwiper">
+              <Slider ref={swiperRef}  {...settingSliderD}  className="sliderSwiper">
                 {widget.items.map((item, index) =>
                   item.mobile_type_id === "0" ? (
                     <div
@@ -603,6 +611,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     </div>
                   ) : (
                     <BannerLink
+                    
                       widget={widget}
                       item={item}
                       bannerStats={bannerStats}

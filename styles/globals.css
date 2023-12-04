@@ -2561,4 +2561,128 @@ display: inline-block;
 
 }
 
+/* 
+.cardWrap {
+  width: 27em;
+  margin: 3em auto;
+  color: #fff;
+  font-family: sans-serif;
+}
 
+.card {
+  background: linear-gradient(
+    to bottom,
+    red 0%,
+    red 26%,
+    grey 26%,
+    grey 100%
+  );
+  height: 11em;
+  float: left;
+  position: relative;
+  padding: 1em;
+  margin-top: 100px;
+}
+.cardLeft {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  width: 16em;
+}
+.cardRight {
+  width: 6.5em;
+  border-left: 0.18em dashed #fff;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;} */
+
+
+
+.ticket {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  
+  .stub, .check {
+    box-sizing: border-box;
+  }
+}
+
+.stub {
+  background: #be282f;
+  height: 100%;
+  width: 30%;
+  color: white;
+  padding: 20px;
+  position: relative;
+  border-radius: 10px;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    border-top: 10px solid #f7f7fa;
+    border-left: 10px solid #be282f;
+    width: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    border-bottom: 10px solid #f7f7fa;
+    /* border-left: 20px solid #ef5658; */
+    border-left: 10px solid #be282f;
+    width: 0;
+  }
+  
+  .top {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    text-transform: uppercase;
+    
+    .line {
+      display: block;
+      background: #fff;
+      height: 40px;
+      width: 3px;
+      margin: 0 20px;
+    }
+    
+  }
+}
+
+.check {
+  
+  
+  background: #ebbec0;
+  height: 100%;
+  width: 70%;
+
+  position: relative;
+  border-radius: 10px;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    border-top: 10px solid #f7f7fa;
+    border-right: 10px solid #ebbec0;
+    width: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    border-bottom: 10px solid #f7f7fa;
+    border-right: 10px solid #ebbec0;
+    width: 0;
+  }
+  
+
+}
+.divider-coupon{
+  width: 1px;
+  border-left:1px dashed #000;
+  height: 85%;
+ 
+}
