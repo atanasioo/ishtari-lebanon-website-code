@@ -11,7 +11,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import { AiOutlineCar } from "react-icons/ai";
+import { AiOutlineCar, AiOutlineClose } from "react-icons/ai";
 import { BiBox } from "react-icons/bi";
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineHome } from "react-icons/hi";
@@ -32,11 +32,15 @@ function OrderDetails() {
   const [returnProducts, setReturnProducts] = useState([]);
   const [returnErr, setReturnErr] = useState("");
   const [success, setSuccess] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [otherReason, setOtherReason] = useState(false);
+  const [otherReasonTxt, setOtherReasonTxt] = useState("");
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
     if (!state.loading && !state.loged) {
       router.push("/");
@@ -117,8 +121,16 @@ function OrderDetails() {
         if (resp.data.succes) {
           setSuccess(true);
           setLoading(false);
+          setConfirmModal(false)
+          setConfirmCancel(true);
         }
       });
+  }
+
+  function submitCancelReason(e) {
+    e.preventDefault();
+    //make api request to submit the reason
+    setConfirmCancel(false);
   }
 
   return (
@@ -235,18 +247,18 @@ function OrderDetails() {
                 <p className="text-xxs text-gray-600">{email}</p>
               </div>
 
-              {/* {data?.eligible_to_cancel && (
+              {data?.eligible_to_cancel && (
                 <div
                   className="flex mx-4 text-right justify-end bg-dbase text-white p-2 rounded-full font-bold cursor-pointer h-10"
-                  onClick={(e) => cancelOrder(data.order_id)}
+                  // onClick={(e) => cancelOrder(data.order_id)}
+                  onClick={(e) => setConfirmModal(true)}
                 >
-
                   <span className="mx-1 whitespace-nowrap space-x-2">
                     {" "}
                     Cancel Order
                   </span>
                 </div>
-              )} */}
+              )}
             </div>
 
             <div className="flex-row md:flex mt-5 pb-7  border-b  border-dgrey1 justify-between">
@@ -364,7 +376,7 @@ function OrderDetails() {
                                 ignore: false,
                                 banner_image_id: "",
                                 source_type: "order",
-                                source_type_id: id
+                                source_type_id: id,
                               })
                             }
                           >
@@ -502,6 +514,111 @@ function OrderDetails() {
                 />
               </div>
             )}
+
+            {/* cancel order modal */}
+
+            <div className="relative">
+              {confirmCancel && (
+              <div className="fixed bg-dblackOverlay top-0 left-0 right-0 bottom-0 z-20">
+                <div className="absolute z-30 rounded-md bg-white top-0 left-0 bottom-0 right-0 w-max h-max m-auto">
+                  <div className="p-7 relative">
+                    <p className="pr-bold pb-3 text-d18">
+                      Help us understand Why you cancelled?
+                    </p>
+                    <AiOutlineClose
+                      className="absolute right-2 top-2 w-5 h-5 cursor-pointer"
+                      onClick={() => setConfirmCancel(false)}
+                    />
+
+                    <form onSubmit={(e) => submitCancelReason(e)}>
+                      {!otherReason ? (
+                        <div>
+                          <div className="flex items-center gap-3 pb-2">
+                            <input
+                              type="radio"
+                              name="cancel_reason"
+                              value="1"
+                            />
+                            <label>
+                              I changed my mind. I don't need the order anymore.
+                            </label>
+                          </div>
+                          <div className="flex items-center gap-3 pb-2">
+                            <input
+                              type="radio"
+                              name="cancel_reason"
+                              value="2"
+                            />
+                            <label>I placed the order by mistake.</label>
+                          </div>
+                          <div className="flex items-center gap-3 pb-2">
+                            <input
+                              type="radio"
+                              name="cancel_reason"
+                              value="3"
+                            />
+                            <label>I need to modify my ordered products.</label>
+                          </div>
+                          <div className="flex items-center gap-3 pb-2">
+                            <input
+                              type="radio"
+                              name="cancel_reason"
+                              value="4"
+                            />
+                            <label>
+                              I need to change the delivery address.
+                            </label>
+                          </div>
+                          <div
+                            className="flex items-center gap-3 pb-2"
+                            onClick={() => setOtherReason(true)}
+                          >
+                            <input
+                              type="radio"
+                              name="cancel_reason"
+                              value="5"
+                            />
+                            <label>Other.</label>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <input
+                            type="text"
+                            placeholder="Enter the reason why you cancelled the order"
+                            className="w-full text-sm border border-dinputBorder py-2 px-3 my-5 rounded-md"
+                            onChange={(e) => setOtherReasonTxt(e.target.value)}
+                          />
+                        </>
+                      )}
+
+                      <div className="w-full flex justify-center">
+                        <button
+                          type="submit"
+                          className="rounded-md bg-dblue text-white px-10 py-1 mt-3"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              )}
+              {confirmModal && (
+                <div className="fixed bg-dblackOverlay top-0 left-0 right-0 bottom-0 z-20">
+                  <div className="absolute z-30 rounded-md bg-white top-0 left-0 bottom-0 right-0 w-max h-max m-auto">
+                    <div className="px-4 py-7">
+                      <p className="pr-semibold text-d18 mb-5">Are you sure you want to cancel this order?</p>
+                      <div className="flex justify-around items-center mt-7">
+                        <div className="rounded-md px-8 py-1 cursor-pointer bg-dblue text-white" onClick={(e) => {cancelOrder(data.order_id)}}>Yes</div>
+                        <div className="rounded-md px-8 py-1 cursor-pointer bg-dbase text-white" onClick={() => setConfirmModal(false)}>No</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )
       )}
