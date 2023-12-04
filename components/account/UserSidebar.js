@@ -14,24 +14,6 @@ import { BiStar } from "react-icons/bi";
 import { HiLightBulb } from "react-icons/hi";
 import { RiUserFollowLine } from "react-icons/ri";
 function UserSidebar(props) {
-<<<<<<< HEAD
-  const [data, setData] = useState(props.data);
-  const [state] = useContext(AccountContext);
-  const [showOrderArrow, setShowOrderArrow] = useState(false);
-  const [showAddArrow, setShowAddArrow] = useState(false);
-  const [showWishArrow, setShowWishArrow] = useState(false);
-  const [showFollowArrow, setShowFollowArrow] = useState(false);
-  const [showBuyArrow, setShowBuyArrow] = useState(false);
-  const [showRecentlyViewedArrow, setShowRecentlyViewedArrow] = useState(false);
-  const [showMemberShipArrow, setShowMembershipArrow] = useState(false);
-  const [showReviewCenterArrow, setShowReviewCenterArrow] = useState(false);
-  const [showFeedbackArrow, setShowFeedbackArrow] = useState(false);
-  const [showSuggestionArrow, setShowSuggestionArrow] = useState(false);
-  const [showWalletArrow, setShowWalletArrow] = useState(false);
-  const [showProfileArrow, setShowProfileArrow] = useState(false);
-=======
-
->>>>>>> refs/remotes/origin/master
   return (
     <aside
       className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
@@ -107,13 +89,9 @@ function UserSidebar(props) {
               </div>
           </Link>
         </li>
-<<<<<<< HEAD
-        
-=======
 
 
 
->>>>>>> refs/remotes/origin/master
         {/* <li
       className="group"
         >
@@ -138,11 +116,8 @@ function UserSidebar(props) {
               </div>
           </Link>
         </li> */}
-<<<<<<< HEAD
-=======
 
 
->>>>>>> refs/remotes/origin/master
         <li
        className="group"
         >
@@ -264,16 +239,7 @@ function UserSidebar(props) {
           </Link>
         </li>
         <li
-<<<<<<< HEAD
-          onMouseEnter={() => {
-            setShowFollowArrow(true);
-          }}
-          onMouseLeave={() => {
-            setShowFollowArrow(false);
-          }}
-=======
          className="group"
->>>>>>> refs/remotes/origin/master
         >
           <Link
             href={`${path}/account/follow`}
@@ -288,12 +254,7 @@ function UserSidebar(props) {
             >
               Follow
             </span>
-<<<<<<< HEAD
-            {showFollowArrow && (
-              <div className=" w-2/12">
-=======
             <div className="w-2/12 group-hover:block hidden">
->>>>>>> refs/remotes/origin/master
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
               </div>
           </Link>

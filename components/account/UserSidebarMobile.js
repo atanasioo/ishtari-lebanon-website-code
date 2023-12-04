@@ -62,9 +62,6 @@ function UserSidebarMobile(props) {
           <span className="text-center text-d11">Wallet</span>
         </div>
       </Link>
-<<<<<<< HEAD
-     
-=======
       {/* <Link
         href={`${path}/account/coupon`}
         className={`py-2 flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
@@ -78,7 +75,6 @@ function UserSidebarMobile(props) {
           <span className="text-center text-d11">Coupon</span>
         </div>
       </Link> */}
->>>>>>> refs/remotes/origin/master
       <Link
         href={`${path}/account/buyagain`}
         className={`py-2  flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
