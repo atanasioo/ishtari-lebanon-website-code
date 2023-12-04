@@ -9,13 +9,22 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
+<<<<<<< HEAD
 import PointsLoader from "@/components/PointsLoader";
 import Slider from "react-slick";
 import { FaAccessibleIcon } from "react-icons/fa";
+=======
+
+
+import PointsLoader from "@/components/PointsLoader";
+import CouponSlider from "../couponComponents/couponSlider";
+import Slider from "react-slick"; 
+>>>>>>> refs/remotes/origin/master
 import Image from "next/image";
 import { BsChatLeft, BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
 import Link from "next/link";
 import { path } from "../../urls";
+<<<<<<< HEAD
 import Modal from 'react-modal';
 function Coupon() {
   const router = useRouter();
@@ -67,10 +76,53 @@ function Coupon() {
       search: `&page=${page}&limit=${lim}`,
     });
   }
+=======
+import SingleCoupon from "../couponComponents/singleCoupon";
+function Coupon() {
+  const router = useRouter();
+  const [data, setData] = useState();
+  const [buttonActive, setButtonActive] = useState("1")
+
+  const [state, dispatch] = useContext(AccountContext);
+  const [loading, setLoading] = useState(true);
+  const [width, height] = useDeviceSize();
+  const [modalOpen, setModalOpen] = useState(false);
+  const trigger = useRef(null);
+  const modal = useRef(null);
+  // close on click outside
+  useEffect(() => {
+    const clickHandler = ({ target }) => {
+      if (!modal.current) return;
+      if (
+        !modalOpen ||
+        modal.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return;
+      setModalOpen(false);
+    };
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  });
+  // close if the esc key is pressed
+  useEffect(() => {
+    const keyHandler = ({ keyCode }) => {
+      if (!modalOpen || keyCode !== 27) return;
+      setModalOpen(false);
+    };
+    document.addEventListener("keydown", keyHandler);
+    return () => document.removeEventListener("keydown", keyHandler);
+  });
+
+
+
+
+>>>>>>> refs/remotes/origin/master
   const handleClick = (event) => {
     event.preventDefault();
     setButtonActive(event.target.id);
   }
+<<<<<<< HEAD
   const settingSliderD = {
     speed: 1000,
     slidesToShow: width<670?2:width<920?2: 3,
@@ -106,11 +158,23 @@ function Coupon() {
       </div>
     );
   }
+=======
+
+
+
+  
+
+
+
+ 
+
+>>>>>>> refs/remotes/origin/master
   useEffect(() => {
     if (!state.loading && !state.loged) {
       router.push("/");
       setLoading(false);
     } else if (state.loged) {
+<<<<<<< HEAD
       axiosServer
         .get(buildLink("coupons", undefined, window.innerWidth))
         .then((response) => {
@@ -126,6 +190,30 @@ function Coupon() {
         });
     }
   }, [page, limit, state.loading]);
+=======
+       getCoupons();
+    }
+  }, [ state.loading]);
+
+const getCoupons =()=>{
+  axiosServer
+  .get(buildLink("coupons", undefined, window.innerWidth))
+  .then((response) => {
+    if (response?.data?.success) {
+    
+      console.log(response.data.data)
+      setData(response.data.data);
+      setLoading(false);
+      if (!state.loged) {
+      }
+    } else {
+      setLoading(false);
+    }
+  });
+}
+
+
+>>>>>>> refs/remotes/origin/master
   return (
     <div className="container text-dblack">
       <Head>
@@ -154,7 +242,11 @@ function Coupon() {
                 width={1220}
                 height={320}
               />
+<<<<<<< HEAD
               <div className="absolute gap-5 z-5 flex items-center  overflow-x-auto  max-md:w-full max-md:-bottom-6  -bottom-4 cursor-pointer">
+=======
+              <div className="absolute gap-5 z-5 flex items-center  scrollbar-hide overflow-x-auto   max-md:w-full max-md:-bottom-6  -bottom-4 cursor-pointer">
+>>>>>>> refs/remotes/origin/master
               <button
                  id="1"
                  onClick={handleClick}
@@ -187,6 +279,7 @@ function Coupon() {
             </div>
             </div>
       <div className="container my-10 w-full  h-fit flex flex-wrap gap-3 relative max-md:text-center max-md:justify-center  overflow-y-auto">
+<<<<<<< HEAD
       {buttonActive==="1"?( data&& data.Available.map((coupon=>{
                    return <div className="ticket w-[350px] h-[150px]">
                     
@@ -232,10 +325,41 @@ function Coupon() {
     }
 </div>
             </div>
+=======
+
+      {buttonActive==="1"?( data.Available!=[]?( data&& data.Available.map((coupon=>{
+                   return <SingleCoupon description={data.description} coupon={coupon} type="available" getCoupons={getCoupons}/>
+
+        }))):(<div className=" flex justify-center align-middle text-center w-full my-auto h-full pt-10"><h2 >No Available Coupons here</h2></div>)
+      ):buttonActive==="2"?( data&& data.Redeemed.map((coupon=>{
+        return <SingleCoupon description={data.description} coupon={coupon} type="redeemed"  getCoupons={getCoupons}/>
+
+}))
+):buttonActive==="3"?( data&& data['Expires Soon'].map((coupon=>{
+  return <SingleCoupon description={data.description} coupon={coupon} type="expiresSoon"  getCoupons={getCoupons}/>
+
+}))):( data&& data.Expired.map((coupon=>{
+  return <SingleCoupon description={data.description} coupon={coupon} type="expired"  getCoupons={getCoupons}/>
+
+})))
+    }
+
+
+
+
+
+
+
+
+</div>
+            </div>
+      
+>>>>>>> refs/remotes/origin/master
       </div>
           )}
         </div>
       </div>
+<<<<<<< HEAD
     </div>
   );
 }
@@ -260,3 +384,11 @@ export default Coupon;
 
 
 
+=======
+    
+    </div>
+  );
+}
+
+export default Coupon;
+>>>>>>> refs/remotes/origin/master

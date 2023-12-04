@@ -18,7 +18,7 @@ function categoryTopSelling() {
 if(typeof category_id !== 'undefined')
     axiosServer.get(buildLink("getAllTopSellingbyCategoryid", undefined, undefined, window.location.host) +
     "&category_id=" +
-    category_id).then((resp)=>{
+    category_id+"&limit=50").then((resp)=>{
       setData(resp.data)
     })
 

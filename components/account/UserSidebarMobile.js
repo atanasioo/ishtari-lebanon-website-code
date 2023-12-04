@@ -2,7 +2,7 @@ import { path } from "../../urls";
 import {BsFillCartCheckFill, BsFillHeartFill, BsStar, BsStarFill} from 'react-icons/bs'
 import {MdAvTimer, MdFeedback} from 'react-icons/md'
 import Link from "next/link";
-import { FaMoneyBillWave, FaUserAlt, FaWallet } from "react-icons/fa";
+import { FaMoneyBillWave, FaUserAlt, FaWallet ,FaTicketAlt} from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 import { MdCardMembership } from "react-icons/md";
 import { HiLightBulb } from "react-icons/hi";
@@ -62,7 +62,23 @@ function UserSidebarMobile(props) {
           <span className="text-center text-d11">Wallet</span>
         </div>
       </Link>
+<<<<<<< HEAD
      
+=======
+      {/* <Link
+        href={`${path}/account/coupon`}
+        className={`py-2 flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
+          props.active === "coupon" && "bg-white text-dbase"
+        }`}
+      >
+        <div className="flex flex-col justify-between items-center h-full w-14">
+          <div className="text-center">
+            <FaTicketAlt className="text-d20 my-1 " />
+          </div>
+          <span className="text-center text-d11">Coupon</span>
+        </div>
+      </Link> */}
+>>>>>>> refs/remotes/origin/master
       <Link
         href={`${path}/account/buyagain`}
         className={`py-2  flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${

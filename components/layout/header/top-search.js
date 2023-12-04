@@ -108,6 +108,7 @@ function TopSearch() {
   }
 
   function saveSearchHistory(query, type = "") {
+    console.log(query);
     if (type !== "product") {
       let searchHistory =
         JSON.parse(localStorage.getItem("search_history")) || [];
@@ -152,6 +153,8 @@ function TopSearch() {
     }
   }
 
+
+  
   function handleSearchResults() {
     if (window.innerWidth > 1024) {
       const input = document.getElementById("searchInput").value;
@@ -187,6 +190,8 @@ function TopSearch() {
 
   useEffect(() => {
     async function search() {
+      console.log( buildLink("search", undefined, undefined, window.config["site-url"]) +
+      query +  `${stateAcc?.admin ? "&employer=true" : ''}`);
       setLoading(true);
       // console.log(query)
       const res = await axiosServer.get(
@@ -232,6 +237,7 @@ function TopSearch() {
   }, []);
 
   const startPlaceholderLoop = (searchArray) => {
+    console.log("___________________________________________________-");
     if (searchArray.length > 0) {
       setCurrentPlaceholder(searchArray[0]["keyphrase"]);
       currentIndexRef.current = 1;
@@ -277,7 +283,7 @@ function TopSearch() {
                 // placeholder="What are you looking for? "
                 placeholder={
                   topSearch?.length > 0
-                    ? currentPlaceholder
+                    ? slugify(currentPlaceholder)
                     : "What are you looking for?"
                 }
               />
@@ -442,7 +448,7 @@ function TopSearch() {
           type={"text"}
           placeholder={
             topSearch?.length > 0
-              ? currentPlaceholder
+              ? slugify(currentPlaceholder)
               : "What are you looking for?"
           }
           autoComplete="off"
