@@ -2569,8 +2569,6 @@ display: inline-block;
   font-family: sans-serif;
 }
 
-<<<<<<< HEAD
-=======
 .card {
   background: linear-gradient(
     to bottom,
@@ -2598,79 +2596,51 @@ display: inline-block;
 
 
 
->>>>>>> refs/remotes/origin/master
 .ticket {
   display: flex;
   justify-content: center;
   align-items: center;
-<<<<<<< HEAD
-=======
 
 
   
->>>>>>> refs/remotes/origin/master
   .stub, .check {
     box-sizing: border-box;
   }
 }
-<<<<<<< HEAD
-.stub {
-  background: #BE282F;
-=======
 
 .stub {
   background: #be282f;
->>>>>>> refs/remotes/origin/master
   height: 100%;
   width: 30%;
   color: white;
   padding: 20px;
   position: relative;
   border-radius: 10px;
-<<<<<<< HEAD
-=======
   
->>>>>>> refs/remotes/origin/master
   &:before {
     content: '';
     position: absolute;
     top: 0; right: 0;
-<<<<<<< HEAD
-    border-top: 10px solid #F7F7FA;
-    border-left: 10px solid #BE282F;
-=======
     border-top: 10px solid #f7f7fa;
     border-left: 10px solid #be282f;
->>>>>>> refs/remotes/origin/master
     width: 0;
   }
   &:after {
     content: '';
     position: absolute;
     bottom: 0; right: 0;
-<<<<<<< HEAD
-    border-bottom: 10px solid #F7F7FA;
-    /* border-left: 20px solid #EF5658; */
-    border-left: 10px solid #BE282F;
-    width: 0;
-  }
-=======
     border-bottom: 10px solid #f7f7fa;
     /* border-left: 20px solid #ef5658; */
     border-left: 10px solid #be282f;
     width: 0;
   }
   
->>>>>>> refs/remotes/origin/master
   .top {
     display: flex;
     align-items: center;
     height: 40px;
     text-transform: uppercase;
-<<<<<<< HEAD
-=======
     
->>>>>>> refs/remotes/origin/master
     .line {
       display: block;
       background: #fff;
@@ -2678,15 +2648,6 @@ display: inline-block;
       width: 3px;
       margin: 0 20px;
     }
-<<<<<<< HEAD
-  }
-}
-.check {
-  border-left: 1px black dashed;
-  background: #EBBEC0;
-  height: 100%;
-  width: 70%;
-=======
     
   }
 }
@@ -2698,33 +2659,20 @@ display: inline-block;
   height: 100%;
   width: 70%;
 
->>>>>>> refs/remotes/origin/master
   position: relative;
   border-radius: 10px;
   &:before {
     content: '';
     position: absolute;
     top: 0; left: 0;
-<<<<<<< HEAD
-    border-top: 10px solid #F7F7FA;
-    border-right: 10px solid #EBBEC0;
-=======
     border-top: 10px solid #f7f7fa;
     border-right: 10px solid #ebbec0;
->>>>>>> refs/remotes/origin/master
     width: 0;
   }
   &:after {
     content: '';
     position: absolute;
     bottom: 0; left: 0;
-<<<<<<< HEAD
-    border-bottom: 10px solid #F7F7FA;
-    border-right: 10px solid #EBBEC0;
-    width: 0;
-  }
-}
-=======
     border-bottom: 10px solid #f7f7fa;
     border-right: 10px solid #ebbec0;
     width: 0;
@@ -2738,4 +2686,3 @@ display: inline-block;
   height: 85%;
  
 }
->>>>>>> refs/remotes/origin/master
