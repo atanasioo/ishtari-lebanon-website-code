@@ -7,7 +7,7 @@ import { AccountContext } from "@/contexts/AccountContext";
 import { FaAccessibleIcon, FaTicketAlt } from "react-icons/fa";
 import PointsLoader from '@/components/PointsLoader';
 import Loader from '@/components/Loader';
-import flashSale from '../flashSale';
+import flashSale from '../../pages/flashSale';
 
 const SingleCoupon = ({coupon ,type,description,getCoupons}) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -94,18 +94,18 @@ const  redeemCoupon = (id)=>{
     <>
     <button 
                    ref={trigger}
-                   onClick={() => openCouponInfo(coupon.coupon_id)}
+                   onClick={() => openCouponInfo(coupon?.coupon_id)}
                    className="ticket relative group w-[350px] md:w-[280px] cursor-pointer h-[150px]">
                     <div className="absolute w-full h-full bg-white opacity-0 group-hover:opacity-25 top-0 z-20"></div>
                    <div className="stub">
                    <div className=" flex w-full flex-col h-full justify-between text-center">
                      
                      <div className="top text-lg font-bold">
-                     {coupon.amount} Off
+                     {coupon?.amount} Off
                      </div>
                      <div className=" bg-dgrey1 h-[1px] w-full"></div>
                     <div  className="text-sm font-light">
-                    {coupon.name}
+                    {coupon?.name}
                     </div>
                    </div>
                    </div>
@@ -114,10 +114,10 @@ const  redeemCoupon = (id)=>{
                    
                      <div className=" flex flex-col ">
                          <h4>coupon code</h4>
-                         <h2 className=" text-[#BE282F] text-2xl " >{coupon.code}</h2>
+                         <h2 className=" text-[#BE282F] text-2xl " >{coupon?.code}</h2>
                      </div>
                      <div className=" text-sm">
-                       <span > {type=="expired"?(<>Expired from</>):(<>Valid Till</>)}  - {coupon.date_end}</span>
+                       <span > {type=="expired"?(<>Expired from</>):(<>Valid Till</>)}  - {coupon?.date_end}</span>
                        </div>
                    </div>
                  </button>
@@ -137,10 +137,10 @@ const  redeemCoupon = (id)=>{
           >
            <div className=" w-10 h-10 mx-auto bg-[#e94a4f66] text-[#bf1b26] flex text-center justify-center rounded-full mb-5"> <FaTicketAlt className="mx-auto my-auto " /></div>
             <h5 className=" text-xl font-semibold text-dark dark:text-white sm:text-2xl">
-              {coupon.code}
+              {coupon?.code}
             </h5>
             <h5 className=" text-dgreySeller px-5 tracking-wider"> Get instant discount 500 an applying this coupon</h5>
-            <p className=" text-dbase1 "> {type=="expired"?(<>Expired from </>):(<>Expire In </>)}{coupon.date_end}</p>
+            <p className=" text-dbase1 "> {type=="expired"?(<>Expired from </>):(<>Expire In </>)}{coupon?.date_end}</p>
 
             <span
               className={`mx-auto mb-6 inline-block my-6 border-2 border-dashed border-dbase h-1 w-[90px] rounded  `}
@@ -154,7 +154,7 @@ const  redeemCoupon = (id)=>{
               { 
            
               type=="available"?(<h4>Click Redeem button to redeem this coupon</h4>):(
-              <div >{ htmlDecode(coupon.rules)}</div>
+              <div >{ htmlDecode(coupon?.rules)}</div>
               )
             }
        
@@ -170,7 +170,7 @@ const  redeemCoupon = (id)=>{
                 </button>
               </div>
               <div className={`w-1/2 px-3 ${type!=="available"?"hidden":"block"}`}>
-                <button  onClick={() => redeemCoupon(coupon.coupon_id)} className="block w-full bg-dgreen rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
+                <button  onClick={() => redeemCoupon(coupon?.coupon_id)} className="block w-full bg-dgreen rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
               {loading && loading ?<div className='w-full flex justify-center align-middle text-center'> <div className='w-[30px]'><Loader/></div></div>:  <>Redeem</> }
                 
                 </button>

@@ -12,13 +12,13 @@ import ReactPaginate from "react-paginate";
 
 
 import PointsLoader from "@/components/PointsLoader";
-import CouponSlider from "../couponComponents/couponSlider";
+import CouponSlider from "../../components/couponComponents/couponSlider";
 import Slider from "react-slick"; 
 import Image from "next/image";
 import { BsChatLeft, BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
 import Link from "next/link";
 import { path } from "../../urls";
-import SingleCoupon from "../couponComponents/singleCoupon";
+import SingleCoupon from "../../components/couponComponents/singleCoupon";
 function Coupon() {
   const router = useRouter();
   const [data, setData] = useState();
