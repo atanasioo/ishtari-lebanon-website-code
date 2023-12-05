@@ -125,12 +125,12 @@ function DesktopMenuClientPopups(props) {
             axiosServer
               .get(
                 buildLink(
-                  "getTopSellingByCategoryId",
+                  "getAllTopSellingbyCategoryid",
                   undefined,
                   window.innerWidth
                 ) +
                   "&category_id=" +
-                  selectedTopCategory.category_id + '&view='+ viewMenuCategories2
+                  selectedTopCategory.category_id + '&view='+ viewMenuCategories2 +"&limit=20"
               )
               .then((response) => {
                 if (

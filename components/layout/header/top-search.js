@@ -237,7 +237,6 @@ function TopSearch() {
   }, []);
 
   const startPlaceholderLoop = (searchArray) => {
-    console.log("___________________________________________________-");
     if (searchArray.length > 0) {
       setCurrentPlaceholder(searchArray[0]["keyphrase"]);
       currentIndexRef.current = 1;
