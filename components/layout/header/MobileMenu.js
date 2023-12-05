@@ -128,9 +128,9 @@ function MobileMenu(props) {
     setLoading(true);
     axiosServer
       .get(
-        buildLink("getTopSellingByCategoryId", undefined, window.innerWidth) +
+        buildLink("getAllTopSellingbyCategoryid", undefined, window.innerWidth) +
           "&category_id=" +
-          category_id
+          category_id + "&limit=20"
       )
       .then((response) => {
         if (response.data.success) {

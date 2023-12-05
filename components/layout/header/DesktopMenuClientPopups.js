@@ -130,7 +130,7 @@ function DesktopMenuClientPopups(props) {
                   window.innerWidth
                 ) +
                   "&category_id=" +
-                  selectedTopCategory.category_id + '&view='+ viewMenuCategories2 +"&limit=20"
+                  selectedTopCategory.category_id +"&limit=20"
               )
               .then((response) => {
                 if (
