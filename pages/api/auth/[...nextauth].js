@@ -86,10 +86,12 @@ export const authOptions = {
             }
           );
           if (response.data.success) {
-            return response;
+        
+            return 'lasjdkf';
           } else {
             throw new Error(response.data?.errors[0]?.errorMsg);
           }
+          
         } catch (error) {
           throw new Error(error.message);
         }

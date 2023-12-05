@@ -146,7 +146,7 @@ function Account() {
 
     axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj).then((resp) => {
     
-      checkLogin();
+      checkLogin(false);
     });
   }
 
@@ -163,7 +163,7 @@ function Account() {
       };
       const response = await axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj);
       if (response) {
-        checkLogin();
+        checkLogin(true);
       }
     }
   }
@@ -178,8 +178,8 @@ function Account() {
     });
 
     if (response.status === 200) {
-      checkLogin();
-      window.location.reload();
+      checkLogin(true);
+      // window.location.reload();
     } else {
       setShowLoginError(true);
       setLoginError(response.error);
@@ -193,6 +193,7 @@ function Account() {
     axiosServer
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
+        console.log(response);
         const data = response.data;
         // console.log(data);
 
@@ -203,7 +204,8 @@ function Account() {
           dispatch({ type: "setEmail", payload: data.email });
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
-
+         
+          
           // if (
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
@@ -216,8 +218,21 @@ function Account() {
         dispatch({ type: "setLoading", payload: false });
       });
 
-    // window.location.reload();
+    window.location.reload();
   }
+
+
+  //  function   checkOrderNumber (){
+    
+  //   axiosServer
+  //   .get(buildLink("checkOrderNumber", undefined, undefined, window.config["site-url"]))
+  //   .then((response) => {
+  //     console.log(response);
+  //   })
+    
+  //  }
+
+
 
   // Signup
   async function signup(e) {
@@ -232,9 +247,10 @@ function Account() {
       lastname: signupLast.current.value,
       redirect: false
     });
-
+    console.log(response);
     if (response.status === 200) {
-      checkLogin();
+      // checkLogin(false);
+   
     } else {
       setShowSignupError(true);
       setSignupError(response.error);

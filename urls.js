@@ -15,6 +15,7 @@ var path1 = "";
 var urls = {
   token: "v2/index.php?route=token/token&grant_type=client_credentials",
   login: "v2/index.php?route=account/login/login",
+  checkOrderNumber:"v2/index.php?route=account/login/checkOrderNumber",
   get_account: "v2/index.php?route=account/account/getAccount",
   save_account: "v2/index.php?route=account/account/saveAccount",
   change_password: "v2/index.php?route=account/account/changePassword",
@@ -102,6 +103,7 @@ var urls = {
   buyagain: "v2/index.php?route=account/order/getProductFromCompletedOrder",
   coupons:"v2/index.php?route=account/coupons",
   // getSingleCoupon:"v2/index.php?route=account/coupons&coupon_id=",
+
   redeemCoupon:"v2/index.php?route=account/coupons/redeemCoupon&coupon_id=",
   contactUs: "v2/index.php?route=account/contact_us",
   wishlist_group: "v2/index.php?route=account/wishlist_group/getGroups",
