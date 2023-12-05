@@ -14,6 +14,7 @@ import { BiStar } from "react-icons/bi";
 import { HiLightBulb } from "react-icons/hi";
 import { RiUserFollowLine } from "react-icons/ri";
 function UserSidebar(props) {
+
   return (
     <aside
       className="box-content overflow-x-hidden overflow-y-auto block w-full h-full border-r border-dgreyZoom"
@@ -142,6 +143,7 @@ function UserSidebar(props) {
               </div>
           </Link>
         </li>
+
         <li
     className="group"
         >
@@ -168,6 +170,7 @@ function UserSidebar(props) {
               </div>
           </Link>
         </li>
+
         <li
        className="group"
         >
@@ -221,7 +224,7 @@ function UserSidebar(props) {
             href={`${path}/account/reviewCenter`}
             className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
-<div className="w-2/12">
+            <div className="w-2/12">
               <BsStarFill className="text-d16 text-dbase" />
             </div>
             <span
@@ -252,7 +255,7 @@ function UserSidebar(props) {
               className={`flex-1 w-4/12 ${
                 props.active?.indexOf("follow") > -1 && "underline font-semibold text-dgreyAccountActive"}`}
             >
-              Follow
+              Follow 
             </span>
             <div className="w-2/12 group-hover:block hidden">
                 <img src={"/images/arrow-right.svg"} alt="arrow" />
@@ -309,4 +312,5 @@ function UserSidebar(props) {
     </aside>
   );
 }
+
 export default UserSidebar;

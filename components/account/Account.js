@@ -27,6 +27,8 @@ import { ImLocation } from "react-icons/im";
 import { HiLightBulb } from "react-icons/hi";
 
 function Account() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const modal = useRef(null);
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [signupError, setSignupError] = useState("");
@@ -47,6 +49,7 @@ function Account() {
   const signupPassword = useRef("");
   const signupFirst = useRef("");
   const signupLast = useRef("");
+  const birthDate = useRef("");
   const path = "";
   const router = useRouter();
 
@@ -146,7 +149,7 @@ function Account() {
 
     axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj).then((resp) => {
     
-      checkLogin(false);
+      checkLogin('login');
     });
   }
 
@@ -163,7 +166,7 @@ function Account() {
       };
       const response = await axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj);
       if (response) {
-        checkLogin(true);
+        checkLogin('');
       }
     }
   }
@@ -178,8 +181,7 @@ function Account() {
     });
 
     if (response.status === 200) {
-      checkLogin(true);
-      // window.location.reload();
+      checkLogin('login');
     } else {
       setShowLoginError(true);
       setLoginError(response.error);
@@ -187,14 +189,20 @@ function Account() {
   }
 
   // Check login
-  function checkLogin() {
+  function checkLogin(type) {
     dispatch({ type: "setLoading", payload: true });
     const hostname = window.location.host;
     axiosServer
-      .get(buildLink("login", undefined, undefined, window.config["site-url"]))
+      .get(buildLink("login", undefined, undefined, window.config["site-url"])+`&type=${type}`)
       .then((response) => {
         console.log(response);
         const data = response.data;
+        // if(data.coupon!=[]){
+        //   setTimeout(()=>{
+        //     setModalOpen(true)
+        //   },3000)
+       
+        // }
         // console.log(data);
 
         dispatch({ type: "setShowOver", payload: false });
@@ -205,7 +213,7 @@ function Account() {
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
          
-          
+    
           // if (
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
@@ -222,15 +230,7 @@ function Account() {
   }
 
 
-  //  function   checkOrderNumber (){
-    
-  //   axiosServer
-  //   .get(buildLink("checkOrderNumber", undefined, undefined, window.config["site-url"]))
-  //   .then((response) => {
-  //     console.log(response);
-  //   })
-    
-  //  }
+ 
 
 
 
@@ -249,7 +249,8 @@ function Account() {
     });
     console.log(response);
     if (response.status === 200) {
-      // checkLogin(false);
+      checkLogin('register');
+
    
     } else {
       setShowSignupError(true);
@@ -293,7 +294,7 @@ function Account() {
     const response = await axiosServer.post(
       buildLink("logout", undefined, undefined, window.config["site-url"])
     );
-    checkLogin();
+    checkLogin('logOut');
     dispatch({ type: "setSeller", payload: false });
     Cookies.remove("seller_id");
     window.location.href = "/";
@@ -601,6 +602,17 @@ function Account() {
                       minLength="2"
                     />
                   </div>
+                  {/* <div className="input my-4">
+                    <label>Date Of Birth</label>
+                    <input
+                      ref={birthDate}
+                      type="date"
+                      required={true}
+                      pattern="\d{4}-\d{2}-\d{2}"
+                     
+                      
+                    />
+                  </div> */}
                 </div>
 
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
@@ -787,6 +799,45 @@ function Account() {
           </div>
         )}
       </div>
+
+
+
+
+
+
+
+
+
+      {/* <div
+          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
+            modalOpen ? "block" : "hidden"
+          }`}
+        >
+          <div
+            ref={modal}
+            onFocus={() => setModalOpen(true)}
+            onBlur={() => setModalOpen(false)}
+            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
+          >
+
+<h2>Coupons Avilable for you </h2>
+{data.coupon}
+             <div className="-mx-3 flex flex-wrap shadow-[white_0px_-25px_20px_0px] ">
+             
+
+              <div className={` px-3 w-full`}>
+                <button
+                  onClick={() => setModalOpen(false)}
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white dark:text-white"
+                >
+                  Cancel
+                </button>
+              </div>
+              
+            </div>
+          </div>
+        </div> */}
+                 
     </div>
   );
 }

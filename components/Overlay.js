@@ -23,7 +23,7 @@ function HeaderOverlay(props) {
 }
 
 function FullOverlay({children, z}) {
-  const zIndex = z ? z : 10;
+  const zIndex = z ? z : 20;
   return (
     <div
       className={`fixed z-${zIndex} w-full h-screen left-0 bottom-0 top-0 bg-dblackOverlay `}

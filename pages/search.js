@@ -42,6 +42,7 @@ import { useRef } from "react";
   const { keyword, brand, seller, category, page } = router.query;
 
   useEffect(() => {
+    console.log(page);
     setLoading(true);
     let encodedKeyword = encodeURIComponent(keyword);
     var p = "";
@@ -53,7 +54,7 @@ import { useRef } from "react";
       buildLink("alg", undefined, undefined) +
       encodedKeyword +
       "&limit=50&page=" +
-      Number(p);
+      Number(p==""?0:p-1);
 
     if (brand) {
       link += "&brand=" + brand.replaceAll(" & ", "--");
@@ -440,7 +441,7 @@ import { useRef } from "react";
                   previousLabel={"<"}
                   nextLabel={">"}
                   activeClassName={"active-pagination"}
-                  forcePage={page ? parseInt(page) - 1 : 1}
+                  forcePage={page ? parseInt(page) - 1 : 0}
                 ></ReactPaginate>
               )}
             </div>
