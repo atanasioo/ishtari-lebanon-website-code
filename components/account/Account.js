@@ -10,7 +10,6 @@ import { FiChevronDown } from "react-icons/fi";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
 import {RiUserFollowLine} from "react-icons/ri";
-
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -20,12 +19,11 @@ import { MdAvTimer, MdFeedback } from "react-icons/md";
 import {
   FaMoneyBillWave,
   FaUserAlt,
-  FaWallet,
+  FaWallet
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
 import { HiLightBulb } from "react-icons/hi";
-
 function Account() {
   const [modalOpen, setModalOpen] = useState(false);
   const modal = useRef(null);
@@ -42,7 +40,6 @@ function Account() {
   const { data: session, status, update: sessionUpdate } = useSession();
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
-
   const loginEmail = useRef("");
   const loginPassword = useRef("");
   const signupEmail = useRef("");
@@ -52,8 +49,6 @@ function Account() {
   const birthDate = useRef("");
   const path = "";
   const router = useRouter();
-
-
   // if (session) {
   //   // The user is logged in
   //   const obj = {
@@ -67,24 +62,18 @@ function Account() {
   //   const response = axiosServer.post(buildLink("social"), obj);
   //   if (response.customer_id) checkLogin();
   //   // window.location.reload();
-
   // } else {
   //   // The user is not logged in
   //   // return <p>Please log in with Facebook.</p>
   // }
-
-
-
   useEffect(() => {
     // if () {
     // alert(session.user.email);
-
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
       }
     }
-
     async function log() {
       // console.log(session)
       const obj = {
@@ -101,12 +90,10 @@ function Account() {
       // window.location.reload();
     }
   }, [session]);
-
   async function handleFacebookLogin(e) {
     e.preventDefault();
     const result = await signIn("facebook");
   }
-
   async function social() {
     // console.log("start-1");
     const result = await signIn("facebook");
@@ -121,7 +108,6 @@ function Account() {
       return;
     }
   }
-
   useEffect(() => {
     if (
       Object.keys(stateLogin).length > 0 &&
@@ -146,13 +132,10 @@ function Account() {
         : response.id + "@ishtari-mobile.com",
       id: response.id
     };
-
     axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj).then((resp) => {
-    
-      checkLogin('login');
+      checkLogin();
     });
   }
-
   async function log() {
     if (session) {
       const obj = {
@@ -170,7 +153,6 @@ function Account() {
       }
     }
   }
-
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
@@ -179,15 +161,14 @@ function Account() {
       password: loginPassword.current.value,
       redirect: false
     });
-
     if (response.status === 200) {
-      checkLogin('login');
+      checkLogin();
+      // window.location.reload();
     } else {
       setShowLoginError(true);
       setLoginError(response.error);
     }
   }
-
   // Check login
   function checkLogin(type) {
     dispatch({ type: "setLoading", payload: true });
@@ -204,7 +185,6 @@ function Account() {
        
         // }
         // console.log(data);
-
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -212,8 +192,7 @@ function Account() {
           dispatch({ type: "setEmail", payload: data.email });
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
-         
-    
+          // checkOrderNumber();
           // if (
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
@@ -225,20 +204,19 @@ function Account() {
         }
         dispatch({ type: "setLoading", payload: false });
       });
-
-    window.location.reload();
+    // window.location.reload();
   }
-
-
- 
-
-
-
+  //  function   checkOrderNumber (){
+  //   axiosServer
+  //   .get(buildLink("checkOrderNumber", undefined, undefined, window.config["site-url"]))
+  //   .then((response) => {
+  //     console.log(response);
+  //   })
+  //  }
   // Signup
   async function signup(e) {
     e.preventDefault();
     setSignupLoading(true);
-
     const response = await signIn("signup", {
       email: signupEmail.current.value,
       password: signupPassword.current.value,
@@ -247,7 +225,6 @@ function Account() {
       lastname: signupLast.current.value,
       redirect: false
     });
-    console.log(response);
     if (response.status === 200) {
       checkLogin('register');
 
@@ -258,7 +235,6 @@ function Account() {
     }
     setSignupLoading(false);
   }
-
   // Forget Password
   async function handleForgetPassword() {
     if (loginEmail.current.value) {
@@ -299,13 +275,10 @@ function Account() {
     Cookies.remove("seller_id");
     window.location.href = "/";
   }
-
-  useEffect(() => {
+useEffect(() => {
     dispatch({ type: "setAdminLoading", payload: true });
     // 70 91 1870
-
     var adminToken = Cookies.get("ATDetails");
-
     // if (
     //   window.location.host === "localhost:3000" ||
     //   window.location.host === "localhost:3001"
@@ -313,7 +286,6 @@ function Account() {
     //   adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
     //   Cookies.set("ATDetails", adminToken);
     // }
-
     if (typeof adminToken != typeof undefined) {
       dispatch({ type: "setAdminToken", payload: adminToken });
       dispatch({ type: "setAdmin", payload: true });
@@ -327,7 +299,6 @@ function Account() {
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
-
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -350,10 +321,8 @@ function Account() {
         }
       });
   }, [dispatch]);
-
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
-
   function useOutsideAlerter(ref) {
     useEffect(() => {
       if (showUserMenu) {
@@ -371,7 +340,6 @@ function Account() {
       }
     }, [ref, showUserMenu]);
   }
-
   return (
     <div className="relative">
       {state.showOver && (
@@ -462,7 +430,6 @@ function Account() {
                 >
                   Forgot your password?
                 </p>
-
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {loginLoading ? <span>LOADING</span> : <span>SIGN IN</span>}
                 </button>
@@ -490,10 +457,7 @@ function Account() {
                 <button className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al">
                   <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
                 </button>
-
-
               </form> */}
-
               <FacebookLogin
                 appId={window.config['appId']}
                 fields="name,email"
@@ -614,8 +578,7 @@ function Account() {
                     />
                   </div> */}
                 </div>
-
-                <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
+            <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {signupLoading ? (
                     <span>LOADING</span>
                   ) : (
@@ -631,7 +594,6 @@ function Account() {
         {/* {state.loading && (
           <div
             className="text-white border-r border-dmenusep  flex items-center pl-3 pr-6 cursor-pointer hover:opacity-80 relative"
-     
           >
             <i className=" icon icon-user ml-2 text-xl"></i>
             <span className=" w-6 h-6 bg-dblue flex  items-center justify-center rounded-full text-xs absolute right-1  -top-1 border border-white">
@@ -657,15 +619,13 @@ function Account() {
           <div
             onClick={() => {}}
             className="
-               
             lg:border-r
             lg:border-dplaceHolder
-                flex 
+                flex
                 items-start
                 flex-col
-                
                 px-3
-                relative 
+                relative
                 text-sm
                 "
           >
@@ -684,7 +644,6 @@ function Account() {
                 }`}
               ></FiChevronDown>
             </div>
-
             {showUserMenu && (
               <div
                 className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1"
@@ -722,7 +681,6 @@ function Account() {
                   <FaWallet className=" text-d16 " />
                   <span className="ml-4">Wallet</span>
                 </Link>
-                
                 <Link
                   href={`${path}/account/buyagain`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -731,7 +689,6 @@ function Account() {
                   <BsFillCartCheckFill className="text-d16" />
                   <span className="ml-4">Buy Again</span>
                 </Link>
-
                 <Link
                   href={`${path}/account/recentlyViewed`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -841,5 +798,4 @@ function Account() {
     </div>
   );
 }
-
 export default Account;

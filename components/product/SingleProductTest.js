@@ -298,7 +298,7 @@ setLoading(false)
                       : "absolute z-20 text-dbase  w-full text-center  bottom-0 "
                   }
                 >
-                  Out Of Stock
+                  Out Of Stock 
                 </div>
               )}
               {props.item.quantity === "0" ? (
