@@ -192,7 +192,7 @@ function Account() {
           dispatch({ type: "setEmail", payload: data.email });
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
-          checkOrderNumber();
+          // checkOrderNumber();
           // if (
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
@@ -206,13 +206,13 @@ function Account() {
       });
     // window.location.reload();
   }
-   function   checkOrderNumber (){
-    axiosServer
-    .get(buildLink("checkOrderNumber", undefined, undefined, window.config["site-url"]))
-    .then((response) => {
-      console.log(response);
-    })
-   }
+  //  function   checkOrderNumber (){
+  //   axiosServer
+  //   .get(buildLink("checkOrderNumber", undefined, undefined, window.config["site-url"]))
+  //   .then((response) => {
+  //     console.log(response);
+  //   })
+  //  }
   // Signup
   async function signup(e) {
     e.preventDefault();
