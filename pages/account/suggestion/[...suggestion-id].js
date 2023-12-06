@@ -216,6 +216,7 @@ function suggestionDetails() {
   };
 
   const deleteSuggestion = (sugg_id) => {
+    dispatch({ type: "setLoading", payload: true });
     setDeleteErr("");
     setDeleteMsg("");
     axiosServer
@@ -227,6 +228,7 @@ function suggestionDetails() {
         // console.log(response.data);
         if (response.data.success) {
           setDeleteMsg("Suggestion deleted successfully");
+          dispatch({ type: "setLoading", payload: false });
           setTimeout(() => {
             setDeleteMsg("");
             router.push("/account/suggestion");
@@ -426,7 +428,7 @@ function suggestionDetails() {
                   onClick={() => deleteSuggestion(suggestion_id)}
                   className="cursor-pointer bg-dbase text-white w-1/2 md:w-60 rounded-md text-center py-1.5"
                 >
-                  Delete
+               { state.loading?(<div className=" flex justify-center text-center w-full"><div className="w-[30px]"><Loader/></div></div> ):(<>Delete</>)}
                 </div>
               </div>
             )}
