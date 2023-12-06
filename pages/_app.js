@@ -26,6 +26,7 @@ import Script from "next/script";
 import Cookies from "js-cookie";
 import { HeaderProvider } from "@/contexts/HeaderContext";
 import CartSideModal from "@/components/product/CartSideModal";
+import { SuggestionProvider } from "@/contexts/SuggestionContext";
 
 export default function App({
   Component,
@@ -176,6 +177,7 @@ export default function App({
       )}
 
       <AccountProvider>
+        <SuggestionProvider>
         <CartProvider>
           <WishlistProvider>
             <CurrencyProvider>
@@ -229,7 +231,9 @@ export default function App({
             </CurrencyProvider>
           </WishlistProvider>
         </CartProvider>
+        </SuggestionProvider>
       </AccountProvider>
+
     </SessionProvider>
   );
 }

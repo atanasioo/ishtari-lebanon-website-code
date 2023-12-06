@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import imageCompression from "browser-image-compression";
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
@@ -8,11 +8,16 @@ import { BsPlusLg } from "react-icons/bs";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import useDeviceSize from "@/components/useDeviceSize";
 import { useRouter } from "next/router";
+import Loader from "@/components/Loader";
+import { SuggestionContext } from "@/contexts/SuggestionContext";
+
 
 function suggestionDetails() {
   const router = useRouter();
   const [suggImgs, setSuggImgs] = useState([]);
+  const [isLoading , setLoading] = useState(false);
   const [exceededMaxnb, setExceededMaxNb] = useState(false);
+  const [state, dispatch] = useContext(SuggestionContext);
   const [success, setSuccess] = useState("");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -157,6 +162,7 @@ function suggestionDetails() {
 
   const submitRequest = (e) => {
     e.preventDefault();
+    dispatch({ type: "setLoading", payload: true });
     var formData = new FormData();
 
     // console.log(suggImgs);
@@ -169,16 +175,16 @@ function suggestionDetails() {
       suggImgs.slice(0, 5).map((image, index) => {
         formData.append(`images[${index}]`, image);
       });
-
+      
       axiosServer
         .post(buildLink("suggestion", undefined, undefined), formData)
         .then((response) => {
           // console.log(response.data);
           if (response.data.success) {
             setSuccess(response.data.message);
-            setTimeout(() => {
+            dispatch({ type: "setLoading", payload: false });
               router.push("/account/suggestion");
-            }, 4000);
+        
           }
         });
     } else {
@@ -199,12 +205,14 @@ function suggestionDetails() {
           // console.log(response.data);
           if (response.data.success) {
             setSuccess(response.data.message);
-            setTimeout(() => {
+            dispatch({ type: "setLoading", payload: false });
+           
               router.push("/account/suggestion");
-            }, 4000);
+        
           }
         });
     }
+    
   };
 
   const deleteSuggestion = (sugg_id) => {
@@ -231,6 +239,11 @@ function suggestionDetails() {
 
   return (
     <div className="relative">
+        {isLoading  && (
+        <div className="bg-dgreen text-white py-2 px-6 rounded pr-semibold fixed bottom-10 right-3 z-10">
+          {success}
+        </div>
+      )}
       {success.length > 0 && (
         <div className="bg-dgreen text-white py-2 px-6 rounded pr-semibold fixed bottom-10 right-3 z-10">
           {success}
@@ -399,7 +412,7 @@ function suggestionDetails() {
                     "linear-gradient(98.3deg, rgb(204, 0, 0) 30.6%, rgb(255, 153, 153) 97.7%)"
                 }}
               >
-                Submit
+               { state.loading?(<div className=" flex justify-center text-center w-full"><div className="w-[30px]"><Loader/></div></div> ):(<>Submit</>)}
               </button>
             ) : (
               <div className="flex items-center gap-3">
