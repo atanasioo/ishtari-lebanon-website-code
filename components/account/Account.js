@@ -10,6 +10,8 @@ import { FiChevronDown } from "react-icons/fi";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
 import {RiUserFollowLine} from "react-icons/ri";
+import { BsArrowBarLeft } from "react-icons/bs";
+
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -19,13 +21,14 @@ import { MdAvTimer, MdFeedback } from "react-icons/md";
 import {
   FaMoneyBillWave,
   FaUserAlt,
-  FaWallet
+  FaWallet,
 } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
 import { HiLightBulb } from "react-icons/hi";
+import Loader from "../Loader";
+
 function Account() {
-  const [modalOpen, setModalOpen] = useState(false);
   const modal = useRef(null);
   const [message, setMessage] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -34,12 +37,14 @@ function Account() {
   const [showLoginError, setShowLoginError] = useState(false);
   const [showSignupError, setShowSignupError] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
+  const [emailSent , setEmailSent] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
   const { data: session, status, update: sessionUpdate } = useSession();
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
+
   const loginEmail = useRef("");
   const loginPassword = useRef("");
   const signupEmail = useRef("");
@@ -49,6 +54,8 @@ function Account() {
   const birthDate = useRef("");
   const path = "";
   const router = useRouter();
+
+
   // if (session) {
   //   // The user is logged in
   //   const obj = {
@@ -62,18 +69,24 @@ function Account() {
   //   const response = axiosServer.post(buildLink("social"), obj);
   //   if (response.customer_id) checkLogin();
   //   // window.location.reload();
+
   // } else {
   //   // The user is not logged in
   //   // return <p>Please log in with Facebook.</p>
   // }
+
+
+
   useEffect(() => {
     // if () {
     // alert(session.user.email);
+
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
       }
     }
+
     async function log() {
       // console.log(session)
       const obj = {
@@ -90,10 +103,12 @@ function Account() {
       // window.location.reload();
     }
   }, [session]);
+
   async function handleFacebookLogin(e) {
     e.preventDefault();
     const result = await signIn("facebook");
   }
+
   async function social() {
     // console.log("start-1");
     const result = await signIn("facebook");
@@ -108,6 +123,49 @@ function Account() {
       return;
     }
   }
+
+
+
+
+
+ const  handleCloseAuthForm=()=>{
+  setErr();
+  setMessage(false);
+  setEmailSent(false)
+  dispatch({ type: "setShowOver", payload: false });
+                  dispatch({ type: "setShowLogin", payload: false });
+                  dispatch({ type: "setShowSignup", payload: false });
+                  dispatch({ type: "setShowForgetPassword", payload: false });
+                  dispatch({ type: "setShowEmailSent", payload: false });
+                  
+  }
+
+  const openAuthForm=()=>{
+    setErr();
+    setMessage(false);
+    setEmailSent(false)
+    dispatch({ type: "setShowOver", payload: true });
+                    dispatch({ type: "setShowLogin", payload: true });
+                    dispatch({ type: "setShowSignup", payload: false });
+                    dispatch({ type: "setShowForgetPassword", payload: false });
+                    dispatch({ type: "setShowEmailSent", payload: false });
+  }
+
+
+
+  const backToLogIn=(e)=>{
+e.preventDefault();
+    setErr();
+    setEmailSent(false)
+    setMessage();
+    dispatch({ type: "setShowLogin", payload: true })
+    dispatch({ type: "setShowForgetPassword", payload: false })
+  }
+
+
+
+
+
   useEffect(() => {
     if (
       Object.keys(stateLogin).length > 0 &&
@@ -132,10 +190,13 @@ function Account() {
         : response.id + "@ishtari-mobile.com",
       id: response.id
     };
+
     axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj).then((resp) => {
-      checkLogin();
+    
+      checkLogin('login');
     });
   }
+
   async function log() {
     if (session) {
       const obj = {
@@ -153,6 +214,7 @@ function Account() {
       }
     }
   }
+
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
@@ -161,14 +223,15 @@ function Account() {
       password: loginPassword.current.value,
       redirect: false
     });
+
     if (response.status === 200) {
-      checkLogin();
-      // window.location.reload();
+      checkLogin('login');
     } else {
       setShowLoginError(true);
       setLoginError(response.error);
     }
   }
+
   // Check login
   function checkLogin(type) {
     dispatch({ type: "setLoading", payload: true });
@@ -176,7 +239,7 @@ function Account() {
     axiosServer
       .get(buildLink("login", undefined, undefined, window.config["site-url"])+`&type=${type}`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         const data = response.data;
         // if(data.coupon!=[]){
         //   setTimeout(()=>{
@@ -185,6 +248,7 @@ function Account() {
        
         // }
         // console.log(data);
+
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -192,7 +256,8 @@ function Account() {
           dispatch({ type: "setEmail", payload: data.email });
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
-          // checkOrderNumber();
+         
+    
           // if (
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
@@ -204,19 +269,20 @@ function Account() {
         }
         dispatch({ type: "setLoading", payload: false });
       });
-    // window.location.reload();
+
+    window.location.reload();
   }
-  //  function   checkOrderNumber (){
-  //   axiosServer
-  //   .get(buildLink("checkOrderNumber", undefined, undefined, window.config["site-url"]))
-  //   .then((response) => {
-  //     console.log(response);
-  //   })
-  //  }
+
+
+ 
+
+
+
   // Signup
   async function signup(e) {
     e.preventDefault();
     setSignupLoading(true);
+
     const response = await signIn("signup", {
       email: signupEmail.current.value,
       password: signupPassword.current.value,
@@ -225,6 +291,7 @@ function Account() {
       lastname: signupLast.current.value,
       redirect: false
     });
+    console.log(response);
     if (response.status === 200) {
       checkLogin('register');
 
@@ -235,8 +302,11 @@ function Account() {
     }
     setSignupLoading(false);
   }
+
   // Forget Password
-  async function handleForgetPassword() {
+  async function handleForgetPassword(e) {
+    e.preventDefault();
+    dispatch({ type: "setLoadingEmail", payload: true });
     if (loginEmail.current.value) {
       const new_password = await axiosServer.post(
         buildLink(
@@ -248,16 +318,23 @@ function Account() {
         {
           email: loginEmail.current.value
         }
-      );
-      if (new_password.data.errors) {
+      ).then((response) => {
+        dispatch({ type: "setLoadingEmail", payload: false });
+     
+      if (response.data.errors) {
         setErr("No Email Found");
       } else {
-        setMessage(new_password?.data?.data?.message);
+        
+        setMessage(response?.data?.data?.message);
+        setEmailSent(true);
         setErr();
       }
+    });
     } else {
+      dispatch({ type: "setLoadingEmail", payload: false });
       setErr("Please enter your email");
     }
+    
   }
   async function logOut(e) {
     e.preventDefault();
@@ -275,10 +352,13 @@ function Account() {
     Cookies.remove("seller_id");
     window.location.href = "/";
   }
-useEffect(() => {
+
+  useEffect(() => {
     dispatch({ type: "setAdminLoading", payload: true });
     // 70 91 1870
+
     var adminToken = Cookies.get("ATDetails");
+
     // if (
     //   window.location.host === "localhost:3000" ||
     //   window.location.host === "localhost:3001"
@@ -286,6 +366,7 @@ useEffect(() => {
     //   adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
     //   Cookies.set("ATDetails", adminToken);
     // }
+
     if (typeof adminToken != typeof undefined) {
       dispatch({ type: "setAdminToken", payload: adminToken });
       dispatch({ type: "setAdmin", payload: true });
@@ -299,6 +380,7 @@ useEffect(() => {
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
+
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -321,8 +403,10 @@ useEffect(() => {
         }
       });
   }, [dispatch]);
+
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
+
   function useOutsideAlerter(ref) {
     useEffect(() => {
       if (showUserMenu) {
@@ -340,6 +424,7 @@ useEffect(() => {
       }
     }, [ref, showUserMenu]);
   }
+
   return (
     <div className="relative">
       {state.showOver && (
@@ -347,11 +432,9 @@ useEffect(() => {
           {state.showLogin && (
             <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4 overflow-hidden relative">
               <span
-                onClick={() => {
-                  dispatch({ type: "setShowOver", payload: false });
-                  dispatch({ type: "setShowLogin", payload: false });
-                  dispatch({ type: "setShowSignup", payload: false });
-                }}
+                onClick={
+                 handleCloseAuthForm
+                }
                 className=" z-10 absolute top-0 text-2xl right-0 w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-dgrey"
               >
                 <IoMdClose />
@@ -425,11 +508,16 @@ useEffect(() => {
                   </div>
                 </div>
                 <p
-                  onClick={() => handleForgetPassword()}
+                  onClick={() => {
+                    dispatch({ type: "setShowOver", payload: true });
+                    dispatch({ type: "setShowForgetPassword", payload: true });
+                    dispatch({ type: "setShowLogin", payload: false });
+                  }}
                   className="text-dblue text-sm cursor-pointer py-1"
                 >
                   Forgot your password?
                 </p>
+
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {loginLoading ? <span>LOADING</span> : <span>SIGN IN</span>}
                 </button>
@@ -457,7 +545,10 @@ useEffect(() => {
                 <button className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al">
                   <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
                 </button>
+
+
               </form> */}
+
               <FacebookLogin
                 appId={window.config['appId']}
                 fields="name,email"
@@ -489,11 +580,9 @@ useEffect(() => {
           {state.showSignup && (
             <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
               <span
-                onClick={() => {
-                  dispatch({ type: "setShowOver", payload: false });
-                  dispatch({ type: "setShowLogin", payload: false });
-                  dispatch({ type: "setShowSignup", payload: false });
-                }}
+                onClick={
+                handleCloseAuthForm
+                }
                 className=" z-10 absolute top-0 right-0 w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-dgrey"
               >
                 <IoMdClose className="text-2xl" />
@@ -578,7 +667,8 @@ useEffect(() => {
                     />
                   </div> */}
                 </div>
-            <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
+
+                <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {signupLoading ? (
                     <span>LOADING</span>
                   ) : (
@@ -588,12 +678,95 @@ useEffect(() => {
               </form>
             </div>
           )}
+
+{state.showForgetPassword && (
+  
+            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
+           
+              <span
+                onClick={
+                  handleCloseAuthForm
+                }
+                className=" z-10 absolute top-0 right-0 w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-dgrey"
+              >
+                <IoMdClose className="text-2xl" />
+              </span>
+              {message && (
+                <span
+                  onClick={() => setMessage()}
+                  className="cursor-pointer text-sm z-10 absolute top-0 right-0 bg-dgreen w-full text-white py-2"
+                >
+                  {message}
+                </span>
+              )}
+              {err && (
+                <span
+                  onClick={() => setErr()}
+                  className="cursor-pointer z-10 absolute top-0 right-0 bg-dbase w-full text-white py-2"
+                >
+                  {err}
+                </span>
+              )}
+              <p
+                className={`text-2xl font-semibold ${
+                  showLoginError ? "mt-12" : "mt-6"
+                }`}
+              >
+                Forgot Your Password
+              </p>
+              <div className="flex justify-start text-sm font-extralight my-4">
+              If you've forgotten your password, please enter your registered email address.
+We'll send you a link to reset your password.
+             
+              </div>
+              <form>
+                <div className="my-4">
+                  <div className="input">
+                    <label>Email</label>
+                    <input
+                      value={ loginEmail.current.value ? loginEmail.current.value:""}
+                      type="email"
+                      required={true}
+                      autoComplete="email"
+                      ref={loginEmail}
+                    />
+                  </div>
+               
+                
+                
+                </div>
+
+
+                   <div className="flex flex-row gap-5 justify-center mb-4 ">
+                   { emailSent ?(
+                <button type="cancel"
+                onClick={(e)=> backToLogIn(e) }
+                className="  flex-row text-dblue py-4 border border-dinputBorder block text-center  w-96 mt-6 hover:bg-dblue hover:text-white">
+              
+                 <span>Back To LogIn</span>
+                  
+                </button>
+                ):(<></>)
+}            
+                <button 
+                onClick={(e)=>handleForgetPassword(e)}
+                className=" py-4 border border-dinputBorder block text-center bg-dblue hover:bg-dblue2  w-96 mt-6 text-white">
+                
+                    <span>{ state.loadingEmail?(<div className=" w-full flex justify-center text-center"><div className="w-[30px]"><Loader/></div></div>):(<>Send Email</>)}</span>
+                 
+                </button>
+              
+                </div>
+              </form>
+            </div>
+          )}
         </div>
       )}
       <div className="hidden xl:block lg:block ">
         {/* {state.loading && (
           <div
             className="text-white border-r border-dmenusep  flex items-center pl-3 pr-6 cursor-pointer hover:opacity-80 relative"
+     
           >
             <i className=" icon icon-user ml-2 text-xl"></i>
             <span className=" w-6 h-6 bg-dblue flex  items-center justify-center rounded-full text-xs absolute right-1  -top-1 border border-white">
@@ -604,10 +777,9 @@ useEffect(() => {
         {/* If not logged */}
         {!state.loged && (
           <div
-            onClick={() => {
-              dispatch({ type: "setShowOver", payload: true });
-              dispatch({ type: "setShowLogin", payload: true });
-            }}
+            onClick={
+              openAuthForm
+            }
             className="lg:border-r lg:border-dplaceHolder font-semibold text-base flex items-center px-3 md:pr-5 cursor-pointer hover:opacity-80 relative"
           >
             <span>Sign In</span>
@@ -619,13 +791,15 @@ useEffect(() => {
           <div
             onClick={() => {}}
             className="
+               
             lg:border-r
             lg:border-dplaceHolder
-                flex
+                flex 
                 items-start
                 flex-col
+                
                 px-3
-                relative
+                relative 
                 text-sm
                 "
           >
@@ -644,6 +818,7 @@ useEffect(() => {
                 }`}
               ></FiChevronDown>
             </div>
+
             {showUserMenu && (
               <div
                 className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1"
@@ -681,6 +856,7 @@ useEffect(() => {
                   <FaWallet className=" text-d16 " />
                   <span className="ml-4">Wallet</span>
                 </Link>
+                
                 <Link
                   href={`${path}/account/buyagain`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -689,6 +865,7 @@ useEffect(() => {
                   <BsFillCartCheckFill className="text-d16" />
                   <span className="ml-4">Buy Again</span>
                 </Link>
+
                 <Link
                   href={`${path}/account/recentlyViewed`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -798,4 +975,5 @@ useEffect(() => {
     </div>
   );
 }
+
 export default Account;
