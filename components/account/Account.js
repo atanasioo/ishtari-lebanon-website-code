@@ -11,7 +11,6 @@ import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
 import {RiUserFollowLine} from "react-icons/ri";
 import { BsArrowBarLeft } from "react-icons/bs";
-
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -27,10 +26,10 @@ import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
 import { HiLightBulb } from "react-icons/hi";
 import Loader from "../Loader";
-
 function Account() {
-  const modal = useRef(null);
+  // const modal = useRef(null);
   const [message, setMessage] = useState(false);
+  // const [couponForyou, setCouponForyou] = useState(null);
   const [loginError, setLoginError] = useState("");
   const [signupError, setSignupError] = useState("");
   const [err, setErr] = useState(false);
@@ -44,7 +43,7 @@ function Account() {
   const { data: session, status, update: sessionUpdate } = useSession();
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
-
+  const [modalOpen ,setModalOpen] = useState(false);
   const loginEmail = useRef("");
   const loginPassword = useRef("");
   const signupEmail = useRef("");
@@ -54,8 +53,6 @@ function Account() {
   const birthDate = useRef("");
   const path = "";
   const router = useRouter();
-
-
   // if (session) {
   //   // The user is logged in
   //   const obj = {
@@ -69,24 +66,44 @@ function Account() {
   //   const response = axiosServer.post(buildLink("social"), obj);
   //   if (response.customer_id) checkLogin();
   //   // window.location.reload();
-
   // } else {
   //   // The user is not logged in
   //   // return <p>Please log in with Facebook.</p>
   // }
-
-
-
+  const handleLockEmailButton = () => {
+    if (!state.ButtonLocked) {
+      dispatch({ type: "setButtonLocked", payload: true });
+      // Unlock the button after 30 seconds
+      setTimeout(() => {
+        dispatch({ type: "setButtonLocked", payload: false });
+      }, 30000);
+    }
+  };
+  useEffect(() => {
+    // Cleanup timeout in case component unmounts before 30 seconds
+    return () => clearTimeout();
+  }, []);
+  // useEffect(() => {
+  //   const clickHandler = ({ target }) => {
+  //     if (!modal.current) return;
+  //     if (
+  //       !modalOpen ||
+  //       modal.current.contains(target)
+  //     )
+  //       return;
+  //     setModalOpen(false);
+  //   };
+  //   document.addEventListener("click", clickHandler);
+  //   return () => document.removeEventListener("click", clickHandler);
+  // });
   useEffect(() => {
     // if () {
     // alert(session.user.email);
-
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
       }
     }
-
     async function log() {
       // console.log(session)
       const obj = {
@@ -103,12 +120,10 @@ function Account() {
       // window.location.reload();
     }
   }, [session]);
-
   async function handleFacebookLogin(e) {
     e.preventDefault();
     const result = await signIn("facebook");
   }
-
   async function social() {
     // console.log("start-1");
     const result = await signIn("facebook");
@@ -123,11 +138,6 @@ function Account() {
       return;
     }
   }
-
-
-
-
-
  const  handleCloseAuthForm=()=>{
   setErr();
   setMessage(false);
@@ -137,9 +147,7 @@ function Account() {
                   dispatch({ type: "setShowSignup", payload: false });
                   dispatch({ type: "setShowForgetPassword", payload: false });
                   dispatch({ type: "setShowEmailSent", payload: false });
-                  
   }
-
   const openAuthForm=()=>{
     setErr();
     setMessage(false);
@@ -150,9 +158,6 @@ function Account() {
                     dispatch({ type: "setShowForgetPassword", payload: false });
                     dispatch({ type: "setShowEmailSent", payload: false });
   }
-
-
-
   const backToLogIn=(e)=>{
 e.preventDefault();
     setErr();
@@ -161,11 +166,6 @@ e.preventDefault();
     dispatch({ type: "setShowLogin", payload: true })
     dispatch({ type: "setShowForgetPassword", payload: false })
   }
-
-
-
-
-
   useEffect(() => {
     if (
       Object.keys(stateLogin).length > 0 &&
@@ -190,13 +190,10 @@ e.preventDefault();
         : response.id + "@ishtari-mobile.com",
       id: response.id
     };
-
     axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj).then((resp) => {
-    
       checkLogin('login');
     });
   }
-
   async function log() {
     if (session) {
       const obj = {
@@ -214,7 +211,6 @@ e.preventDefault();
       }
     }
   }
-
   async function login(e) {
     e.preventDefault();
     dispatch({ type: "setLoading", payload: true });
@@ -223,7 +219,6 @@ e.preventDefault();
       password: loginPassword.current.value,
       redirect: false
     });
-
     if (response.status === 200) {
       checkLogin('login');
     } else {
@@ -231,7 +226,6 @@ e.preventDefault();
       setLoginError(response.error);
     }
   }
-
   // Check login
   function checkLogin(type) {
     dispatch({ type: "setLoading", payload: true });
@@ -241,14 +235,13 @@ e.preventDefault();
       .then((response) => {
         // console.log(response);
         const data = response.data;
-        // if(data.coupon!=[]){
+        // setCouponForyou(response.data.coupon);
+        //  if(!couponForyou == null){
         //   setTimeout(()=>{
         //     setModalOpen(true)
         //   },3000)
-       
         // }
-        // console.log(data);
-
+        console.log(data);
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -256,8 +249,6 @@ e.preventDefault();
           dispatch({ type: "setEmail", payload: data.email });
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
-         
-    
           // if (
           //   history.location.pathname == "/checkout" &&
           //   window.location.host === "www.ishtari.com.gh"
@@ -269,20 +260,12 @@ e.preventDefault();
         }
         dispatch({ type: "setLoading", payload: false });
       });
-
     window.location.reload();
   }
-
-
- 
-
-
-
   // Signup
   async function signup(e) {
     e.preventDefault();
     setSignupLoading(true);
-
     const response = await signIn("signup", {
       email: signupEmail.current.value,
       password: signupPassword.current.value,
@@ -294,18 +277,20 @@ e.preventDefault();
     console.log(response);
     if (response.status === 200) {
       checkLogin('register');
-
-   
     } else {
       setShowSignupError(true);
       setSignupError(response.error);
     }
     setSignupLoading(false);
   }
-
   // Forget Password
-  async function handleForgetPassword(e) {
+   const handleForgetPassword= async(e)=>  {
     e.preventDefault();
+    if(state.ButtonLocked){
+return;
+    }{
+    handleLockEmailButton();
+    dispatch( {type:"setshowTimer",payload:true});
     dispatch({ type: "setLoadingEmail", payload: true });
     if (loginEmail.current.value) {
       const new_password = await axiosServer.post(
@@ -320,11 +305,9 @@ e.preventDefault();
         }
       ).then((response) => {
         dispatch({ type: "setLoadingEmail", payload: false });
-     
       if (response.data.errors) {
         setErr("No Email Found");
       } else {
-        
         setMessage(response?.data?.data?.message);
         setEmailSent(true);
         setErr();
@@ -334,7 +317,7 @@ e.preventDefault();
       dispatch({ type: "setLoadingEmail", payload: false });
       setErr("Please enter your email");
     }
-    
+  }
   }
   async function logOut(e) {
     e.preventDefault();
@@ -353,12 +336,10 @@ e.preventDefault();
     window.location.href = "/";
   }
 
-  useEffect(() => {
+useEffect(() => {
     dispatch({ type: "setAdminLoading", payload: true });
     // 70 91 1870
-
     var adminToken = Cookies.get("ATDetails");
-
     // if (
     //   window.location.host === "localhost:3000" ||
     //   window.location.host === "localhost:3001"
@@ -366,7 +347,6 @@ e.preventDefault();
     //   adminToken = "eab4e66ebc6f424bf03d9b4c712a74ce";
     //   Cookies.set("ATDetails", adminToken);
     // }
-
     if (typeof adminToken != typeof undefined) {
       dispatch({ type: "setAdminToken", payload: adminToken });
       dispatch({ type: "setAdmin", payload: true });
@@ -380,7 +360,6 @@ e.preventDefault();
       .get(buildLink("login", undefined, undefined, window.config["site-url"]))
       .then((response) => {
         const data = response.data;
-
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -403,10 +382,8 @@ e.preventDefault();
         }
       });
   }, [dispatch]);
-
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
-
   function useOutsideAlerter(ref) {
     useEffect(() => {
       if (showUserMenu) {
@@ -424,7 +401,6 @@ e.preventDefault();
       }
     }, [ref, showUserMenu]);
   }
-
   return (
     <div className="relative">
       {state.showOver && (
@@ -517,7 +493,6 @@ e.preventDefault();
                 >
                   Forgot your password?
                 </p>
-
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {loginLoading ? <span>LOADING</span> : <span>SIGN IN</span>}
                 </button>
@@ -545,10 +520,7 @@ e.preventDefault();
                 <button className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al">
                   <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
                 </button>
-
-
               </form> */}
-
               <FacebookLogin
                 appId={window.config['appId']}
                 fields="name,email"
@@ -644,7 +616,7 @@ e.preventDefault();
                       autoComplete="firstname"
                       minLength="2"
                     />
-                  </div>
+</div>
                   <div className="input my-4">
                     <label>Last name</label>
                     <input
@@ -662,12 +634,9 @@ e.preventDefault();
                       type="date"
                       required={true}
                       pattern="\d{4}-\d{2}-\d{2}"
-                     
-                      
                     />
                   </div> */}
                 </div>
-
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
                   {signupLoading ? (
                     <span>LOADING</span>
@@ -678,11 +647,8 @@ e.preventDefault();
               </form>
             </div>
           )}
-
 {state.showForgetPassword && (
-  
             <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
-           
               <span
                 onClick={
                   handleCloseAuthForm
@@ -715,8 +681,8 @@ e.preventDefault();
                 Forgot Your Password ?
               </p>
               <div className="flex justify-start text-sm font-extralight my-4">
-              If you've forgotten your password, We'll send you a new password.
-             
+              If you've forgotten your password, please enter your registered email address.
+We'll send you your new password.
               </div>
               <form>
                 <div className="my-4">
@@ -730,31 +696,21 @@ e.preventDefault();
                       ref={loginEmail}
                     />
                   </div>
-               
-                
-                
                 </div>
-
-
                    <div className="flex flex-row gap-5 justify-center mb-4 ">
                    { emailSent ?(
                 <button type="cancel"
                 onClick={(e)=> backToLogIn(e) }
                 className="  flex-row text-dblue py-4 border border-dinputBorder block text-center  w-96 mt-6 hover:bg-dblue hover:text-white">
-              
                  <span>Back To LogIn</span>
-                  
                 </button>
                 ):(<></>)
-}            
-                <button 
+}
+                <button
                 onClick={(e)=>handleForgetPassword(e)}
-                className=" py-4 border border-dinputBorder block text-center bg-dblue hover:bg-dblue2  w-96 mt-6 text-white">
-                
-                    <span>{ state.loadingEmail?(<div className=" w-full flex justify-center text-center"><div className="w-[30px]"><Loader/></div></div>):(<>Send Email</>)}</span>
-                 
+                className={` py-4 border border-dinputBorder block text-center ${state.ButtonLocked?" bg-dgrey1":"bg-dblue"} bg-dblue hover:${state.ButtonLocked?" bg-dgrey1":"bg-dblue1"} w-96 mt-6 text-white`}>
+                    <span>{ state.loadingEmail?(<div className=" w-full flex justify-center text-center"><div className="w-[30px]"><Loader/></div></div>):( state.ButtonLocked?<>Wait 30 second</> :<>Send Email</>)}</span>
                 </button>
-              
                 </div>
               </form>
             </div>
@@ -765,7 +721,6 @@ e.preventDefault();
         {/* {state.loading && (
           <div
             className="text-white border-r border-dmenusep  flex items-center pl-3 pr-6 cursor-pointer hover:opacity-80 relative"
-     
           >
             <i className=" icon icon-user ml-2 text-xl"></i>
             <span className=" w-6 h-6 bg-dblue flex  items-center justify-center rounded-full text-xs absolute right-1  -top-1 border border-white">
@@ -790,15 +745,13 @@ e.preventDefault();
           <div
             onClick={() => {}}
             className="
-               
             lg:border-r
             lg:border-dplaceHolder
-                flex 
+                flex
                 items-start
                 flex-col
-                
                 px-3
-                relative 
+                relative
                 text-sm
                 "
           >
@@ -817,7 +770,6 @@ e.preventDefault();
                 }`}
               ></FiChevronDown>
             </div>
-
             {showUserMenu && (
               <div
                 className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1"
@@ -855,7 +807,6 @@ e.preventDefault();
                   <FaWallet className=" text-d16 " />
                   <span className="ml-4">Wallet</span>
                 </Link>
-                
                 <Link
                   href={`${path}/account/buyagain`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -864,7 +815,6 @@ e.preventDefault();
                   <BsFillCartCheckFill className="text-d16" />
                   <span className="ml-4">Buy Again</span>
                 </Link>
-
                 <Link
                   href={`${path}/account/recentlyViewed`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -934,45 +884,7 @@ e.preventDefault();
       </div>
 
 
-
-
-
-
-
-
-
-      {/* <div
-          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
-            modalOpen ? "block" : "hidden"
-          }`}
-        >
-          <div
-            ref={modal}
-            onFocus={() => setModalOpen(true)}
-            onBlur={() => setModalOpen(false)}
-            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
-          >
-
-<h2>Coupons Avilable for you </h2>
-{data.coupon}
-             <div className="-mx-3 flex flex-wrap shadow-[white_0px_-25px_20px_0px] ">
-             
-
-              <div className={` px-3 w-full`}>
-                <button
-                  onClick={() => setModalOpen(false)}
-                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white dark:text-white"
-                >
-                  Cancel
-                </button>
-              </div>
-              
-            </div>
-          </div>
-        </div> */}
-                 
     </div>
   );
 }
-
 export default Account;

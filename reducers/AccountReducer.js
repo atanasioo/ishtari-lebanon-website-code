@@ -1,5 +1,10 @@
 export const AccountReducer = (state, action) => {
   switch (action.type) {
+   case "setButtonLocked":
+    return{
+      ...state,
+      ButtonLocked:action.payload
+    }
     case "setShowOver":
       return {
         ...state,
@@ -85,13 +90,11 @@ export const AccountReducer = (state, action) => {
         ...state,
         isSeller: action.payload
       };
-
     case "setEmail":
       return {
         ...state,
         email: action.payload
       };
-
     default:
       return state;
   }
@@ -115,5 +118,6 @@ export const initialState = {
   wtspNumber: "",
    email: "",
   isSeller: false,
-  loadingEmail:false
+  loadingEmail:false,
+  ButtonLocked:false
 };
