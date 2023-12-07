@@ -55,10 +55,10 @@ function suggestionDetails() {
         .then((response) => {
           // console.log(response.data);
           if (response.data.success) {
-            setName(response.data.data[0].name);
-            setDesc(response.data.data[0].description);
-            setDataImgs(response.data.data[0].images);
-            const left = 5 - response.data.data[0].images.length;
+            setName(response.data.data.name);
+            setDesc(response.data.data.description);
+            setDataImgs(response.data.data.images);
+            const left = 5 - response.data.data.images.length;
             setLeftImgs(left);
           }
         });
@@ -422,7 +422,7 @@ function suggestionDetails() {
                   onClick={(e) => submitRequest(e)}
                   className="rounded-md shadow-md border border-dgreyZoom px-8 py-1.5 w-1/2 md:w-60"
                 >
-                  Edit
+                  { state.loading?(<div className=" flex justify-center text-center w-full"><div className="w-[30px]"><Loader/></div></div> ):(<>Edit</>)}
                 </button>
                 <div
                   onClick={() => deleteSuggestion(suggestion_id)}

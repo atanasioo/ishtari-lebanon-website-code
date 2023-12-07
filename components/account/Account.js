@@ -712,11 +712,11 @@ e.preventDefault();
                   showLoginError ? "mt-12" : "mt-6"
                 }`}
               >
-                Forgot Your Password
+                Forgot Your Password ?
               </p>
               <div className="flex justify-start text-sm font-extralight my-4">
               If you've forgotten your password, please enter your registered email address.
-We'll send you a link to reset your password.
+We'll send you your new password.
              
               </div>
               <form>
