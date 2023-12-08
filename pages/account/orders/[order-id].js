@@ -262,12 +262,12 @@ function OrderDetails() {
               )}
             </div> */}
 
-            <div className="flex-row md:flex mt-5 pb-7  border-b  border-dgrey1 justify-between">
+            <div className="flex-row md:flex mt-5 pb-7   justify-between">
               <div className="w-full md:w-1/2 border  border-dgrey shadow-lg mr-5 rounded-md">
                 {/* right */}
                 <p className="cart-header">Shipping Address</p>
                 <div className="cart-body">
-                  <p className="text-sm py-5 mx-3 rounded-t-md border-b text-dblack border-dgrey1">
+                  <p className="text-sm py-5 mx-3 rounded-t-md text-dblack border-dgrey1">
                     {data?.firstname + " "}
                     {data?.lastname}
                   </p>
@@ -281,7 +281,7 @@ function OrderDetails() {
                 {/* right */}
                 <p className="cart-header">Payment Address</p>
                 <div className="cart-body">
-                  <p className="text-sm py-5 mx-3 rounded-t-md border-b text-dblack border-dgrey1">
+                  <p className="text-sm py-5 mx-3 rounded-t-md text-dblack border-dgrey1">
                     {data?.firstname + " "}
                     {data?.lastname}
                   </p>
@@ -317,11 +317,11 @@ function OrderDetails() {
             )} */}
 
             {/* TABLE */}
-            <div className="mt-7 overflow-x-scroll">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               {width > 650 ? (
-                <table className="w-full  text-left">
-                  <thead className="border">
-                    <tr>
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead className=" bg-gray-200 text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr className="bg-white  dark:bg-gray-800 dark:border-gray-700">
                       {/* {orderComplete && (
                         <th className="px-4">
                           <input
@@ -332,21 +332,21 @@ function OrderDetails() {
                         </th>
                       )} */}
 
-                      <th className=" border-l  px-4  py-1 text-sm">#</th>
-                      <th className="border-l px-2 md:px-4 py-1  text-sm">
+                      <th className="  dark:bg-gray-800 dark:border-gray-700 pl-2">#</th>
+                      <th className=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         Product
                       </th>
 
-                      <th className="border-l px-4 md:px-4 py-1  text-sm">
+                      <th className="  px-4 md:px-4 py-1  text-sm">
                         SKU
                       </th>
-                      <th className="border-l px-2 md:px-4 py-1  text-sm">
+                      <th className="  px-2 md:px-4 py-1  text-sm">
                         Quantity
                       </th>
-                      <th className="border-l px-2 md:px-4 py-1  text-sm">
+                      <th className="  px-2 md:px-4 py-1  text-sm">
                         Price
                       </th>
-                      <th className="px-2 border-l md:px-4  py-1 text-sm">
+                      <th className="  px-2  md:px-4  py-1 text-sm">
                         Total
                       </th>
                       {/* {data?.can_be_returned && (
@@ -358,7 +358,7 @@ function OrderDetails() {
                   </thead>
                   {data?.products?.map((product, i) => (
                     <tbody key={i}>
-                      <tr className="border">
+                      <tr className="bg-white border-b   ">
                         {/* {orderComplete && (
                           <td className="px-4">
                             <input
@@ -369,7 +369,7 @@ function OrderDetails() {
                           </td>
                         )} */}
 
-                        <td className="border  px-4">
+                        <td className=" p-4 px-4">
                           <Link
                             href={`/product/${product.product_id}`}
                             onClick={() =>
@@ -382,11 +382,11 @@ function OrderDetails() {
                             }
                           >
                             <Image
-                              className="w-12"
+                              className="w-12 mt-2"
                               src={product.image}
                               alt={product.name}
-                              width="48"
-                              height="65"
+                              width="55"
+                              height="70"
                             />
                           </Link>
                         </td>
@@ -401,16 +401,16 @@ function OrderDetails() {
                           </span>{" "}
                         </td>
 
-                        <td className="border   px-4 text-sm">
+                        <td className=" p-2  px-4 text-sm">
                           {product.sku}
                         </td>
-                        <td className="border  px-4 text-sm">
+                        <td className=" p2 px-4 text-sm">
                           {product.quantity}
                         </td>
-                        <td className="border  px-4 text-sm whitespace-nowrap">
+                        <td className=" p2  px-4 text-sm whitespace-nowrap">
                           {product.price}
                         </td>
-                        <td className="border  px-4 text-sm whitespace-nowrap">
+                        <td className=" p2 px-4 text-sm whitespace-nowrap">
                           {" "}
                           {product.total}
                         </td>
@@ -434,42 +434,42 @@ function OrderDetails() {
                 </table>
               ) : (
                 <table className="w-full text-left">
-                  <thead className="border">
+                  <thead className="">
                     <div className="hidden md:block">
                       {" "}
-                      <th className=" border-l  px-4  py-1 text-sm">#</th>
+                      <th className="   px-4  py-1 text-sm">#</th>
                     </div>
-                    <th className="border-l px-2  py-1  text-sm">Product</th>
-                    <th className="border-l px-4  py-1  text-sm">SKU</th>
-                    <th className="border-l px-2  py-1  text-sm">Quantity</th>
-                    <th className="border-l px-2  py-1  text-sm">Price</th>
-                    <th className="border-l px-2  py-1 text-sm">Total</th>
+                    <th className=" px-2  py-1  text-sm">Product</th>
+                    <th className=" px-4  py-1  text-sm">SKU</th>
+                    <th className=" px-2  py-1  text-sm">Quantity</th>
+                    <th className=" px-2  py-1  text-sm">Price</th>
+                    <th className=" px-2  py-1 text-sm">Total</th>
                     {/* {data?.can_be_returned && (
                       <th className="border-l px-2  py-1 text-sm">Action</th>
                     )} */}
                   </thead>
                   {data?.products.map((product, i) => (
                     <tbody key={i}>
-                      <tr className="border">
+                      <tr className="">
                         <div className="hidden md:flex-wrap">
                           {" "}
-                          <td className="border  px-4">
+                          <td className="  px-4">
                             <img className="w-12" src={product.image} alt="" />
                           </td>
                         </div>
                         <td className=" px-2 md:px-4 text-sm line-clamp-3 md:line-clamp-none">
                           {product.name}
                         </td>
-                        <td className="border  px-2 md:px-4 text-sm">
+                        <td className="  px-2 md:px-4 text-sm">
                           {product.sku}
                         </td>
-                        <td className="border px-2 md:px-4 text-sm">
+                        <td className=" px-2 md:px-4 text-sm">
                           {product.quantity}
                         </td>
-                        <td className="border px-2 md:px-4 text-sm">
+                        <td className=" px-2 md:px-4 text-sm">
                           {product.price}
                         </td>
-                        <td className="border px-2 md:px-4 text-sm">
+                        <td className=" px-2 md:px-4 text-sm">
                           {product.total}
                         </td>
                         {/* {data?.can_be_returned && !product?.non_refundable && (
@@ -491,11 +491,11 @@ function OrderDetails() {
                 </table>
               )}
             </div>
-            <div className="flex justify-between mt-5 md:mt-10 border-b border-dgrey1 pb-2 items-centre">
+            <div className=" mt-5 md:mt-10  border-dgrey1 pb-2 items-centre">
               {data?.totals?.map((data) => (
                 <div key={data.order_total_id}>
                   <div className="flex-row">
-                    <p className="border-b border-dgrey1"> {data.title}</p>
+                    <p className=" border-dgrey1"> {data.title}</p>
                   </div>
                   <div>
                     <p className="mt-4"> {data.text} </p>
