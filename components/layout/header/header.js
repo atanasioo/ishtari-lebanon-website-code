@@ -21,6 +21,7 @@ import LogoClient from "@/components/LogoClient";
 import MobileMenu from "./MobileMenu";
 import { useHeaderColor } from "@/contexts/HeaderContext";
 
+
 function Header(props) {
   const [local, setLocal] = useState(false);
   const [width, height] = useDeviceSize();
@@ -124,6 +125,9 @@ function Header(props) {
 
   return (
     <div>
+      {/* <div className="w-full h-auto flex container ">
+        <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
+      </div> */}
       {local && <SiteHeaders local={local} />}
 
       {/* Mobile Menu */}

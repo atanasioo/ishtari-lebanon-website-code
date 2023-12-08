@@ -311,7 +311,22 @@ e.preventDefault();
 
 
  
-
+  const  redeemCoupon = (id)=>{
+    
+    dispatch({ type: "setLoadingCouponRedeem", payload: true })
+    axiosServer
+    .post(buildLink("redeemCoupon", undefined, undefined, undefined) +
+  +id)
+    .then((response) => {
+      console.log(response);
+      dispatch({ type: "setLoadingCouponRedeem", payload: false })
+      dispatch({ type: "setOpenModalCoupon", payload: false })
+      dispatch({ type: "setCouponForYou", payload: null })
+      
+    });
+  
+  
+  }
 
 
   // Signup
@@ -1039,8 +1054,8 @@ We'll send you your new password.
               </div>
 
               <div className={` px-3 w-full`}>
-              <button   className="block w-full bg-dgreen rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
-            <>Redeem</> 
+              <button onClick={()=>{redeemCoupon(state.couponForyou?.coupon_id)}}   className="block w-full bg-dgreen rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
+            { state.loadingCouponRedeem?<div className="w-full flex justify-center text-center"><div className="w-[30px]"><Loader/></div> </div>:<>Redeem</> }
                 
                 </button>
               </div>
