@@ -987,17 +987,23 @@ We'll send you a new password.
           }`}
         >
           <div
+       style={{
+        backgroundImage:"url(/images/backCoupon.png)",backgroundSize:"cover",backgroundRepeat:"no-repeat"
+       }}
             ref={modal}
             onFocus={() => dispatch({ type: "setOpenModalCoupon", payload: true })}
             onBlur={() => dispatch({ type: "setOpenModalCoupon", payload: false })}
-            className="w-full max-w-[500px]  border-4 border-dashed border-dblack  flex flex-col justify-center rounded-[20px] bg-gradient-to-br  from-[#F4D0B1] to-[#F5ECCD] px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
+            className="w-full max-w-[500px]   flex flex-col justify-center 
+             text-white
+             px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
           >
-
+{/* bg-gradient-to-br  from-[#F4D0B1] to-[#F5ECCD] */}
 <h2 className=" text-3xl font-impact mb-5"> You've received a special coupon: </h2>
-<div className="flex flex-col border-b border-1  border-dgrey pb-2">
+<div className="flex flex-col border-b border-1 border-dotted border-dgrey pb-2">
   {state.couponForyou !== null?(
        <div 
-       className="ticket relative group mb-9 w-full cursor-pointer h-[150px]">
+       style={{color:"initial"}}
+       className="ticket  relative group mb-9 w-full cursor-pointer h-[150px]">
         <div className="absolute w-full h-full bg-white opacity-0 group-hover:opacity-25 top-0 z-20"></div>
        <div className="stub">
        <div className=" flex w-full flex-col h-full justify-between text-center">
@@ -1028,14 +1034,14 @@ We'll send you a new password.
 Use this code during checkout to enjoy your discount.
 </div>
 
-             <div className="-mx-3  flex gap-3 flex-col ">
+             <div className="-mx-3  flex mt-8 flex-row ">
              
 
 
-             <div className={` px-3 w-full`}>
+             <div className={`  px-3 w-full`}>
                 <button
                   onClick={() => dispatch({ type: "setOpenModalCoupon", payload: false })}
-                  className="block w-full rounded-md  p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dblack  hover:text-white dark:text-white"
+                  className="block bg-white text-dbase w-full rounded-md  p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dblack  hover:text-white dark:text-white"
                 >
                   ok
                 </button>

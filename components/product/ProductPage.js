@@ -2146,8 +2146,8 @@ function ProductPage(props) {
                               !addingToCart && (
                                 <span className="">
                                   {  bundles?.description ==""?(
-                               <>  Buy This Bundle For{" "}</>
-                                     ):(<> {bundles?.description}</>) }
+                               <>  Buy This Bundle For</>
+                                     ):(<>  {bundles?.description} {" "}</>) }
                                   {bundles?.total_amount_after_discount}{" "}
                                 </span>
                               )

@@ -117,7 +117,7 @@ function SingleProductBundle(props) {
               <div className="h-17 overflow-hidden text-center leading-4 pt-1">
                 <p className="text-dblack text-d16 md:text-base flex flex-col gap-1 md:w-full pr-bold p-1 mb-1">
                   {props.item.special !== "0" && props.item.special !== 0 && props.item.special !== "" && props.item.special !== false &&  props.item.special !== "$0" ? props.item.special : props.item.price}
-                  <span className="text-dblack text-d13 md:text-thin  pr-light">
+                  <span className="text-dblack  text-d18 md:text-thin  pr-light">
                     x{props.item.required_quantity}
                   </span>
                 </p>
