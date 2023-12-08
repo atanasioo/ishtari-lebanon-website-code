@@ -238,7 +238,7 @@ function OrderDetails() {
             <div className="w-full text-dgreen">
               {success && "Success Order Canceled"}
             </div>
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <div className="mt-5 w-1/2">
                 <p className="text-xs font-semibold">
                   {data?.firstname + " "}
@@ -260,7 +260,7 @@ function OrderDetails() {
                   </span>
                 </div>
               )}
-            </div>
+            </div> */}
 
             <div className="flex-row md:flex mt-5 pb-7  border-b  border-dgrey1 justify-between">
               <div className="w-full md:w-1/2 border  border-dgrey shadow-lg mr-5 rounded-md">
