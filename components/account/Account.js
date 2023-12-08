@@ -1041,7 +1041,7 @@ Use this code during checkout to enjoy your discount.
              <div className={`  px-3 w-full`}>
                 <button
                   onClick={() => dispatch({ type: "setOpenModalCoupon", payload: false })}
-                  className="block bg-white text-dbase w-full rounded-md  p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dblack  hover:text-white dark:text-white"
+                  className="block bg-white text-dbase w-full rounded-md  p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dgreyRate "
                 >
                   ok
                 </button>
@@ -1049,8 +1049,13 @@ Use this code during checkout to enjoy your discount.
 
               <div className={` px-3 w-full`}>
                 <button
-                 
-                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dblack hover:text-white dark:text-white"
+                    onClick={()=>{
+                      dispatch({ type: "setOpenModalCoupon", payload: false })
+                      router.push({
+                        pathname: "/account/coupon",
+                      });
+                    }}
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-white hover:text-dbase"
                 >
                   Check Coupons
                 </button>

@@ -153,9 +153,13 @@ const  redeemCoupon = (id)=>{
             
             >
               { 
-           
-              type=="available"?(<h4>Click Redeem button to redeem this coupon</h4>):(
-              <div >{ htmlDecode(coupon?.rules)}</div>
+           (
+                <div
+                
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(coupon.rules)
+                }}
+              />
               )
             }
        

@@ -144,7 +144,7 @@ const getCoupons =()=>{
               </div>
             </div>
             </div>
-      <div className="container my-10 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
+      <div className="container  py-10 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
 
       {buttonActive==="1"?( data.Available!=[]?( data&& data.Available.map((coupon=>{
                    return <SingleCoupon  coupon={coupon} type="available" getCoupons={getCoupons}/>
