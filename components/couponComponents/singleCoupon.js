@@ -98,7 +98,7 @@ const  redeemCoupon = (id)=>{
                    onClick={() => openCouponInfo(coupon?.coupon_id)}
                    className="ticket relative group  w-full cursor-pointer h-[150px]">
                     <div className="absolute w-full h-full bg-white opacity-0 group-hover:opacity-25 top-0 z-20"></div>
-                   <div className="stub">
+                   <div className="stub text-dbase">
                    <div className=" flex w-full flex-col h-full justify-between text-center">
                      
                      <div className="top text-lg font-bold">

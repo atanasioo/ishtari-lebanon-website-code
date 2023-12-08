@@ -271,18 +271,18 @@ e.preventDefault();
        
         
 
-        //  if(response.data.coupon.length == 0|| response.data.coupon == null){
+         if(response.data.coupon.length == 0|| response.data.coupon == null){
             
-        //  }else{
+         }else{
             
-        //   dispatch({ type: "setCouponForYou", payload: response.data.coupon });
-        // console.log("________________________________________________");
-        // console.log(response.data.coupon);
-        // console.log("________________________________________________");
-        //   setTimeout(()=>{
-        //     dispatch({ type: "setOpenModalCoupon", payload: true });
-        //   },3000)
-        // }
+          dispatch({ type: "setCouponForYou", payload: response.data.coupon });
+        console.log("________________________________________________");
+        console.log(response.data.coupon);
+        console.log("________________________________________________");
+          setTimeout(()=>{
+            dispatch({ type: "setOpenModalCoupon", payload: true });
+          },3000)
+        }
         
 
         dispatch({ type: "setShowOver", payload: false });
@@ -306,27 +306,12 @@ e.preventDefault();
         dispatch({ type: "setLoading", payload: false });
       });
 
-    window.location.reload();
+    // window.location.reload();
   }
 
 
  
-  // const  redeemCoupon = (id)=>{
-    
-  //   dispatch({ type: "setLoadingCouponRedeem", payload: true })
-  //   axiosServer
-  //   .post(buildLink("redeemCoupon", undefined, undefined, undefined) +
-  // +id)
-  //   .then((response) => {
-  //     console.log(response);
-  //     dispatch({ type: "setLoadingCouponRedeem", payload: false })
-  //     dispatch({ type: "setOpenModalCoupon", payload: false })
-  //     dispatch({ type: "setCouponForYou", payload: null })
-      
-  //   });
-  
-  
-  // }
+
 
 
   // Signup
@@ -486,7 +471,7 @@ return;
       {state.showOver && (
         <div className="fixed w-screen min-h-screen bg-dblack top-0 left-0 z-50 bg-opacity-50 flex flex-col items-center justify-center">
           {state.showLogin && (
-            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4 overflow-hidden relative">
+            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
               <span
                 onClick={
                  handleCloseAuthForm
@@ -711,7 +696,7 @@ return;
                       minLength="2"
                     />
                   </div>
-                  {/* <div className="input my-4">
+                  <div className="input my-4">
                     <label>Date Of Birth</label>
                     <input
                       ref={birthDate}
@@ -721,7 +706,7 @@ return;
                      
                       
                     />
-                  </div> */}
+                  </div>
                 </div>
 
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
@@ -771,8 +756,8 @@ return;
                 Forgot Your Password ?
               </p>
               <div className="flex justify-start text-sm font-extralight my-4">
-              If you've forgotten your password, please enter your registered email address.
-We'll send you your new password.
+              If you've forgotten your password, 
+We'll send you a new password.
              
               </div>
               <form>
@@ -994,7 +979,7 @@ We'll send you your new password.
 
 
 
-{/* 
+
 
       <div
           className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
@@ -1005,11 +990,11 @@ We'll send you your new password.
             ref={modal}
             onFocus={() => dispatch({ type: "setOpenModalCoupon", payload: true })}
             onBlur={() => dispatch({ type: "setOpenModalCoupon", payload: false })}
-            className="w-full max-w-[500px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
+            className="w-full max-w-[500px]  border-4 border-dashed border-dblack  flex flex-col justify-center rounded-[20px] bg-gradient-to-br  from-[#F4D0B1] to-[#F5ECCD] px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
           >
 
-<h2 className=" text-3xl font-impact font-bold mb-5"> Avilable Coupons for you </h2>
-<div className="flex flex-col">
+<h2 className=" text-3xl font-impact mb-5"> You've received a special coupon: </h2>
+<div className="flex flex-col border-b border-1  border-dgrey pb-2">
   {state.couponForyou !== null?(
        <div 
        className="ticket relative group mb-9 w-full cursor-pointer h-[150px]">
@@ -1039,30 +1024,38 @@ We'll send you your new password.
        </div>
      </div>
   ):(<></>)}
+
+Use this code during checkout to enjoy your discount.
 </div>
 
-             <div className="-mx-3  flex flex-row shadow-[white_0px_-25px_20px_0px] ">
+             <div className="-mx-3  flex gap-3 flex-col ">
              
+
+
+             <div className={` px-3 w-full`}>
+                <button
+                  onClick={() => dispatch({ type: "setOpenModalCoupon", payload: false })}
+                  className="block w-full rounded-md  p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dblack  hover:text-white dark:text-white"
+                >
+                  ok
+                </button>
+              </div>
 
               <div className={` px-3 w-full`}>
                 <button
-                  onClick={() => dispatch({ type: "setOpenModalCoupon", payload: false })}
-                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white dark:text-white"
+                 
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dblack hover:text-white dark:text-white"
                 >
-                  Cancel
+                  Check Coupons
                 </button>
               </div>
 
-              <div className={` px-3 w-full`}>
-              <button onClick={()=>{redeemCoupon(state.couponForyou?.coupon_id)}}   className="block w-full bg-dgreen rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
-            { state.loadingCouponRedeem?<div className="w-full flex justify-center text-center"><div className="w-[30px]"><Loader/></div> </div>:<>Redeem</> }
-                
-                </button>
-              </div>
-              
+
+
+           
             </div>
           </div>
-        </div> */}
+        </div>
     </div>
   );
 }
