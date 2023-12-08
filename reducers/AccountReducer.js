@@ -5,6 +5,16 @@ export const AccountReducer = (state, action) => {
       ...state,
       ButtonLocked:action.payload
     }
+    case "setOpenModalCoupon":
+      return{
+        ...state,
+        ModalCoupon:action.payload
+      }
+      case "setCouponForYou":
+        return{
+          ...state,
+          couponForyou:action.payload
+        }
     case "setShowOver":
       return {
         ...state,
@@ -90,11 +100,13 @@ export const AccountReducer = (state, action) => {
         ...state,
         isSeller: action.payload
       };
+
     case "setEmail":
       return {
         ...state,
         email: action.payload
       };
+
     default:
       return state;
   }
@@ -119,5 +131,7 @@ export const initialState = {
    email: "",
   isSeller: false,
   loadingEmail:false,
-  ButtonLocked:false
+  ButtonLocked:false,
+  ModalCoupon:false,
+  couponForyou:null
 };

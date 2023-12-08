@@ -95,15 +95,9 @@ const  redeemCoupon = (id)=>{
     <>
     <button 
                    ref={trigger}
-<<<<<<< HEAD:components/couponComponents/singleCoupon.js
                    onClick={() => openCouponInfo(coupon?.coupon_id)}
                    className="ticket relative group  w-full cursor-pointer h-[150px]">
                     <div className="absolute w-full h-full bg-white opacity-0 group-hover:opacity-25 top-0 z-20"></div>
-=======
-                   onClick={() => openCouponInfo(coupon.coupon_id)}
-                   className="ticket relative group w-[350px] md:w-[280px] cursor-pointer h-[150px] p-2">
-                    <div className="absolute w-full h-full bg-white opacity-0 group-hover:opacity-30 top-0 z-20"></div>
->>>>>>> ab42554 (..):pages/couponComponents/singleCoupon.js
                    <div className="stub">
                    <div className=" flex w-full flex-col h-full justify-between text-center">
                      
@@ -121,11 +115,7 @@ const  redeemCoupon = (id)=>{
                    
                      <div className=" flex flex-col ">
                          <h4>coupon code</h4>
-<<<<<<< HEAD:components/couponComponents/singleCoupon.js
                          <h2 className=" text-[#BE282F] text-2xl " >{coupon?.code}</h2>
-=======
-                         <h2 className=" text-[#ab373d] text-2xl " >{coupon.code}</h2>
->>>>>>> ab42554 (..):pages/couponComponents/singleCoupon.js
                      </div>
                      <div className=" text-sm">
                        <span > {type=="expired"?(<>Expired from</>):(<>Valid Till</>)}  - {coupon?.date_end}</span>
