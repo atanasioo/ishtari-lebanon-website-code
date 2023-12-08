@@ -32,7 +32,7 @@ function OrderDetails() {
   const [returnProducts, setReturnProducts] = useState([]);
   const [returnErr, setReturnErr] = useState("");
   const [success, setSuccess] = useState(false);
-  const [confirmCancel, setConfirmCancel] = useState(false);
+  // const [confirmCancel, setConfirmCancel] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [otherReason, setOtherReason] = useState(false);
   const [otherReasonTxt, setOtherReasonTxt] = useState("");
@@ -109,30 +109,30 @@ function OrderDetails() {
     }
   }
 
-  function cancelOrder(id) {
-    setLoading(true);
+  // function cancelOrder(id) {
+  //   setLoading(true);
 
-    axiosServer
-      .get(
-        buildLink("cancelOrder", undefined, undefined, window.location.host) +
-          id
-      )
-      .then((resp) => {
-        // console.log(resp);
-        if (resp.data.succes) {
-          setSuccess(true);
-          setLoading(false);
-          setConfirmModal(false)
-          setConfirmCancel(true);
-        }
-      });
-  }
+  //   axiosServer
+  //     .get(
+  //       buildLink("cancelOrder", undefined, undefined, window.location.host) +
+  //         id
+  //     )
+  //     .then((resp) => {
+  //       // console.log(resp);
+  //       if (resp.data.succes) {
+  //         setSuccess(true);
+  //         setLoading(false);
+  //         setConfirmModal(false)
+  //         setConfirmCancel(true);
+  //       }
+  //     });
+  // }
 
-  function submitCancelReason(e) {
-    e.preventDefault();
-    //make api request to submit the reason
-    setConfirmCancel(false);
-  }
+  // function submitCancelReason(e) {
+  //   e.preventDefault();
+  //   //make api request to submit the reason
+  //   setConfirmCancel(false);
+  // }
 
   return (
     <div>
@@ -235,9 +235,9 @@ function OrderDetails() {
                 </div>
               </div>
             </div>
-            <div className="w-full text-dgreen">
+            {/* <div className="w-full text-dgreen">
               {success && "Success Order Canceled"}
-            </div>
+            </div> */}
             {/* <div className="flex items-center justify-between">
               <div className="mt-5 w-1/2">
                 <p className="text-xs font-semibold">
@@ -518,7 +518,7 @@ function OrderDetails() {
 
             {/* cancel order modal */}
 
-            <div className="relative">
+            {/* <div className="relative">
               {confirmCancel && (
               <div className="fixed bg-dblackOverlay top-0 left-0 right-0 bottom-0 z-20">
                 <div className="absolute z-30 rounded-md bg-white top-0 left-0 bottom-0 right-0 w-max h-max m-auto">
@@ -619,7 +619,7 @@ function OrderDetails() {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         )
       )}

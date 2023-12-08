@@ -271,18 +271,18 @@ e.preventDefault();
        
         
 
-         if(response.data.coupon.length == 0|| response.data.coupon == null){
+        //  if(response.data.coupon.length == 0|| response.data.coupon == null){
             
-         }else{
+        //  }else{
             
-          dispatch({ type: "setCouponForYou", payload: response.data.coupon });
-        console.log("________________________________________________");
-        console.log(response.data.coupon);
-        console.log("________________________________________________");
-          setTimeout(()=>{
-            dispatch({ type: "setOpenModalCoupon", payload: true });
-          },3000)
-        }
+        //   dispatch({ type: "setCouponForYou", payload: response.data.coupon });
+        // console.log("________________________________________________");
+        // console.log(response.data.coupon);
+        // console.log("________________________________________________");
+        //   setTimeout(()=>{
+        //     dispatch({ type: "setOpenModalCoupon", payload: true });
+        //   },3000)
+        // }
         
 
         dispatch({ type: "setShowOver", payload: false });
@@ -306,27 +306,27 @@ e.preventDefault();
         dispatch({ type: "setLoading", payload: false });
       });
 
-    // window.location.reload();
+    window.location.reload();
   }
 
 
  
-  const  redeemCoupon = (id)=>{
+  // const  redeemCoupon = (id)=>{
     
-    dispatch({ type: "setLoadingCouponRedeem", payload: true })
-    axiosServer
-    .post(buildLink("redeemCoupon", undefined, undefined, undefined) +
-  +id)
-    .then((response) => {
-      console.log(response);
-      dispatch({ type: "setLoadingCouponRedeem", payload: false })
-      dispatch({ type: "setOpenModalCoupon", payload: false })
-      dispatch({ type: "setCouponForYou", payload: null })
+  //   dispatch({ type: "setLoadingCouponRedeem", payload: true })
+  //   axiosServer
+  //   .post(buildLink("redeemCoupon", undefined, undefined, undefined) +
+  // +id)
+  //   .then((response) => {
+  //     console.log(response);
+  //     dispatch({ type: "setLoadingCouponRedeem", payload: false })
+  //     dispatch({ type: "setOpenModalCoupon", payload: false })
+  //     dispatch({ type: "setCouponForYou", payload: null })
       
-    });
+  //   });
   
   
-  }
+  // }
 
 
   // Signup
@@ -994,7 +994,7 @@ We'll send you your new password.
 
 
 
-
+{/* 
 
       <div
           className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
@@ -1062,7 +1062,7 @@ We'll send you your new password.
               
             </div>
           </div>
-        </div>
+        </div> */}
     </div>
   );
 }
