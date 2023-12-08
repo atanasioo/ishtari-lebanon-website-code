@@ -711,7 +711,7 @@ return;
                       minLength="2"
                     />
                   </div>
-                  <div className="input my-4">
+                  {/* <div className="input my-4">
                     <label>Date Of Birth</label>
                     <input
                       ref={birthDate}
@@ -721,7 +721,7 @@ return;
                      
                       
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
