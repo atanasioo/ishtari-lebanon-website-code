@@ -319,8 +319,8 @@ function OrderDetails() {
             {/* TABLE */}
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
               {width > 650 ? (
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead className=" bg-gray-200 text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table className="w-full text-sm hover:table-auto text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead className=" bg-gray-200 text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr className="bg-white  dark:bg-gray-800 dark:border-gray-700">
                       {/* {orderComplete && (
                         <th className="px-4">
@@ -358,7 +358,7 @@ function OrderDetails() {
                   </thead>
                   {data?.products?.map((product, i) => (
                     <tbody key={i}>
-                      <tr className="bg-white border-b   ">
+                      <tr className="bg-white border-t-2 border-b-2 border-dgrey ">
                         {/* {orderComplete && (
                           <td className="px-4">
                             <input
@@ -434,7 +434,7 @@ function OrderDetails() {
                 </table>
               ) : (
                 <table className="w-full text-left">
-                  <thead className="border-b">
+                  <thead className="">
                     <div className="hidden md:block">
                       {" "}
                       <th className="   px-4  py-1 text-sm">#</th>
@@ -450,7 +450,7 @@ function OrderDetails() {
                   </thead>
                   {data?.products.map((product, i) => (
                     <tbody key={i}>
-                      <tr className="border-b">
+                      <tr className="border-t border-b border-dlabelColor ">
                         <div className="hidden md:flex-wrap">
                           {" "}
                           <td className="  px-4">
@@ -492,7 +492,7 @@ function OrderDetails() {
                 </table>
               )}
             </div>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border-b border-t bg-white mt-5 md:mt-10  border-dgrey1 pb-2 items-centre">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border-b  bg-white mt-5 md:mt-10  border-dgrey1 pb-2 items-centre">
               {data?.totals?.map((data) => (
                 <div className="flex flex-row " key={data.order_total_id}>
                   <div className="m-4">
