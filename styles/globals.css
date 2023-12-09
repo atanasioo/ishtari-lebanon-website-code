@@ -2609,6 +2609,7 @@ display: inline-block;
   .stub, .check {
     box-sizing: border-box;
     box-shadow: 0 8px 6px rgba(0, 0, 0, 0.2);
+    border-top: solid 2px #bf1b26;
   }
   .stub {
     background: #FFF6F3;
@@ -2617,7 +2618,7 @@ display: inline-block;
     padding: 20px;
     position: relative;
     border-radius: 10px;
-
+   
   
   
    
