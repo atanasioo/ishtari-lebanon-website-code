@@ -10,7 +10,6 @@ import { FiChevronDown } from "react-icons/fi";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import Link from "next/link";
 import {RiUserFollowLine} from "react-icons/ri";
-
 import {
   BsFillCartCheckFill,
   BsFillHeartFill,
@@ -53,7 +52,7 @@ function Account() {
   const birthDate = useRef("");
   const path = "";
   const router = useRouter();
-
+   const newdate = new Date();
 
   // if (session) {
   //   // The user is logged in
@@ -701,8 +700,8 @@ return;
                     <input
                       ref={birthDate}
                       type="date"
+
                       required={true}
-                      pattern="\d{4}-\d{2}-\d{2}"
                      
                       
                     />
