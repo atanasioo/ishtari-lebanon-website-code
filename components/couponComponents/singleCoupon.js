@@ -137,14 +137,16 @@ const  redeemCoupon = (id)=>{
             className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
           >
            <div className=" w-10 h-10 mx-auto bg-[#e94a4f66] text-[#bf1b26] flex text-center justify-center rounded-full mb-5"> <FaTicketAlt className="mx-auto my-auto " /></div>
+           
+           <h5 className=" text-dgreySeller px-5 tracking-wider">{coupon?.name}</h5>
             <h5 className=" text-xl font-semibold text-dark dark:text-white sm:text-2xl">
               {coupon?.code}
             </h5>
-            <h5 className=" text-dgreySeller px-5 tracking-wider"> Get instant discount 500 an applying this coupon</h5>
+            
             <p className=" text-dbase1 "> {type=="expired"?(<>Expired from </>):(<>Expire In </>)}{coupon?.date_end}</p>
 
             <span
-              className={`mx-auto mb-6 inline-block my-6 border-2 border-dashed border-dbase h-1 w-[90px] rounded  `}
+              className={`mx-auto mb-6 inline-block  my-6 border-t border-dashed border-dgreySeller h-1 w-full   `}
             ></span>
             <div className=' max-h-40 overflow-y-auto'>
             <div className="mb-10 text-base leading-relaxed text-body-color  dark:text-dlabelColor"
