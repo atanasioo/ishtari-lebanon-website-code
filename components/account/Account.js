@@ -25,7 +25,7 @@ import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
 import { HiLightBulb } from "react-icons/hi";
 import Loader from "../Loader";
-
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 function Account() {
   const modal = useRef(null);
   const [message, setMessage] = useState(false);
@@ -52,7 +52,7 @@ function Account() {
   const birthDate = useRef("");
   const path = "";
   const router = useRouter();
-   const newdate = new Date();
+   const [newdate,setDate] = useState(Date);
 
   // if (session) {
   //   // The user is logged in
@@ -109,6 +109,7 @@ function Account() {
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
+        checkLogin();
       }
     }
 
@@ -217,7 +218,7 @@ e.preventDefault();
     };
 
     axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj).then((resp) => {
-    
+       
       checkLogin('login');
     });
   }
@@ -269,8 +270,8 @@ e.preventDefault();
         const data = response.data;
        
         
-
-         if(response.data.coupon.length == 0|| response.data.coupon == null){
+console.log(data)
+         if(response.data.coupon == null || !response.data.coupon){
             
          }else{
             
@@ -324,6 +325,7 @@ e.preventDefault();
       confirm: signupPassword.current.value,
       firstname: signupFirst.current.value,
       lastname: signupLast.current.value,
+      birthDate: birthDate.current.querySelector('input').value,
       redirect: false
     });
     console.log(response);
@@ -398,6 +400,7 @@ return;
     // 70 91 1870
 
     var adminToken = Cookies.get("ATDetails");
+   
 
     // if (
     //   window.location.host === "localhost:3000" ||
@@ -442,6 +445,7 @@ return;
           Cookies.set("seller_id", data.seller_logged);
         }
       });
+
   }, [dispatch]);
 
   const wrapperRef = useRef(null);
@@ -695,15 +699,16 @@ return;
                       minLength="2"
                     />
                   </div>
-                  <div className="input my-4">
-                    <label>Date Of Birth</label>
-                    <input
-                      ref={birthDate}
-                      type="date"
-
-                      required={true}
-                     
-                      
+                  <div 
+                 
+                  className="">
+                
+                    <DatePicker 
+                  
+                    label="Birth Date"
+                    format="YYYY-MM-DD"
+                    ref={birthDate}
+                    slotProps={{ textField: { size:"small",variant: 'filled' , style:{ width:"100%"}, } }}
                     />
                   </div>
                 </div>

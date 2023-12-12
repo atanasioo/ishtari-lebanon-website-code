@@ -24,20 +24,20 @@ function Coupon() {
   const trigger = useRef(null);
   const modal = useRef(null);
   // close on click outside
-  useEffect(() => {
-    const clickHandler = ({ target }) => {
-      if (!modal.current) return;
-      if (
-        !modalOpen ||
-        modal.current.contains(target) ||
-        trigger.current.contains(target)
-      )
-        return;
-      setModalOpen(false);
-    };
-    document.addEventListener("click", clickHandler);
-    return () => document.removeEventListener("click", clickHandler);
-  });
+  // useEffect(() => {
+  //   const clickHandler = ({ target }) => {
+  //     if (!modal.current) return;
+  //     if (
+  //       !modalOpen ||
+  //       modal.current.contains(target) ||
+  //       trigger.current.contains(target)
+  //     )
+  //       return;
+  //     setModalOpen(false);
+  //   };
+  //   document.addEventListener("click", clickHandler);
+  //   return () => document.removeEventListener("click", clickHandler);
+  // });
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
@@ -112,7 +112,7 @@ const getCoupons =()=>{
                 width={1220}
                 height={320}
               />
-              <div className="absolute gap-5 z-5 flex items-center  scrollbar-hide overflow-x-auto   max-md:w-full max-md:-bottom-6  -bottom-4 cursor-pointer">
+              <div className="absolute gap-5 z-5 flex items-center   overflow-x-auto   max-md:w-full max-md:-bottom-6  -bottom-4 cursor-pointer">
               <button
                  id="1"
                  onClick={handleClick}

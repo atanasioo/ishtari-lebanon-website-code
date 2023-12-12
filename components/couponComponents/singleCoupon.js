@@ -154,10 +154,12 @@ const  redeemCoupon = (id)=>{
 
             
             >
+              <h2 className=' text-lg font-[900] underline text-left '>Coupons Rules:</h2>
               { 
            (
                 <div
-                
+                id="desc"
+                  className=' text-left  '
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHTML(coupon.rules)
                 }}

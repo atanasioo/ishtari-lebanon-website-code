@@ -27,6 +27,9 @@ import Cookies from "js-cookie";
 import { HeaderProvider } from "@/contexts/HeaderContext";
 import CartSideModal from "@/components/product/CartSideModal";
 import { SuggestionProvider } from "@/contexts/SuggestionContext";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 
 export default function App({
   Component,
@@ -186,6 +189,7 @@ export default function App({
                   <MarketingProvider>
                     <ReviewCenterProvider>
                       <HeaderProvider>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div className="" ref={topRef}>
                           {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
                           {loading && (
@@ -223,6 +227,7 @@ export default function App({
                           {formattedDate}
                           {")"}
                         </div>
+                        </LocalizationProvider>
                       </HeaderProvider>
                     </ReviewCenterProvider>
                   </MarketingProvider>
