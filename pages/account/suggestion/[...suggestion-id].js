@@ -137,7 +137,7 @@ function suggestionDetails() {
       }
 
       setSuggImgs([...suggImgs, ...compressedImages]);
-      console.log(suggImgs)
+   
     }
    
   }
@@ -361,7 +361,6 @@ function suggestionDetails() {
                             backgroundColor: "#00000066"
                           }}
                           onClick={() =>{
-                            console.log(hiddenFileInput.current.value)
                             hiddenFileInput.current.value = null
                             setSuggImgs(suggImgs.filter((e) => e !== img))
 

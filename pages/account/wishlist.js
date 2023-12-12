@@ -141,7 +141,16 @@ function wishlist() {
     axiosServer
       .post(buildLink("wishlistDelete", undefined, undefined) + id)
       .then((response) => {
-      
+         if(response.data.success == true){
+          axiosServer
+          .get(buildLink("wishlist_group", undefined, window.innerWidth))
+          .then((response) => {
+            if (response.data.success) {
+              const data = response.data.data;
+              setGroups(data);
+            }
+          });
+         }
       });
     setId(0);
     setPage(1);
