@@ -64,7 +64,7 @@ function UserSidebarMobile(props) {
         </div>
       </Link>
       <Link
-        href={`${path}/account/coupon`}
+        href={`${path}/account/coupons`}
         className={`py-2 flex-row md:flex  items-center hover:bg-dgrey1 hover:bg-opacity-10 px-1 cursor-pointer ${
           props.active === "coupon" && "bg-white text-dbase"
         }`}

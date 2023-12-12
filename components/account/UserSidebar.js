@@ -97,7 +97,7 @@ function UserSidebar(props) {
       className="group"
         >
           <Link
-            href={`${path}/account/coupon`}
+            href={`${path}/account/coupons`}
             className="pl-9 flex  items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
           >
             <div className="w-2/12">

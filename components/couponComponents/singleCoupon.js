@@ -166,15 +166,34 @@ const  redeemCoupon = (id)=>{
               />
               )
             }
-            
+            { !coupon.total_uses ==""?(
             <div className='flex flex-row justify-start gap-3 pt-2 '>
-              <h2 className=' text-lg font-[900] underline text-left '>Coupons Use:</h2>
-              {coupon.total_uses==""?(<h4 className='my-auto'>{coupon.uses_per_customer} </h4>):(<h4 className='my-auto'><span className=' text-dbase1'> {coupon.current_uses}</span> / { coupon.total_uses} </h4>)} 
+        
+                <h2 className=' text-lg font-[900] underline text-left '>Available Coupons Uses:</h2>
+                <h4 className='my-auto'><span className=' text-dbase1'> {coupon.current_uses}</span> / { coupon.total_uses} </h4>
+             
+     
               </div>
-              <div className='flex flex-row justify-start gap-3 pt-2 '>
-              <h2 className=' text-lg font-[900] underline text-left '>Date Start:</h2>
-              <h4 className='my-auto'>{coupon.date_start} </h4>
+):<></>}
+
+{!type=="available" && !coupon.total_customer_use ==""?(
+            <div className='flex flex-row justify-start gap-3 pt-2 '>
+        
+                <h2 className=' text-lg font-[900] underline text-left '>Current Uses:</h2>
+                <h4 className='my-auto'><span className=' text-dbase1'> {coupon.current_customer_use}</span> / { coupon.total_customer_use} </h4>
+             
+     
               </div>
+):<></>}
+            {!type=="available" && !coupon.current_uses ==""?(
+            <div className='flex flex-row justify-start gap-3 pt-2 '>
+        
+                <h2 className=' text-lg font-[900] underline text-left '>Current Uses:</h2>
+                <h4 className='my-auto'>{coupon.current_uses} </h4>
+             
+     
+              </div>
+):<></>}
             </div>
             </div>
             <div className="-mx-3 flex flex-wrap shadow-[white_0px_-25px_20px_0px] ">
