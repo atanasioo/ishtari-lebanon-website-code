@@ -81,6 +81,7 @@ function suggestionDetails() {
   // console.log("dataimgs", dataImgs);
 
   async function onFileChange(event) {
+    console.log(event.target.value);
     const selectedFiles = event.target.files;
     const compressedImages = [];
     if (
@@ -98,6 +99,7 @@ function suggestionDetails() {
       }
 
       setSuggImgs(compressedImages);
+      console.log(suggImgs)
       setExceededMaxNb(false);
     } else if (
       event.target.files.length > 5 ||
@@ -120,6 +122,7 @@ function suggestionDetails() {
       setTimeout(() => {
         setExceededMaxNb(false);
       }, 3500);
+      console.log(suggImgs)
     } else {
       setExceededMaxNb(false);
 
@@ -134,7 +137,9 @@ function suggestionDetails() {
       }
 
       setSuggImgs([...suggImgs, ...compressedImages]);
+      console.log(suggImgs)
     }
+   
   }
 
   const handleFileLimit = () => {
@@ -216,7 +221,7 @@ function suggestionDetails() {
   };
 
   const deleteSuggestion = (sugg_id) => {
-    dispatch({ type: "setLoading", payload: true });
+    // dispatch({ type: "setLoading", payload: true });
     setDeleteErr("");
     setDeleteMsg("");
     axiosServer
@@ -228,7 +233,7 @@ function suggestionDetails() {
         // console.log(response.data);
         if (response.data.success) {
           setDeleteMsg("Suggestion deleted successfully");
-          dispatch({ type: "setLoading", payload: false });
+          // dispatch({ type: "setLoading", payload: false });
           setTimeout(() => {
             setDeleteMsg("");
             router.push("/account/suggestion");
@@ -334,6 +339,7 @@ function suggestionDetails() {
                         className="hidden"
                         ref={hiddenFileInput}
                         accept="image/png, image/jpg"
+
                       />
                     </div>
                   </div>
@@ -341,20 +347,25 @@ function suggestionDetails() {
                     {suggImgs?.slice(0, 5).map((img, index) => (
                       <div className="relative " key={Math.random()}>
                         {/* {img} */}
-                        <img
-                          src={URL.createObjectURL(img)}
-                          width={80}
-                          height={80}
-                          className="h-[90px] w-[90px] md:h-20 md:w-20"
-                          alt={URL.createObjectURL(img)}
-                        />
+                       
+                         <div className="w-[90px] relative overflow-hidden h-[90px] md:h-20 md:w-20">
+                          <img
+                         src={URL.createObjectURL(img)}
+                            className=" object-cover  w-full h-full"
+                            alt={URL.createObjectURL(img)}
+                          />
+                          </div>
                         <button
                           className="absolute z-10 bottom-0 w-full align-middle"
                           style={{
                             backgroundColor: "#00000066"
                           }}
-                          onClick={() =>
+                          onClick={() =>{
+                            console.log(hiddenFileInput.current.value)
+                            hiddenFileInput.current.value = null
                             setSuggImgs(suggImgs.filter((e) => e !== img))
+
+                          }
                           }
                         >
                           <FaTrash className="w-4 h-4 my-1 mr-auto ml-auto text-white " />
@@ -367,13 +378,13 @@ function suggestionDetails() {
                     <div className="flex flex-wrap gap-2 justify-start">
                       {dataImgs?.slice(0, 5).map((img, index) => (
                         <div className="relative " key={Math.random()}>
+                          <div className="w-[90px] relative overflow-hidden h-[90px] md:h-20 md:w-20">
                           <img
                             src={img}
-                            width={80}
-                            height={80}
-                            className="h-[90px] w-[90px] md:h-20 md:w-20"
+                            className=" object-cover  w-full h-full"
                             alt={img}
                           />
+                          </div>
                           <button
                             className="absolute z-10 bottom-0 w-full align-middle"
                             style={{
@@ -381,6 +392,7 @@ function suggestionDetails() {
                             }}
                             onClick={() => {
                               setDataImgs(dataImgs.filter((e) => e !== img));
+                           
                               setDeletedImgs((current) => [
                                 ...current,
                                 dataImgs[index]
@@ -428,7 +440,7 @@ function suggestionDetails() {
                   onClick={() => deleteSuggestion(suggestion_id)}
                   className="cursor-pointer bg-dbase text-white w-1/2 md:w-60 rounded-md text-center py-1.5"
                 >
-               { state.loading?(<div className=" flex justify-center text-center w-full"><div className="w-[30px]"><Loader/></div></div> ):(<>Delete</>)}
+               Delete
                 </div>
               </div>
             )}
