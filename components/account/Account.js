@@ -109,7 +109,7 @@ function Account() {
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
-        checkLogin();
+       
       }
     }
 
