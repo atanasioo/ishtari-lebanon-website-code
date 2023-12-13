@@ -111,7 +111,11 @@ export const AccountReducer = (state, action) => {
         ...state,
         email: action.payload
       };
-
+      case "sethasDateBirth":
+      return {
+        ...state,
+        hasdateBirth: action.payload
+      };
     default:
       return state;
   }
@@ -126,6 +130,7 @@ export const initialState = {
   showOver: false,
   showSignup: false,
   username: "",
+  hasdateBirth:false,
   firstname: "",
   lastname: "",
   userId: "",

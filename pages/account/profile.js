@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 function profile() {
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
+  const date_of_birth = useRef("");
   const [loading, setLoading] = useState(true);
   const lastname = useRef("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -30,6 +31,7 @@ function profile() {
     firstname: "",
     lastname: "",
     telephone: "",
+    date_of_birth:"",
   });
   const [err, setErr] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -50,6 +52,7 @@ function profile() {
           } else {
             setData(response.data.data);
             setLoading(false);
+         
           }
         });
 
@@ -74,10 +77,12 @@ function profile() {
   function saveDetails(e) {
     const first = firstname.current.value;
     const last = lastname.current.value;
+    const birthDate = date_of_birth.current.value;
     const obj = {
       firstname: first,
       lastname: last,
       email: data.email,
+      date_of_birth:birthDate
       //telephone: telephone.current.value !== "" ? window.config["countryCode"] + telephone.current.value : "",
     };
     setAlert(true);
@@ -278,6 +283,33 @@ function profile() {
                     </div>
                   </div>
                 </div>
+                <div
+                  className={`flex pt-4 ${
+                    width > 650 ? "flex-row gap-10" : "flex-col gap-4"
+                  }`}
+                >
+                <div className={width > 650 ? "w-1/2" : "w-full"}>
+                    <div className="input">
+                      <label>Birth Date</label>
+                      {  data.date_of_birth ===""?(
+                      <input 
+                 
+                      type="date"
+                      
+                      ref={date_of_birth}
+                      defaultValue={data.date_of_birth}></input>
+                      ):(<>
+                          <input 
+                  disabled
+                      type="date"
+                      
+                      ref={date_of_birth}
+                      defaultValue={data.date_of_birth}></input></>)
+                }
+                    </div>
+                  </div>
+                </div>
+             
 
                 <button className="bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block">
                   SAVE DETAILS

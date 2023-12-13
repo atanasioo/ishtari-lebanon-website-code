@@ -26,7 +26,6 @@ import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
 import { HiLightBulb } from "react-icons/hi";
 import Loader from "../Loader";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 function Account() {
   const modal = useRef(null);
   const [message, setMessage] = useState(false);
@@ -110,7 +109,7 @@ function Account() {
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
-       
+        checkLogin('login');
       }
     }
 
@@ -126,7 +125,7 @@ function Account() {
       };
       const response = await axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj);
       // console.log(response)
-      if (response?.data?.data?.customer_id) checkLogin();
+      if (response?.data?.data?.customer_id) checkLogin('login');
       // window.location.reload();
     }
   }, [session]);
@@ -237,7 +236,7 @@ e.preventDefault();
       };
       const response = await axiosServer.post(buildLink("social", undefined, undefined, window.location.host), obj);
       if (response) {
-        checkLogin('');
+        checkLogin('login');
       }
     }
   }
@@ -293,6 +292,7 @@ console.log(data)
           dispatch({ type: "setEmail", payload: data.email });
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
+          dispatch({type:"sethasDateBirth",payload:data?.has_birthday});
          
     
           // if (
@@ -319,14 +319,18 @@ console.log(data)
   async function signup(e) {
     e.preventDefault();
     setSignupLoading(true);
-
+    const birthDateInputVal = birthDate.current.value;
+    const parts = birthDateInputVal.split('/');
+    console.log(parts);
+      const formattedDate = parts[0];
+      console.log(formattedDate);
     const response = await signIn("signup", {
       email: signupEmail.current.value,
       password: signupPassword.current.value,
       confirm: signupPassword.current.value,
       firstname: signupFirst.current.value,
       lastname: signupLast.current.value,
-      birthDate: birthDate.current.querySelector('input').value,
+      date_of_birth: formattedDate,
       redirect: false
     });
     console.log(response);
@@ -390,7 +394,7 @@ return;
     const response = await axiosServer.post(
       buildLink("logout", undefined, undefined, window.config["site-url"])
     );
-    checkLogin('logOut');
+    checkLogin('login');
     dispatch({ type: "setSeller", payload: false });
     Cookies.remove("seller_id");
     window.location.href = "/";
@@ -700,16 +704,14 @@ return;
                       minLength="2"
                     />
                   </div>
-                  <div 
-                 
-                  className="">
-                
-                    <DatePicker 
-                  
-                    label="Birth Date"
-                    format="YYYY-MM-DD"
-                    ref={birthDate}
-                    slotProps={{ textField: { size:"small",variant: 'filled' , style:{ width:"100%"}, } }}
+                  <div className="input my-4">
+                    <label>Birth Date</label>
+                    <input
+                      ref={birthDate}
+                      type="date"
+                      required={true}
+                      autoComplete="lastname"
+                      
                     />
                   </div>
                 </div>
