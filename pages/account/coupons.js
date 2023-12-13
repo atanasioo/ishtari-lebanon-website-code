@@ -153,33 +153,22 @@ const getCoupons =()=>{
       ):buttonActive==="2"?( data&& data.Redeemed.map((coupon=>{
         return <SingleCoupon  coupon={coupon} type="redeemed"  getCoupons={getCoupons}/>
 
-}))
-):buttonActive==="3"?( data&& data['Expires Soon'].map((coupon=>{
-  return <SingleCoupon  coupon={coupon} type="expiresSoon"  getCoupons={getCoupons}/>
+      }))
+        ):buttonActive==="3"?( data&& data['Expires Soon'].map((coupon=>{
+          return <SingleCoupon  coupon={coupon} type="expiresSoon"  getCoupons={getCoupons}/>
 
-}))):( data&& data.Expired.map((coupon=>{
-  return <SingleCoupon  coupon={coupon} type="expired"  getCoupons={getCoupons}/>
+      }))):( data&& data.Expired.map((coupon=>{
+          return <SingleCoupon  coupon={coupon} type="expired"  getCoupons={getCoupons}/>
 
-})))
-    }
-
-
-
-
-
-
-
-
-</div>
-            </div>
-      
-      </div>
-          )}
+      })))
+       }
         </div>
-      </div>
-    
-    </div>
+      </div>  
+     </div>
+        )}
+   </div>
+ </div>
+</div>
   );
 }
-
 export default Coupon;

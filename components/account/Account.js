@@ -18,6 +18,7 @@ import {
 import { MdAvTimer, MdFeedback } from "react-icons/md";
 import {
   FaMoneyBillWave,
+  FaTicketAlt,
   FaUserAlt,
   FaWallet,
 } from "react-icons/fa";
@@ -331,7 +332,7 @@ console.log(data)
     console.log(response);
     if (response.status === 200) {
       checkLogin('register');
-
+      
    
     } else {
       setShowSignupError(true);
@@ -901,7 +902,14 @@ We'll send you a new password.
                   <FaWallet className=" text-d16 " />
                   <span className="ml-4">Wallet</span>
                 </Link>
-                
+                <Link
+                  href={`${path}/account/coupons`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 px-3"
+                >
+                  <FaTicketAlt className=" text-d16 " />
+                  <span className="ml-4">Coupons</span>
+                </Link>
                 <Link
                   href={`${path}/account/buyagain`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -1047,7 +1055,7 @@ Use this code during checkout to enjoy your discount.
                   onClick={() => dispatch({ type: "setOpenModalCoupon", payload: false })}
                   className="block bg-white text-dbase w-full rounded-md  p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dgreyRate "
                 >
-                  ok
+                  OK
                 </button>
               </div>
 
@@ -1056,7 +1064,7 @@ Use this code during checkout to enjoy your discount.
                     onClick={()=>{
                       dispatch({ type: "setOpenModalCoupon", payload: false })
                       router.push({
-                        pathname: "/account/coupon",
+                        pathname: "/account/coupons",
                       });
                     }}
                   className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-white hover:text-dbase"
