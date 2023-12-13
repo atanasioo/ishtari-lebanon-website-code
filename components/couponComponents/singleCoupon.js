@@ -154,19 +154,7 @@ const  redeemCoupon = (id)=>{
 
             
             >
-              <h2 className=' text-lg font-[900] underline text-left '>Coupons Rules:</h2>
-              { 
-           (
-                <div
-                id="desc"
-                  className=' text-left  '
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHTML(coupon.rules)
-                }}
-              />
-              )
-            }
-            { !coupon.total_uses ==""?(
+                      { !coupon.total_uses ==""?(
             <div className='flex flex-row justify-start gap-3 pt-2 '>
         
                 <h2 className=' text-lg font-[900] underline text-left '>Available Coupons Uses:</h2>
@@ -194,6 +182,19 @@ const  redeemCoupon = (id)=>{
      
               </div>
 ):<></>}
+              <h2 className=' text-lg font-[900] underline text-left '>Coupons Rules:</h2>
+              { 
+           (
+                <div
+                id="desc"
+                  className=' text-left  '
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(coupon.rules)
+                }}
+              />
+              )
+            }
+    
             </div>
             </div>
             <div className="-mx-3 flex flex-wrap shadow-[white_0px_-25px_20px_0px] ">
