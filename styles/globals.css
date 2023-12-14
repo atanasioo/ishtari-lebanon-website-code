@@ -2676,3 +2676,17 @@ display: inline-block;
   }
 
 
+.animation-text-banner{
+ animation: my-animation 20s infinite  linear ;
+ 
+}
+
+
+@keyframes my-animation {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

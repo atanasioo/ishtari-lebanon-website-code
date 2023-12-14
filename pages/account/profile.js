@@ -91,6 +91,25 @@ function profile() {
       .then((response) => {
         dispatch({ type: "setUsername", payload: first });
         setAlert(true);
+        console.log(response.data );
+        if(response.data.success){
+          axiosServer
+          .get(buildLink("get_account", undefined, window.innerWidth))
+          .then((response) => {
+                
+              setData(response.data.data);
+            console.log(response.data.data);
+            if(response.data.data.date_of_birth =="" || response.data.data.date_of_birth ==null) {
+
+            }else{
+              dispatch({ type: "sethasDateBirth", payload: true });
+            }
+              dispatch({ type: "setLoading", payload: false });
+           
+            
+          });
+        }
+        
       });
     e.preventDefault();
   }
@@ -289,16 +308,19 @@ function profile() {
                   }`}
                 >
                 <div className={width > 650 ? "w-1/2" : "w-full"}>
-                    <div className="input">
-                      <label>Birth Date</label>
-                      {  data.date_of_birth ===""?(
+                    <div className="input" onClick={()=>console.log(state.hasdateBirth)}>
+                     
+                      {  !state.hasdateBirth ?(
+                        <>
+                         <label>Birth Date <span className=" text-xs text-dbase1">(You can only update your birth date once)</span></label>
                       <input 
                  
                       type="date"
                       
                       ref={date_of_birth}
-                      defaultValue={data.date_of_birth}></input>
+                      defaultValue={data.date_of_birth}></input></>
                       ):(<>
+                       <label>Birth Date</label>
                           <input 
                   disabled
                       type="date"

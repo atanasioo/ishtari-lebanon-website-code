@@ -109,7 +109,8 @@ function Account() {
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
-        checkLogin('login');
+        checkLogin('login')
+        
       }
     }
 
@@ -285,6 +286,8 @@ console.log(data)
         }
         
 
+      
+
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
           dispatch({ type: "setLoged", payload: true });
@@ -293,14 +296,8 @@ console.log(data)
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
           dispatch({type:"sethasDateBirth",payload:data?.has_birthday});
-         
-    
-          // if (
-          //   history.location.pathname == "/checkout" &&
-          //   window.location.host === "www.ishtari.com.gh"
-          // ) {
-          // window.location.reload();
-          // }
+        
+        
         } else {
           dispatch({ type: "setLoged", payload: false });
         }

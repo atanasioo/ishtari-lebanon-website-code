@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Footer from "./footer/footer";
 import Header from "./header/header";
 import { useRouter } from "next/router";
+import buildLink, { path } from "../../urls";
 import AsideMenu from "./AsideMenu";
+import { AccountContext } from "@/contexts/AccountContext";
+import Link from "next/link";
+
 function Layout({
   children,
   token,
   host
 }) {
   const router = useRouter();
-
+  const [stateAcc, dispatch] = useContext(AccountContext);
+  
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {
@@ -30,7 +35,19 @@ function Layout({
         <></>
       ) : !router.pathname.startsWith("/seller_report")   ? (
         //other user case
+        <>
+        {stateAcc.loged && !stateAcc.hasdateBirth &&
+        <Link href={`${path}/account/profile`} ><div className=" w-full relative overflow-hidden  h-8 bg-dbase  ">
+        <div className="text-center   align-middle flex justify-center my-auto h-full animation-text-banner  ">
+          <h2 className="text-white  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
+   
+
+          </div>
+        </div>
+        </Link>
+}
         <Header host={host} />
+        </>
       ) : (
         //seller case
         <AsideMenu />

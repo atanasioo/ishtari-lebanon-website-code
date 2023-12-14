@@ -128,7 +128,7 @@ function Header(props) {
       {/* <div className="w-full h-auto flex container ">
         <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
       </div> */}
-      {local && <SiteHeaders local={local} />}
+      {/* {local && <SiteHeaders local={local} />} */}
 
       {/* Mobile Menu */}
       <div
