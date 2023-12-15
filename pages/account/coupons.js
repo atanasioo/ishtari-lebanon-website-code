@@ -7,22 +7,26 @@ import buildLink from "@/urls";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
-
+import { BsInfoCircleFill } from "react-icons/bs";
 
 import PointsLoader from "@/components/PointsLoader";
 import Image from "next/image";
 import SingleCoupon from "../../components/couponComponents/singleCoupon";
+import { FaTicketAlt } from "react-icons/fa";
+import { sanitizeHTML } from "@/components/Utils";
 function Coupon() {
   const router = useRouter();
   const [data, setData] = useState();
   const [buttonActive, setButtonActive] = useState("1")
-
+  const trigger = useRef(null);
   const [state, dispatch] = useContext(AccountContext);
   const [loading, setLoading] = useState(true);
   const [width, height] = useDeviceSize();
   const [modalOpen, setModalOpen] = useState(false);
-  const trigger = useRef(null);
+
   const modal = useRef(null);
+
+  
   // close on click outside
   // useEffect(() => {
   //   const clickHandler = ({ target }) => {
@@ -40,14 +44,19 @@ function Coupon() {
   // });
   // close if the esc key is pressed
   useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
-      if (!modalOpen || keyCode !== 27) return;
+    const clickHandler = ({ target }) => {
+      if (!modal.current) return;
+      if (
+        !modalOpen ||
+        modal.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return;
       setModalOpen(false);
     };
-    document.addEventListener("keydown", keyHandler);
-    return () => document.removeEventListener("keydown", keyHandler);
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
   });
-
 
 
   const handleClick = (event) => {
@@ -90,7 +99,7 @@ const getCoupons =()=>{
         <title>My Account | ishtari</title>
       </Head>
       <div className="pb-2">
-        <div className="flex-row md:flex">
+        <div className="flex-row md:flex"> 
           <div className="w-full mb-3 md:w-1/5">
             {width > 650 ? (
               <UserSidebar active={"coupon"} />
@@ -112,6 +121,9 @@ const getCoupons =()=>{
                 width={1220}
                 height={320}
               />
+              <button  ref={trigger} onClick={()=>setModalOpen(true)} className="absolute right-5 top-3 max-md:right-3 ">
+                <BsInfoCircleFill className=" text-white drop-shadow-md "/>
+              </button>
               <div className="absolute gap-5 z-5 flex items-center   overflow-x-auto   max-md:w-full max-md:-bottom-6  -bottom-4 cursor-pointer">
               <button
                  id="1"
@@ -168,6 +180,75 @@ const getCoupons =()=>{
         )}
    </div>
  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div
+          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
+            modalOpen ? "block" : "hidden"
+          }`}
+        >
+          <div
+            ref={modal}
+            onFocus={() => setModalOpen(true)}
+            onBlur={() => setModalOpen(false)}
+            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
+          >
+           <div className=" w-10 h-10 mx-auto bg-[#e94a4f66] text-[#bf1b26] flex text-center justify-center rounded-full mb-5"> <FaTicketAlt className="mx-auto my-auto " /></div>
+           
+            
+
+            <span
+              className={`mx-auto mb-6 inline-block  my-6 border-t border-dashed border-dgreySeller h-1 w-full   `}
+            ></span>
+            <div className=' max-h-40 overflow-y-auto'>
+            <div className="mb-10 text-base leading-relaxed text-body-color  dark:text-dlabelColor"
+                
+
+            
+            >
+       
+              <h2 className=' text-lg font-[900] underline text-left '>datas Rules:</h2>
+              { data && 
+           (
+                <div
+                id="desc"
+                  className=' text-left  '
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(data.description)
+                }}
+              />
+              )
+            }
+    
+            </div>
+            </div>
+            <div className="-mx-3 flex flex-wrap shadow-[white_0px_-25px_20px_0px] ">
+              <div className={` px-3  w-full`}>
+                <button
+                  onClick={() => setModalOpen(false)}
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white dark:text-white"
+                >
+                  Cancel
+                </button>
+              </div>
+              
+            </div>
+          </div>
+          </div>
 </div>
   );
 }

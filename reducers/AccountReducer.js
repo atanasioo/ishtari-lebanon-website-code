@@ -130,7 +130,7 @@ export const initialState = {
   showOver: false,
   showSignup: false,
   username: "",
-  hasdateBirth:false,
+  hasdateBirth:true,
   firstname: "",
   lastname: "",
   userId: "",

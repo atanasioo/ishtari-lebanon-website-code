@@ -6,15 +6,12 @@ import buildLink from '@/urls';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AccountContext } from "@/contexts/AccountContext";
 import { FaAccessibleIcon, FaTicketAlt } from "react-icons/fa";
-import PointsLoader from '@/components/PointsLoader';
 import Loader from '@/components/Loader';
-import flashSale from '../../pages/flashSale';
 
 const SingleCoupon = ({coupon ,type,description,getCoupons}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const trigger = useRef(null);
     const modal = useRef(null);
-    const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
 
   const [state, dispatch] = useContext(AccountContext);

@@ -2612,7 +2612,7 @@ display: inline-block;
     border-top: solid 2px #bf1b26;
   }
   .stub {
-    background: #FFF6F3;
+    background: white;
     height: 100%;
     width: 30%;
     padding: 20px;
@@ -2628,7 +2628,7 @@ display: inline-block;
     position: absolute;
     top: 0; right: 0;
     border-top: 10px solid #F7F7FA;
-    background: #FFF6F3;
+    background: white;
     width: 0;
   }
   .stub::after{
@@ -2637,7 +2637,7 @@ display: inline-block;
     bottom: 0; right: 0;
     border-bottom: 10px solid #F7F7FA;
     /* border-left: 20px solid #EF5658; */
-    background: #FFF6F3;
+    background: white;
     width: 0;
 
   }
@@ -2649,7 +2649,7 @@ display: inline-block;
   
   }
   .check {
-  background: #FFF6F3;
+  background: white;
     width: 70%;
     position: relative;
     border-radius: 10px;
@@ -2659,14 +2659,14 @@ display: inline-block;
     position: absolute;
     top: 0; left: 0;
     border-top: 10px solid #F7F7FA;
-  background: #FFF6F3;
+  background: white;
   }
   .check::after{
     content: '';
       position: absolute;
       bottom: 0; left: 0;
       border-bottom: 10px solid #F7F7FA;
-    background: #FFF6F3;
+    background: white;
  
   }
   .divider-coupon{
