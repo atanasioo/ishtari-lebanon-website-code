@@ -317,7 +317,7 @@ function OrderDetails() {
             )} */}
 
             {/* TABLE */}
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+            <div className="relative overflow-x-auto w-full border mt-3 md:mt-0 bg-white border-dgrey shadow-lg rounded-md">
               {width > 650 ? (
                 <table className="w-full text-sm hover:table-auto text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead className=" bg-gray-200 text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -433,11 +433,11 @@ function OrderDetails() {
                   ))}
                 </table>
               ) : (
-                <table className="w-full text-left">
-                  <thead className="">
+                <table className="w-full text-left ">
+                  <thead className=" h-20 ">
                     <div className="hidden md:block">
                       {" "}
-                      <th className="   px-4  py-1 text-sm">#</th>
+                      <th className="     px-4  py-1 text-sm">#</th>
                     </div>
                     <th className=" px-2  py-1  text-sm">Product</th>
                     <th className=" px-4  py-1  text-sm">SKU</th>
@@ -450,7 +450,7 @@ function OrderDetails() {
                   </thead>
                   {data?.products.map((product, i) => (
                     <tbody key={i}>
-                      <tr className="border-t border-b border-dlabelColor ">
+                      <tr className="border-t border-b border-dashed border-dgrey  h-20  ">
                         <div className="hidden md:flex-wrap">
                           {" "}
                           <td className="  px-4">
@@ -458,8 +458,10 @@ function OrderDetails() {
                           </td>
                         </div>
                        
-                        <td className=" text-ellipsis overflow-hidden px-2 md:px-4 text-sm line-clamp-3 md:line-clamp-none">
-                          {product.name}
+                        <td className=" h-full my-auto px-2 md:px-4  tracking-wide">
+                        <span className=" text-ellipsis overflow-hidden text-sm line-clamp-3 my-auto    md:line-clamp-none"
+                            dangerouslySetInnerHTML={{ __html: product.name }}
+                          ></span>
                         </td>
                         <td className="  px-2 md:px-4 text-sm">
                           {product.sku}
@@ -492,7 +494,7 @@ function OrderDetails() {
                 </table>
               )}
             </div>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border-b  bg-white mt-5 md:mt-10  border-dgrey1 pb-2 items-centre">
+            <div className="relative overflow-x-auto shadow-lg sm:rounded-lg  bg-white mt-5 md:mt-10   pb-2 items-centre">
               {data?.totals?.map((data) => (
                 <div className="flex flex-row " key={data.order_total_id}>
                   <div className="m-4">

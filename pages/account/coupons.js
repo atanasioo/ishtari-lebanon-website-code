@@ -197,7 +197,7 @@ const getCoupons =()=>{
 
 
  <div
-          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
+          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center transition-all   bg-[#6f6f6f4c] px-4 py-5 ${
             modalOpen ? "block" : "hidden"
           }`}
         >
