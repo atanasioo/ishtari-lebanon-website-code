@@ -66,12 +66,14 @@ function Information() {
 
         <title>{data?.title}| ishtari</title>
       </Head>
-
       <div
-        dangerouslySetInnerHTML={{
-          __html: sanitizeHTML(unescapeHTML(data?.description)),
-        }}
-      />
+                id="desc"
+                  className=' text-left  '
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(unescapeHTML(data?.description))
+                }}
+              />
+     
     </div>
   );
 }

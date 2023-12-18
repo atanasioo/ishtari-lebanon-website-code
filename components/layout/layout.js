@@ -7,6 +7,8 @@ import AsideMenu from "./AsideMenu";
 import { AccountContext } from "@/contexts/AccountContext";
 import Link from "next/link";
 import { FaArrowAltCircleRight } from "react-icons/fa";
+import { IoCloseCircle } from "react-icons/io5";
+
 
 function Layout({
   children,
@@ -15,7 +17,40 @@ function Layout({
 }) {
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext);
-  
+  const [showPopup, setShowPopup] = useState(true);
+  const [doNotShowAgain, setDoNotShowAgain] = useState(false);
+  useEffect(() => {
+    const lastClosedTime = localStorage.getItem('lastClosedTime');
+    const currentTime = new Date().getTime();
+    const twentyFourHours = 24 * 60 * 60 * 1000; 
+
+    if (lastClosedTime && currentTime - lastClosedTime < twentyFourHours) {
+      setShowPopup(false);
+       const timeoutId = setTimeout(() => {
+        setShowPopup(true);
+      }, twentyFourHours - (currentTime - lastClosedTime));
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
+  const closePopup = () => {
+    const currentTime = new Date().getTime();
+
+    localStorage.setItem('lastClosedTime', currentTime);
+    if (doNotShowAgain) {
+      localStorage.setItem('doNotShowAgain', 'true');
+    }
+    setShowPopup(false);
+
+    setTimeout(() => {
+      setShowPopup(true);
+    }, 2000);
+  };
+
+  const handleAnimationEnd = () => {
+    setShowPopup(false);
+  };
+ 
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {
@@ -47,11 +82,20 @@ function Layout({
         // </div>
         // </Link>
 }
-        <div className=" flex  fixed bottom-2  gap-3 justify-center text-center right-5 z-30  py-9 w-fit bg-white shadow-lg border-2 border-dashed border-dbase container  rounded-lg ">
-           <h2 className="text-dblack text-xl  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>   
-           <button className=" bg-dbase  rounded-full p-3 text-white  flex justify-center gap-1 hover:gap-2 text-center">Profile <FaArrowAltCircleRight className="my-auto"  /> </button>
+      {stateAcc.loged && !stateAcc.hasdateBirth && showPopup && 
+        <div id="bday" onAnimationEnd={handleAnimationEnd} className=" flex fixed gap-3 justify-center text-center  z-30  py-5 w-fit bg-white shadow-2xl border-2  border-dbase container  rounded-lg h-32  ">
+          <div className="  text-xl justify-end text-end mb-20">
+          <button onClick={closePopup} className=" text-dbase hover:text-dbase1 ">
+          <IoCloseCircle/>
+          </button>
+          </div>
+           <h2 className="text-dblack text-xl  my-auto  x">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>   
+           <Link href={`${path}/account/profile`}>
+           <button className=" bg-dbase  rounded-full p-3 mt-4 text-white  flex justify-center gap-1 hover:gap-2 text-center hover:bg-dbase1 ">Profile <FaArrowAltCircleRight className="my-auto"  /> </button>
+           </Link>
+           
         </div>
-
+}
         <Header host={host} />
         </>
       ) : (
