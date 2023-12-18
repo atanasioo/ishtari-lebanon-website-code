@@ -6,6 +6,7 @@ import buildLink, { path } from "../../urls";
 import AsideMenu from "./AsideMenu";
 import { AccountContext } from "@/contexts/AccountContext";
 import Link from "next/link";
+import { FaArrowAltCircleRight } from "react-icons/fa";
 
 function Layout({
   children,
@@ -36,16 +37,21 @@ function Layout({
       ) : !router.pathname.startsWith("/seller_report")   ? (
         //other user case
         <>
-        {stateAcc.loged && !stateAcc.hasdateBirth &&
-        <Link href={`${path}/account/profile`} ><div className=" w-full relative overflow-hidden  h-8 bg-dbase  ">
-        <div className="text-center   align-middle flex justify-center my-auto h-full animation-text-banner  ">
-          <h2 className="text-white  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
+        {
+        // <Link href={`${path}/account/profile`} ><div className=" w-full relative overflow-hidden  h-8 bg-dbase  ">
+        // <div className="text-center   align-middle flex justify-center my-auto h-full animation-text-banner  ">
+        //   <h2 className="text-white  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
    
 
-          </div>
-        </div>
-        </Link>
+        //   </div>
+        // </div>
+        // </Link>
 }
+        <div className=" flex  fixed bottom-2  gap-3 justify-center text-center right-5 z-30  py-9 w-fit bg-white shadow-lg border-2 border-dashed border-dbase container  rounded-lg ">
+           <h2 className="text-dblack text-xl  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>   
+           <button className=" bg-dbase  rounded-full p-3 text-white  flex justify-center gap-1 hover:gap-2 text-center">Profile <FaArrowAltCircleRight className="my-auto"  /> </button>
+        </div>
+
         <Header host={host} />
         </>
       ) : (
