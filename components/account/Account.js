@@ -327,7 +327,7 @@ console.log(data)
       confirm: signupPassword.current.value,
       firstname: signupFirst.current.value,
       lastname: signupLast.current.value,
-      date_of_birth: formattedDate,
+      // date_of_birth: formattedDate,
       redirect: false
     });
     console.log(response);

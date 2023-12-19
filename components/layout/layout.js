@@ -6,10 +6,8 @@ import buildLink, { path } from "../../urls";
 import AsideMenu from "./AsideMenu";
 import { AccountContext } from "@/contexts/AccountContext";
 import Link from "next/link";
-import { FaArrowAltCircleRight } from "react-icons/fa";
-import { IoCloseCircle } from "react-icons/io5";
-
-
+import { FaArrowAltCircleRight, FaSadCry } from "react-icons/fa";
+import { HiOutlineX } from "react-icons/hi";
 function Layout({
   children,
   token,
@@ -17,40 +15,7 @@ function Layout({
 }) {
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext);
-  const [showPopup, setShowPopup] = useState(true);
-  const [doNotShowAgain, setDoNotShowAgain] = useState(false);
-  useEffect(() => {
-    const lastClosedTime = localStorage.getItem('lastClosedTime');
-    const currentTime = new Date().getTime();
-    const twentyFourHours = 24 * 60 * 60 * 1000; 
-
-    if (lastClosedTime && currentTime - lastClosedTime < twentyFourHours) {
-      setShowPopup(false);
-       const timeoutId = setTimeout(() => {
-        setShowPopup(true);
-      }, twentyFourHours - (currentTime - lastClosedTime));
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, []);
-  const closePopup = () => {
-    const currentTime = new Date().getTime();
-
-    localStorage.setItem('lastClosedTime', currentTime);
-    if (doNotShowAgain) {
-      localStorage.setItem('doNotShowAgain', 'true');
-    }
-    setShowPopup(false);
-
-    setTimeout(() => {
-      setShowPopup(true);
-    }, 2000);
-  };
-
-  const handleAnimationEnd = () => {
-    setShowPopup(false);
-  };
- 
+  const [showBirthRemind , setShowbirthRemind] = useState(false);
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {
@@ -64,7 +29,6 @@ function Layout({
   //     // console.log(token);
   //   }
   //  },[token])
-
   return (
     <div>
       {router.pathname.indexOf("print") > -1  &&  router.pathname.indexOf("pos") > 0? (
@@ -76,46 +40,40 @@ function Layout({
         // <Link href={`${path}/account/profile`} ><div className=" w-full relative overflow-hidden  h-8 bg-dbase  ">
         // <div className="text-center   align-middle flex justify-center my-auto h-full animation-text-banner  ">
         //   <h2 className="text-white  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
-   
-
         //   </div>
         // </div>
         // </Link>
 }
-      {stateAcc.loged && !stateAcc.hasdateBirth && showPopup && 
-        <div id="bday" onAnimationEnd={handleAnimationEnd} className=" flex fixed gap-3 justify-center text-center  z-30  py-5 w-fit bg-white shadow-2xl border-2  border-dbase container  rounded-lg h-32  ">
-          <div className="  text-xl justify-end text-end mb-20">
-          <button onClick={closePopup} className=" text-dbase hover:text-dbase1 ">
-          <IoCloseCircle/>
-          </button>
-          </div>
-           <h2 className="text-dblack text-xl  my-auto  x">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>   
-           <Link href={`${path}/account/profile`}>
-           <button className=" bg-dbase  rounded-full p-3 mt-4 text-white  flex justify-center gap-1 hover:gap-2 text-center hover:bg-dbase1 ">Profile <FaArrowAltCircleRight className="my-auto"  /> </button>
-           </Link>
-           
+        <div style={{fontFamily:"serif"}} className={` flex  transition-all ${ stateAcc.loged&& !stateAcc.hasdateBirth?"right-5 max-md:right-3 ":"-right-[100%] "}   fixed bottom-2  shadow-dbase gap-3 justify-center text-center  z-30  py-4  w-[400px] bg-dbase shadow-lg border-2 border-dashed border-white container  rounded-lg `}>
+           <h2 className="text-white text-xl   my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
+           <button className=" bg-white  rounded-full p-3 text-dbase  flex justify-center gap-1 hover:gap-2 text-center"><span className="my-auto flex justify-center gap-2 text-center" >Profile <FaArrowAltCircleRight className="my-auto"  /> </span> </button>
+       <button onClick={()=>setShowbirthRemind(true)} className=" p-1 bg-dlabelColor opacity-80 text-white absolute rounded-full -top-3 -right-3 "><HiOutlineX/></button>
         </div>
-}
         <Header host={host} />
         </>
       ) : (
         //seller case
         <AsideMenu />
       )}
-
       {children}
       {  (router.pathname.indexOf("print") > -1 ||  router.pathname.startsWith("/orders") ) ? (
         <></>
       ):
-      
       !router.pathname.startsWith("/seller_report") &&  router.pathname.indexOf("pos") < 0  &&(
         //other user case
-       
         <Footer
         />
       )}
     </div>
   );
 }
-
 export default Layout;
+
+
+
+
+
+
+
+
+
