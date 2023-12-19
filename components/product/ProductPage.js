@@ -2067,8 +2067,9 @@ function ProductPage(props) {
                             </div>
                           )
                       )}
+                      <div className="h-[350px] overflow-y-auto relative ">
                     {bundles && bundles.map((bundle)=>
-                      <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8">
+                      <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8 ">
                         <p className="font-black pr-semibold text-sm mb-2 ml-2">
                           Frequently Bought Together
                         </p>
@@ -2158,6 +2159,7 @@ function ProductPage(props) {
                         )}
                       </div>
                     )}
+                    </div>
 
                     <div className="my-4 hidden mobile:block">
                       <WhatsappBtn product_id={product_id} config={config} />

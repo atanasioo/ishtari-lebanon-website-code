@@ -53,10 +53,13 @@ function Layout({
         // </div>
         // </Link>
 }
-        <div style={{fontFamily:"serif"}} className={` flex  transition-all ${ stateAcc.loged&& !stateAcc.hasdateBirth &&stateAcc.openRemindBirthday?"right-5 max-md:right-3 ":"-right-[100%] "}   fixed bottom-2  shadow-dbase gap-3 justify-center text-center  z-30  py-4  w-[400px] bg-dbase shadow-lg border-2 border-dashed border-white container  rounded-lg `}>
+        <div style={{fontFamily:"serif"}} className={` flex  transition-all
+         ${ 
+          // stateAcc.loged&& !stateAcc.hasdateBirth &&
+         stateAcc.openRemindBirthday?"right-5 max-md:right-3 ":"-right-[100%] "}   fixed bottom-2  shadow-dbase gap-3 justify-center  text-center  z-30  py-4  w-[400px] bg-dbase shadow-lg container  rounded-lg `}>
            <h2 className="text-white text-xl   my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
-           <Link  href={`${path}/account/profile`} className=" bg-white  rounded-full p-3 text-dbase  flex justify-center gap-1 hover:gap-2 text-center"><span className="my-auto flex justify-center gap-2 text-center" >Profile <FaArrowAltCircleRight className="my-auto"  /> </span> </Link> 
-       <button onClick={()=>closeRemindBirthday} className=" p-1 bg-dlabelColor opacity-80 text-white absolute rounded-full -top-3 -right-3 "><HiOutlineX/></button>
+           <Link  href={`${path}/account/profile`} className=" bg-white my-auto  h-10  rounded-full px-2 text-dbase  flex justify-center gap-1 hover:gap-2 text-center"><span className="my-auto flex justify-center gap-2 text-center" >Profile <FaArrowAltCircleRight className="my-auto"  /> </span> </Link> 
+       <button onClick={()=>closeRemindBirthday()} className=" p-1 bg-dlabelColor opacity-80 text-white absolute rounded-full -top-3 -right-3 "><HiOutlineX/></button>
         </div>
         <Header host={host} />
         </>
