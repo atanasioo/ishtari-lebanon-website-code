@@ -206,10 +206,12 @@ function ProductPage(props) {
         if (data.special_end !== null && data.special_end !== 0) {
           setHasBannerEvent(data?.bannerevent);
         }
-        setProductBundle(
-          data?.product_bundles?.length > 0 ? data?.product_bundles[0] : null
-        );
 
+        setProductBundle(
+
+          data?.product_bundles?.length > 0 ? data?.product_bundles : null
+        );
+       
         setReviews(data?.product_reviews?.reviews);
 
         //banner_event
@@ -2065,7 +2067,7 @@ function ProductPage(props) {
                             </div>
                           )
                       )}
-                    {bundles && (
+                    {bundles && bundles.map((bundle)=>
                       <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8">
                         <p className="font-black pr-semibold text-sm mb-2 ml-2">
                           Frequently Bought Together
@@ -2075,8 +2077,8 @@ function ProductPage(props) {
                             className="hidden mobile:block"
                             {...productBundlesSetting}
                           >
-                            {bundles &&
-                              bundles?.products?.map((product, i) => (
+                            {bundle &&
+                              bundle?.products?.map((product, i) => (
                                 <div
                                   key={product.product_id}
                                   className="w-12/12 flex flex-row items-center"
@@ -2087,10 +2089,10 @@ function ProductPage(props) {
                                     <SingleProductBundle
                                       item={product}
                                       i={i}
-                                      len={bundles.products?.length}
+                                      len={bundle.products?.length}
                                     />
                                   </div>
-                                  {i !== bundles?.products?.length - 1 && (
+                                  {i !== bundle?.products?.length - 1 && (
                                     <span className="text-3xl font-bold mt-2">
                                       +
                                     </span>
@@ -2102,8 +2104,8 @@ function ProductPage(props) {
                             className=" mobile:hidden"
                             {...productMobileBundlesSetting}
                           >
-                            {bundles &&
-                              bundles?.products?.map((product, i) => (
+                            {bundle &&
+                              bundle?.products?.map((product, i) => (
                                 <div
                                   key={product.product_id}
                                   className="w-12/12 flex flex-row items-center"
@@ -2114,10 +2116,10 @@ function ProductPage(props) {
                                     <SingleProductBundle
                                       item={product}
                                       i={i}
-                                      len={bundles.products?.length}
+                                      len={bundle.products?.length}
                                     />
                                   </div>
-                                  {i !== bundles?.products?.length - 1 && (
+                                  {i !== bundle?.products?.length - 1 && (
                                     <span className="text-3xl font-bold mt-2">
                                       +
                                     </span>
@@ -2127,11 +2129,11 @@ function ProductPage(props) {
                           </Slider>
                         </div>
 
-                        {bundles && (
+                        {bundle && (
                           <button
                             className="w-full h-12 text-center text-sm flex items-center justify-center font-semibold my-2 rounded bg-white text-dbluedark py-4 border-2 border-dbluedark"
                             onClick={() => {
-                              addBundle(bundles);
+                              addBundle(bundle);
                             }}
                           >
                             {countDownPointer === true &&
@@ -2145,10 +2147,10 @@ function ProductPage(props) {
                             ) : (
                               !addingToCart && (
                                 <span className="">
-                                  {  bundles?.description ==""?(
+                                  {  bundle?.description ==""?(
                                <>  Buy This Bundle For</>
-                                     ):(<>  {bundles?.description} {" "}</>) }
-                                  {bundles?.total_amount_after_discount}{" "}
+                                     ):(<>  {bundle?.description} {" "}</>) }
+                                  {bundle?.total_amount_after_discount}{" "}
                                 </span>
                               )
                             )}
