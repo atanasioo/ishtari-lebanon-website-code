@@ -296,6 +296,13 @@ console.log(data)
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
           dispatch({type:"sethasDateBirth",payload:data?.has_birthday});
+          const remindBirthdayopend = Cookies.get("remindBirthdayopend");
+          const currentDate = new Date().getDay();
+          console.log(remindBirthdayopend +" & "+ currentDate);
+          console.log(remindBirthdayopend !== currentDate);
+          if(!data?.has_birthday && ( !remindBirthdayopend == currentDate || remindBirthdayopend == null)){
+            dispatch({type:"setopenRemindBirthday",payload:true});
+          }
         
         
         } else {

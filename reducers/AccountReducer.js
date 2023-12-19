@@ -116,6 +116,11 @@ export const AccountReducer = (state, action) => {
         ...state,
         hasdateBirth: action.payload
       };
+      case "setopenRemindBirthday":
+        return {
+          ...state,
+          openRemindBirthday: action.payload
+        };
     default:
       return state;
   }
@@ -144,5 +149,6 @@ export const initialState = {
   ButtonLocked:false,
   ModalCoupon:false,
   couponForyou:null,
-  loadingCouponRedeem:false
+  loadingCouponRedeem:false,
+  openRemindBirthday:false
 };
