@@ -1636,7 +1636,7 @@ function ProductPage(props) {
                           <div className="w-full flex items-center justify-center pr-semibold mt-1 mobile:text-d18 text-dbluedark">
                             {purchased &&
                               purchased > 100 &&
-                              purchased + " Customers Purshased"}
+                              purchased + " Customers Purchased"}
                           </div>
                         </div>
 
