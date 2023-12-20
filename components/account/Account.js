@@ -300,9 +300,7 @@ console.log(data)
           const currentDate = new Date().getDay();
           console.log(remindBirthdayopend +" & "+ currentDate);
           console.log(remindBirthdayopend !== currentDate);
-          if(!data?.has_birthday
-            //  && ( !remindBirthdayopend == currentDate || remindBirthdayopend == null)
-             ){
+          if(!data?.has_birthday && ( !remindBirthdayopend == currentDate || remindBirthdayopend == null)){
             dispatch({type:"setopenRemindBirthday",payload:true});
           }
         
