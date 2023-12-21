@@ -2082,7 +2082,7 @@ function ProductPage(props) {
                               bundle?.products?.map((product, i) => (
                                 <div
                                   key={product.product_id}
-                                  className="w-12/12 flex flex-row items-center"
+                                  className="w-12/12 flex  flex-row items-center"
                                 >
                                   <div
                                     className={`${width < 650 && "w-10/12"}`}
@@ -2149,7 +2149,7 @@ function ProductPage(props) {
                               !addingToCart && (
                                 <span className="">
                                   {  bundle?.description ==""?(
-                               <>  Buy This Bundle For</>
+                               <>  Buy This Bundle For </>
                                      ):(<>  {bundle?.description} {" "}</>) }
                                   {bundle?.total_amount_after_discount}{" "}
                                 </span>
