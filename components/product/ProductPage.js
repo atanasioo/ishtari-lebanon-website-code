@@ -155,10 +155,9 @@ function ProductPage(props) {
   //fetch product part1 data
   useEffect(() => {
     setLoading(true);
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth"
-    // });
+    window.scrollTo({
+      top: 0,
+    });
     setData([])
     const fromSearch =
       typeof router.query.fromSearch !== "undefined" ? true : false;
