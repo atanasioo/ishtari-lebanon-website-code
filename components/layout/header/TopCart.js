@@ -7,9 +7,11 @@ import Link from "next/link";
 import { AccountContext } from "@/contexts/AccountContext";
 import { AiOutlineShopping } from "react-icons/ai";
 import CartSideModal from "@/components/product/CartSideModal";
+
 function TopCart() {
     const [state, dispatch] = useContext(CartContext)
     const [accountState] = useContext(AccountContext)
+
 
     useEffect(() => {
         dispatch({
@@ -40,7 +42,7 @@ function TopCart() {
                 })
             }
         })
-    }, [])
+    }, [accountState.loged])
  
     return (
         <>

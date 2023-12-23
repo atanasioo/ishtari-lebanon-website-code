@@ -42,6 +42,7 @@ function Account() {
   const { data: session, status, update: sessionUpdate } = useSession();
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
+  const dontshowcouponcheck = useRef(null);
   
   const loginEmail = useRef("");
   const loginPassword = useRef("");
@@ -49,7 +50,7 @@ function Account() {
   const signupPassword = useRef("");
   const signupFirst = useRef("");
   const signupLast = useRef("");
-  const birthDate = useRef("");
+  // const birthDate = useRef("");
   const path = "";
   const router = useRouter();
    const [newdate,setDate] = useState(Date);
@@ -102,6 +103,23 @@ function Account() {
     return () => document.removeEventListener("click", clickHandler);
   });
 
+
+  const dontShowCouponPop=(e)=>{
+   
+    Cookies.set("showCouponPop", e.target.checked);
+  }
+
+
+  useEffect(()=>{
+if(state.hasSignedUp){
+  checkLogin("register");
+}else{
+  checkLogin("login");
+}
+  },[state.hasSignedUp,state.hasLogedIn])
+
+
+
   useEffect(() => {
     // if () {
     // alert(session.user.email);
@@ -109,8 +127,8 @@ function Account() {
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
-        checkLogin('login')
         
+     
       }
     }
 
@@ -261,6 +279,7 @@ e.preventDefault();
 
   // Check login
   function checkLogin(type) {
+    
     dispatch({ type: "setLoading", payload: true });
     const hostname = window.location.host;
     axiosServer
@@ -270,19 +289,18 @@ e.preventDefault();
         
         const data = response.data;
        
-        
-console.log(data)
          if(response.data.coupon == null || !response.data.coupon){
             
          }else{
             
           dispatch({ type: "setCouponForYou", payload: response.data.coupon });
-        console.log("________________________________________________");
-        console.log(response.data.coupon);
-        console.log("________________________________________________");
+         const canopenModal = Cookies.get("showCouponPop");
+         console.log(canopenModal);
+         if(!canopenModal || canopenModal == null|| canopenModal == undefined){
           setTimeout(()=>{
             dispatch({ type: "setOpenModalCoupon", payload: true });
           },3000)
+        }
         }
         
 
@@ -297,10 +315,8 @@ console.log(data)
           dispatch({ type: "setLastname", payload: data?.lastname });
           dispatch({type:"sethasDateBirth",payload:data?.has_birthday});
           const remindBirthdayopend = Cookies.get("remindBirthdayopend");
-          const currentDate = new Date().getDay();
-          console.log(remindBirthdayopend +" & "+ currentDate);
-          console.log(remindBirthdayopend !== currentDate);
-          if(!data?.has_birthday && ( !remindBirthdayopend == currentDate || remindBirthdayopend == null)){
+   
+          if(!data?.has_birthday && (remindBirthdayopend == false|| remindBirthdayopend == null || remindBirthdayopend == undefined )){
             dispatch({type:"setopenRemindBirthday",payload:true});
           }
         
@@ -321,13 +337,14 @@ console.log(data)
 
   // Signup
   async function signup(e) {
+    
     e.preventDefault();
     setSignupLoading(true);
-    const birthDateInputVal = birthDate.current.value;
-    const parts = birthDateInputVal.split('/');
-    console.log(parts);
-      const formattedDate = parts[0];
-      console.log(formattedDate);
+    // const birthDateInputVal = birthDate.current.value;
+    // const parts = birthDateInputVal.split('/');
+ 
+    //   const formattedDate = parts[0];
+   
     const response = await signIn("signup", {
       email: signupEmail.current.value,
       password: signupPassword.current.value,
@@ -337,8 +354,9 @@ console.log(data)
       // date_of_birth: formattedDate,
       redirect: false
     });
-    console.log(response);
+
     if (response.status === 200) {
+   
       checkLogin('register');
       
    
@@ -667,7 +685,15 @@ return;
                   Sign In
                 </span>
               </div>
-              <form onSubmit={(e) => signup(e)}>
+              <form onSubmit={(e)=> {
+                dispatch( {type:"setHasSignedUp",payload:true});
+                signup(e)
+              
+              }
+              
+              }
+                
+                >
                 <div className="my-4">
                   <div className="input">
                     <label>Email</label>
@@ -708,7 +734,7 @@ return;
                       minLength="2"
                     />
                   </div>
-                  <div className="input my-4">
+                  {/* <div className="input my-4">
                     <label>Birth Date</label>
                     <input
                       ref={birthDate}
@@ -717,7 +743,7 @@ return;
                       autoComplete="lastname"
                       
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
@@ -1000,7 +1026,7 @@ We'll send you a new password.
 
 
       <div
-          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
+          className={`fixed   z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center  bg-[#6f6f6f4c] px-4 py-5 ${
             state.ModalCoupon ? "block" : "hidden"
           }`}
         >
@@ -1052,6 +1078,22 @@ We'll send you a new password.
 Use this code during checkout to enjoy your discount.
 </div>
 
+
+<div className="mb-[0.125rem]  min-h-[1.5rem] pl-[1.5rem] pt-5 flex justify-start gap-5 text-center">
+        <input
+        onChange={(e)=>{
+          dontShowCouponPop(e);
+        }}
+          className="relative  -ml-[1.5rem]  mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+          type="checkbox"
+          value=""
+          id="checkboxDefault" />
+        <label
+          className="inline-block  hover:cursor-pointer"
+          htmlFor="checkboxDefault">
+          Don't show agin 
+        </label>
+      </div>
              <div className="-mx-3  flex mt-8 flex-row ">
              
 

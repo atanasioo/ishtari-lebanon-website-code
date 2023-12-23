@@ -104,7 +104,7 @@ var urls = {
   coupons:"v2/index.php?route=account/coupons",
   // getSingleCoupon:"v2/index.php?route=account/coupons&coupon_id=",
 
-  redeemCoupon:"v2/index.php?route=account/coupons/redeemCoupon&coupon_id=",
+  redeemCoupon:"v2/index.php?route=account/coupons/redeemCoupon",
   contactUs: "v2/index.php?route=account/contact_us",
   wishlist_group: "v2/index.php?route=account/wishlist_group/getGroups",
   EmailNotifications:

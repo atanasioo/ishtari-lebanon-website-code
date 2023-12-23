@@ -76,7 +76,7 @@ const  redeemCoupon = (id)=>{
   }
   axiosServer
   .post(buildLink("redeemCoupon", undefined, undefined, undefined) +
-+id)
+"&coupon_id="+id)
   .then((response) => {
    
      getCoupons();
@@ -204,7 +204,7 @@ const  redeemCoupon = (id)=>{
                 </button>
               </div>
               <div className={`w-1/2 px-3 ${type!=="available"?"hidden":"block"}`}>
-                <button  onClick={() => redeemCoupon(coupon?.coupon_id)} className="block w-full bg-dgreen rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
+                <button  onClick={() => redeemCoupon(coupon?.coupon_id)} className="block w-full bg-dbase rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
               {loading && loading ?<div className='w-full flex justify-center align-middle text-center'> <div className='w-[30px]'><Loader/></div></div>:  <>Redeem</> }
                 
                 </button>

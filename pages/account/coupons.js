@@ -67,10 +67,32 @@ function Coupon() {
 
 
   useEffect(() => {
+    const { customer_id, code, date } = router.query;
+  
     if (!state.loading && !state.loged) {
-      router.push("/");
+if(code == null || code == undefined){
+  router.push("/");
       setLoading(false);
+}else{
+  dispatch({type:"setShowOver",payload:true});
+  dispatch({type:"setShowLogin",payload:true});
+}
+    
     } else if (state.loged) {
+
+  
+
+  
+    
+    console.log("__________----------___________---------__________");
+    axiosServer
+    .post(buildLink("redeemCoupon", undefined, undefined, undefined) 
+  +"&code="+code+"&date="+date)
+    .then((response) => {
+   
+     router.push("/account/coupons");
+    });
+  
        getCoupons();
     }
   }, [ state.loading]);
@@ -92,6 +114,23 @@ const getCoupons =()=>{
   });
 }
 
+
+
+const redeemCouponLink=()=>{
+
+  const { customer_id, code, date } = router.query;
+  if(!code == null || !code == undefined){
+    
+   
+    axiosServer
+    .post(buildLink("redeemCoupon", undefined, undefined, undefined) +
+  +id+"&customer_id="+customer_id+"&code="+code+"&date="+date)
+    .then((response) => {
+     console.log("__________----------___________---------__________");
+     console.log(response);
+    });
+  }
+}
 
   return (
     <div className="container text-dblack">
@@ -197,7 +236,7 @@ const getCoupons =()=>{
 
 
  <div
-          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center transition-all   bg-[#6f6f6f4c] px-4 py-5 ${
+          className={`fixed  z-40 left-0 top-0 flex h-full min-h-screen w-full items-center justify-center transition-all   bg-[#6f6f6f4c] px-4 py-2 ${
             modalOpen ? "block" : "hidden"
           }`}
         >
@@ -205,7 +244,7 @@ const getCoupons =()=>{
             ref={modal}
             onFocus={() => setModalOpen(true)}
             onBlur={() => setModalOpen(false)}
-            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
+            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-9 text-center   md:px-[40px] md:py-[50px]"
           >
            <div className=" w-10 h-10 mx-auto bg-[#e94a4f66] text-[#bf1b26] flex text-center justify-center rounded-full mb-5"> <FaTicketAlt className="mx-auto my-auto " /></div>
            
@@ -214,14 +253,14 @@ const getCoupons =()=>{
             <span
               className={`mx-auto mb-6 inline-block  my-6 border-t border-dashed border-dgreySeller h-1 w-full   `}
             ></span>
-            <div className=' max-h-40 overflow-y-auto'>
+            <div className=' max-h-44 overflow-y-auto'>
             <div className="mb-10 text-base leading-relaxed text-body-color  dark:text-dlabelColor"
                 
 
             
             >
        
-              <h2 className=' text-lg font-[900] underline text-left '>datas Rules:</h2>
+              <h2 className=' text-lg font-[900] underline text-left '>Description:</h2>
               { data && 
            (
                 <div
