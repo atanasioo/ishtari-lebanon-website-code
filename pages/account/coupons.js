@@ -72,31 +72,21 @@ function Coupon() {
     if (!state.loading && !state.loged) {
 if(code == null || code == undefined){
   router.push("/");
-      setLoading(false);
+
 }else{
   dispatch({type:"setShowOver",payload:true});
   dispatch({type:"setShowLogin",payload:true});
 }
-    
     } else if (state.loged) {
-
-  
-
-  
-    
-    console.log("__________----------___________---------__________");
     axiosServer
     .post(buildLink("redeemCoupon", undefined, undefined, undefined) 
-  +"&code="+code+"&date="+date)
+  +"&customer_id="+customer_id+"&code="+code+"&date="+date)
     .then((response) => {
-   
      router.push("/account/coupons");
     });
-  
        getCoupons();
     }
-  }, [ state.loading]);
-
+  }, [state.loading]);
 const getCoupons =()=>{
   axiosServer
   .get(buildLink("coupons", undefined, window.innerWidth))
@@ -195,6 +185,7 @@ const redeemCouponLink=()=>{
               </div>
             </div>
             </div>
+
       <div className="container  my-10 pb-5 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
 
       {buttonActive==="1"?( data.Available!=[]?( data&& data.Available.map((coupon=>{

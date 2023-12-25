@@ -25,7 +25,6 @@ import { useHeaderColor } from "@/contexts/HeaderContext";
 function Header(props) {
   const [local, setLocal] = useState(false);
   const [width, height] = useDeviceSize();
-  const [viewMenu, setViewMenu] = useState(false);
   // const [viewLevel2, setViewLevel2] = useState(false);
   // const [activeCategory, setActiveCategory] = useState({});
   const [categories, setCategories] = useState([]);
@@ -119,7 +118,9 @@ function Header(props) {
   });
 
   function closeMobileMenu() {
-    setViewMenu(false);
+
+    dispatch({ type: "setViewMobileMenu", payload: false });
+
   }
 
 
@@ -133,12 +134,12 @@ function Header(props) {
       {/* Mobile Menu */}
       <div
         className={`transition-all   min-h-screen w-screen bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden z-50  ${
-          viewMenu ? "right-0" : " right-full"
+          stateAcc.viewMobileMenu ? "right-0" : " right-full"
         }`}
         id="scrollDiv"
       >
         <MobileMenu
-          viewMenu={viewMenu}
+          viewMenu={stateAcc.viewMobileMenu}
           categories={categories}
           closeMobileMenu={closeMobileMenu}
         />
@@ -154,7 +155,7 @@ function Header(props) {
           }}
         >
           <div className="flex items-center">
-            <button className="lg:hidden" onClick={() => setViewMenu(true)}>
+            <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>
               <HiMenu
                 className={` w-6 h-6 text-dblack mr-1 `}
                 // style={{color: "e3535e"}}

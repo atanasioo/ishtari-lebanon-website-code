@@ -308,6 +308,7 @@ e.preventDefault();
 
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
+          dispatch({ type: "setViewMobileMenu", payload: false })
           dispatch({ type: "setLoged", payload: true });
           dispatch({ type: "setUsername", payload: data.username });
           dispatch({ type: "setEmail", payload: data.email });

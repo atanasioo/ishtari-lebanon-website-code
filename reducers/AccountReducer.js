@@ -131,11 +131,17 @@ export const AccountReducer = (state, action) => {
               ...state,
               openRemindBirthday: action.payload
             };
+            case "setViewMobileMenu":
+              return {
+                ...state,
+                viewMobileMenu: action.payload
+              };
     default:
       return state;
   }
 };
 export const initialState = {
+  viewMobileMenu:false,
   loged: false,
   // loading: false,
   showForgetPassword:false,
