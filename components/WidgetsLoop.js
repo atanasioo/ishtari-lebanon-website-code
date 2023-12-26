@@ -1261,16 +1261,21 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                   )}
                 </div>
               )}
+
+
+
+
+              
               {/* test */}
-              {widget?.scrolling && (
+              { widget?.scrolling && (
                 <div className="">
-                  <div class="scroll-container" style={{ width: "1100%" }}>
+                  <div class="" style={{ width: "1100%" }}>
                     <div
                       class="content flex "
                       id="content"
                       style={{
                         animation: `scroll ${
-                          widget.duration > 0 ? widget.duration - 350 : 200
+                          !widget.duration=="0"|| widget.duration > 0 ? widget.duration : 200
                         }s linear infinite `,
                       }}
                     >
