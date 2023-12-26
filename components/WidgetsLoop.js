@@ -17,6 +17,9 @@ import BannerLink from "./widgetsComponents/BannerLink.js";
 import TimerSingleProduct from "./product/TimerSingleProduct.js";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {
+  useEffect(()=>{
+    console.log(widget.margin_bottom)
+  },[widget])
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);
   const swiperNavNextRef = useRef(null);
@@ -711,7 +714,12 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
       {widget?.display === "grid" &&
         widget.type !== "text" &&
         widget.column_number < 7 && (
-          <div className="flex -mx-4 flex-wrap justify-between">
+          <div className={`
+           ${widget.margin_bottom == -1?" -mb-0":"-mb-"+widget.margin_bottom} 
+           ${widget.margin_top == -1?" -mt-0":"-mt-"+widget.margin_top} 
+           ${widget.margin_left == -1?" -ml-0":"-ml-"+widget.margin_left} 
+           ${widget.margin_right == -1?" -mr-0":"-mr-"+widget.margin_right} 
+          flex -mx-3 flex-wrap justify-between`}>
             {widget.items.map((item) => {
               const bool = widget.items.length > 0 ;
 
@@ -719,7 +727,9 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                 <div
                   className={`  ${
                     !bool && "w-full"
-                  } cursor-pointer flex justify-center p-[1px] hover:opacity-80 w-1/${
+                  } cursor-pointer flex justify-center
+                   __p-[1px]
+                    hover:opacity-80 w-1/${
                     widget.column_number
                   } md:w-1/${widget.column_number}`}
                   key={item.banner_image_id}

@@ -295,7 +295,6 @@ e.preventDefault();
             
           dispatch({ type: "setCouponForYou", payload: response.data.coupon });
          const canopenModal = Cookies.get("showCouponPop");
-         console.log(canopenModal);
          if(!canopenModal || canopenModal == null|| canopenModal == undefined){
           setTimeout(()=>{
             dispatch({ type: "setOpenModalCoupon", payload: true });

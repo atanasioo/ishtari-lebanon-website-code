@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 function profile() {
+  
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
   const date_of_birth = useRef("");
@@ -99,10 +100,10 @@ function profile() {
                 
               setData(response.data.data);
             console.log(response.data.data);
-            if(response.data.data.date_of_birth =="" || response.data.data.date_of_birth ==null) {
-
-            }else{
+            if(!response.data.data.date_of_birth =="" || !response.data.data.date_of_birth ==null || !response.data.data.date_of_birth == undefined) {
               dispatch({ type: "sethasDateBirth", payload: true });
+            }else{
+              dispatch({ type: "sethasDateBirth", payload: false });
             }
               dispatch({ type: "setLoading", payload: false });
            

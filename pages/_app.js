@@ -204,14 +204,16 @@ export default function App({
                           {router.asPath.indexOf("posSystem") < 0 ? (
                             <Layout host={host}>
                               <div className="bg-dprimarybg min-h-screen">
-                                <div className="md:container ">
+                                <div className="
+                                __md:container ">
                                   <Component {...pageProps} />
                                 </div>
                               </div>
                             </Layout>
                           ) : (
                             <div className="bg-dprimarybg min-h-screen">
-                              <div className="md:container ">
+                              <div className="
+                              __md:container ">
                                 <Component {...pageProps} />
                               </div>
                             </div>

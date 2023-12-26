@@ -14,7 +14,7 @@ function CartSideModal(props) {
   return (
     <div>
       {/* for mobile */}
-      {(state.aside ) && (
+      { (state.aside ) && (
         <div
           className=" block md:hidden fixed top-0 left-0 right-0 min-h-screen w-full bg-dblack bg-opacity-30 z-50 overflow-y-auto overflow-auto"
           // onClick={() => toggleSucccessAdded(false)}
@@ -58,7 +58,7 @@ function CartSideModal(props) {
         <div
           className={`${
             width < 650 && "hidden"
-          } top-0  bg-white right-0 w-3/12 px-4 min-h-screen transform   fixed h-full z-40  ease-in-out duration-300 ${
+          } top-0  bg-white right-0 w-3/12 px-4 min-h-screen transform  overflow-y-auto  fixed h-full z-40  ease-in-out duration-300 ${
             (state.aside) ? "translate-x-0 " : "translate-x-full"
           }`}
         >
