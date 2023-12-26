@@ -17,9 +17,7 @@ import BannerLink from "./widgetsComponents/BannerLink.js";
 import TimerSingleProduct from "./product/TimerSingleProduct.js";
 
 function WidgetsLoop({ widget, likedData, bannerStats }) {
-  useEffect(()=>{
-    console.log(widget.margin_bottom)
-  },[widget])
+ 
   const [showNext, setShowNext] = useState(false);
   const [showPrev, setShowPrev] = useState(false);
   const swiperNavNextRef = useRef(null);
