@@ -715,7 +715,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
         widget.type !== "text" &&
         widget.column_number < 7 && (
           <div className={`
-            ${widget.margin_bottom == -1?" ":"-mb-"+widget.margin_bottom} 
+            ${widget.margin_bottom > -1 && `-mb-${widget.margin_bottom}`} 
             ${widget.margin_top == -1?" ":"-mt-"+widget.margin_top} 
             ${widget.margin_left == -1?"":"-ml-"+widget.margin_left} 
             ${widget.margin_right == -1?" ":"-mr-"+widget.margin_right} 
