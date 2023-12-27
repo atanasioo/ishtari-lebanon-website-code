@@ -5,7 +5,7 @@ import { htmlDecode, sanitizeHTML ,slugify ,slugifyText } from '@/components/Uti
 import buildLink from '@/urls';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AccountContext } from "@/contexts/AccountContext";
-import { FaAccessibleIcon, FaTicketAlt  } from "react-icons/fa";
+import { FaAccessibleIcon, FaCheck, FaRegCopy, FaTicketAlt  } from "react-icons/fa";
 import Loader from '@/components/Loader';
 import { RiCoupon2Line } from "react-icons/ri";
 
@@ -14,6 +14,7 @@ const SingleCoupon = ({coupon ,type,description,getCoupons}) => {
     const trigger = useRef(null);
     const modal = useRef(null);
     const [loading, setLoading] = useState(false);
+    const [copied ,setCopied]= useState(false);
 
   const [state, dispatch] = useContext(AccountContext);
     // close on click outside
@@ -50,6 +51,14 @@ const SingleCoupon = ({coupon ,type,description,getCoupons}) => {
       }
       setModalOpen(true)
     }
+    const copyCode = async (code) => {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false)
+      }, 5000);
+      
+    };
 
   // const  getCouponInf=(id)=>{
   //     axiosServer
@@ -132,13 +141,16 @@ const  redeemCoupon = (id)=>{
             ref={modal}
             onFocus={() => setModalOpen(true)}
             onBlur={() => setModalOpen(false)}
-            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-5 text-center   md:px-[70px] md:py-[60px]"
+            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-5 text-center   md:px-12 md:py-10"
           >
            <div className=" p-3 mx-auto bg-[#e94a4f66] text-[#bf1b26] text-3xl flex text-center justify-center rounded-full mb-5"> <RiCoupon2Line  className="mx-auto my-auto " /></div>
            
            <h5 className=" text-dgreySeller px-5 tracking-wider">{coupon?.name}</h5>
-            <h5 className=" text-xl font-semibold text-dark  sm:text-2xl">
+            <h5 onClick={()=>copyCode(coupon?.code)} className=" flex flex-row justify-center gap-3  rounded-sm bg-dgreyRate py-2 w-fit mx-auto px-5 my-3 cursor-pointer text-xl font-semibold text-dark  sm:text-2xl">
               {coupon?.code}
+             <div className='h-full my-auto'>
+             {copied ?<FaCheck className=' text-dbase'/>: <FaRegCopy/>}
+              </div>
             </h5>
             
             <p className=" text-dbase1 "> {type=="expired"?(<>Expired from </>):(<>Expire In </>)}{coupon?.date_end}</p>
