@@ -5,8 +5,9 @@ import { htmlDecode, sanitizeHTML ,slugify ,slugifyText } from '@/components/Uti
 import buildLink from '@/urls';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AccountContext } from "@/contexts/AccountContext";
-import { FaAccessibleIcon, FaTicketAlt } from "react-icons/fa";
+import { FaAccessibleIcon, FaTicketAlt  } from "react-icons/fa";
 import Loader from '@/components/Loader';
+import { RiCoupon2Line } from "react-icons/ri";
 
 const SingleCoupon = ({coupon ,type,description,getCoupons}) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -131,12 +132,12 @@ const  redeemCoupon = (id)=>{
             ref={modal}
             onFocus={() => setModalOpen(true)}
             onBlur={() => setModalOpen(false)}
-            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-12 text-center   md:px-[70px] md:py-[60px]"
+            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-5 text-center   md:px-[70px] md:py-[60px]"
           >
-           <div className=" w-10 h-10 mx-auto bg-[#e94a4f66] text-[#bf1b26] flex text-center justify-center rounded-full mb-5"> <FaTicketAlt className="mx-auto my-auto " /></div>
+           <div className=" p-3 mx-auto bg-[#e94a4f66] text-[#bf1b26] text-3xl flex text-center justify-center rounded-full mb-5"> <RiCoupon2Line  className="mx-auto my-auto " /></div>
            
            <h5 className=" text-dgreySeller px-5 tracking-wider">{coupon?.name}</h5>
-            <h5 className=" text-xl font-semibold text-dark dark:text-white sm:text-2xl">
+            <h5 className=" text-xl font-semibold text-dark  sm:text-2xl">
               {coupon?.code}
             </h5>
             
@@ -146,7 +147,7 @@ const  redeemCoupon = (id)=>{
               className={`mx-auto mb-6 inline-block  my-6 border-t border-dashed border-dgreySeller h-1 w-full   `}
             ></span>
             <div className=' max-h-40 overflow-y-auto'>
-            <div className="mb-10 text-base leading-relaxed text-body-color  dark:text-dlabelColor"
+            <div className="mb-10 text-base leading-relaxed text-body-color  "
                 
 
             
@@ -198,10 +199,11 @@ const  redeemCoupon = (id)=>{
               <div className={` px-3 ${type!=="available"?"w-full":"w-1/2"}`}>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white dark:text-white"
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white  "
                 >
                   Cancel
                 </button>
+                
               </div>
               <div className={`w-1/2 px-3 ${type!=="available"?"hidden":"block"}`}>
                 <button  onClick={() => redeemCoupon(coupon?.coupon_id)} className="block w-full bg-dbase rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
