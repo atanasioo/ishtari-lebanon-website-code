@@ -149,7 +149,7 @@ const  redeemCoupon = (id)=>{
             <h5 onClick={()=>copyCode(coupon?.code)} className=" flex flex-row justify-center gap-3  rounded-sm bg-dgreyRate py-2 w-fit mx-auto px-5 my-3 cursor-pointer text-xl font-semibold text-dark  sm:text-2xl">
               {coupon?.code}
              <div className='h-full my-auto'>
-             {copied ?<FaCheck className=' text-dbase'/>: <FaRegCopy/>}
+             {copied ? <div className=' flex  justify-center text-center gap-1' ><FaCheck className=' text-dgreen h-full my-auto text-sm'/><span className=' text-xs  text-dgrey1'>Copied</span></div>: <FaRegCopy/>}
               </div>
             </h5>
             
