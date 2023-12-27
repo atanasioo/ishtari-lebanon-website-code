@@ -106,22 +106,6 @@ const getCoupons =()=>{
 
 
 
-const redeemCouponLink=()=>{
-
-  const { customer_id, code, date } = router.query;
-  if(!code == null || !code == undefined){
-    
-   
-    axiosServer
-    .post(buildLink("redeemCoupon", undefined, undefined, undefined) +
-  +id+"&customer_id="+customer_id+"&code="+code+"&date="+date)
-    .then((response) => {
-     console.log("__________----------___________---------__________");
-     console.log(response);
-    });
-  }
-}
-
   return (
     <div className="container text-dblack">
       <Head>
