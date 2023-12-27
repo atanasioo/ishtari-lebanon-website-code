@@ -14,6 +14,7 @@ import Image from "next/image";
 import SingleCoupon from "../../components/couponComponents/singleCoupon";
 import { FaTicketAlt } from "react-icons/fa";
 import { sanitizeHTML } from "@/components/Utils";
+import { RiCoupon2Line } from "react-icons/ri";
 function Coupon() {
   const router = useRouter();
   const [data, setData] = useState();
@@ -219,12 +220,12 @@ const getCoupons =()=>{
             ref={modal}
             onFocus={() => setModalOpen(true)}
             onBlur={() => setModalOpen(false)}
-            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-9 text-center   md:px-[40px] md:py-[50px]"
+            className="w-full max-w-[570px] flex flex-col justify-center rounded-[20px] bg-white px-8 py-9 text-center   md:py-12 md:px-10"
           >
-           <div className=" w-10 h-10 mx-auto bg-[#e94a4f66] text-[#bf1b26] flex text-center justify-center rounded-full mb-5"> <FaTicketAlt className="mx-auto my-auto " /></div>
+           <div className=" p-3 mx-auto bg-[#e94a4f66] text-[#bf1b26] text-3xl flex text-center justify-center rounded-full mb-2"> <RiCoupon2Line  className="mx-auto my-auto " /></div>
            
             
-
+           <div className=' text-2xl font-[900]  block   w-full mx-auto '> Coupons Description</div>
             <span
               className={`mx-auto mb-6 inline-block  my-6 border-t border-dashed border-dgreySeller h-1 w-full   `}
             ></span>
@@ -235,7 +236,7 @@ const getCoupons =()=>{
             
             >
        
-              <h2 className=' text-lg font-[900] underline text-left '>Description:</h2>
+             
               { data && 
            (
                 <div
