@@ -125,7 +125,7 @@ function Header(props) {
 
 
   return (
-    <div className="  sticky top-0 z-50" >
+    <div className="  sticky top-0 z-30" >
       {/* <div className="w-full h-auto flex container ">
         <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
       </div> */}

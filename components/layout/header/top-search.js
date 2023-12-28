@@ -451,7 +451,7 @@ function TopSearch() {
               : "What are you looking for?"
           }
           autoComplete="off"
-          className="hidden lg:block rounded-sm h-11  w-4/5  outline-none p-4 bg-dsearchGrey "
+          className="hidden lg:block  text-sm h-9 rounded-md  w-4/5  outline-none p-4 bg-dsearchGrey "
           id="searchInput"
           value={query}
           onChange={(e) => {
