@@ -200,16 +200,16 @@ function DesktopMenuClientPopups(props) {
 
       {viewSubAllCategories2 && (
         <div
-          className="relative container"
+          className="relative  container"
           onMouseEnter={() => {
             handleState("viewSubAllCategories2", true);
             handleState("overlay", true);
           }}
         >
-          <div className="absolute top-0 z-40">
-            <div>
+          <div className="absolute top-0 z-40 ">
+            <div className="" >
               <div className="flex">
-                <div className="bg-dsearchGrey py-3 w-284px">
+                <div className="bg-dsearchGrey py-3 w-284px max-h-[600px] overflow-auto">
                   {allCategories?.map((category) => (
                     <div
                       key={category.category_id}
@@ -248,7 +248,7 @@ function DesktopMenuClientPopups(props) {
                     </div>
                   ))}
                 </div>
-                <div className="bg-white px-4" style={{ width: "500px" }}>
+                <div className="bg-white px-4 max-h-[600px] overflow-auto" style={{ width: "500px" }}>
                   <div className="flex item-center justify-between py-5 border-b border-dinputBorder mb-2">
                     <h2
                       className=" font-semibold"
