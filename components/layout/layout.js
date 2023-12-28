@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useTransition } from "react";
 import Footer from "./footer/footer";
 import Header from "./header/header";
 import { useRouter } from "next/router";
@@ -18,14 +18,24 @@ function Layout({
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext); 
   const { headerColor, setHeaderColor   } = useHeaderColor();
+
   useEffect(() => {
     const handleScroll = () => {
+
       const scrollTop = window.pageYOffset;
-      if (scrollTop >= 300) {
-       setHeaderColor("white")
-      } else {
-setHeaderColor(localStorage.getItem("headerCol"))
+      if(router.asPath !=="/"){
+
+
+      }else{
+        if (scrollTop >= 300) {
+
+          setHeaderColor("white")
+         } else {
+           
+   setHeaderColor(localStorage.getItem("headerCol"))
+         }
       }
+   
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -34,7 +44,7 @@ setHeaderColor(localStorage.getItem("headerCol"))
       // Clean up the event listener when the component is unmounted
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [router.asPath]);
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {
