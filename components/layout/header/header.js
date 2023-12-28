@@ -54,11 +54,11 @@ function Header(props) {
 
 
   useEffect(() => {
-    // if (router.asPath !== '/') {
-    //   setHeaderColor('white');
-    // } else {
-    //   setHeaderColor(''); 
-    // }
+    if (router.asPath !== '/') {
+      setHeaderColor('white');
+    } else {
+      setHeaderColor(''); 
+    }
   }, [router.asPath]);
 
   useEffect(() => {
