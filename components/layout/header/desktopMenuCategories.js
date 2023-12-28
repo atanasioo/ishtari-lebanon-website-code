@@ -151,7 +151,9 @@ function DesktopMenuCategories(props) {
 
 
   return (
-    <div>
+    <div   style={{
+      backgroundColor: headerColor ==null ? "white" : headerColor,
+    }}>
       {router.asPath.indexOf("pos") < 0 && (
         <div
           className="hidden lg:block  container w-full shadow-md shadow-dbeigeRed  text-d16 "
@@ -167,9 +169,7 @@ function DesktopMenuCategories(props) {
             setViewSubAllCategories2(false);
             setViewMenuCategories2(false);
           }}
-          style={{
-            backgroundColor: headerColor.length === 0 ? "white" : headerColor,
-          }}
+        
         >
           <div>
             <div

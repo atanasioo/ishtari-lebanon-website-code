@@ -165,7 +165,9 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     lazyLoad: true,
 
   };
-  
+  // useEffect(()=>{
+  //   console.log(widget.duration)
+  // })
   const onSwipSlide = ()=>{
     console.log(swiperRef.current)
   }
@@ -1269,13 +1271,13 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
               {/* test */}
               { widget?.scrolling && (
                 <div className="">
-                  <div class="" style={{ width: "1100%" }}>
+                  <div  style={{ width: "1100%" }}>
                     <div
                       class="content flex "
                       id="content"
                       style={{
                         animation: `scroll ${
-                          !widget.duration=="0"|| widget.duration > 0 ? widget.duration : 200
+                          widget.duration == 0? 200 : widget.duration
                         }s linear infinite `,
                       }}
                     >

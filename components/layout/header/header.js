@@ -54,11 +54,11 @@ function Header(props) {
 
 
   useEffect(() => {
-    if (router.asPath !== '/') {
-      setHeaderColor('white');
-    } else {
-      setHeaderColor(''); 
-    }
+    // if (router.asPath !== '/') {
+    //   setHeaderColor('white');
+    // } else {
+    //   setHeaderColor(''); 
+    // }
   }, [router.asPath]);
 
   useEffect(() => {
@@ -125,7 +125,7 @@ function Header(props) {
 
 
   return (
-    <div>
+    <div className="  sticky top-0 z-50" >
       {/* <div className="w-full h-auto flex container ">
         <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
       </div> */}
@@ -133,7 +133,7 @@ function Header(props) {
 
       {/* Mobile Menu */}
       <div
-        className={`transition-all   min-h-screen w-screen bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden z-50  ${
+        className={`transition-all   min-h-screen w-screen  bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden z-50  ${
           stateAcc.viewMobileMenu ? "right-0" : " right-full"
         }`}
         id="scrollDiv"
@@ -147,12 +147,13 @@ function Header(props) {
 
       <AdminTopHeader />
 
-      <div>
+      <div   style={{
+        transition:"all 0.5s ease",
+            backgroundColor: headerColor || "white" ,
+          }}>
         <div
           className="flex items-center justify-between py-4 h-22 container"
-          style={{
-            backgroundColor: headerColor || "white" ,
-          }}
+        
         >
           <div className="flex items-center">
             <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>

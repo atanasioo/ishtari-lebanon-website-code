@@ -33,7 +33,7 @@ export default function Home(props) {
   const [width] = useDeviceSize();
   const sentinelRef = useRef(null);
   const observer = useRef(null);
-  const { headerColor, setHeaderColor } = useHeaderColor();
+  const { headerColor, setHeaderColor  } = useHeaderColor();
   const { showStats } = useMarketingData();
   const [bannerStats, setBannerStats] = useState([]);
 
@@ -92,7 +92,9 @@ export default function Home(props) {
           response?.data?.data?.widgets[0].cover_header === "1"
         ) {
           //setHeaderColor("#0000FF");
+        localStorage.setItem("headerCol",response?.data?.data?.widgets[0].background_color);
           setHeaderColor(response?.data?.data?.widgets[0].background_color);
+        
         }
 
         // setTimeout(() => {

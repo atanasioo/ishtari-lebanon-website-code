@@ -107,7 +107,7 @@ const testquery = router.query
           response?.data?.data?.widgets[0].cover_header === "1"
         ) {
           //setHeaderColor("#0000FF");
-          setHeaderColor(response?.data?.data?.widgets[0].background_color);
+          // setHeaderColor(response?.data?.data?.widgets[0].background_color);
         }
 
         // setTimeout(() => {

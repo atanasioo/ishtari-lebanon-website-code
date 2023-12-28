@@ -9,6 +9,7 @@ import Link from "next/link";
 import { FaArrowAltCircleRight, FaSadCry } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
 import Cookies from "js-cookie";
+import { useHeaderColor } from "@/contexts/HeaderContext";
 function Layout({
   children,
   token,
@@ -16,6 +17,24 @@ function Layout({
 }) {
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext); 
+  const { headerColor, setHeaderColor   } = useHeaderColor();
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      if (scrollTop >= 300) {
+       setHeaderColor("white")
+      } else {
+setHeaderColor(localStorage.getItem("headerCol"))
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      // Clean up the event listener when the component is unmounted
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {

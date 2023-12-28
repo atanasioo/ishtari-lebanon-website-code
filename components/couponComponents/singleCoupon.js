@@ -146,10 +146,10 @@ const  redeemCoupon = (id)=>{
            <div className=" p-3 mx-auto bg-[#e94a4f66] text-[#bf1b26] text-3xl flex text-center justify-center rounded-full mb-5"> <RiCoupon2Line  className="mx-auto my-auto " /></div>
            
            <h5 className=" text-dgreySeller px-5 tracking-wider">{coupon?.name}</h5>
-            <h5 onClick={()=>copyCode(coupon?.code)} className=" flex flex-row justify-center gap-3  rounded-sm bg-dgreyRate py-2 w-fit mx-auto px-5 my-3 cursor-pointer text-xl font-semibold text-dark  sm:text-2xl">
+            <h5 onClick={()=>copyCode(coupon?.code)} className=" flex flex-row justify-center gap-3  rounded-md  bg-dgreyRate py-2 w-fit mx-auto px-5 my-3 cursor-pointer text-xl font-semibold text-dark  sm:text-2xl">
               {coupon?.code}
-             <div className='h-full my-auto'>
-             {copied ? <div className=' flex  justify-center text-center gap-1' ><FaCheck className=' text-dgreen h-full my-auto text-sm'/><span className=' text-xs  text-dgrey1'>Copied!</span></div>: <FaRegCopy/>}
+             <div className='h-full my-auto relative overflow-hidden '>
+             {copied ? <div className={` ${copied?"scale-100":"scale-0"} flex transition-all    justify-center text-center gap-1`} ><FaCheck className=' text-dgreen h-full my-auto text-sm'/><span className=' text-xs  text-dgreyQtyProduct'>Copied!</span></div>: <FaRegCopy className=' text-md' />}
               </div>
             </h5>
             
@@ -213,7 +213,7 @@ const  redeemCoupon = (id)=>{
                   onClick={() => setModalOpen(false)}
                   className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white  "
                 >
-                  Cancel
+                  Close
                 </button>
                 
               </div>

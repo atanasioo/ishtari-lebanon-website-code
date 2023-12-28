@@ -1,11 +1,13 @@
-const { createContext, useState, useContext } = require("react");
+const { createContext, useState, useContext, useEffect } = require("react");
 
 
 const HeaderContext = createContext();
 
 export const HeaderProvider = ({ children }) => {
-    const [headerColor, setHeaderColor] = useState("");
+    
 
+    const [headerColor, setHeaderColor] = useState("white");
+  
     return(
         <HeaderContext.Provider value={{ headerColor, setHeaderColor }}>
             { children }
