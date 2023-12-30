@@ -1,7 +1,7 @@
 import buildLink from "@/urls";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiList } from "react-icons/fi";
 import Link from "next/link";
 import React from "react";
 import { slugify } from "@/components/Utils";
@@ -151,12 +151,12 @@ function DesktopMenuCategories(props) {
 
 
   return (
-    <div   style={{
+    <div  className=" shadow-md  shadow-dslate  border-t border-dslate "  style={{
       backgroundColor: headerColor ==null ? "white" : headerColor,
     }}>
       {router.asPath.indexOf("pos") < 0 && (
         <div
-          className="hidden lg:block  container w-full shadow-md shadow-dbeigeRed  text-d16 "
+          className="hidden lg:block  container w-full  text-d16 "
           onClick={() => {
             setOverlay(false);
             setClearHover(true);
@@ -183,10 +183,11 @@ function DesktopMenuCategories(props) {
                     setViewSubAllCategories2(true);
                     setViewMenuCategories2(false);
                   }}
-                  className="flex items-center border-r px-4 border-dplaceHolder hover:text-dbase cursor-pointer "
+                  className="flex items-center border-r gap-3 px-4 text-dblack text-sm border-dplaceHolder hover:text-dbase cursor-pointer "
                 >
-                  <div>All Categories</div>
-                  <FiChevronDown className="w-5 h-5 mr-4" />
+                  <FiList />
+                  <div >All Categories</div>
+                  <FiChevronDown className="text-sm text-dlabelColor" />
                 </div>
 
                 {/* Overlay */}
@@ -208,7 +209,8 @@ function DesktopMenuCategories(props) {
                 header_categories.map((category) => (
                   <div
                     key={category["top-category"].category_id}
-                    className="border-r border-dplaceHolder px-4 hover:text-dbase cursor-pointer"
+                    className=" px-4 text-sm text-dlabelColor
+                     hover:text-dbase cursor-pointer"
                     onMouseEnter={() => {
                       setClearHover(false);
                       setViewSubAllCategories2(false);
@@ -243,7 +245,7 @@ function DesktopMenuCategories(props) {
               </div> */}
               {headerSettings.length > 0 &&
                 headerSettings.map((setting, index) => (
-                  <div className={`px-4 hover:text-dbase cursor-pointer ${index !== headerSettings.length -1 ? "border-r border-dplaceHolder" : "" }  ${!setting.value ? "hidden" : ""}`}>
+                  <div className={`px-4 hover:text-dbase text-sm text-dlabelColor cursor-pointer ${index !== headerSettings.length -1 ? "" : "" }  ${!setting.value ? "hidden" : ""}`}>
                     <Link href={`/${setting.key === "new_arrivals" ? "latest" : setting.key}`} onClick={() => setMarketingData({})}>
                       {setting.title}
                     </Link>
