@@ -436,7 +436,9 @@ function SingleProduct(props) {
                   ) : !props?.isSlider ||
                     item?.images?.length === 0 ||
                     !item?.images ? (
+                      <div onMouseLeave={()=>{setIsHover(false)}} onMouseEnter={()=>{setIsHover(true)}} className=" overflow-hidden relative " >
                     <Image
+                    className={` transition-all ease-out duration-500 ${isHover?"scale-125":"scale-100"} `}
                       alt={item.name}
                       src={item.thumb}
                       width={!topSelling ? 194 : 100}
@@ -452,6 +454,7 @@ function SingleProduct(props) {
                         backgroundPosition: "center"
                       }}
                     />
+                    </div>
                   ) : (
                     <div onMouseLeave={()=>{setIsHover(false)}} onMouseEnter={()=>{setIsHover(true)}} className=" overflow-hidden relative " >
                       <div className={` transition-all ease-out duration-500 ${isHover?"scale-125":"scale-100"} `}>
