@@ -724,6 +724,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
             ${widget.margin_top < -1 && `-mt-${widget.margin_top}`} 
             ${widget.margin_left < -1 && `-ml-${widget.margin_left}`} 
             ${widget.margin_right < -1 && `-mr-${widget.margin_right}`} 
+
+            ${widget.margin_bottom == -1 && "-mb-3"}
           flex -mx-3 flex-wrap justify-between`}>
             {widget.items.map((item) => {
               const bool = widget.items.length > 0 ;

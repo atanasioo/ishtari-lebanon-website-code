@@ -131,8 +131,8 @@ function ShareSocial(props) {
         >
           <MdIosShare className="w-6 h-6 block mb-1 " />
         </div>
-        {mobileShare && (
-          <div className="fixed top-auto bottom-0 right-0  left-0 z-30 ">
+        
+          <div className={`fixed ${!mobileShare?"-bottom-[200%]":"bottom-0"} transition-all top-auto bottom-0 right-0  left-0 z-30 `}>
             <div
               className=" cursor-pointer h-80 absolute right-0 bottom-0 left-0  "
               style={{ maxHeight: "507px" }}
@@ -234,7 +234,7 @@ function ShareSocial(props) {
               </div>
             </div>
           </div>
-        )}
+        
         {overlay && (
           <div
             onClick={() => {

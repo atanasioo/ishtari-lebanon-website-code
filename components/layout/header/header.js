@@ -17,7 +17,6 @@ import { AccountContext } from "@/contexts/AccountContext";
 import { useRouter } from "next/router";
 import CountryDropdown from "./CountryDropdown";
 import { HostContext } from "@/contexts/HostContext";
-import LogoClient from "@/components/LogoClient";
 import MobileMenu from "./MobileMenu";
 import { useHeaderColor } from "@/contexts/HeaderContext";
 
@@ -34,7 +33,7 @@ function Header(props) {
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
   const host = useContext(HostContext);
-  const { headerColor, setHeaderColor } = useHeaderColor();
+  const { headerColor, setHeaderColor,fontColor } = useHeaderColor();
 
 
   // const serverSideDomain = props.host;
@@ -147,18 +146,18 @@ function Header(props) {
 
       <AdminTopHeader />
 
-      <div   style={{
+      <div id="headerh"  style={{
         transition:"all 0.5s ease",
             backgroundColor: headerColor || "white" ,
           }}>
-        <div
-          className="flex items-center justify-between py-4 h-22 container"
+        <div 
+          className="flex  items-center justify-between py-4 h-22 container"
         
         >
           <div className="flex items-center">
             <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>
               <HiMenu
-                className={` w-6 h-6 text-dblack mr-1 `}
+                className={` w-6 h-6 text-${fontColor} mr-1 `}
                 // style={{color: "e3535e"}}
               ></HiMenu>
             </button>
@@ -186,7 +185,7 @@ function Header(props) {
                   <img
                     className="hidden mobile:block"
                     src="/images/logo/logo-redd.png"
-                    width={150}
+                    width={130}
                     height={32}
                     alt="ishtari-logo"
                     // style={{ width: "80%", height: "auto" }}
@@ -249,7 +248,7 @@ function Header(props) {
           <div className="flex justify-end items-center flex-1">
             <TopSearch />
 
-            <div className="flex  items-center">
+            <div className="flex  divide-x-2  divide-dplaceHolder items-center">
               <CountryDropdown host={host.host} />
 
               {stateAcc.isSeller && (

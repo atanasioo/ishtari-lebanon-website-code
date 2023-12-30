@@ -21,6 +21,7 @@ import buildLink from "@/urls";
 import { useRef, useEffect } from "react";
 function SingleProduct(props) {
   const { item, addToCart, topSelling, carousel, noAddCart } = props;
+  const [isHover,setIsHover] =useState(false);
   const [state] = useContext(AccountContext);
   const [copied, setCopied] = useState(false);
   const [bannerStyles, setBannerStyles] = useState({});
@@ -452,12 +453,14 @@ function SingleProduct(props) {
                       }}
                     />
                   ) : (
-                    <div>
+                    <div onMouseLeave={()=>{setIsHover(false)}} onMouseEnter={()=>{setIsHover(true)}} className=" overflow-hidden relative " >
+                      <div className={` transition-all ease-out duration-500 ${isHover?"scale-125":"scale-100"} `}>
                       <Slider
                         images={props?.item?.images?.slice(0, 2)}
                         autoplay={true}
                         primary={item?.thumb}
                       />
+                      </div>
                       {props?.item?.option_color_count &&
                       props?.item?.option_color_count > 1 ? (
                         <div className="flex items-center flex-col ">

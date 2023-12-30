@@ -858,7 +858,7 @@ We'll send you a new password.
             onClick={
               openAuthForm
             }
-            className="lg:border-r lg:border-dplaceHolder font-semibold text-base flex items-center px-3 md:pr-5 cursor-pointer hover:opacity-80 relative"
+            className="  font-semibold text-base flex items-center px-3 md:pr-5 cursor-pointer hover:opacity-80 relative"
           >
             <span>Sign In</span>
             <AiOutlineUser className="ml-1 w-5 h-5" />
@@ -870,8 +870,7 @@ We'll send you a new password.
             onClick={() => {}}
             className="
                
-            lg:border-r
-            lg:border-dplaceHolder
+            
                 flex 
                 items-start
                 flex-col
