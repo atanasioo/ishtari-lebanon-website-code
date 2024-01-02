@@ -68,16 +68,18 @@ function Layout({
         // </div>
         // </Link>
 }
-        <div style={{fontFamily:"serif"}} className={` flex  transition-all
+        <div  className={`   transition-all
          ${
           // stateAcc.loged&& !stateAcc.hasdateBirth &&
-         stateAcc.openRemindBirthday?"right-5 max-w-full max-md:right-3 ":"-right-[200%] "}   fixed bottom-2  shadow-dbase gap-3 justify-center  text-center  z-30  py-4  w-[400px] bg-dbase shadow-lg container  rounded-lg `}>
-           <h2 className="text-white text-xl   my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
+         stateAcc.openRemindBirthday?"right-5  max-md:right-3 ":"-right-[100%] "} fixed bottom-2  mx-4  max-w-[400px]   z-30  `}>
+       <div className="flex  shadow-dbase gap-3 justify-center  text-center  py-4    w-full bg-dbase shadow-lg container  rounded-lg">
+           <h2 className="text-white text-md border-r block border-white border-dashed  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
            <button onClick={()=>{
             dispatch({type:"setopenRemindBirthday",payload:false});
             router.push("/account/profile");
            }} className=" bg-white my-auto  h-10  rounded-full px-2 text-dbase  flex justify-center gap-1 hover:gap-2 text-center"><span className="my-auto flex justify-center gap-2 text-center" >Profile <FaArrowAltCircleRight className="my-auto"  /> </span> </button>
        <button onClick={()=>closeRemindBirthday()} className=" p-1 bg-dlabelColor opacity-80 text-white absolute rounded-full -top-3 -right-3 "><HiOutlineX/></button>
+       </div>
         </div>
         <Header host={host} />
         </>

@@ -191,7 +191,7 @@ export default function App({
                         <div className="" ref={topRef}>
                           {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
                           {loading && (
-                            <div className="fixed z-50 w-screen h-screen text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
+                            <div className="fixed z-50 w-screen h-screen  text-center  opacity-50 bg-dTransparentWhite flex items-center justify-center">
                               <img
                                 src={"/images/loader.gif"}
                                 alt="loader-gif"

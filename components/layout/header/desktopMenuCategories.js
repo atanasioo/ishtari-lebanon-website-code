@@ -142,7 +142,7 @@ function DesktopMenuCategories(props) {
       }
    
     },
-    clearHover ? null : 500
+    clearHover ? null : 100
   );
 
   function refresh(test) {
