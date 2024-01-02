@@ -248,7 +248,7 @@ function Header(props) {
           <div className="flex justify-end items-center flex-1">
             <TopSearch />
 
-            <div className="flex  divide-x-2  divide-dplaceHolder items-center">
+            <div className="flex   items-center">
               <CountryDropdown host={host.host} />
 
               {stateAcc.isSeller && (

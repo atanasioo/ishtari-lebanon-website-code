@@ -217,7 +217,7 @@ import { useRef } from "react";
       ) : (
         <div>
           {mobileFilter && (
-            <div className="bg-dblack bg-opacity-20 w-screen min-h-screen fixed top-0 left-0 bottom-0 z-10 right-0 overflow-y-scroll">
+            <div className="bg-dblack z-50 bg-opacity-20 w-screen min-h-screen fixed top-0 left-0 bottom-0  right-0 overflow-y-scroll">
               <div className="bg-white min-h-screen pb-12 ">
                 <h2 className=" px-2 text-xl border-b py-2 border-dinputBorder font-semibold flex items-center justify-between ">
                   <span>Filter</span>

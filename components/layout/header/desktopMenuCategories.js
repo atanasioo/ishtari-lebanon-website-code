@@ -11,6 +11,7 @@ import { sanitizeHTML } from "@/components/Utils";
 import { axiosServer } from "@/axiosServer";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { useHeaderColor } from "@/contexts/HeaderContext";
+import { FaCaretDown } from "react-icons/fa";
 
 function DesktopMenuCategories(props) {
   const { header_categories, local, headerSettings } = props;
@@ -129,12 +130,17 @@ function DesktopMenuCategories(props) {
     return timeoutRef;
   }
 
+ 
+  
+
+
   useTimeout(
     () => {
       if (selectedMenuCategory2) {
         setOverlay(true);
         setViewMenuCategories2(true);
       }
+   
     },
     clearHover ? null : 500
   );
@@ -151,7 +157,7 @@ function DesktopMenuCategories(props) {
 
 
   return (
-    <div  className=" shadow-md  shadow-dslate  border-t border-dslate "  style={{
+    <div  className="   border-t border-dborderColor "  style={{
       backgroundColor: headerColor ==null ? "white" : headerColor,
     }}>
       {router.asPath.indexOf("pos") < 0 && (
@@ -187,7 +193,7 @@ function DesktopMenuCategories(props) {
                 >
                   <FiList />
                   <div >All Categories</div>
-                  <FiChevronDown className="text-sm text-dlabelColor" />
+                  <FiChevronDown className={`text-sm transition-all  ${viewSubAllCategories2?"rotate-180 text-dbase":"rotate-0 text-dlabelColor"} `} />
                 </div>
 
                 {/* Overlay */}
@@ -209,8 +215,8 @@ function DesktopMenuCategories(props) {
                 header_categories.map((category) => (
                   <div
                     key={category["top-category"].category_id}
-                    className=" px-4 text-sm text-dlabelColor
-                     hover:text-dbase cursor-pointer"
+                    className=" px-4 text-sm text-dblack
+                     hover:text-dbase cursor-pointer group relative flex gap-3  justify-center text-clip"
                     onMouseEnter={() => {
                       setClearHover(false);
                       setViewSubAllCategories2(false);
@@ -220,6 +226,7 @@ function DesktopMenuCategories(props) {
                       setClearHover(true);
                     }}
                   >
+                    <div className=" transition-all h-[2px] w-0 group-hover:w-full absolute -bottom-1 bg-dbase rounded-lg"></div>
                     <Link
                       href={`/${slugify(category["title"].title)}/c=${
                         category["title"].mobile_type_id
@@ -236,6 +243,7 @@ function DesktopMenuCategories(props) {
                         __html: sanitizeHTML(category["title"].title),
                       }}
                     ></Link>
+                    <FaCaretDown  className=" h-full my-auto text-dlabelColor"/>
                   </div>
                 ))}
               {/* <div className="px-4 hover:text-dbase cursor-pointer">
@@ -245,7 +253,7 @@ function DesktopMenuCategories(props) {
               </div> */}
               {headerSettings.length > 0 &&
                 headerSettings.map((setting, index) => (
-                  <div className={`px-4 hover:text-dbase text-sm text-dlabelColor cursor-pointer ${index !== headerSettings.length -1 ? "" : "" }  ${!setting.value ? "hidden" : ""}`}>
+                  <div className={`px-4 hover:text-dbase text-sm text-dblack cursor-pointer ${index !== headerSettings.length -1 ? "" : "" }  ${!setting.value ? "hidden" : ""}`}>
                     <Link href={`/${setting.key === "new_arrivals" ? "latest" : setting.key}`} onClick={() => setMarketingData({})}>
                       {setting.title}
                     </Link>

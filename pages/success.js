@@ -42,7 +42,7 @@ function Success(props) {
 
 
   return (
-    <div className="bg-dgreen fixed top-0 left-0 w-screen h-screen flex justify-center items-center text-white flex-col">
+    <div className="bg-dgreen z-50 fixed top-0 left-0 w-screen h-screen flex justify-center items-center text-white flex-col">
       <span className="  w-20 h-20 bg-white flex items-center justify-center mb-4 rounded-full">
         <i className="icon icon-ok text-5xl text-dgreen"></i>
         {/* <SeoHandler data={{ title: "Success " }} /> */}

@@ -14,6 +14,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
 import Cookies from "js-cookie";
+import { HiChevronRight } from "react-icons/hi";
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -195,21 +196,21 @@ function DesktopMenuClientPopups(props) {
   };
 
   return (
-    <div>
+    <>
       {/* Subcategories' menu */}
 
-      {viewSubAllCategories2 && (
+      
         <div
-          className="relative  container"
+          className={`  relative  container  `}
           onMouseEnter={() => {
             handleState("viewSubAllCategories2", true);
             handleState("overlay", true);
           }}
         >
-          <div className="absolute top-0 z-40 ">
+          <div className={`absolute overflow-hidden    top-0  transition-all  ${viewSubAllCategories2 ? "h-[600px]":"h-0"} z-40 `}>
             <div className="" >
-              <div className="flex">
-                <div className="bg-dsearchGrey py-3 w-284px max-h-[600px] overflow-auto">
+              <div className="flex w-full bg-white rounded-md relative overflow-auto ">
+                <div className="bg-dsearchGrey py-3 w-fit  max-h-[600px]   overflow-auto">
                   {allCategories?.map((category) => (
                     <div
                       key={category.category_id}
@@ -238,18 +239,22 @@ function DesktopMenuClientPopups(props) {
                           width={40}
                           height={40}
                         />
+                        <div className=" w-full flex justify-between flex-row  gap-4">
                         <span
                           className="ml-3 font-light text-d13"
                           dangerouslySetInnerHTML={{
                             __html: sanitizeHTML(category.name)
                           }}
                         ></span>
+                        <span><HiChevronRight/></span>
+                        </div>
                       </Link>
                     </div>
                   ))}
                 </div>
-                <div className="bg-white px-4 max-h-[600px] overflow-auto" style={{ width: "500px" }}>
-                  <div className="flex item-center justify-between py-5 border-b border-dinputBorder mb-2">
+                <div className="flex divide-x-2 divide-dgrey gap-4 flex-row px-4 max-h-[600px] w-fit overflow-auto" >
+                  <div className=" bg-white" >
+                  <div className="flex item-center w-[400px] justify-between py-5 border-b border-dinputBorder mb-2">
                     <h2
                       className=" font-semibold"
                       dangerouslySetInnerHTML={{
@@ -301,7 +306,8 @@ function DesktopMenuClientPopups(props) {
                         ></span>
                       </Link>
                     ))}
-
+                    </div>
+              <div className=" w-[600px]  px-5"> 
                   <div onMouseLeave={handleMouseLeave}>
                     <div className="flex items-center mt-4 text-dblack">
                       <Link
@@ -346,7 +352,7 @@ function DesktopMenuClientPopups(props) {
                         </div>
                       )
                     )}
-                    <div>
+                    <div className="">
                       <div className="flex items-center mt-4 text-dblack pb-4">
                         <Link
                           href={{
@@ -397,19 +403,20 @@ function DesktopMenuClientPopups(props) {
                       )}
                     </div>
                   </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+      
 
       {/* Menu category */}
 
-      <div className="absolute bg-dsearchGrey w-screen z-40">
-        {viewMenuCategories2 && selectedMenuCategory2 && (
+      <div className={`absolute transition-all rounded-md duration-500  overflow-hidden ${ viewMenuCategories2 ? "h-[600px]":"h-0"} bg-dsearchGrey w-screen z-40`}>
+       { viewMenuCategories2 && selectedMenuCategory2 &&
           <div
-            className="container"
+            className="container max-h-[600px] overflow-auto"
             onMouseEnter={() => {
               //setViewMenuCategories2(true);
               handleState("viewMenuCategories2", true);
@@ -484,9 +491,9 @@ function DesktopMenuClientPopups(props) {
               </div>
             </div>
           </div>
-        )}
+}
       </div>
-    </div>
+    </>
   );
 }
 
