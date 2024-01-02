@@ -413,7 +413,7 @@ function DesktopMenuClientPopups(props) {
 
       {/* Menu category */}
 
-      <div className={`absolute transition-all rounded-md duration-500  overflow-hidden ${ viewMenuCategories2 ? "h-[600px]":"h-0"} bg-dsearchGrey w-screen z-40`}>
+      <div className={`absolute transition-all rounded-md duration-500  overflow-hidden ${ viewMenuCategories2 &&selectedMenuCategory2  ? "h-[600px]":"h-0"} bg-dsearchGrey w-screen z-40`}>
        { viewMenuCategories2 && selectedMenuCategory2 &&
           <div
             className="container max-h-[600px] overflow-auto"
