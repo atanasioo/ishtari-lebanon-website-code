@@ -417,8 +417,8 @@ function SingleProduct(props) {
                       <div
                         className={
                           width > 650
-                            ? "absolute z-40 text-dbase w-full text-center  bottom-0"
-                            : "absolute z-40 text-dbase w-full text-center bottom-00"
+                            ? "absolute z-10 text-dbase w-full text-center  bottom-0"
+                            : "absolute z-10 text-dbase w-full text-center bottom-00"
                         }
                       >
                         Out Of Stock
