@@ -255,14 +255,14 @@ function DesktopMenuCategories(props) {
 
 
               
-              {/* {headerSettings.length > 0 &&
+              {headerSettings.length > 0 &&
                 headerSettings.map((setting, index) => (
                   <div className={`px-4 hover:text-dbase text-sm text-dblack cursor-pointer ${index !== headerSettings.length -1 ? "" : "" }  ${!setting.value ? "hidden" : ""}`}>
-                    <Link href={`/${setting.key === "new_arrivals" ? "latest" : setting.key}`} onClick={() => setMarketingData({})}>
+                    <Link href={`/${ "new-arrivals/c=4617" ? "back-to-stock/c=4616" : setting.key}`} onClick={() => setMarketingData({})}>
                       {setting.title}
                     </Link>
                   </div>
-                ))} */}
+                ))}
             </div>
           </div>
         </div>

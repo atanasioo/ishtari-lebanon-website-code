@@ -1383,6 +1383,52 @@ function ProductPart2(props) {
         </div>
       )}
 
+{productData2?.smallest_cat_products &&
+        productData2?.smallest_cat_products?.length > 0 && (
+          <div className=" w-full  md:px-6 my-2 bg-white pt-1">
+            <div className="container pb-2 md:pb-8">
+              <p className="pr-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
+                {productData2.product_categories[0]?.name}
+              </p>
+              <div className="block">
+                {width < 650 ? (
+                  // <Slider {...productMobile}>
+                  //   {productData2.smallest_cat_products.map((item) => (
+                  //     <SingleProduct item={item} host={host}></SingleProduct>
+                  //   ))}
+                  // </Slider>
+
+                  <div className="flex overflow-x-auto space-x-2 ">
+                    {productData2.smallest_cat_products.map((item) => {
+                      return (
+                        <div className="" key={item.product_id}>
+                          <SingleProduct
+                            scroll={true}
+                            item={item}
+                            host={host}
+                          ></SingleProduct>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="same-category-slider">
+                    <Slider {...moreSettings} className="relative ">
+                      {productData2?.smallest_cat_products?.map((item) => (
+                        <SingleProduct
+                          key={item.product_id}
+                          item={item}
+                          host={host}
+                        ></SingleProduct>
+                      ))}
+                    </Slider>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
       {/* Related Product */}
       {productData2?.product_related &&
         productData2?.product_related?.length > 0 && (
@@ -1506,51 +1552,7 @@ function ProductPart2(props) {
           </div>
         )}
 
-      {productData2?.smallest_cat_products &&
-        productData2?.smallest_cat_products?.length > 0 && (
-          <div className=" w-full  md:px-6 my-2 bg-white pt-1">
-            <div className="container pb-2 md:pb-8">
-              <p className="pr-semibold text-xl text-dblack mb-4 pt-2 md:pt-8">
-                {productData2.product_categories[0]?.name}
-              </p>
-              <div className="block">
-                {width < 650 ? (
-                  // <Slider {...productMobile}>
-                  //   {productData2.smallest_cat_products.map((item) => (
-                  //     <SingleProduct item={item} host={host}></SingleProduct>
-                  //   ))}
-                  // </Slider>
-
-                  <div className="flex overflow-x-auto space-x-2 ">
-                    {productData2.smallest_cat_products.map((item) => {
-                      return (
-                        <div className="" key={item.product_id}>
-                          <SingleProduct
-                            scroll={true}
-                            item={item}
-                            host={host}
-                          ></SingleProduct>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="same-category-slider">
-                    <Slider {...moreSettings} className="relative ">
-                      {productData2?.smallest_cat_products?.map((item) => (
-                        <SingleProduct
-                          key={item.product_id}
-                          item={item}
-                          host={host}
-                        ></SingleProduct>
-                      ))}
-                    </Slider>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+      
 
       {stateAccount?.loged &&
         productData2?.product_recentlyViewed &&
