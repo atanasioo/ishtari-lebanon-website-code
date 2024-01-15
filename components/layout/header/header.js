@@ -19,6 +19,7 @@ import CountryDropdown from "./CountryDropdown";
 import { HostContext } from "@/contexts/HostContext";
 import MobileMenu from "./MobileMenu";
 import { useHeaderColor } from "@/contexts/HeaderContext";
+import { useHeaderState } from "@/contexts/HeaderStateContext";
 
 
 function Header(props) {
@@ -33,7 +34,8 @@ function Header(props) {
   const [sellerId, setSellerId] = useState("0");
   const router = useRouter();
   const host = useContext(HostContext);
-  const { headerColor, setHeaderColor,fontColor } = useHeaderColor();
+  const { headerColor, setHeaderColor} = useHeaderColor();
+  const {isShowHeader,setisShowHeader} = useHeaderState();
 
 
   // const serverSideDomain = props.host;
@@ -41,6 +43,7 @@ function Header(props) {
   //  console.log(session);
   const [state, setState] = useState([]);
   useEffect(() => {
+    // console.log(isShowHeader)
     axiosServer
       .get(
         buildLink("headerv2", undefined, undefined, window.location.host)
@@ -50,6 +53,11 @@ function Header(props) {
         setHeaderSettings(response.data.header_settings);
       });
   }, []);
+
+
+
+
+
 
 
   useEffect(() => {
@@ -124,7 +132,7 @@ function Header(props) {
 
 
   return (
-    <div className="  sticky top-0 z-30" >
+    <div className={`${isShowHeader?"top-0":" -top-24"}  duration-500 transition-all sticky  z-30`} >
       {/* <div className="w-full h-auto flex container ">
         <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
       </div> */}
@@ -132,7 +140,7 @@ function Header(props) {
 
       {/* Mobile Menu */}
       <div
-        className={`transition-all   min-h-screen w-screen  bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden z-50  ${
+        className={`transition-all min-h-screen w-screen  bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden z-50  ${
           stateAcc.viewMobileMenu ? "right-0" : " right-full"
         }`}
         id="scrollDiv"
@@ -157,7 +165,7 @@ function Header(props) {
           <div className="flex items-center">
             <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>
               <HiMenu
-                className={` w-6 h-6 text-${fontColor} mr-1 `}
+                className={` w-6 h-6 text-dblack mr-1 `}
                 // style={{color: "e3535e"}}
               ></HiMenu>
             </button>

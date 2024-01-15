@@ -27,6 +27,7 @@ import Cookies from "js-cookie";
 import { HeaderProvider } from "@/contexts/HeaderContext";
 import CartSideModal from "@/components/product/CartSideModal";
 import { SuggestionProvider } from "@/contexts/SuggestionContext";
+import { HeaderStateProvider } from "@/contexts/HeaderStateContext";
 
 
 export default function App({
@@ -187,6 +188,7 @@ export default function App({
                   <MarketingProvider>
                     <ReviewCenterProvider>
                       <HeaderProvider>
+                        <HeaderStateProvider>
                      
                         <div className="" ref={topRef}>
                           {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
@@ -225,7 +227,7 @@ export default function App({
                           {formattedDate}
                           {")"}
                         </div>
-                     
+                        </HeaderStateProvider>
                       </HeaderProvider>
                     </ReviewCenterProvider>
                   </MarketingProvider>

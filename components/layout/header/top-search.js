@@ -108,12 +108,12 @@ function TopSearch() {
   }
 
   function saveSearchHistory(query, type = "") {
-    console.log(query);
+    // console.log(query);
     if (type !== "product") {
       let searchHistory =
         JSON.parse(localStorage.getItem("search_history")) || [];
 
-      searchHistory.unshift(query);
+      // searchHistory.unshift(query);
 
       if (searchHistory.length > 10) {
         searchHistory.pop();
@@ -190,8 +190,8 @@ function TopSearch() {
 
   useEffect(() => {
     async function search() {
-      console.log( buildLink("search", undefined, undefined, window.config["site-url"]) +
-      query +  `${stateAcc?.admin ? "&employer=true" : ''}`);
+      // console.log( buildLink("search", undefined, undefined, window.config["site-url"]) +
+      // query +  `${stateAcc?.admin ? "&employer=true" : ''}`);
       setLoading(true);
       // console.log(query)
       const res = await axiosServer.get(
@@ -208,7 +208,7 @@ function TopSearch() {
         // if (axios.isCancel(error)) {
         //   console.error("axios error", error.message);
         // } else {
-          console.error(error);
+          // console.error(error);
         //}
       }
     }

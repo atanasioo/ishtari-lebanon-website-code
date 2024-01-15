@@ -455,7 +455,7 @@ function Cart() {
       });
   }
 
-  console.log(state);
+  // console.log(state);
 
   return (
     <div className="min-h-screen">

@@ -61,8 +61,8 @@ function Pos() {
     if (e.target.value.trim() !== "" && e.key === "Enter") {
       queryProductsByBarcodeAndOption("posDB", "products", searchKeyWord)
         .then((products) => {
-          console.log("Products matching the query:");
-          console.log(products);
+          // console.log("Products matching the query:");
+          // console.log(products);
         })
         .catch((error) => {
           console.error("Error querying products:", error);

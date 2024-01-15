@@ -10,6 +10,7 @@ import { FaArrowAltCircleRight, FaSadCry } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
 import Cookies from "js-cookie";
 import { useHeaderColor } from "@/contexts/HeaderContext";
+import { useHeaderState } from "@/contexts/HeaderStateContext";
 function Layout({
   children,
   token,
@@ -18,6 +19,8 @@ function Layout({
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext);
   const { headerColor, setHeaderColor   } = useHeaderColor();
+  const {isShowHeader,setisShowHeader} = useHeaderState();
+  var prevScroll =200;
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
@@ -26,7 +29,14 @@ function Layout({
         if (scrollTop >= 300) {
           setHeaderColor("white")
          } else {
-   setHeaderColor(localStorage.getItem("headerCol"))
+         const headerCollocal = localStorage.getItem("headerCol");
+        //  console.log("____________________");
+        //  console.log(headerCollocal)
+         if(headerCollocal == null || headerCollocal == ''|| headerCollocal ==  undefined){
+          setHeaderColor("white")
+         }else{
+   setHeaderColor(headerCollocal)
+         }
          }
       }
     };
@@ -36,6 +46,26 @@ function Layout({
       window.removeEventListener('scroll', handleScroll);
     };
   }, [router.asPath]);
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      
+      if(scrollTop> prevScroll){
+      //  console.log(`prev${prevScroll}`);
+        setisShowHeader(false)
+      }else{
+        setisShowHeader(true)
+      }
+    prevScroll = scrollTop
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // Clean up the event listener when the component is unmounted
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {

@@ -115,7 +115,7 @@ function DesktopMenuClientPopups(props) {
           "topSelling-" + selectedTopCategory.category_id 
         );
 
-        console.log(JSON.parse(myObject))
+        // console.log(JSON.parse(myObject))
         if (myObject || JSON.parse(myObject) === "null") {
           //  console.log(JSON.parse(myObject))
           setTopSelling([]);
@@ -207,7 +207,7 @@ function DesktopMenuClientPopups(props) {
             handleState("overlay", true);
           }}
         >
-          <div className={`absolute overflow-hidden    top-0  transition-all  ${viewSubAllCategories2 ? "h-[600px]":"h-0"} z-40 `}>
+          <div className={`absolute overflow-hidden    top-0  transition-all  ${viewSubAllCategories2 ? "h-screen":"h-0"} z-40 `}>
             <div className="" >
               <div className="flex w-full bg-white rounded-md relative overflow-auto ">
                 <div className="bg-dsearchGrey py-3 w-fit  max-h-[600px]   overflow-auto">
@@ -252,9 +252,9 @@ function DesktopMenuClientPopups(props) {
                     </div>
                   ))}
                 </div>
-                <div className="flex divide-x-2 divide-dgrey gap-4 flex-row px-4 max-h-[600px] w-fit overflow-auto" >
+                <div className="flex divide-x-2 divide-dgrey gap-4 flex-row px-4  max-h-[600px] w-fit overflow-auto" >
                   <div className=" bg-white" >
-                  <div className="flex item-center w-[400px] justify-between py-5 border-b border-dinputBorder mb-2">
+                  <div className="flex item-center w-[300px] justify-between py-5 border-b border-dinputBorder mb-2">
                     <h2
                       className=" font-semibold"
                       dangerouslySetInnerHTML={{
@@ -328,7 +328,7 @@ function DesktopMenuClientPopups(props) {
                       <PointsLoader />
                     ) : (
                       topSelling.length > 0 && (
-                        <div className="w-full">
+                        <div className="w-full px-10">
                           <Slider {...settings}>
                             {topSelling?.slice(0, 10).map((item) => (
                               <div key={item.product_id}>
