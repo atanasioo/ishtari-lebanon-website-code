@@ -101,7 +101,7 @@ function Layout({
         <div  className={`   transition-all
          ${
           // stateAcc.loged&& !stateAcc.hasdateBirth &&
-         stateAcc.openRemindBirthday?"right-5  max-md:right-3 ":"-right-[100%] "} fixed bottom-2  mx-4  max-w-[400px]   z-30  `}>
+         stateAcc.openRemindBirthday?"right-5  max-md:right-3 ":"-right-[200%] "} fixed bottom-2  mx-4  max-w-[400px]   z-30  `}>
        <div className="flex  shadow-dbase gap-3 justify-center  text-center  py-4    w-full bg-dbase shadow-lg container  rounded-lg">
            <h2 className="text-white text-md border-r block border-white border-dashed  my-auto ">Enter Your Birthday To Benefit From Gifts and Discounts.</h2>
            <button onClick={()=>{

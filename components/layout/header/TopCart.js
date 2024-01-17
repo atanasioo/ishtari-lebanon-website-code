@@ -48,7 +48,7 @@ function TopCart() {
         <>
          <CartSideModal />
 
-        <Link className={`${"window.config[showCart]"==1 ? 'block' : 'block'} font-semibold text-base flex items-center pl-1.5 pr-1 sm:pl-3 sm:pr-6 cursor-pointer hover:opacity-80 relative`} href={`${path}/cart`}>
+        <Link  className={`${"window.config[showCart]"==1 ? 'block' : 'block'} font-semibold text-base flex items-center pl-1.5 pr-1 sm:pl-3 sm:pr-6 cursor-pointer hover:opacity-80 relative`} href={`${path}/cart`}>
             <span className="hidden lg:block ">Cart</span>
             {/* <i className={`icon icon-basket ml-2  text-dgreyBlack w-4 mobile:text-white mobile:w-5`}></i> */}
             <AiOutlineShopping className="ml-1   text-2xl" />

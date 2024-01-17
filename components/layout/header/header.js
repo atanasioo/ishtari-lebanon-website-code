@@ -64,7 +64,7 @@ function Header(props) {
     if (router.asPath !== '/') {
       setHeaderColor('white');
     } else {
-      setHeaderColor(''); 
+      setHeaderColor('white'); 
     }
   }, [router.asPath]);
 
@@ -132,7 +132,7 @@ function Header(props) {
 
 
   return (
-    <div className={`${isShowHeader?"top-0":" -top-24"}  duration-500 transition-all sticky  z-30`} >
+    <div className={`${isShowHeader?"top-0":" -top-[5.5rem]"}  duration-500 transition-all sticky  z-30`} >
       {/* <div className="w-full h-auto flex container ">
         <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
       </div> */}

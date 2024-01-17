@@ -38,6 +38,7 @@ import WarrantyPopup from "./WarrantyPopup";
 import Timer from "./Timer";
 import ProductPlaceholder from "./ProductPlaceholder";
 import NoData from "../NoData";
+import SingleProduct from "./SingleProduct";
 
 function ProductPage(props) {
   //Server props
@@ -169,7 +170,7 @@ function ProductPage(props) {
       (AdminToken !== undefined || typeof AdminToken !== "undefined"
         ? "&employer=true"
         : "") +
-      (fromSearch ? "&from_search=1" : "");
+      (fromSearch ? "&from_search=1" : "")+"&test_aya=true";
 
     axiosServer.get(link).then((response) => {
       if (!response.data.success) {
@@ -1958,7 +1959,7 @@ function ProductPage(props) {
                       </div>
                     )}
                     {/* PDS */}
-                    {data?.pds &&
+                    {/* { data?.pds &&
                       data.pds.length > 0 &&
                       data["series_options"].length < 1 && (
                         <div className="my-2 md:my-4">
@@ -1989,9 +1990,18 @@ function ProductPage(props) {
                             </div>
                           </div>
                         </div>
-                      )}
+                      )} */}
 
-                    {data["series_options"] &&
+
+                      
+
+     {/* PDS */}
+                
+
+
+
+
+                    { data["series_options"] &&
                       // productData?.pds?.length === 0 &&
                       data["series_options"]?.map(
                         (series_option, key) =>
@@ -2167,6 +2177,7 @@ function ProductPage(props) {
                     </div>
                   </div>
                 </div>
+                
                 <div className="pl-3 hidden md:block border-l border-dborderProduct w-1/4">
                   {/* EXTRA */}
                   {/* admin div */}
@@ -2417,6 +2428,65 @@ function ProductPage(props) {
               <div className="my-4 container block mobile:hidden">
                 <WhatsappBtn product_id={product_id} config={config} />
               </div>
+
+
+
+
+
+              { data?.series &&
+                      data.series.length > 0 &&
+                      data["series_options"].length < 1 && (
+                        <div className=" border-t-8 border-dinputBorder bg-dinputBorder ">
+                        <div className=" px-5 mobile:px-12 bg-white py-4">
+                          <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">
+                            In the same series
+                          </p>
+                          <div className=" overflow-x-auto">
+                            <div className="flex  flex-col gap-2">
+                              { data.series.map((serie) => (
+                                
+                              <div className=" h-fit w-full  py-2 px-3  " >
+                                <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  
+                                     <div className=" flex flex-wrap bg-dgrey px-3 py-3 w-fit   gap-2">
+                                      {serie.products && serie.products.map((product)=>(
+                                           <Link
+                                           key={product.product_id}
+                                           href={`/product/` + product.product_id}
+                                           className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md ${
+                                             product.product_id === product_id
+                                               ? " border-dblue"
+                                               : "border-dgrey"
+                                           }`}
+                                         >
+
+                                     
+                                              <Image
+                                              title={product.type}
+                                    src={product.image}
+                                    alt={product.product_name}
+                                    className="w-full"
+                                    width={100}
+                                    height={100}
+                                  />
+                                
+
+                                            </Link>
+                                     
+                                      ))}
+                                     </div>
+                              </div>
+                              ))}
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+
+
+
+
+
 
               <div
                 ref={lastElementRef}

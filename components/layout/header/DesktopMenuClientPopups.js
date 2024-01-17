@@ -199,7 +199,7 @@ function DesktopMenuClientPopups(props) {
     <>
       {/* Subcategories' menu */}
 
-      
+      <div className=" w-screen bg-white ">
         <div
           className={`  relative  container  `}
           onMouseEnter={() => {
@@ -492,6 +492,7 @@ function DesktopMenuClientPopups(props) {
             </div>
           </div>
 }
+      </div>
       </div>
     </>
   );

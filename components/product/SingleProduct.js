@@ -529,7 +529,7 @@ function SingleProduct(props) {
                             </div>
                           ) : (
                             //background & timer
-                            <div className="relative py-1 px-1.5 ">
+                            <div className="relative  px-1.5 ">
                               {props.item.bannerevent.datediff > 0 && (
                                 <div
                                   className={`flex gap-2 items-center text-sm ${
