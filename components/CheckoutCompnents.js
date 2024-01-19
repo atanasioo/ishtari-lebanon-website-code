@@ -1261,10 +1261,10 @@ function CheckoutCompnents() {
     <div>
       {blocked && (
         <div className="fixed z-40 flex justify-center bg-dTransparentWhite w-full min-h-screen top-0 left-0">
-          <div class="absolute z-50 bg-white p-6 rounded shadow-md  max-w-md top-1/3">
-            <h2 class="text-xl  mb-2 text-dbase font-bold">Account Blocked</h2>
-            <p class=" mb-4">{blockedMessage}</p>
-            <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded w-full">
+          <div className="absolute z-50 bg-white p-6 rounded shadow-md  max-w-md top-1/3">
+            <h2 className="text-xl  mb-2 text-dbase font-bold">Account Blocked</h2>
+            <p className=" mb-4">{blockedMessage}</p>
+            <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded w-full">
               Contact Support
             </button>
           </div>

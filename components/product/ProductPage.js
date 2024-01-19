@@ -2418,8 +2418,8 @@ function ProductPage(props) {
                   </div>
                 </div>
               </div>
-              {/* <div class="scroll-container">
-  <div class="scroll-content flex  animate-500">
+              {/* <div className="scroll-container">
+  <div className="scroll-content flex  animate-500">
    Your content goes here If you want to create an auto-scrolling effect for a where it    jkwerkgwekjrgwekrhkejfhsdkjfsdkfgskdfgskdfgsdhjfgshjfgshdfghdsfghdghdgdhsghsdfghdfgjdfgdhjsfghjdsgf
   </div>
 </div> */}
@@ -2734,7 +2734,7 @@ function ProductPage(props) {
                         updateState(p.wishlist_group_id);
                       }}
                     >
-                      <label class="text-sm ml-3 font-medium text-gray-900 w-10/12 mt-1">
+                      <label className="text-sm ml-3 font-medium text-gray-900 w-10/12 mt-1">
                         {p.name}
                       </label>
                       <input
@@ -2761,17 +2761,17 @@ function ProductPage(props) {
                     setShowModel(true);
                   }}
                 >
-                  <label class="flex text-sm  font-medium text-gray-900 w-10/12 ">
+                  <label className="flex text-sm  font-medium text-gray-900 w-10/12 ">
                     <div className="text-sm rounded-full bg-white w-5 h-5 mr-1 text-center text-dgreyBlack">
                       +
                     </div>
                     Create New wishlist
                   </label>
                 </div>
-                <div class=" justify-end border-t-2 border-dinputBorder p-2">
+                <div className=" justify-end border-t-2 border-dinputBorder p-2">
                   <button
                     id="close"
-                    class="px-5 py-2 w-full bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
+                    className="px-5 py-2 w-full bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
                     onClick={addToWishList}
                   >
                     Done
@@ -2831,10 +2831,10 @@ function ProductPage(props) {
                     />
                   </div>
                 </div>
-                <div class="flex justify-end">
+                <div className="flex justify-end">
                   <button
                     id="close"
-                    class="w-full px-5 py-1 bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
+                    className="w-full px-5 py-1 bg-dblue hover:bg-indigo-700 text-white cursor-pointer rounded-md"
                     onClick={() => addGroup()}
                   >
                     save

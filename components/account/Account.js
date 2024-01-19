@@ -17,6 +17,7 @@ import {
 } from "react-icons/bs";
 import { MdAvTimer, MdFeedback } from "react-icons/md";
 import {
+  FaCheckCircle,
   FaMoneyBillWave,
   FaTicketAlt,
   FaUserAlt,
@@ -940,6 +941,14 @@ We'll send you a new password.
                 >
                   <FaTicketAlt className=" text-d16 " />
                   <span className="ml-4">Coupons</span>
+                </Link>
+                <Link
+                  href={`${path}/account/checkin`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 px-3"
+                >
+                  <FaCheckCircle className=" text-d16 " />
+                  <span className="ml-4">Check In</span>
                 </Link>
                 <Link
                   href={`${path}/account/buyagain`}

@@ -1242,9 +1242,9 @@ console.log("source_type_id",source_type_id)
               {/* test */}
               {widget?.scrolling && (
                 <div className="">
-                  <div class="scroll-container" style={{ width: "1100%" }}>
+                  <div className="scroll-container" style={{ width: "1100%" }}>
                     <div
-                      class="content flex "
+                      className="content flex "
                       id="content"
                       style={{
                         animation: `scroll ${

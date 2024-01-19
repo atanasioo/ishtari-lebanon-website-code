@@ -1275,7 +1275,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                 <div className="">
                   <div  style={{ width: "1100%" }}>
                     <div
-                      class="content flex "
+                      className="content flex "
                       id="content"
                       style={{
                         animation: `scroll ${

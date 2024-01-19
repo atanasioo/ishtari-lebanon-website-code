@@ -428,7 +428,7 @@ function profile() {
                       key={email.service_key}
                     >
                       <div>{email.service_title}</div>
-                      <label class="switch">
+                      <label className="switch">
                         <input
                           type="checkbox"
                           id={"check" + index}
@@ -441,7 +441,7 @@ function profile() {
                             )
                           }
                         />
-                        <span class="slider_swicth round"></span>
+                        <span className="slider_swicth round"></span>
                       </label>
                     </div>
                   ))}

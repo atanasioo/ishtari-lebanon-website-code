@@ -333,21 +333,21 @@ function Syncdata() {
             <br></br>
             <ProgressBar progress={progress} />
 
-            <table class="table border-collapse border w-full mt-5">
+            <table className="table border-collapse border w-full mt-5">
               <thead className=" text-left pr-bold bg-dlabelColor">
-                <tr class="border border-gray-400 p-2"> 
-                  <th class="border border-gray-400 p-2">#</th>
-                  <th class="border border-gray-400 p-2">sync</th>
-                  <th class="border border-gray-400 p-2">action</th>
+                <tr className="border border-gray-400 p-2"> 
+                  <th className="border border-gray-400 p-2">#</th>
+                  <th className="border border-gray-400 p-2">sync</th>
+                  <th className="border border-gray-400 p-2">action</th>
                 </tr>
               </thead>
 
               <tbody>
                 {tasks?.map((task, i) => (
                   <tr key={i}>
-                    <td class="border border-gray-400 p-2">{task.id} </td>
+                    <td className="border border-gray-400 p-2">{task.id} </td>
 
-                    <td class="border border-gray-400 p-2">
+                    <td className="border border-gray-400 p-2">
                       {" "}
                       {task.completed ? (
                         <span className="px-7 text-dgreen">Completed</span>
@@ -358,7 +358,7 @@ function Syncdata() {
                       )}
                     </td>
 
-                    <td class="border border-gray-400 p-2">
+                    <td className="border border-gray-400 p-2">
                       {" "}
                       {!task.completed && (
                         <button

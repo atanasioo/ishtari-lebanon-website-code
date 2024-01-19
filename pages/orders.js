@@ -408,12 +408,12 @@ export default function PosOrders() {
       )}
 
       {(showDetails || showDetails === 0) && (
-        <div class="fixed left-0 top-0   h-full w-full overflow-y-auto overflow-x-hidden outline-none z-50">
-          <div class="pointer-events-none relative w-8/12 top-1/3 left-1/4 right-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out">
-            <div class="p-5  pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none">
-              <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder z-50	 ">
+        <div className="fixed left-0 top-0   h-full w-full overflow-y-auto overflow-x-hidden outline-none z-50">
+          <div className="pointer-events-none relative w-8/12 top-1/3 left-1/4 right-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out">
+            <div className="p-5  pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none">
+              <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder z-50	 ">
                 <h5
-                  class="text-xl font-medium leading-normal"
+                  className="text-xl font-medium leading-normal"
                   id="exampleModalLabel"
                 >
                   Order Details
@@ -436,7 +436,7 @@ export default function PosOrders() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="h-6 w-6"
+                    className="h-6 w-6"
                   >
                     <path
                       stroke-linecap="round"
@@ -448,27 +448,27 @@ export default function PosOrders() {
               </div>
 
               <div>
-                <table class="min-w-full text-left text-sm font-light">
-                  <thead class="border font-medium border-DarkGrey">
+                <table className="min-w-full text-left text-sm font-light">
+                  <thead className="border font-medium border-DarkGrey">
                     <tr>
-                      <th scope="col" class="px-2 py-4">
+                      <th scope="col" className="px-2 py-4">
                         #
                       </th>
-                      <th scope="col" class="py-4">
+                      <th scope="col" className="py-4">
                         name
                       </th>
-                      <th scope="col" class="pr-4 py-4">
+                      <th scope="col" className="pr-4 py-4">
                         sku
                       </th>
-                      <th scope="col" class=" py-4">
+                      <th scope="col" className=" py-4">
                         Model
                       </th>
                       <th scope="col">price</th>
-                      <th scope="col" class=" py-4">
+                      <th scope="col" className=" py-4">
                         QTY
                       </th>
 
-                      <th scope="col" class="py-4 text-center">
+                      <th scope="col" className="py-4 text-center">
                         Total
                       </th>
                     </tr>
@@ -476,24 +476,24 @@ export default function PosOrders() {
                   <tbody>
                     {details &&
                       details[0]?.products?.map((order, key) => (
-                        <tr class="border border-DarkGrey ">
-                          <td class="whitespace-nowrap px-4 py-2 font-medium">
+                        <tr className="border border-DarkGrey ">
+                          <td className="whitespace-nowrap px-4 py-2 font-medium">
                             {key + 1}
                           </td>
-                          <td class="whitespace-nowrap py-2">{order?.name}</td>
-                          {/* <td class="whitespace-nowrap px-6 py-4">${order.sub_total}</td> */}
-                          <td class="whitespace-nowrap  py-2">{order?.sku}</td>
-                          <td class="whitespace-nowrap  py-2">
+                          <td className="whitespace-nowrap py-2">{order?.name}</td>
+                          {/* <td className="whitespace-nowrap px-6 py-4">${order.sub_total}</td> */}
+                          <td className="whitespace-nowrap  py-2">{order?.sku}</td>
+                          <td className="whitespace-nowrap  py-2">
                             {order?.model}
                           </td>
-                          <td class="whitespace-nowrap  py-2">
+                          <td className="whitespace-nowrap  py-2">
                             {order?.price}
                           </td>
-                          <td class="whitespace-nowra py-2">
+                          <td className="whitespace-nowra py-2">
                             {order?.quantity}
                           </td>
 
-                          <td class="whitespace-nowrap text-center py-2">
+                          <td className="whitespace-nowrap text-center py-2">
                             {order?.total}
                           </td>
                         </tr>
@@ -501,11 +501,11 @@ export default function PosOrders() {
 
                     {holdDetails &&
                       holdDetails?.order_product?.map((order, key) => (
-                        <tr class="border border-DarkGrey ">
-                          <td class="whitespace-nowrap px-4 py-2 font-medium">
+                        <tr className="border border-DarkGrey ">
+                          <td className="whitespace-nowrap px-4 py-2 font-medium">
                             {key + 1}
                           </td>
-                          <td class="whitespace-nowrap py-2">
+                          <td className="whitespace-nowrap py-2">
                             {order?.name} -{" "}
                             {order?.order_option?.length > 0 &&
                               order?.order_option[0] &&
@@ -513,19 +513,19 @@ export default function PosOrders() {
                                 ":" +
                                 order?.order_option[0]?.value}
                           </td>
-                          {/* <td class="whitespace-nowrap px-6 py-4">${order.sub_total}</td> */}
-                          <td class="whitespace-nowrap  py-2">{order?.sku}</td>
-                          <td class="whitespace-nowrap  py-2">
+                          {/* <td className="whitespace-nowrap px-6 py-4">${order.sub_total}</td> */}
+                          <td className="whitespace-nowrap  py-2">{order?.sku}</td>
+                          <td className="whitespace-nowrap  py-2">
                             {order?.model}
                           </td>
-                          <td class="whitespace-nowrap  py-2">
+                          <td className="whitespace-nowrap  py-2">
                             {order?.unit_price}
                           </td>
-                          <td class="whitespace-nowra py-2">
+                          <td className="whitespace-nowra py-2">
                             {order?.quantity}
                           </td>
 
-                          <td class="whitespace-nowrap  text-center py-2">
+                          <td className="whitespace-nowrap  text-center py-2">
                             {order?.price}
                           </td>
                         </tr>
@@ -535,14 +535,14 @@ export default function PosOrders() {
                   <tfoot>
                   {details && details[0] && details[0]?.totals?.map(   (item) => item.code !== "shipping"  &&
              
-                      <tr class="border border-DarkGrey ">
+                      <tr className="border border-DarkGrey ">
                         <td
-                          class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
+                          className="whitespace-nowrap  py-2 pr-8 font-medium text-right"
                           colspan="6"
                         >
                            {item?.title}
                         </td>{" "}
-                        <td class="whitespace-nowrap text-center py-2">
+                        <td className="whitespace-nowrap text-center py-2">
                           {item?.text}
                         
                         </td>
@@ -556,14 +556,14 @@ export default function PosOrders() {
                         ?.map(
                           (item) =>
                             item.code !== "shipping" && (
-                              <tr class="border border-DarkGrey ">
+                              <tr className="border border-DarkGrey ">
                                 <td
-                                  class="whitespace-nowrap  py-2 pr-8 font-medium text-right"
+                                  className="whitespace-nowrap  py-2 pr-8 font-medium text-right"
                                   colspan="6"
                                 >
                                   {item?.title}
                                 </td>{" "}
-                                <td class="whitespace-nowrap  py-2 text-center">
+                                <td className="whitespace-nowrap  py-2 text-center">
                                   {item?.text}
                                 </td>
                               </tr>
@@ -575,12 +575,12 @@ export default function PosOrders() {
               </div>
               <div className="flex justify-between">
                 {holdDetails?.hold_reason && (
-                  <div class="text-dbase pt-2 ">
+                  <div className="text-dbase pt-2 ">
                     Reason {holdDetails?.hold_reason}
                   </div>
                 )}
                 <div></div>
-                <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
+                <div className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
                   {holdDetails && (
                     <button
                       className="bg-dblue text-white py-2 px-3 rounded ml-3"
@@ -686,79 +686,79 @@ export default function PosOrders() {
         </button>
       </div>
 
-      <div class="flex w-full flex-col p-5">
-        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div class="overflow-hidden">
-              <table class="min-w-full text-left  font-light stripe hover">
-                <thead class="border-b font-medium border-DarkGrey">
+      <div className="flex w-full flex-col p-5">
+        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div className="overflow-hidden">
+              <table className="min-w-full text-left  font-light stripe hover">
+                <thead className="border-b font-medium border-DarkGrey">
                   <tr>
-                    <th scope="col" class="px-6 py-4  w-1/12">
+                    <th scope="col" className="px-6 py-4  w-1/12">
                       OrderID
                     </th>
-                    <th scope="col" class="px-6 py-4 w-2/12">
+                    <th scope="col" className="px-6 py-4 w-2/12">
                       customer name
                     </th>
-                    <th scope="col" class="px-6 py-4 w-2/12">
+                    <th scope="col" className="px-6 py-4 w-2/12">
                       telephone
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" className="px-6 py-4">
                       sub total
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" className="px-6 py-4">
                       discount
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" className="px-6 py-4">
                       coupon
                     </th>
-                    <th scope="col" class="px-6 py-4 w-1/12">
+                    <th scope="col" className="px-6 py-4 w-1/12">
                       total
                     </th>
-                    <th scope="col" class="px-6 py-4">
+                    <th scope="col" className="px-6 py-4">
                       Order Details
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* <tr class="border-b border-DarkGrey">
-                    <td class="whitespace-nowrap px-6 py-4 font-medium">
+                  {/* <tr className="border-b border-DarkGrey">
+                    <td className="whitespace-nowrap px-6 py-4 font-medium">
                       <input
                         className="w-full border border p-2 rounded border-DarkGrey"
                         onChange={(e) => filterID(e)}
                       />
                     </td>
-                    <td class="whitespace-nowrap">
+                    <td className="whitespace-nowrap">
                       <input
                         className="w-full border border-DarkGrey p-2 rounded "
                         onChange={(e) => filterName(e)}
                       />
                     </td>
-                    <td class="whitespace-nowrap px-6 py-4"></td>
-                    <td class="whitespace-nowrap px-6 py-4"></td>
+                    <td className="whitespace-nowrap px-6 py-4"></td>
+                    <td className="whitespace-nowrap px-6 py-4"></td>
                   </tr> */}
                   {storedArray?.length > 0 &&
                     storedArray?.map(
                       (order) => (
                         // date === order.date_added && (
-                        <tr class="border border-DarkGrey ">
-                          <td class="whitespace-nowrap px-6 py-2 font-medium">
+                        <tr className="border border-DarkGrey ">
+                          <td className="whitespace-nowrap px-6 py-2 font-medium">
                             {order?.order_id}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-2 font-medium">
+                          <td className="whitespace-nowrap px-6 py-2 font-medium">
                             {order?.firstname + " "}{" "}
                             {order?.lastname !== "Local Customer" &&
                               order?.lastname}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-2 font-medium">
+                          <td className="whitespace-nowrap px-6 py-2 font-medium">
                             {order?.telephone}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             {order?.totals?.map(
                               (item) => item?.code === "sub_total" && item?.text
                             )}
                           </td>
 
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             {order?.totals?.map(
                               (item) =>
                                 item?.code === "modification" &&
@@ -766,19 +766,19 @@ export default function PosOrders() {
                             )}
                           </td>
 
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             {order?.totals?.map(
                               (item) => item?.code === "coupon" && item?.text
                             )}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             {order?.totals?.map(
                               (item) => item?.code === "total" && item?.text
                             )}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-2 flex">
+                          <td className="whitespace-nowrap px-6 py-2 flex">
                             <button
-                              class="bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
+                              className="bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
                               onClick={() => detailsShow(order?.order_id)}
                             >
                               <FaEye />
@@ -787,7 +787,7 @@ export default function PosOrders() {
                             <button
                               href={"/posprint/" + order?.order_id}
                               // target="_blank"
-                              class="ml-2 bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
+                              className="ml-2 bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
                               onClick={() => handlePrint(order?.order_id)}
                             >
                               <AiOutlinePrinter />
@@ -802,23 +802,23 @@ export default function PosOrders() {
                     holdArray?.map(
                       (order, key) => (
                         // date === order.date_added && (
-                        <tr class="border border-DarkGrey bg-dmenusep bg-opacity-40 ">
-                          <td class="whitespace-nowrap px-6 py-2 font-medium ">
+                        <tr className="border border-DarkGrey bg-dmenusep bg-opacity-40 ">
+                          <td className="whitespace-nowrap px-6 py-2 font-medium ">
                             hold
                           </td>
-                          <td class="whitespace-nowrap px-6 py-2 font-medium">
+                          <td className="whitespace-nowrap px-6 py-2 font-medium">
                             {order?.firstname + " "}{" "}
                             {order?.lastname !== "Local Customer" &&
                               order?.lastname}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-2 font-medium">
+                          <td className="whitespace-nowrap px-6 py-2 font-medium">
                             {order?.telephone}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             ${order.sub_total}
                           </td>
 
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             {order.modification &&
                               order.modification +
                                 "  (" +
@@ -828,15 +828,15 @@ export default function PosOrders() {
                                 ")"}
                           </td>
 
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             {order.coupon && "$" + order.coupon}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4">
                             ${order?.total || order?.order_total}
                           </td>
-                          <td class="whitespace-nowrap px-6 py-2 flex">
+                          <td className="whitespace-nowrap px-6 py-2 flex">
                             <button
-                              class="bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
+                              className="bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
                               onClick={() => detailsHoldShow(key)}
                             >
                               <FaEye />
@@ -845,7 +845,7 @@ export default function PosOrders() {
                             <button
                               href={"/posprinthold/" + key}
                               // target="_blank"
-                              class="ml-2 bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
+                              className="ml-2 bg-transparent hover:bg-dblue text-blue-700 font-semibold hover:text-white py-3 px-3 border border-blue-500 hover:border-transparent rounded-full"
                               onClick={() => handlePrintHolder(key)}
                             >
                               <AiOutlinePrinter />

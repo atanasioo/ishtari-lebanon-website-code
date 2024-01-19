@@ -69,25 +69,25 @@ function Syncdata() {
   return (
     <div className="pr-5">
    
-      <table class="table border-collapse border w-full mt-5">
+      <table className="table border-collapse border w-full mt-5">
         <thead className=" text-left pr-bold bg-dlabelColor">
-          <tr class="border border-gray-400 p-2">
-            <th class="border border-gray-400 p-2">id</th>
-            <th class="border border-gray-400 p-2">name</th>
-            <th class="border border-gray-400 p-2">sku</th>
-            <th class="border border-gray-400 p-2">model</th>
-            <th class="border border-gray-400 p-2">qty</th>
+          <tr className="border border-gray-400 p-2">
+            <th className="border border-gray-400 p-2">id</th>
+            <th className="border border-gray-400 p-2">name</th>
+            <th className="border border-gray-400 p-2">sku</th>
+            <th className="border border-gray-400 p-2">model</th>
+            <th className="border border-gray-400 p-2">qty</th>
           </tr>
         </thead>
 
         <tbody>
           {currentPageData?.map((p, key) => (
             <tr>
-              <td class="border border-gray-400 p-2">{p.data.product_id}</td>
-              <td class="border border-gray-400 p-2">{p.data.name}</td>
-              <td class="border border-gray-400 p-2">{p.data.sku}</td>
-              <td class="border border-gray-400 p-2">{p.data.model}</td>
-              <td class="border border-gray-400 p-2">{p.data.quantity}</td>
+              <td className="border border-gray-400 p-2">{p.data.product_id}</td>
+              <td className="border border-gray-400 p-2">{p.data.name}</td>
+              <td className="border border-gray-400 p-2">{p.data.sku}</td>
+              <td className="border border-gray-400 p-2">{p.data.model}</td>
+              <td className="border border-gray-400 p-2">{p.data.quantity}</td>
             </tr>
           ))}
         </tbody>

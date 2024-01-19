@@ -142,55 +142,55 @@ export default function PosOrdersPrint() {
   return (
     <div className="">
       Date : {startDate }  {startDate != endDate && "- " +endDate}
-      <table class="min-w-full text-left  font-light stripe hover">
-        <thead class="border-b font-medium border-DarkGrey">
+      <table className="min-w-full text-left  font-light stripe hover">
+        <thead className="border-b font-medium border-DarkGrey">
           <tr>
-            <th scope="col" class="px-2 py-4  w-1/12">
+            <th scope="col" className="px-2 py-4  w-1/12">
               OrderID
             </th>
-            <th scope="col" class="px-2 py-4 w-2/12">
+            <th scope="col" className="px-2 py-4 w-2/12">
               customer name
             </th>
-            <th scope="col" class="px-2 py-4  w-1/12">
+            <th scope="col" className="px-2 py-4  w-1/12">
               telephone
             </th>
-            <th scope="col" class="px-2 py-4">
+            <th scope="col" className="px-2 py-4">
               sub total
             </th>
-            <th scope="col" class="px-2 py-4">
+            <th scope="col" className="px-2 py-4">
               discount
             </th>
-            <th scope="col" class="px-2 py-4 w-1/12">
+            <th scope="col" className="px-2 py-4 w-1/12">
               total
             </th>
           </tr>
         </thead>
         <tbody>
           {orders?.map((order) => (
-            <tr class="border border-DarkGrey ">
-              <td class="whitespace-nowrap px-2 py-2 font-medium">
+            <tr className="border border-DarkGrey ">
+              <td className="whitespace-nowrap px-2 py-2 font-medium">
                 {order?.id}
               </td>
-              <td class="whitespace-nowrap px-2 py-2 font-medium">
+              <td className="whitespace-nowrap px-2 py-2 font-medium">
                 {order?.data.social_data.firstname + " "}{" "}
                 {order?.data.social_data.lastname !== "Local Customer" && order?.data.social_data.lastname}
               </td>
-              <td class="whitespace-nowrap px-2 py-2 font-medium">
+              <td className="whitespace-nowrap px-2 py-2 font-medium">
                 {order?.data.social_data?.telephone}
               </td>
-              <td class="whitespace-nowrap px-2 py-4">
+              <td className="whitespace-nowrap px-2 py-4">
                 {order?.data.order_total?.map(
                   (item) => item?.code === "sub_total" && item?.text
                 )}
               </td>
 
-              <td class="whitespace-nowrap px-2 py-4 ">
+              <td className="whitespace-nowrap px-2 py-4 ">
                 {order?.data?.order_total?.map(
                   (item) => item?.code !== "sub_total"  &&  item?.code !== "total" &&  item?.code !== "shipping" && item?.code + ": "+ item?.text
                 )}
               </td>
 
-              <td class="whitespace-nowrap px-2 py-4">
+              <td className="whitespace-nowrap px-2 py-4">
                 {order?.data.order_total?.map(
                   (item) => item?.code === "total" && item?.text
                 )}
@@ -202,20 +202,20 @@ export default function PosOrdersPrint() {
             holds?.map(
               (order, key) => (
                 // date === order.date_added && (
-                <tr class="border border-DarkGrey bg-dmenusep bg-opacity-40 ">
-                  <td class="whitespace-nowrap px-2 py-2 font-medium ">hold</td>
-                  <td class="whitespace-nowrap px-2 py-2 font-medium">
+                <tr className="border border-DarkGrey bg-dmenusep bg-opacity-40 ">
+                  <td className="whitespace-nowrap px-2 py-2 font-medium ">hold</td>
+                  <td className="whitespace-nowrap px-2 py-2 font-medium">
                     {order?.firstname + " "}{" "}
                     {order?.lastname !== "Local Customer" && order?.lastname}
                   </td>
-                  <td class="whitespace-nowrap px-2 py-2 font-medium">
+                  <td className="whitespace-nowrap px-2 py-2 font-medium">
                     {order?.telephone}
                   </td>
-                  <td class="whitespace-nowrap px-2 py-4">
+                  <td className="whitespace-nowrap px-2 py-4">
                     ${order.sub_total}
                   </td>
 
-                  <td class="whitespace-nowrap px-2 py-4">
+                  <td className="whitespace-nowrap px-2 py-4">
                     {order.modification &&
                       order.modification +
                         "  (" +
@@ -225,10 +225,10 @@ export default function PosOrdersPrint() {
                         ")"}
                   </td>
 
-                  <td class="whitespace-nowrap px-2 py-4">
+                  <td className="whitespace-nowrap px-2 py-4">
                     {order.coupon && "$" + order.coupon}
                   </td>
-                  <td class="whitespace-nowrap px-2 py-4">
+                  <td className="whitespace-nowrap px-2 py-4">
                     ${order?.total || order?.order_total}
                   </td>
                 </tr>

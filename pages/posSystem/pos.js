@@ -1238,12 +1238,12 @@ function Pos() {
       {showCalculte && (
         <>
           <div className="absolute z-50 w-full min-h-screen bg-dblack opacity-20 -ml-3 pointer-events-none flex justify-center "></div>
-          <div class="absolute w-1/2  left-1/4 top-1/3  z-50">
-            <div class="pointer-events-none   translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
-              <div class="p-5 min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none ">
-                <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder ">
+          <div className="absolute w-1/2  left-1/4 top-1/3  z-50">
+            <div className="pointer-events-none   translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+              <div className="p-5 min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none ">
+                <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder ">
                   <h5
-                    class="text-xl font-medium leading-normal"
+                    className="text-xl font-medium leading-normal"
                     id="exampleModalLabel"
                   >
                     Complete Order
@@ -1255,7 +1255,7 @@ function Pos() {
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="h-6 w-6"
+                      className="h-6 w-6"
                     >
                       <path
                         stroke-linecap="round"
@@ -1266,7 +1266,7 @@ function Pos() {
                   </button>
                 </div>
 
-                <div class="relative flex-auto p-4">
+                <div className="relative flex-auto p-4">
                   <div>
                     <label className="w-1/2">rendered : </label>
                     <input
@@ -1276,7 +1276,7 @@ function Pos() {
                     />
                   </div>
                 </div>
-                <div class="relative flex-auto p-4">
+                <div className="relative flex-auto p-4">
                   <div>
                     <label className="w-1/2">Change : </label>
                     <span className="w-1/2 border ml-3 border-dinputBorder bg-dgreyRate p-2">
@@ -1285,15 +1285,15 @@ function Pos() {
                   </div>
                 </div>
 
-                <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
+                <div className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
                   <button
-                    class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border  text-dbase border-dbase text-gray-600 rounded-full hover:shadow-lg"
+                    className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border  text-dbase border-dbase text-gray-600 rounded-full hover:shadow-lg"
                     // onClick={() => setShowCalculate(false)}
                   >
                     Close
                   </button>
                   <button
-                    class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-dblue border-dblue rounded-full hover:shadow-lg ml-3"
+                    className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-dblue border-dblue rounded-full hover:shadow-lg ml-3"
                     onClick={() => confirmPos(true, false)}
                   >
                     Confirm Order
@@ -1307,18 +1307,18 @@ function Pos() {
       {showModel && (
         <>
           <div className="absolute z-10 w-full min-h-screen bg-dblack opacity-20 -ml-3 pointer-events-none flex justify-center "></div>
-          <div class="absolute w-1/2  left-1/4 top-5  z-40">
-            <div class="absolute top-0"></div>
-            <div class="w- p-5  mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+          <div className="absolute w-1/2  left-1/4 top-5  z-40">
+            <div className="absolute top-0"></div>
+            <div className="w- p-5  mx-auto my-auto rounded-xl shadow-lg  bg-white ">
               {/* <button
                 onClick={() => {
                   setShowModel(false);
                 }}
-                class=" absolute z-60  -top-2.5 -right-2.5 mb-2 md:mb-0 bg-white w-7 h-7 text-sm shadow-sm font-xl tracking-wider  text-gray-600  hover:shadow-lg rounded-full"
+                className=" absolute z-60  -top-2.5 -right-2.5 mb-2 md:mb-0 bg-white w-7 h-7 text-sm shadow-sm font-xl tracking-wider  text-gray-600  hover:shadow-lg rounded-full"
               >
                X
               </button> */}
-              <div class="">
+              <div className="">
                 <div className="pr-semibold  text-xl w-full">
                   {" "}
                   Customer Info
@@ -1482,12 +1482,12 @@ function Pos() {
                   <div className="text-l w-1/4"> Change: </div>{" "}
                   <div className="  text-xl">${total}</div>
                 </div> */}
-                <div class="p-3  mt-2 text-center space-x-4 md:block">
+                <div className="p-3  mt-2 text-center space-x-4 md:block">
                   <button
                     onClick={() => {
                       setShowModel(false);
                     }}
-                    class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg"
+                    className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg"
                   >
                     Cancel
                   </button>
@@ -1495,7 +1495,7 @@ function Pos() {
                     onClick={() => {
                       confirmPos(false, true);
                     }}
-                    class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-dhotPink rounded-full hover:shadow-lg hover:bg-red-600"
+                    className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-dhotPink rounded-full hover:shadow-lg hover:bg-red-600"
                   >
                     Save
                   </button>

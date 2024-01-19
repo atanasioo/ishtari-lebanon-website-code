@@ -396,12 +396,12 @@ setLoading(false)
                     item?.check_if_has_options === true) && (
                     <>
                       {loading === item.product_id ? (
-                        <div class="relative   z-30 flex items-center justify-center mr-2">
-                          <div class="animate-ping h-1 w-1.5 bg-dblue rounded-full absolute"></div>
-                          <div class="animate-ping h-1.5 w-2 bg-dblue2 rounded-full absolute opacity-50 "></div>
-                          <div class="animate-ping h-2 w-2.5 bg-dblue1 rounded-full absolute  "></div>
-                          <div class="animate-ping  h-2.5 w-3 bg-dblue2 rounded-full absolute"></div>
-                          <div class="animate-ping  h-3.5 w-5 bg-dblue rounded-full absolute"></div>
+                        <div className="relative   z-30 flex items-center justify-center mr-2">
+                          <div className="animate-ping h-1 w-1.5 bg-dblue rounded-full absolute"></div>
+                          <div className="animate-ping h-1.5 w-2 bg-dblue2 rounded-full absolute opacity-50 "></div>
+                          <div className="animate-ping h-2 w-2.5 bg-dblue1 rounded-full absolute  "></div>
+                          <div className="animate-ping  h-2.5 w-3 bg-dblue2 rounded-full absolute"></div>
+                          <div className="animate-ping  h-3.5 w-5 bg-dblue rounded-full absolute"></div>
 
                         </div>
                       ) : (

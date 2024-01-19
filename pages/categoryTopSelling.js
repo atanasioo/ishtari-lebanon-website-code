@@ -13,7 +13,19 @@ function categoryTopSelling() {
   const { category_id } = router.query;
 
 
+  
+useEffect(()=>{
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+
+},[router])
+
   useEffect(()=>{
+
+
+ 
 
 if(typeof category_id !== 'undefined')
     axiosServer.get(buildLink("getAllTopSellingbyCategoryid", undefined, undefined, window.location.host) +

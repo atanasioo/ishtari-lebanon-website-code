@@ -317,7 +317,7 @@ function TopSearch() {
                         }}
                       >
                         <span className="flex w-full align-middle items-center   h-auto my-2 px-1 ">
-                          <span class="w-12 ">
+                          <span className="w-12 ">
                             {img.length > 0 ? (
                               <img
                                 onError={(event) => (event.target.src = "/images/product_placeholder_square.png")}

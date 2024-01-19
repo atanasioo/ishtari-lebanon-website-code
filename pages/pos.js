@@ -843,12 +843,12 @@ export default function Pos() {
       {stateAccount.admin && (
         <div className="overflow-hidden">
           {showCalculte && (
-            <div class="fixed left-0 top-0 z-[1055]  h-full w-full overflow-y-auto overflow-x-hidden outline-none">
-              <div class="pointer-events-none relative w-1/4 top-1/3 left-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
-                <div class="p-5 min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none ">
-                  <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder ">
+            <div className="fixed left-0 top-0 z-[1055]  h-full w-full overflow-y-auto overflow-x-hidden outline-none">
+              <div className="pointer-events-none relative w-1/4 top-1/3 left-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+                <div className="p-5 min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none ">
+                  <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder ">
                     <h5
-                      class="text-xl font-medium leading-normal"
+                      className="text-xl font-medium leading-normal"
                       id="exampleModalLabel"
                     >
                       Complete Order
@@ -860,7 +860,7 @@ export default function Pos() {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="h-6 w-6"
+                        className="h-6 w-6"
                       >
                         <path
                           stroke-linecap="round"
@@ -871,7 +871,7 @@ export default function Pos() {
                     </button>
                   </div>
 
-                  <div class="relative flex-auto p-4">
+                  <div className="relative flex-auto p-4">
                     <div>
                       <label className="w-1/2">rendered : </label>
                       <input
@@ -881,7 +881,7 @@ export default function Pos() {
                       />
                     </div>
                   </div>
-                  <div class="relative flex-auto p-4">
+                  <div className="relative flex-auto p-4">
                     <div>
                       <label className="w-1/2">Change : </label>
                       <span className="w-1/2 border ml-3 border-dinputBorder bg-dgreyRate p-2">
@@ -890,7 +890,7 @@ export default function Pos() {
                     </div>
                   </div>
 
-                  <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
+                  <div className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
                     <button
                       className="bg-dgreyRate p-2  rounded ml-3"
                       onClick={() => setShowCalculate(false)}
@@ -910,12 +910,12 @@ export default function Pos() {
           )}
 
           {showSearch && (
-            <div class="fixed left-0 top-0 z-50  h-full w-full overflow-y-auto overflow-x-hidden outline-none">
-              <div class="pointer-events-none relative w-1/3 top-1/3 left-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
-                <div class="p-5 min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none ">
-                  <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder ">
+            <div className="fixed left-0 top-0 z-50  h-full w-full overflow-y-auto overflow-x-hidden outline-none">
+              <div className="pointer-events-none relative w-1/3 top-1/3 left-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+                <div className="p-5 min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none ">
+                  <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder ">
                     <h5
-                      class="text-xl font-medium leading-normal"
+                      className="text-xl font-medium leading-normal"
                       id="exampleModalLabel"
                     >
                       Search
@@ -927,7 +927,7 @@ export default function Pos() {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="h-6 w-6"
+                        className="h-6 w-6"
                       >
                         <path
                           stroke-linecap="round"
@@ -938,7 +938,7 @@ export default function Pos() {
                     </button>
                   </div>
 
-                  <div class="relative flex-auto p-4">
+                  <div className="relative flex-auto p-4">
                     <div vlassname="flex">
                       <label className="w-1/4">Search : </label>
                       <input
@@ -985,7 +985,7 @@ export default function Pos() {
                         )}
                     </div>
                   )}
-                  <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
+                  <div className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-dinputBorder pt-3">
                     <button
                       className="bg-dgreyRate p-2  rounded ml-3"
                       onClick={() => setShowSearch(false)}

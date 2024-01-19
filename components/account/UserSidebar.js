@@ -8,7 +8,7 @@ import {
 } from "react-icons/bs";
 import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import Link from "next/link";
-import { FaMoneyBillWave, FaUserAlt, FaWallet,FaTicketAlt } from "react-icons/fa";
+import { FaMoneyBillWave, FaUserAlt, FaWallet,FaTicketAlt, FaCheckCircle } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 import { BiStar } from "react-icons/bi";
 import { HiLightBulb } from "react-icons/hi";
@@ -117,7 +117,30 @@ function UserSidebar(props) {
               </div>
           </Link>
         </li>
-
+        <li
+      className="group"
+        >
+          <Link
+            href={`${path}/account/checkin`}
+            className="pl-9 flex  items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
+          >
+            <div className="w-2/12">
+              <FaCheckCircle className="text-d16 text-dbase" />
+            </div>
+            <div
+              className={`flex-1 w-4/12 ${
+                props.active === "checkin" && "font-semibold underline"
+              } ${props.active === "checkin" ? "text-dgreyAccountActive" : ""} `}
+            >
+              Check In
+            </div>
+            
+          
+            <div className="w-2/12 group-hover:block hidden">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
+          </Link>
+        </li>
 
         <li
        className="group"
