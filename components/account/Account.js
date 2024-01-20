@@ -208,8 +208,13 @@ setListAccCach(JSON.parse(listAcc));
     setMessage(false);
     setEmailSent(false)
     dispatch({ type: "setShowOver", payload: true });
-                    dispatch({ type: "setShowListAcc", payload: true });
-                    dispatch({ type: "setShowLogin", payload: false });
+    if(listAccCach == []){
+      dispatch({ type: "setShowLogin", payload: true });
+    }else{
+      dispatch({ type: "setShowListAcc", payload: true });
+    }
+                  
+                   
                     dispatch({ type: "setShowSignup", payload: false });
                     dispatch({ type: "setShowForgetPassword", payload: false });
                     dispatch({ type: "setShowEmailSent", payload: false });
