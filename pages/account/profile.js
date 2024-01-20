@@ -198,7 +198,7 @@ function profile() {
     }, 3000);
 
     return (
-      <div className="relative">
+      <div className="relative z-50">
         <div className="fixed top-14 right-0 bg-dgreenop px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center  w-3/4 xl:w-2/4">
           <svg
             viewBox="0 0 24 24"
@@ -223,7 +223,7 @@ function profile() {
       setAlert(false);
     }, 3000);
     return (
-      <div className="relative">
+      <div className="relative z-50">
         <div className="bg-red-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center  w-3/4 xl:w-2/4">
           <svg
             viewBox="0 0 24 24"

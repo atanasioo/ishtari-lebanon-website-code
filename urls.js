@@ -156,6 +156,7 @@ var urls = {
     'follow': "v2/index.php?route=account/account/follow",
     'cancelOrder': "v2/index.php?route=account/order/canceledOrder&order_id=",
     checkin: "v2/index.php?route=account/points/checkin",
+    reorder: "v2/index.php?route=account/order/bulk_add_to_cart",
 };
 
 if (typeof window !== "undefined") {
