@@ -143,7 +143,7 @@ var urls = {
   pos: "v2/index.php?route=checkout/cart/addToCartPos",
   getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
   searchProduct: "v2/index.php?route=stockapi/product&item=",
-  memberShip: "v2/index.php?route=account/account/getPointData",
+  memberShip: "v2/index.php?route=account/points/getPointData",
   "seo-category":
     "v2/index.php?route=catalog/category/getCategoryDescription&category_id=",
   "seo-manufacturer":
@@ -154,7 +154,8 @@ var urls = {
     "v2/index.php?route=catalog/product/getProductDescription&product_id=",
     purchased: "v2/index.php?route=catalog/product/getPurchasedProducts",
     'follow': "v2/index.php?route=account/account/follow",
-    'cancelOrder': "v2/index.php?route=account/order/canceledOrder&order_id="
+    'cancelOrder': "v2/index.php?route=account/order/canceledOrder&order_id=",
+    checkin: "v2/index.php?route=account/points/checkin",
 };
 
 if (typeof window !== "undefined") {

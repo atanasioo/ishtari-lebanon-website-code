@@ -18,8 +18,10 @@ import {
 import { MdAvTimer, MdFeedback } from "react-icons/md";
 import {
   FaCheckCircle,
+  FaFacebookF,
   FaMoneyBillWave,
   FaTicketAlt,
+  FaUser,
   FaUserAlt,
   FaWallet,
 } from "react-icons/fa";
@@ -44,13 +46,14 @@ function Account() {
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
   const dontshowcouponcheck = useRef(null);
-  
+  const saveAcc = useRef(null);
   const loginEmail = useRef("");
   const loginPassword = useRef("");
   const signupEmail = useRef("");
   const signupPassword = useRef("");
   const signupFirst = useRef("");
   const signupLast = useRef("");
+  const [listAccCach,setListAccCach]= useState([]);
   // const birthDate = useRef("");
   const path = "";
   const router = useRouter();
@@ -150,6 +153,20 @@ if(state.hasSignedUp){
     }
   }, [session]);
 
+
+
+
+  useEffect(()=>{
+
+const listAcc = Cookies.get("listAcc");
+setListAccCach(JSON.parse(listAcc));
+
+
+
+  },[])
+
+
+
   async function handleFacebookLogin(e) {
     e.preventDefault();
     const result = await signIn("facebook");
@@ -191,7 +208,8 @@ if(state.hasSignedUp){
     setMessage(false);
     setEmailSent(false)
     dispatch({ type: "setShowOver", payload: true });
-                    dispatch({ type: "setShowLogin", payload: true });
+                    dispatch({ type: "setShowListAcc", payload: true });
+                    dispatch({ type: "setShowLogin", payload: false });
                     dispatch({ type: "setShowSignup", payload: false });
                     dispatch({ type: "setShowForgetPassword", payload: false });
                     dispatch({ type: "setShowEmailSent", payload: false });
@@ -207,7 +225,6 @@ e.preventDefault();
     dispatch({ type: "setShowLogin", payload: true })
     dispatch({ type: "setShowForgetPassword", payload: false })
   }
-
 
 
 
@@ -278,6 +295,25 @@ e.preventDefault();
     }
   }
 
+
+
+
+  async function loginCach(user,pass){
+    dispatch({ type: "setLoading", payload: true });
+    const response = await signIn("login", {
+      email:user,
+      password: pass,
+      redirect: false
+    });
+
+    if (response.status === 200) {
+      checkLogin('login');
+    } else {
+      setShowLoginError(true);
+      setLoginError(response.error);
+    }
+  }
+
   // Check login
   function checkLogin(type) {
     
@@ -308,6 +344,36 @@ e.preventDefault();
 
         dispatch({ type: "setShowOver", payload: false });
         if (data.customer_id > 0) {
+
+
+if( saveAcc.current && type == 'login'&& saveAcc.current.checked){
+
+  const objAcc ={
+    email:data.email,
+    password:loginPassword.current.value
+  }
+  // Cookies.remove("listAcc")
+  var listAccount = Cookies.get("listAcc");
+  if(listAccount == undefined || listAccCach == null){
+    const newlist = [objAcc]
+    const decodelist = JSON.stringify(newlist)
+    Cookies.set("listAcc",decodelist)
+  }else{
+
+      let cachAcc = JSON.parse(listAccount);
+      const isEmailInArray = cachAcc.some(user => objAcc.email === user.email);
+      console.log(isEmailInArray)
+      if(!isEmailInArray){
+        cachAcc.push(objAcc);
+const decodeList = JSON.stringify(cachAcc)
+        Cookies.set("listAcc", decodeList)
+      }
+    
+  }
+
+}
+
+
           dispatch({ type: "setViewMobileMenu", payload: false })
           dispatch({ type: "setLoged", payload: true });
           dispatch({ type: "setUsername", payload: data.username });
@@ -499,8 +565,8 @@ return;
 
   return (
     <div className="relative">
-      {state.showOver && (
-        <div className="fixed w-screen min-h-screen bg-dblack top-0 left-0 z-50 bg-opacity-50 flex flex-col items-center justify-center">
+    { state.showOver&& <div onClick={()=> dispatch({ type: "setShowOver", payload: true })} className="fixed transition-all duration-100 w-screen min-h-screen bg-dblack top-0 left-0 z-50  bg-opacity-50 flex flex-col items-center justify-center"></div>}
+        <div className={`fixed ${state.showOver?" scale-100":"scale-0"} transition-all  duration-300 w-screen min-h-screen bg-transparent top-0 left-0 z-50 bg-opacity-50 flex flex-col items-center justify-center`}>
           {state.showLogin && (
             <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
               <span
@@ -530,13 +596,13 @@ return;
               {showLoginError && (
                 <span
                   onClick={() => setShowLoginError(false)}
-                  className="cursor-pointer z-10 absolute top-10  right-0 bg-dblack w-full text-white py-2"
+                  className="cursor-pointer z-10 absolute top-10  right-0 w-full text-dbase py-2"
                 >
                   {loginError}
                 </span>
               )}
               <p
-                className={`text-2xl font-light  ${
+                className={`text-2xl font-semibold  ${
                   showLoginError ? "mt-24" : "mt-6"
                 }`}
               >
@@ -556,20 +622,25 @@ return;
                   Sign Up
                 </span>
               </div>
-              <form onSubmit={(e) => login(e)}>
+         
+            
+            <form onSubmit={(e) => login(e)}>
                 <div className="my-4">
-                  <div className="input">
-                    <label>Email</label>
+                <div className=" group flex flex-col   justify-start text-left mt-4">
+                    <label className="text-sm font-light text-dlabelColor">Email</label>
                     <input
+                    className="border rounded-md border-dlabelColor outline-none px-3 py-1 group group-hover:border-dblackk focus:border-dblackk "
                       ref={loginEmail}
                       type="email"
                       required={true}
+                      autoload="true"
                       autoComplete="email"
                     />
                   </div>
-                  <div className="input mt-4">
-                    <label>Password</label>
+                  <div className=" group flex  flex-col   justify-start text-left mt-4">
+                    <label className="text-sm font-light text-dlabelColor">Password</label>
                     <input
+                    className="border  rounded-md border-dlabelColor outline-none px-3 py-1 group group-hover:border-dblackk focus:border-dblackk "
                       ref={loginPassword}
                       type="password"
                       required={true}
@@ -578,48 +649,48 @@ return;
                       minLength="6"
                     />
                   </div>
-                </div>
-                <p
+      <div className="   mt-4 w-full flex flex-row justify-between ">
+
+                  <div className="  flex justify-start gap-5 text-start ">
+       <input ref={saveAcc} id="rememberme"  type="checkbox"/>
+        <label
+          className="text-dlabelColor text-sm font-thin"
+          htmlFor="rememberme">
+          Remember me 
+        </label>
+      </div>
+
+
+
+
+      <p
                   onClick={() => {
                     dispatch({ type: "setShowOver", payload: true });
                     dispatch({ type: "setShowForgetPassword", payload: true });
                     dispatch({ type: "setShowLogin", payload: false });
                   }}
-                  className="text-dblue text-sm cursor-pointer py-1"
+                  className="text-dblue font-light   text-xs cursor-pointer  h-fit my-auto"
                 >
                   Forgot your password?
                 </p>
+      </div>
 
-                <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
+
+
+
+
+                </div>
+               
+
+                <button className="text-white rounded-md bg-dblue w-full transition-all py-2 hover:bg-dblue2  ">
                   {loginLoading ? <span>LOADING</span> : <span>SIGN IN</span>}
                 </button>
-                <p className="pb-2 text-dgrey1">- OR -</p>
-                {/* <FacebookLogin
-              appId={
-                .config["appId"]}
-              fields="name,email"
-              scope="public_profile,email"
-              isMobile={false}
-              redirectUri={window.location.href}
-              callback={responseFacebook}
-              render={(renderProps) => (
-                <p
-                  onClick={() => renderProps.onClick()}
-                  className="py-4 text-dblue cursor-pointer hover:text-dbluedark"
-                >
-                  <i className="icon icon-facebook mr-2"></i>
-                  <span>Login With Facebook</span>
-                </p>
-              )}
-            /> */}
+                
+               
               </form>
-              {/* <form onClick={(e) => handleFacebookLogin(e)}>
-                <button className="flex text-dblue  text-center -mx-8 w-96 hover:text-opacity-80 pointer-events-auto justify-center align-middle al">
-                  <FaFacebookF className="mr-2 mt-0.5" /> Login With Facebook
-                </button>
 
-
-              </form> */}
+                
+              <p className="py-2 text-dgrey1">- OR -</p>
 
               <FacebookLogin
                 appId={window.config['appId']}
@@ -638,17 +709,154 @@ return;
                 //  redirectUri={window.location.href}
                 // callback={responseFacebook}
                 render={(renderProps) => (
-                  <p
+                  <button
                     onClick={() => renderProps.onClick()}
-                    className="py-4 text-dblue cursor-pointer hover:text-dbluedark"
+                    className=" border flex flex-row justify-center rounded-md border-dplaceHolder bg-dplaceHolder gap-4 transition-all  w-full py-2 "
                   >
-                    <i className="icon icon-facebook mr-2"></i>
-                    <span>Login With Facebook</span>
-                  </p>
+                    <div className=" h-fit my-auto rounded-full p-1  bg-dbluedark text-white"> 
+                    <FaFacebookF/>
+                    </div>
+                    <span className=" h-fit my-auto" >Login With Facebook</span>
+                  </button>
                 )}
               />
+
+{/* <div className=" flex flex-row gap-2 my-4 h-fit  w-full">
+
+<div className=" relative  w-24 flex flex-col   h-fit justify-center">
+ <div className=" bg-dplaceHolder w-fit mx-auto rounded-full p-1"> <FaUserAlt/></div>
+ <div><span className=" max-w-24 overflow-hidden w-fit text-ellipsis">Kwayderr@gmail.com</span></div>
+</div>
+
+
+</div> */}
             </div>
           )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{state.showListAcc && (
+            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
+              <span
+                onClick={
+                 handleCloseAuthForm
+                }
+                className=" z-10 absolute top-0 text-2xl right-0 w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-dgrey"
+              >
+                <IoMdClose />
+              </span>
+              {message && (
+                <span
+                  onClick={() => setMessage()}
+                  className="cursor-pointer text-sm z-10 absolute top-0 right-0 bg-dgreen w-full text-white py-2"
+                >
+                  {message}
+                </span>
+              )}
+              {err && (
+                <span
+                  onClick={() => setErr()}
+                  className="cursor-pointer z-10 absolute top-0 right-0 bg-dbase w-full text-white py-2"
+                >
+                  {err}
+                </span>
+              )}
+              {showLoginError && (
+                <span
+                  onClick={() => setShowLoginError(false)}
+                  className="cursor-pointer z-10 absolute top-10  right-0 w-full text-dbase py-2"
+                >
+                  {loginError}
+                </span>
+              )}
+              <p
+                className={`text-2xl font-semibold  ${
+                  showLoginError ? "mt-24" : "mt-6"
+                }`}
+              >
+                Welcome back!
+              </p>
+              <p className="text-2xl font-semibold">Choose account to sign in</p>
+              
+            {listAccCach&&<> 
+            <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
+              {listAccCach.map((account)=><div onClick={()=>{loginCach(account.email,account.password)}} className=" cursor-pointer hover:bg-dlabelColor flex flex-row gap-3 hover:text-white px-3 py-2 rounded-md bg-dplaceHolder ">
+                <div className=" h-fit my-auto" ><FaUser/></div>
+                 <span>{account.email}</span></div>)}
+            </div>
+            
+            </>}
+            <button   onClick={() => {
+                    dispatch({ type: "setShowOver", payload: true });
+                    dispatch({ type: "setShowListAcc", payload: false });
+                    dispatch({ type: "setShowLogin", payload: true });
+                    dispatch({ type: "setShowSignup", payload: false });
+                  }} className="hover:text-white  border border-dblack rounded-md text-dblack w-full transition-all py-2 hover:bg-dblue2  ">
+                   <span>Add Account</span>
+                </button>
+              <p className="py-2 text-dgrey1">- OR -</p>
+
+              <FacebookLogin
+                appId={window.config['appId']}
+                fields="name,email"
+                scope="public_profile,email"
+                isMobile={false}
+                onSuccess={(response) => {
+                  setStateLogin(response);
+                }}
+                onFail={(error) => {
+                  // console.log("Login Failed!", error);
+                }}
+                onProfileSuccess={(response) => {
+                  setStateLoginResult(response);
+                }}
+                //  redirectUri={window.location.href}
+                // callback={responseFacebook}
+                render={(renderProps) => (
+                  <button
+                    onClick={() => renderProps.onClick()}
+                    className=" border flex flex-row justify-center rounded-md border-dplaceHolder bg-dplaceHolder gap-4 transition-all  w-full py-2 "
+                  >
+                    <div className=" h-fit my-auto rounded-full p-1  bg-dbluedark text-white"> 
+                    <FaFacebookF/>
+                    </div>
+                    <span className=" h-fit my-auto" >Login With Facebook</span>
+                  </button>
+                )}
+              />
+
+
+            </div>
+          )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           {state.showSignup && (
             <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
               <span
@@ -696,41 +904,49 @@ return;
                 
                 >
                 <div className="my-4">
-                  <div className="input">
-                    <label>Email</label>
+                <div className=" group flex  flex-col   justify-start text-left mt-4">
+                    <label className="text-sm font-light text-dlabelColor">Email</label>
                     <input
+                    className="border  rounded-md border-dlabelColor outline-none px-3 py-1 group group-hover:border-dblackk focus:border-dblackk "
                       ref={signupEmail}
                       type="email"
                       required={true}
+                      autoload="true"
                       autoComplete="email"
                     />
                   </div>
-                  <div className="input my-4">
-                    <label>Password</label>
+                  <div className=" group flex  flex-col   justify-start text-left mt-4">
+                    <label className="text-sm font-light text-dlabelColor">Password</label>
                     <input
+                    className="border  rounded-md border-dlabelColor outline-none px-3 py-1 group group-hover:border-dblackk focus:border-dblackk "
                       ref={signupPassword}
                       type="password"
                       required={true}
+                      autoload="true"
                       autoComplete="password"
                       minLength="6"
                     />
                   </div>
-                  <div className="input my-4">
-                    <label>First name</label>
+                  <div className=" group flex  flex-col   justify-start text-left mt-4">
+                    <label className="text-sm font-light text-dlabelColor">First Name</label>
                     <input
+                    className="border  rounded-md border-dlabelColor outline-none px-3 py-1 group group-hover:border-dblackk focus:border-dblackk "
                       ref={signupFirst}
                       type="text"
                       required={true}
+                      autoload="true"
                       autoComplete="firstname"
                       minLength="2"
                     />
                   </div>
-                  <div className="input my-4">
-                    <label>Last name</label>
+                  <div className=" group flex  flex-col   justify-start text-left mt-4">
+                    <label className="text-sm font-light text-dlabelColor">Last Name</label>
                     <input
+                    className="border  rounded-md border-dlabelColor outline-none px-3 py-1 group group-hover:border-dblackk focus:border-dblackk "
                       ref={signupLast}
                       type="text"
                       required={true}
+                      autoload="true"
                       autoComplete="lastname"
                       minLength="2"
                     />
@@ -747,7 +963,7 @@ return;
                   </div> */}
                 </div>
 
-                <button className="text-dblue py-4 border-t border-dinputBorder block text-center -mx-8 w-96 mt-6 hover:bg-dblue hover:text-white">
+                <button className="text-white rounded-md mb-4 bg-dblue w-full transition-all py-2 hover:bg-dblue2 ">
                   {signupLoading ? (
                     <span>LOADING</span>
                   ) : (
@@ -839,8 +1055,9 @@ We'll send you a new password.
               </form>
             </div>
           )}
+       
         </div>
-      )}
+      
       <div className="hidden xl:block lg:block ">
         {/* {state.loading && (
           <div

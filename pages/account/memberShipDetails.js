@@ -23,9 +23,9 @@ export default function MenmberShip() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!state.loading && !state.loged) {
-      router.push("/");
-    } else if (state.loged) {
+    // if (!state.loged) {
+    //   router.push("/");
+    // } else if (state.loged) {
       axiosServer
         .get(buildLink("memberShip") + "&page=" + page + "&limit=" + limit)
         .then((resp) => {
@@ -38,7 +38,7 @@ export default function MenmberShip() {
           }
           setLoading(false);
         });
-    }
+    // }
   }, [page, state.loged]);
 
   function goTo() {

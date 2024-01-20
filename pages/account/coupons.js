@@ -65,19 +65,19 @@ function Coupon() {
     setButtonActive(event.target.id);
   }
 
-
+  const { customer_id, code, date } = router.query;
 
   useEffect(() => {
-    const { customer_id, code, date } = router.query;
-  
-    if (!state.loading && !state.loged) {
-if(code == null || code == undefined){
-  router.push("/");
 
-}else{
+    if (!state.loading && !state.loged) {
+
+      if(code == null || code == undefined){
+        router.push("/");
+      
+      }else{
   dispatch({type:"setShowOver",payload:true});
   dispatch({type:"setShowLogin",payload:true});
-}
+      }
     } else if (state.loged) {
     axiosServer
     .post(buildLink("redeemCoupon", undefined, undefined, undefined) 
@@ -87,7 +87,9 @@ if(code == null || code == undefined){
     });
        getCoupons();
     }
-  }, [state.loading]);
+  }, [state.loading,code]);
+
+  
 const getCoupons =()=>{
   axiosServer
   .get(buildLink("coupons", undefined, window.innerWidth))

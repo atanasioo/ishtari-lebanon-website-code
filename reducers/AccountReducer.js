@@ -136,6 +136,11 @@ export const AccountReducer = (state, action) => {
                 ...state,
                 viewMobileMenu: action.payload
               };
+              case "setShowListAcc":
+              return {
+                ...state,
+                showListAcc: action.payload
+              };
     default:
       return state;
   }
@@ -143,6 +148,7 @@ export const AccountReducer = (state, action) => {
 export const initialState = {
   viewMobileMenu:false,
   loged: false,
+  showListAcc:false,
   // loading: false,
   showForgetPassword:false,
   setShowEmailSent:false,

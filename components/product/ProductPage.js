@@ -1959,7 +1959,7 @@ function ProductPage(props) {
                       </div>
                     )}
                     {/* PDS */}
-                    {/* { data?.pds &&
+                    {/* { data?.pds && 
                       data.pds.length > 0 &&
                       data["series_options"].length < 1 && (
                         <div className="my-2 md:my-4">
@@ -1969,7 +1969,7 @@ function ProductPage(props) {
                           <div className=" overflow-x-auto">
                             <div className="flex flex-wrap">
                               {data.pds.map((product) => (
-                                <Link
+                               product.is_primary&& <Link
                                   key={product.product_id}
                                   href={`/product/` + product.product_id}
                                   className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md ${
@@ -2447,30 +2447,37 @@ function ProductPage(props) {
                                 
                               <div className=" h-fit w-full  py-2 px-3  " >
                                 <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  
-                                     <div className=" flex flex-wrap bg-dgrey px-3 py-3 w-fit   gap-2">
+                                     <div className=" flex flex-wrap px-3 py-3 w-fit   gap-2">
                                       {serie.products && serie.products.map((product)=>(
+                                      
                                            <Link
                                            key={product.product_id}
                                            href={`/product/` + product.product_id}
-                                           className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md ${
+                                           className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
                                                : "border-dgrey"
                                            }`}
                                          >
+                                            <div className=" flex flex-col justify-center text-center gap-2 px-1 py-1">
 
                                      
                                               <Image
                                               title={product.type}
                                     src={product.image}
                                     alt={product.product_name}
-                                    className="w-full"
+                                    className="w-full rounded-md"
                                     width={100}
                                     height={100}
-                                  />
-                                
+                                  /> 
+                                  <div className=" text-sm text-dblack">{product.type}</div>
+                                  <div className=" text-dbase">{product.special}</div>
+                                  <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
 
+                                
+                                </div>
                                             </Link>
+
                                      
                                       ))}
                                      </div>

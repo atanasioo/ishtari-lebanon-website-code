@@ -51,14 +51,18 @@ function Layout({
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
-      
-      if(scrollTop> prevScroll){
-      //  console.log(`prev${prevScroll}`);
-        setisShowHeader(false)
-      }else{
+      if(scrollTop<200){
         setisShowHeader(true)
+      }else{
+        if(scrollTop> prevScroll){
+          //  console.log(`prev${prevScroll}`);
+            setisShowHeader(false)
+          }else{
+            setisShowHeader(true)
+          }
+        prevScroll = scrollTop
       }
-    prevScroll = scrollTop
+     
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
