@@ -158,7 +158,7 @@ if(state.hasSignedUp){
 
   useEffect(()=>{
 
-const listAcc = Cookies.get("listAcc");
+const listAcc = Cookies.get("listAcc")=="undefined"?"[]":Cookies.get("listAcc");
 setListAccCach(JSON.parse(listAcc));
 
 
