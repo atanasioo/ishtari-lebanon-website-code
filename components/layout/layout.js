@@ -30,8 +30,7 @@ function Layout({
           setHeaderColor("white")
          } else {
          const headerCollocal = localStorage.getItem("headerCol");
-        //  console.log("____________________");
-        //  console.log(headerCollocal)
+       
          if(headerCollocal == null || headerCollocal == ''|| headerCollocal ==  undefined){
           setHeaderColor("white")
          }else{
@@ -45,6 +44,7 @@ function Layout({
       // Clean up the event listener when the component is unmounted
       window.removeEventListener('scroll', handleScroll);
     };
+  
   }, [router.asPath]);
 
 

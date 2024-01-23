@@ -17,6 +17,8 @@ import { getServerSession } from "next-auth";
 import { AiOutlineShopping } from "react-icons/ai";
 import { slugify } from "@/components/Utils";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { FaShare, FaShareAltSquare, FaWindowClose } from "react-icons/fa";
+import ShareCart from "@/components/cart/shareCart";
 
 function Cart() {
   const [loading, setLoading] = useState(true);
@@ -27,6 +29,7 @@ function Cart() {
   // console.log(data)
   const [error, setError] = useState(false);
   const [selectProduct, setSelectProduct] = useState([]);
+  const [showShare,setShowShare]= useState(false);
 
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
   const [opacity, setOpacity] = useState(false);
@@ -175,6 +178,12 @@ function Cart() {
           setOpacity(false);
         });
     }
+  }
+
+
+
+  function closeShare (){
+    setShowShare(false)
   }
 
   function handleChangeQuantity(e, key, i) {
@@ -459,6 +468,7 @@ function Cart() {
 
   return (
     <div className="min-h-screen">
+
       <div className="container pb-8" style={{}}>
         {/* Seo */}
 
@@ -486,6 +496,9 @@ function Cart() {
                   ({state.productsCount}{" "}
                   {state?.productsCount > 1 ? "items" : "item"})
                 </h1>
+                <button className=" ml-5 text-lg rounded-md" onClick={()=>setShowShare(true)}>
+                     <FaShareAltSquare/>
+                    </button>
               </div>
               {maxQtyErr !== 0 && (
                 <div className="pt-3 pb-1 text-dbase">
@@ -524,9 +537,10 @@ function Cart() {
                         Select
                       </button>
                     )}
+                   
                   </div>
 
-                  {state.products.map((product, i) => (
+                  { state.products.map((product, i) => (
                     <div key={product.cart_id}>
                       {/* Desktop Design */}
                       <div
@@ -925,6 +939,32 @@ function Cart() {
           </div>
         )}
       </div>
+
+
+
+
+
+
+
+
+
+
+
+      <ShareCart products={state.products} isShowShare={showShare} closeShare={closeShare}/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
   );
 }

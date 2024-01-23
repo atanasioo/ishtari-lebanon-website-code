@@ -204,14 +204,17 @@ setListAccCach(JSON.parse(listAcc));
   }
 
   const openAuthForm=()=>{
+    console.log(listAccCach)
     setErr();
     setMessage(false);
     setEmailSent(false)
     dispatch({ type: "setShowOver", payload: true });
-    if(listAccCach == []){
+    if(listAccCach.length == 0){
       dispatch({ type: "setShowLogin", payload: true });
+      dispatch({ type: "setShowListAcc", payload: false });
     }else{
       dispatch({ type: "setShowListAcc", payload: true });
+      dispatch({ type: "setShowLogin", payload: false });
     }
                   
                    
