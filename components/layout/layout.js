@@ -50,28 +50,56 @@ function Layout({ children, token, host }) {
     };
   }, [router.asPath]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      if(scrollTop<200){
-        setisShowHeader(true)
-      }else{
-        if(scrollTop> prevScroll){
-          //  console.log(`prev${prevScroll}`);
-            setisShowHeader(false)
-          }else if(scrollTop< prevScroll) {
-            setisShowHeader(true)
-          }
-        prevScroll = scrollTop
-      }
 
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      // Clean up the event listener when the component is unmounted
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+
+
+
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollTop = window.pageYOffset;
+  //     if(scrollTop<200){
+  //       setisShowHeader(true)
+  //     }else{
+  //       if(scrollTop> prevScroll){
+  //         //  console.log(`prev${prevScroll}`);
+  //           setisShowHeader(false)
+  //         }else if(scrollTop< prevScroll) {
+  //           setisShowHeader(true)
+  //         }
+  //       prevScroll = scrollTop
+  //     }
+
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     // Clean up the event listener when the component is unmounted
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
   // console.log(information_data.informations)
   // console.log("token inlayout " +token);
   // useEffect(() => {

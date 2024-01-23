@@ -82,8 +82,8 @@ function UserSidebar(props) {
             </div>
             <span
               className={`flex-1 w-4/12 ${
-                props.active === "orders" && "font-semibold underline"
-              } ${props.active === "orders" ? "text-dgreyAccountActive" : ""} `}
+                props.active === "memberShip" && "font-semibold underline"
+              } ${props.active === "memberShip" ? "text-dgreyAccountActive" : ""} `}
             >
               MemberShip
             </span>
