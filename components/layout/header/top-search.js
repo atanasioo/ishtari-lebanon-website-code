@@ -101,7 +101,7 @@ function TopSearch() {
       saveSearchHistory(query);
       router.push({
         pathname: "/search",
-        search: "?keyword=" + query,
+        search: "?keyword=" +  encodeURIComponent(query),
         state: location.pathname,
       });
     }

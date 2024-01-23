@@ -959,10 +959,10 @@ function ProductPage(props) {
             });
           // setSuccessAdded(true);
 
-          setTimeout(() => {
+        
             // setCountDown(false)
             setAddingToCart(false);
-          }, 3000);
+         
           setQuantity(1);
         }
       });
@@ -1993,6 +1993,48 @@ function ProductPage(props) {
                       )} */}
 
 
+<div className="flex  flex-wra gap-2">
+                              { data.series.map((serie) => (
+                <div className=" flex flex-col gap-3 justify-start">
+                  { serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
+                  <div className=" flex flex-wap gap-2"> 
+                                      {serie.products && serie.is_primary && serie.products.map((product)=>(
+                                      
+                                           <Link
+                                           key={product.product_id}
+                                           href={`/product/` + product.product_id}
+                                           className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
+                                             product.product_id === product_id
+                                               ? " border-dblue"
+                                               : "border-dgrey"
+                                           }`}
+                                         >
+                                            <div className=" flex flex-col justify-center text-center gap-2 px-1 py-1">
+
+                                     
+                                              <Image
+                                              title={product.type}
+                                    src={product.image}
+                                    alt={product.product_name}
+                                    className="w-full rounded-md"
+                                    width={100}
+                                    height={100}
+                                  /> 
+                                
+                                <div className=" text-sm text-dblack">{product.type}</div>
+                                  <div className=" text-dbase">{product.special}</div>
+                                  <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
+                                </div>
+                                            </Link>
+
+                                     
+                                      ))}
+                                      </div>
+                                  </div>
+                              ))}
+                            </div>
+
+
                       
 
      {/* PDS */}
@@ -2438,17 +2480,17 @@ function ProductPage(props) {
                       data["series_options"].length < 1 && (
                         <div className=" border-t-8 border-dinputBorder bg-dinputBorder ">
                         <div className=" px-5 mobile:px-12 bg-white py-4">
-                          <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">
+                          {/* <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">
                             In the same series
-                          </p>
+                          </p> */}
                           <div className=" overflow-x-auto">
                             <div className="flex  flex-col gap-2">
                               { data.series.map((serie) => (
                                 
                               <div className=" h-fit w-full  py-2 px-3  " >
-                                <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  
+                               { !serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
                                      <div className=" flex flex-wrap px-3 py-3 w-fit   gap-2">
-                                      {serie.products && serie.products.map((product)=>(
+                                      {!serie.is_primary && serie.products && serie.products.map((product)=>(
                                       
                                            <Link
                                            key={product.product_id}
