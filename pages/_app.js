@@ -28,7 +28,7 @@ import { HeaderProvider } from "@/contexts/HeaderContext";
 import CartSideModal from "@/components/product/CartSideModal";
 import { SuggestionProvider } from "@/contexts/SuggestionContext";
 import { HeaderStateProvider } from "@/contexts/HeaderStateContext";
-
+import { MessageProvider } from "@/contexts/MessageContext";
 
 export default function App({
   Component,
@@ -189,7 +189,7 @@ export default function App({
                     <ReviewCenterProvider>
                       <HeaderProvider>
                         <HeaderStateProvider>
-                     
+                        <MessageProvider>
                         <div className="" ref={topRef}>
                           {/* {!isUserSeller ? <TopHeader /> : <AsideMenu />} */}
                           {loading && (
@@ -227,6 +227,7 @@ export default function App({
                           {formattedDate}
                           {")"}
                         </div>
+                        </MessageProvider>
                         </HeaderStateProvider>
                       </HeaderProvider>
                     </ReviewCenterProvider>
