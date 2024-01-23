@@ -334,7 +334,7 @@ function profile() {
                 </div>
              
 
-                <button className="bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block">
+                <button className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full`}>
                   SAVE DETAILS
                 </button>
               </form>
@@ -408,7 +408,7 @@ function profile() {
                   </div>
                 </div>
                 <button
-                  className="bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 rounded ml-auto block"
+                  className={`bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 rounded ml-auto block max-md:w-full`}
                   onClick={(e) => ChangePassword(e)}
                 >
                   CHANGE PASSWORD
@@ -448,7 +448,7 @@ function profile() {
                 </div>
                 <button
                   onClick={() => saveDisabledEmails()}
-                  className="bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 ml-auto rounded  block uppercase"
+                  className={`bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 ml-auto rounded  block uppercase max-md:w-full`}
                 >
                   Save Details
                 </button>
@@ -461,7 +461,7 @@ function profile() {
               </p>
               <div className="p-4 pt-2 bg-white">
                 <button
-                  className="bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 ml-auto rounded  block uppercase"
+                  className={`bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 ml-auto rounded  block uppercase max-md:w-full`}
                   onClick={(e) => disabledAccount(e)}
                 >
                   Delete Your Account

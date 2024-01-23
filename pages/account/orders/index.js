@@ -24,26 +24,21 @@ function Orders() {
   const router = useRouter();
   const [success, setSuccess] = useState(false);
   const path = "";
-  const { setGlobalMessage,setSuccessMessage, setErrorMessage } = useMessage();
-  
-  
- 
+  const { setGlobalMessage, setSuccessMessage, setErrorMessage } = useMessage();
 
   function reOrder(order_id) {
-    
     let obj = {
       order_id,
     };
     // console.log(obj);
     axiosServer.post(buildLink("reorder"), obj).then((response) => {
       if (response.data.success) {
-        setSuccessMessage(true)
+        setSuccessMessage(true);
         setGlobalMessage(response.data.message);
         router.push(`${path}/cart`);
       } else {
-        setErrorMessage(true)
+        setErrorMessage(true);
         setGlobalMessage(response.data.message);
-        // setMessage(response.data.message.map((item) => item.errors.join(', ')));
       }
     });
   }
@@ -142,7 +137,7 @@ function Orders() {
                               {" "}
                               <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />{" "}
                             </svg>
-                            <span className=" mx-2 whitespace-nowrap">
+                            <span className=" mx-2 whitespace-nowrap hover:text-dbase">
                               {" "}
                               Write a review
                             </span>
@@ -188,37 +183,39 @@ function Orders() {
                             </svg>
                           </span>
 
-                          <span className="mx-1 whitespace-nowrap">
+                          <span className="mx-1 whitespace-nowrap hover:text-dbase">
                             {" "}
                             Order details
                           </span>
                         </Link>
                       </div>
-                      <div className="flex items-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          xmlnsXlink="http://www.w3.org/1999/xlink"
-                          version="1.1"
-                          id="Layer_1"
-                          x="0px"
-                          y="0px"
-                          width="19"
-                          height="18"
-                          viewBox="0 0 122.879 101.794"
-                          xmlSpace="preserve"
-                          className="mr-2"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M16.253,48.033c-1.306-19.004,1.611-30.676,22.395-30.676h3.042l0.006-5.797 c0-2.894,0.682-3.391,2.764-1.412l11.28,10.72c1.359,1.292,1.172,2.133-0.129,3.38L44.473,34.921 c-1.945,1.968-2.822,1.413-2.784-1.302v-6.811c-18.682-1.177-15.875,10.173-15.875,21.225H16.253L16.253,48.033z M75.473,0h41.531 c1.619,0,3.09,0.66,4.152,1.723c1.064,1.063,1.723,2.534,1.723,4.152v32.291c0,1.62-0.66,3.089-1.723,4.152 c-0.117,0.117-0.24,0.226-0.369,0.326c-1.023,0.87-2.346,1.397-3.783,1.397H75.473c-1.619,0-3.09-0.66-4.152-1.723 c-0.123-0.124-0.236-0.253-0.34-0.389c-0.863-1.026-1.383-2.34-1.383-3.764V5.875c0-1.619,0.66-3.09,1.723-4.152 C72.383,0.66,73.854,0,75.473,0L75.473,0z M115.006,7.874H77.471v28.294h37.535V7.874L115.006,7.874z M5.875,57.753h41.532 c1.62,0,3.089,0.659,4.152,1.723c1.063,1.063,1.723,2.533,1.723,4.152v32.291c0,1.619-0.661,3.09-1.724,4.152 s-2.532,1.723-4.152,1.723H5.875c-1.618,0-3.089-0.659-4.152-1.723C0.66,99.009,0,97.538,0,95.919V63.628 c0-1.619,0.66-3.089,1.723-4.152C2.786,58.413,4.257,57.753,5.875,57.753L5.875,57.753z M45.409,65.626H7.874v28.295h37.536V65.626 L45.409,65.626z M100.766,55.864c1.305,19.005-1.611,30.677-22.395,30.677h-3.043l-0.006,5.797c0,2.894-0.68,3.392-2.764,1.412 L61.279,83.03c-1.359-1.292-1.172-2.134,0.129-3.381l11.136-10.672c1.945-1.969,2.822-1.414,2.783,1.301v6.811 c18.682,1.177,15.875-10.173,15.875-21.225H100.766L100.766,55.864z"
-                          />
-                        </svg>
+                      <div className="flex items-center hover:text-dbase">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlnsXlink="http://www.w3.org/1999/xlink"
+                            version="1.1"
+                            id="Layer_1"
+                            x="0px"
+                            y="0px"
+                            width="19"
+                            height="18"
+                            viewBox="0 0 122.879 101.794"
+                            xmlSpace="preserve"
+                            className="mr-2"
+                          >
+                            <path
+                            fill={width > 650 ?"" : "#4169E1"}
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M16.253,48.033c-1.306-19.004,1.611-30.676,22.395-30.676h3.042l0.006-5.797 c0-2.894,0.682-3.391,2.764-1.412l11.28,10.72c1.359,1.292,1.172,2.133-0.129,3.38L44.473,34.921 c-1.945,1.968-2.822,1.413-2.784-1.302v-6.811c-18.682-1.177-15.875,10.173-15.875,21.225H16.253L16.253,48.033z M75.473,0h41.531 c1.619,0,3.09,0.66,4.152,1.723c1.064,1.063,1.723,2.534,1.723,4.152v32.291c0,1.62-0.66,3.089-1.723,4.152 c-0.117,0.117-0.24,0.226-0.369,0.326c-1.023,0.87-2.346,1.397-3.783,1.397H75.473c-1.619,0-3.09-0.66-4.152-1.723 c-0.123-0.124-0.236-0.253-0.34-0.389c-0.863-1.026-1.383-2.34-1.383-3.764V5.875c0-1.619,0.66-3.09,1.723-4.152 C72.383,0.66,73.854,0,75.473,0L75.473,0z M115.006,7.874H77.471v28.294h37.535V7.874L115.006,7.874z M5.875,57.753h41.532 c1.62,0,3.089,0.659,4.152,1.723c1.063,1.063,1.723,2.533,1.723,4.152v32.291c0,1.619-0.661,3.09-1.724,4.152 s-2.532,1.723-4.152,1.723H5.875c-1.618,0-3.089-0.659-4.152-1.723C0.66,99.009,0,97.538,0,95.919V63.628 c0-1.619,0.66-3.089,1.723-4.152C2.786,58.413,4.257,57.753,5.875,57.753L5.875,57.753z M45.409,65.626H7.874v28.295h37.536V65.626 L45.409,65.626z M100.766,55.864c1.305,19.005-1.611,30.677-22.395,30.677h-3.043l-0.006,5.797c0,2.894-0.68,3.392-2.764,1.412 L61.279,83.03c-1.359-1.292-1.172-2.134,0.129-3.381l11.136-10.672c1.945-1.969,2.822-1.414,2.783,1.301v6.811 c18.682,1.177,15.875-10.173,15.875-21.225H100.766L100.766,55.864z"
+                            />
+                          </svg>
+
                         <button
                           onClick={() => reOrder(data.order_id)}
                           className="text-blue-500"
                         >
-                          <span className=""> ReOrder</span>
+                          <span className="w-full"> ReOrder</span>
                         </button>
                       </div>
 
@@ -246,7 +243,10 @@ function Orders() {
                             <span className=" text-d12 md:text-base ">
                               Number of products:
                             </span>{" "}
-                            <span className="font-semibold text-d13"> {" " + data.products}</span>
+                            <span className="font-semibold text-d13">
+                              {" "}
+                              {" " + data.products}
+                            </span>
                           </p>
                         </div>
                         <div className="flex-row items-center space-y-4 md:mr-5 ">
@@ -260,7 +260,9 @@ function Orders() {
                           </p>
                           <p className=" text-sm space-x-1">
                             <span>Total:</span>
-                            <span className="font-semibold text-d13">{data.total}</span>
+                            <span className="font-semibold text-d13">
+                              {data.total}
+                            </span>
                           </p>
                         </div>
                       </div>

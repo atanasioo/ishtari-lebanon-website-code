@@ -139,7 +139,7 @@ return <div className=" flex-col justify-center gap-5 ">
   <div className=" w-full h-full relative justify-center text-center flex flex-col gap-4">
     <div className=" w-16 h-16  mx-auto   bg-dbase text-white rounded-full flex items-center justify-center"><span className=" text-2xl">+1</span></div> 
   <h2 className=" text-2xl font-bold">You've earned <span className=" text-dbase  font-extrabold">{earnedPoint}</span> points!</h2>
-  <span className=" text-md  text-dlabelColor">Check in for 2 more days to get a surprise rewrd.</span>
+  <span className=" text-md  text-dlabelColor">Check in for 2 more days to get a surprise reward.</span>
   <button onClick={()=>setShowpopup(false)} className="  bg-dbase mt-4 text-white px-4 py-1 rounded-md text-xl">Confirm</button>
   </div>
 </div>

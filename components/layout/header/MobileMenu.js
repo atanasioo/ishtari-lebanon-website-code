@@ -185,7 +185,7 @@ function MobileMenu(props) {
           </button>
         </div>
         <p className=" font-semibold pt-2.5">
-          Hi, We Are {config["short-name"]}
+          Hello, We Are {config["short-name"]}
         </p>
       </div>
       <div className="relative">

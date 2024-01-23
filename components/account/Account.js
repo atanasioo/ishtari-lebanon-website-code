@@ -1242,7 +1242,7 @@ We'll send you a new password.
                 </Link>
                 <p
                   onClick={(e) => logOut(e)}
-                  className="text-center text-sm border-t border-dinputBorder cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 py-3"
+                  className="text-center text-sm border-t border-dinputBorder cursor-pointer hover:bg-dbase hover:text-white py-3"
                 >
                   Sign Out
                 </p>
