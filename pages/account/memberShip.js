@@ -19,7 +19,7 @@ import PointsLoader from "@/components/PointsLoader";
 export default function MenmberShip() {
   const [state, setState] = useState([]);
   const [width, height] = useDeviceSize();
-  const [accountState] = useContext(AccountContext);
+  const [stateAcc ,dispatchAcc] = useContext(AccountContext);
   const { data: session, status } = useSession();
   const [totalPage, setTotalPage] = useState(0);
   const [limit, setLimit] = useState(20);
@@ -28,9 +28,9 @@ export default function MenmberShip() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // if (!state.loading && !state.loged) {
-    //   router.push("/");
-    // } else if (state.loged) {
+    if (!stateAcc.loading && !stateAcc.loged) {
+      router.push("/");
+    } else if (stateAcc.loged) {
       axiosServer
         .get(buildLink("memberShip") + "&page=" + page + "&limit=" + limit)
         .then((resp) => {
@@ -38,13 +38,13 @@ export default function MenmberShip() {
           setState(resp.data);
           setTotalPage(resp.data.data?.suggestions?.total_pages);
 
-          if (!accountState.loged) {
+          if (!stateAcc.loged) {
             router.push("/");
           }
           setLoading(false);
         });
-    // }
-  }, [page, state.loading]);
+    }
+  }, [page, stateAcc.loading]);
 
   function goTo() {
     router.push("/account/memberShipDetails");

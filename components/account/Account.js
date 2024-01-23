@@ -15,7 +15,7 @@ import {
   BsFillHeartFill,
   BsStarFill
 } from "react-icons/bs";
-import { MdAvTimer, MdFeedback } from "react-icons/md";
+import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import {
   FaCheckCircle,
   FaFacebookF,
@@ -1142,6 +1142,14 @@ We'll send you a new password.
                 >
                   <FaMoneyBillWave className=" text-d16 " />
                   <span className="ml-4">Orders</span>
+                </Link>
+                <Link
+                  href={`${path}/account/memberShip`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="py-2 flex items-center cursor-pointer hover:bg-dgrey1 hover:bg-opacity-10 px-3"
+                >
+                  <MdCardMembership className=" text-d16 " />
+                  <span className="ml-4">MemberShip</span>
                 </Link>
                 {/* <Link
                   href={`${path}/account/memberShip`}

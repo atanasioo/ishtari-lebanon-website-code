@@ -67,6 +67,35 @@ function UserSidebar(props) {
               </div>
           </Link>
         </li>
+
+
+
+        <li
+      className="group"
+        >
+          <Link
+            href={`${path}/account/memberShip`}
+            className="pl-9 flex items-center h-12 w-full text-dgreyAccount hover:text-dblackk"
+          >
+            <div className="w-2/12">
+              <MdCardMembership className="text-d16 text-dbase " />
+            </div>
+            <span
+              className={`flex-1 w-4/12 ${
+                props.active === "orders" && "font-semibold underline"
+              } ${props.active === "orders" ? "text-dgreyAccountActive" : ""} `}
+            >
+              MemberShip
+            </span>
+            <div className="w-2/12 group-hover:block hidden">
+                <img src={"/images/arrow-right.svg"} alt="arrow" />
+              </div>
+          </Link>
+        </li>
+
+
+
+
         <li
       className="group"
         >
