@@ -950,7 +950,7 @@ function Cart() {
 
 
 
-      <ShareCart products={state.products} isShowShare={showShare} closeShare={closeShare}/>
+     {state.products.length>0&& <ShareCart products={state.products} isShowShare={showShare} closeShare={closeShare}/>}
 
 
 
