@@ -52,7 +52,6 @@ function Layout({ children, token, host }) {
 
 
 
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
@@ -62,7 +61,12 @@ function Layout({ children, token, host }) {
       }else{
         if(scrollTop> prevScroll){
           //  console.log(`prev${prevScroll}`);
-          header.classList.add("hide")
+          if(!stateAcc.admin){
+            header.classList.add("hide")
+          }else{
+            header.classList.add("hideadmin")
+          }
+          
           }else if(scrollTop< prevScroll) {
             header.classList.remove("hide")
           }

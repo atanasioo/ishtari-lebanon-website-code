@@ -321,12 +321,15 @@ mySwiper .swiper-button-next {
 
 .headersticky{
   position: sticky;
-  z-index: 40;
+  z-index: 30;
   top: 0; 
   transition: all 0.5s ease;
 }
 .headersticky.hide{
-top: -85px;
+top: -86px;
+}
+.headersticky.hideadmin{
+  top: -134px;
 }
 
 .sliderSwiper .swiper-button-circle-right {
