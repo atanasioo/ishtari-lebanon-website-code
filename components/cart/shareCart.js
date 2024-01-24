@@ -1,10 +1,11 @@
 import DOMPurify from 'dompurify';
 import React, { useState } from 'react'
 import { FaShare, FaWindowClose } from 'react-icons/fa';
-
+import useDeviceSize from "@/components/useDeviceSize";
 const ShareCart = ({products , isShowShare, closeShare}) => {
 
 
+  const [width] = useDeviceSize();
   const [selectProduct, setSelectProduct] = useState([]);
   const [selectAll1, setSelectAll1] = useState(false);
 
@@ -15,8 +16,8 @@ const ShareCart = ({products , isShowShare, closeShare}) => {
     if (res === true) {
       for (var i = 0; i < ele.length; i++) {
         if (ele[i].type === "checkbox") ele[i].checked = true;
-        // ele[i].click()
         array.push(ele[i].id);
+        console.log(array)
       }
       setSelectProduct(array);
       // console.log(selectProduct)
@@ -38,8 +39,7 @@ const ShareCart = ({products , isShowShare, closeShare}) => {
 function changeUrlShare(){
 var url = 'localhost:3000/cartShared/'
 var shareUrl = url;
-var listProducts = [];  // Initialize an array to store selected products
-console.log(products)
+var listProducts = [];  
 shareUrl = url+"count="+listProducts.length
 for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the loop condition
   var product = products[i];
@@ -95,7 +95,7 @@ console.log(url+`count=${listProducts.length}`)
       {products.map((product, i) => (
                 <div key={product.cart_id}>
                   {/* Desktop Design */}
-                  <div
+                 {width >650 && <div
                     className={`hidden xl:flex lg:flex mb-2 px-4 py-2 rounded justify-center items-center ${
                       product.stock ? "bg-white " : "bg-dbase bg-opacity-10"
                     }`}
@@ -105,6 +105,7 @@ console.log(url+`count=${listProducts.length}`)
                         <input
                           className="mx-1"
                           type="checkbox"
+                          name='chk'
                           id={product.cart_id}
                           onClick={(e) => change(e,product.cart_id)}
                           checked={
@@ -168,9 +169,12 @@ console.log(url+`count=${listProducts.length}`)
                       </span>
                     
                     </div>
+
                   </div>
+                          }
+                          
                   {/* Mobile design */}
-                  <div
+                 {width<650 && <div
                     className={`flex xl:hidden lg:hidden mb-2 px-4 py-2 rounded ${
                       product.stock ? "bg-white " : "bg-dbase bg-opacity-10"
                     }`}
@@ -238,6 +242,7 @@ console.log(url+`count=${listProducts.length}`)
 
                     </div>
                   </div>
+      }
                 </div>
               ))}
 

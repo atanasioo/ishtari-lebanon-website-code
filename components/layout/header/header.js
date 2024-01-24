@@ -19,7 +19,6 @@ import CountryDropdown from "./CountryDropdown";
 import { HostContext } from "@/contexts/HostContext";
 import MobileMenu from "./MobileMenu";
 import { useHeaderColor } from "@/contexts/HeaderContext";
-import { useHeaderState } from "@/contexts/HeaderStateContext";
 
 
 function Header(props) {
@@ -35,7 +34,6 @@ function Header(props) {
   const router = useRouter();
   const host = useContext(HostContext);
   const { headerColor, setHeaderColor} = useHeaderColor();
-  const {isShowHeader,setisShowHeader} = useHeaderState();
 
 
   // const serverSideDomain = props.host;
@@ -132,7 +130,7 @@ function Header(props) {
 
 
   return (
-    <div className={`${isShowHeader?"top-0": stateAcc.admin?"-top-[6.5rem]":"-top-[5.5rem]"}  duration-500 transition-all sticky  z-30`} >
+    <div id="headersticky" className={` headersticky  `} >
       {/* <div className="w-full h-auto flex container ">
         <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
       </div> */}

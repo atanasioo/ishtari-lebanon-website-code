@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import { ImLocation } from "react-icons/im";
 import { HiLightBulb } from "react-icons/hi";
 import Loader from "../Loader";
+import AccountCard from "./accountCard";
 function Account() {
   const modal = useRef(null);
   const [message, setMessage] = useState(false);
@@ -58,25 +59,7 @@ function Account() {
   const path = "";
   const router = useRouter();
    const [newdate,setDate] = useState(Date);
-
-  // if (session) {
-  //   // The user is logged in
-  //   const obj = {
-  //     provider: "facebook",
-  //     social_access_token: session.accessToken,
-  //     id: session.user.id,
-  //     email: session.user.email
-  //       ? session.user.email
-  //       : session.user.id + "@ishtari-mobile.com"
-  //   };
-  //   const response = axiosServer.post(buildLink("social"), obj);
-  //   if (response.customer_id) checkLogin();
-  //   // window.location.reload();
-
-  // } else {
-  //   // The user is not logged in
-  //   // return <p>Please log in with Facebook.</p>
-  // }
+   
 
 
   const handleLockEmailButton = () => {
@@ -798,9 +781,7 @@ return;
               
             {listAccCach&&<> 
             <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
-              {listAccCach.map((account)=><div onClick={()=>{loginCach(account.email,account.password)}} className=" cursor-pointer hover:bg-dlabelColor flex flex-row gap-3 hover:text-white px-3 py-2 rounded-md bg-dplaceHolder ">
-                <div className=" h-fit my-auto" ><FaUser/></div>
-                 <span>{account.email}</span></div>)}
+              {listAccCach.map((account)=><AccountCard email={account.email} password={account.password} onclick={loginCach}/>)}
             </div>
             
             </>}

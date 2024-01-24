@@ -319,6 +319,16 @@ mySwiper .swiper-button-next {
   }
 }
 
+.headersticky{
+  position: sticky;
+  z-index: 40;
+  top: 0; 
+  transition: all 0.5s ease;
+}
+.headersticky.hide{
+top: -85px;
+}
+
 .sliderSwiper .swiper-button-circle-right {
   background: rgba(255, 255, 255, 0.4);
   width: 30px;

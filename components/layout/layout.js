@@ -10,13 +10,11 @@ import { FaArrowAltCircleRight, FaSadCry } from "react-icons/fa";
 import { HiOutlineX } from "react-icons/hi";
 import Cookies from "js-cookie";
 import { useHeaderColor } from "@/contexts/HeaderContext";
-import { useHeaderState } from "@/contexts/HeaderStateContext";
 import { useMessage } from "@/contexts/MessageContext";
 function Layout({ children, token, host }) {
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext);
   const { headerColor, setHeaderColor } = useHeaderColor();
-  const { isShowHeader, setisShowHeader } = useHeaderState();
   const { successMessage, errorMessage,message } = useMessage();
 
   var prevScroll = 200;
@@ -55,31 +53,29 @@ function Layout({ children, token, host }) {
 
 
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollTop = window.pageYOffset;
-  //     if(scrollTop<200){
-  //       setisShowHeader(true)
-  //     }else{
-  //       if(scrollTop> prevScroll){
-  //         //  console.log(`prev${prevScroll}`);
-  //           setisShowHeader(false)
-  //         }else if(scrollTop< prevScroll) {
-  //           setisShowHeader(true)
-  //         }
-  //       prevScroll = scrollTop
-  //     }
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      const header = document.getElementById("headersticky")
+      if(scrollTop<200){
+         header.classList.remove("hide")
+      }else{
+        if(scrollTop> prevScroll){
+          //  console.log(`prev${prevScroll}`);
+          header.classList.add("hide")
+          }else if(scrollTop< prevScroll) {
+            header.classList.remove("hide")
+          }
+        prevScroll = scrollTop
+      }
 
-  //   };
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     // Clean up the event listener when the component is unmounted
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
-
-
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // Clean up the event listener when the component is unmounted
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
 
 
@@ -91,7 +87,10 @@ function Layout({ children, token, host }) {
 
 
 
-  
+
+
+
+
 
 
 
