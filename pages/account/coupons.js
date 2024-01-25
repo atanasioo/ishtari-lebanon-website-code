@@ -15,6 +15,7 @@ import SingleCoupon from "../../components/couponComponents/singleCoupon";
 import { FaTicketAlt } from "react-icons/fa";
 import { sanitizeHTML } from "@/components/Utils";
 import { RiCoupon2Line } from "react-icons/ri";
+import { HandleAuthForm } from "@/components/handleAuthForm";
 function Coupon() {
   const router = useRouter();
   const [data, setData] = useState();
@@ -26,24 +27,9 @@ function Coupon() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const modal = useRef(null);
+  const {openAuthForm} = HandleAuthForm();
 
   
-  // close on click outside
-  // useEffect(() => {
-  //   const clickHandler = ({ target }) => {
-  //     if (!modal.current) return;
-  //     if (
-  //       !modalOpen ||
-  //       modal.current.contains(target) ||
-  //       trigger.current.contains(target)
-  //     )
-  //       return;
-  //     setModalOpen(false);
-  //   };
-  //   document.addEventListener("click", clickHandler);
-  //   return () => document.removeEventListener("click", clickHandler);
-  // });
-  // close if the esc key is pressed
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!modal.current) return;
@@ -75,8 +61,7 @@ function Coupon() {
         router.push("/");
       
       }else{
-  dispatch({type:"setShowOver",payload:true});
-  dispatch({type:"setShowLogin",payload:true});
+        openAuthForm()
       }
     } else if (state.loged) {
     axiosServer

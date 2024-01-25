@@ -8,8 +8,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
+import AccountCard from "@/components/account/accountCard";
+import { ImSwitch } from "react-icons/im";
+import { HiSwitchHorizontal } from "react-icons/hi";
+import { HandleAuthForm } from "@/components/handleAuthForm";
 function profile() {
-  
+  const {openAuthForm} = HandleAuthForm()
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
   const date_of_birth = useRef("");
@@ -73,6 +77,14 @@ function profile() {
         });
     }
   }, [state.loading]);
+
+
+
+
+  useEffect(()=>{
+    console.log(state.listAccCach)
+  },[])
+
 
   // Save Details
   function saveDetails(e) {
@@ -415,7 +427,24 @@ function profile() {
                 </button>
               </div>
             </div>
+            {!state.listAccCach.length ==0  &&
+            <div className="my-4 px-1 md:px-8 bg-white">
+            <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
+               Switch Account
+              </p>
+              <div className="p-4  bg-white">
+                 <div className="flex justify-between gap-2  ">
+               <AccountCard isloged={true} email={state.email} password={state.password} />
+               <button onClick={()=>{ 
+              openAuthForm('switch')
+               }} className=" flex flex-row gap-2  bg-dblue  px-2 rounded-md text-white justify-center "> <HiSwitchHorizontal className=" my-auto h-fit"/> <h2 className=" h-fit my-auto">Switch</h2> </button>
+                 </div>
 
+                </div>
+
+              </div>
+}
+           
             <div className="my-4 px-1 md:px-8 bg-white">
               <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
                 Email Notifications

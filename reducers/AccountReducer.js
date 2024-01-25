@@ -141,11 +141,22 @@ export const AccountReducer = (state, action) => {
                 ...state,
                 showListAcc: action.payload
               };
+              case "setListAccCach":
+              return {
+                ...state,
+                listAccCach: action.payload
+              };
+              case "setShowswitchAccount":
+                return {
+                  ...state,
+                  showswitchAccount: action.payload
+                };
     default:
       return state;
   }
 };
 export const initialState = {
+  showswitchAccount:false,
   viewMobileMenu:false,
   loged: false,
   showListAcc:false,
@@ -174,5 +185,6 @@ export const initialState = {
   loadingCouponRedeem:false,
   openRemindBirthday:false,
   hasSignedUp:false,
-  hasLogedIn:false
+  hasLogedIn:false,
+  listAccCach:[],
 };

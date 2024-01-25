@@ -17,10 +17,12 @@ import Slider from "react-slick";
 import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { HandleAuthForm } from "@/components/handleAuthForm";
 
 function MobileMenu(props) {
   const { viewMenu, categories, closeMobileMenu } = props;
   const router = useRouter();
+  const {openAuthForm}= HandleAuthForm();
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
   const [activeCategory, setActiveCategory] = useState({});
@@ -248,6 +250,7 @@ function MobileMenu(props) {
                 dispatch({ type: "setShowOver", payload: true });
                 dispatch({ type: "setShowLogin", payload: false });
                 dispatch({ type: "setShowSignup", payload: true });
+                dispatch({ type: "setShowListAcc", payload: false });
               }}
             >
               <span className="menu-icon bg-dbase flex justify-center p-1.5 rounded-sm">

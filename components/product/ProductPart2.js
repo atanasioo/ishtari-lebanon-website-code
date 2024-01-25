@@ -29,8 +29,10 @@ import { useRouter } from "next/router";
 import { BiRightArrowCircle } from "react-icons/bi";
 import { AiOutlineCheck, AiOutlineLike } from "react-icons/ai";
 import DotsLoader from "../loaders/DotsLoader";
+import { HandleAuthForm } from "../handleAuthForm";
 
 function ProductPart2(props) {
+  const {openAuthForm}  = HandleAuthForm()
   const {
     titleRef,
     loader,
@@ -445,9 +447,7 @@ function ProductPart2(props) {
           });
         });
     }else{
-      dispatchAccount({ type: "setShowOver", payload: true });
-      dispatchAccount({ type: "setShowLogin", payload: true });
-      dispatchAccount({ type: "setShowSignup", payload: false });
+      openAuthForm()
     }
   };
 
@@ -541,18 +541,7 @@ function ProductPart2(props) {
                                 <button
                                   className="flex rounded bg-dblue text-white text-sm md:text-d16 text px-3 py-1 hover:opacity-50	"
                                   onClick={() => {
-                                    dispatchAccount({
-                                      type: "setShowOver",
-                                      payload: true,
-                                    });
-                                    dispatchAccount({
-                                      type: "setShowLogin",
-                                      payload: true,
-                                    });
-                                    dispatchAccount({
-                                      type: "setShowSignup",
-                                      payload: false,
-                                    });
+                                openAuthForm()
                                   }}
                                 >
                                   Write a review

@@ -15,6 +15,7 @@ import { HostContext } from "@/contexts/HostContext";
 import PointsLoader from "@/components/PointsLoader";
 import Cookies from "js-cookie";
 import { HiChevronRight } from "react-icons/hi";
+import { FaAngleUp, FaArrowUp, FaSortUp } from "react-icons/fa";
 
 function DesktopMenuClientPopups(props) {
   const {
@@ -201,15 +202,16 @@ function DesktopMenuClientPopups(props) {
 
       <div className=" w-screen bg-white ">
         <div
-          className={`  relative  container  `}
+          className={`  relative px-5 `}
           onMouseEnter={() => {
             handleState("viewSubAllCategories2", true);
             handleState("overlay", true);
           }}
         >
-          <div className={`absolute overflow-hidden    top-0  transition-all  ${viewSubAllCategories2 ? "h-screen":"h-0"} z-40 `}>
-            <div className="" >
-              <div className="flex w-full bg-white rounded-md relative overflow-auto ">
+          <div className={`absolute overflow-hidden  top-0 transition-all ${viewSubAllCategories2 ? "h-fit z-40 left-5 opacity-100":"h-0   left-10 opacity-0 -z-40"}  `}>
+            <div className=" relative " >
+              <div className=" ml-36  translate-y-3"><FaSortUp className= "text-xl text-dsearchGrey"/></div>
+              <div  className="flex w-full bg-white rounded-md relative overflow-auto ">
                 <div className="bg-dsearchGrey py-3 w-fit  max-h-[600px]   overflow-auto">
                   {allCategories?.map((category) => (
                     <div
@@ -416,7 +418,7 @@ function DesktopMenuClientPopups(props) {
       <div className={`absolute transition-all rounded-md duration-500  overflow-hidden ${ viewMenuCategories2 &&selectedMenuCategory2  ? "h-[600px]":"h-0"} bg-dsearchGrey w-screen z-40`}>
        { viewMenuCategories2 && selectedMenuCategory2 &&
           <div
-            className="container max-h-[600px] overflow-auto"
+            className="px-9 max-h-[600px] overflow-auto"
             onMouseEnter={() => {
               //setViewMenuCategories2(true);
               handleState("viewMenuCategories2", true);

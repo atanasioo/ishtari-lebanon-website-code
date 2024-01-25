@@ -21,11 +21,13 @@ import { useMarketingData } from "@/contexts/MarketingContext";
 import { HiLocationMarker } from "react-icons/hi";
 import GoogleMap from "./address/GoogleMap";
 import { BiChevronDown } from "react-icons/bi";
+import { HandleAuthForm } from "./handleAuthForm";
 function CheckoutCompnents() {
   const [state, dispatchAccount] = useContext(AccountContext);
   const [cartState, dispatch] = useContext(CartContext);
   const curr = useContext(CurrencyContext);
   const [width] = useDeviceSize();
+  const {openAuthForm}= HandleAuthForm();
   // Is Phone Number Valid ?
   const [isValid, setIsValid] = useState(true);
   const [error, setError] = useState(false);
@@ -220,8 +222,7 @@ function CheckoutCompnents() {
   const cid = Cookies.get("cid");
   useEffect(() => {
     if (loginShow) {
-      dispatchAccount({ type: "setShowOver", payload: true });
-      dispatchAccount({ type: "setShowLogin", payload: true });
+      openAuthForm()
     }
   }, [loginShow]);
 
@@ -1221,18 +1222,7 @@ function CheckoutCompnents() {
         setPaymentMethod(payment_code);
       } else {
         if (!loged) {
-          dispatchAccount({
-            type: "setShowOver",
-            payload: true
-          });
-          dispatchAccount({
-            type: "setShowLogin",
-            payload: true
-          });
-          dispatchAccount({
-            type: "setShowSignup",
-            payload: false
-          });
+         openAuthForm()
         } else {
           setPaymentMethod(payment_code);
         }
@@ -2455,18 +2445,7 @@ function CheckoutCompnents() {
                         disabled="true"
                         className="block text-center h-12 bg-dblue hover:bg-dbluedark  text-white rounded w-full mt-4 pt-3"
                         onClick={() => {
-                          dispatchAccount({
-                            type: "setShowOver",
-                            payload: true
-                          });
-                          dispatchAccount({
-                            type: "setShowLogin",
-                            payload: true
-                          });
-                          dispatchAccount({
-                            type: "setShowSignup",
-                            payload: false
-                          });
+                         openAuthForm()
                         }}
                       >
                         {" "}

@@ -15,7 +15,7 @@ function HeaderOverlay(props) {
             ? "250px"
             : !local && state?.admin
             ? "185px"
-            : "200px",
+            : "110px",
             height: "200vh"
       }}
     ></div>

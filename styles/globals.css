@@ -326,7 +326,7 @@ mySwiper .swiper-button-next {
   transition: all 0.5s ease;
 }
 .headersticky.hide{
-top: -86px;
+top: -63px;
 }
 .headersticky.hideadmin{
   top: -134px;

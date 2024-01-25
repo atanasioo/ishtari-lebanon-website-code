@@ -162,7 +162,7 @@ function DesktopMenuCategories(props) {
     }}>
       {router.asPath.indexOf("pos") < 0 && (
         <div
-          className="hidden lg:block  container w-full  text-d16 "
+          className="hidden lg:block   px-9 w-full  text-d16 "
           onClick={() => {
             setOverlay(false);
             setClearHover(true);

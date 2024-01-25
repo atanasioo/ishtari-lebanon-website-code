@@ -17,8 +17,11 @@ function Layout({ children, token, host }) {
   const { headerColor, setHeaderColor } = useHeaderColor();
   const { successMessage, errorMessage,message } = useMessage();
 
+
   var prevScroll = 200;
   useEffect(() => {
+    const header = document.getElementById("headersticky")
+    header.classList.remove("hide")
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
       if (router.asPath !== "/") {
@@ -53,9 +56,10 @@ function Layout({ children, token, host }) {
 
 
   useEffect(() => {
+    const header = document.getElementById("headersticky")
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
-      const header = document.getElementById("headersticky")
+     
       if(scrollTop<200){
          header.classList.remove("hide")
       }else{

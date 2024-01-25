@@ -170,7 +170,7 @@ function ProductPage(props) {
       (AdminToken !== undefined || typeof AdminToken !== "undefined"
         ? "&employer=true"
         : "") +
-      (fromSearch ? "&from_search=1" : "")+"&test_aya=true";
+      (fromSearch ? "&from_search=1" : "");
 
     axiosServer.get(link).then((response) => {
       if (!response.data.success) {

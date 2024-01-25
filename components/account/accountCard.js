@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
 import Loader from '../Loader';
+import { MdOutlineVerified } from 'react-icons/md';
 
-const AccountCard = ({email,password,onclick}) => {
+const AccountCard = ({email,password,onclick,isloged,customerId,type}) => {
 const [loading,setLoading] = useState(false);
 function login(){
-    setLoading(true);
-    onclick(email,password)
+  if(onclick ){
+console.log(customerId)
+    if(type == "switch"){
+      onclick(customerId)
+    }else if(type == 'login'){
+      setLoading(true);
+      onclick(email,password)
+    }
+   
+  }
+
 }
 const color = {
     a: "#FFEBCD	",
@@ -66,10 +76,11 @@ const color = {
   };
 
   return (
-    <div onClick={()=>{login()}} className=" cursor-pointer hover:bg-dplaceHolder flex flex-row  justify-between  px-2 py-2 rounded-md border border-dplaceHolder  ">
+    <div onClick={()=>{login()}} className=" w-full cursor-pointer hover:bg-dplaceHolder flex flex-row  justify-between  px-2 py-2 rounded-md border border-dplaceHolder relative ">
+     {isloged&& <div className=' absolute right-5  bottom-0 h-fit my-auto top-0 rounded-full flex justify-center text-center text-white   bg-dblue1 p-1'> <MdOutlineVerified /></div>}
    <div className=' flex flex-row gap-3 justify-start'>
     <div className=" h-fit my-auto" >  <div
-                        className="flex rounded-full w-6 h-6 text-white   text-d14 items-center justify-center disable"
+                        className="flex rounded-full  w-6 h-6 text-white   text-d14 items-center justify-center disable"
                         style={{
                           backgroundColor:
                             color[
@@ -93,7 +104,7 @@ const color = {
                           .charAt(0)
                           .toUpperCase()}
                       </div></div>
-     <span>{email}</span>
+     <span className=' max-md:w-36 overflow-hidden relative text-ellipsis'>{email}</span>
      </div>
      {loading&&<div className=' w-7 h-7 relative my-auto'><Loader/></div>}
      </div>

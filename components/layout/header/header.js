@@ -155,9 +155,10 @@ function Header(props) {
       <div id="headerh"  style={{
         transition:"all 0.5s ease",
             backgroundColor: headerColor || "white" ,
-          }}>
+          }}
+          >
         <div 
-          className="flex  items-center justify-between py-4 h-22 container"
+          className="flex  items-center justify-between py-2 max-md:py-4  max-md:container   md:px-9"
         
         >
           <div className="flex items-center">

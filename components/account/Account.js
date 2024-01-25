@@ -54,7 +54,6 @@ function Account() {
   const signupPassword = useRef("");
   const signupFirst = useRef("");
   const signupLast = useRef("");
-  const [listAccCach,setListAccCach]= useState([]);
   // const birthDate = useRef("");
   const path = "";
   const router = useRouter();
@@ -142,11 +141,16 @@ if(state.hasSignedUp){
   useEffect(()=>{
 
 const listAcc = Cookies.get("listAcc")==undefined?"[]":Cookies.get("listAcc");
-setListAccCach(JSON.parse(listAcc));
+dispatch({type:"setListAccCach",payload:JSON.parse(listAcc)})
+
 
 
 
   },[])
+
+
+
+
 
 
 
@@ -173,11 +177,20 @@ setListAccCach(JSON.parse(listAcc));
 
 
 
+  useEffect(()=>{
+    setTimeout(() => {
+      setErr();
+      setMessage(false);
+      setEmailSent(false);
+      setShowLoginError(false);
+      setShowSignupError(false)
+    }, 5000);
+   
+  },[message , err,showLoginError,showSignupError])
+
 
  const  handleCloseAuthForm=()=>{
-  setErr();
-  setMessage(false);
-  setEmailSent(false)
+
   dispatch({ type: "setShowOver", payload: false });
                   dispatch({ type: "setShowLogin", payload: false });
                   dispatch({ type: "setShowSignup", payload: false });
@@ -187,12 +200,9 @@ setListAccCach(JSON.parse(listAcc));
   }
 
   const openAuthForm=()=>{
-    console.log(listAccCach)
-    setErr();
-    setMessage(false);
-    setEmailSent(false)
+  
     dispatch({ type: "setShowOver", payload: true });
-    if(listAccCach.length == 0){
+    if(state.listAccCach.length == 0){
       dispatch({ type: "setShowLogin", payload: true });
       dispatch({ type: "setShowListAcc", payload: false });
     }else{
@@ -216,6 +226,35 @@ e.preventDefault();
     dispatch({ type: "setShowLogin", payload: true })
     dispatch({ type: "setShowForgetPassword", payload: false })
   }
+
+
+
+
+
+
+
+
+
+
+  const switchAccount=async(customerId)=>{
+    const obj ={
+      customer_id:customerId
+
+    }
+    axiosServer
+    .post(buildLink("switchAccount", undefined, undefined)+"&customer_id="+customerId)
+    .then((response) => {
+      if(response.data.success == true){
+        
+        router.push("/");
+        checkLogin("login")
+        handleCloseAuthForm()
+        // router.reload();
+      }
+    })
+  }
+
+
 
 
 
@@ -341,14 +380,18 @@ if( saveAcc.current && type == 'login'&& saveAcc.current.checked){
 
   const objAcc ={
     email:data.email,
-    password:loginPassword.current.value
+    password:loginPassword.current.value,
+    customerId:data.customer_id
   }
   // Cookies.remove("listAcc")
   var listAccount = Cookies.get("listAcc");
-  if(listAccount == undefined || listAccCach == null){
+  
+  if(listAccount == undefined || state.listAccCach == null){
     const newlist = [objAcc]
     const decodelist = JSON.stringify(newlist)
     Cookies.set("listAcc",decodelist)
+
+    dispatch({type:"setListAccCach",payload:newlist})
   }else{
 
       let cachAcc = JSON.parse(listAccount);
@@ -358,6 +401,9 @@ if( saveAcc.current && type == 'login'&& saveAcc.current.checked){
         cachAcc.push(objAcc);
 const decodeList = JSON.stringify(cachAcc)
         Cookies.set("listAcc", decodeList)
+      
+        dispatch({type:"setListAccCach",payload:cachAcc})
+
       }
     
   }
@@ -736,7 +782,7 @@ return;
 
 
 
-{state.showListAcc && (
+{ state.showListAcc && (
             <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
               <span
                 onClick={
@@ -779,9 +825,9 @@ return;
               </p>
               <p className="text-2xl font-semibold">Choose account to sign in</p>
               
-            {listAccCach&&<> 
+            {state.listAccCach&&<> 
             <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
-              {listAccCach.map((account)=><AccountCard email={account.email} password={account.password} onclick={loginCach}/>)}
+              {state.listAccCach.map((account)=><AccountCard type={'login'} email={account.email} password={account.password} onclick={loginCach}/>)}
             </div>
             
             </>}
@@ -834,6 +880,79 @@ return;
 
 
 
+
+
+
+
+
+
+
+
+{state.showswitchAccount && (
+            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
+              <span
+                onClick={
+                 handleCloseAuthForm
+                }
+                className=" z-10 absolute top-0 text-2xl right-0 w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-dgrey"
+              >
+                <IoMdClose />
+              </span>
+              {message && (
+                <span
+                  onClick={() => setMessage()}
+                  className="cursor-pointer text-sm z-10 absolute top-0 right-0 bg-dgreen w-full text-white py-2"
+                >
+                  {message}
+                </span>
+              )}
+              {err && (
+                <span
+                  onClick={() => setErr()}
+                  className="cursor-pointer z-10 absolute top-0 right-0 bg-dbase w-full text-white py-2"
+                >
+                  {err}
+                </span>
+              )}
+              {showLoginError && (
+                <span
+                  onClick={() => setShowLoginError(false)}
+                  className="cursor-pointer z-10 absolute top-10  right-0 w-full text-dbase py-2"
+                >
+                  {loginError}
+                </span>
+              )}
+              <p
+                className={`text-2xl font-semibold  ${
+                  showLoginError ? "mt-24" : "mt-6"
+                }`}
+              >
+                Switch Account
+              </p>
+              <p className="text-md text-dlabelColor font-semibold">You can switch your saved account</p>
+              
+            {state.listAccCach&&<> 
+            <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
+              {state.listAccCach.map((account)=><AccountCard  isloged={account.email == state.email?true:false} email={account.email} customerId={account.customerId} password={account.password} type={'switch'} onclick={account.email == state.email? null:switchAccount}/>)}
+            </div>
+            
+            </>}
+            <button   onClick={() => {
+                    dispatch({ type: "setShowOver", payload: true });
+                    dispatch({ type: "setShowListAcc", payload: false });
+                    dispatch({ type: "setShowLogin", payload: true });
+                    dispatch({ type: "setShowSignup", payload: false });
+                    dispatch({ type: "setShowswitchAccount", payload: false });
+                  }} className="hover:text-white  border border-dblack rounded-md text-dblack w-full transition-all py-2 hover:bg-dblue2  ">
+                   <span>Add Account</span>
+                </button>
+        
+
+             
+
+
+            </div>
+          )}
 
 
 
