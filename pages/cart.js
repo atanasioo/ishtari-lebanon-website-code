@@ -496,7 +496,7 @@ function Cart() {
                   ({state.productsCount}{" "}
                   {state?.productsCount > 1 ? "items" : "item"})
                 </h1>
-                <button className=" ml-5 text-lg rounded-md" onClick={()=>setShowShare(true)}>
+                <button className=" ml-5 text-lg rounded-md text-dblue mt-1" onClick={()=>setShowShare(true)}>
                      <FaShareAltSquare/>
                     </button>
               </div>
