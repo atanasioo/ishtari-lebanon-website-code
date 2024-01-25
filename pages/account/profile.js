@@ -427,7 +427,7 @@ function profile() {
                 </button>
               </div>
             </div>
-            {state.listAccCach.length >1 &&
+            {state.listAccCach.length >0 &&
             <div className="my-4 px-1 md:px-8 bg-white">
             <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
                Switch Account

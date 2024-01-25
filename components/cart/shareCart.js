@@ -6,8 +6,9 @@ import { axiosServer } from '@/axiosServer';
 import buildLink from '@/urls';
 import ShareSocial from '../product/ShareSocial';
 import SharePopupGlobal from '../sharePopupGlobal';
+import { useRouter } from 'next/router';
 const ShareCart = ({products , isShowShare, closeShare}) => {
-
+const route = useRouter()
   const [showShareSocial, setShowShareSocial] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
