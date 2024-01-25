@@ -33,6 +33,7 @@ var urls = {
   address: "v2/index.php?route=account/address/address",
   cart: "v2/index.php?route=checkout/cart/cart",
   cartCount: "v2/index.php?route=checkout/cart/getProductsCount",
+  sharedCard: "v2/index.php?route=checkout/cart/shareCart",
   search: "v2/index.php?route=catalog/search/autoCompleteV2&term=",
   trendingSearch: "v2/index.php?route=catalog/search/topSearch",
   historySearch: "v2/index.php?route=catalog/search/TopSearchByCustomer",
