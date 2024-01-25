@@ -2009,9 +2009,9 @@ function ProductPage(props) {
                                                : "border-dgrey"
                                            }`}
                                          >
-                                            <div className=" flex flex-col justify-center text-center gap-2 px-1 py-1">
-
-                                     
+                                            <div className=" relative overflow-hidden flex flex-col justify-center text-center gap-2 px-1 py-1">
+                                               
+                                    
                                               <Image
                                               title={product.type}
                                     src={product.image}
@@ -2020,10 +2020,12 @@ function ProductPage(props) {
                                     width={100}
                                     height={100}
                                   /> 
-                                
+                                 
+                               
                                 <div className=" text-sm text-dblack">{product.type}</div>
                                   <div className=" text-dbase">{product.special}</div>
                                   <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
+                                 {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30"><h2 className=" text-dbase">Out of stock</h2></div>}
                                 </div>
                                             </Link>
 
@@ -2487,9 +2489,9 @@ function ProductPage(props) {
                             <div className="flex  flex-col gap-2">
                               { data.series.map((serie) => (
                                 
-                              <div className=" h-fit w-full  py-2 px-3  " >
+                              <div className=" h-fit w-full  py-2   " >
                                { !serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
-                                     <div className=" flex flex-wrap px-3 py-3 w-fit   gap-2">
+                                     <div className=" flex flex-wrap  py-3 w-fit   gap-1">
                                       {!serie.is_primary && serie.products && serie.products.map((product)=>(
                                       
                                            <Link
@@ -2501,7 +2503,7 @@ function ProductPage(props) {
                                                : "border-dgrey"
                                            }`}
                                          >
-                                            <div className=" flex flex-col justify-center text-center gap-2 px-1 py-1">
+                                            <div className=" relative overflow-hidden flex flex-col justify-center text-center gap-2 px-1 py-1">
 
                                      
                                               <Image
@@ -2516,7 +2518,7 @@ function ProductPage(props) {
                                   <div className=" text-dbase">{product.special}</div>
                                   <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
 
-                                
+                                  {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30"><h2 className=" text-dbase">Out of stock</h2></div>}
                                 </div>
                                             </Link>
 

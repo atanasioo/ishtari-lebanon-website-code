@@ -1,13 +1,51 @@
 import DOMPurify from 'dompurify';
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaShare, FaWindowClose } from 'react-icons/fa';
 import useDeviceSize from "@/components/useDeviceSize";
+import { axiosServer } from '@/axiosServer';
+import buildLink from '@/urls';
+import ShareSocial from '../product/ShareSocial';
+import SharePopupGlobal from '../sharePopupGlobal';
 const ShareCart = ({products , isShowShare, closeShare}) => {
 
+  const [showShareSocial, setShowShareSocial] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [width] = useDeviceSize();
   const [selectProduct, setSelectProduct] = useState([]);
   const [selectAll1, setSelectAll1] = useState(false);
+  const [urlShareCart,seturlShareCart]  = useState("");
+
+function closeSharesochial(){
+setShowShareSocial(false)
+}
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+
+      if (showShareSocial) {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setTimeout(() => setShowShareSocial(false), 200);
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }
+    }, [ref, showShareSocial]);
+  }
+
+
 
   function selectAll(res) {
     var array = [];
@@ -31,16 +69,14 @@ const ShareCart = ({products , isShowShare, closeShare}) => {
       }
       setSelectProduct([]);
     }
-    changeUrlShare();
+  
     setSelectAll1(res);
   }
 
 
-function changeUrlShare(){
-var url = 'localhost:3000/cartShared/'
-var shareUrl = url;
+ async function getUrlShare(){
+
 var listProducts = [];  
-shareUrl = url+"count="+listProducts.length
 for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the loop condition
   var product = products[i];
   if (selectProduct.includes(product.cart_id)) {
@@ -57,11 +93,20 @@ for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the
     }
    }
    listProducts.push(obj);
-   console.log(listProducts)
   } 
 }
 
-console.log(url+`count=${listProducts.length}`)
+const listProductsObj = {
+  products:listProducts
+}
+await axiosServer.post(buildLink("sharedCard", undefined, undefined),listProductsObj)
+ .then((response) => {
+  seturlShareCart(response.data.data.url)  ;
+  
+  setShowShareSocial(true)
+ })
+ 
+
 }
 
 
@@ -74,7 +119,6 @@ console.log(url+`count=${listProducts.length}`)
 
         setSelectProduct(newArray);
     }
-    changeUrlShare()
   }
   return (
     <div className={` ${isShowShare?"top-0 opacity-100":" -top-[100%] opacity-0"}  transition-all  duration-500 fixed bg-dgrey w-full h-full z-50 left-0 bottom-0 right-0 `}>
@@ -259,10 +303,27 @@ console.log(url+`count=${listProducts.length}`)
   </div>
   
   
-  <div className=" flex flex-row justify-end"> 
-  <button className=" bg-dblue text-white flex flex-row justify-center py-1 px-3 gap-2"><FaShare className=" h-fit my-auto"/> <p className=" block whitespace-nowrap">Share  {selectProduct.length}</p> </button>
-  
+  <div className=" relative flex flex-row justify-end"> 
+  <button onClick={()=>getUrlShare()} className=" relative bg-dblue text-white flex flex-row justify-center py-1 px-3 gap-2">
+    
+    <FaShare className=" h-fit my-auto"/> <p className=" block whitespace-nowrap">Share  {selectProduct.length}</p> 
+
+    
+    
+    </button>
+    <div>
+                <SharePopupGlobal
+                  // image={productData.popup}
+                  
+                  share={showShareSocial}
+                  wrapperRef={wrapperRef}
+                  name={'Share Cart'}
+                  close ={closeSharesochial}
+                  textToShare={urlShareCart}
+                />
+              </div>
   </div>
+  
   </div>
   
   </div>
