@@ -89,7 +89,7 @@ function Adresses() {
               <div className=" w-full container flex justify-center items-center">
                 <Link
                   href={"/account/address/add"}
-                  className="new-addr-btn rounded-md px-20 py-2.5 uppercase relative pr-bold bg-dblueHover text-white"
+                  className="new-addr-btn rounded-md px-20 py-2 uppercase relative pr-bold bg-dblueHover text-white"
                 >
                   ADD NEW ADDRESS
                 </Link>
