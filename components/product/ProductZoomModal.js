@@ -137,7 +137,7 @@ function ProductZoomModal(props) {
             <CgClose
               className="absolute top-1.5 right-1.5 p-0.5  w-9 h-9 z-10 md:w-9 md:h-9 cursor-pointer text-darrowZoom  lg:text-dblack"
               onClick={() => closeModal()}
-              onTouchStart={() => closeModal()}
+              // onTouchStart={() => closeModal()}
             />
             <div
               className={`flex flex-col justify-center ${
