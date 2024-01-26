@@ -13,7 +13,7 @@ import { ImSwitch } from "react-icons/im";
 import { HiSwitchHorizontal } from "react-icons/hi";
 import { HandleAuthForm } from "@/components/handleAuthForm";
 function profile() {
-  const {openAuthForm} = HandleAuthForm()
+  const { openAuthForm } = HandleAuthForm();
   const [state, dispatch] = useContext(AccountContext);
   const firstname = useRef("");
   const date_of_birth = useRef("");
@@ -36,7 +36,7 @@ function profile() {
     firstname: "",
     lastname: "",
     telephone: "",
-    date_of_birth:"",
+    date_of_birth: "",
   });
   const [err, setErr] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -57,7 +57,6 @@ function profile() {
           } else {
             setData(response.data.data);
             setLoading(false);
-         
           }
         });
 
@@ -78,13 +77,9 @@ function profile() {
     }
   }, [state.loading]);
 
-
-
-
-  useEffect(()=>{
-    console.log(state.listAccCach)
-  },[])
-
+  useEffect(() => {
+    console.log(state.listAccCach);
+  }, []);
 
   // Save Details
   function saveDetails(e) {
@@ -95,7 +90,7 @@ function profile() {
       firstname: first,
       lastname: last,
       email: data.email,
-      date_of_birth:birthDate
+      date_of_birth: birthDate,
       //telephone: telephone.current.value !== "" ? window.config["countryCode"] + telephone.current.value : "",
     };
     setAlert(true);
@@ -104,25 +99,25 @@ function profile() {
       .then((response) => {
         dispatch({ type: "setUsername", payload: first });
         setAlert(true);
-        console.log(response.data );
-        if(response.data.success){
+        console.log(response.data);
+        if (response.data.success) {
           axiosServer
-          .get(buildLink("get_account", undefined, window.innerWidth))
-          .then((response) => {
-                
+            .get(buildLink("get_account", undefined, window.innerWidth))
+            .then((response) => {
               setData(response.data.data);
-            console.log(response.data.data);
-            if(!response.data.data.date_of_birth =="" || !response.data.data.date_of_birth ==null || !response.data.data.date_of_birth == undefined) {
-              dispatch({ type: "sethasDateBirth", payload: true });
-            }else{
-              dispatch({ type: "sethasDateBirth", payload: false });
-            }
+              console.log(response.data.data);
+              if (
+                !response.data.data.date_of_birth == "" ||
+                !response.data.data.date_of_birth == null ||
+                !response.data.data.date_of_birth == undefined
+              ) {
+                dispatch({ type: "sethasDateBirth", payload: true });
+              } else {
+                dispatch({ type: "sethasDateBirth", payload: false });
+              }
               dispatch({ type: "setLoading", payload: false });
-           
-            
-          });
+            });
         }
-        
       });
     e.preventDefault();
   }
@@ -320,33 +315,43 @@ function profile() {
                     width > 650 ? "flex-row gap-10" : "flex-col gap-4"
                   }`}
                 >
-                <div className={width > 650 ? "w-1/2" : "w-full"}>
-                    <div className="input" onClick={()=>console.log(state.hasdateBirth)}>
-                     
-                      {  !state.hasdateBirth ?(
+                  <div className={width > 650 ? "w-1/2" : "w-full"}>
+                    <div
+                      className="input"
+                      onClick={() => console.log(state.hasdateBirth)}
+                    >
+                      {!state.hasdateBirth ? (
                         <>
-                         <label>Birth Date <span className=" text-xs text-dbase1">(You can only update your birth date once)</span></label>
-                      <input 
-                 
-                      type="date"
-                      
-                      ref={date_of_birth}
-                      defaultValue={data.date_of_birth}></input></>
-                      ):(<>
-                       <label>Birth Date</label>
-                          <input 
-                  disabled
-                      type="date"
-                      
-                      ref={date_of_birth}
-                      defaultValue={data.date_of_birth}></input></>)
-                }
+                          <label>
+                            Birth Date{" "}
+                            <span className=" text-xs text-dbase1">
+                              (You can only update your birth date once)
+                            </span>
+                          </label>
+                          <input
+                            type="date"
+                            ref={date_of_birth}
+                            defaultValue={data.date_of_birth}
+                          ></input>
+                        </>
+                      ) : (
+                        <>
+                          <label>Birth Date</label>
+                          <input
+                            disabled
+                            type="date"
+                            ref={date_of_birth}
+                            defaultValue={data.date_of_birth}
+                          ></input>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
-             
 
-                <button className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full`}>
+                <button
+                  className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full`}
+                >
                   SAVE DETAILS
                 </button>
               </form>
@@ -427,24 +432,33 @@ function profile() {
                 </button>
               </div>
             </div>
-            {state.listAccCach.length >0 &&
-            <div className="my-4 px-1 md:px-8 bg-white">
-            <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
-               Switch Account
-              </p>
-              <div className="p-4  bg-white">
-                 <div className="flex justify-between gap-2  ">
-               <AccountCard isloged={true} email={state.email} password={state.password} />
-               <button onClick={()=>{ 
-              openAuthForm('switch')
-               }} className=" flex flex-row gap-2  bg-dblue  px-2 rounded-md text-white justify-center "> <HiSwitchHorizontal className=" my-auto h-fit"/> <h2 className=" h-fit my-auto">Switch</h2> </button>
-                 </div>
-
+            {state.listAccCach.length > 0 && (
+              <div className="my-4 px-1 md:px-8 bg-white">
+                <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
+                  Switch Account
+                </p>
+                <div className="p-4  bg-white">
+                  <div className="flex justify-between gap-2  ">
+                    <AccountCard
+                      isloged={true}
+                      email={state.email}
+                      password={state.password}
+                    />
+                    <button
+                      onClick={() => {
+                        openAuthForm("switch");
+                      }}
+                      className=" flex flex-row gap-2  bg-dblue  px-2 rounded-md text-white justify-center "
+                    >
+                      {" "}
+                      <HiSwitchHorizontal className=" my-auto h-fit" />{" "}
+                      <h2 className=" h-fit my-auto">Switch</h2>{" "}
+                    </button>
+                  </div>
                 </div>
-
               </div>
-}
-           
+            )}
+
             <div className="my-4 px-1 md:px-8 bg-white">
               <p className="bg-white pt-6 pr-bold text-d22 px-4 flex items-center ">
                 Email Notifications
