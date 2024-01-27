@@ -145,17 +145,6 @@ function SingleProduct(props) {
       .then((response) => {
         const data = response.data;
         if (data.success !== true) {
-          // There is an error
-          // setHasAddToCartError(true);
-          // if (!hasOption) {
-          //   error = data?.errors[0]?.errorMsg;
-          // } else {
-          //   error = data?.errors[0]?.errorMsg;
-          // }
-          // alert(error)
-          // setAddToCartError(error);
-          // setAddingToCart(false);
-          // setCartData(data.data)
         } else {
           dispatch({
             type: "loading",

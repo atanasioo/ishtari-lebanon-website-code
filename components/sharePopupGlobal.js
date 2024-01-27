@@ -64,7 +64,7 @@ function SharePopupGlobal(props) {
                 <div className="text-left bg-white">
                   <div className="border-b border-dplaceHolder cursor-pointer hover:text-dblue">
                     <a
-                      href={`https://api.whatsapp.com/send?text=${window.location.href}`}
+               href={`https://api.whatsapp.com/send?text=${textToShare}`}
                       className="pl-1 flex items-center"
                     >
                       <IoLogoWhatsapp className="w-5 h-5 mr-4 text-dwhatsapp" />

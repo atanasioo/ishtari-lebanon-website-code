@@ -100,7 +100,7 @@ for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the
 const listProductsObj = {
   products:listProducts
 }
-await axiosServer.post(buildLink("sharedCard", undefined, undefined),listProductsObj)
+await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProductsObj)
  .then((response) => {
   seturlShareCart(response.data.data.url)  ;
   
