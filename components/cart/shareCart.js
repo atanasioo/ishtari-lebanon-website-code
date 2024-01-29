@@ -7,6 +7,7 @@ import buildLink from '@/urls';
 import ShareSocial from '../product/ShareSocial';
 import SharePopupGlobal from '../sharePopupGlobal';
 import { useRouter } from 'next/router';
+import { useMessage } from '@/contexts/MessageContext';
 const ShareCart = ({products , isShowShare, closeShare}) => {
 const route = useRouter()
   const [showShareSocial, setShowShareSocial] = useState(false);
@@ -16,6 +17,8 @@ const route = useRouter()
   const [selectProduct, setSelectProduct] = useState([]);
   const [selectAll1, setSelectAll1] = useState(false);
   const [urlShareCart,seturlShareCart]  = useState("");
+
+  const { setGlobalMessage, setSuccessMessage, setErrorMessage } = useMessage();
 
 function closeSharesochial(){
 setShowShareSocial(false)
@@ -56,17 +59,15 @@ setShowShareSocial(false)
       for (var i = 0; i < ele.length; i++) {
         if (ele[i].type === "checkbox") ele[i].checked = true;
         array.push(ele[i].id);
-        console.log(array)
+   
       }
       setSelectProduct(array);
-      // console.log(selectProduct)
     } else {
       var elem = document.getElementsByName("chk");
       for (var j = 0; i < elem.length; j++) {
         if (elem[j].type === "checkbox") elem[j].click();
         ele[j].checked = false;
 
-        // console.log("selectProduct")
       }
       setSelectProduct([]);
     }
@@ -100,11 +101,18 @@ for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the
 const listProductsObj = {
   products:listProducts
 }
+
 await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProductsObj)
  .then((response) => {
-  seturlShareCart(response.data.data.url)  ;
-  
+  if(response.data.success == true){
+  seturlShareCart(response.data.data.url);
+
   setShowShareSocial(true)
+  }else{
+    setErrorMessage(true);
+    setGlobalMessage(response.data.message);
+  }
+  
  })
  
 
@@ -122,7 +130,7 @@ await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProduct
     }
   }
   return (
-    <div className={` ${isShowShare?"top-0 opacity-100":" -top-[100%] opacity-0"}  transition-all  duration-500 fixed bg-dgrey w-full h-full z-50 left-0 bottom-0 right-0 `}>
+    <div className={` ${isShowShare?"top-0 opacity-100":" -top-[100%] opacity-0"}  transition-all  duration-500 fixed bg-dgrey w-full h-full z-40 left-0 bottom-0 right-0 `}>
         
     <div className=" flex flex-col  relative container w-full h-full bg-white py-5 ">
       <div className="  px-2 py-2 border-b border-dplaceHolder flex flex-row justify-between w-full "><h2 className=" text-xl text-dblackk  font-[900] tracking-widest ">All Items ({products.length})</h2><button onClick={closeShare}><FaWindowClose/></button></div>
@@ -167,12 +175,12 @@ await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProduct
                         route.push(
                           `${slugify(product.name)}/p=${product.product_id}`
                         );
-                        setMarketingData({
-                          ignore: false,
-                          banner_image_id: "",
-                          source_type: "cart",
-                          source_type_id: "",
-                        });
+                        // setMarketingData({
+                        //   ignore: false,
+                        //   banner_image_id: "",
+                        //   source_type: "cart",
+                        //   source_type_id: "",
+                        // });
                       }}
                       src={product.thumb}
                       className="w-24 cursor-pointer block rounded"
@@ -304,7 +312,7 @@ await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProduct
   </div>
   
   
-  <div className=" relative flex flex-row justify-end"> 
+  { selectProduct.length>0 && <div className=" relative flex flex-row justify-end"> 
   <button onClick={()=>getUrlShare()} className=" relative bg-dblue text-white flex flex-row justify-center py-1 px-3 gap-2">
     
     <FaShare className=" h-fit my-auto"/> <p className=" block whitespace-nowrap">Share  {selectProduct.length}</p> 
@@ -324,7 +332,7 @@ await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProduct
                 />
               </div>
   </div>
-  
+}
   </div>
   
   </div>

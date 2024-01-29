@@ -1285,7 +1285,8 @@ function ProductPage(props) {
               </div>
               <div
                 className={` ${
-                  accountState.admin && data?.status === "0"
+                  // accountState.admin && 
+                  data?.status === "0"
                     ? "bg-dPink"
                     : "bg-white"
                 } product-div flex items-stretch  w-full md:px-2`}

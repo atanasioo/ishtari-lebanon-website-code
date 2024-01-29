@@ -39,10 +39,6 @@ function SharePopupGlobal(props) {
 
 
 
-  useEffect(()=>{
-    console.log("________________________")
-    console.log(textToShare)
-  })
 
 
   return (

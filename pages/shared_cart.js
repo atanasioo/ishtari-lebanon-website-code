@@ -97,7 +97,18 @@ const CartShared = () => {
               payload: response_data.data?.data?.totals
             });
 
-        
+            dispatch({
+              type: "setAsidecart",
+              payload: true
+            });
+
+            dispatch({
+              type: "setProduct",
+              payload: {
+                name: product.name,
+                image: product.thumb
+              }
+            });
             dispatch({
               type: "loading",
               payload: false

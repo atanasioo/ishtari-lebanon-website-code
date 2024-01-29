@@ -17,7 +17,10 @@ function CartSideModal(props) {
       { (state.aside ) && (
         <div
           className=" block md:hidden fixed top-0 left-0 right-0 min-h-screen w-full bg-dblack bg-opacity-30 z-50 overflow-y-auto overflow-auto"
-          // onClick={() => toggleSucccessAdded(false)}
+          onClick={() =>    dispatch({
+            type: "setAsidecart",
+            payload: false
+          })}
         >
           <div className="bg-white py-4 px-2 text-sm">
             <h2
