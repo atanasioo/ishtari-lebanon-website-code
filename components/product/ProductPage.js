@@ -1285,8 +1285,7 @@ function ProductPage(props) {
               </div>
               <div
                 className={` ${
-                  // accountState.admin && 
-                  data?.status === "0"
+                  accountState.admin && data?.status === "0"
                     ? "bg-dPink"
                     : "bg-white"
                 } product-div flex items-stretch  w-full md:px-2`}
@@ -1995,13 +1994,12 @@ function ProductPage(props) {
                       )} */}
 
 
-<div className="flex  flex-wra gap-2">
-                              { data.series.map((serie) => (
+<div className="flex  flex-wrap gap-2">
+                              { data?.series?.map((serie) => (
                 <div className=" flex flex-col gap-3 justify-start">
                   { serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
-                  <div className=" flex flex-wap gap-2"> 
+                  <div className=" max-md:flex text-center flex-wrap md:grid grid-cols-3 justify-center ">
                                       {serie.products && serie.is_primary && serie.products.map((product)=>(
-                                      
                                            <Link
                                            key={product.product_id}
                                            href={`/product/` + product.product_id}
@@ -2012,8 +2010,6 @@ function ProductPage(props) {
                                            }`}
                                          >
                                             <div className=" relative overflow-hidden flex flex-col justify-center text-center gap-2 px-1 py-1">
-                                               
-                                    
                                               <Image
                                               title={product.type}
                                     src={product.image}
@@ -2021,19 +2017,13 @@ function ProductPage(props) {
                                     className="w-full rounded-md"
                                     width={100}
                                     height={100}
-                                  /> 
-                                 
-                               
-                                 <div    dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(product.type)
-                                }} className=" text-sm text-dblack"></div>
+                                  />
+                                <div className=" text-sm text-dblack">{product.type}</div>
                                   <div className=" text-dbase">{product.special}</div>
                                   <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
                                  {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30"><h2 className=" text-dbase">Out of stock</h2></div>}
                                 </div>
                                             </Link>
-
-                                     
                                       ))}
                                       </div>
                                   </div>
