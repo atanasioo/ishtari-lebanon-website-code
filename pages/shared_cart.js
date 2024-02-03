@@ -1,6 +1,7 @@
 import { axiosServer } from '@/axiosServer';
 import PointsLoader from '@/components/PointsLoader';
 import { CartContext } from '@/contexts/CartContext';
+import { useMessage } from '@/contexts/MessageContext';
 import buildLink from '@/urls';
 import DOMPurify from 'dompurify';
 import Head from 'next/head'
@@ -12,6 +13,7 @@ import { MdAddShoppingCart } from 'react-icons/md';
 const CartShared = () => {
 
 
+  const { setGlobalMessage, setSuccessMessage, setErrorMessage } = useMessage();
   const [loading, setLoading] = useState(true);
   const [state, dispatch] = useContext(CartContext);
   const router = useRouter();
@@ -49,12 +51,19 @@ const CartShared = () => {
 
 
  async function addSingleProduct(product){
+  console.log(product)
     let obj ={
     
         product_id : product.product_id,
         quantity:1,
-        option:product.options
+        
+      
     
+    }
+    if(product.options.length>0){
+      const key = product.options[0].product_option_id ;
+      const value = product.options[0].product_option_value_id ;
+       obj.option={ [key] : value}
     }
     axiosServer
       .post(
@@ -68,6 +77,10 @@ const CartShared = () => {
       ) .then((response) => {
         const data = response.data;
          if (data.success !== true) {
+        
+            setErrorMessage(true);
+            setGlobalMessage(response.data.message);
+  
       } else {
         dispatch({
           type: "loading",
@@ -122,12 +135,13 @@ const CartShared = () => {
 
   async function addAllProducts(){
     var listProducts = [];  
+    console.log(products);
 for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the loop condition
   var product = products[i];
 
    const obj ={
     product_id:product.product_id,
-    quantity:product.quantity
+    quantity:1
    }
    if(product.options.length == 0){
     obj.option =[]
@@ -141,11 +155,17 @@ for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the
 }
 
 const listProductsObj = {
-  products:listProducts
+  products:listProducts,
+  source:'website'
 }
 try{
   axiosServer.post(buildLink("addShareCart"),listProductsObj).then((res)=>{
    if(res.data.success == true){
+      
+    setSuccessMessage(true);
+    setGlobalMessage(res.data.message);
+  
+    
     dispatch({
       type: "loading",
       payload: true
@@ -178,6 +198,11 @@ try{
           payload: false
         });
       })
+   }else{
+   
+    setErrorMessage(true);
+    setGlobalMessage(res.data.message);
+  
    }
   })
 }catch(e){
@@ -201,7 +226,7 @@ try{
           <PointsLoader />
         ) :(  <>
        <div className='  flex flex-col justify-center h-full'>
-          <div className=' my-2 px-3 py-1 w-full rounded-full bg-dPink h-full flex flex-row align-middle  justify-start gap-4'>
+          <div className=' my-2 px-3 py-1 w-full rounded-md   bg-dgrey h-full flex flex-row align-middle  justify-start gap-4'>
             <FaUser className=' text-dDarkgrey max-sm:mt-2 md:my-auto text-xs'/>
           <div className='  felx flex-row gap-1 w-full '>
             <span className=' text-dgreyBlack font-bold text-sm tracking-normal' > Sharing with you some great items from others' shopping list. </span>
@@ -309,10 +334,14 @@ try{
 
                         </div>
                       </div>
-                     <div className=' my-auto'> <button onClick={()=>addSingleProduct(product)}  className=' py-1 px-3 shadow-md  border-dlabelColor border rounded-full'><MdAddShoppingCart className=' my-auto'/></button></div>
+                     <div className='  my-auto'> <button onClick={()=>addSingleProduct(product)}  className=' py-1 px-3 shadow-md  border-dlabelColor border rounded-full'><MdAddShoppingCart className=' my-auto'/></button></div>
                     </div>)}
-                   {products&& <div onClick={()=>addAllProducts()} className=' container flex flex-row gap-3'><button className=' w-full bg-dblue  py-1 text-white'>Add All </button>
-                    <button onClick={()=>router.push("/cart")} className=' w-full  border border-dblue text-dblue  py-1'>View Cart </button>
+                 
+                   {products&& <div  className=' container  justify-end text-right flex flex-row gap-3'>
+
+                    <button onClick={()=>addAllProducts()} className=' md:w-40 w-full bg-dblue  py-1 text-white'>Add All </button>
+                    <button onClick={()=>router.push("/cart")} className=' w-full md:w-40  border border-dblue text-dblue  py-1'>View Cart </button>
+
                     </div>}
                
           </div>

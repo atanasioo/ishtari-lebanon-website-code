@@ -310,7 +310,16 @@ e.preventDefault();
 
   async function login(e) {
     e.preventDefault();
+
     dispatch({ type: "setLoading", payload: true });
+    if(state.loged){
+      await signOut({ redirect: false });
+      //Logout from Api
+      const res = await axiosServer.post(
+        buildLink("logout", undefined, undefined, window.config["site-url"])
+      );
+    }
+   
     const response = await signIn("login", {
       email: loginEmail.current.value,
       password: loginPassword.current.value,
@@ -646,7 +655,7 @@ return;
                 Welcome back!
               </p>
               <p className="text-2xl font-semibold">Sign in to your account</p>
-              <div className="flex justify-center text-sm font-extralight my-4">
+             {!state.loged && <div className="flex justify-center text-sm font-extralight my-4">
                 <span>Don't have an account?</span>
                 <span
                   onClick={() => {
@@ -658,7 +667,7 @@ return;
                 >
                   Sign Up
                 </span>
-              </div>
+              </div>}
          
             
             <form onSubmit={(e) => login(e)}>
@@ -689,7 +698,7 @@ return;
       <div className="   mt-4 w-full flex flex-row justify-between ">
 
                   <div className="  flex justify-start gap-5 text-start ">
-       <input ref={saveAcc} id="rememberme"  type="checkbox"/>
+       <input ref={saveAcc} defaultChecked={state.loged?true:false} id="rememberme"  type="checkbox"/>
         <label
           className="text-dlabelColor text-sm font-thin"
           htmlFor="rememberme">

@@ -104,7 +104,7 @@ const color = {
                           .charAt(0)
                           .toUpperCase()}
                       </div></div>
-     <span className=' max-md:w-36 overflow-hidden relative text-ellipsis'>{email}</span>
+     <span className=' max-md:w-32 overflow-hidden relative text-ellipsis'>{email}</span>
      </div>
      {loading&&<div className=' w-7 h-7 relative my-auto'><Loader/></div>}
      </div>

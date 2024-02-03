@@ -28,7 +28,7 @@ function SharePopupGlobal(props) {
 
   function copyLink() {
     const el = document.createElement("input");
-    el.value = window.location.href;
+    el.value = textToShare;
     document.body.appendChild(el);
     el.select();
     document.execCommand("copy");

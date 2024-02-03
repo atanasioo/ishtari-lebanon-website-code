@@ -855,6 +855,8 @@ function CatalogTest(props) {
   let productArray = [];
 
   useEffect(() => {
+    console.log(data.social_data)
+
     // console.log(data?.social_data)
     var dataSocial = data?.social_data;
     if (typeof dataSocial !== "undefined") {
@@ -894,7 +896,8 @@ function CatalogTest(props) {
           ln: data?.social_data?.lastname,
           external_id: data?.social_data?.external_id,
           country: data?.social_data?.country_code,
-          fbp: Cookies.get("_fbp")
+          fbp: Cookies.get("_fbp"),
+      
         };
 
         initializeReactPixel().then((reactPixelModule) => {

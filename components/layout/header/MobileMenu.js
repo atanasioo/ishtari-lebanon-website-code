@@ -231,9 +231,7 @@ function MobileMenu(props) {
             <button
               className="menu-button"
               onClick={() => {
-                dispatch({ type: "setShowOver", payload: true });
-                dispatch({ type: "setShowLogin", payload: true });
-                dispatch({ type: "setShowSignup", payload: false });
+          openAuthForm()
               }}
             >
               <span className="menu-icon bg-dbase flex justify-center p-1.5 rounded-sm">

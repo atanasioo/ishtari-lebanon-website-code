@@ -157,7 +157,7 @@ function DesktopMenuCategories(props) {
 
 
   return (
-    <div  className="   border-t border-dborderColor "  style={{
+    <div  className="   border-t bg border-dborderColor "  style={{
       backgroundColor: headerColor ,
     }}>
       {router.asPath.indexOf("pos") < 0 && (

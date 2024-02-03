@@ -84,7 +84,7 @@ function CheckIn() {
        <div className="relative    justify-center  flex flex-col ">
            <div className=" max-md:text-left  max-md:justify-start max-md:mx-0 max-md:ml-3 flex my-8 justify-center text-center  flex-col w-fit mx-auto">
             <h1 className=" text-dblackk  text-3xl font-[900] ">MY POINTS</h1>
-            <p className="  underline text-sm text-dlabelColor flex flex-row gap-2 justify-center"> Learn more about ishtari points <span className=" h-fit my-auto">{" "}<FaQuestionCircle className=" text-dbase text-sm"/></span> </p>
+            <Link href={'memberShip'} className="  underline text-sm text-dlabelColor flex flex-row gap-2 justify-center"> Learn more about ishtari points <span className=" h-fit my-auto">{" "}<FaQuestionCircle className=" text-dbase text-sm"/></span> </Link>
 
             </div>
 
@@ -179,16 +179,11 @@ return <div className=" flex-col justify-center gap-5 ">
     <div className="product-info-container w-3/4">
       <div className="text-d14">
         {" "}
-        <div
-          className={`text-dblack pr-semibold mb-1 h-5 pr-semibold `}
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHTML(item.manufacturer_name),
-          }}
-        />{" "}
+     
         <span
-          className={`text-dblack mb-1 line-clamp-1`}
+          className={`text-dblack `}
           dangerouslySetInnerHTML={{
-            __html: item.full_name,
+            __html: item.name,
           }}
         />
       </div>

@@ -446,7 +446,7 @@ function SingleProduct(props) {
                     </div>
                   ) : (
                     <div onMouseLeave={()=>{setIsHover(false)}} onMouseEnter={()=>{setIsHover(true)}} className=" overflow-hidden relative " >
-                      <div className={` transition-all ease-out duration-500 ${isHover?"scale-125":"scale-100"} `}>
+                      <div className={` transition-all ease-out duration-500`}>
                       <Slider
                         images={props?.item?.images?.slice(0, 2)}
                         autoplay={true}
