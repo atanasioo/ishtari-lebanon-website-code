@@ -2001,8 +2001,11 @@ function ProductPage(props) {
                   <div className=" max-md:flex text-center flex-wrap md:grid grid-cols-3 justify-center ">
                                       {serie.products && serie.is_primary && serie.products.map((product)=>(
                                            <Link
+                                           onClick={(e)=>{
+                                            e.preventDefault();
+                                           }}
                                            key={product.product_id}
-                                           href={`/product/` + product.product_id}
+                                           href={product.out_of_stock ? '':`/product/` + product.product_id}
                                            className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
@@ -2021,7 +2024,8 @@ function ProductPage(props) {
                                 <div className=" text-sm text-dblack">{product.type}</div>
                                   <div className=" text-dbase">{product.special}</div>
                                   <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
-                                 {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30"><h2 className=" text-dbase">Out of stock</h2></div>}
+                                 {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
+                                  <h2 className=" text-dbase">Out of stock</h2></div>}
                                 </div>
                                             </Link>
                                       ))}
@@ -2490,7 +2494,12 @@ function ProductPage(props) {
                                       
                                            <Link
                                            key={product.product_id}
-                                           href={`/product/` + product.product_id}
+                                           onClick={(e)=>{
+                                            if(product.out_of_stock){
+                                              e.preventDefault()
+                                            }
+                                           }}
+                                           href={ product.out_of_stock?'':`/product/` + product.product_id}
                                            className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
