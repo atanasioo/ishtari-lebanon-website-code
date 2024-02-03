@@ -2495,11 +2495,11 @@ function ProductPage(props) {
                                            <Link
                                            key={product.product_id}
                                            onClick={(e)=>{
-                                            if(product.out_of_stock){
+                                            if(product.out_of_stock && !accountState.admin){
                                               e.preventDefault()
                                             }
                                            }}
-                                           href={ product.out_of_stock?'':`/product/` + product.product_id}
+                                           href={ `/product/` + product.product_id }
                                            className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
