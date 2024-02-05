@@ -4,6 +4,7 @@ import { CartContext } from '@/contexts/CartContext';
 import { useMessage } from '@/contexts/MessageContext';
 import buildLink from '@/urls';
 import DOMPurify from 'dompurify';
+import Cookies from 'js-cookie';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react'
@@ -82,6 +83,32 @@ const CartShared = () => {
             setGlobalMessage(response.data.message);
   
       } else {
+        var dataSocial = response?.data?.data?.social_data;
+        dataSocial["link"] = window.location.href;
+        dataSocial["fbp"] = Cookies.get("_fbp");
+        dataSocial["fbc"] = Cookies.get("_fbc");
+        dataSocial["ttp"] = Cookies.get("_ttp");
+        console.log(dataSocial)
+
+        axiosServer
+          .post(
+            buildLink(
+              "pixel",
+              undefined,
+              window.innerWidth,
+              window.config["site-url"]
+            ),
+            dataSocial
+          )
+          .then((response) => {
+            const data = response.data;
+            if (data.success === true) {
+            }
+          });
+
+
+
+
         dispatch({
           type: "loading",
           payload: true
@@ -127,6 +154,9 @@ const CartShared = () => {
               payload: false
             });
        
+
+
+        
       
           })
 
@@ -141,8 +171,10 @@ for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the
 
    const obj ={
     product_id:product.product_id,
-    quantity:1
+    quantity:1,
+
    }
+
    if(product.options.length == 0){
     obj.option =[]
    }else{
@@ -150,6 +182,7 @@ for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the
         [product.options[0].product_option_id]:product.options[0].product_option_value_id
     }
    }
+   
    listProducts.push(obj);
   
 }
@@ -197,6 +230,31 @@ try{
           type: "loading",
           payload: false
         });
+        for (var i = 0; i < products.length; i++) {  
+          product = products[i]
+          var dataSocial = product.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+          console.log(dataSocial)
+  
+          axiosServer
+            .post(
+              buildLink(
+                "pixel",
+                undefined,
+                window.innerWidth,
+                window.config["site-url"]
+              ),
+              dataSocial
+            )
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
+        }
       })
    }else{
    

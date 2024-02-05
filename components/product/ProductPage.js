@@ -2002,7 +2002,9 @@ function ProductPage(props) {
                                       {serie.products && serie.is_primary && serie.products.map((product)=>(
                                            <Link
                                            onClick={(e)=>{
-                                            e.preventDefault();
+                                            if(product.out_of_stock && !accountState.admin){
+                                              e.preventDefault()
+                                            }
                                            }}
                                            key={product.product_id}
                                            href={product.out_of_stock ? '':`/product/` + product.product_id}
