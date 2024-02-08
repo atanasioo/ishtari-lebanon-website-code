@@ -2007,7 +2007,7 @@ function ProductPage(props) {
                   { serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
                   <div className=" max-md:flex text-center flex-wrap md:grid grid-cols-3 justify-center ">
                                       {serie.products && serie.is_primary && serie.products.map((product)=>(
-                                           <div
+                                          product.disabled && !accountState.admin ?<></>: <div
                                            onClick={(e)=>{
                                             if(product.out_of_stock && !accountState.admin){
                                               e.preventDefault()
@@ -2020,7 +2020,7 @@ function ProductPage(props) {
                                            className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
-                                               : "border-dgrey"
+                                               : product.disabled?"border-dbase": "border-dgrey"
                                            }`}
                                          >
                                             <div className=" relative overflow-hidden flex flex-col justify-center text-center gap-2 px-1 py-1">
@@ -2133,9 +2133,14 @@ function ProductPage(props) {
                       <div className="h-[350px]  overflow-y-auto relative my-3">
                     {bundles && bundles.map((bundle)=>
                       <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8 ">
-                        <p className="font-black pr-semibold text-sm mb-2 ml-2">
-                          Frequently Bought Together
-                        </p>
+                        
+                        <p className="font-black pr-semibold text-sm mb-2 ml-2"
+                                dangerouslySetInnerHTML={{
+                                  __html: unescapeHTML(
+                                    sanitizeHTML(bundle.name)
+                                  )
+                                }}
+                              ></p>
                         <div className="bg-white">
                           <Slider
                             className="hidden mobile:block"
@@ -2210,12 +2215,14 @@ function ProductPage(props) {
                               </div>
                             ) : (
                               !addingToCart && (
-                                <span className="">
-                                  {  bundle?.description ==""?(
-                               <>  Buy This Bundle For </>
-                                     ):(<>  {bundle?.description} {" "}</>) }
-                                  {bundle?.total_amount_after_discount}{" "}
-                                </span>
+                                <p ><span  dangerouslySetInnerHTML={{
+                                  __html: unescapeHTML(
+                                    sanitizeHTML(bundle.description)
+                                  )
+                                }} className="">
+                           </span>
+                                  {" "}{bundle?.total_amount_after_discount}{" "}
+                                </p>
                               )
                             )}
                           </button>
@@ -2502,7 +2509,7 @@ function ProductPage(props) {
                                { !serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
                                      <div className=" flex flex-wrap  py-3 w-fit  justify-center  gap-1">
                                       {!serie.is_primary && serie.products && serie.products.map((product)=>(
-                                      
+                                      product.disabled && !accountState.admin?<></>:
                                            <div
                                            key={product.product_id}
                                            onClick={(e)=>{
@@ -2517,7 +2524,7 @@ function ProductPage(props) {
                                            className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
-                                               : "border-dgrey"
+                                               : product.disabled?"border-dbase": "border-dgrey"
                                            }`}
                                          >
                                             <div className=" relative overflow-hidden flex flex-col justify-center text-center gap-2 px-1 py-1">

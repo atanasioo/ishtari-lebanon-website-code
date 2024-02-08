@@ -597,7 +597,7 @@ function Cart() {
                                 ")"}
                             </p>
                           )}
-                          {product.warranty.length > 0 && (
+                          {!window.config['short-name'] == 'ishtari-gh'&& product.warranty.length > 0 && (
                             <p className="text-dgreen text-sm">
                               {product.warranty[0].warranty_name +
                                 " ( " +

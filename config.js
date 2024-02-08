@@ -67,7 +67,7 @@ if (typeof window !== "undefined") {
     host === "ishtari.com.gh"  ||  host === "next.ishtari.com.gh"
   ) {
     config = {
-      "short-name": "ishtari",
+      "short-name": "ishtari-gh",
       "seo-title": "ishtari | Online Shopping in Ghana",
       "seo-title-base": " | ishtari",
       "seo-description":

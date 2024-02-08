@@ -8,7 +8,7 @@ function SiteHeaders(props) {
   const { local } = props;
 
   return (
-    <div className="relative">
+    <div className="relative bg-white">
       <div className={` w-full ${width < 650 && local ? "h-32 p-5" : "h-16"}`}>
         <button
           className="bg-dbase text-white font-bold text-xs md:text-d16 p-2 m-2"

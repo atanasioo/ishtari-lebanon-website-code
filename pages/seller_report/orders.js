@@ -37,6 +37,7 @@ const OrdersSeller = () => {
   const [productQuantity, setProductQuantity] = useState(
     getDefault("filter_product_quantity")
   );
+  const [sku,setSku] = useState("")
   const [date, setDate] = useState(getDefault("filter_date"));
 
   const statusColor = {
@@ -107,6 +108,7 @@ const OrdersSeller = () => {
       productQuantity !== ""
         ? `&filter_product_quantity=${productQuantity}`
         : "";
+        const filter_sku = sku !== ""?`&filter_sku=${sku}`:"";
     const filter_date = date?.finalDate ? `&filter_date=${date.finalDate}` : "";
     const filter_total = totalValue !== "" ? `&filter_total=${totalValue}` : "";
 
@@ -123,7 +125,7 @@ const OrdersSeller = () => {
   axiosServer
       .get(
         buildLink("seller_orders")
-        + `&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}`
+        + `&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}${filter_sku}`
         // `https://www.ishtari.com/motor/v2/index.php?route=seller_report/orders&limit=${limit}&page=${currentPage}${filter_status}${filter_order_id}${filter_product_quantity}${filter_date}${filter_total}`
       )
       .then((response) => {
@@ -141,6 +143,7 @@ const OrdersSeller = () => {
     setStatus("0");
     setFilterID("");
     setProductQuantity("");
+    setSku("")
     setDate();
     setTotalValue("");
     window.scrollTo({
@@ -304,6 +307,20 @@ const OrdersSeller = () => {
                         value={productQuantity}
                         onChange={(e) =>
                           setProductQuantity(e.currentTarget.value)
+                        }
+                      />
+                    </div>
+                    <div className="pr-2 mb-4 w-full">
+                      <label className="block  text-xs mb-2" for="prod_qty">
+                        Sku:
+                      </label>
+                      <input
+                        className="form-control h-10 text-dbluegray text-xs"
+                        id="prod_qty"
+                        type="text"
+                        value={sku}
+                        onChange={(e) =>
+                          setSku(e.currentTarget.value)
                         }
                       />
                     </div>

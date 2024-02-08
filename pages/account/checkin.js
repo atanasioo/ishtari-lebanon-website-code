@@ -91,10 +91,10 @@ function CheckIn() {
             <div className=" w-full h-32 bg-dgrey rounded-md">
 
 
-              <div className=" flex  flex-row justify-between max-md:px-8 px-24  py-7 ">
-                <h2 className=" text-dlabelColor"> <span className=" text-dbase text-5xl">{points}</span> Points</h2>
-                     <div className=" flex flex-col "><span>|</span><span>|</span><span>|</span></div>
-                <h2  className=" text-dlabelColor"> <span className="text-dbase text-5xl">0</span> US Dollars</h2>
+              <div className=" flex  flex-row text-center justify-center max-md:px-8 px-24  py-7 ">
+                <h2 className="  text-dlabelColor"> <span className=" text-dbase text-5xl">{points}</span> Points</h2>
+                     {/* <div className=" flex flex-col "><span>|</span><span>|</span><span>|</span></div>
+                <h2  className=" text-dlabelColor"> <span className="text-dbase text-5xl">0</span> US Dollars</h2> */}
 
 
               </div>
@@ -103,7 +103,7 @@ function CheckIn() {
 
             </div>
             
-            <p className=" my-5 text-sm text-dlabelColor flex flex-row gap-2 justify-center"> Check in for 3 consecutive days to get a big surprise </p>
+            <p className=" my-5 text-sm text-dlabelColor flex flex-row gap-2 justify-center"> Check in every day to get points gift </p>
 
             <div className="  max-md:gap-5 gap-10 justify-center w-full h-full flex flex-wrap py-5">
 
@@ -112,7 +112,7 @@ function CheckIn() {
 {checkins&& checkins.map((checkin)=>{
 return <div className=" flex-col justify-center gap-5 ">
 
-  <button onClick={()=>setShowpopup(true)} className={` w-12 h-12 rounded-full ${checkin.checked_in?" bg-dbase text-white":" bg-dplaceHolder"} relative  text-dblack `}><p className=" my-auto  mx-auto">{checkin.point}</p></button>
+  <div  className={` cursor-cell flex justify-center text-center w-12 h-12 rounded-full ${checkin.checked_in?" bg-dbase text-white":" bg-dplaceHolder"} relative  text-dblack `}><p className=" my-auto  mx-auto">{checkin.point}</p></div>
   <div className=" text-sm w-fit mx-auto text-dlabelColor">{checkin.date}</div>
 </div>
 

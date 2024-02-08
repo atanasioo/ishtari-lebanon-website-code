@@ -51,6 +51,10 @@ setShowShareSocial(false)
 
 
 
+  
+
+
+
   function selectAll(res) {
     var array = [];
 
@@ -203,7 +207,7 @@ await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProduct
                             ")"}
                         </p>
                       )}
-                      {product.warranty.length > 0 && (
+                      {!window.config['short-name'] == 'ishtari-gh'&&product.warranty.length > 0 && (
                         <p className="text-dgreen text-sm">
                           {product.warranty[0].warranty_name +
                             " ( " +

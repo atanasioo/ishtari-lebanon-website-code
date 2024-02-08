@@ -19,37 +19,45 @@ function Layout({ children, token, host }) {
 
 
   var prevScroll = 200;
-  useEffect(() => {
-    const header = document.getElementById("headersticky")
-    header.classList.remove("hide")
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      if (router.asPath !== "/") {
-      } else {
-        if (scrollTop >= 300) {
-          setHeaderColor("white");
-        } else {
-          const headerCollocal = localStorage.getItem("headerCol");
-          //  console.log("____________________");
-          //  console.log(headerCollocal)
-          if (
-            headerCollocal == null ||
-            headerCollocal == "" ||
-            headerCollocal == undefined
-          ) {
-            setHeaderColor("white");
-          } else {
-            setHeaderColor(headerCollocal);
-          }
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      // Clean up the event listener when the component is unmounted
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [router.asPath]);
+  // useEffect(() => {
+  
+  //   const header = document.getElementById("headersticky")
+  //   if(header){
+
+    
+  //   header.classList.remove("hide")
+  //   header.classList.remove("hideradmin")
+  //   }
+  //   const handleScroll = () => {
+  //     const scrollTop = window.pageYOffset;
+  //     if (router.asPath !== "/") {
+  //     } else {
+  //       if (scrollTop >= 300) {
+  //         setHeaderColor("white");
+  //       } else {
+  //         const headerCollocal = localStorage.getItem("headerCol");
+  //         //  console.log("____________________");
+  //         //  console.log(headerCollocal)
+  //         if (
+  //           headerCollocal == null ||
+  //           headerCollocal == "" ||
+  //           headerCollocal == undefined
+  //         ) {
+  //           setHeaderColor("white");
+  //         } else {
+  //           setHeaderColor(headerCollocal);
+  //         }
+  //       }
+  //     }
+    
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     // Clean up the event listener when the component is unmounted
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  
+  // }, [router.asPath]);
 
 
 
@@ -57,6 +65,9 @@ function Layout({ children, token, host }) {
 
   useEffect(() => {
     const header = document.getElementById("headersticky")
+    if(header){
+
+    
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
      
@@ -65,11 +76,9 @@ function Layout({ children, token, host }) {
       }else{
         if(scrollTop> prevScroll){
           //  console.log(`prev${prevScroll}`);
-          if(!stateAcc.admin){
+       
             header.classList.add("hide")
-          }else{
-            header.classList.add("hideadmin")
-          }
+         
           
           }else if(scrollTop< prevScroll) {
             header.classList.remove("hide")
@@ -83,6 +92,7 @@ function Layout({ children, token, host }) {
       // Clean up the event listener when the component is unmounted
       window.removeEventListener('scroll', handleScroll);
     };
+  }
   }, []);
 
 

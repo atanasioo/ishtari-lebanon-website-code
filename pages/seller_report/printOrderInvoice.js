@@ -32,7 +32,8 @@ function PrintOrderInvoice() {
       });
 
     printOrders(selected_orders);
-  }, []);
+  console.log(selected_orders)
+  }, [selected_orders]);
 
   function printOrders(selected_orders) {
     axiosServer
