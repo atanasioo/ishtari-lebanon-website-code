@@ -13,7 +13,7 @@ const AdressCard = ({getAdress, address,deleteAddress}) => {
     let verificationCode =['', '', '', '','',''];
     const [validateCodeConst,setValidateCodeConst] = useState(0);
     const verificationCodeRefs = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
-
+let isPast = false;
   const { setGlobalMessage, setSuccessMessage, setErrorMessage } = useMessage();
   
   
@@ -36,6 +36,22 @@ const AdressCard = ({getAdress, address,deleteAddress}) => {
     })
     }
 
+
+    const handlePasteCode = (e) => {
+      isPast = true;
+      const pastedCode = e.clipboardData.getData('text/plain');
+      console.log(pastedCode)
+      
+      // Validate that the pasted code is numeric and has the correct length
+      if (/^\d{6}$/.test(pastedCode)) {
+        const newVerificationCode = pastedCode.split('').slice(0, verificationCode.length);
+        verificationCodeRefs.map((item,index)=>
+        item.current.value = newVerificationCode[index]
+        )
+       handleVerifyCode()
+      }
+    };
+  
 
  
     const handleVerifyCode = async() => {
@@ -83,7 +99,9 @@ const AdressCard = ({getAdress, address,deleteAddress}) => {
       const handleCodeChange = (index, value) => {
       
 
-        
+       if(!isPast){
+
+       
         verificationCodeRefs[index].current.value = value ;
         if (value !== '' && index < verificationCode.length - 1) {
           verificationCodeRefs[index + 1].current.focus();
@@ -93,7 +111,7 @@ const AdressCard = ({getAdress, address,deleteAddress}) => {
       
 
       
-      
+       }
     
         // Move focus to the next input field
       
@@ -232,6 +250,8 @@ const AdressCard = ({getAdress, address,deleteAddress}) => {
            
               }
             }}
+            onPaste={(e)=>handlePasteCode(e)}
+
             ref={verificationCodeRefs[index]}
           />
         ))}
