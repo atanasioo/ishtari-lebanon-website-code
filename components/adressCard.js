@@ -38,6 +38,7 @@ let isPast = false;
 
 
     const handlePasteCode = (e) => {
+       
       isPast = true;
       const pastedCode = e.clipboardData.getData('text/plain');
       console.log(pastedCode)
