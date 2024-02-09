@@ -20,7 +20,7 @@ export default function FooterPartCenter(props) {
       <div className={` justify-between px-5 hidden mobile:flex`}>
         {data?.data?.data?.map((cat) => {
           return (
-            <div key={cat?.category_id} className="pb-3">
+            cat.category_id == "4607"?<></> : <div key={cat?.category_id} className="pb-3">
               <div className="pb-3">
                 <Link
                   className="text-df uppercase hover:text-dblue pr-semibold leading-dsnug	"

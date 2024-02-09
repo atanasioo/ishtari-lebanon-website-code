@@ -6,18 +6,8 @@ function HeaderOverlay(props) {
   const [state] = useContext(AccountContext);
   return (
     <div
-      className="absolute z-20 w-full left-0 bg-dblackOverlay"
-      style={{
-        top:
-          !local && !state?.admin
-            ? "137px"
-            : local && state?.admin
-            ? "250px"
-            : !local && state?.admin
-            ? "185px"
-            : "110px",
-            height: "200vh"
-      }}
+      className="fixed h-full  -z-10 w-full top-0 left-0 bg-dblackOverlay"
+  
     ></div>
   );
 }

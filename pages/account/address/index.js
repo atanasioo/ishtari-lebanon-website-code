@@ -1,6 +1,7 @@
 import { axiosServer } from "@/axiosServer";
 import UserSidebar from "@/components/account/UserSidebar";
 import UserSidebarMobile from "@/components/account/UserSidebarMobile";
+import AdressCard from "@/components/adressCard";
 import PointsLoader from "@/components/PointsLoader";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
@@ -9,6 +10,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
+import { FaSms } from "react-icons/fa";
 
 function Adresses() {
   const [width, height] = useDeviceSize();
@@ -23,28 +25,37 @@ function Adresses() {
         pathname: "/",
       });
     } else if (state.loged) {
-      axiosServer
-        .get(buildLink("address", undefined, window.innerWidth))
-        .then((response) => {
-          if (response.status) {
-            setAddresses(response.data.data);
-            setLoading(false);
-            if (!state.loged) {
-              router.push({
-                pathname: "/",
-              });
-            }
-          } else {
-            dispatch({ type: "setLoading", payload: false });
-            if (!state.loading && !state.loged) {
-              router.push({
-                pathname: "/",
-              });
-            }
-          }
-        });
+    getAdress();
     }
   }, [dispatch, state.loading, router]);
+
+
+
+ async function getAdress(){
+   await axiosServer
+    .get(buildLink("address", undefined, window.innerWidth))
+    .then((response) => {
+      if (response.status) {
+        setAddresses(response.data.data);
+        setLoading(false);
+        if (!state.loged) {
+          router.push({
+            pathname: "/",
+          });
+        }
+      } else {
+        dispatch({ type: "setLoading", payload: false });
+        if (!state.loading && !state.loged) {
+          router.push({
+            pathname: "/",
+          });
+        }
+      }
+    });
+  }
+
+
+
 
   //delete address
   function deleteAddress(address_id) {
@@ -101,90 +112,14 @@ function Adresses() {
                 <div>No Addresses</div>
               ) : (
                 addresses?.map((address) => (
-                  <div
-                    className="p-8 mobile:flex mobile:justify-between bg-white mt-10"
-                    key={address.address_id}
-                  >
-                    <div>
-                      <div className="flex gap-4 mb-5">
-                        <div className="text-d18 capitalize pr-bold ">
-                          {address.zone}
-                        </div>
-                      </div>
-                      <div className="">
-                        <div className="flex ">
-                          <span className="lg:w-28 text-dgreyAddress">
-                            First Name:
-                          </span>
-                          <div>{address.firstname}</div>
-                        </div>
-                        <div className="flex mt-3 ">
-                          <span className="lg:w-28 text-dgreyAddress">
-                            Last Name:
-                          </span>
-                          <div>{address.lastname}</div>
-                        </div>
-                        <div className="flex mt-3 ">
-                          <span className="lg:w-28 text-dgreyAddress">
-                            Address:
-                          </span>
-                          <div>{address.address_1}</div>
-                        </div>
-                        <div className="flex mt-3 ">
-                          <span className="lg:w-28 text-dgreyAddress">
-                            Telephone:
-                          </span>
-                          <div>{address.telephone}</div>
-                        </div>
-                        {window.config["useTown"] && (
-                          <div className="flex mt-3">
-                            <span className="lg:w-28 text-dgreyAddress">
-                              Town:{" "}
-                            </span>
-                            <div className="font-semibold">
-                              {address.town_name}
-                            </div>
-                          </div>
-                        )}
-                        <div className="mobile:hidden border-t border-dgreyZoom mt-6 pt-4 flex gap-6">
-                          <button
-                            className="text-dgreyAddress underline cursor-pointer"
-                            onClick={() => deleteAddress(address?.address_id)}
-                          >
-                            Delete
-                          </button>
-                          <Link
-                            href={`${path}/account/address/${address.address_id}/edit`}
-                            className="text-dgreyAddress underline cursor-pointer"
-                          >
-                            Edit
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="hidden mobile:block">
-                      <div className="flex items-center gap-6">
-                        <button
-                          className="text-dgreyAddress underline cursor-pointer"
-                          onClick={() => deleteAddress(address?.address_id)}
-                        >
-                          Delete
-                        </button>
-                        <Link
-                          href={`${path}/account/address/${address.address_id}/edit`}
-                          className="text-dgreyAddress underline cursor-pointer"
-                        >
-                          Edit
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+                  <AdressCard getAdress={getAdress} address={address} deleteAddress={deleteAddress} />
                 ))
               )}
             </div>
           </div>
         </div>
       </div>
+    
     </div>
   );
 }

@@ -183,7 +183,7 @@ function Layout({ children, token, host }) {
             </div>
           </div>
 
-      <div className={` ${successMessage?" z-50 translate-x-0 opacity-100":" -z-50  translate-x-20 opacity-0"} duration-200 transition-all fixed top-14 right-0 bg-dgreenop px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center  w-3/4 xl:w-2/4`}>
+      <div className={` ${successMessage?" z-[999] translate-x-0 opacity-100":" -z-50  translate-x-20 opacity-0"} duration-200 transition-all fixed top-14 right-0 bg-dgreenop px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center  w-3/4 xl:w-2/4`}>
         <svg
           viewBox="0 0 24 24"
           className="text-dgreen w-5 h-5 sm:w-5 sm:h-5 mr-3"
@@ -200,7 +200,7 @@ function Layout({ children, token, host }) {
       </div>
    
 
-        <div className={`fixed ${errorMessage?" z-50 translate-x-0 opacity-100":" -z-50  translate-x-20 opacity-0"}  duration-100  transition-all  top-14 right-0 bg-dbase1 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center  w-3/4 xl:w-2/4`}>
+        <div className={`fixed ${errorMessage?" z-[999] translate-x-0 opacity-100":" -z-50  translate-x-20 opacity-0"}  duration-100  transition-all  top-14 right-0 bg-dbase1 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center  w-3/4 xl:w-2/4`}>
           <svg
             viewBox="0 0 24 24"
             className="text-white w-5 h-5 sm:w-5 sm:h-5 mr-3"

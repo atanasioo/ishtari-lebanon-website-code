@@ -17,22 +17,35 @@ import { sanitizeHTML } from "@/components/Utils";
 import { RiCoupon2Line } from "react-icons/ri";
 import Link from "next/link";
 import { HiStar } from "react-icons/hi";
+import ReactPaginate from "react-paginate";
 function CheckIn() {
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
   const [width, height] = useDeviceSize();
   const [checkins,setCheckins]= useState([]);
   const [points,setPoints]= useState(0);
   const [showPopup,setShowpopup]= useState(false);
   const [earnedPoint,setEarnedPoint]= useState(0);
   const [state, dispatch] = useContext(AccountContext);
+  const [totalPage, setTotalPage] = useState(0);
+  const [limit, setLimit] = useState(20);
   const [recommended ,setRecommended] = useState([])
   const router = useRouter();
   const modal = useRef(null);
 
   const getCheckinInf =()=>{
+    const {page} = router.query;
+    let pageparam = ''
+    if(page){
+    pageparam = '&page='+page
+    setPage(page)
+    }else{
+      setPage(0)
+    }
+    console.log(page)
     setLoading(true)
     axiosServer
-    .get(buildLink("checkin", undefined, window.innerWidth))
+    .get(buildLink("checkin", undefined, window.innerWidth)+pageparam+"&limit="+limit)
     .then((response) => {
       setLoading(false)
       if(response.data.data.pop_up.checked_in){
@@ -40,6 +53,7 @@ function CheckIn() {
         setShowpopup(true)
       
       }
+      setTotalPage(response.data.data.recomended.total_pages);
    setCheckins(response.data.data.checkins);
    setPoints(response.data.data.points);
    setRecommended(response.data.data.recomended.products);
@@ -47,7 +61,12 @@ function CheckIn() {
   }
 
 
-
+  function pageSetter(page) {
+    setPage(page["selected"] + 1);
+    router.push(
+      `/account/checkin?&page=${page["selected"] + 1}&limit=${limit}`
+    );
+  }
   useEffect(()=>{
     if (!state.loading && !state.loged) {
         router.push("/");
@@ -56,7 +75,7 @@ function CheckIn() {
     } else if (state.loged) {
     getCheckinInf();
     }
-  },[state.loading])
+  },[state.loading,router.query])
 
 
   return (
@@ -285,6 +304,19 @@ return <div className=" flex-col justify-center gap-5 ">
 </Link>
 })}
   </div>
+  {totalPage > 0 && (
+                  <ReactPaginate
+                    pageCount={Math.ceil(totalPage / limit)}
+                    containerClassName={"pagination"}
+                    onPageChange={pageSetter}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={1}
+                    previousLabel={"<"}
+                    nextLabel={">"}
+                    activeClassName={"active-pagination"}
+                    forcePage={page ? parseInt(page) - 1 : 0}
+                  ></ReactPaginate>
+                )}
 </div>
 }
             </div>

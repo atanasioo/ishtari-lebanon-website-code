@@ -23,6 +23,7 @@ export default function MenmberShip() {
   const { data: session, status } = useSession();
   const [totalPage, setTotalPage] = useState(0);
   const [limit, setLimit] = useState(20);
+
   const [page, setPage] = useState(0);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -31,8 +32,19 @@ export default function MenmberShip() {
     if (!stateAcc.loading && !stateAcc.loged) {
       router.push("/");
     } else if (stateAcc.loged) {
+      const {page} = router.query;
+    
+      let pageparam = ''
+      if(page){
+      pageparam = '&page='+page
+      setPage(page)
+      }else{
+        setPage(0)
+      }
+
+      setLoading(true)
       axiosServer
-        .get(buildLink("memberShip") + "&page=" + page + "&limit=" + limit)
+        .get(buildLink("memberShip") +  pageparam + "&limit=" + limit)
         .then((resp) => {
           // console.log(resp.data);
           setState(resp.data);
@@ -44,7 +56,7 @@ export default function MenmberShip() {
           setLoading(false);
         });
     }
-  }, [page, stateAcc.loading]);
+  }, [router.query, stateAcc.loading]);
 
   function goTo() {
     router.push("/account/memberShipDetails");
@@ -200,7 +212,7 @@ export default function MenmberShip() {
                     previousLabel={"<"}
                     nextLabel={">"}
                     activeClassName={"active-pagination"}
-                    forcePage={page ? parseInt(page) - 1 : 0}
+                    forcePage={router ? parseInt(page) - 1 : 0}
                   ></ReactPaginate>
                 )}
               </div>
