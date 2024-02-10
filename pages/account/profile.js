@@ -348,9 +348,8 @@ function profile() {
                     </div>
                   </div>
                 </div>
-
                 <button
-                  className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full`}
+                   className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full w-64 transition-all uppercase duration-300 ease-out transform hover:bg-dbluedark hover:text-d14 hover:scale-105`}
                 >
                   SAVE DETAILS
                 </button>
@@ -425,7 +424,7 @@ function profile() {
                   </div>
                 </div>
                 <button
-                  className={`bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 rounded ml-auto block max-md:w-full`}
+                    className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full w-64 transition-all uppercase duration-300 ease-out transform hover:bg-dbluedark hover:text-d14 hover:scale-105`}
                   onClick={(e) => ChangePassword(e)}
                 >
                   CHANGE PASSWORD
@@ -449,7 +448,8 @@ function profile() {
                       onClick={() => {
                         openAuthForm("switch");
                       }}
-                      className=" flex flex-row gap-2  bg-dblue  px-2 rounded-md text-white justify-center "
+                      className="flex flex-row gap-2 text-d13 bg-dblue  px-2 rounded-md text-white justify-center hover:scale-105 hover:text-d16 hover:bg-dbluedark transform uppercase duration-300
+                      ease-out transition-all"
                     >
                       {" "}
                       <HiSwitchHorizontal className=" my-auto h-fit" />{" "}
@@ -492,7 +492,7 @@ function profile() {
                 </div>
                 <button
                   onClick={() => saveDisabledEmails()}
-                  className={`bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 ml-auto rounded  block uppercase max-md:w-full`}
+                  className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full w-64 transition-all uppercase duration-300 ease-out transform hover:bg-dbluedark hover:text-d14 hover:scale-105`}
                 >
                   Save Details
                 </button>
@@ -505,7 +505,8 @@ function profile() {
               </p>
               <div className="p-4 pt-2 bg-white">
                 <button
-                  className={`bg-dblue text-white md:px-4 px-2 text-d13 py-2 mt-8 ml-auto rounded  block uppercase max-md:w-full`}
+                  // className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full w-64 transition-all uppercase duration-300 ease-out hover:bg-dbluedark`}
+                  className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full w-64 transition-all uppercase duration-300 ease-out transform hover:bg-dbluedark hover:text-d14 hover:scale-105`}
                   onClick={(e) => disabledAccount(e)}
                 >
                   Delete Your Account
