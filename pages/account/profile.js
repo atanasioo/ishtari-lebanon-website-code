@@ -440,6 +440,7 @@ function profile() {
                 <div className="p-4  bg-white">
                   <div className="flex justify-between gap-2  ">
                     <AccountCard
+                    username={state.username}
                       isloged={true}
                       email={state.email}
                       password={state.password}
@@ -452,7 +453,7 @@ function profile() {
                     >
                       {" "}
                       <HiSwitchHorizontal className=" my-auto h-fit" />{" "}
-                      <h2 className=" h-fit my-auto">Switch</h2>{" "}
+                  
                     </button>
                   </div>
                 </div>

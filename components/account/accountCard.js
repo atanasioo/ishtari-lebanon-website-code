@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Loader from '../Loader';
 import { MdOutlineVerified } from 'react-icons/md';
 
-const AccountCard = ({email,password,onclick,isloged,customerId,type}) => {
+const AccountCard = ({email,password,onclick,isloged,customerId,type,username}) => {
 const [loading,setLoading] = useState(false);
 function login(){
   if(onclick ){
@@ -84,14 +84,14 @@ const color = {
                         style={{
                           backgroundColor:
                             color[
-                              email
+                              username
                                 .replace(/\s+/g, "")
                                 .charAt(0)
                                 .toLowerCase()
                             ],
                           color:
                             textColor[
-                              email
+                              username
                                 .replace(/\s+/g, "")
                                 .charAt(0)
                                 .toLowerCase()
@@ -99,12 +99,12 @@ const color = {
                         }}
                       >
                         {" "}
-                        {email
+                        {username
                           .replace(/\s+/g, "")
                           .charAt(0)
                           .toUpperCase()}
                       </div></div>
-     <span className=' max-md:w-32 overflow-hidden relative text-ellipsis'>{email}</span>
+     <span className=' max-md:w-[100px] overflow-hidden relative text-ellipsis'>{username}</span>
      </div>
      {loading&&<div className=' w-7 h-7 relative my-auto'><Loader/></div>}
      </div>

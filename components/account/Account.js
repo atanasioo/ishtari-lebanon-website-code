@@ -390,7 +390,8 @@ if( saveAcc.current && type == 'login'&& saveAcc.current.checked){
   const objAcc ={
     email:data.email,
     password:loginPassword.current.value,
-    customerId:data.customer_id
+    customerId:data.customer_id,
+    username:data.username
   }
   // Cookies.remove("listAcc")
   var listAccount = Cookies.get("listAcc");
@@ -836,7 +837,7 @@ return;
               
             {state.listAccCach&&<> 
             <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
-              {state.listAccCach.map((account)=><AccountCard type={'login'} email={account.email} password={account.password} onclick={loginCach}/>)}
+              {state.listAccCach.map((account)=><AccountCard username={account.username} type={'login'} email={account.email} password={account.password} onclick={loginCach}/>)}
             </div>
             
             </>}
@@ -942,7 +943,7 @@ return;
               
             {state.listAccCach&&<> 
             <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
-              {state.listAccCach.map((account)=><AccountCard  isloged={account.email == state.email?true:false} email={account.email} customerId={account.customerId} password={account.password} type={'switch'} onclick={account.email == state.email? null:switchAccount}/>)}
+              {state.listAccCach.map((account)=><AccountCard username={account.username}  isloged={account.email == state.email?true:false} email={account.email} customerId={account.customerId} password={account.password} type={'switch'} onclick={account.email == state.email? null:switchAccount}/>)}
             </div>
             
             </>}
