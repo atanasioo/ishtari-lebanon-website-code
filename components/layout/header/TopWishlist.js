@@ -52,18 +52,18 @@ function TopWishlist() {
     <Link
       className={`${
         window.config["showCart"] ? "block" : "hidden"
-      } text-dblack lg:border-r lg:border-dplaceHolder font-semibold text-base flex items-center h-8 pr-3 sm:px-5 cursor-pointer hover:opacity-80 relative`}
+      } text-white lg:border-r lg:border-dplaceHolder font-semibold text-base flex items-center h-8 pr-3 sm:px-5 cursor-pointer hover:opacity-80 relative`}
       href={`${path}/account/wishlist`}
     >
       <span className="hidden xl:block lg:block">Wishlist</span>
       <FiHeart
-        className={`ml-2 w-5 h-5   ${
-          window.innerWidth < 650 ? "text-dgreyBlack" : "text-dblack"
+        className={`ml-2 w-5 h-5  font-extrabold  ${
+          window.innerWidth < 650 ? "text-dblack" : "text-white"
         }`}
       />
 
       <span
-        className={`w-5 h-5  bg-dbase flex text-white items-center justify-center rounded-full text-xs absolute right-0 sm:right-2 -top-1 border border-white  -mr-0.5 mobile:mr-1`}
+        className={`w-5 h-5  bg-dblue flex text-white items-center justify-center rounded-full text-xs absolute right-0 sm:right-2 -top-1 border border-white  -mr-0.5 mobile:mr-1`}
       >
         <span>
           {state.loading ? (

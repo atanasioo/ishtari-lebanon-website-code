@@ -32,11 +32,12 @@ function CountryDropdown(props) {
 
   return props.host === "https://www.ishtari.com" ||
   props.host === "https://www.ishtari.com.gh" ? (
-    <div className="flex justify-center  md:mr-3">
+    <div className="flex justify-center  md:mx-3">
       <div>
         <div className="dropdown relative float-right lg:pr-2">
           <button
             className="
+            text-white
                   dropdown-toggle
                   px-1
                   text-s
@@ -83,7 +84,7 @@ function CountryDropdown(props) {
           </button>
 
           {int ? (
-            <ul ref={wrapperRef} className="dropdown-menu min-w-max absolute right-0 bg-white text-base z-50 float-left py-3 px-3 list-none text-left rounded-sm shadow-lg">
+            <ul ref={wrapperRef} className="dropdown-menu min-w-max absolute right-0 bg-white text-base z-[999] float-left py-3 px-3 list-none text-left rounded-sm shadow-lg">
               <li>
                 <a
                   className="flex py-3 pl-2 pr-3"

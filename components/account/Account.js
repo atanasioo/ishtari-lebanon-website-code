@@ -837,7 +837,7 @@ return;
               
             {state.listAccCach&&<> 
             <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
-              {state.listAccCach.map((account)=><AccountCard username={account.username} type={'login'} email={account.email} password={account.password} onclick={loginCach}/>)}
+              {state.listAccCach.map((account)=><AccountCard username={account.username == null ||account.username == undefined ||account.username == "" ?account.email:account.username} type={'login'} email={account.email} password={account.password} onclick={loginCach}/>)}
             </div>
             
             </>}
@@ -943,7 +943,7 @@ return;
               
             {state.listAccCach&&<> 
             <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
-              {state.listAccCach.map((account)=><AccountCard username={account.username}  isloged={account.email == state.email?true:false} email={account.email} customerId={account.customerId} password={account.password} type={'switch'} onclick={account.email == state.email? null:switchAccount}/>)}
+              {state.listAccCach.map((account)=><AccountCard username={account.username == null ||account.username == undefined ||account.username == "" ?account.email:account.username}  isloged={account.email == state.email?true:false} email={account.email} customerId={account.customerId} password={account.password} type={'switch'} onclick={account.email == state.email? null:switchAccount}/>)}
             </div>
             
             </>}
@@ -1194,7 +1194,7 @@ We'll send you a new password.
             onClick={
               openAuthForm
             }
-            className="  font-semibold text-base flex items-center px-3 md:pr-5 cursor-pointer hover:opacity-80 relative"
+            className="  font-[900] text-white text-base text-lg flex items-center px-3 md:pr-5 cursor-pointer hover:opacity-80 relative"
           >
             <span>Sign In</span>
             <AiOutlineUser className="ml-1 w-5 h-5" />
@@ -1219,11 +1219,13 @@ We'll send you a new password.
             <div
               role="button"
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className=" cursor-pointer hover:opacity-80 flex items-center"
+              className=" text-white  cursor-pointer hover:opacity-80 flex items-center"
             >
-              <span className="text-d11 font-light flex flex-col">
-                <span>Welcome {state.username}</span>
-                <span className="text-sm font-semibold">My Account</span>
+              <span className="flex flex-col">
+                <span className=" text-xs font-medium">Welcome
+                 {/* {state.username} */}
+                 </span>
+                <span className="text-md font-extrabold">My Account</span>
               </span>
               <FiChevronDown
                 className={`icon icon-down-dir ml-3 transition-all ${
@@ -1234,7 +1236,7 @@ We'll send you a new password.
 
             {showUserMenu && (
               <div
-                className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-40 shadow-2xl text-dgrey1"
+                className="absolute bg-white top-12 right-0 w-52 py-4 pb-0 z-[999] shadow-2xl text-dgrey1"
                 ref={wrapperRef}
               >
                 <Link

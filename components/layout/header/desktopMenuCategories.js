@@ -11,7 +11,7 @@ import { sanitizeHTML } from "@/components/Utils";
 import { axiosServer } from "@/axiosServer";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import { useHeaderColor } from "@/contexts/HeaderContext";
-import { FaCaretDown } from "react-icons/fa";
+import { FaAngleDown, FaCaretDown } from "react-icons/fa";
 
 function DesktopMenuCategories(props) {
   const { header_categories, local, headerSettings } = props;
@@ -157,9 +157,11 @@ function DesktopMenuCategories(props) {
 
 
   return (
-    <div  className="   border-t bg border-dborderColor "  style={{
-      backgroundColor: headerColor ,
-    }}>
+    <div  className="   border-t bg-[#F5EFF0] border-dborderColor " 
+    //  style={{
+    //   backgroundColor: headerColor ,
+    // }}
+    >
       {router.asPath.indexOf("pos") < 0 && (
         <div
           className="hidden lg:block   px-9 w-full  text-d16 "
@@ -189,11 +191,11 @@ function DesktopMenuCategories(props) {
                     setViewSubAllCategories2(true);
                     setViewMenuCategories2(false);
                   }}
-                  className="flex items-center border-r gap-3 px-4 text-dblack text-sm border-dplaceHolder hover:text-dbase cursor-pointer "
+                  className="flex items-center border-r gap-3 px-4 text-dblackk  font-[900] text-md border-dplaceHolder hover:text-dbase cursor-pointer "
                 >
                   <FiList />
                   <div >All Categories</div>
-                  <FiChevronDown className={`text-sm transition-all  ${viewSubAllCategories2?"rotate-180 text-dbase":"rotate-0 text-dlabelColor"} `} />
+                  <FaAngleDown className={`text-md transition-all  ${viewSubAllCategories2?"rotate-180 text-dbase":"rotate-0 text-dblack"} `} />
                 </div>
 
                 {/* Overlay */}

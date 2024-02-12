@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import buildLink, { path } from "../../urls";
 import AsideMenu from "./AsideMenu";
 import { AccountContext } from "@/contexts/AccountContext";
-import Link from "next/link";
-import { FaArrowAltCircleRight, FaSadCry } from "react-icons/fa";
-import { HiOutlineX } from "react-icons/hi";
+import { FaArrowAltCircleRight, FaHome, FaSadCry, FaUser } from "react-icons/fa";
+import { HiOutlineHome, HiOutlineUserCircle, HiOutlineX } from "react-icons/hi";
 import Cookies from "js-cookie";
 import { useHeaderColor } from "@/contexts/HeaderContext";
 import { useMessage } from "@/contexts/MessageContext";
+import { BiCart, BiCategory } from "react-icons/bi";
 function Layout({ children, token, host }) {
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext);
@@ -159,8 +159,8 @@ function Layout({ children, token, host }) {
              : "-right-[200%] "
          } fixed bottom-2  mx-4  max-w-[400px]   z-30  `}
           >
-            <div className="flex  shadow-dbase gap-3 justify-center  text-center  py-4    w-full bg-dbase shadow-lg container  rounded-lg">
-              <h2 className="text-white text-md border-r block border-white border-dashed  my-auto ">
+            <div className="flex  shadow-dbase gap-3 justify-center    py-4    w-full bg-dbase shadow-lg container  rounded-lg">
+              <h2 className="text-white text-sm   my-auto ">
                 Enter Your Birthday To Benefit From Gifts and Discounts.
               </h2>
               <button
@@ -168,7 +168,7 @@ function Layout({ children, token, host }) {
                   dispatch({ type: "setopenRemindBirthday", payload: false });
                   router.push("/account/profile");
                 }}
-                className=" bg-white my-auto  h-10  rounded-full px-2 text-dbase  flex justify-center gap-1 hover:gap-2 text-center"
+                className=" bg-white my-auto py-1 text-sm rounded-full px-2 text-dbase  flex justify-center gap-1 hover:gap-2 text-center"
               >
                 <span className="my-auto flex justify-center gap-2 text-center">
                   Profile <FaArrowAltCircleRight className="my-auto" />{" "}
@@ -234,7 +234,7 @@ function Layout({ children, token, host }) {
         <AsideMenu />
       )}
       {children}
-      {router.pathname.indexOf("print") > -1 ||
+      { router.pathname.indexOf("print") > -1 ||
       router.pathname.startsWith("/orders") ? (
         <></>
       ) : (
@@ -244,6 +244,17 @@ function Layout({ children, token, host }) {
           <Footer />
         )
       )}
+      {/* <div className=" sticky  bottom-0 left-0 right-0 bg-dgrey  py-2  w-full z-50">
+
+
+<div className=" relative w-full flex text-xl flex-row justify-between px-4 text-center">
+<HiOutlineHome/>
+<BiCategory/>
+<HiOutlineUserCircle/>
+<BiCart/>
+</div>
+
+      </div> */}
     </div>
   );
 }

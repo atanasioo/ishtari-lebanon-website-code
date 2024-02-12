@@ -208,7 +208,7 @@ function DesktopMenuClientPopups(props) {
             handleState("overlay", true);
           }}
         >
-          <div className={`absolute overflow-hidden  duration-800  ease-in-out left-5 transition-all ${viewSubAllCategories2 ? "h-fit z-40 top-0 opacity-100":"h-0   top-10 opacity-0 -z-40"}  `}>
+          <div className={`absolute overflow-hidden   left-5   transition-all ${viewSubAllCategories2 ? "h-fit z-40 top-0 opacity-100":"h-0   top-10 opacity-0 -z-40"}  `}>
             <div className=" relative " >
               <div className=" ml-36  translate-y-3"><FaSortUp className= "text-xl text-dsearchGrey"/></div>
               <div  className="flex w-full bg-white rounded-md relative overflow-auto ">

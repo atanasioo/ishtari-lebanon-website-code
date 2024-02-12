@@ -138,7 +138,7 @@ function Header(props) {
 
       {/* Mobile Menu */}
       <div
-        className={`transition-all min-h-screen w-screen  bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden z-50  ${
+        className={`transition-all  min-h-screen w-screen  bg-white fixed top-0  bottom-0 right-0 overflow-x-hidden z-50  ${
           stateAcc.viewMobileMenu ? "right-0" : " right-full"
         }`}
         id="scrollDiv"
@@ -152,22 +152,24 @@ function Header(props) {
 
       <AdminTopHeader />
 
-      <div id="headerh"  style={{
-        transition:"all 0.5s ease",
-            backgroundColor: headerColor || "white" ,
-          }}
+      <div id="headerh"  className=" max-md:bg-white md:bg-[#BE1C26]"
+      // style={{
+      //   transition:"all 0.5s ease",
+      //       backgroundColor: headerColor || "white" ,
+      //     }}
           >
         <div 
-          className="flex  items-center justify-between py-2 max-md:py-4  max-md:container   md:px-9"
+          className="flex  items-center justify-between py-2 max-md:py-2  max-md:container   md:px-9"
         
         >
           <div className="flex items-center">
             <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>
               <HiMenu
-                className={` w-6 h-6 text-dblack mr-1 `}
+                className={`w-5 h-5 max-md:text-dgreyBlack md:text-white mr-1 `}
                 // style={{color: "e3535e"}}
               ></HiMenu>
             </button>
+        
             <Link
               href="/"
               className="header-logo flex justify-start md:justify-center lg:justify-start"
@@ -191,7 +193,7 @@ function Header(props) {
                 <>
                   <img
                     className="hidden mobile:block"
-                    src="/images/logo/logo-redd.png"
+                    src="/images/logo/logo-white.png"
                     width={130}
                     height={32}
                     alt="ishtari-logo"
@@ -199,9 +201,9 @@ function Header(props) {
                   />
                   <img
                     className="mobile:hidden"
-                    src="/images/logo/logo-dblack2.png"
-                    width={96}
-                    height={20}
+                    src="/images/logo/logo-dblack.png"
+                    width={100}
+                    height={25}
                     alt="ishtari-logo"
                     // style={{ width: "78%", height: "auto" }}
                   />
@@ -250,13 +252,14 @@ function Header(props) {
                 <LogoClient host={host.host} />
               )} */}
             </Link>
+            <CountryDropdown  host={host.host} />
           </div>
 
           <div className="flex justify-end items-center flex-1">
             <TopSearch />
 
             <div className="flex   items-center">
-              <CountryDropdown host={host.host} />
+        
 
               {stateAcc.isSeller && (
                 <div>

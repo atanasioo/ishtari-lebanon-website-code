@@ -439,7 +439,7 @@ function profile() {
                 <div className="p-4  bg-white">
                   <div className="flex justify-between gap-2  ">
                     <AccountCard
-                    username={state.username}
+                   username={state.username == null ||state.username == undefined ||state.username == "" ?state.email:state.username}
                       isloged={true}
                       email={state.email}
                       password={state.password}

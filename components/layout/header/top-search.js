@@ -256,12 +256,12 @@ function TopSearch() {
       {overlay && (
         <div
           className={`absolute z-50  bg-dblackk opacity-50 min-h-screen min-w-full min-w-screen left-0 ${
-            stateAcc.admin ? "top-182px" : "top-32"
+            stateAcc.admin ? "top-[104px]" : "top-14 "
           }  mt-1 hidden mobile:block `}
           style={{ height: "1400px" }}
         ></div>
       )}
-      <div className="relative flex justify-center lg:flex-grow">
+      <div className="relative flex  lg:flex-grow">
         {/* mobile search */}
         {showSearch && (
           <div className="fixed top-0 left-0 bottom-0 right-0 bg-white z-50">
@@ -277,7 +277,7 @@ function TopSearch() {
                 }}
                 onKeyDown={(e) => navigateSearch(e)}
                 autoFocus
-                className="block flex-grow mx-2 h-12 outline-none px-4 text-dblack"
+                className="block  flex-grow mx-2 h-12 outline-none px-4 text-dblack"
                 type="text"
                 // placeholder="What are you looking for? "
                 placeholder={
@@ -451,7 +451,7 @@ function TopSearch() {
               : "What are you looking for?"
           }
           autoComplete="off"
-          className="hidden lg:block  text-sm h-9 rounded-md  w-4/5  outline-none p-4 bg-dsearchGrey "
+          className="hidden lg:block  text-sm h-9 rounded-md  w-full outline-none p-4 bg-dsearchGrey "
           id="searchInput"
           value={query}
           onChange={(e) => {
@@ -490,7 +490,7 @@ function TopSearch() {
         {results.length > 0 && viewResults ? (
           <div
             onClick={() => setOverlay(false)}
-            className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
+            className="hidden xl:block lg:block absolute top-10 w-full  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none"
           >
             {results.length > 0 &&
               results.slice(0, 8).map(({ type, id, value, img, num_prods }) => (
@@ -560,7 +560,7 @@ function TopSearch() {
         ) : results?.length === 0 &&
           viewResults &&
           (trendingSearch?.length > 0 || searchHistory?.length > 0) ? (
-          <div className="hidden xl:block lg:block absolute top-10 w-4/5  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none">
+          <div className="hidden xl:block lg:block absolute top-10 w-full  border-2 border-dgrey border-t-0 z-50 bg-white  text-dblack rounded rounded-tl-none rounded-tr-none">
             {searchHistory?.length > 0 && (
               <div className="px-4 py-2 trash-icon">
                 <div className="flex items-center justify-between gap-2 py-2 ">
