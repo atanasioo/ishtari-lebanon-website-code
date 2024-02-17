@@ -29,20 +29,41 @@ function Orders() {
   function reOrder(order_id) {
     let obj = {
       order_id,
-      source:'website'
+      source: 'website',
     };
-    // console.log(obj);
-    axiosServer.post(buildLink("reorder"), obj).then((response) => {
-      if (response.data.success) {
-        setSuccessMessage(true);
-        setGlobalMessage(response.data.message);
-        router.push(`${path}/cart`);
-      } else {
+  
+    axiosServer.post(buildLink("reorder"), obj)
+      .then((response) => {
+        if (response.data.success) {
+          setSuccessMessage(true);
+          setGlobalMessage(response.data.message);
+          router.push(`${path}/cart`);
+        } else {
+          setErrorMessage(true);
+        
+          // if (response.data.errors && response.data.errors.length > 0) {
+          //   console.log('--------------------------------')
+          //   response.data.errors.forEach((errorDetails) => {
+              
+          //     // Check if the error is related to a specific product and has the expected error message
+          //     if (errorDetails.product_id && errorDetails.errors && errorDetails.errors.includes("Product out of stock")) {
+                
+          //       console.log(`Product with ID ${errorDetails.product_id} is out of stock.`);
+          //       // Handle this specific error condition as needed
+                
+          //     }
+          //   });
+          // }
+        }
+      })
+      .catch((error) => {
         setErrorMessage(true);
-        setGlobalMessage(response.data.message);
-      }
-    });
+        setGlobalMessage(`Error adding products to cart`);
+        console.error(error);
+      });
   }
+  
+  
 
   useEffect(() => {
     if (!state.loading && !state.loged) {
