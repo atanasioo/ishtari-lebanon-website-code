@@ -1225,7 +1225,7 @@ We'll send you a new password.
                 <span className=" text-xs font-medium">Welcome
                  {/* {state.username} */}
                  </span>
-                <span className="text-md font-extrabold">{state.username}</span>
+                <span className="text-md font-extrabold">My Account</span>
               </span>
               <FiChevronDown
                 className={`icon icon-down-dir ml-3 transition-all ${
