@@ -96,67 +96,78 @@ function DesktopMenuClientPopups(props) {
   const { setMarketingData } = useMarketingData();
   const path = "";
 
-  useEffect(() => {
 
-    if (
-      (window.location.host === "www.ishtari.com" ||
-        window.location.host === "next.ishtari.com" ||
-        window.location.host === "ishtari-mobile.com" ||
-        Cookies.get("site-local-name") === "ishtari") &&
-      window.innerWidth > 1024 &&
-      selectedTopCategory     && viewSubAllCategories2 &&
-      typeof selectedTopCategory.category_id !== "undefined"
-      //&&
-      // viewMenuCategories2
-    ) {
-      setHover(false);
-      setLoading(true);
-      if (selectedTopCategory?.category_id  ) {
-        var myObject = localStorage.getItem(
-          "topSelling-" + selectedTopCategory.category_id 
-        );
 
-        // console.log(JSON.parse(myObject))
-        if (myObject || JSON.parse(myObject) === "null") {
-          //  console.log(JSON.parse(myObject))
-          setTopSelling([]);
-          setTopSelling(JSON.parse(myObject));
-          setLoading(false);
-        } else {
-          if (selectedTopCategory)
-            axiosServer
-              .get(
-                buildLink(
-                  "getAllTopSellingbyCategoryid",
-                  undefined,
-                  window.innerWidth
-                ) +
-                  "&category_id=" +
-                  selectedTopCategory.category_id +"&limit=20"
-              )
-              .then((response) => {
-                if (
-                  typeof response.data.data?.products !== "undefined" &&
-                  response.data.data.products.length > 0
-                ) {
-                  setTopSelling(response.data.data.products);
-                  getCategoryLatest(selectedTopCategory.category_id);
-                  localStorage.setItem(
-                    "topSelling-" + selectedTopCategory.category_id,
-                    JSON.stringify(response.data.data.products)
-                  );
-                } else {
-                  localStorage.setItem(
-                    "topSelling-" + selectedTopCategory.category_id,
-                    JSON.stringify([])
-                  );
-                  setTopSelling([]);
-                }
-                setLoading(false);
-              });
+   async function  getTopSelling(category){
+      if (
+        (window.location.host === "www.ishtari.com" ||
+          window.location.host === "next.ishtari.com" ||
+          window.location.host === "localhost:3000" ||
+          window.location.host === "next.ishtari.com.gh" ||
+          window.location.host === "ishtari.com.gh" ||
+          window.location.host === "ishtari-mobile.com" ||
+          Cookies.get("site-local-name") === "ishtari") &&
+        window.innerWidth > 1024 &&
+        category     && viewSubAllCategories2 &&
+        typeof category !== "undefined"
+      ) {
+        setHover(false);
+        setLoading(true);
+        if (category  ) {
+          var myObject = localStorage.getItem(
+            "topSelling-" + category 
+          );
+        const myObjectParse  = JSON.parse(myObject)
+          if (category && (myObjectParse == null || myObjectParse == undefined || myObjectParse== [])){
+          
+               await axiosServer
+                  .get(
+                    buildLink(
+                      "getAllTopSellingbyCategoryid",
+                      undefined,
+                      window.innerWidth
+                    ) +
+                      "&category_id=" +
+                      category +"&limit=20"
+                  )
+                  .then((response) => {
+                   
+                    
+                    if (
+                      typeof response.data.data?.products !== "undefined" &&
+                      response.data.data.products.length > 0
+                    ) {
+                  
+                      setTopSelling(response.data.data.products);
+                    
+                      localStorage.setItem(
+                        "topSelling-" + category,
+                        JSON.stringify(response.data.data.products)
+                      );
+                    } else {
+                      localStorage.setItem(
+                        "topSelling-" + category,
+                        JSON.stringify([])
+                      );
+                      setTopSelling([]);
+                    }
+                    setLoading(false);
+                  });
+            
+          }else{
+            setTopSelling(myObjectParse);
+              setLoading(false);
+          }
         }
       }
     }
+
+  useEffect(() => {
+    if(selectedTopCategory){
+      getTopSelling(selectedTopCategory.category_id)
+      getCategoryLatest(selectedTopCategory.category_id);
+    }
+
   }, [selectedTopCategory, viewMenuCategories2 ,viewSubAllCategories2]);
 
   const handleMouseLeave = () => {
@@ -171,9 +182,7 @@ function DesktopMenuClientPopups(props) {
       "latestTopSelling-" + selectedTopCategory.category_id
     );
     if (myObject && myObject?.length > 0) {
-
       setCategoryLatest(JSON.parse(myObject));
-
     }else{
       setLoadingLatest(true);
       axiosServer
@@ -196,19 +205,25 @@ function DesktopMenuClientPopups(props) {
     }
   };
 
+
+
+
+
+
+
   return (
     <>
       {/* Subcategories' menu */}
 
       <div className=" w-screen bg-white ">
-        <div
+       {selectedTopCategory && <div
           className={`  relative px-5 `}
           onMouseEnter={() => {
             handleState("viewSubAllCategories2", true);
             handleState("overlay", true);
           }}
         >
-          <div className={`absolute overflow-hidden   left-5   transition-all ${viewSubAllCategories2 ? "h-fit z-40 top-0 opacity-100":"h-0   top-10 opacity-0 -z-40"}  `}>
+          <div className={`absolute overflow-hidden   left-5  duration-500 transition-all ${viewSubAllCategories2 ? "h-fit z-40 top-0 opacity-100":"h-0   top-10 opacity-0 -z-40"}  `}>
             <div className=" relative " >
               <div className=" ml-36  translate-y-3"><FaSortUp className= "text-xl text-dsearchGrey"/></div>
               <div  className="flex w-full bg-white rounded-md relative overflow-auto ">
@@ -217,8 +232,11 @@ function DesktopMenuClientPopups(props) {
                     <div
                       key={category.category_id}
                       onMouseEnter={() => {
+                      //   getCategoryLatest(category.category_id)
+                      //  getTopSelling(category)
                         handleState("selectedTopCategory", category);
                         // getTopSelling(category.category_id);
+                        // getCategoryLatest(category.category_id)
                       }}
                     >
                       <Link
@@ -254,7 +272,7 @@ function DesktopMenuClientPopups(props) {
                     </div>
                   ))}
                 </div>
-                <div className="flex divide-x-2 divide-dgrey gap-4 flex-row px-4  max-h-[600px] w-fit overflow-auto" >
+                <div className="flex divide-x-2 divide-dgrey gap-4 flex-row pl-2  max-h-[600px] w-fit overflow-auto" >
                   <div className=" bg-white" >
                   <div className="flex item-center w-[300px] justify-between py-5 border-b border-dinputBorder mb-2">
                     <h2
@@ -309,8 +327,11 @@ function DesktopMenuClientPopups(props) {
                       </Link>
                     ))}
                     </div>
-              <div className=" w-[600px]  px-5"> 
-                  <div onMouseLeave={handleMouseLeave}>
+              <div 
+              // onMouseLeave={handleMouseLeave} 
+              
+              className=" w-[600px]  px-5"> 
+                  <div >
                     <div className="flex items-center mt-4 text-dblack">
                       <Link
                         href={{
@@ -330,7 +351,7 @@ function DesktopMenuClientPopups(props) {
                       <PointsLoader />
                     ) : (
                       topSelling.length > 0 && (
-                        <div className="w-full px-10">
+                        <div className="w-full ">
                           <Slider {...settings}>
                             {topSelling?.slice(0, 10).map((item) => (
                               <div key={item.product_id}>
@@ -357,13 +378,13 @@ function DesktopMenuClientPopups(props) {
                     <div className="">
                       <div className="flex items-center mt-4 text-dblack pb-4">
                         <Link
-                          href={{
+                          href={{ 
                             pathname: "/latest"
                           }}
                           className="pr-semibold cursor-pointer hover:text-dblue"
-                          onMouseEnter={() =>
-                            getCategoryLatest(selectedTopCategory.category_id)
-                          }
+                          // onMouseEnter={() =>
+                          //   getCategoryLatest(selectedTopCategory.category_id)
+                          // }
                         >
                           Explore{" "}
                           <span
@@ -411,11 +432,12 @@ function DesktopMenuClientPopups(props) {
             </div>
           </div>
         </div>
+        }
       
 
       {/* Menu category */}
 
-      <div className={`absolute transition-all rounded-md duration-500  overflow-hidden ${ viewMenuCategories2 &&selectedMenuCategory2  ? "h-[600px]":"h-0"} bg-dsearchGrey w-screen z-40`}>
+      <div className={`absolute transition-all   rounded-b-md duration-500 h-fit  overflow-hidden ${ viewMenuCategories2 &&selectedMenuCategory2  ? " opacity-100 top-12":" opacity-30 top-20"} bg-dsearchGrey w-screen z-40`}>
        { viewMenuCategories2 && selectedMenuCategory2 &&
           <div
             className="px-9 max-h-[600px] overflow-auto"

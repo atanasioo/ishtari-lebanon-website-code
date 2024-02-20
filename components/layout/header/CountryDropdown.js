@@ -32,7 +32,7 @@ function CountryDropdown(props) {
 
   return props.host === "https://www.ishtari.com" ||
   props.host === "https://www.ishtari.com.gh" ? (
-    <div className="flex justify-center  md:mx-3">
+    <div className="flex justify-center max-md:mx-2  md:mx-3">
       <div>
         <div className="dropdown relative float-right lg:pr-2">
           <button

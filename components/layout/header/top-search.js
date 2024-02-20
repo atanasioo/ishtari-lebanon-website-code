@@ -6,11 +6,13 @@ import buildLink, { path } from "@/urls";
 import Link from "next/link";
 import { BsFire, BsSearch, BsTrash } from "react-icons/bs";
 import { sanitizeHTML } from "@/components/Utils";
+import { GoSearch } from "react-icons/go";
 
 // import {sellerImage}  from "/public/images/shop-svgrepo-com.svg";
 // import {brandImage}  from "/public/images/brand-svgrepo-com.svg";
 import { AccountContext } from "@/contexts/AccountContext";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { FaSearch } from "react-icons/fa";
 
 function TopSearch() {
   const wrapperRef = useRef(null);
@@ -30,6 +32,8 @@ function TopSearch() {
   const currentIndexRef = useRef(0);
   const [trash, setTrash] = useState(true);
   let placeholderInterval;
+
+
 
   function setShowSearchFunction() {
     setShowSearch(false);
@@ -261,7 +265,7 @@ function TopSearch() {
           style={{ height: "1400px" }}
         ></div>
       )}
-      <div className="relative flex  lg:flex-grow">
+      <div className="relative flex  max-md:w-full  lg:flex-grow">
         {/* mobile search */}
         {showSearch && (
           <div className="fixed top-0 left-0 bottom-0 right-0 bg-white z-50">
@@ -341,7 +345,7 @@ function TopSearch() {
                               />
                             ) : (
                               <BsSearch />
-                            )}
+                            ) }
                           </span>
                           <span className=" w-full align-middle items-start  justify-center ml-1 leading-4 ">
                             <span
@@ -480,11 +484,21 @@ function TopSearch() {
               )}
             </div>
           )} */}
-
-        <i
+<div className=" relative lg:hidden w-full">
+        <input
+         placeholder={
+          topSearch?.length > 0
+            ? slugify(currentPlaceholder)
+            : "What are you looking for?"
+        }
           onClick={() => handleSearchResults()}
-          className="block lg:hidden icon icon-search text-dgreyBlack text-2xl"
-        ></i>
+          className="block w-full  border border-dlabelColor   pl-2 pr-8  py-[0.25rem] rounded-md   "
+         
+        ></input>
+        <div className=" absolute  font-thin text-dlabelColor top-0 bottom-0 h-fit my-auto  right-2 ">
+        <GoSearch/>
+        </div>
+        </div>
 
         {/* Results */}
         {results.length > 0 && viewResults ? (

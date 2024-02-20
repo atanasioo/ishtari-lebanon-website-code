@@ -57,8 +57,8 @@ function TopWishlist() {
     >
       <span className="hidden xl:block lg:block">Wishlist</span>
       <FiHeart
-        className={`ml-2 w-5 h-5  font-extrabold  ${
-          window.innerWidth < 650 ? "text-dblack" : "text-white"
+        className={`ml-2 font-extrabold text-2xl  ${
+          window.innerWidth < 650 ? " text-dlabelColor " : "text-white"
         }`}
       />
 

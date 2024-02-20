@@ -1,22 +1,24 @@
-import React, { useContext, useEffect, useState, useTransition } from "react";
+import React, { useContext, useEffect} from "react";
 import Footer from "./footer/footer";
 import Header from "./header/header";
 import { useRouter } from "next/router";
-import buildLink, { path } from "../../urls";
 import AsideMenu from "./AsideMenu";
 import { AccountContext } from "@/contexts/AccountContext";
-import { FaArrowAltCircleRight, FaHome, FaSadCry, FaUser } from "react-icons/fa";
-import { HiOutlineHome, HiOutlineUserCircle, HiOutlineX } from "react-icons/hi";
+import { FaArrowAltCircleRight } from "react-icons/fa";
+import {  HiOutlineX } from "react-icons/hi";
 import Cookies from "js-cookie";
 import { useHeaderColor } from "@/contexts/HeaderContext";
 import { useMessage } from "@/contexts/MessageContext";
-import { BiCart, BiCategory } from "react-icons/bi";
+import { CartContext } from "@/contexts/CartContext";
+import BottomBar from "./bottomBar";
+import useDeviceSize from "../useDeviceSize";
 function Layout({ children, token, host }) {
   const router = useRouter();
   const [stateAcc, dispatch] = useContext(AccountContext);
+  const [ stateCart,dispatchCart] = useContext(CartContext)
   const { headerColor, setHeaderColor } = useHeaderColor();
   const { successMessage, errorMessage,message } = useMessage();
-
+const {width} = useDeviceSize();
 
   var prevScroll = 200;
   // useEffect(() => {
@@ -61,11 +63,18 @@ function Layout({ children, token, host }) {
 
 
 
+  let header ;
+  let bottombar ;
 
+
+  useEffect(()=>{
+     header = document.getElementById("headersticky")
+     bottombar = document.getElementById("bottombar")
+  },[])
 
   useEffect(() => {
-    const header = document.getElementById("headersticky")
-    if(header){
+
+    if(header && bottombar){
 
     
     const handleScroll = () => {
@@ -73,15 +82,18 @@ function Layout({ children, token, host }) {
      
       if(scrollTop<200){
          header.classList.remove("hide")
+         bottombar.classList.remove("hide")
       }else{
         if(scrollTop> prevScroll){
           //  console.log(`prev${prevScroll}`);
        
             header.classList.add("hide")
+            bottombar.classList.add("hide")
          
           
           }else if(scrollTop< prevScroll) {
             header.classList.remove("hide")
+            bottombar.classList.remove("hide")
           }
         prevScroll = scrollTop
       }
@@ -89,47 +101,15 @@ function Layout({ children, token, host }) {
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
-      // Clean up the event listener when the component is unmounted
       window.removeEventListener('scroll', handleScroll);
     };
   }
-  }, []);
+  }, [bottombar, header]);
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // console.log(information_data.informations)
-  // console.log("token inlayout " +token);
-  // useEffect(() => {
-  //   const tokenn = Cookies.get("api-token");
-  //   console.log(tokenn);
-  //   console.log(document.cookie);
-  //   // console.log(tokenn);
-  //   if((tokenn === "undefined" || typeof tokenn ==="undefined" || tokenn === undefined) && typeof token !== "undefined"){
-  //     // console.log("hello");
-  //     // Cookies.set("api-token", token, { expires: 15 });
-  //     // console.log(token);
-  //   }
-  //  },[token])
   function closeRemindBirthday() {
     dispatch({ type: "setopenRemindBirthday", payload: false });
     Cookies.set("remindBirthdayopend", true);
@@ -150,11 +130,11 @@ function Layout({ children, token, host }) {
             // </div>
             // </Link>
           }
-          <div
+          {/* <div
             className={`   transition-all
          ${
            // stateAcc.loged&& !stateAcc.hasdateBirth &&
-           stateAcc.openRemindBirthday
+           !stateAcc.openRemindBirthday
              ? "right-5  max-md:right-3 "
              : "-right-[200%] "
          } fixed bottom-2  mx-4  max-w-[400px]   z-30  `}
@@ -181,7 +161,7 @@ function Layout({ children, token, host }) {
                 <HiOutlineX />
               </button>
             </div>
-          </div>
+          </div> */}
 
       <div className={` ${successMessage?" z-[999] translate-x-0 opacity-100":" -z-50  translate-x-20 opacity-0"} duration-200 transition-all fixed top-14 right-0 bg-dgreenop px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center  w-3/4 xl:w-2/4`}>
         <svg
@@ -244,17 +224,9 @@ function Layout({ children, token, host }) {
           <Footer />
         )
       )}
-      {/* <div className=" sticky  bottom-0 left-0 right-0 bg-dgrey  py-2  w-full z-50">
 
-
-<div className=" relative w-full flex text-xl flex-row justify-between px-4 text-center">
-<HiOutlineHome/>
-<BiCategory/>
-<HiOutlineUserCircle/>
-<BiCart/>
-</div>
-
-      </div> */}
+    <BottomBar/>
+    
     </div>
   );
 }

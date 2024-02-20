@@ -8,10 +8,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
+import { signOut } from "next-auth/react";
 import AccountCard from "@/components/account/accountCard";
 import { ImSwitch } from "react-icons/im";
 import { HiSwitchHorizontal } from "react-icons/hi";
 import { HandleAuthForm } from "@/components/handleAuthForm";
+import { FaSignOutAlt } from "react-icons/fa";
 function profile() {
   const { openAuthForm } = HandleAuthForm();
   const [state, dispatch] = useContext(AccountContext);
@@ -122,6 +124,63 @@ function profile() {
     e.preventDefault();
   }
 
+
+
+
+  async function logout() {
+    dispatch({ type: "setLoading", payload: true });
+
+    const hostname = window.config["site-url"];
+    //remove next-auth session from cookie, and clear the jwt(session) obj.
+    await signOut({ redirect: false });
+    //Logout from Api
+  axiosServer.post(
+      buildLink("logout", undefined, undefined, hostname)
+    ).then(async(res)=> {
+      if(res.data.success){
+       await checkLogin()
+     
+      }
+    })
+  }
+
+
+
+
+  async function checkLogin() {
+    
+    dispatch({ type: "setLoading", payload: true });
+    const hostname = window.location.host;
+   await axiosServer
+      .get(buildLink("login", undefined, undefined, window.config["site-url"])+`&type=logout`)
+      .then((response) => {
+        // console.log(response);
+           
+        dispatch({ type: "setLoged", payload: false });
+        
+        dispatch({ type: "setLoading", payload: false });
+        router.push("/");
+        Cookies.remove("api-token");
+      
+        window.location.reload();
+      
+      });
+
+    // window.location.reload();
+  }
+
+
+
+
+
+
+
+
+
+
+
+  
+
   function disabledAccount(e) {
     axiosServer
       .post(buildLink("disabledAccount", undefined, window.innerWidth))
@@ -133,11 +192,7 @@ function profile() {
       });
   }
 
-  function logout() {
-    axiosServer.post(buildLink("logout")).then(() => {
-      Cookies.set("cid", 0);
-    });
-  }
+
 
   function ChangePassword(e) {
     setNewError("");
@@ -452,7 +507,7 @@ function profile() {
                       ease-out transition-all"
                     >
                       {" "}
-                      <HiSwitchHorizontal className=" my-auto h-fit" />{" "}
+                      <HiSwitchHorizontal className=" my-auto " />{" "}
                   
                     </button>
                   </div>
@@ -510,6 +565,23 @@ function profile() {
                   onClick={(e) => disabledAccount(e)}
                 >
                   Delete Your Account
+                </button>
+              </div>
+            </div>
+
+
+
+            <div className="my-4 px-1 md:px-8 bg-white">
+          
+              <div className="p-4 pt-2 bg-white">
+                <button
+                  // className={`bg-dblue text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto block max-md:w-full w-64 transition-all uppercase duration-300 ease-out hover:bg-dbluedark`}
+                  className={`bg-dblue flex-row justify-center gap-5 flex  text-white text-d13 md:px-4 px-2 py-2 mt-8 rounded ml-auto  max-md:w-full w-64 transition-all uppercase duration-300 ease-out transform hover:bg-dbluedark hover:text-d14 hover:scale-105`}
+                  onClick={(e) => logout()}
+                >
+                 
+                  Sign Out
+                  <FaSignOutAlt  className="  my-auto"/>
                 </button>
               </div>
             </div>

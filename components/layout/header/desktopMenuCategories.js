@@ -21,7 +21,7 @@ function DesktopMenuCategories(props) {
   const [overlay, setOverlay] = useState(false);
   const [viewMenuCategories2, setViewMenuCategories2] = useState(true);
   const [allCategories, setAllCategories] = useState([]);
-  const [selectedTopCategory, setSelectedTopCategory] = useState({});
+  const [selectedTopCategory, setSelectedTopCategory] = useState(null);
   const [clearHover, setClearHover] = useState(false);
   const { setMarketingData } = useMarketingData();
   const { headerColor, setHeaderColor } = useHeaderColor();
@@ -157,7 +157,7 @@ function DesktopMenuCategories(props) {
 
 
   return (
-    <div  className="   border-t bg-[#F5EFF0] border-dborderColor " 
+    <div  className="  relative   border-t bg-[#F5EFF0] border-dborderColor " 
     //  style={{
     //   backgroundColor: headerColor ,
     // }}
@@ -186,6 +186,7 @@ function DesktopMenuCategories(props) {
             >
               <div>
                 <div
+                onClick={()=>router.push("/allcategories")}
                   onMouseEnter={() => {
                     setOverlay(true);
                     setViewSubAllCategories2(true);
@@ -217,8 +218,8 @@ function DesktopMenuCategories(props) {
                 header_categories.map((category) => (
                   <div
                     key={category["top-category"].category_id}
-                    className=" px-4 text-sm text-dblack
-                     hover:text-dbase cursor-pointer group relative flex gap-3  justify-center text-clip"
+                    className={` px-4 text-sm
+                     hover:text-dbase cursor-pointer group relative flex gap-3  ${viewMenuCategories2 && selectedMenuCategory2 == category?"text-dbase":"text-dblack"} justify-center text-clip`}
                     onMouseEnter={() => {
                       setClearHover(false);
                       setViewSubAllCategories2(false);
@@ -228,7 +229,7 @@ function DesktopMenuCategories(props) {
                       setClearHover(true);
                     }}
                   >
-                    <div className=" transition-all h-[2px] w-0 group-hover:w-full absolute -bottom-1 bg-dbase rounded-lg"></div>
+                    <div className={` ${viewMenuCategories2 && selectedMenuCategory2 == category?"w-full":"w-0"} transition-all h-[2px] w-0 group-hover:w-full absolute -bottom-1 bg-dbase rounded-lg`}></div>
                     <Link
                       href={`/${slugify(category["title"].title)}/c=${
                         category["title"].mobile_type_id
@@ -245,7 +246,7 @@ function DesktopMenuCategories(props) {
                         __html: sanitizeHTML(category["title"].title),
                       }}
                     ></Link>
-                    <FaCaretDown  className=" h-full my-auto text-dlabelColor"/>
+                    <FaCaretDown  className={`${viewMenuCategories2 && selectedMenuCategory2 == category?"text-dbase":"text-dblack"} h-full my-auto  `}/>
                   </div>
                 ))}
               {/* <div className="px-4 hover:text-dbase cursor-pointer">

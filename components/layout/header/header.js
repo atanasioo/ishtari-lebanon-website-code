@@ -134,7 +134,7 @@ function Header(props) {
       {/* <div className="w-full h-auto flex container ">
         <img className=" m-auto  w-full object-cover  h-14 " src="/images/newUser.png"/>
       </div> */}
-      {/* {local && <SiteHeaders local={local} />} */}
+      {local && <SiteHeaders local={local} />}
 
       {/* Mobile Menu */}
       <div
@@ -153,22 +153,22 @@ function Header(props) {
       <AdminTopHeader />
 
       <div id="headerh"  className=" max-md:bg-white md:bg-[#BE1C26]"
-      // style={{
-      //   transition:"all 0.5s ease",
-      //       backgroundColor: headerColor || "white" ,
-      //     }}
+      style={{
+        transition:"all 0.5s ease",
+            backgroundColor: headerColor || "white" ,
+          }}
           >
         <div 
-          className="flex  items-center justify-between py-2 max-md:py-2  max-md:container   md:px-9"
+          className="flex  items-center justify-between py-2 max-md:py-3  max-md:container   md:px-9"
         
         >
           <div className="flex items-center">
-            <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>
+            {/* <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>
               <HiMenu
                 className={`w-5 h-5 max-md:text-dgreyBlack md:text-white mr-1 `}
                 // style={{color: "e3535e"}}
               ></HiMenu>
-            </button>
+            </button> */}
         
             <Link
               href="/"
@@ -252,7 +252,9 @@ function Header(props) {
                 <LogoClient host={host.host} />
               )} */}
             </Link>
+            <div className="">
             <CountryDropdown  host={host.host} />
+            </div>
           </div>
 
           <div className="flex justify-end items-center flex-1">
@@ -275,8 +277,8 @@ function Header(props) {
               )}
 
               <Account />
-              {stateAcc.loged && <TopWishlist />}
-              <TopCart />
+              {stateAcc.loged && <div className=" max-md:hidden"> <TopWishlist /></div>}
+             <div className=" max-md:hidden"><TopCart /></div> 
             </div>
           </div>
         </div>

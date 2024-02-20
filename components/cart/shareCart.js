@@ -317,7 +317,7 @@ await axiosServer.post(buildLink("sharedCart", undefined, undefined),listProduct
   
   
   { selectProduct.length>0 && <div className=" relative flex flex-row justify-end"> 
-  <button onClick={()=>getUrlShare()} className=" relative bg-dblue text-white flex flex-row justify-center py-1 px-3 gap-2">
+  <button onClick={()=>getUrlShare()} className=" relative h-8 bg-dblue text-white flex flex-row justify-center py-1 px-3 gap-2">
     
     <FaShare className=" h-fit my-auto"/> <p className=" block whitespace-nowrap">Share  {selectProduct.length}</p> 
 

@@ -17,6 +17,8 @@ import {
 } from "react-icons/bs";
 import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import {
+  FaCaretDown,
+  FaCaretUp,
   FaCheckCircle,
   FaFacebookF,
   FaMoneyBillWave,
@@ -54,12 +56,34 @@ function Account() {
   const signupPassword = useRef("");
   const signupFirst = useRef("");
   const signupLast = useRef("");
+  const remindRef = useRef(null)
   // const birthDate = useRef("");
   const path = "";
   const router = useRouter();
    const [newdate,setDate] = useState(Date);
    
-
+   useEffect(() => {
+   
+    if(state.openRemindBirthday){
+ 
+           function handleClickOutside(event) {
+             if (remindRef.current && !remindRef.current.contains(event.target)) {
+                 dispatch({ type: "setopenRemindBirthday", payload: false });
+                 
+             }
+           }
+           // Bind the event listener
+           document.addEventListener("mousedown", handleClickOutside);
+           document.addEventListener("scroll", handleClickOutside);
+           return () => {
+             // Unbind the event listener on clean up
+             document.removeEventListener("mousedown", handleClickOutside);
+             document.removeEventListener("scroll", handleClickOutside);
+           };
+         
+         }
+     
+   }, [remindRef.current, state.openRemindBirthday]);
 
   const handleLockEmailButton = () => {
     if (!state.ButtonLocked) {
@@ -430,8 +454,20 @@ const decodeList = JSON.stringify(cachAcc)
           dispatch({type:"sethasDateBirth",payload:data?.has_birthday});
           const remindBirthdayopend = Cookies.get("remindBirthdayopend");
    
-          if(!data?.has_birthday && (remindBirthdayopend == false|| remindBirthdayopend == null || remindBirthdayopend == undefined )){
+          if(!data?.has_birthday ){
+            // console.log("________________________")
+            // console.log(true)
+           let header = document.getElementById("headersticky")
+            header.classList.remove("hide")
             dispatch({type:"setopenRemindBirthday",payload:true});
+            setTimeout(() => {
+              dispatch({type:"setopenRemindBirthday",payload:false});
+            }, 8000);
+
+
+
+
+
           }
         
         
@@ -615,7 +651,7 @@ return;
     { state.showOver&& <div onClick={()=> dispatch({ type: "setShowOver", payload: true })} className="fixed transition-all duration-100 w-screen min-h-screen bg-dblack top-0 left-0 z-50  bg-opacity-50 flex flex-col items-center justify-center"></div>}
         <div className={`fixed ${state.showOver?" scale-100":"scale-0"} transition-all  duration-300 w-screen min-h-screen bg-transparent top-0 left-0 z-50 bg-opacity-50 flex flex-col items-center justify-center`}>
           {state.showLogin && (
-            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
+            <div className="bg-white text-center text-dblack  w-96  max-md:w-80  rounded-lg p-8 pb-4  overflow-hidden relative">
               <span
                 onClick={
                  handleCloseAuthForm
@@ -793,7 +829,7 @@ return;
 
 
 { state.showListAcc && (
-            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
+            <div className="bg-white text-center text-dblack  w-96  max-md:w-80  rounded-lg p-8 pb-4  overflow-hidden relative">
               <span
                 onClick={
                  handleCloseAuthForm
@@ -833,7 +869,7 @@ return;
               >
                 Welcome back!
               </p>
-              <p className="text-2xl font-semibold">Choose account to sign in</p>
+              <p className="text-2xl font-semibold">Choose account to Sign In</p>
               
             {state.listAccCach&&<> 
             <div className=" my-4 flex flex-col gap-1 max-h-40 overflow-y-auto">
@@ -899,7 +935,7 @@ return;
 
 
 {state.showswitchAccount && (
-            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-4  overflow-hidden relative">
+            <div className="bg-white text-center text-dblack  w-96  max-md:w-80  rounded-lg p-8 pb-4  overflow-hidden relative">
               <span
                 onClick={
                  handleCloseAuthForm
@@ -976,7 +1012,7 @@ return;
 
 
           {state.showSignup && (
-            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
+            <div className="bg-white text-center text-dblack  w-96  max-md:w-80  rounded-lg p-8 pb-0 overflow-hidden relative">
               <span
                 onClick={
                 handleCloseAuthForm
@@ -1094,7 +1130,7 @@ return;
 
 {state.showForgetPassword && (
   
-            <div className="bg-white text-center text-dblack  w-96 rounded-lg p-8 pb-0 overflow-hidden relative">
+            <div className="bg-white text-center text-dblack  w-96  max-md:w-80  rounded-lg p-8 pb-0 overflow-hidden relative">
            
               <span
                 onClick={
@@ -1154,7 +1190,7 @@ We'll send you a new password.
                    { emailSent ?(
                 <button type="cancel"
                 onClick={(e)=> backToLogIn(e) }
-                className="  flex-row text-dblue py-4 border border-dinputBorder block text-center  w-96 mt-6 hover:bg-dblue hover:text-white">
+                className="  flex-row text-dblue py-4 border border-dinputBorder block text-center  w-96  max-md:w-80  mt-6 hover:bg-dblue hover:text-white">
               
                  <span>Back To LogIn</span>
                   
@@ -1163,7 +1199,7 @@ We'll send you a new password.
 }            
                 <button 
                 onClick={(e)=>handleForgetPassword(e)}
-                className={` py-4 border border-dinputBorder block text-center ${state.ButtonLocked?" bg-dgrey1":"bg-dblue"} bg-dblue hover:${state.ButtonLocked?" bg-dgrey1":"bg-dblue1"} w-96 mt-6 text-white`}>
+                className={` py-4 border border-dinputBorder block text-center ${state.ButtonLocked?" bg-dgrey1":"bg-dblue"} bg-dblue hover:${state.ButtonLocked?" bg-dgrey1":"bg-dblue1"} w-96  max-md:w-80  mt-6 text-white`}>
                 
                     <span>{ state.loadingEmail?(<div className=" w-full flex justify-center text-center"><div className="w-[30px]"><Loader/></div></div>):( state.ButtonLocked?<>Wait 30 second</> :<>Send Email</>)}</span>
                  
@@ -1176,7 +1212,7 @@ We'll send you a new password.
        
         </div>
       
-      <div className="hidden xl:block lg:block ">
+      <div className="hidden xl:block lg:block relative ">
         {/* {state.loading && (
           <div
             className="text-white border-r border-dmenusep  flex items-center pl-3 pr-6 cursor-pointer hover:opacity-80 relative"
@@ -1221,17 +1257,21 @@ We'll send you a new password.
               onClick={() => setShowUserMenu(!showUserMenu)}
               className=" text-white  cursor-pointer hover:opacity-80 flex items-center"
             >
-              <span className="flex flex-col">
+              <div className="flex flex-col">
                 <span className=" text-xs font-medium">Welcome
                  {/* {state.username} */}
                  </span>
-                <span className="text-md font-extrabold">My Account</span>
-              </span>
-              <FiChevronDown
-                className={`icon icon-down-dir ml-3 transition-all ${
+                <span className="text-md flex flex-row gpa-2 font-extrabold"><p>{state.username}  </p><FiChevronDown
+                className={`icon icon-down-dir ml-4 my-auto transition-all ${
                   showUserMenu && "transform rotate-180"
                 }`}
-              ></FiChevronDown>
+              /></span>
+
+
+
+
+              </div>
+             
             </div>
 
             {showUserMenu && (
@@ -1242,10 +1282,13 @@ We'll send you a new password.
                 <Link
                   href={`${path}/account/profile`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="py-2 flex items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
+                  className="py-2 flex relative items-center hover:bg-dgrey1 hover:bg-opacity-10 px-3 cursor-pointer"
                 >
                   <FaUserAlt className="text-d17"></FaUserAlt>
                   <span className="ml-4">Profile</span>
+            
+      <div  className={`  transition-all ${!state.openRemindBirthday && !state.hasdateBirth ?" h-3 w-3":"h-0 w-0 "} absolute  z-50 bg-dbase  rounded-full border-2   left-[0.35rem] top-[0.20rem]  border-white`}></div>
+
                 </Link>
                 <Link
                   href={`${path}/account/orders`}
@@ -1368,8 +1411,30 @@ We'll send you a new password.
                 </p>
               </div>
             )}
+
+
+
+
+            
           </div>
         )}
+        <div ref={remindRef}
+onClick={()=>router.push("/account/profile")}
+            className={`  ${
+              state.openRemindBirthday
+                ? "   right-0 opacity-100 z-50"
+                : " -right-96    opacity-0 -z-50"
+            }  transition-all
+           fixed mx-4 top-20 duration-300  cursor-pointer max-w-[330px]`}
+          >
+            <div className="flex  relative  gap-3 justify-center    py-4    w-full bg-dblack bg-opacity-70  shadow-lg container  rounded-lg">
+              <h2 className="text-white text-sm leading-6  my-auto ">
+                Enter Your Birthday To Benefit From Gifts and Discounts.   <button className=" bg-dbase px-2   py-1 rounded-full">Account</button>
+              </h2>
+              <div className='tooltip-indicator'></div>
+              {/* <div className=' absolute  -top-3 left-4 text-dblack opacity-60'><FaCaretUp className="text-lg"/></div> */}
+            </div>
+          </div>
       </div>
 
 

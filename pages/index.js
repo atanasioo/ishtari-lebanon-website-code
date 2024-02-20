@@ -233,17 +233,17 @@ export default function Home(props) {
       </Head>
       <DownloadAppImg host_url={host_url} />
       <div className={`overflow-hidden container`}>
-        {width < 650 && (
+        {/* {width < 650 && (
           <ScrollToTop
             smooth
             className="rounded-full  bg-dgreyBlack text-white text-center opacity-70"
             width="36"
             height="30"
             color="white"
-            top="1000"
+            top="500"
             style={{ width: "50px", height: "50px", padding: "7px" }}
           />
-        )}
+        )} */}
 
         {WidgetsList}
 
