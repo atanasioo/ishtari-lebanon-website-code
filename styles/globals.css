@@ -2763,3 +2763,6 @@ display: inline-block;
     transform: translateX(-100%);
   }
 }
+.hover-styles {
+  transition: all 0.1s ease;
+}
