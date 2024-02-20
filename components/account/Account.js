@@ -49,6 +49,7 @@ function Account() {
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
   const dontshowcouponcheck = useRef(null);
+  const remindRef = useRef(null)
   const saveAcc = useRef(null);
   const loginEmail = useRef("");
   const loginPassword = useRef("");
