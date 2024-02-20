@@ -186,7 +186,7 @@ function DesktopMenuCategories(props) {
             >
               <div>
                 <div
-                onClick={()=>router.push("/allcategories")}
+              
                   onMouseEnter={() => {
                     setOverlay(true);
                     setViewSubAllCategories2(true);

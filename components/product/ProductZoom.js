@@ -644,7 +644,13 @@ function ProductZoom(props) {
 
               <div
                 className={`${showModal ? "hidden" : ""}`}
-                onClick={() => setShowShare(true)}
+                onClick={() =>{ 
+                  setShowShare(true)
+                  const header = document.getElementById("headersticky");
+                  const bottombar = document.getElementById("bottombar");
+                  header.classList.add("hide")
+                  bottombar.classList.add("hide")
+                }}
               >
                 <ShareSocial
                   image={productData.popup}
