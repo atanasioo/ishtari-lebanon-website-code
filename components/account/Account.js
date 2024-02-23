@@ -49,7 +49,7 @@ function Account() {
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
   const dontshowcouponcheck = useRef(null);
-  const remindRef = useRef(null)
+  const remindRef = useRef(null);
   const saveAcc = useRef(null);
   const loginEmail = useRef("");
   const loginPassword = useRef("");
@@ -1245,7 +1245,7 @@ function Account() {
                     !state.openRemindBirthday && !state.hasdateBirth
                       ? " h-3 w-3"
                       : "h-0 w-0 "
-                  } absolute  z-50 bg-dbase  rounded-full border-2   left-[0.35rem] top-[0.20rem]  border-white`}
+                  } absolute  z-50 bg-dbase1 animate-ping rounded-full border-2   left-[0.40rem] top-[0.90rem]  border-white`}
                 ></div>
 
                 <Link
