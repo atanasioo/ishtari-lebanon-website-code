@@ -1245,7 +1245,7 @@ function Account() {
                     !state.openRemindBirthday && !state.hasdateBirth
                       ? " h-2 w-2"
                       : "h-0 w-0 "
-                  } absolute  z-50 bg-dbase animate-ping rounded-full border-2   left-[0.40rem] top-[0.90rem] border-dplaceHolder  inline-flex bg-sky-400 opacity-75`}
+                  } absolute  z-50 bg-dbase animate-ping rounded-full border-2   left-[0.40rem] top-[1.2rem] border-dplaceHolder  inline-flex bg-sky-400 opacity-75`}
                 ></div>
 
                 <Link
