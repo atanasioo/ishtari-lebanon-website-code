@@ -1579,7 +1579,7 @@ function ProductPage(props) {
                                     },
                                     (_, index) => index + 1
                                   ).map((value) => (
-                                    <div
+                                  value <=100 &&  <div
                                       key={value}
                                       onClick={() => setQuantity(value)}
                                       className={`py-1  hover:bg-dblue hover:text-white w-full text-center`}
@@ -2507,7 +2507,7 @@ function ProductPage(props) {
                                 
                               <div className=" h-fit w-full  py-2   " >
                                { !serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
-                                     <div className=" flex flex-wrap  py-3 w-fit  justify-center  gap-1">
+                                     <div className=" grid-cols-8 grid max-md:grid-cols-2 py-3 w-fit  justify-center  gap-1">
                                       {!serie.is_primary && serie.products && serie.products.map((product)=>(
                                       product.disabled && !accountState.admin?<></>:
                                            <div

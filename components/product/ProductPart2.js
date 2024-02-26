@@ -1419,7 +1419,7 @@ function ProductPart2(props) {
         )}
 
       {/* Related Product */}
-      {productData2?.product_related &&
+      { productData2?.product_related &&
         productData2?.product_related?.length > 0 && (
           <div className="bg-white">
             <div className="border-t-8 border-dinputBorder bg-dinputBorder"></div>

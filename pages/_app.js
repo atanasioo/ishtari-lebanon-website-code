@@ -78,6 +78,10 @@ export default function App({
     };
   }, [router]);
 
+
+
+
+
   var favicon = "/favicon-1.ico";
   var title = "ishtari | online Shopping in lebanon";
   if (host?.indexOf("flo") > -1) {

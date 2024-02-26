@@ -1379,7 +1379,7 @@ function Account() {
               ? "   right-0 opacity-100 z-50"
               : " -right-96    opacity-0 -z-50"
           }  transition-all
-           fixed mx-4 top-20 duration-300  cursor-pointer max-w-[330px]`}
+           fixed mx-4 ${state.admin?"top-[7.2rem]":"top-20"} duration-300  cursor-pointer max-w-[330px]`}
         >
           <div className="flex  relative  gap-3 justify-center    py-4    w-full bg-dblack bg-opacity-70  shadow-lg container  rounded-lg">
             <h2 className="text-white text-sm leading-6  my-auto ">

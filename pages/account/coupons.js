@@ -4,6 +4,7 @@ import UserSidebarMobile from "@/components/account/UserSidebarMobile";
 import useDeviceSize from "@/components/useDeviceSize";
 import { AccountContext } from "@/contexts/AccountContext";
 import buildLink from "@/urls";
+import { CgSandClock } from "react-icons/cg";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -59,17 +60,22 @@ function Coupon() {
 
       if(code == null || code == undefined){
         router.push("/");
-      
       }else{
         openAuthForm()
       }
     } else if (state.loged) {
-    axiosServer
-    .post(buildLink("redeemCoupon", undefined, undefined, undefined) 
-  +"&customer_id="+customer_id+"&code="+code+"&date="+date)
-    .then((response) => {
-     router.push("/account/coupons");
-    });
+      if(!code == null || !code == undefined){
+        axiosServer
+        .post(buildLink("redeemCoupon", undefined, undefined, undefined) 
+      +"&customer_id="+customer_id+"&code="+code+"&date="+date)
+        .then((response) => {
+          if(response.data.success){
+            router.push("/account/coupons");
+          }
+      
+        });
+      }
+  
        getCoupons();
     }
   }, [state.loading,code]);
@@ -158,27 +164,57 @@ const getCoupons =()=>{
             </div>
             </div>
 
-      <div className="container  my-10 pb-5 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
+      
 
-      {buttonActive==="1"?( data.Available!=[]?( data&& data.Available.map((coupon=>{
+      {buttonActive==="1"?( !data.Available.length == 0?(
+        <div className="container  my-10 pb-5 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
+       { data&& data.Available.map((coupon=>{
                    return <SingleCoupon  coupon={coupon} type="available" getCoupons={getCoupons}/>
 
-        }))):(<div className=" flex justify-center align-middle text-center w-full my-auto h-full pt-10"><h2 >No Available Coupons here</h2></div>)
-      ):buttonActive==="2"?( data&& data.Redeemed.map((coupon=>{
+        }))}</div>):(<div className=" my-5 flex flex-col justify-center  gap-5 align-middle text-center w-full  pt-10">
+                 <div className=" w-fit mx-auto"><CgSandClock className=" text-7xl text-dbase"/></div>
+          <h2  className=" text-xl font-bold">No Available Coupons here</h2>
+
+          </div>)
+      ):buttonActive==="2"?( !data.Redeemed.length == 0?(
+        <div className="container  my-10 pb-5 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
+       { data&& data.Redeemed.map((coupon=>{
         return <SingleCoupon  coupon={coupon} type="redeemed"  getCoupons={getCoupons}/>
+       }
 
-      }))
-        ):buttonActive==="3"?( data&& data['Expires Soon'].map((coupon=>{
+      ))}</div>):(
+      <div className=" my-5 flex flex-col justify-center  gap-5 align-middle text-center w-full  pt-10">
+      <div className=" w-fit mx-auto"><CgSandClock className=" text-7xl text-dbase"/></div>
+<h2  className=" text-xl font-bold">No Redeemd Coupons here</h2>
+
+</div>)
+        ):buttonActive==="3"?(
+          !data['Expires Soon'].length == 0?(
+          <div className="container  my-10 pb-5 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
+         { data&& data['Expires Soon'].map((coupon=>{
           return <SingleCoupon  coupon={coupon} type="expiresSoon"  getCoupons={getCoupons}/>
-
-      }))):( data&& data.Expired.map((coupon=>{
+           
+      }))}</div>):(
+        <div className=" my-5 flex flex-col justify-center  gap-5 align-middle text-center w-full  pt-10">
+        <div className=" w-fit mx-auto"><CgSandClock className=" text-7xl text-dbase"/></div>
+  <h2  className=" text-xl font-bold">No Expires Coupons here</h2>
+  
+  </div>)):(
+          !data.Expired.length == 0?(
+        <div className="container  my-10 pb-5 w-full  h-fit grid grid-cols-3 max-lg:grid-cols-2 align-middle place-items-center  max-mobile:grid-cols-1 gap-5 relative max-md:text-center max-md:justify-center  overflow-y-auto">
+       { data&& data.Expired.map((coupon=>{
           return <SingleCoupon  coupon={coupon} type="expired"  getCoupons={getCoupons}/>
 
-      })))
+      }))}</div>):(
+        <div className=" my-5 flex flex-col justify-center  gap-5 align-middle text-center w-full  pt-10">
+        <div className=" w-fit mx-auto"><CgSandClock className=" text-7xl text-dbase"/></div>
+  <h2  className=" text-xl font-bold">No Expired Coupons here</h2>
+  
+  </div>
+      ))
        }
         </div>
       </div>  
-     </div>
         )}
    </div>
  </div>

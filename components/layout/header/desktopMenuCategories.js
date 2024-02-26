@@ -246,7 +246,7 @@ function DesktopMenuCategories(props) {
                         __html: sanitizeHTML(category["title"].title),
                       }}
                     ></Link>
-                    <FaCaretDown  className={`${viewMenuCategories2 && selectedMenuCategory2 == category?"text-dbase":"text-dblack"} h-full my-auto  `}/>
+                    <FaCaretDown  className={`${viewMenuCategories2 && selectedMenuCategory2 == category?"text-dbase rotate-180":"text-dblack rotate-0"} h-full my-auto  transition-all `}/>
                   </div>
                 ))}
               {/* <div className="px-4 hover:text-dbase cursor-pointer">

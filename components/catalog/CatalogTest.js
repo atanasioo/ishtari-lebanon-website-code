@@ -1055,9 +1055,10 @@ function CatalogTest(props) {
               className="rounded-full  bg-dgreyBlack text-white text-center opacity-70"
               width="36"
               height="30"
+              
               color="white"
-              top="1000"
-              style={{ width: "50px", height: "50px", padding: "7px" }}
+              // top="1000"
+              style={{ width: "50px", bottom:"70px", right:"25px", height: "50px", padding: "7px" }}
             />
           )}
           {data?.isLoading && isLoading && (

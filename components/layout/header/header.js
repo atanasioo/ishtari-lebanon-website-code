@@ -266,7 +266,7 @@ function Header(props) {
               {stateAcc.isSeller && (
                 <div>
                   <Link
-                    className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder pr-3 md:pr-5 capitalize"
+                    className="hidden md:block mx-2 lg:border-r md:mr-5 lg:border-dplaceHolder text-white pr-3 md:pr-5 capitalize"
                     // href={`https://www.ishtari.com/index.php?route=seller_report/kt_dashboard&sid=${sellerId}`}
                     // href={`https://www.ishtari.com/seller_report/home`}
                     href="/seller_report"
