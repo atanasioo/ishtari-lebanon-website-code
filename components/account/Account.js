@@ -1240,13 +1240,13 @@ function Account() {
                   <span className="ml-4">Profile</span>
                 </Link>
 
-                <div
+               {   state.openRemindBirthday && state.hasdateBirth && <div
                   className={`  transition-all ${
-                    !state.openRemindBirthday && !state.hasdateBirth
-                      ? " h-2 w-2"
-                      : "h-0 w-0 "
+                 
+                     " h-2 w-2"
+                 
                   } absolute  z-50 bg-dbase animate-ping rounded-full border-2   left-[0.40rem] top-[1.2rem] border-dplaceHolder  inline-flex bg-sky-400 opacity-75`}
-                ></div>
+                ></div>}
 
                 <Link
                   href={`${path}/account/orders`}

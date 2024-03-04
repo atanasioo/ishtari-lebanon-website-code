@@ -1,11 +1,11 @@
 
 
 import { axiosServer } from '@/axiosServer';
-import { htmlDecode, sanitizeHTML ,slugify ,slugifyText } from '@/components/Utils';
+import { sanitizeHTML  } from '@/components/Utils';
 import buildLink from '@/urls';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AccountContext } from "@/contexts/AccountContext";
-import { FaAccessibleIcon, FaCheck, FaRegCopy, FaTicketAlt  } from "react-icons/fa";
+import {  FaCheck, FaRegCopy  } from "react-icons/fa";
 import Loader from '@/components/Loader';
 import { RiCoupon2Line } from "react-icons/ri";
 
@@ -211,14 +211,14 @@ const  redeemCoupon = (id)=>{
               <div className={` px-3 ${type!=="available"?"w-full":"w-1/2"}`}>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white  "
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-dbase font-medium  transition hover:border-dbase hover:bg-dbase1 hover:text-white  "
                 >
                   Close
                 </button>
                 
               </div>
               <div className={`w-1/2 px-3 ${type!=="available"?"hidden":"block"}`}>
-                <button  onClick={() => redeemCoupon(coupon?.coupon_id)} className="block w-full bg-dbase rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition hover:bg-blue-dark">
+                <button  onClick={() => redeemCoupon(coupon?.coupon_id)} className="block w-full bg-dbase rounded-md border border-primary bg-primary p-3 text-center text-base font-medium text-white transition">
               {loading && loading ?<div className='w-full flex justify-center align-middle text-center'> <div className='w-[30px]'><Loader/></div></div>:  <>Redeem</> }
                 
                 </button>

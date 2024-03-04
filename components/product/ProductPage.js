@@ -2001,11 +2001,14 @@ function ProductPage(props) {
                       )} */}
 
 
-<div className="flex  flex-wrap gap-2">
-                              { data?.series?.map((serie) => (
-                <div className=" flex flex-col gap-3 justify-start">
-                  { serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
-                  <div className=" max-md:flex text-center flex-wrap md:grid grid-cols-3 justify-center ">
+<div className="flex    flex-col gap-1">
+                              {  data?.series?.map((serie,index) => (
+                               serie.is_primary &&
+                                <>
+                         
+                <div className=" flex flex-col  gap-3 justify-start">
+                  <p className="font-semibold text-d15 md:text-xl text-dblack mb-2 before:w-full  underline-offset-8  decoration-dblack underline ">{serie.group_type?serie.group_type:index ===0? "In the same series":""} </p> 
+                  <div className="  max-md:grid grid-cols-3   md:flex text-left flex-wrap gap-2  justify-start ">
                                       {serie.products && serie.is_primary && serie.products.map((product)=>(
                                           product.disabled && !accountState.admin ?<></>: <div
                                            onClick={(e)=>{
@@ -2017,24 +2020,26 @@ function ProductPage(props) {
                                             }
                                            }}
                                            key={product.product_id}
-                                           className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
+                                           className={`flex  justify-center items-center py-1 px-1 max-w-[110px] w-full transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer  rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
                                                : product.disabled?"border-dbase": "border-dgrey"
                                            }`}
                                          >
-                                            <div className=" relative overflow-hidden flex flex-col justify-center text-center gap-2 px-1 py-1">
-                                              <Image
+                                            <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
+                                              <img
                                               title={product.type}
                                     src={product.image}
                                     alt={product.product_name}
-                                    className="w-full rounded-md"
-                                    width={100}
-                                    height={100}
+                                    className="w-full  rounded-md"
+                              
                                   />
-                                <div className=" text-sm text-dblack">{product.type}</div>
-                                  <div className=" text-dbase">{product.special}</div>
-                                  <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
+                                <div className=" text-xs text-dblack">{product.type}</div>
+                                <div className=" flex flex-row gap-2 text-center justify-center">
+                                <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
+                                  <div className=" text-sm text-dbase">{product.special}</div>
+                                  
+                                  </div>
                                  {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
                                   <h2 className=" text-dbase">Out of stock</h2></div>}
                                 </div>
@@ -2042,6 +2047,8 @@ function ProductPage(props) {
                                       ))}
                                       </div>
                                   </div>
+                                  </>
+
                               ))}
                             </div>
 
@@ -2496,57 +2503,52 @@ function ProductPage(props) {
               { data?.series &&
                       data.series.length > 0 &&
                       data["series_options"].length < 1 && (
-                        <div className=" border-t-8 border-dinputBorder bg-dinputBorder ">
-                        <div className=" px-5 mobile:px-12 bg-white py-4">
-                          {/* <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">
-                            In the same series
-                          </p> */}
+                        <div className=" border-t-4 border-dinputBorder bg-dinputBorder ">
+                        <div className=" px-5 mobile:px-12 bg-white ">
+                          
                           <div className=" overflow-x-auto">
                             <div className="flex  flex-col gap-2">
-                              { data.series.map((serie) => (
-                                
-                              <div className=" h-fit w-full  py-2   " >
-                               { !serie.is_primary && serie.group_type&& <p className="font-semibold text-d15 md:text-xl text-dblack mb-2">{serie.group_type} :</p>  }
-                                     <div className=" grid-cols-8 grid max-md:grid-cols-2 py-3 w-fit  justify-center  gap-1">
-                                      {!serie.is_primary && serie.products && serie.products.map((product)=>(
+                              { data.series.map((serie,index) => (
+                                !serie.is_primary &&
+                              <div className=" h-fit w-full  py-4   " >
+                              <p className="font-semibold text-d15 md:text-xl text-dblack mb-2 before:w-full  underline-offset-8  decoration-dblack underline ">{serie.group_type?serie.group_type:"In the same series"} </p> 
+                                     <div className=" grid-cols-8 grid max-md:grid-cols-3 max-md:mx-auto py-3 w-fit  justify-center  gap-1">
+                                      { serie.products && serie.products.map((product)=>(
                                       product.disabled && !accountState.admin?<></>:
-                                           <div
-                                           key={product.product_id}
-                                           onClick={(e)=>{
-                                            if(product.out_of_stock && !accountState.admin){
-                                              e.preventDefault()
-                                            }else{
-                                              router.push({
-                                                pathname: `/product/`+product.product_id,})
-                                            }
-                                           }}
-                                          
-                                           className={`flex justify-center items-center  w-36 mr-5 mb-5 transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer p-1 rounded-md ${
-                                             product.product_id === product_id
-                                               ? " border-dblue"
-                                               : product.disabled?"border-dbase": "border-dgrey"
-                                           }`}
-                                         >
-                                            <div className=" relative overflow-hidden flex flex-col justify-center text-center gap-2 px-1 py-1">
-
-                                     
-                                              <Image
-                                              title={product.type}
-                                    src={product.image}
-                                    alt={product.product_name}
-                                    className="w-full rounded-md"
-                                    width={100}
-                                    height={100}
-                                  /> 
-                                  <div    dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(product.type)
-                                }} className=" text-sm text-dblack"></div>
-                                  <div className=" text-dbase">{product.special}</div>
-                                  <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
-
-                                  {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30"><h2 className=" text-dbase">Out of stock</h2></div>}
-                                </div>
-                                            </div>
+                                      <div
+                                      onClick={(e)=>{
+                                       if(product.out_of_stock && !accountState.admin){
+                                         e.preventDefault()
+                                       }else{
+                                         router.push({
+                                           pathname: `/product/`+product.product_id,})
+                                       }
+                                      }}
+                                      key={product.product_id}
+                                      className={`flex  justify-center items-center   max-w-[110px] w-full transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer  rounded-md ${
+                                        product.product_id === product_id
+                                          ? " border-dblue"
+                                          : product.disabled?"border-dbase": "border-dgrey"
+                                      }`}
+                                    >
+                                       <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
+                                         <img
+                                         title={product.type}
+                               src={product.image}
+                               alt={product.product_name}
+                               className="w-full  rounded-md"
+                         
+                             />
+                           <div className=" text-xs text-dblack">{product.type}</div>
+                           <div className=" flex flex-row gap-2 text-center justify-center">
+                           <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
+                             <div className=" text-sm text-dbase">{product.special}</div>
+                             
+                             </div>
+                            {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
+                             <h2 className=" text-dbase">Out of stock</h2></div>}
+                           </div>
+                                       </div>
 
                                      
                                       ))}

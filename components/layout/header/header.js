@@ -278,7 +278,7 @@ function Header(props) {
 
               <Account />
               {stateAcc.loged && <div className=" max-md:hidden"> <TopWishlist /></div>}
-             <div className=" max-md:hidden"><TopCart /></div> 
+             <div ><TopCart /></div> 
             </div>
           </div>
         </div>

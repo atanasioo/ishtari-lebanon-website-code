@@ -826,10 +826,46 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
           </div>
         )}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+{/* this is error assana */}
       {widget?.display === "grid" &&
         widget.type !== "text" &&
         widget.column_number > 6 && (
-          <div className="flex -mx-4 flex-row justify-between">
+          <div className="flex -mx-4 flex-row justify-center">
             {widget.items.map((item) => {
               const bool = widget.items.length > 1;
 
@@ -851,7 +887,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     bool={bool}
                   />
                 </div>
-              ) : item.mobile_type === "6" ? (
+              ) : item.mobile_type === "6"  ? (
                 <div
                   className={` w-full hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                   key={item.banner_image_id}
@@ -896,7 +932,7 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                       )}
                   </Link>
                 </div>
-              ) : (
+              ) :  item.mobile_type === "0"  ? (
                 <div
                   className={`  hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                   key={item.banner_image_id}
@@ -916,7 +952,8 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
                     />
                   </div>
                 </div>
-              );
+                // <></>
+              ):<></>
             })}
           </div>
         )}

@@ -33,6 +33,20 @@ function ProductZoom(props) {
   const [routeChanged, setRouteChanged] = useState(false);
   const [width] = useDeviceSize();
 
+
+
+
+
+
+
+  // useEffect(()=>{
+  //   if(imageSlider.current){
+  //     changeImage(productData.videos[0])
+  //   }
+ 
+  // },[imageSlider.current])
+
+
   const setting = {
     dots: false,
     infinite: false,
@@ -92,6 +106,8 @@ function ProductZoom(props) {
   useEffect(() => {
     setImages(props.images);
 
+    // setImages((prev)=>[...prev,productData?.videos[0]])
+
     props?.images?.map((i, index) => {
       if (i.product_option_value_id === activeOption) {
         setActiveImage(i);
@@ -113,6 +129,24 @@ function ProductZoom(props) {
   }, [activeImage]);
 
   useEffect(() => {
+    if(productData.videos.length>0 && imageSlider.current){
+  
+      setActiveImage(productData.videos[0]);
+      setActiveSlide(0);
+      imageSlider?.current?.slickGoTo(0);
+      SmallImageSlider?.current?.slickGoTo(0);
+      smallMobileSliderRef?.current?.slickGoTo(0);
+      // setAllImagesLoaded(false);
+      setHovered(false);
+
+    setActiveImage(productData.videos[0]);
+
+    imageSlider.current.slickGoTo(0);
+    setActiveSlide(0);
+      
+    }else{
+
+    
     setActiveImage(images[0]);
     setActiveSlide(0);
     imageSlider?.current?.slickGoTo(0);
@@ -120,6 +154,7 @@ function ProductZoom(props) {
     smallMobileSliderRef?.current?.slickGoTo(0);
     // setAllImagesLoaded(false);
     setHovered(false);
+    }
   }, [images]);
 
   useEffect(() => {
@@ -411,26 +446,6 @@ function ProductZoom(props) {
           >
             <div className="selectors overflow-hidden overflow-y-hidden h-full  whitespace-pre md:whitespace-normal">
               <Slider {...setting} className="hidden md:block">
-                {images?.map((i) => (
-                  <div
-                    key={i["thumb"]}
-                    className={` flex justify-center mt-2 mr-4 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                  >
-                    <img
-                      src={i["thumb"]}
-                      alt="product image"
-                      width={80}
-                      height={120}
-                      onClick={() => changeImage(i)}
-                      className={`cursor-pointer border-2 
-                      ${
-                        activeImage && activeImage["popup"] === i["popup"]
-                          ? "border-dblue"
-                          : "border-dgreyZoom"
-                      }`}
-                    />
-                  </div>
-                ))}
               {productData?.videos &&  productData?.videos[0]  && <div
                   key={productData?.videos && productData?.videos[0]}
                   onClick={() => changeImage(productData?.videos[0])}
@@ -452,8 +467,51 @@ function ProductZoom(props) {
                   />
                 </div>
 }
+                {images?.map((i) => (
+                  <div
+                    key={i["thumb"]}
+                    className={` flex justify-center mt-2 mr-4 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                  >
+                    <img
+                      src={i["thumb"]}
+                      alt="product image"
+                      width={80}
+                      height={120}
+                      onClick={() => changeImage(i)}
+                      className={`cursor-pointer border-2 
+                      ${
+                        activeImage && activeImage["popup"] === i["popup"]
+                          ? "border-dblue"
+                          : "border-dgreyZoom"
+                      }`}
+                    />
+                  </div>
+                ))}
+   
               </Slider>
               <Slider {...mobileSetting} className={`md:hidden`}>
+              {productData?.videos && productData?.videos.length > 0 && (
+                  <div
+                    key={productData?.videos && productData?.videos[0]}
+                    onClick={() => changeImage(productData?.videos[0])}
+                    className={`flex justify-center mt-2 mr-4 h-24  rounded-md cursor-pointer transition-all ease-in-out outline-none `}
+                  >
+                    <video
+                      className={`cursor-pointer border-2
+                      ${
+                        productData?.videos &&
+                        productData?.videos[0] === activeImage
+                          ? "border-dblue"
+                          : "border-dgreyZoom"
+                      }`}
+                    >
+                      <source
+                        src={productData?.videos && productData?.videos[0]}
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
+                )}
                 {images?.map((i, index) => (
                   <div
                     key={i["thumb"]}
@@ -502,28 +560,7 @@ function ProductZoom(props) {
                   </div>
                 )}
 
-                {productData?.videos && productData?.videos.length > 0 && (
-                  <div
-                    key={productData?.videos && productData?.videos[0]}
-                    onClick={() => changeImage(productData?.videos[0])}
-                    className={`flex justify-center mt-2 mr-4 h-24  rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                  >
-                    <video
-                      className={`cursor-pointer border-2
-                      ${
-                        productData?.videos &&
-                        productData?.videos[0] === activeImage
-                          ? "border-dblue"
-                          : "border-dgreyZoom"
-                      }`}
-                    >
-                      <source
-                        src={productData?.videos && productData?.videos[0]}
-                        type="video/mp4"
-                      />
-                    </video>
-                  </div>
-                )}
+           
               </Slider>
             </div>
           </div>
@@ -560,20 +597,7 @@ function ProductZoom(props) {
                   {...singleSetting}
                   className="single-product-img-slider"
                 >
-                  {images?.map((i, index) => (
-                    <Image
-                      key={i["thumb"]}
-                      id={`myimage${index}`}
-                      src={i["popup"]}
-                      alt="product image"
-                      width={500}
-                      height={680}
-                      priority={true}
-                      className="rounded-lg myimage-product-zoom"
-                    />
-                  ))}
-
-                  {productData?.videos && productData?.videos.length > 0 && (
+                     {productData?.videos && productData?.videos.length > 0 && (
                     <div className="h-full bg-dblack">
                       <video
                         id={`myimage${images.length}`}
@@ -587,6 +611,20 @@ function ProductZoom(props) {
                       </video>
                     </div>
                   )}
+                  {images?.map((i, index) => (
+                    <Image
+                      key={i["thumb"]}
+                      id={`myimage${index}`}
+                      src={i["popup"]}
+                      alt="product image"
+                      width={500}
+                      height={680}
+                      priority={true}
+                      className="rounded-lg myimage-product-zoom"
+                    />
+                  ))}
+
+               
                   {Object.keys(sellerData).length > 0 && width < 768 && (
                     <div className="black-gradient h-full flex flex-col justify-center items-start p-2">
                       <div className="pr-semibold text-white pb-2">

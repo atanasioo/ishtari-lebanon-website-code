@@ -278,7 +278,7 @@ const getCoupons =()=>{
               <div className={` px-3  w-full`}>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1 hover:text-white dark:text-white"
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1  hover:text-dblack"
                 >
                   Close
                 </button>

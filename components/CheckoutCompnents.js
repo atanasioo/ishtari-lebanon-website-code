@@ -1121,6 +1121,36 @@ function CheckoutCompnents() {
           });
 
         setMarketingData(response.data.data);
+        dispatch({
+          type: "loading",
+          payload: true,
+        });
+        axiosServer
+          .get(
+            buildLink("cartCount", undefined, undefined, window.config["site-url"])
+          )
+          .then((response) => {
+            if (response.data.success) {
+              dispatch({
+                type: "setProductsCount",
+                payload: response.data.data.nb_of_products,
+              });
+    
+              dispatch({
+                type: "loading",
+                payload: false,
+              });
+            } else {
+              dispatch({
+                type: "setProductsCount",
+                payload: 0,
+              });
+              dispatch({
+                type: "loading",
+                payload: false,
+              });
+            }
+          });
         if (firstPath === "bey") {
           router.push({
             pathname: "/bey/success/"
