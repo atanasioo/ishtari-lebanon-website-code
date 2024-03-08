@@ -88,13 +88,14 @@ export default function Home(props) {
         ];
 
         if (
-          page === 1 &&
+          page === 1 
+          &&
           response?.data?.data?.widgets[0].cover_header === "1"
         ) {
           //setHeaderColor("#0000FF");
         localStorage.setItem("headerCol",response?.data?.data?.widgets[0].background_color);
           setHeaderColor(response?.data?.data?.widgets[0].background_color);
-        
+
         }
 
         // setTimeout(() => {

@@ -1337,7 +1337,7 @@ function CheckoutCompnents() {
           <div className="flex items-center justify-center flex-col h-screen text-dblack">
             <i className="icon icon-basket text-5xl" />
             <h2 className=" text-2xl my-3 font-semibold">
-              Your shopping cart is empty{" "}
+              Your shopping basket is empty{" "}
             </h2>{" "}
             <h3 className="my-1 font-light text-xl">
               What are you waiting for !
@@ -2055,7 +2055,7 @@ function CheckoutCompnents() {
                       <span className="cart-icon">
                         <i className="icon icon-basket" />
                       </span>{" "}
-                      <span className="text-d18"> My Cart </span>{" "}
+                      <span className="text-d18"> My Basket </span>{" "}
                     </span>{" "}
                     {/* Cart error */}{" "}
                     <span className="text-dbase">

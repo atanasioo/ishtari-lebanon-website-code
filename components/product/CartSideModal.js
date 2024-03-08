@@ -28,7 +28,7 @@ function CartSideModal(props) {
                 __html: sanitizeHTML(data?.name  || state?.product?.name),
               }}
             />
-            <p className="mt-2 text-dgreen">Successfully added to cart</p>
+            <p className="mt-2 text-dgreen">Successfully added to basket</p>
             <div className="flex items-center justify-between mt-4 space-x-4">
               <Link
                 href={`${path}/checkout`}
@@ -107,7 +107,7 @@ function CartSideModal(props) {
                   
                   }
                   <p className="text-xs font-semibold mt-2 text-dgreen">
-                    Added To Cart
+                    Added To Basket
                   </p>
                 </div>
               </div>
@@ -128,7 +128,7 @@ function CartSideModal(props) {
               </div>
             </div>
 
-            <h2 className="my-4 font-semibold text-dblack text-xl">My Cart</h2>
+            <h2 className="my-4 font-semibold text-dblack text-xl">My Basket</h2>
             {state.products?.map((product) => (
               <div className="flex border-b border-dinputBorder py-2">
                 <img

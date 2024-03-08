@@ -266,7 +266,7 @@ function MobileMenu(props) {
             <div className="menu-icon bg-dbase flex justify-center p-2.5 rounded-sm">
               <FaShoppingCart className="w-4 h-4 text-white"></FaShoppingCart>
             </div>
-            <span className="text-xs">My Cart</span>
+            <span className="text-xs">My Basket</span>
           </Link>
         </div>
         {/* Categories */}

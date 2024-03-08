@@ -128,7 +128,7 @@ function SharePopupGlobal(props) {
                 <div className="block h-full overflow-y-scroll rounded-xl bg-white">
                   <div className="rounded-xl flex flex-col justify-start text-left relative">
                     <div className=" pb-3 flex flex-row justify-between border-b border-dlabelColor  text-dDarkgrey w-full text-md leading-5 font-semibold mt-3">
-                      <span className=" w-fit mx-auto">Share your cart with friends</span>
+                      <span className=" w-fit mx-auto">Share your basket with friends</span>
                    {/* <button onClick={close}> clos</button> */}
                     </div>
                     <span className="cursor-pointer ">

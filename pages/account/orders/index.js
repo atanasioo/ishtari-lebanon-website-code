@@ -58,7 +58,7 @@ function Orders() {
       })
       .catch((error) => {
         setErrorMessage(true);
-        setGlobalMessage(`Error adding products to cart`);
+        setGlobalMessage(`Error adding products to basket`);
         console.error(error);
       });
   }

@@ -1622,7 +1622,7 @@ function ProductPage(props) {
                                     <span className="bg-white  px-2 rounded-full text-dblue">
                                       1
                                     </span>{" "}
-                                    item Added to the Cart
+                                    item Added to the basket
                                   </p>
                                   {countDownPointer === true &&
                                   hasAddToCartError === false ? (
@@ -1634,7 +1634,7 @@ function ProductPage(props) {
                                     </div>
                                   ) : (
                                     !addingToCart && (
-                                      <span className="">Add To Cart </span>
+                                      <span className="">Add To basket </span>
                                     )
                                   )}
                                 </div>
@@ -2003,7 +2003,7 @@ function ProductPage(props) {
 
 <div className="flex    flex-col gap-1">
                               {  data?.series?.map((serie,index) => (
-                               serie.is_primary &&
+                               serie.is_primary && serie?.products?.length >0 &&
                                 <>
                          
                 <div className=" flex flex-col  gap-3 justify-start">
@@ -2500,7 +2500,7 @@ function ProductPage(props) {
 
 
 
-              { data?.series &&
+              { data?.series && data?.series?.length >0 &&
                       data.series.length > 0 &&
                       data["series_options"].length < 1 && (
                         <div className=" border-t-4 border-dinputBorder bg-dinputBorder ">
@@ -2509,9 +2509,9 @@ function ProductPage(props) {
                           <div className=" overflow-x-auto">
                             <div className="flex  flex-col gap-2">
                               { data.series.map((serie,index) => (
-                                !serie.is_primary &&
+                                !serie.is_primary &&  serie?.products?.length >0 &&
                               <div className=" h-fit w-full  py-4   " >
-                              <p className="font-semibold text-d15 md:text-xl text-dblack mb-2 before:w-full  underline-offset-8  decoration-dblack underline ">{serie.group_type?serie.group_type:"In the same series"} </p> 
+                              <p className="font-semibold text-d15 md:text-xl text-dblack mb-2 before:w-full  underline-offset-8  decoration-dblack underline ">{serie.group_type?serie.group_type:index ===0? "In the same series":""} </p> 
                                      <div className=" grid-cols-8 grid max-md:grid-cols-3 max-md:mx-auto py-3 w-fit  justify-center  gap-1">
                                       { serie.products && serie.products.map((product)=>(
                                       product.disabled && !accountState.admin?<></>:
@@ -2541,8 +2541,8 @@ function ProductPage(props) {
                              />
                            <div className=" text-xs text-dblack">{product.type}</div>
                            <div className=" flex flex-row gap-2 text-center justify-center">
-                           <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
-                             <div className=" text-sm text-dbase">{product.special}</div>
+                           <div className=" text-dlabelColor text-xs line-through">{product.special!==""&&product.price}</div>
+                             <div className=" text-sm text-dbase">{product.special!==""?product.special:product.price}</div>
                              
                              </div>
                             {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">

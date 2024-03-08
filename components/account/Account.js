@@ -1211,12 +1211,12 @@ function Account() {
                     whitespace-nowrap flex items-center hover:-translate-y-1 "
             >
               <div className="flex flex-col">
-                <span className=" text-xs font-medium">
-                  Welcome
-                  {/* {state.username} */}
-                </span>
+                <p className=" text-xs font-light">
+                  Welcome{" "}
+                  {state.username}
+                </p>
                 <span className="text-md flex flex-row gpa-2 font-extrabold">
-                  <p>{state.username} </p>
+                  <p>My Account </p>
                   <FiChevronDown
                     className={`icon icon-down-dir ml-4 my-auto transition-all ${
                       showUserMenu && "transform rotate-180"

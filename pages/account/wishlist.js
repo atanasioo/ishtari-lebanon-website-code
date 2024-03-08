@@ -42,7 +42,7 @@ function wishlist() {
   const [nameValue, setName] = useState();
   const [descriptionValue, setDescription] = useState();
   const [successMessage, setSuccessMessage] = useState(
-    "Product added to cart successfully"
+    "Product added to basket successfully"
   );
   const [value, setvalue] = useState();
   const ref = useRef();
@@ -212,7 +212,7 @@ function wishlist() {
               payload: false,
             });
             setSuccess(true);
-            setSuccessMessage("Product added to cart successfully");
+            setSuccessMessage("Product added to basket successfully");
           });
       });
   }
@@ -457,7 +457,7 @@ function wishlist() {
                             onClick={() => addToCart(product.product_id)}
                             className="cursor-pointer text-dgrey1 text-sm"
                           >
-                            <span>Add To Cart</span>
+                            <span>Add To basket</span>
                             <i className="icon icon-basket ml-1"></i>
                           </button>
                           <button

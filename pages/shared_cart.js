@@ -273,10 +273,10 @@ try{
     <div className=' bg-white my-4  min-h-screen'>
   <div className=" container pb-8">
 <Head>
-          <title> Sharing Cart | ishtari</title>
+          <title> Sharing Basket | ishtari</title>
           <meta
             name="description"
-            content="Review and finalize your order with our convenient and secure shopping cart. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."
+            content="Review and finalize your order with our convenient and secure shopping basket. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."
           ></meta>
         </Head>
        
@@ -398,7 +398,7 @@ try{
                    {products&& <div  className=' container  justify-end text-right flex flex-row gap-3'>
 
                     <button onClick={()=>addAllProducts()} className=' md:w-40 w-full bg-dblue  py-1 text-white'>Add All </button>
-                    <button onClick={()=>router.push("/cart")} className=' w-full md:w-40  border border-dblue text-dblue  py-1'>View Cart </button>
+                    <button onClick={()=>router.push("/cart")} className=' w-full md:w-40  border border-dblue text-dblue  py-1'>View basket </button>
 
                     </div>}
                

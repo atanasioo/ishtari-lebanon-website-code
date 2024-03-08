@@ -58,13 +58,13 @@ function Header(props) {
 
 
 
-  useEffect(() => {
-    if (router.asPath !== '/') {
-      setHeaderColor('white');
-    } else {
-      setHeaderColor('white'); 
-    }
-  }, [router.asPath]);
+  // useEffect(() => {
+  //   if (router.asPath !== '/') {
+  //     setHeaderColor('white');
+  //   } else {
+  //     setHeaderColor('white'); 
+  //   }
+  // }, [router.asPath]);
 
   useEffect(() => {
     if (window.innerWidth < 1024) {
@@ -152,16 +152,17 @@ function Header(props) {
 
       <AdminTopHeader />
 
-      <div id="headerh"  className=" max-md:bg-white md:bg-[#BE1C26]"
+      <div id="headerh"  className=" max-md:bg-white "
       style={{
         transition:"all 0.5s ease",
-            backgroundColor: headerColor || "white" ,
+            backgroundColor: headerColor || "#BE1C26"  ,
           }}
           >
         <div 
           className="flex  items-center justify-between py-2 max-md:py-3  max-md:container   md:px-9"
         
         >
+         
           <div className="flex items-center">
             {/* <button className="lg:hidden" onClick={() =>     dispatch({ type: "setViewMobileMenu", payload: true })}>
               <HiMenu
@@ -180,16 +181,7 @@ function Header(props) {
                 }
               }}
             >
-              {/* {window?.location?.host?.indexOf("flo") > -1 ? (
-                <img
-                  src={"/images/logo-flo-orange.png"}
-                  width={110}
-                  height={32}
-                  alt="flo-logo"
-                  // style={{ width: "80%", height: "auto" }}
-                />
-              ) : window?.location.host.indexOf("ishtari") > -1 ||
-              window?.location.host.indexOf("next") > -1 ? ( */}
+        
                 <>
                   <img
                     className="hidden mobile:block"
@@ -208,49 +200,7 @@ function Header(props) {
                     // style={{ width: "78%", height: "auto" }}
                   />
                 </>
-              {/* ) : window.location.host.indexOf("energy") > -1 ? (
-                <>
-                  <img
-                    className="hidden mobile:block"
-                    src="/images/logo/logo-redd.png"
-                    width={150}
-                    height={32}
-                    alt="ishtari-logo"
-                    // style={{ width: "80%", height: "auto" }}
-                  />
-                  <img
-                    className="mobile:hidden"
-                    src="/images/logo/logo-dblack2
-                  .png"
-                    width={96}
-                    height={40}
-                    alt="ishtari-logo"
-                    // style={{ width: "78%", height: "auto" }}
-                  />
-                </>
-              ) : Cookies.get("site-local-name") === "ishtari" ||
-                Cookies.get("site-local-name") === "ishtari-ghana" ? (
-                <>
-                  <img
-                    className="hidden mobile:block"
-                    src="/images/logo/logo-redd.png"
-                    width={150}
-                    height={32}
-                    alt="ishtari-logo"
-                    // style={{ width: "80%", height: "auto" }}
-                  />
-                  <img
-                    className="mobile:hidden"
-                    src="/images/logo/logo-dblack2.png"
-                    width={96}
-                    height={40}
-                    alt="ishtari-logo"
-                    // style={{ width: "78%", height: "auto" }}
-                  />
-                </>
-              ) : (
-                <LogoClient host={host.host} />
-              )} */}
+              
             </Link>
             <div className="">
             <CountryDropdown  host={host.host} />

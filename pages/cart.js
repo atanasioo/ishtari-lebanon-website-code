@@ -473,10 +473,10 @@ function Cart() {
         {/* Seo */}
 
         <Head>
-          <title> Shopping Cart | ishtari</title>
+          <title> Shopping Basket | ishtari</title>
           <meta
             name="description"
-            content="Review and finalize your order with our convenient and secure shopping cart. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."
+            content="Review and finalize your order with our convenient and secure shopping basket. Add items, adjust quantities, and proceed to checkout with confidence. Enjoy hassle-free online shopping and quick delivery of your favorite products."
           ></meta>
         </Head>
         {loading ? (
@@ -486,7 +486,7 @@ function Cart() {
             <div className="w-full mobile:w-3/4 ">
               <div className="flex items-center">
                 <h1 className=" font-bold" style={{ fontSize: "23px" }}>
-                  Cart
+                  Basket
                 </h1>{" "}
                 <h1
                   className=" font-light pl-1 font-d14 "
@@ -923,7 +923,7 @@ function Cart() {
               <div className="flex items-center justify-center flex-col pt-16 sm:pt-20 text-dblack">
                 <AiOutlineShopping className="text-7xl mobile:text-7xl" />
                 <h2 className=" text-2xl mobile:text-4xl mt-6 font-semibold">
-                  Your shopping cart is empty
+                  Your shopping basket is empty
                 </h2>
                 <h3 className=" font-light text-xl">
                   What are you waiting for ?

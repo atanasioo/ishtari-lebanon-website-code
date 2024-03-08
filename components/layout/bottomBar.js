@@ -80,7 +80,7 @@ const BottomBar = () => {
 }
     <Link href="/cart" className={`text-dbase relative flex flex-col justify-center text-center ${router.pathname === '/cart' ? 'text-dbase' : 'text-dgrey1'}`}>
       <BiCart className="mx-auto" />
-      <span className="text-sm font-medium">Cart</span>
+      <span className="text-sm font-medium">Basket</span>
       <span className={`w-5 h-5  bg-dbase flex text-white items-center justify-center rounded-full text-xs absolute right-0 sm:right-2 -top-1.5 border-2 border-white -mr-2 mobile:mr-1`}>
                
                <span>
