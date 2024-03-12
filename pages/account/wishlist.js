@@ -18,7 +18,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { WishlistContext } from "@/contexts/WishlistContext";
 import { useRouter } from "next/router";
 import Head from "next/head";
-
+import { CiSearch } from "react-icons/ci";
 import { useMarketingData } from "@/contexts/MarketingContext";
 
 function wishlist() {
@@ -27,7 +27,6 @@ function wishlist() {
   const { setMarketingData } = useMarketingData();
   const [width, height] = useDeviceSize();
   const [AccountState] = useContext(AccountContext);
-
   const [success, setSuccess] = useState(false);
   const [successGroup, setSuccessGroup] = useState(false);
   const [showModel, setShowModel] = useState(false);
@@ -36,11 +35,15 @@ function wishlist() {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(6);
+  const [searchPage, setSearchPage] = useState();
+  const [limit, setLimit] = useState(10);
   const [result, setResult] = useState();
   const [id, setId] = useState(0); // groups -id
   const [nameValue, setName] = useState();
   const [descriptionValue, setDescription] = useState();
+  const totalFilteredProducts = filterProducts().length;
+  const totalPages = Math.ceil(totalFilteredProducts / limit);
+  const [searchQuery, setSearchQuery] = useState("");
   const [successMessage, setSuccessMessage] = useState(
     "Product added to basket successfully"
   );
@@ -51,7 +54,7 @@ function wishlist() {
   useEffect(() => {
     if (!AccountState.loading && !AccountState.loged) {
       router.push("/");
-    } else if(AccountState.loged) {
+    } else if (AccountState.loged) {
       axiosServer
         .get(buildLink("wishlist_group", undefined, window.innerWidth))
         .then((response) => {
@@ -78,8 +81,9 @@ function wishlist() {
       .then((response) => {
         if (response.data.success) {
           const data = response.data.data;
+          const newPage = parseInt(data.page, 10);
           setLoading(false);
-
+          setSearchPage(newPage);
           setProducts(data);
         }
       });
@@ -141,16 +145,16 @@ function wishlist() {
     axiosServer
       .post(buildLink("wishlistDelete", undefined, undefined) + id)
       .then((response) => {
-         if(response.data.success == true){
+        if (response.data.success == true) {
           axiosServer
-          .get(buildLink("wishlist_group", undefined, window.innerWidth))
-          .then((response) => {
-            if (response.data.success) {
-              const data = response.data.data;
-              setGroups(data);
-            }
-          });
-         }
+            .get(buildLink("wishlist_group", undefined, window.innerWidth))
+            .then((response) => {
+              if (response.data.success) {
+                const data = response.data.data;
+                setGroups(data);
+              }
+            });
+        }
       });
     setId(0);
     setPage(1);
@@ -238,7 +242,7 @@ function wishlist() {
           )
           .then((response) => {
             const data = response.data.data;
-            
+
             setProducts(data);
             dispatchWishlist({
               type: "setProductsCount",
@@ -247,6 +251,26 @@ function wishlist() {
           });
         // window.location.reload();
       });
+  }
+
+  function handleSearch(query) {
+    setSearchQuery(query.toLowerCase());
+    setSearchPage(searchPage);
+  }
+
+  function filterProducts(products) {
+    return (
+      products?.filter((product) => {
+        const lowerCaseName = product.name.toLowerCase();
+        const lowerCaseSku = product.sku.toLowerCase();
+        const lowerCaseQuery = searchQuery.toLowerCase();
+
+        return (
+          lowerCaseName.includes(lowerCaseQuery) ||
+          lowerCaseSku.includes(lowerCaseQuery)
+        );
+      }) || []
+    );
   }
 
   return (
@@ -333,6 +357,23 @@ function wishlist() {
                     </div>
                   ))}
               </div>
+              {/* <input
+                type="text"
+                placeholder="Search products..."
+                onChange={(e) => handleSearch(e.target.value)}
+                className="ml-3 p-1 border border-dinputBorder rounded"
+              /> */}
+
+              <div className="relative font-bold text-xl md:text-xl overflow-auto rounded-lg">
+                <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-dblack" />
+                <input
+                  type="text"
+                  placeholder="Search for product"
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="ml-1 pl-10 py-3 px-1 md:px-8 bg-transparent border-none text-base md:text-xl font-bold focus:outline-none focus:border-transparent"
+                />
+              </div>
+
               <div className="w-full ">
                 {groups?.map((ps) => (
                   <div
@@ -346,7 +387,7 @@ function wishlist() {
                         {products?.products?.length === 0 && "No Items"}
                         {products?.products?.length === 1 && "1 Item"}
                         {products?.products?.length > 1 &&
-                        products?.products?.length + " Items"}{" "}
+                          products?.products?.length + " Items"}{" "}
                         <HiLockClosed className="m-1" />{" "}
                       </span>
 
@@ -403,77 +444,85 @@ function wishlist() {
                   </div>
                 ))}
                 {loading && <PointsLoader />}
-                {!loading &&
-                  products?.products?.map((product) => (
-                    <div
-                      className={`flex mb-2 px-4 py-2 rounded bg-white`}
-                      key={product?.product_id}
-                    >
-                      <Link
-                        className="block"
-                        href={`/product/${product?.product_id}`}
-                        onClick={() =>
-                          setMarketingData({
-                            ignore: false,
-                            banner_image_id: "",
-                            source_type: "wishlist",
-                            source_type_id: "",
-                          })
-                        }
-                      >
-                        <img
-                          src={product?.thumb}
-                          className="w-24 block rounded"
-                          alt={product?.name}
-                        />
-                      </Link>
 
-                      <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow w-2/3">
-                        <p className="text-d13 text-dgrey1">{product?.sku}</p>
-                        <p
-                          className="w-full text-sm font-semibold"
-                          dangerouslySetInnerHTML={{
-                            __html: sanitizeHTML(product?.name),
-                          }}
-                        ></p>
-                        <div>
-                          {product.special !== 0 ? (
-                            <div>
-                              <span className="mr-4 line-through text-sm">
+                {/* Displayed Products Section */}
+                <div className="w-full ">
+                  {!loading &&
+                    filterProducts(products?.products).map((product) => (
+                      <div
+                        className={`flex mb-2 px-4 py-2 rounded bg-white`}
+                        key={product?.product_id}
+                      >
+                        <Link
+                          className="block"
+                          href={`/product/${product?.product_id}`}
+                          onClick={() =>
+                            setMarketingData({
+                              ignore: false,
+                              banner_image_id: "",
+                              source_type: "wishlist",
+                              source_type_id: "",
+                            })
+                          }
+                        >
+                          <img
+                            src={product?.thumb}
+                            className="w-24 block rounded"
+                            alt={product?.name}
+                          />
+                        </Link>
+
+                        <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow w-2/3">
+                          <p className="text-d13 text-dgrey1">{product?.sku}</p>
+                          <p
+                            className="w-full text-sm font-semibold"
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeHTML(product?.name),
+                            }}
+                          ></p>
+                          <div>
+                            {product.special !== 0 ? (
+                              <div>
+                                <span className="mr-4 line-through text-sm">
+                                  {product.price}
+                                </span>
+                                <span className="font-semibold">
+                                  {product.special}
+                                </span>
+                              </div>
+                            ) : (
+                              <span className="mr-4 font-semibold">
                                 {product.price}
                               </span>
-                              <span className="font-semibold">
-                                {product.special}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="mr-4 font-semibold">
-                              {product.price}
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex flex-col md:flex-row">
-                          <button
-                            onClick={() => addToCart(product.product_id)}
-                            className="cursor-pointer text-dgrey1 text-sm"
-                          >
-                            <span>Add To basket</span>
-                            <i className="icon icon-basket ml-1"></i>
-                          </button>
-                          <button
-                            onClick={() => remove(product.product_id)}
-                            className="cursor-pointer text-dgrey1 text-left text-sm md:ml-4"
-                          >
-                            <span>Remove</span>
-                            <i className="icon icon-trash ml-1"></i>
-                          </button>
+                            )}
+                          </div>
+                          <div className="flex flex-col md:flex-row">
+                            <button
+                              onClick={() => addToCart(product.product_id)}
+                              className="cursor-pointer text-dgrey1 text-sm"
+                            >
+                              <span>Add To Basket</span>
+                              <i className="icon icon-basket ml-1"></i>
+                            </button>
+                            <button
+                              onClick={() => remove(product.product_id)}
+                              className="cursor-pointer text-dgrey1 text-left text-sm md:ml-4"
+                            >
+                              <span>Remove</span>
+                              <i className="icon icon-trash ml-1"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}{" "}
+                    ))}
+                  {!loading &&
+                    filterProducts(products?.products).length === 0 && (
+                      <p>No products found.</p>
+                    )}
+                </div>
                 {!loading && products?.total_product > limit && (
                   <ReactPaginate
-                    pageCount={Math.ceil(products?.total_product / 6)}
+                    pageCount={Math.ceil(products?.total_product / 10)}
                     containerClassName={"category-pagination"}
                     onPageChange={pageSetter}
                     pageRangeDisplayed={width > 650 ? 2 : 1}
