@@ -47,7 +47,7 @@ if (typeof window !== "undefined") {
         "https://www.ishtari.com/control/admin/index.php?route=catalog/product/update&product_id=",
       "site-url": "https://www.ishtari.com",
       "admin-products-url":
-        "https://www.ishtari.com/control/admin/index.php?route=catalog/product_one&token=",
+        "https://www.ishtari.com/control/admin/index.php?route=catalog/product_pricing_list&token=",
       "admin-orders-url":
         "https://www.ishtari.com/control/admin/index.php?route=sale/order_one&token=",
       "admin-update-product":

@@ -81,17 +81,17 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     const styles = {
       backgroundColor:
         widget?.background_color !== "#000000" && widget?.background_color,
-      paddingLeft: widget.padding_left !== "-1" && widget.padding_left + "%",
-      paddingRight: widget.padding_right !== "-1" && widget.padding_right + "%",
+      paddingLeft: widget.padding_left !== "-1" ? widget.padding_left + "px":'1px',
+      paddingRight: widget.padding_right !== "-1" ? widget.padding_right + "px":'1px',
       paddingBottom:
-        widget.padding_bottom !== "-1" && widget.padding_bottom + "%",
-      paddingTop: widget.padding_top !== "-1" && widget.padding_top + "%",
-      marginLeft: widget.margin_left !== "-1" ? widget.margin_left + "%" : "",
-      marginRight: widget.margin_right !== "-1" && widget.margin_right + "%",
-      marginBottom: widget.margin_bottom !== "-1" && widget.margin_bottom + "%",
-      marginTop: widget.margin_top !== "-1" && widget.margin_top + "%",
+        widget.padding_bottom !== "-1" ? widget.padding_bottom + "px":"1px",
+      paddingTop: widget.padding_top !== "-1" ? widget.padding_top + "px":"1px",
+      marginLeft: widget.margin_left !== "-1" ? widget.margin_left + "px" : "1px",
+      marginRight: widget.margin_right !== "-1" ? widget.margin_right + "px":"1px",
+      marginBottom: widget.margin_bottom !== "-1" ? widget.margin_bottom + "px":"1px",
+      marginTop: widget.margin_top !== "-1" ? widget.margin_top + "px":"1px",
     };
-    // setAppliedStyles(styles);
+    setAppliedStyles(styles);
   }, [widget]);
 
   const handleLinkClick = (banner_image_id) => {
@@ -405,13 +405,13 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
     <div
       key={widget?.mobile_widget_id}
       style={appliedStyles}
-      className={
-        widget.padding_left > -1
-          ? "-mx-3"
-          : widget.display === "grid" && widget?.background_color !== "#000000"
-          ? "-mx-4 md:mx-0"
-          : ""
-      }
+      // className={
+      //   widget.padding_left > -1
+      //     ? "-mx-3"
+      //     : widget.display === "grid" && widget?.background_color !== "#000000"
+      //     ? "-mx-4 md:mx-0"
+      //     : ""
+      // }
     >
       {/* view all button */}
       {widget?.display === "carousel" && widget?.view_title !== "0" && (
@@ -714,19 +714,24 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
       {widget?.display === "grid" &&
         widget.type !== "text" &&
         widget.column_number < 7 && (
-          <div className={`
-            ${widget.margin_bottom > -1 && `mb-${widget.margin_bottom}`} 
-            ${widget.margin_top > -1 && `mt-${widget.margin_top}`} 
-            ${widget.margin_left > -1 && `ml-${widget.margin_left}`} 
-            ${widget.margin_right > -1 && `mr-${widget.margin_right}`} 
+          <div
+          //  className={`
+          //   ${widget.margin_bottom > -1 && `mb-${widget.margin_bottom}`} 
+          //   ${widget.margin_top > -1 && `mt-${widget.margin_top}`} 
+          //   ${widget.margin_left > -1 && `ml-${widget.margin_left}`} 
+          //   ${widget.margin_right > -1 && `mr-${widget.margin_right}`} 
 
-            ${widget.margin_bottom < -1 && `-mb-${widget.margin_bottom}`} 
-            ${widget.margin_top < -1 && `-mt-${widget.margin_top}`} 
-            ${widget.margin_left < -1 && `-ml-${widget.margin_left}`} 
-            ${widget.margin_right < -1 && `-mr-${widget.margin_right}`} 
+          //   ${widget.margin_bottom < -1 && `-mb-${widget.margin_bottom}`} 
+          //   ${widget.margin_top < -1 && `-mt-${widget.margin_top}`} 
+          //   ${widget.margin_left < -1 && `-ml-${widget.margin_left}`} 
+          //   ${widget.margin_right < -1 && `-mr-${widget.margin_right}`} 
 
-            ${widget.margin_bottom == -1 && "-mb-3"}
-          flex -mx-3 flex-wrap justify-between`}>
+          //   ${widget.margin_bottom == -1 && "-mb-3"}
+          // flex -mx-3 flex-wrap justify-between`}
+          className={`
+       
+        flex -mx-3 flex-wrap justify-between`}
+          >
             {widget.items.map((item) => {
               const bool = widget.items.length > 0 ;
 
@@ -865,7 +870,10 @@ function WidgetsLoop({ widget, likedData, bannerStats }) {
       {widget?.display === "grid" &&
         widget.type !== "text" &&
         widget.column_number > 6 && (
-          <div className="flex -mx-4 flex-row justify-center">
+          <div style={{
+            display: widget?.column_number>1? "grid":"flex",
+            gridTemplateColumns:  `repeat(${widget?.column_number}, minmax(0, 1fr))`
+          }} className="  -mx-4 justify-center">
             {widget.items.map((item) => {
               const bool = widget.items.length > 1;
 

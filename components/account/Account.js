@@ -402,7 +402,14 @@ function Account() {
           dispatch({ type: "setFirstname", payload: data?.firstname });
           dispatch({ type: "setLastname", payload: data?.lastname });
           dispatch({ type: "sethasDateBirth", payload: data?.has_birthday });
-          const remindBirthdayopend = Cookies.get("remindBirthdayopend");
+          if (
+            data.seller_logged !== "0" &&
+            data.seller_logged !== null &&
+            data.seller_logged !== undefined
+          ) {
+            dispatch({ type: "setSeller", payload: true });
+            Cookies.set("seller_id", data.seller_logged);
+          }
 
           if (!data?.has_birthday) {
             // console.log("________________________")

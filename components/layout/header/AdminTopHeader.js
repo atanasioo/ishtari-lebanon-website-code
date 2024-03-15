@@ -1,7 +1,7 @@
 import { AccountContext } from "@/contexts/AccountContext";
 import { useMarketingData } from "@/contexts/MarketingContext";
 import Cookies from "js-cookie";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 
 function AdminTopHeader() {
@@ -10,6 +10,10 @@ function AdminTopHeader() {
   const [token, setToken] = useState();
   const { showStats, setShowStats } = useMarketingData();
 
+  useEffect(()=>{
+   const tokenstore =  Cookies.get("ATDetails");
+   setToken(tokenstore)
+  },[])
   const copy = async () => {
     await navigator.clipboard.writeText(window.location.href);
     setShowMessage(true);

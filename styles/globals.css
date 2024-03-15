@@ -2778,3 +2778,12 @@ display: inline-block;
 .hover-styles {
   transition: all 0.1s ease;
 }
+
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-left: -1rem; /* Equivalent to mx-4 in Tailwind (negative margin on x-axis) */
+  margin-right: -1rem; /* Equivalent to mx-4 in Tailwind (negative margin on x-axis) */
+}
