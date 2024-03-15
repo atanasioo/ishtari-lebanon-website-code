@@ -301,7 +301,7 @@ function wishlist() {
                 </div>
                 <div className="w-1/2">
                   <button
-                    className=" hidden mobile:block pr-semibold bg-dblue text-white rounded ml-6 px-4 py-2 text-sm float-right"
+                    className=" hidden mobile:block pr-semibold bg-dblue text-white rounded ml-6 px-4 py-2 text-sm float-right hover:bg-dbluedark"
                     onClick={() => {
                       setShowModel(true);
                       setResult("");
