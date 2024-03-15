@@ -370,7 +370,7 @@ function wishlist() {
                   type="text"
                   placeholder="Search for product"
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="ml-1 pl-10 py-3 px-1 md:px-8 bg-transparent border-none text-base md:text-xl font-bold focus:outline-none focus:border-transparent"
+                  className="ml-1 pl-10 py-3 px-1 md:px-8 bg-transparent border-none text-base md:text-xl font-bold w-7/12 focus:outline-none focus:border-transparent"
                 />
               </div>
 
