@@ -9,7 +9,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BsInfoCircleFill } from "react-icons/bs";
-
 import PointsLoader from "@/components/PointsLoader";
 import Image from "next/image";
 import SingleCoupon from "../../components/couponComponents/singleCoupon";
@@ -278,7 +277,7 @@ const getCoupons =()=>{
               <div className={` px-3  w-full`}>
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1  hover:text-dblack"
+                  className="block w-full rounded-md border border-stroke p-3 text-center text-base font-medium text-dark transition hover:border-red-600 hover:bg-dbase1  hover:text-white"
                 >
                   Close
                 </button>
