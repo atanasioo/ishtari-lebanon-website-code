@@ -37,14 +37,15 @@ function CountryDropdown(props) {
         <div className="dropdown relative float-right lg:pr-2">
           <button
             className="
-               hover:-translate-y-1
+             hover:opacity-75
+              opacity-100
             text-white
                   dropdown-toggle
                   px-1
+                   duration-300
+                   transition-all
                   text-s
                   leading-tight
-                  transition
-                  duration-150
                   ease-in-out
                   flex
                   items-center

@@ -54,7 +54,7 @@ function TopCart() {
       <Link
         className={`${
           "window.config[showCart]" == 1 ? "block" : "block"
-        } transition ease-in-out duration-300 delay-150 max-md:hidden bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 font-extrabold  md:text-white text-base flex items-center pl-1.5 pr-1 sm:pl-3 sm:pr-6 cursor-pointer hover:opacity-80 relative`}
+        } transition ease-in-out duration-300 delay-150 max-md:hidden  font-extrabold  md:text-white text-base flex items-center pl-1.5 pr-1 sm:pl-3 sm:pr-6 cursor-pointer hover:opacity-80 relative`}
         href={`${path}/cart`}
       >
         <span className="hidden lg:block ">Basket</span>
