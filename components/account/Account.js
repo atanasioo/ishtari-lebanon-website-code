@@ -17,13 +17,10 @@ import {
 } from "react-icons/bs";
 import { MdAvTimer, MdCardMembership, MdFeedback } from "react-icons/md";
 import {
-  FaCaretDown,
-  FaCaretUp,
   FaCheckCircle,
   FaFacebookF,
   FaMoneyBillWave,
   FaTicketAlt,
-  FaUser,
   FaUserAlt,
   FaWallet,
 } from "react-icons/fa";
@@ -48,7 +45,6 @@ function Account() {
   const { data: session, status, update: sessionUpdate } = useSession();
   const [stateLogin, setStateLogin] = useState({});
   const [stateLoginResult, setStateLoginResult] = useState({});
-  const dontshowcouponcheck = useRef(null);
   const remindRef = useRef(null);
   const saveAcc = useRef(null);
   const loginEmail = useRef("");
@@ -60,7 +56,6 @@ function Account() {
   // const birthDate = useRef("");
   const path = "";
   const router = useRouter();
-  const [newdate, setDate] = useState(Date);
 
   useEffect(() => {
     if (state.openRemindBirthday) {
@@ -90,7 +85,6 @@ function Account() {
     }
   };
   useEffect(() => {
-    // Cleanup timeout in case component unmounts before 30 seconds
     return () => clearTimeout();
   }, []);
 
@@ -117,9 +111,6 @@ function Account() {
   }, [state.hasSignedUp, state.hasLogedIn]);
 
   useEffect(() => {
-    // if () {
-    // alert(session.user.email);
-
     if (!state.loged && status === "authenticated") {
       if (session) {
         log();
@@ -588,8 +579,10 @@ function Account() {
   }
 
   return (
+
+    <div>
     <div className="relative">
-      {state.showOver && (
+      {state.showOver  && (
         <div
           onClick={() => dispatch({ type: "setShowOver", payload: true })}
           className="fixed transition-all duration-100 w-screen min-h-screen bg-dblack top-0 left-0 z-50  bg-opacity-50 flex flex-col items-center justify-center"
@@ -1165,22 +1158,10 @@ function Account() {
       </div>
 
       <div className="hidden xl:block lg:block relative">
-        {/* {state.loading && (
-          <div
-            className="text-white border-r border-dmenusep  flex items-center pl-3 pr-6 cursor-pointer hover:opacity-80 relative"
-     
-          >
-            <i className=" icon icon-user ml-2 text-xl"></i>
-            <span className=" w-6 h-6 bg-dblue flex  items-center justify-center rounded-full text-xs absolute right-1  -top-1 border border-white">
-              <span><Loader styles={"h-5 w-5 text-white"} /></span>
-            </span>
-          </div>
-        )} */}
-        {/* If not logged */}
         {!state.loged && (
           <div
             onClick={openAuthForm}
-            className="  font-[900] text-white text-base text-lg flex items-center px-3 md:pr-5 cursor-pointer hover:opacity-70 transition ease-in-out duration-300 delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 relative"
+            className="  font-[900] text-white text-base text-lg flex items-center px-3 md:pr-5 cursor-pointer hover:opacity-70 transition ease-in-out duration-300  relative"
           >
             <span>Sign In</span>
             <AiOutlineUser className="ml-1 w-5 h-5" />
@@ -1202,6 +1183,7 @@ function Account() {
                 text-sm
                 "
           >
+          {/* hello m */}
             <div
               role="button"
               onClick={() => setShowUserMenu(!showUserMenu)}
@@ -1510,6 +1492,7 @@ function Account() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
