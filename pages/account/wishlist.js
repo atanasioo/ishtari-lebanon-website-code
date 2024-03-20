@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { CiSearch } from "react-icons/ci";
 import { useMarketingData } from "@/contexts/MarketingContext";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 function wishlist() {
   const [state, dispatch] = useContext(CartContext);
@@ -454,7 +455,8 @@ function wishlist() {
                         key={product?.product_id}
                       >
                         <Link
-                          className="block"
+                          // className="block"
+                          className={`block`}
                           href={`/product/${product?.product_id}`}
                           onClick={() =>
                             setMarketingData({
@@ -472,7 +474,13 @@ function wishlist() {
                           />
                         </Link>
 
-                        <div className="flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow w-2/3">
+                        <div
+                          className={`flex flex-col justify-between items-start px-9 text-dblack py-2 flex-grow w-2/3 ${
+                            product.quantity < 1
+                              ? " bg-dbase1 bg-opacity-20"
+                              : ""
+                          }`}
+                        >
                           <p className="text-d13 text-dgrey1">{product?.sku}</p>
                           <p
                             className="w-full text-sm font-semibold"
@@ -512,6 +520,17 @@ function wishlist() {
                               <i className="icon icon-trash ml-1"></i>
                             </button>
                           </div>
+                          {product.quantity < 1 && (
+                            <button className="mobile:block pr-semibold bg-dblue cursor-pointer ml-auto text-white rounded px-2 py-1 text-sm flex items-center">
+                              <span className="flex items-center">
+                                
+                                <span className="text-sm">
+                                  Similar Products
+                                </span>
+                                <AiOutlineArrowRight className="ml-1 mr-1" />
+                              </span>
+                            </button>
+                          )}
                         </div>
                       </div>
                     ))}
