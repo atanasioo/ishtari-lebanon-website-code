@@ -40,6 +40,7 @@ import ProductPlaceholder from "./ProductPlaceholder";
 import NoData from "../NoData";
 import SingleProduct from "./SingleProduct";
 import DOMPurify from "dompurify";
+import { MdOutlineLocalShipping } from "react-icons/md";
 
 function ProductPage(props) {
   //Server props
@@ -2027,19 +2028,19 @@ function ProductPage(props) {
                                            }`}
                                          >
                                             <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
-                                              <img
+                                              {/* <img
                                               title={product.type}
                                     src={product.image}
                                     alt={product.product_name}
                                     className="w-full  rounded-md"
                               
-                                  />
+                                  /> */}
                                 <div className=" text-xs text-dblack">{product.type}</div>
-                                <div className=" flex flex-row gap-2 text-center justify-center">
+                                {/* <div className=" flex flex-row gap-2 text-center justify-center">
                                 <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
                                   <div className=" text-sm text-dbase">{product.special}</div>
                                   
-                                  </div>
+                                  </div> */}
                                  {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
                                   <h2 className=" text-dbase">Out of stock</h2></div>}
                                 </div>
@@ -2682,6 +2683,59 @@ function ProductPage(props) {
     </div>
   </div>
 </div>
+
+
+
+<div className="flex flex-col gap-1">
+                              {  data?.series?.map((serie,index) => (
+                               serie.is_primary && serie?.products?.length >0 &&
+                                <>
+                         <p className="font-semibold text-d15 md:text-xl text-dblack  before:w-full decoration-dblack mt-1 ">{serie.group_type?serie.group_type:index ===0? "In the same series":""} </p> 
+                <div className=" flex flex-col  gap-3 justify-start bg-white my-1 p-4 shadow-sm">
+                  
+                  <div className="  max-md:grid grid-cols-3   md:flex text-left flex-wrap gap-2  justify-start ">
+                                      {serie.products && serie.is_primary && serie.products.map((product)=>(
+                                          product.disabled && !accountState.admin ?<></>: <div
+                                           onClick={(e)=>{
+                                            if(product.out_of_stock && !accountState.admin){
+                                              e.preventDefault()
+                                            }else{
+                                              router.push({
+                                                pathname: `/product/`+product.product_id,})
+                                            }
+                                           }}
+                                           key={product.product_id}
+                                           className={`flex  justify-center items-center py-1 px-1 max-w-[110px] w-full transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer  rounded-md ${
+                                             product.product_id === product_id
+                                               ? " border-dblue"
+                                               : product.disabled?"border-dbase": "border-dgrey"
+                                           }`}
+                                         >
+                                            <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
+                                              <img
+                                              title={product.type}
+                                    src={product.image}
+                                    alt={product.product_name}
+                                    className="w-full  rounded-md"
+                              
+                                  />
+                                <div className=" text-xs text-dblack">{product.type}</div>
+                                <div className=" flex flex-row gap-2 text-center justify-center">
+                                <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
+                                  <div className=" text-sm text-dbase">{product.special}</div>
+                                  
+                                  </div>
+                                 {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
+                                  <h2 className=" text-dbase">Out of stock</h2></div>}
+                                </div>
+                                            </div>
+                                      ))}
+                                      </div>
+                                  </div>
+                                  </>
+
+                              ))}
+                            </div>
 
 
 
