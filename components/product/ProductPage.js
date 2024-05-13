@@ -174,7 +174,7 @@ function ProductPage(props) {
     const link =
       buildLink("product", undefined, undefined) +
       product_id +
-      "&source_id=1&part_one" +
+      "&source_id=1&part_one&test_n&employer" +
       (AdminToken !== undefined || typeof AdminToken !== "undefined"
         ? "&employer=true"
         : "") +
@@ -2136,7 +2136,7 @@ function ProductPage(props) {
                             </div>
                           )
                       )}
-      {bundles &&
+      {/* {bundles &&
                       <div className="h-[350px]  overflow-y-auto relative my-3">
                     {bundles && bundles.map((bundle)=>
                       <div className="bg-dfooterbg py-2 px-4 mb-4 mt-8 ">
@@ -2237,7 +2237,7 @@ function ProductPage(props) {
                       </div>
                     )}
                     </div>
-      }
+      } */}
 
                     <div className="my-4 hidden mobile:block">
                       <WhatsappBtn product_id={product_id} config={config} />
@@ -2373,69 +2373,109 @@ function ProductPage(props) {
                       </div>
                     </>
                   )}
-                  {data?.seller_id > 0 && data.seller !== "" && (
-                    <Link
-                      href={`/sellerReview/${data.seller_id}`}
-                      className="hidden md:flex items-center border-b border-dinputBorder  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
-                    >
-                      {data.seller_image.length > 0 ? (
-                        <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">
-                          <SellerImage src={data.seller_image} />
+                  {data?.free_delivery && <div  className="hidden md:flex items-center border-b border-dinputBorder  cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6">
+  
+  <MdOutlineLocalShipping className=" text-dbase text-3xl mr-4" />
+  <div className="flex flex-col">
+                          <div className="flex">
+                            <span className="text-dblack text-sm">Free delivery</span>{" "}
+                                    
+                          </div>
+                          
+                            {/* <div className=" text-d14 flex  text-dgrey1 mt-o.5 font-semibold opacity-80">
+                              Not enough ratings to show{" "}
+                              <AiFillStar className=" text-d16 mt-0.5 ml-1 " />
+                            </div> */}
+                          
                         </div>
-                      ) : (
-                        <AiOutlineShop className=" text-dbase text-3xl mr-4" />
-                      )}
-                      <div className="flex flex-col">
-                        <div className="flex">
-                          <span className="text-dblack text-sm">Sold by</span>{" "}
-                          <h1 dangerouslySetInnerHTML={{__html: sanitizeHTML(data.seller)}} className="text-dblue underline ml-2 text-d14 uppercase pr-semibold">                            
-                          </h1>
-                        </div>
-                        {sellerData?.seller_reviews?.average_rating ? (
-                          <div className="flex ">
-                            <div
-                              className="flex justify-center items-center flex-row  rounded-full h-4 space-x-0.5 p-1 mr-3 cursor-pointer w-10 mt-1"
-                              style={{
-                                backgroundColor:
-                                  sellerData.seller_reviews?.average_rating >=
-                                  4.5
-                                    ? "rgb(0,158,0)"
-                                    : sellerData.seller_reviews
-                                        ?.average_rating < 4.5 &&
-                                      sellerData.seller_reviews
-                                        ?.average_rating >= 4
-                                    ? "rgb(110, 159, 0)"
-                                    : sellerData.seller_reviews
-                                        ?.average_rating < 4 &&
-                                      sellerData.seller_reviews
-                                        ?.average_rating >= 3.5
-                                    ? "rgb(243, 153, 22)"
-                                    : "rgb(246,90,31)"
-                              }}
-                            >
-                              <div className=" font-bold text-white text-d14 ">
-                                {sellerData.seller_reviews?.average_rating ||
-                                  "0.0"}
-                              </div>
+    </div>}
 
-                              <AiFillStar className="text-white text-d12" />
-                            </div>
-                            <div className=" text-d14 flex  text-dgrey1 mt-0.5 font-semibold ">
-                              {"  "}
-                              {sellerData.seller_reviews?.percentage &&
-                                sellerData.seller_reviews?.percentage +
-                                  " positive Ratings"}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className=" text-d14 flex  text-dgrey1 mt-o.5 font-semibold opacity-80">
-                            Not enough ratings to show{" "}
-                            <AiFillStar className=" text-d16 mt-0.5 ml-1 " />
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                  )}
+
+
+    {data?.seller_id === "168" ? (
+  <Link
+    href={"/"}
+    className="hidden md:flex items-center border-b border-dinputBorder cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
+  >
+    {data.seller_image.length > 0 ? (
+      <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">
+        <SellerImage src={data.seller_image} />
+      </div>
+    ) : (
+      <AiOutlineShop className="text-dbase text-3xl mr-4" />
+    )}
+    <div className="flex flex-col">
+      <div className="flex">
+        <span className="text-dblack text-sm">Sold by</span>{" "}
+        <h1
+          dangerouslySetInnerHTML={{ __html: sanitizeHTML(data.seller) }}
+          className="text-dblue underline ml-2 text-d14 uppercase pr-semibold"
+        >
+        </h1>
+      </div>
+    </div>
+  </Link>
+) : (
+  data?.seller_id > 0 && data.seller !== "" && (
+    <Link
+      href={`/sellerReview/${data.seller_id}`}
+      className="hidden md:flex items-center border-b border-dinputBorder cursor-pointer mr-5 md:mr-0 hover:opacity-80 py-2 md:py-6"
+    >
+      {data.seller_image.length > 0 ? (
+        <div className="rounded-full p-0.5 flex justify-center items-center w-16 h-16 mr-1.5 ">
+          <SellerImage src={data.seller_image} />
+        </div>
+      ) : (
+        <AiOutlineShop className="text-dbase text-3xl mr-4" />
+      )}
+      <div className="flex flex-col">
+        <div className="flex">
+          <span className="text-dblack text-sm">Sold by</span>{" "}
+          <h1
+            dangerouslySetInnerHTML={{ __html: sanitizeHTML(data.seller) }}
+            className="text-dblue underline ml-2 text-d14 uppercase pr-semibold"
+          >
+          </h1>
+        </div>
+        {sellerData?.seller_reviews?.average_rating ? (
+          <div className="flex ">
+            <div
+              className="flex justify-center items-center flex-row rounded-full h-4 space-x-0.5 p-1 mr-3 cursor-pointer w-10 mt-1"
+              style={{
+                backgroundColor:
+                  sellerData.seller_reviews?.average_rating >= 4.5
+                    ? "rgb(0,158,0)"
+                    : sellerData.seller_reviews?.average_rating < 4.5 &&
+                      sellerData.seller_reviews?.average_rating >= 4
+                    ? "rgb(110, 159, 0)"
+                    : sellerData.seller_reviews?.average_rating < 4 &&
+                      sellerData.seller_reviews?.average_rating >= 3.5
+                    ? "rgb(243, 153, 22)"
+                    : "rgb(246,90,31)",
+              }}
+            >
+              <div className=" font-bold text-white text-d14 ">
+                {sellerData.seller_reviews?.average_rating || "0.0"}
+              </div>
+              <AiFillStar className="text-white text-d12" />
+            </div>
+            <div className="text-d14 flex text-dgrey1 mt-0.5 font-semibold ">
+              {"  "}
+              {sellerData.seller_reviews?.percentage &&
+                sellerData.seller_reviews?.percentage + " positive Ratings"}
+            </div>
+          </div>
+        ) : (
+          <div className="text-d14 flex text-dgrey1 mt-o.5 font-semibold opacity-80">
+            Not enough ratings to show{" "}
+            <AiFillStar className="text-d16 mt-0.5 ml-1 " />
+          </div>
+        )}
+      </div>
+    </Link>
+  )
+)}
+
                   {data?.market === "0" && (
                     <div className="hidden md:flex-row w-1/2 md:w-full md:flex md:items-center text-dblack py-6">
                       <img
@@ -2560,6 +2600,94 @@ function ProductPage(props) {
                           </div>
                         </div>
                       )}
+
+
+
+              <div className="hidden mobile:block w-full bg-white"></div>
+
+              <div className="flex  px-5 mobile:px-12 bg-white">
+                <p className="border-b-4 border-dblue scale-110 transform ease-in-out duration-300
+                   hidden  mobile:block font-semibold text-xl text-dblack cursor-pointer py-4 mb-4">
+                  Package Deals
+                </p>
+              </div>
+<div className="bg-white overflow-x-auto snap-x ">
+  <div className="flex flex-col md:flex-row flex-nowrap space-x-4 ml-8 ">
+    <div className="flex flex-nowrap overflow-x-auto  ">
+      {bundles &&
+        bundles.map((bundle) => (
+          <>
+          
+          <div
+            className={`  flex flex-col justify-center items-center snap-start p-1 m-2 w-fit  bg-dinputBorder rounded-md border border-dgrey${ width < 650 ? '' : '' }`}
+            key={bundle.id}
+            
+          >
+            <span className="  p-1 w-full">{bundle.bundle_title}</span>
+            <div className=" bg-white border-dtrash rounded-lg shadow-sm flex flex-nowrap">
+              {bundle &&
+                bundle?.products?.map((product, i) => (
+                  <div
+                    key={product.product_id}
+                    className="flex-shrink-0 flex justify-center items-center mb-2"
+                    style={{ minWidth: '150px' }}
+                  >
+                    <SingleProductBundle
+                      item={product}
+                      i={i}
+                      len={bundle.products.length}
+                    />
+                    {i !== bundle.products.length - 1 && (
+                      <span className="text-3xl font-bold p-2">+</span>
+                    )}
+                  </div>
+                ))}
+            </div>
+            <p className="mt-2">
+              <span className="text-lg">Total Price:</span>
+              <span className="line-through  text-sm text-dgrey1 "> {bundle?.total_amount_before_discount}</span>
+            <span className="text-lg font-bold text-dbase"> {bundle?.total_amount_after_discount}</span>
+ 
+</p>
+            <button
+              className="h-9 w-full flex items-center justify-center text-sm border-dbluedark border font-semibold mt-2 bg-opacity-90 transition-all text-dbluedark hover:text-white hover:bg-dbluedark rounded-md  shadow-md"
+              onClick={() => {
+                addBundle(bundle);
+              }}
+            >
+              {countDownPointer === true && hasAddToCartError === false ? (
+                <div className="top-5 lds-ellipsis">
+                  <div className="bg-dbluedark" />
+                  <div className="bg-dbluedark" />
+                  <div className="bg-dbluedark" />
+                  <div className="bg-dbluedark" />
+                </div>
+              ) : (
+                !addingToCart && (
+                  <p  className="text-sm ">
+                    Buy{' '}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: unescapeHTML(sanitizeHTML(bundle.description)),
+                      }}
+                      className=""
+                    ></span>{' '}
+                    </p>                 
+                )
+              )}
+            </button>
+          </div>
+          </>
+        ))}
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
 
@@ -2785,7 +2913,7 @@ function ProductPage(props) {
 
               <div
                 id="dialog"
-                className={`fixed z-50 top-0 left-0 right-0 bottom-0 m-auto w-full h-fit  md:w-1/2 lg:w-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg `}
+                className={`fixed z-50 top-0 left-0 right-0 bottom-0 m-auto w-full h-fit md:w-1/2 lg:w-1/3  bg-white rounded-md px-8 py-6 space-y-5 drop-shadow-lg `}
               >
                 <button
                   id="close"

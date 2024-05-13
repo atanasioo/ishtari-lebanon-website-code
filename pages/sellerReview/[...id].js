@@ -528,7 +528,7 @@ export default function sellerReview() {
               </Link>
             </div>
             <Slider {...settings}>
-              {data?.products.map((item) => [<SingleProduct item={item} />])}
+              {data?.products && data?.products.map((item) => [<SingleProduct item={item} />])}
             </Slider>
           </div>
           <div className=" mobile:hidden pb-5">
@@ -546,7 +546,7 @@ export default function sellerReview() {
               </Link>
             </div>
             <div className="flex overflow-x-scroll overflow-hidden pr-6">
-              {data?.products.map((item) => [
+              {data?.products && data?.products.map((item) => [
                 <div>
                   <SingleProduct scroll={true} item={item} />
                 </div>
