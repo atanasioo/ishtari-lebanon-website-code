@@ -2605,12 +2605,12 @@ function ProductPage(props) {
 
               <div className="hidden mobile:block w-full bg-white"></div>
 
-              <div className="flex  px-5 mobile:px-12 bg-white">
+              {bundles && <div className="flex  px-5 mobile:px-12 bg-white">
                 <p className="border-b-4 border-dblue scale-110 transform ease-in-out duration-300
                    hidden  mobile:block font-semibold text-xl text-dblack cursor-pointer py-4 mb-4">
                   Package Deals
                 </p>
-              </div>
+              </div>}
 <div className="bg-white overflow-x-auto snap-x ">
   <div className="flex flex-col md:flex-row flex-nowrap space-x-4 ml-8 ">
     <div className="flex flex-nowrap overflow-x-auto  ">
