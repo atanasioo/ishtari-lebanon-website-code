@@ -2028,11 +2028,7 @@ function ProductPage(props) {
                                            }`}
                                          >
                                             <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
-                                            {serie?.group_type === ""?  <img
-                                              title={product.type}
-                                    src={product.image}
-                                    alt={product.product_name}
-                                    className="w-full  rounded-md"/> : "" }
+                                           
                                               {/* <img
                                               title={product.type}
                                     src={product.image}
@@ -2051,7 +2047,7 @@ function ProductPage(props) {
                                   <div className=" text-sm text-dbase">{product.special}</div>
                                   
                                   </div> */}
-                                 {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
+                                 {product.out_of_stock && <div  className="    z-10 w-full h-full bg-dblack  bg-opacity-30">
                                   <h2 className=" text-dbase">Out of stock</h2></div>}
                                 </div>
                                             </div>
