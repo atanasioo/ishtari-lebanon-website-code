@@ -2006,8 +2006,7 @@ function ProductPage(props) {
                               {  data?.series?.map((serie,index) => (
                                serie.is_primary && serie?.products?.length >0 &&
                                 <>
-                         
-                <div className="flex flex-col justify-start">
+                         {serie.group_type === "" ? '' :  <div className="flex flex-col justify-start">
                   <p className=" text-dblack before:w-full mt-2 decoration-dblack  ">{serie.group_type?serie.group_type:index ===0? "In the same series":""}: </p> 
                   <div className="max-md:grid grid-cols-3   md:flex text-left flex-wrap gap-2  justify-start mb-2">
                                       {serie.products && serie.is_primary && serie.products.map((product)=>(
@@ -2037,11 +2036,11 @@ function ProductPage(props) {
                               
                                   /> */}
                                 <div className=" text-xs text-dblack">{product.type}</div>
-                                {serie?.group_type === "" ? <div className=" flex flex-row gap-2 text-center justify-center">
+                                {/* <div className=" flex flex-row gap-2 text-center justify-center">
                                 <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
                                   <div className=" text-sm text-dbase">{product.special}</div>
                                   
-                                  </div>:""}
+                                  </div> */}
                                 {/* <div className=" flex flex-row gap-2 text-center justify-center">
                                 <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
                                   <div className=" text-sm text-dbase">{product.special}</div>
@@ -2053,7 +2052,8 @@ function ProductPage(props) {
                                             </div>
                                       ))}
                                       </div>
-                                  </div>
+                                  </div>}
+               
                                   </>
 
                               ))}
@@ -2539,9 +2539,7 @@ function ProductPage(props) {
 </div> */}
               {/* Product Description */}
 
-              <div className="my-4 container block mobile:hidden">
-                <WhatsappBtn product_id={product_id} config={config} />
-              </div>
+              
 
 
 
@@ -2888,6 +2886,7 @@ function ProductPage(props) {
                   )}
                 </div>
               </div>
+              
               {data?.seller_id > 0 && data.seller !== "" && (
                 <Link
                   href={`/sellerReview/${data.seller_id}`}
@@ -2948,6 +2947,10 @@ function ProductPage(props) {
                   </div>
                 </Link>
               )}
+
+<div className="mt-2 container block mobile:hidden">
+                <WhatsappBtn product_id={product_id} config={config} />
+              </div>
               <div ref={descriptionRef}></div>
               <ProductPart2
                 titleRef={titleRef}
