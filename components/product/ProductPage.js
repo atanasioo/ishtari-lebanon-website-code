@@ -175,7 +175,7 @@ function ProductPage(props) {
     const link =
       buildLink("product", undefined, undefined) +
       product_id +
-      "&source_id=1&part_one&employer" +
+      "&source_id=1&part_one" +
       (AdminToken !== undefined || typeof AdminToken !== "undefined"
         ? "&employer=true"
         : "") +
