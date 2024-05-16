@@ -91,22 +91,22 @@ function SingleProductBundle(props) {
           <div className="w-full content-center justify-center">
             <div className=" items-center justify-center  w-40 ">
             {props.item.option_name ? (
-                <span className="text-dbase text-sm md:text-thin pr-light ">
-                  Option: {props.item.option_name}
+                <span className="text-dbase1 text-sm md:text-thin pr-light ">
+                  choose: {props.item.option_name}
                 </span>
-              ):<span className="text-dbase text-sm md:text-thin pr-light ">
+              ):<span className="text-dbase1 text-sm md:text-thin pr-light ">
              <br></br>
             </span>}
             </div>
             {/* here to put the price */}
             <div className="mt-1 text-center text-xs">
-            {props.item.special !== "0" &&
+            {/* {props.item.special !== "0" &&
             props.item.special !== 0 &&
             props.item.special !== "" &&
             props.item.special !== false &&
             props.item.special !== "$0"
               ? props.item.special
-              : props.item.price}
+              : props.item.price} */}
           </div>
             <Image
               alt={props.item.name}

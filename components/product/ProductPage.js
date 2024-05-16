@@ -175,7 +175,7 @@ function ProductPage(props) {
     const link =
       buildLink("product", undefined, undefined) +
       product_id +
-      "&source_id=1&part_one" +
+      "&source_id=1&part_one&test_n&employer" +
       (AdminToken !== undefined || typeof AdminToken !== "undefined"
         ? "&employer=true"
         : "") +
@@ -1704,7 +1704,7 @@ function ProductPage(props) {
                             ) : (
                               <div
                                 onClick={() => checkIfLogged()}
-                                className="fixed z-10 bottom-1 bg-dblue text-white rounded-full py-1  cursor-pointer  px-3  md:px-3  w-3/4 "
+                                className="fixed z-20 bottom-1 bg-dblue text-white rounded-full py-1  cursor-pointer  px-3  md:px-3  w-3/4 "
                               >
                                 <div className="my-1 flex justify-around items-center">
                                   <p className="text-sm md:text-md font-semibold">
@@ -2027,7 +2027,19 @@ function ProductPage(props) {
                                            }`}
                                          >
                                             <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
-                                           
+                                            <div className="relative overflow-hidden flex gap-1 flex-col justify-between text-center">
+    <div className="z-50 text-xs text-dblack">{product.type}</div>
+    {product.out_of_stock && 
+    <div className="absolute inset-1 ml-5 flex justify-center items-center z-10">
+        <div className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-20 text-dbase text-opacity-50" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M13.414 10l3.293 3.293a1 1 0 01-1.414 1.414L12 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414L12 8.586l3.293-3.293a1 1 0 111.414 1.414L13.414 10z" clipRule="evenodd" />
+            </svg>
+            <div className="text-dblack">{product.type}</div>
+        </div>
+    </div>}
+</div>
+
                                               {/* <img
                                               title={product.type}
                                     src={product.image}
@@ -2035,7 +2047,7 @@ function ProductPage(props) {
                                     className="w-full  rounded-md"
                               
                                   /> */}
-                                <div className=" text-xs text-dblack">{product.type}</div>
+                                {/* <div className=" z-50 text-xs text-dblack">{product.type}</div> */}
                                 {/* <div className=" flex flex-row gap-2 text-center justify-center">
                                 <div className=" text-dlabelColor text-xs line-through">{product.price}</div>
                                   <div className=" text-sm text-dbase">{product.special}</div>
@@ -2046,8 +2058,12 @@ function ProductPage(props) {
                                   <div className=" text-sm text-dbase">{product.special}</div>
                                   
                                   </div> */}
-                                 {product.out_of_stock && <div  className="    z-10 w-full h-full bg-dblack  bg-opacity-30">
-                                  <h2 className=" text-dbase">Out of stock</h2></div>}
+                                 {/* {product.out_of_stock && 
+                                            <div className="flex justify-center text-center z-10 w-full h-full bg-dblack bg-opacity-30">
+                                                <div className="w-full h-full">
+                                                <div className="  bg-dplaceHolder  text-opacity-90 w-[170px] rounded-sm text-dbase  bottom-6 -mb-6 -left-9 relative ">Out of stock</div>
+                                                </div> 
+                                          </div>} */}
                                 </div>
                                             </div>
                                       ))}
@@ -2570,7 +2586,7 @@ function ProductPage(props) {
                                        }
                                       }}
                                       key={product.product_id}
-                                      className={`flex  justify-center items-center   max-w-[110px] w-full transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer  rounded-md ${
+                                      className={`flex  justify-center items-center max-w-[110px] w-full transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer  rounded-md ${
                                         product.product_id === product_id
                                           ? " border-dblue"
                                           : product.disabled?"border-dbase": "border-dgrey"
@@ -2585,13 +2601,16 @@ function ProductPage(props) {
                          
                              />
                            <div className=" text-xs text-dblack">{product.type}</div>
-                           <div className=" flex flex-row gap-2 text-center justify-center">
-                           <div className=" text-dlabelColor text-xs line-through">{product.special!==""&&product.price}</div>
-                             <div className=" text-sm text-dbase">{product.special!==""?product.special:product.price}</div>
+                           <div className=" flex flex-col gap-2 text-center justify-center">
+                           
+                             <div className="  text-md text-dbase1">{product.special!==""?product.special:product.price}</div>
+                             <div className=" text-dgreyBlack text-d11 line-through">{product.special!==""&&product.price}</div>
                              
                              </div>
-                            {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
-                             <h2 className=" text-dbase">Out of stock</h2></div>}
+                             {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 flex justify-center text-center absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
+                            <div className="  w-full h-full relative   ">
+                               <div className=" bg-dbase w-[195px]  text-white  absolute top-[40%] -left-10 rotate-45  ">Out of stock</div>
+                                </div> </div>}
                            </div>
                                        </div>
 
@@ -2613,18 +2632,21 @@ function ProductPage(props) {
               {bundles && <div className="flex  px-5 mobile:px-12 bg-white">
                 <p className="border-b-4 border-dblue scale-110 transform ease-in-out duration-300
                    hidden  mobile:block font-semibold text-xl text-dblack cursor-pointer py-4 mb-4">
-                  Package Deals
+                  Product Bundling
                 </p>
               </div>}
 <div className="bg-white overflow-x-auto snap-x ">
-  <div className="flex flex-col md:flex-row flex-nowrap space-x-4 ml-8 ">
+  <div className="flex flex-col md:flex-row flex-nowrap space-x-4 md:ml-8 ">
     <div className="flex flex-nowrap overflow-x-auto  ">
       {bundles &&
         bundles.map((bundle) => (
           <>
           
-          <div
-            className={`  flex flex-col justify-center items-center snap-start p-1 m-2 w-fit  bg-dinputBorder rounded-md border border-dgrey${ width < 650 ? '' : '' }`}
+          <button
+          onClick={() => {
+            addBundle(bundle);
+          }}
+            className={`text-dbluedark border-b-4   hover:text-dinputBorder hover:bg-dblue2 border-dbluedark  flex flex-col justify-center items-center snap-start p-1 m-2 w-fit  bg-dinputBorder rounded-md border border-dgrey${ width < 650 ? '' : '' }`}
             key={bundle.id}
             
           >
@@ -2643,19 +2665,14 @@ function ProductPage(props) {
                       len={bundle.products.length}
                     />
                     {i !== bundle.products.length - 1 && (
-                      <span className="text-3xl font-bold p-2">+</span>
+                      <span className="text-3xl font-bold p-2 text-dbase1">+</span>
                     )}
                   </div>
                 ))}
             </div>
-            <p className="mt-2">
-              <span className="text-lg">Total Price:</span>
-              <span className="line-through  text-sm text-dgrey1 "> {bundle?.total_amount_before_discount}</span>
-            <span className="text-lg font-bold text-dbase"> {bundle?.total_amount_after_discount}</span>
- 
-</p>
-            <button
-              className="h-9 w-full flex items-center justify-center text-sm border-dbluedark border font-semibold mt-2 bg-opacity-90 transition-all text-dbluedark hover:text-white hover:bg-dbluedark rounded-md  shadow-md"
+
+            <div
+              className="h-9 w-full border-b-2 flex items-center justify-center text-sm  font-semibold mt-2 bg-opacity-90 transition-all  rounded-md  shadow-md"
               onClick={() => {
                 addBundle(bundle);
               }}
@@ -2670,18 +2687,23 @@ function ProductPage(props) {
               ) : (
                 !addingToCart && (
                   <p  className="text-sm ">
-                    Buy{' '}
+                    {' '}
                     <span
                       dangerouslySetInnerHTML={{
                         __html: unescapeHTML(sanitizeHTML(bundle.description)),
                       }}
                       className=""
-                    ></span>{' '}
+                    ></span> {' '}
                     </p>                 
                 )
               )}
-            </button>
-          </div>
+            </div>
+            <p className="mt-2">
+              <span className=" text-sm"></span>
+              <span className="line-through text-d14">was: {bundle?.total_amount_before_discount}</span> |
+              <span className="text-lg font-bold text-dbase1 ml-2 ">now: {bundle?.total_amount_after_discount}</span>
+            </p>
+          </button>
           </>
         ))}
     </div>
@@ -2690,14 +2712,19 @@ function ProductPage(props) {
 
 
 
-<div className="flex flex-col gap-1">
+
                               {  data?.series?.map((serie,index) => (
                                serie.is_primary && serie?.products?.length >0 &&
                                 <>
-                        
-                <div className="flex flex-col gap-3 justify-start bg-white  p-4 shadow-sm">
-                <p className="font-semibold text-d12 md:text-lg text-dblack uppercase before:w-full decoration-dblack">{serie.group_type?serie.group_type:index ===0? "In the same series":""} </p> 
-                  <div className="max-md:grid grid-cols-3 md:flex text-left flex-wrap gap-2 justify-start">
+                        <div className=" border-t-4 border-dinputBorder bg-dinputBorder ">
+                        <div className=" px-5 mobile:px-12 bg-white md:p-1">
+                          
+                          <div className=" overflow-x-auto">
+                            <div className="flex  flex-col gap-2">
+                              <div className=" h-fit w-full  py-4   " >
+                <div className="flex flex-col gap-3 justify-start bg-white shadow-sm mobile:flex mobile:px-10 h-fit w-full py-4">
+                <p className="font-semibold text-d15 md:text-xl text-dblack mb-2 before:w-full  underline-offset-8  decoration-dblack underline ">{serie.group_type?serie.group_type:index ===0? "In the same series":""} </p> 
+                  <div className="grid-cols-8 grid max-md:grid-cols-3 max-md:mx-auto py-3 w-fit  justify-center  gap-1">
                                       {serie.products && serie.is_primary && serie.products.map((product)=>(
                                           product.disabled && !accountState.admin ?<></>: <div
                                            onClick={(e)=>{
@@ -2709,7 +2736,7 @@ function ProductPage(props) {
                                             }
                                            }}
                                            key={product.product_id}
-                                           className={`flex  justify-center items-center py-1 px-1 max-w-[110px] w-full transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer  rounded-md ${
+                                           className={`flex  justify-center items-center  max-w-[110px] w-full transition-all  border-2 hover:bg-dgrey  hover:shadow cursor-pointer  rounded-md ${
                                              product.product_id === product_id
                                                ? " border-dblue"
                                                : product.disabled?"border-dbase": "border-dgrey"
@@ -2731,17 +2758,24 @@ function ProductPage(props) {
                                  </div>
                                   
                                   </div>
-                                 {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
-                                  <h2 className=" text-dbase">Out of stock</h2></div>}
+                                  {product.out_of_stock && <div  className=" top-0 left-0 right-0 bottom-0 flex justify-center text-center absolute  z-10 w-full h-full bg-dblack  bg-opacity-30">
+                            <div className="  w-full h-full relative   ">
+                               <div className="  bg-dbase w-[195px]  text-white  absolute top-[40%] -left-10 rotate-45 ">Out of stock</div>
+                                </div> </div>}
                                 </div>
                                             </div>
                                       ))}
                                       </div>
                                   </div>
+                                  </div>
+                                  </div>
+                                  </div>
+                                  </div>
+                                  </div>
                                   </>
 
                               ))}
-                            </div>
+                            
 
 
 
