@@ -2028,7 +2028,7 @@ function ProductPage(props) {
                                          >
                                             <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
                                             <div className="relative overflow-hidden flex gap-1 flex-col justify-between text-center">
-    <div className="z-50 text-xs text-dblack">{product.type}</div>
+    <div className="z-20 text-xs text-dblack">{product.type}</div>
     {product.out_of_stock && 
     <div className="absolute inset-1 ml-5 flex justify-center items-center z-10">
         <div className="flex items-center">
