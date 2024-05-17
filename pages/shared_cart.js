@@ -336,11 +336,12 @@ try{
                           <span className=" font-semibold text-lg">
                             {product.total}
                           </span>
-                          <span className=" font-semibold text-lg">
-                            {product.quantity}
-                          </span>
+                          
                          
                         </div>
+                        <span className=" right-24  absolute font-semibold text-lg">
+                            {product.quantity}
+                          </span>
                       </div>
                       {/* Mobile design */}
                       <div
