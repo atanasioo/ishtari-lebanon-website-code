@@ -56,7 +56,7 @@ const CartShared = () => {
     let obj ={
     
         product_id : product.product_id,
-        quantity:1,
+        quantity:product.quantity,
         
       
     
@@ -171,7 +171,7 @@ for (var i = 0; i < products.length; i++) {  // Use < instead of <=, and fix the
 
    const obj ={
     product_id:product.product_id,
-    quantity:1,
+    quantity:product.quantity,
 
    }
 
@@ -336,7 +336,9 @@ try{
                           <span className=" font-semibold text-lg">
                             {product.total}
                           </span>
-                        
+                          <span className=" font-semibold text-lg">
+                            {product.quantity}
+                          </span>
                          
                         </div>
                       </div>
