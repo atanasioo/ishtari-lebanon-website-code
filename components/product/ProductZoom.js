@@ -246,29 +246,39 @@ function ProductZoom(props) {
     }
   }, [hoverZoom, hovered]);
 
-  function changeImage(imgSrc) {
+  // function changeImage(imgSrc) {
    
-    var selectedImgIndex = 0;
+  //   var selectedImgIndex = 0;
 
-    selectedImgIndex = images.findIndex(
+  //   selectedImgIndex = images.findIndex(
+  //     (item) => item.popup === imgSrc.popup && item.thumb === imgSrc.thumb
+  //   );
+  
+  //   if (selectedImgIndex < 0) {
+  //     selectedImgIndex = images.length;
+   
+  //   }
+
+  //   setActiveImage(imgSrc);
+   
+    
+  //     imageSlider.current.slickGoTo(selectedImgIndex);
+    
+
+  //   setActiveSlide(selectedImgIndex);
+  
+
+  // }
+
+  const changeImage = (imgSrc) => {
+    const selectedImgIndex = uniqueImages.findIndex(
       (item) => item.popup === imgSrc.popup && item.thumb === imgSrc.thumb
     );
-  
-    if (selectedImgIndex < 0) {
-      selectedImgIndex = images.length;
-   
-    }
 
     setActiveImage(imgSrc);
-   
-    
-      imageSlider.current.slickGoTo(selectedImgIndex);
-    
-
+    imageSlider.current.slickGoTo(selectedImgIndex);
     setActiveSlide(selectedImgIndex);
-  
-
-  }
+  };
 
   function getFileExtension(file) {
     if(file== undefined || file == null || file == ''){
@@ -441,7 +451,7 @@ function ProductZoom(props) {
       router.events.off("routeChangeStart", handleRouteChangeStart);
     };
   }, [router.events]);
-
+        const uniqueImages = [...new Map(images.map((item) => [item.thumb, item])).values()];
   return (
     <div className="h-full">
       {showModal && (
@@ -455,281 +465,249 @@ function ProductZoom(props) {
         />
       )}
       {images.length > 0 && (
-        <div className="flex flex-col-reverse md:flex-row sticky top-0 z-10">
-          <div
-            id="selector_div"
-            className="selector_div w-full my-2 md:w-[35%] lg:w-2/12 md:pr-2"
-          >
-            <div className="selectors overflow-hidden overflow-y-hidden h-full  whitespace-pre md:whitespace-normal">
-              <Slider {...setting} className="hidden md:block">
-         
-                {images?.map((i) => (
-                     getFileExtension(i)=='mp4' ?<div
-                    // key={productData?.videos && productData?.videos[0]}
-                    onClick={() => changeImage(i)}
-                    className={`bg-dblack relative   ${
-                      activeImage && activeImage["popup"] === i["popup"]
-                        ? "border-dblue"
-                        : "border-dgreyZoom"
-                    } overflow-hidden   border-2   flex justify-center mt-2 mr-4 h- rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                  >
-                     <div className="w-full h-full absolute flex  justify-center bg-dblackOverlay"> <div className={` ${ activeImage && activeImage["popup"] === i["popup"]?"border-dblue":"border-dgrey"} my-auto bg-dgrey border-2  text-dblue bg-opacity-80 w-10 h-10  flex justify-center   text-center rounded-full`}><FaPlay className=" my-auto"/> </div></div>
-                    <video
-                      
-                      style={{ height: "100px" }}
-                      src={i.thumb}
-                      type="video/mp4"
-                    />
-                  </div>:
-                  <div
-                    key={i["thumb"]}
-                    className={` flex justify-center mt-2 mr-4 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                  >
-                  
-                    <img
-                      src={i["thumb"]}
-                      alt="product image"
-                      width={80}
-                      height={120}
-                      onClick={() => changeImage(i)}
-                      className={`cursor-pointer border-2 
-                      ${
-                        activeImage && activeImage["popup"] === i["popup"]
-                          ? "border-dblue"
-                          : "border-dgreyZoom"
-                      }`}
-                    />
+  <div className="flex flex-col-reverse md:flex-row sticky top-0 z-10">
+    <div
+      id="selector_div"
+      className="selector_div w-full my-2 md:w-[35%] lg:w-2/12 md:pr-2"
+    >
+      <div className="selectors overflow-hidden overflow-y-hidden h-full whitespace-pre md:whitespace-normal">
+        {/* Filter duplicates by thumb or another unique property */}
 
-                  </div>
-                ))}
-   
-              </Slider>
-              <Slider {...mobileSetting} className={`md:hidden`}>
-            
-                {images?.map((i, index) => (
-                     getFileExtension(i)=='mp4' ?
-                     <div
-                    //  key={productData?.videos && productData?.videos[0]}
-                     onClick={() => changeImage(i)}
-                     className={`flex cursor-pointer rounded-md border-2 ${
-                      //  productData?.videos &&
-                      activeImage && activeImage["popup"] === i["popup"]
-                         ? "border-dblue"
-                         : "border-dgreyZoom"
-                     } relative overflow-hidden justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none `}
-                   >
-                       <div className="w-full h-full absolute flex  justify-center bg-dblackOverlay"> 
-                       <div className={` ${ activeImage && activeImage["popup"] === i["popup"]?"border-dblue":"border-dgrey"} my-auto bg-dgrey border-2  text-dblue bg-opacity-80 w-10 h-10  flex justify-center   text-center rounded-full`}>
-                        <FaPlay className=" my-auto"/> </div>
-                        </div>
-                      <video>
-                       <source
-                         src={i.thumb}
-                         type="video/mp4"
-                       />
-                     </video>
-                   </div>:
-                  <div
-                    key={i["thumb"]}
-                    ref={(el) => {
-                      if (activeImage && activeImage["popup"] === i["popup"]) {
-                        activeImageRef.current = el;
-                      }
-                    }}
-                    className={` flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
-                  >
-                    <img
-                      src={i["thumb"]}
-                      alt="product image"
-                      width={80}
-                      height={120}
-                      onClick={() => changeImage(i)}
-                      className={`cursor-pointer border-2 ${
-                        activeImage?.popup === i["popup"]
-                          ? //  activeSlide === index
-                            "border-dblue"
-                          : "border-dgreyZoom"
-                      }`}
-                    />
-                  </div>
-                ))}
 
-                {Object.keys(sellerData).length > 0 && width < 768 && (
-                  <div
-                    className={`flex justify-center h-[107px] items-center mt-2 mr-4 text-d28 pr-bold transition-all ease-in-out outline-none cursor-pointer border-2 ${
-                      sellerSlide ? "border-dblue" : "border-dgreyZoom"
-                    } text-dblue rounded`}
-                    onClick={() => {
-                      setSellerSlide(true);
-                      setActiveSlide(images.length);
-                      imageSlider.current.slickGoTo(images.length);
-                    }}
-                  >
-                    ...
-                  </div>
-                )}
-
-           
-              </Slider>
-            </div>
-          </div>
-          <div className="w-full md:w-2/3 lg:w-10/12 relative flex items-center ">
-            <div
-              className={`w-full md:w-11/12 ${getFileExtension(activeImage) == 'mp4'?"md:hover:cursor-pointer":"md:hover:cursor-zoom-in"} relative`}
-           
-            >
+        <Slider {...setting} className="hidden md:block">
+          {uniqueImages.map((i) => (
+            getFileExtension(i) === 'mp4' ? (
               <div
-                onClick={() => {
-                  if(getFileExtension(activeImage)!== 'mp4'){
-                    !sellerSlide && htmlOverflow();
-                    !sellerSlide && setShowModal(true);
-                  }
-              
-                  //props.hideFixedCartMenu(true);
-                }}
-                onMouseEnter={() => {
-                  if(getFileExtension(activeImage)!=='mp4'){
-                    setHoverZoom(true);
-                    setLensClass("");
-                  }
-               
-                }}
-                onMouseLeave={() => {
-                  setHoverZoom(false);
-                  setHovered(true);
-                  setLensClass("hidden");
-                }}
-                onMouseMoveCapture={() => {
-                  if (!hovered) {
-                    setHovered(true);
-                    setHoverZoom(true);
-                  }
-                }}
+                // key={productData?.videos && productData?.videos[0]}
+                onClick={() => changeImage(i)}
+                className={`bg-dblack relative ${activeImage && activeImage["popup"] === i["popup"] ? "border-dblue" : "border-dgreyZoom"} overflow-hidden border-2 flex justify-center mt-2 mr-4 h- rounded-md cursor-pointer transition-all ease-in-out outline-none`}
               >
-                <Slider
-                  {...singleSetting}
-                  className="single-product-img-slider"
-                >
-                     
-                  {images?.map((i, index) => (
-                    getFileExtension(i) == 'mp4'?   
-                      <ProductVideo  video={i}/>:
-                    <Image
-                      key={i["thumb"]}
-                      id={`myimage${index}`}
-                      src={i["popup"]}
-                      alt="product image"
-                      width={500}
-                      height={680}
-                      priority={true}
-                      className="rounded-lg myimage-product-zoom"
-                    />
-                  ))}
-
-               
-                  {Object.keys(sellerData).length > 0 && width < 768 && (
-                    <div className="black-gradient h-full flex flex-col justify-center items-start p-2">
-                      <div className="pr-semibold text-white pb-2">
-                        Seller Recommendations
-                      </div>
-                      <div className="grid grid-cols-3 gap-2">
-                        {sellerData.products.map((product) => (
-                          <Link
-                            href={`/${slugify(product.name)}/p=${
-                              product.product_id
-                            }`}
-                            className="rounded-xl bg-white p-2"
-                          >
-                            <div className="rounded-b-xl border-b border-dgreyRate">
-                              <Image
-                                src={product.thumb}
-                                alt={product.name}
-                                width={120}
-                                height={100}
-
-                                // placeholderSrc="/images/product_placeholder.png"
-                              />
-                            </div>
-                            <div className="text-center pt-3 pb-1 pr-semibold">
-                              {product.special !== ""
-                                ? product.special
-                                : product.price}
-                            </div>
-                          </Link>
-                        ))}
-                        <Link
-                          href={`/${slugify(productData.seller)}/s=${
-                            productData.seller_id
-                          }`}
-                          className="rounded-xl bg-white p-2 flex justify-center items-center"
-                        >
-                          <div className="flex flex-col text-dblue items-center gap-2">
-                            <BiRightArrowCircle className="w-11 h-11" />
-                            <div className="text-sm">Discover More</div>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-                </Slider>
-              </div>
-
-
-              <div
-                className={`${showModal ? "hidden" : ""}`}
-                onClick={() =>{ 
-                  setShowShare(true)
-                  const header = document.getElementById("headersticky");
-                  const bottombar = document.getElementById("bottombar");
-                  header.classList.add("hide")
-                  bottombar.classList.add("hide")
-                }}
-              >
-                <ShareSocial
-                  image={productData.popup}
-                  share={showShare}
-                  wrapperRef={wrapperRef}
-                  name={productData.name}
+                <div className="w-full h-full absolute flex justify-center bg-dblackOverlay">
+                  <div className={`${activeImage && activeImage["popup"] === i["popup"] ? "border-dblue" : "border-dgrey"} my-auto bg-dgrey border-2 text-dblue bg-opacity-80 w-10 h-10 flex justify-center text-center rounded-full`}>
+                    <FaPlay className="my-auto" />
+                  </div>
+                </div>
+                <video
+                  style={{ height: "100px" }}
+                  src={i.thumb}
+                  type="video/mp4"
                 />
               </div>
+            ) : (
+              <div
+                key={i["thumb"]}
+                className={`flex justify-center mt-2 mr-4 rounded-md cursor-pointer transition-all ease-in-out outline-none`}
+              >
+                <img
+                  src={i["thumb"]}
+                  alt="product image"
+                  width={80}
+                  height={120}
+                  onClick={() => changeImage(i)}
+                  className={`cursor-pointer border-2 ${activeImage && activeImage["popup"] === i["popup"] ? "border-dblue" : "border-dgreyZoom"}`}
+                />
+              </div>
+            )
+          ))}
+        </Slider>
+        <Slider {...mobileSetting} className={`md:hidden`}>
+          {uniqueImages.map((i, index) => (
+            getFileExtension(i) === 'mp4' ? (
+              <div
+                // key={productData?.videos && productData?.videos[0]}
+                onClick={() => changeImage(i)}
+                className={`flex cursor-pointer rounded-md border-2 ${activeImage && activeImage["popup"] === i["popup"] ? "border-dblue" : "border-dgreyZoom"} relative overflow-hidden justify-center mt-2 mr-4 h-24 rounded-md cursor-pointer transition-all ease-in-out outline-none`}
+              >
+                <div className="w-full h-full absolute flex justify-center bg-dblackOverlay">
+                  <div className={`${activeImage && activeImage["popup"] === i["popup"] ? "border-dblue" : "border-dgrey"} my-auto bg-dgrey border-2 text-dblue bg-opacity-80 w-10 h-10 flex justify-center text-center rounded-full`}>
+                    <FaPlay className="my-auto" />
+                  </div>
+                </div>
+                <video>
+                  <source
+                    src={i.thumb}
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
+            ) : (
+              <div
+                key={i["thumb"]}
+                ref={(el) => {
+                  if (activeImage && activeImage["popup"] === i["popup"]) {
+                    activeImageRef.current = el;
+                  }
+                }}
+                className={`flex justify-center mt-2 mr-4 cursor-pointer transition-all ease-in-out outline-none`}
+              >
+                <img
+                  src={i["thumb"]}
+                  alt="product image"
+                  width={80}
+                  height={120}
+                  onClick={() => changeImage(i)}
+                  className={`cursor-pointer border-2 ${activeImage?.popup === i["popup"] ? "border-dblue" : "border-dgreyZoom"}`}
+                />
+              </div>
+            )
+          ))}
 
-              <div className="additional-data-div absolute z-10 bottom-0 left-0 text-xs">
-                <div className="live-comments-container">
-                  {additionalArr.map((comment, index) => (
-                    <div
-                      key={index}
-                      className={`live-comment w-fit flex items-center px-3 gap-1 rounded-full py-1 mb-2.5 additional-data-div-div ${
-                        isFadingOut ? "live-comment-fadeout" : ""
-                      }`}
-                      style={{
-                        background: "hsla(0,0%,100%,.8)",
-                        boxShadow: "0 0 0.1rem 0 rgba(0,0,0,.07)",
-                        animationDelay: `${index * 0.2}s` // Delay each comment's animation
-                      }}
-                      ref={commentRef}
+          {Object.keys(sellerData).length > 0 && width < 768 && (
+            <div
+              className={`flex justify-center h-[107px] items-center mt-2 mr-4 text-d28 pr-bold transition-all ease-in-out outline-none cursor-pointer border-2 ${sellerSlide ? "border-dblue" : "border-dgreyZoom"} text-dblue rounded`}
+              onClick={() => {
+                setSellerSlide(true);
+                setActiveSlide(images.length);
+                imageSlider.current.slickGoTo(images.length);
+              }}
+            >
+              ...
+            </div>
+          )}
+        </Slider>
+      </div>
+    </div>
+    <div className="w-full md:w-2/3 lg:w-10/12 relative flex items-center">
+      <div
+        className={`w-full md:w-11/12 ${getFileExtension(activeImage) == 'mp4' ? "md:hover:cursor-pointer" : "md:hover:cursor-zoom-in"} relative`}
+      >
+        <div
+          onClick={() => {
+            if (getFileExtension(activeImage) !== 'mp4') {
+              !sellerSlide && htmlOverflow();
+              !sellerSlide && setShowModal(true);
+            }
+            //props.hideFixedCartMenu(true);
+          }}
+          onMouseEnter={() => {
+            if (getFileExtension(activeImage) !== 'mp4') {
+              setHoverZoom(true);
+              setLensClass("");
+            }
+          }}
+          onMouseLeave={() => {
+            setHoverZoom(false);
+            setHovered(true);
+            setLensClass("hidden");
+          }}
+          onMouseMoveCapture={() => {
+            if (!hovered) {
+              setHovered(true);
+              setHoverZoom(true);
+            }
+          }}
+        >
+          <Slider
+            {...singleSetting}
+            className="single-product-img-slider"
+          >
+            {uniqueImages.map((i, index) => (
+              getFileExtension(i) === 'mp4' ? (
+                <ProductVideo video={i} />
+              ) : (
+                <Image
+                  key={i["thumb"]}
+                  id={`myimage${index}`}
+                  src={i["popup"]}
+                  alt="product image"
+                  width={500}
+                  height={680}
+                  priority={true}
+                  className="rounded-lg myimage-product-zoom"
+                />
+              )
+            ))}
+
+            {Object.keys(sellerData).length > 0 && width < 768 && (
+              <div className="black-gradient h-full flex flex-col justify-center items-start p-2">
+                <div className="pr-semibold text-white pb-2">
+                  Seller Recommendations
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {sellerData.products.map((product) => (
+                    <Link
+                      href={`/${slugify(product.name)}/p=${product.product_id}`}
+                      className="rounded-xl bg-white p-2"
                     >
-                      <div>
-                        <FaUserCircle className="text-dgreyProduct w-6 h-6" />
+                      <div className="rounded-b-xl border-b border-dgreyRate">
+                        <Image
+                          src={product.thumb}
+                          alt={product.name}
+                          width={120}
+                          height={100}
+                          // placeholderSrc="/images/product_placeholder.png"
+                        />
                       </div>
-                      <div className="">{comment}</div>
-                    </div>
+                      <div className="text-center pt-3 pb-1 pr-semibold">
+                        {product.special !== ""
+                          ? product.special
+                          : product.price}
+                      </div>
+                    </Link>
                   ))}
+                  <Link
+                    href={`/${slugify(productData.seller)}/s=${productData.seller_id}`}
+                    className="rounded-xl bg-white p-2 flex justify-center items-center"
+                  >
+                    <div className="flex flex-col text-dblue items-center gap-2">
+                      <BiRightArrowCircle className="w-11 h-11" />
+                      <div className="text-sm">Discover More</div>
+                    </div>
+                  </Link>
                 </div>
               </div>
-            </div>
+            )}
+          </Slider>
+        </div>
 
-            <div>
+        <div className={`${showModal ? "hidden" : ""}`} onClick={() => {
+          setShowShare(true)
+          const header = document.getElementById("headersticky");
+          const bottombar = document.getElementById("bottombar");
+          header.classList.add("hide")
+          bottombar.classList.add("hide")
+        }}>
+          <ShareSocial
+            image={productData.popup}
+            share={showShare}
+            wrapperRef={wrapperRef}
+            name={productData.name}
+          />
+        </div>
+
+        <div className="additional-data-div absolute z-10 bottom-0 left-0 text-xs">
+          <div className="live-comments-container">
+            {additionalArr.map((comment, index) => (
               <div
-                id="myresult"
-                style={{ transition: "opacity 0.3s ease" }}
-                className={`img-zoom-result absolute  rounded-lg top-3 ml-4  z-10  ${
-                  hoverZoom && hovered && width > 650 ? "" : " hidden"
-                }`}
-              ></div>
-            </div>
+                key={index}
+                className={`live-comment w-fit flex items-center px-3 gap-1 rounded-full py-1 mb-2.5 additional-data-div-div ${isFadingOut ? "live-comment-fadeout" : ""}`}
+                style={{
+                  background: "hsla(0,0%,100%,.8)",
+                  boxShadow: "0 0 0.1rem 0 rgba(0,0,0,.07)",
+                  animationDelay: `${index * 0.2}s` // Delay each comment's animation
+                }}
+                ref={commentRef}
+              >
+                <div>
+                  <FaUserCircle className="text-dgreyProduct w-6 h-6" />
+                </div>
+                <div className="">{comment}</div>
+              </div>
+            ))}
           </div>
         </div>
-      )}
+      </div>
+
+      <div>
+        <div
+          id="myresult"
+          style={{ transition: "opacity 0.3s ease" }}
+          className={`img-zoom-result absolute rounded-lg top-3 ml-4 z-10 ${hoverZoom && hovered && width > 650 ? "" : " hidden"}`}
+        ></div>
+      </div>
+    </div>
+  </div>
+)}
       <div></div>
     </div>
   );
