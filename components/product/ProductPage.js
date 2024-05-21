@@ -2027,17 +2027,20 @@ function ProductPage(props) {
                                            }`}
                                          >
                                             <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center ">
-                                            <div className="relative overflow-hidden flex gap-1 flex-col justify-between text-center">
-    <div className="z-20 text-xs text-dblack">{product.type}</div>
-    {product.out_of_stock && 
-    <div className="absolute inset-1 ml-5 flex justify-center items-center z-10">
-        <div className="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-20 text-dbase text-opacity-50" viewBox="0 0 20 20" fill="currentColor">
+                                            <div className=" relative overflow-hidden flex gap-1 flex-col justify-between text-center">
+                                            <div className=" text-xs text-dblack relative">{product.type}
+  {product.out_of_stock && 
+    <div className="absolute mt-2.5 mr-4 inset-2 flex justify-center items-center ">
+      <div className="flex flex-col  items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 text-dbase text-opacity-50" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M13.414 10l3.293 3.293a1 1 0 01-1.414 1.414L12 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414L12 8.586l3.293-3.293a1 1 0 111.414 1.414L13.414 10z" clipRule="evenodd" />
             </svg>
-            <div className="text-dblack">{product.type}</div>
-        </div>
-    </div>}
+        <div className="text-dblack">{product.type}</div>
+      </div>
+    </div>
+  }
+</div>
+
 </div>
 
                                               {/* <img
